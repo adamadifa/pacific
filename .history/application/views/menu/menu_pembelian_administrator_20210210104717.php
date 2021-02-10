@@ -75,11 +75,14 @@ if ($level == "Administrator" || $level == "admin pembelian 2" || $level == "adm
       <a href="<?php echo base_url(); ?>laporangudangbahan/persediaan" class="list-group-item list-group-item-action">
         <i class="fa  fa-copy mr-2"></i>Persedian Gudang Bahan & Kemasan
       </a>
+      <a href="<?php echo base_url(); ?>laporangudanglogistik/persediaan" class="list-group-item list-group-item-action">
+        <i class="fa  fa-copy mr-2"></i>PERSEDIAAN BARANG
+      </a>
       <a href="<?php echo base_url(); ?>laporangudanglogistik/pemasukan" class="list-group-item list-group-item-action">
-        <i class="fa  fa-copy mr-2"></i>Pemasukan Gudang Bahan & Kemasan
+        <i class="fa  fa-copy mr-2"></i>PEMASUKAN
       </a>
       <a href="<?php echo base_url(); ?>laporangudanglogistik/pengeluaran" class="list-group-item list-group-item-action">
-        <i class="fa  fa-copy mr-2"></i>Pengeluaran Gudang Bahan & Kemasan
+        <i class="fa  fa-copy mr-2"></i>PENGELUARAN
       </a>
     </div>
   </div>
