@@ -1,4 +1,4 @@
-<form autocomplete="off" class="formValidate" id="formValidate" method="POST" action="<?php echo base_url(); ?>gudanglogistik/insert_pengeluaran">
+<form autocomplete="off" class="formValidate" id="formValidate" method="POST" action="<?php echo base_url(); ?>produksi/insert_pengeluaran">
   <div class="container-fluid">
     <!-- Page title -->
     <div class="page-header">
