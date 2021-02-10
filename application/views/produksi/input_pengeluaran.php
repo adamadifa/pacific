@@ -1,4 +1,4 @@
-<form autocomplete="off" class="formValidate" id="formValidate" method="POST" action="<?php echo base_url(); ?>gudanglogistik/insert_pengeluaran">
+<form autocomplete="off" class="formValidate" id="formValidate" method="POST" action="<?php echo base_url(); ?>produksi/insert_pengeluaran">
   <div class="container-fluid">
     <!-- Page title -->
     <div class="page-header">
@@ -35,7 +35,7 @@
                       <span class="input-icon-addon">
                         <i class="fa fa-calendar-o"></i>
                       </span>
-                      <input type="text" value="" id="tgl_pengeluaran" name="tgl_pengeluaran" class="form-control datepicker date" placeholder="Tanggal Pembelian" data-error=".errorTxt19" />
+                      <input type="text" value="" id="tgl_pengeluaran" name="tgl_pengeluaran" class="form-control datepicker date" placeholder="Tanggal Pengeluaran" data-error=".errorTxt19" />
                     </div>
                   </div>
                   <div class="form-group mb-3">
