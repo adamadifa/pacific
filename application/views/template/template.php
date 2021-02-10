@@ -134,7 +134,7 @@
 
   <script src="<?php echo base_url('assets/js/jquery-1.11.2.min.js') ?>"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-  <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
 
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
   <script src="<?php echo base_url(); ?>dist/libs/autosize/dist/autosize.min.js"></script>
@@ -170,7 +170,7 @@
 
 </head>
 
-<body class="antialiased" style="zoom:90%">
+<body class="antialiased" style="zoom:80%">
   <div class="page">
     <header class="navbar navbar-expand-md navbar-dark navbar-fixed-top">
       <div class="container-fluid">
