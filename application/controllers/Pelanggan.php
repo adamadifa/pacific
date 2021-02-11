@@ -325,8 +325,8 @@ class Pelanggan extends CI_Controller
           $_data = array('upload_data' => $this->upload->data());
           $foto  = $_data['upload_data']['file_name'];
           $this->Model_pelanggan->update_pelanggan($foto);
-          echo $foto;
-          die;
+          // echo $foto;
+          // die;
           $this->session->set_flashdata(
             'msg',
             '<div class="alert bg-green alert-dismissible" role="alert">
@@ -348,7 +348,7 @@ class Pelanggan extends CI_Controller
 	          </div>'
         );
         redirect('pelanggan/view_pelanggan');
-        echo "C";
+        // echo "C";
       }
     } else {
       $id_pelanggan   = $this->uri->segment(3);
