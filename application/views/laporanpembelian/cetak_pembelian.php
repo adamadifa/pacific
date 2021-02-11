@@ -143,13 +143,12 @@ function angka($nilai)
 					<td><?php echo $d->detaildate_created; ?></td>
 					<td><?php echo $d->detaildate_updated; ?></td>
 				<?php } ?>
-			</tr>
-			<?php
-			$subtotal = $subtotal + $grandtotal;
-			if ($nobukti != $d->nobukti_pembelian) {
+			</tr><?php
+						$subtotal = $subtotal + $grandtotal;
+						if ($nobukti != $d->nobukti_pembelian) {
 
 
-				echo '
+							echo '
 					<tr bgcolor="#a7efe4" style="color:black; font-weight:bold">
 						<td></td>
             <td></td>
@@ -171,14 +170,13 @@ function angka($nilai)
 						<td></td>
 
 					</tr>';
-				$subtotal = 0;
-			}
+							$subtotal = 0;
+						}
 
-			?><?php
-				$no++;
-			}
-				?>
-	</tbody>
+						?><?php
+							$no++;
+						}
+							?></tbody>
 	<tr>
 		<td colspan="12" align="center"><b>TOTAL</b></td>
 		<td align="right"><b></b></td>

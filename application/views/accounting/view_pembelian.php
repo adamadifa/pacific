@@ -47,7 +47,6 @@ foreach ($pembelian as $key => $d) {
     <td><?php echo $d->tgl_pembelian; ?></td>
     <td><?php echo $d->nobukti_pembelian; ?></td>
     <td><?php echo $d->nama_akun; ?></td>
-    <?php if($kode_akun == "")
     <td align="center" class="str"><?php echo $d->kode_akun; ?></td>
     <td align="right"><?php echo number_format($debet); ?></td>
     <td align="right"><?php echo number_format($kredit); ?></td>
