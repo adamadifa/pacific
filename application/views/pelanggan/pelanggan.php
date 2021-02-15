@@ -4,7 +4,7 @@
       <div class="header bg-cyan">
         <h2>
           Laporan Pemasukan
-          <small>  Laporan Pemasukan  </small>
+          <small> Laporan Pemasukan </small>
         </h2>
       </div>
       <div class="body">
@@ -19,7 +19,7 @@
                     <select class="form-control" name="cabang" id="cabang">
                       <option value="">-- SEMUA CABANG --</option>
                       <?php foreach ($cabang as $d) { ?>
-                        <option value="<?php echo $d->kode_cabang;?>"><?php echo $d->nama_cabang;?></option>
+                        <option value="<?php echo $d->kode_cabang; ?>"><?php echo $d->nama_cabang; ?></option>
                       <?php } ?>
                     </select>
                   </div>
@@ -37,18 +37,18 @@
                 </div>
               </div>
 
-              <div class="form-group" >
-                <button type="submit"  name="submit" class="btn bg-red waves-effect">
+              <div class="form-group">
+                <button type="submit" name="submit" class="btn bg-red waves-effect">
                   <i class="material-icons">print</i>
                   <span>CETAK</span>
                 </button>
-                <button type="submit"  name="export" class="btn bg-green waves-effect">
+                <button type="submit" name="export" class="btn bg-green waves-effect">
                   <i class="material-icons">file_download</i>
                   <span>EXPORT EXCEL</span>
                 </button>
               </div>
             </form>
-          </div>       
+          </div>
         </div>
       </div>
     </div>
@@ -58,8 +58,7 @@
 <!-- Select Plugin Js -->
 <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-select/js/bootstrap-select.js"></script>
 <script type="text/javascript">
-
-  $(function(){
+  $(function() {
 
     $(".datepicker").bootstrapMaterialDatePicker({
       format: "YYYY-MM-DD",
@@ -68,29 +67,33 @@
       time: false
     });
 
-    
-    function loadSalesman(){
+
+    function loadSalesman() {
       var cabang = $("#cabang").val();
       $.ajax({
-        type    : 'POST',
-        url     : '<?php echo base_url();?>laporanpenjualan/get_salesman',
-        data    : {cabang:cabang},
-        cache   : false,
-        success : function(respond){
+        type: 'POST',
+        url: '<?php echo base_url(); ?>laporanpenjualan/get_salesman',
+        data: {
+          cabang: cabang
+        },
+        cache: false,
+        success: function(respond) {
           $("#salesman").html(respond);
           $("#salesman").selectpicker("refresh");
         }
       });
     }
     loadSalesman();
-    $("#cabang").change(function(){
+    $("#cabang").change(function() {
       var cabang = $("#cabang").val();
       $.ajax({
-        type    : 'POST',
-        url     : '<?php echo base_url();?>laporanpenjualan/get_salesman',
-        data    : {cabang:cabang},
-        cache   : false,
-        success : function(respond){
+        type: 'POST',
+        url: '<?php echo base_url(); ?>laporanpenjualan/get_salesman',
+        data: {
+          cabang: cabang
+        },
+        cache: false,
+        success: function(respond) {
           $("#salesman").html(respond);
           $("#salesman").selectpicker("refresh");
         }
@@ -100,17 +103,17 @@
 
     $("#formValidate").validate({
       rules: {
-        dari            :"required",
-        sampai          :"required",
+        dari: "required",
+        sampai: "required",
 
       },
       messages: {
 
-        dari           :"Periode Harus Diisi",
-        sampai         :"Periode Harus Diisi",
+        dari: "Periode Harus Diisi",
+        sampai: "Periode Harus Diisi",
 
       },
-      errorElement : 'div',
+      errorElement: 'div',
       errorPlacement: function(error, element) {
         var placement = $(element).data('error');
         if (placement) {
@@ -122,5 +125,4 @@
     });
 
   });
-
 </script>

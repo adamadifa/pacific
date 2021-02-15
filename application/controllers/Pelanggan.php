@@ -309,7 +309,7 @@ class Pelanggan extends CI_Controller
       if (!empty($_FILES["foto"]["name"])) {
 
         $config['upload_path']          = './upload/toko';
-        $config['allowed_types']        = 'gif|jpg|png';
+        $config['allowed_types']        = 'gif|jpg|jpeg|png';
         $config['max_size']             = 0;
         $config['max_width']            = 0;
         $config['max_height']           = 0;
@@ -325,8 +325,8 @@ class Pelanggan extends CI_Controller
           $_data = array('upload_data' => $this->upload->data());
           $foto  = $_data['upload_data']['file_name'];
           $this->Model_pelanggan->update_pelanggan($foto);
-          echo $foto;
-          die;
+          // echo $foto;
+          // die;
           $this->session->set_flashdata(
             'msg',
             '<div class="alert bg-green alert-dismissible" role="alert">
@@ -348,7 +348,7 @@ class Pelanggan extends CI_Controller
 	          </div>'
         );
         redirect('pelanggan/view_pelanggan');
-        echo "C";
+        // echo "C";
       }
     } else {
       $id_pelanggan   = $this->uri->segment(3);
