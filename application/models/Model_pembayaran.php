@@ -1806,4 +1806,84 @@ class Model_pembayaran extends CI_Model
     //echo $sampai;
     return $query->num_rows();
   }
+
+  function updateledgerpenjualan()
+  {
+    $no_ref = $this->input->post('no_ref');
+    $tgl_giro = $this->input->post('tgl_giro');
+    $tgl_ledger = $this->input->post('tgl_ledger');
+    $pelanggan = $this->input->post('pelanggan');
+    $bank = $this->input->post('bank');
+    $cabang = $this->input->post('cabang');
+    $jumlah = $this->input->post('jumlah');
+    $status_dk = $this->input->post('status_dk');
+    $status_validasi = $this->input->post('status_validasi');
+    $kategori = $this->input->post('kategori');
+    //Nobukti Ledger
+    $tanggal        = explode("-", $tgl_ledger);
+    $tahun          = substr($tanggal[0], 2, 2);
+    $qledger        = "SELECT no_bukti FROM ledger_bank WHERE LEFT(no_bukti,7) ='LR$cabang$tahun'ORDER BY no_bukti DESC LIMIT 1 ";
+    $ceknolast      = $this->db->query($qledger)->row_array();
+    $nobuktilast    = $ceknolast['no_bukti'];
+    $no_bukti       = buatkode($nobuktilast, 'LR' . $cabang . $tahun, 4);
+    if ($this->input->post('transaksi') == 'transfer') {
+      $gettransfer        = $this->db->get_where('transfer', array('kode_transfer' => $no_ref))->result();
+      $listnofaktur   = '';
+      foreach ($gettransfer as $t) {
+        $listnofaktur = $listnofaktur .= $t->no_fak_penj . ",";
+      }
+    } else {
+      //getGiro
+      $getgiro        = $this->db->get_where('giro', array('no_giro' => $no_ref))->result();
+      $listnofaktur   = '';
+      // echo $cabang;
+      // die;
+      foreach ($getgiro as $g) {
+        $listnofaktur = $listnofaktur .= $g->no_fak_penj . ",";
+      }
+    }
+
+    if ($cabang == 'TSM') {
+      $akun = "1-1468";
+    } else if ($cabang == 'BDG') {
+      $akun = "1-1402";
+    } else if ($cabang == 'BGR') {
+      $akun = "1-1403";
+    } else if ($cabang == 'PWT') {
+      $akun = "1-1404";
+    } else if ($cabang == 'TGL') {
+      $akun = "1-1405";
+    } else if ($cabang == "SKB") {
+      $akun = "1-1407";
+    } else if ($cabang == "GRT") {
+      $akun = "1-1468";
+    } else if ($cabang == "SMR") {
+      $akun = "1-1488";
+    } else if ($cabang == "SBY") {
+      $akun = "1-1486";
+    } else if ($cabang == "PST") {
+      $akun = "1-1401";
+    }
+
+    $dataledger = array(
+      'no_bukti'        => $no_bukti,
+      'no_ref'          => $no_ref,
+      'bank'            => $bank,
+      'tgl_ledger'      => $tgl_ledger,
+      'tgl_penerimaan'  => $tgl_giro,
+      'pelanggan'       => $pelanggan,
+      'keterangan'      => "INV " . $listnofaktur,
+      'kode_akun'       => $akun,
+      'jumlah'          => $jumlah,
+      'status_dk'       => $status_dk,
+      'status_validasi' => $status_validasi,
+      'kategori'        => $kategori
+    );
+
+    $hapus = $this->db->delete('ledger_bank', array('no_ref' => $no_ref));
+    if ($hapus) {
+      $this->db->insert('ledger_bank', $dataledger);
+      redirectPreviousPage();
+    }
+  }
 }

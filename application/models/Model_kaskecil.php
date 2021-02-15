@@ -279,6 +279,8 @@ class Model_kaskecil extends CI_Model
         $ceknolast = $this->db->query($qcr)->row_array();
         $nobuktilast = $ceknolast['kode_cr'];
         $kodecr = buatkode($nobuktilast, "CR" . $bulan . $thn, 4);
+
+
         $data = array(
           'tgl_kaskecil' => $tanggal,
           'nobukti'      => $nobukti,

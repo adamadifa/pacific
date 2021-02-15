@@ -144,11 +144,12 @@
                           if ($d['jmlnoref'] == 1) {
                           } else {
                             echo "<form action='" . base_url() . "pembayaran/updateledgerpenjualan' method='POST'>
+                              input type='hidden' name='transaksi' value='transfer'>
                               <input type='hidden' name='no_ref' value='" . $d['kode_transfer'] . "'>
-                              <input type='hidden' name='tgl_giro' value='" . $d['tgl_transfer'] . "'>
+                              <input type='hidden' name='tgl' value='" . $d['tgl_transfer'] . "'>
                               <input type='hidden' name='tgl_ledger' value='" . $d['tglbayar'] . "'>
                               <input type='hidden' name='pelanggan' value='" . $d['nama_pelanggan'] . "'>
-                              <input type='hidden' name='bank' value='" . $d['bank_penerima'] . "'>
+                              <input type='text' name='bank' value='" . $d['bank_penerima'] . "'>
                               <input type='hidden' name='cabang' value='" . $d['kode_cabang'] . "'>
                               <input type='hidden' name='jumlah' value='" . $d['jumlah'] . "'>
                               <input type='hidden' name='status_dk' value='K'>
@@ -159,11 +160,12 @@
                           }
                         } else {
                           echo "<form action='" . base_url() . "pembayaran/updateledgerpenjualan' method='POST'>
+                              <input type='hidden' name='transaksi' value='transfer'>
                               <input type='hidden' name='no_ref' value='" . $d['kode_transfer'] . "'>
                               <input type='hidden' name='tgl_giro' value='" . $d['tgl_transfer'] . "'>
                               <input type='hidden' name='tgl_ledger' value='" . $d['tglbayar'] . "'>
                               <input type='hidden' name='pelanggan' value='" . $d['nama_pelanggan'] . "'>
-                              <input type='hidden' name='bank' value='" . $d['bank_penerima'] . "'>
+                              <input type='text' name='bank' value='" . $d['bank_penerima'] . "'>
                               <input type='hidden' name='cabang' value='" . $d['kode_cabang'] . "'>
                               <input type='hidden' name='jumlah' value='" . $d['jumlah'] . "'>
                               <input type='hidden' name='status_dk' value='K'>

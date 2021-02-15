@@ -170,7 +170,7 @@
 
 </head>
 
-<body class="antialiased" style="zoom:80%">
+<body class="antialiased">
   <div class="page">
     <header class="navbar navbar-expand-md navbar-dark navbar-fixed-top">
       <div class="container-fluid">
@@ -325,7 +325,10 @@
   </script>
   <script>
     function toggleZoomScreen() {
-      document.body.style.zoom = "80%";
+      var width = window.screen.width;
+      if (width <= 1366) {
+        document.body.style.zoom = "80%";
+      }
     }
     toggleZoomScreen();
   </script>

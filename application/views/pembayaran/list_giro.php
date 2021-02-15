@@ -158,6 +158,7 @@
                               if ($d['jmlnoref'] == 1) {
                               } else {
                                 echo "<form action='" . base_url() . "pembayaran/updateledgerpenjualan' method='POST'>
+                              <input type='hidden' name='transaksi' value='giro'>
                               <input type='hidden' name='no_ref' value='" . $d['no_giro'] . "'>
                               <input type='hidden' name='tgl_giro' value='" . $d['tgl_giro'] . "'>
                               <input type='hidden' name='tgl_ledger' value='" . $d['tglbayar'] . "'>
@@ -173,6 +174,7 @@
                               }
                             } else {
                               echo "<form action='" . base_url() . "pembayaran/updateledgerpenjualan' method='POST'>
+                              <input type='hidden' name='transaksi' value='giro'>
                               <input type='hidden' name='no_ref' value='" . $d['no_giro'] . "'>
                               <input type='hidden' name='tgl_giro' value='" . $d['tgl_giro'] . "'>
                               <input type='hidden' name='tgl_ledger' value='" . $d['tglbayar'] . "'>
