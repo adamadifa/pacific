@@ -728,13 +728,10 @@ class Model_laporangudangjadi extends CI_Model
 		$this->db->where('YEAR(tgl_mutasi_gudang_cabang)', $tahun);
 		$this->db->where('detail_mutasi_gudang_cabang.kode_produk', $produk);
 		$this->db->where('mutasi_gudang_cabang.kode_cabang', $cabang);
-		$this->db->where('jenis_mutasi', 'REJECT PASAR');
-		$this->db->or_where('jenis_mutasi', 'REJECT GUDANG');
-		$this->db->or_where('jenis_mutasi', 'REJECT MOBIL');
-		$this->db->where('MONTH(tgl_mutasi_gudang_cabang)', $bulan);
-		$this->db->where('YEAR(tgl_mutasi_gudang_cabang)', $tahun);
-		$this->db->where('detail_mutasi_gudang_cabang.kode_produk', $produk);
-		$this->db->where('mutasi_gudang_cabang.kode_cabang', $cabang);
+		$this->db->like('jenis_mutasi', 'REJECT');
+		// $this->db->where('jenis_mutasi', 'REJECT PASAR');
+		// $this->db->or_where('jenis_mutasi', 'REJECT GUDANG');
+		// $this->db->or_where('jenis_mutasi', 'REJECT MOBIL');
 		$this->db->join('mutasi_gudang_cabang', 'detail_mutasi_gudang_cabang.no_mutasi_gudang_cabang=mutasi_gudang_cabang.no_mutasi_gudang_cabang');
 		$this->db->join('master_barang', 'detail_mutasi_gudang_cabang.kode_produk=master_barang.kode_produk');
 		$this->db->join('dpb', 'mutasi_gudang_cabang.no_dpb = dpb.no_dpb', 'LEFT');
