@@ -3597,4 +3597,103 @@ class Penjualan extends CI_Controller
       redirectPreviousPage();
     }
   }
+
+  function lebihsetor()
+  {
+    // Search text
+    $tanggal  = "";
+    $cab      = $this->session->userdata('cabang');
+    if ($cab != 'pusat') {
+      $cabang = $cab;
+    } else {
+      $cabang = "";
+    }
+    $bulan            = "";
+    $tahun            = "";
+    if ($this->input->post('submit') != NULL) {
+      $tanggal   = $this->input->post('tanggal');
+      $cabang    = $this->input->post('cabang');
+      $bulan     = $this->input->post('bulan');
+      $tahun     = $this->input->post('tahun');
+      $data   = array(
+        'tanggal'  => $tanggal,
+        'cbg'     => $cabang,
+        'bulan'   => $bulan,
+        'tahun'   => $tahun
+      );
+      $this->session->set_userdata($data);
+    } else {
+
+      if ($this->session->userdata('tanggal') != NULL) {
+        $tanggal = $this->session->userdata('tanggal');
+      }
+      if ($this->session->userdata('cbg') != NULL) {
+        $cabang = $this->session->userdata('cbg');
+      }
+      if ($this->session->userdata('bulan') != NULL) {
+        $bulan = $this->session->userdata('bulan');
+      }
+      if ($this->session->userdata('tahun') != NULL) {
+        $tahun = $this->session->userdata('tahun');
+      }
+    }
+    $users_record = $this->Model_penjualan->getDataLebihsetor($cabang, $bulan, $tahun);
+    $data['result']               = $users_record;
+    $data['tanggal']              = $tanggal;
+    $data['cbg']                  = $cabang;
+    // Load view
+    $data['cabang']               = $this->Model_cabang->view_cabang()->result();
+    $data['cb']                   = $this->session->userdata('cabang');
+    $data['tahun']                = date("Y");
+    $data['bulan']                = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+    $data['bln']                  = $bulan;
+    $data['thn']                  = $tahun;
+    $this->template->load('template/template', 'penjualan/lebihsetor', $data);
+  }
+
+  function inputlebihsetor()
+  {
+    $data['cabang']    = $this->Model_cabang->view_cabang()->result();
+    $data['cb']        = $this->session->userdata('cabang');
+    $data['bank']      = $this->Model_pembayaran->listbank()->result();
+    $data['tahun']     = date("Y");
+    $data['bulan']     = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+    $this->load->view('penjualan/inputlebihsetor', $data);
+  }
+
+  function getlebihsetortemp()
+  {
+    $bulan = $this->input->post('bulan');
+    $tahun = $this->input->post('tahun');
+    $cabang = $this->input->post('cabang');
+    $data['lebihsetortemp'] = $this->Model_penjualan->getlebihsetortemp($bulan, $tahun, $cabang)->result();
+    $this->load->view('penjualan/lebihsetor_temp', $data);
+  }
+
+  function simpanlebihsetortemp()
+  {
+    $simpan = $this->Model_penjualan->simpanlebihsetortemp();
+    echo $simpan;
+  }
+
+  function hapuslebihsetortemp()
+  {
+    $id = $this->input->post('id');
+    $this->Model_penjualan->hapuslebihsetortemp($id);
+  }
+
+  function insertlebihsetor()
+  {
+    $this->Model_penjualan->insertlebihsetor();
+  }
+
+  function getdetaillebihsetor()
+  {
+    $id = $this->uri->segment(3);
+    $data['lebihsetor'] = $this->Model_penjualan->getLebihsetor($id)->row_array();
+    $data['detaillebihsetor'] = $this->Model_penjualan->getDetailebihsetor($id)->result();
+    $this->load->view('penjualan/lebihsetor_detail', $data);
+  }
+
+
 }

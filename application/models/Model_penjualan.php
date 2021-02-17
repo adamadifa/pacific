@@ -4699,7 +4699,7 @@ class Model_penjualan extends CI_Model
     // die;
     foreach ($getpenjualanpending as $d) {
       $query = "SELECT
-						
+
 						SUM(((IFNULL(penjualan.total, 0)) - (IFNULL(retur.total, 0)))) AS totalpiutang,
 						SUM(jmlbayar) AS jmlbayar
 					FROM penjualan
@@ -5911,5 +5911,121 @@ class Model_penjualan extends CI_Model
   function getTransferpending($nofaktur)
   {
     return $this->db->get_where('transfer', array('no_fak_penj' => $nofaktur));
+  }
+
+  public function getDataLebihsetor($cabang = "", $bulan = "", $tahun = "")
+  {
+    $this->db->select('kode_ls,bulan,tahun,kode_cabang');
+    $this->db->from('lebihsetor');
+    if ($cabang != '') {
+      $this->db->where('kode_cabang', $cabang);
+    }
+    $this->db->where('bulan', $bulan);
+    $this->db->where('tahun', $tahun);
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+
+  function simpanlebihsetortemp()
+  {
+    $cabang = $this->input->post('cabang');
+    $tanggal = $this->input->post('tanggal');
+    $bulan = $this->input->post('bulan');
+    $tahun = $this->input->post('tahun');
+    $bank = $this->input->post('bank');
+    $jumlah = str_replace(".", "", $this->input->post('jumlah'));
+
+    $data = [
+      'tanggal_disetorkan' => $tanggal,
+      'bulan' => $bulan,
+      'tahun' => $tahun,
+      'kode_bank' => $bank,
+      'jumlah' => $jumlah,
+      'kode_cabang' => $cabang
+    ];
+    $cek = $this->db->get_where('lebihsetor_temp', array('bulan' => $bulan, 'tahun' => $tahun, 'kode_bank' => $bank,'kode_cabang'=>$cabang))->num_rows();
+    if (!empty($cek)) {
+      return 1;
+    } else {
+      $this->db->insert('lebihsetor_temp', $data);
+      return 0;
+    }
+  }
+
+  function getlebihsetortemp($bulan, $tahun, $cabang)
+  {
+    $this->db->where('bulan', $bulan);
+    $this->db->where('tahun', $tahun);
+    $this->db->where('kode_cabang', $cabang);
+    return $this->db->get('lebihsetor_temp');
+  }
+
+  function hapuslebihsetortemp($id)
+  {
+    $this->db->delete('lebihsetor_temp', array('id' => $id));
+  }
+
+  function insertlebihsetor()
+  {
+    $kodelebihsetor = $this->input->post('kodelebihsetor');
+    $bulan = $this->input->post('bulan');
+    $tahun = $this->input->post('tahun');
+    $tanggal = $this->input->post('tanggal');
+    $cabang = $this->input->post('cabang2');
+    $id_admin = $this->session->userdata('id_user');
+
+    $data = [
+      'kode_ls' => $kodelebihsetor,
+      'bulan' => $bulan,
+      'tahun' => $tahun,
+      'kode_cabang' => $cabang,
+      'id_admin' => $id_admin
+    ];
+
+    $simpan = $this->db->insert('lebihsetor', $data);
+    if ($simpan) {
+      $cektemp = $this->db->get_where('lebihsetor_temp', array('bulan' => $bulan, 'tahun' => $tahun, 'kode_cabang' => $cabang))->result();
+      foreach ($cektemp as $d) {
+        $datadetail = [
+          'kode_ls' => $kodelebihsetor,
+          'tanggal_disetorkan' => $d->tanggal_disetorkan,
+          'kode_bank' => $d->kode_bank,
+          'jumlah' => $d->jumlah
+        ];
+
+        $simpandetail = $this->db->insert('lebihsetor_detail', $datadetail);
+        if ($simpandetail) {
+          $hapustemp = $this->db->delete('lebihsetor_temp', array('id' => $d->id));
+        }
+      }
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-green alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<i class="material-icons" style="float:left; margin-right:10px">check</i> Data Berhasil Disimpan !
+			</div>'
+      );
+      redirect('penjualan/lebihsetor');
+    } else {
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-red alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<i class="material-icons" style="float:left; margin-right:10px">check</i> Data Gagal Disimpan !
+			</div>'
+      );
+      redirect('penjualan/belumsetor');
+    }
+  }
+
+  function getLebihsetor($id)
+  {
+    return $this->db->get_where('lebihsetor', array('kode_ls' => $id));
+  }
+
+  function getDetailebihsetor($id)
+  {
+    $this->db->join('master_bank', 'lebihsetor_detail.kode_bank = master_bank.kode_bank');
+    return $this->db->get_where('lebihsetor_detail', array('kode_ls' => $id));
   }
 }

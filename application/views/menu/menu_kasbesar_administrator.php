@@ -28,6 +28,9 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>penjualan/belumsetor" class="list-group-item list-group-item-action">
         <i class="fa fa-money mr-2"></i>Uang Belum Disetorkan
       </a>
+      <a href="<?php echo base_url(); ?>penjualan/lebihsetor" class="list-group-item list-group-item-action">
+        <i class="fa fa-money mr-2"></i>Uang Lebih Setor
+      </a>
     </div>
   </div>
   <div class="card">
