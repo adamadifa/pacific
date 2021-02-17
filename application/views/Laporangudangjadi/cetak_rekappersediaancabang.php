@@ -711,7 +711,7 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 	</tbody>
 	<tfoot>
 		<tr bgcolor="#024a75" style="color:white; font-size:12;">
-			<th colspan="6">TOTAL</th>
+			<th colspan="7">TOTAL</th>
 			<th style="text-align: right"><?php echo uang($totalsuratjalan); ?></th>
 			<th style="text-align: right"><?php echo uang($total_tin); ?></th>
 			<th style="text-align: right"><?php echo uang($total_retur); ?></th>

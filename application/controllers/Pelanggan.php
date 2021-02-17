@@ -318,7 +318,7 @@ class Pelanggan extends CI_Controller
         $this->load->library('upload', $config);
         if (!$this->upload->do_upload('foto')) {
           $error = array('error' => $this->upload->display_errors());
-          $this->load->view('pelanggan', $error);
+          echo "Gambar Tidak Sesuai";
           // echo "test";
           // die;
         } else {
