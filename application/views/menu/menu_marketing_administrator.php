@@ -45,6 +45,9 @@ if ($level == "Administrator" || $level == "manager marketing") {
       <a href="<?php echo base_url(); ?>komisi/laporankomisi" class="list-group-item list-group-item-action">
         <i class="fa  fa-file-text mr-2"></i>Komisi
       </a>
+      <a href="<?php echo base_url(); ?>komisi/laporankomisi2" class="list-group-item list-group-item-action">
+        <i class="fa  fa-file-text mr-2"></i>Komisi 2
+      </a>
     </div>
   </div>
 <?php

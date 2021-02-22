@@ -326,9 +326,7 @@
   <script>
     function toggleZoomScreen() {
       var width = window.screen.width;
-      if (width <= 1366) {
-        document.body.style.zoom = "80%";
-      }
+      document.body.style.zoom = "90%";
     }
     toggleZoomScreen();
   </script>
