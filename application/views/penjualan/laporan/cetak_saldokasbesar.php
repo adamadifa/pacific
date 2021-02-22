@@ -33,7 +33,7 @@ function uang($nilai)
       <th>TOTAL</th>
       <th>SALDO</th>
       <th style="border:none; background-color:white; width:100px"></th>
-      <th colspan="7">RINCIAN UANG PADA KAS BESAR</th>
+      <th colspan="8">RINCIAN UANG PADA KAS BESAR</th>
     </tr>
     <tr style=" background-color:#31869b; color:white; font-size:12;">
       <th>TGL</th>
@@ -56,6 +56,7 @@ function uang($nilai)
       <th>TOTAL UANG FISIK</th>
       <th style="width:8%">PENUKARAN LOGAM JADI KERTAS</th>
       <th style="width:8%">PENUKARAN GIRO JADI KERTAS</th>
+      <th style="width:8%">PENUKARAN GIRO JADI TRANSFER</th>
     </tr>
     <tr style=" background-color:white; color:black; font-size:12;">
       <th colspan="11">SALDO AWAL</th>
@@ -76,6 +77,7 @@ function uang($nilai)
                                                                                             echo uang($transfer);
                                                                                           } ?></th>
 
+      <th style=" text-align:right; background-color:orange; color:white; font-size:12;"></th>
       <th style=" text-align:right; background-color:orange; color:white; font-size:12;"></th>
       <th style=" text-align:right; background-color:orange; color:white; font-size:12;"></th>
       <th style=" text-align:right; background-color:orange; color:white; font-size:12;"></th>
@@ -103,7 +105,7 @@ function uang($nilai)
       $qpengeluaran           = "SELECT SUM(uang_logam) as setoranlogam,SUM(uang_kertas) as setorankertas,SUM(giro) as setorangiro,SUM(transfer) as setorantransfer FROM setoran_pusat WHERE tgl_setoranpusat ='$dari' AND kode_cabang='$cb[kode_cabang]' AND status='1' AND omset_bulan ='$bulan' AND omset_tahun='$tahun' GROUP BY tgl_setoranpusat";
       $pengeluaran            = $this->db->query($qpengeluaran)->row_array();
 
-      $qpenerimaan            = "SELECT SUM(setoran_logam) as lhplogam, SUM(setoran_kertas) as lhpkertas, SUM(setoran_bg) as lhpgiro,SUM(setoran_transfer) as lhptransfer,SUM(girotocash) as lhpgirotocash FROM setoran_penjualan WHERE tgl_lhp ='$dari' AND tgl_lhp <= '$tglakhirpenerimaan' AND kode_cabang='$cb[kode_cabang]' GROUP BY tgl_lhp";
+      $qpenerimaan            = "SELECT SUM(setoran_logam) as lhplogam, SUM(setoran_kertas) as lhpkertas, SUM(setoran_bg) as lhpgiro,SUM(setoran_transfer) as lhptransfer,SUM(girotocash) as lhpgirotocash,SUM(girototransfer) as lhpgirototransfer FROM setoran_penjualan WHERE tgl_lhp ='$dari' AND tgl_lhp <= '$tglakhirpenerimaan' AND kode_cabang='$cb[kode_cabang]' GROUP BY tgl_lhp";
       $penerimaan             = $this->db->query($qpenerimaan)->row_array();
 
       $qkl_kb                 = "SELECT SUM(uang_kertas) as klkertas, SUM(uang_logam) as kllogam FROM kuranglebihsetor WHERE tgl_kl='$dari' AND tgl_kl <= '$tglakhirpenerimaan' AND kode_cabang='$cb[kode_cabang]' AND pembayaran='1' GROUP BY tgl_kl";
@@ -137,8 +139,8 @@ function uang($nilai)
 
       $rinciankertas          = ($lhpkertas - $pengeluaran['setorankertas']) + $gl['jmlgantikertas'] + $penerimaan['lhpgirotocash'];
       $rincianlogam           = ($lhplogam - $pengeluaran['setoranlogam']) - $gl['jmlgantikertas'];
-      $rinciangiro            = ($penerimaan['lhpgiro'] - $pengeluaran['setorangiro']) - $penerimaan['lhpgirotocash'];
-      $rinciantransfer        = $penerimaan['lhptransfer'] - $pengeluaran['setorantransfer'];
+      $rinciangiro            = ($penerimaan['lhpgiro'] - $pengeluaran['setorangiro']) - $penerimaan['lhpgirotocash'] - $penerimaan['lhpgirototransfer'];
+      $rinciantransfer        = $penerimaan['lhptransfer'] - $pengeluaran['setorantransfer'] + $penerimaan['lhpgirototransfer'];
       $totalrinciankertas     = $totalrinciankertas + $rinciankertas;
       $totalrincianlogam      = $totalrincianlogam  + $rincianlogam;
       $totalrinciangiro       = $totalrinciangiro + $rinciangiro;
@@ -203,6 +205,9 @@ function uang($nilai)
                                                     } ?></td>
         <td align="right" style="font-weight:bold;"><?php if (!empty($penerimaan['lhpgirotocash'])) {
                                                       echo uang($penerimaan['lhpgirotocash']);
+                                                    } ?></td>
+        <td align="right" style="font-weight:bold;"><?php if (!empty($penerimaan['lhpgirototransfer'])) {
+                                                      echo uang($penerimaan['lhpgirototransfer']);
                                                     } ?></td>
 
       </tr>

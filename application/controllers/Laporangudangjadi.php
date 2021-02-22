@@ -382,6 +382,12 @@ class Laporangudangjadi extends CI_Controller
 		$data['tahun']  = $this->input->post('tahun');
 		$data['produk'] = $this->Model_laporangudangjadi->listproduk()->result();
 		$data['cabang'] = $this->Model_cabang->view_cabang()->result();
+		if (isset($_POST['export'])) {
+			// Fungsi header dengan mengirimkan raw data excel
+			header("Content-type: application/vnd-ms-excel");
+			// Mendefinisikan nama file ekspor "hasil-export.xls"
+			header("Content-Disposition: attachment; filename=Realisasi OMAN.xls");
+		}
 		$this->load->view('Laporangudangjadi/cetak_realisasioman', $data);
 	}
 }

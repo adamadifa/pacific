@@ -242,19 +242,19 @@ class Model_pembelian extends CI_Model
       pembelian
       INNER JOIN supplier ON pembelian.kode_supplier = supplier.kode_supplier
       INNER JOIN departemen ON pembelian.kode_dept = departemen.kode_dept
-      
+
       LEFT JOIN ( SELECT nobukti_pembelian,
       SUM( IF ( STATUS = 'PMB', ( ( qty * harga ) + penyesuaian ), 0 ) ) - SUM( IF ( STATUS = 'PNJ', ( qty * harga ), 0 ) ) as harga
       FROM detail_pembelian
-      GROUP BY nobukti_pembelian) dp ON (pembelian.nobukti_pembelian = dp.nobukti_pembelian) 
-      
-      LEFT JOIN (SELECT nobukti_pembelian, SUM(jmlbayar) as jmlbayar 
+      GROUP BY nobukti_pembelian) dp ON (pembelian.nobukti_pembelian = dp.nobukti_pembelian)
+
+      LEFT JOIN (SELECT nobukti_pembelian, SUM(jmlbayar) as jmlbayar
       FROM
       historibayar_pembelian hb
-      INNER JOIN detail_kontrabon ON hb.no_kontrabon = detail_kontrabon.no_kontrabon 
+      INNER JOIN detail_kontrabon ON hb.no_kontrabon = detail_kontrabon.no_kontrabon
       GROUP BY nobukti_pembelian) bayar ON (pembelian.nobukti_pembelian = bayar.nobukti_pembelian)
-      
-      
+
+
       WHERE pembelian.kode_supplier = '$supplier' AND IFNULL( jmlbayar, 0 ) != ( harga )  AND pembelian.jenistransaksi != 'tunai'
       GROUP BY pembelian.nobukti_pembelian
       ORDER BY tgl_pembelian ASC
@@ -1375,8 +1375,8 @@ class Model_pembelian extends CI_Model
     }
     $query = "SELECT detail_pembelian.nobukti_pembelian,tgl_pembelian,pembelian.kode_supplier,nama_supplier,
 detail_pembelian.kode_barang,nama_barang,pembelian.kode_dept,nama_dept,detail_pembelian.keterangan,detail_pembelian.ket_penjualan,
-detail_pembelian.kode_akun,nama_akun,ppn,qty,harga,penyesuaian,detail_pembelian.status,
-date_format(pembelian.date_created, '%d %M %Y %H:%i:%s') as date_created, 
+detail_pembelian.kode_akun,nama_akun,ppn,qty,harga,penyesuaian,detail_pembelian.status,detail_pembelian.kode_cabang,
+date_format(pembelian.date_created, '%d %M %Y %H:%i:%s') as date_created,
 date_format(pembelian.date_updated, '%d %M %Y %H:%i:%s') as date_updated,
 date_format(detail_pembelian.date_created, '%d %M %Y %H:%i:%s') as detaildate_created,
 date_format(detail_pembelian.date_updated, '%d %M %Y %H:%i:%s') as detaildate_updated
@@ -1470,8 +1470,8 @@ WHERE tgl_pembelian BETWEEN '$dari' AND '$sampai'"
   LEFT JOIN coa ON coa.kode_akun=detail_pembelian.kode_akun
   LEFT JOIN(SELECT kode_akun,
     SUM(IF(status_dk='D',(jurnal_koreksi.qty*jurnal_koreksi.harga),0)) as jurnaldebet,
-    SUM(IF(status_dk='K',(jurnal_koreksi.qty*jurnal_koreksi.harga),0)) as jurnalkredit 
-    FROM jurnal_koreksi 
+    SUM(IF(status_dk='K',(jurnal_koreksi.qty*jurnal_koreksi.harga),0)) as jurnalkredit
+    FROM jurnal_koreksi
     WHERE tgl_jurnalkoreksi BETWEEN '$dari' AND '$sampai'
     GROUP BY kode_akun
     ) jk ON (detail_pembelian.kode_akun = jk.kode_akun)

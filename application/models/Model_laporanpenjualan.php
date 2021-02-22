@@ -1316,9 +1316,10 @@ GROUP BY
 							ON penjualan.kode_pelanggan = pelanggan.kode_pelanggan
 							LEFT JOIN (SELECT id_giro,tglbayar FROM historibayar WHERE tglbayar BETWEEN '$dari' AND '$sampaibayar') as hb
 							ON giro.id_giro = hb.id_giro
-							WHERE tgl_giro BETWEEN '$dari' AND '$sampai' AND pelanggan.kode_cabang='$cabang'
+							WHERE tgl_giro BETWEEN '$dari' AND '$sampai' AND pelanggan.kode_cabang = '$cabang' 
 							OR omset_bulan ='$bulan' AND omset_tahun='$tahun' AND pelanggan.kode_cabang='$cabang'
-							OR tgl_giro < '$dari' AND omset_bulan" . $bulannext . " AND omset_tahun >='$tahun'   AND pelanggan.kode_cabang='$cabang'
+							OR tgl_giro < '$dari' AND omset_bulan ='0' AND pelanggan.kode_cabang='$cabang'
+							OR tgl_giro < '$dari' AND omset_bulan >'$bulan' AND omset_tahun = '$tahun' AND pelanggan.kode_cabang='$cabang'
 							ORDER BY tgl_giro,no_giro ASC
 							";
 		return $this->db->query($query);

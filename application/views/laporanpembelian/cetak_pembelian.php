@@ -56,6 +56,7 @@ function angka($nilai)
 			<td>SUPPLIER</td>
 			<td>NAMA BARANG</td>
 			<td>KETERANGAN</td>
+			<td>PCF/MP</td>
 			<td>JURNAL</td>
 			<td>AKUN</td>
 			<td>PPN</td>
@@ -126,6 +127,7 @@ function angka($nilai)
 				<td><?php echo $d->nama_supplier; ?></td>
 				<td><?php echo $namabarang; ?></td>
 				<td><?php echo $d->keterangan; ?></td>
+				<td><?php if(!empty($d->kode_cabang)) {echo  $d->kode_cabang; } else{ echo  "MP";} ?></td>
 				<td><?php echo $d->nama_akun; ?></td>
 				<td align="center" class="str"><?php echo $d->kode_akun; ?></td>
 				<td align="center"><?php echo $cekppn; ?></td>
@@ -156,6 +158,7 @@ function angka($nilai)
             <td>' . $d->nama_supplier . '</td>
             <td></td>
             <td></td>
+						<td></td>
 						<td>' . $namaakun . '</td>
 						<td align=center>' . $akun . '</td>
 						<td></td>
@@ -178,7 +181,7 @@ function angka($nilai)
 						}
 							?></tbody>
 	<tr>
-		<td colspan="12" align="center"><b>TOTAL</b></td>
+		<td colspan="13" align="center"><b>TOTAL</b></td>
 		<td align="right"><b></b></td>
 		<td align="right"><b><?php echo uang($grandtotall); ?></b></td>
 		<td align="right"><b><?php echo uang($totaldebet); ?></b></td>
