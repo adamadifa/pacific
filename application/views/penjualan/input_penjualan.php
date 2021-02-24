@@ -273,7 +273,7 @@
 									</div>
 									<div class="input-group mb-2">
 										<span class="input-group-text">
-										PREMIUM
+											PREMIUM
 										</span>
 										<input type="text" class="form-control text-right" id="potsp" name="potsp" value="0">
 										<span class="input-group-text">
@@ -389,7 +389,17 @@
 									</div>
 
 
-
+									<div class="row voucher">
+										<div class="input-group mb-2">
+											<span class="input-group-text">
+												Voucher
+											</span>
+											<input type="text" class="form-control text-right" id="voucher" name="voucher" value="0">
+											<span class="input-group-text">
+												<i class="fa fa-money"></i>
+											</span>
+										</div>
+									</div>
 									<!-- <label class="form-label col-4 col-form-label">Total</label> -->
 									<div class="row mb-2">
 										<div class="form-group col">
@@ -401,6 +411,7 @@
 											</div>
 										</div>
 									</div>
+
 									<div id="Bjatuhtempo">
 										<!-- <label class="form-label col-4 col-form-label">Jatuh Tempo</label> -->
 										<div class="row mb-2">
@@ -494,7 +505,7 @@
 </div>
 <script>
 	$(function() {
-		$('#potaida,#potswan,#potstick,#potisaida,#potisswan,#potisstick,#penyaida,#penystick,#penyswan').maskMoney();
+		$('#potaida,#potswan,#potstick,#potisaida,#potisswan,#potisstick,#penyaida,#penystick,#penyswan,#potsp,#voucher').maskMoney();
 
 		$('#angka3').maskMoney({
 			thousands: '.',
@@ -578,7 +589,7 @@
 				url: '<?php echo base_url(); ?>penjualan/hitungdiskon',
 				data: {
 					nofaktur: nofaktur,
-					jenistransaksi:jenistransaksi
+					jenistransaksi: jenistransaksi
 				},
 				cache: false,
 				success: function(respond) {
@@ -607,18 +618,23 @@
 		function kosong() {
 			$("#Bjatuhtempo").hide();
 			$("#Btitipan").hide();
+			$(".voucher").hide();
 		}
 
 		function showTitipan() {
 			$("#Bjatuhtempo").show();
 			$("#Btitipan").show();
+			$(".voucher").hide();
 		}
+
+
 
 
 		function showTunai() {
 			$("#Bbayar").hide();
 			$("#Bjatuhtempo").hide();
 			$("#Btitipan").hide();
+			$(".voucher").show();
 		}
 
 		function ResetBrg() {
@@ -1178,6 +1194,10 @@
 		penystick = document.getElementById('penystick').value;
 		uangpenystick = penystick.replace(/\./g, '');
 
+		voucher = document.getElementById('voucher').value;
+		uangvoucher = voucher.replace(/\./g, '');
+
+
 		grandtotal = document.getElementById("tot").value;
 
 		//Potongan
@@ -1220,16 +1240,21 @@
 		if (grandtotal == "") {
 			grandtotal = 0;
 		}
-		var potongan = parseInt(uangpotaida) + parseInt(uangpotswan) + parseInt(uangpotstick)+ parseInt(uangpotsp);
+
+		if (uangvoucher == "") {
+			uangvoucher = 0;
+		}
+		var potongan = parseInt(uangpotaida) + parseInt(uangpotswan) + parseInt(uangpotstick) + parseInt(uangpotsp);
 		var potistimewa = parseInt(uangpotisaida) + parseInt(uangpotisswan) + parseInt(uangpotisstick);
 		var penyesuaian = parseInt(uangpenyaida) + parseInt(uangpenyswan) + parseInt(uangpenystick);
+		var vc = parseInt(uangvoucher);
 		// uangpot = potongan.replace(/\./g, '');
 		// potistimewa = document.getElementById("potistimewa").value;
 		// uangpotis = potistimewa.replace(/\./g, '');
 		// penyesuaian = document.getElementById("penyharga").value;
 		// uangpeny = penyesuaian.replace(/\./g, '');
 
-		var result = parseInt(grandtotal) - parseInt(potongan) - parseInt(potistimewa) - parseInt(penyesuaian);
+		var result = parseInt(grandtotal) - parseInt(potongan) - parseInt(potistimewa) - parseInt(penyesuaian) - parseInt(vc);
 		if (!isNaN(result)) {
 			totalpenjualan = document.getElementById('totalbayar').value = convertToRupiah(result);
 			// document.getElementById("totalbayar").innerHTML=convertToRupiah(totalsetoran);

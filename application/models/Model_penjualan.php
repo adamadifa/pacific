@@ -185,6 +185,13 @@ class Model_penjualan extends CI_Model
     $potongan       = $potaida + $potswan + $potstick + $potsp;
 
 
+    $voucher       = str_replace(".", "", $this->input->post('voucher'));
+    if (empty($voucher)) {
+      $voucher = 0;
+    } else {
+      $voucher = $voucher;
+    }
+
     // echo $potongan;
     // die;
 
@@ -230,8 +237,13 @@ class Model_penjualan extends CI_Model
       $penystick = $penystick;
     }
     $penyharga        = $penyaida + $penyswan + $penystick;
+    $tb       = str_replace(".", "", $this->input->post('totalbayar'));
+    if ($jenisbayar == "tunai") {
+      $totalbayar = $tb + $voucher;
+    } else {
+      $totalbayar = $tb;
+    }
 
-    $totalbayar       = str_replace(".", "", $this->input->post('totalbayar'));
     $nogiro           = $this->input->post('nogiro');
     $jml              = $this->input->post('jml');
     $materai          = $this->input->post('materai');
@@ -250,7 +262,7 @@ class Model_penjualan extends CI_Model
     $nobukti          = buatkode($nobuktilast, $cabang . $tahunini . "-", 6);
     $totalpiutang     = $sisapiutang + $totalbayar;
     if ($jenisbayar == "tunai") {
-      $jt = "";
+      $jt = $jatuhtempo;
     } else {
       $jt = $jatuhtempo;
     }
@@ -386,11 +398,32 @@ class Model_penjualan extends CI_Model
             'tglbayar'      => $tgltransaksi,
             'jenistransaksi' => $jenistransaksi,
             'jenisbayar'    => $jenisbayar,
-            'bayar'          => $totalbayar,
+            'bayar'          => $tb,
             'id_admin'      => $id_admin,
             'id_karyawan'    => $kodesales
           );
-          $this->db->insert('historibayar', $dbayar);
+          $simpantunai = $this->db->insert('historibayar', $dbayar);
+          if ($simpantunai) {
+            if (!empty($voucher)) {
+              $qbayar           = "SELECT nobukti FROM historibayar WHERE LEFT(nobukti,6) ='$cabang$tahunini-'ORDER BY nobukti DESC LIMIT 1 ";
+              $ceknolast        = $this->db->query($qbayar)->row_array();
+              $nobuktilast      = $ceknolast['nobukti'];
+              $nobukti          = buatkode($nobuktilast, $cabang . $tahunini . "-", 6);
+              $dbayar2 = array(
+                'nobukti'       => $nobukti,
+                'no_fak_penj'    => $nofaktur,
+                'tglbayar'      => $tgltransaksi,
+                'jenistransaksi' => $jenistransaksi,
+                'jenisbayar'    => $jenisbayar,
+                'bayar'          => $voucher,
+                'id_admin'      => $id_admin,
+                'ket_voucher'   => 2,
+                'status_bayar'  => 'voucher',
+                'id_karyawan'    => $kodesales
+              );
+              $this->db->insert('historibayar', $dbayar2);
+            }
+          }
           $this->session->set_flashdata(
             'msg',
             '<div class="alert bg-green text-white alert-dismissible" role="alert">
@@ -5951,7 +5984,7 @@ class Model_penjualan extends CI_Model
       'jumlah' => $jumlah,
       'kode_cabang' => $cabang
     ];
-    $cek = $this->db->get_where('lebihsetor_temp', array('bulan' => $bulan, 'tahun' => $tahun, 'kode_bank' => $bank,'kode_cabang'=>$cabang))->num_rows();
+    $cek = $this->db->get_where('lebihsetor_temp', array('bulan' => $bulan, 'tahun' => $tahun, 'kode_bank' => $bank, 'kode_cabang' => $cabang))->num_rows();
     if (!empty($cek)) {
       return 1;
     } else {
