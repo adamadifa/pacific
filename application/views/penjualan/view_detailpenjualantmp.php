@@ -53,13 +53,19 @@ foreach ($detail as $d) {
 		}
 
 		function hitungdiskon() {
+			var nofaktur = $("#nofaktur").val();
 			$.ajax({
 				type: 'POST',
 				url: '<?php echo base_url(); ?>penjualan/hitungdiskon',
+				data: {
+					nofaktur: nofaktur
+				},
 				cache: false,
 				success: function(respond) {
-					$("#potongan").val(respond);
-					terbilangpotongan();
+					var result = respond.split("|");
+					$("#potaida").val(result[1]);
+					$("#potswan").val(result[0]);
+					$("#potstick").val(result[2]);
 				}
 			});
 		}
@@ -97,6 +103,7 @@ foreach ($detail as $d) {
 
 		function loadDataTmp() {
 			$("#loadpnjtmp").load("<?php echo base_url(); ?>penjualan/view_detailtmp");
+		
 		}
 
 

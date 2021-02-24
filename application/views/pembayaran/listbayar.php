@@ -22,11 +22,9 @@ function uang($nilai)
       <div class="card">
         <div class="card-header">
           <h4 class="card-title">Data Pembayaran</h4>
-
         </div>
         <div class="card-body">
           <form class="form-horizontal" method="post" action="<?php echo base_url(); ?>pembayaran/listbayar" autocomplete="off">
-
             <div class="mb-3">
               <input id="nofaktur" value="<?php echo $nofaktur; ?>" name="nofaktur" class="form-control" placeholder="No Faktur">
             </div>
@@ -45,7 +43,8 @@ function uang($nilai)
                         <line x1="8" y1="3" x2="8" y2="7" />
                         <line x1="4" y1="11" x2="20" y2="11" />
                         <line x1="11" y1="15" x2="12" y2="15" />
-                        <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                        <line x1="12" y1="15" x2="12" y2="18" />
+                      </svg>
                     </span>
                   </div>
                 </div>
@@ -60,7 +59,8 @@ function uang($nilai)
                         <line x1="8" y1="3" x2="8" y2="7" />
                         <line x1="4" y1="11" x2="20" y2="11" />
                         <line x1="11" y1="15" x2="12" y2="15" />
-                        <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                        <line x1="12" y1="15" x2="12" y2="18" />
+                      </svg>
                     </span>
                   </div>
                 </div>

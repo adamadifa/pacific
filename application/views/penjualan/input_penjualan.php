@@ -271,6 +271,15 @@
 											<i class="fa fa-money"></i>
 										</span>
 									</div>
+									<div class="input-group mb-2">
+										<span class="input-group-text">
+										PREMIUM
+										</span>
+										<input type="text" class="form-control text-right" id="potsp" name="potsp" value="0">
+										<span class="input-group-text">
+											<i class="fa fa-money"></i>
+										</span>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -563,17 +572,21 @@
 		// Menghitung diskon
 		function hitungdiskon() {
 			var nofaktur = $("#nofaktur").val();
+			var jenistransaksi = $("#jenistransaksi").val();
 			$.ajax({
 				type: 'POST',
 				url: '<?php echo base_url(); ?>penjualan/hitungdiskon',
 				data: {
-					nofaktur: nofaktur
+					nofaktur: nofaktur,
+					jenistransaksi:jenistransaksi
 				},
 				cache: false,
 				success: function(respond) {
 					var result = respond.split("|");
 					$("#potaida").val(result[1]);
 					$("#potswan").val(result[0]);
+					$("#potstick").val(result[2]);
+					$("#potsp").val(result[3]);
 				}
 			});
 		}
@@ -645,6 +658,7 @@
 					console.log(respond);
 					kosong();
 					$("#jenisbayar").html(respond);
+					hitungdiskon();
 				}
 			});
 		});
@@ -664,14 +678,7 @@
 					//terbilangjml();
 				}
 			} else if (jenisbayar == "transfer") {
-				showTransfer();
-				if (jenistransaksi == "tunai") {
-					$("#jml").val($("#totalbayar").val());
-					//terbilangjml();
-				} else {
-					$("#jml").val(0);
-					//terbilangjml();
-				}
+
 			} else if (jenisbayar == "tunai") {
 				showTunai();
 			} else {
@@ -1152,6 +1159,8 @@
 		uangpotswan = potswan.replace(/\./g, '');
 		potstick = document.getElementById('potstick').value;
 		uangpotstick = potstick.replace(/\./g, '');
+		potsp = document.getElementById('potsp').value;
+		uangpotsp = potsp.replace(/\./g, '');
 
 		//Potongan Istimewa
 		potisaida = document.getElementById('potisaida').value;
@@ -1182,6 +1191,10 @@
 			uangpotstick = 0;
 		}
 
+		if (uangpotsp == "") {
+			uangpotsp = 0;
+		}
+
 		//Potongan Istimewa
 		if (uangpotisaida == "") {
 			uangpotisaida = 0;
@@ -1207,7 +1220,7 @@
 		if (grandtotal == "") {
 			grandtotal = 0;
 		}
-		var potongan = parseInt(uangpotaida) + parseInt(uangpotswan) + parseInt(uangpotstick);
+		var potongan = parseInt(uangpotaida) + parseInt(uangpotswan) + parseInt(uangpotstick)+ parseInt(uangpotsp);
 		var potistimewa = parseInt(uangpotisaida) + parseInt(uangpotisswan) + parseInt(uangpotisstick);
 		var penyesuaian = parseInt(uangpenyaida) + parseInt(uangpenyswan) + parseInt(uangpenystick);
 		// uangpot = potongan.replace(/\./g, '');

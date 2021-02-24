@@ -175,7 +175,14 @@ class Model_penjualan extends CI_Model
     } else {
       $potstick = $potstick;
     }
-    $potongan       = $potaida + $potswan + $potstick;
+
+    $potsp       = str_replace(".", "", $this->input->post('potsp'));
+    if (empty($potsp)) {
+      $potsp = 0;
+    } else {
+      $potsp = $potsp;
+    }
+    $potongan       = $potaida + $potswan + $potstick + $potsp;
 
 
     // echo $potongan;
@@ -256,6 +263,7 @@ class Model_penjualan extends CI_Model
       'potaida' => $potaida,
       'potswan' => $potswan,
       'potstick' => $potstick,
+      'potsp' => $potsp,
       'potongan' => $potongan,
       'potisaida' => $potisaida,
       'potisswan' => $potisswan,
@@ -1006,7 +1014,7 @@ class Model_penjualan extends CI_Model
 
   function hitungdiskon($kategori, $jmldus)
   {
-    $query = "SELECT diskon FROM diskon WHERE '$jmldus' >= dari AND '$jmldus' <= sampai AND kategori ='$kategori'";
+    $query = "SELECT diskon,diskon_tunai FROM diskon WHERE '$jmldus' >= dari AND '$jmldus' <= sampai AND kategori ='$kategori'";
     return $this->db->query($query);
   }
 

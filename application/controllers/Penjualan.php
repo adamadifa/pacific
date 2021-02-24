@@ -454,11 +454,17 @@ class Penjualan extends CI_Controller
   {
     error_reporting(0);
     //$nofaktur 		= $this->input->post('nofaktur');
+    $jenistransaksi = $this->input->post('jenistransaksi');
+    //echo $jenistransaksi;
     $id_admin        = $this->session->userdata('id_user');
     $kategori_swan  = 'SWAN';
     $kategori_aida   = 'AIDA';
+    $kategori_stick  = 'STICK';
+    $kategori_sp  = 'SP';
     $swan           =  $this->Model_penjualan->hitungkatproduk($kategori_swan, $id_admin)->result();
     $aida           =  $this->Model_penjualan->hitungkatproduk($kategori_aida, $id_admin)->result();
+    $stick          =  $this->Model_penjualan->hitungkatproduk($kategori_stick, $id_admin)->result();
+    $sp          =  $this->Model_penjualan->hitungkatproduk($kategori_sp, $id_admin)->result();
     $jmldusaida     = 0;
     foreach ($aida as $a) {
       $jmlaida      = floor($a->jumlah / $a->isipcsdus);
@@ -470,9 +476,29 @@ class Penjualan extends CI_Controller
       $jmldusswan   = $jmldusswan + $jmlswan;
     }
 
+    $jmldusstick     = 0;
+    foreach ($stick as $st) {
+      $jmlstick      = floor($st->jumlah / $st->isipcsdus);
+      $jmldusstick   = $jmldusstick + $jmlstick;
+    }
+
+    $jmldussp     = 0;
+    foreach ($sp as $p) {
+      $jmlsp      = floor($p->jumlah / $p->isipcsdus);
+      $jmldussp   = $jmldussp + $jmlsp;
+    }
+
     $diskonswan     = $this->Model_penjualan->hitungdiskon($kategori_swan, $jmldusswan)->row_array();
     $diskonaida     = $this->Model_penjualan->hitungdiskon($kategori_aida, $jmldusaida)->row_array();
-    echo number_format(($diskonswan['diskon'] * $jmldusswan), '0', '', '.') . "|" . number_format(($diskonaida['diskon'] * $jmldusaida), '0', '', '.');
+    $diskonstick    = $this->Model_penjualan->hitungdiskon($kategori_stick, $jmldusstick)->row_array();
+    $diskonsp       = $this->Model_penjualan->hitungdiskon($kategori_sp, $jmldussp)->row_array();
+    if($jenistransaksi == 'tunai'){
+      $totaldiskonsp = ($diskonsp['diskon'] * $jmldussp) + ($diskonsp['diskon_tunai'] * $jmldussp);
+
+    }else{
+        $totaldiskonsp = ($diskonsp['diskon'] * $jmldussp);
+    }
+    echo number_format(($diskonswan['diskon'] * $jmldusswan), '0', '', '.') . "|" . number_format(($diskonaida['diskon'] * $jmldusaida), '0', '', '.'). "|" . number_format(($diskonstick['diskon'] * $jmldusstick), '0', '', '.'). "|" . number_format($totaldiskonsp, '0', '', '.');
   }
 
   function loadfaktur()

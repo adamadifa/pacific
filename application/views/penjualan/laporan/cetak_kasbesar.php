@@ -199,6 +199,7 @@
 			<th>No Faktur</th>
 			<th>Kode Pelanggan</th>
 			<th>Nama Pelanggan</th>
+			<th>Keterangan</th>
 			<th>Jumlah</th>
 		</tr>
 		<thead>
@@ -207,19 +208,29 @@
 			$totalvoucher = 0;
 			foreach ($sb as $v) {
 				$totalvoucher = $totalvoucher + $v->bayar;
+				if ($v->ket_voucher == "1") {
+					$voucher = "Penghapusan Piutang";
+				} else if ($v->ket_voucher == "2") {
+					$voucher = "Diskon Program";
+				} else if ($v->ket_voucher == "3") {
+					$voucher = "Penyelesaian Piutang Oleh Salesman";
+				} else {
+					$voucher = "Pengalihan Piutang Dgng Jd Piutang Kary";
+				}
 			?>
 				<tr>
 					<td><?php echo DateToIndo2($v->tglbayar); ?></td>
 					<td><?php echo $v->no_fak_penj; ?></td>
 					<td><?php echo $v->kode_pelanggan; ?></td>
 					<td><?php echo $v->nama_pelanggan; ?></td>
+					<td><?php echo $voucher; ?></td>
 					<td align="right"><?php echo number_format($v->bayar, '0', '', '.'); ?></td>
 				</tr>
 			<?php
 			}
 			?>
 			<tr bgcolor="#024a75" style="color:white; font-size:12;">
-				<td colspan="4">TOTAL</td>
+				<td colspan="5">TOTAL</td>
 				<td align="right"><?php echo number_format($totalvoucher, '0', '', '.'); ?></td>
 			</tr>
 		</tbody>

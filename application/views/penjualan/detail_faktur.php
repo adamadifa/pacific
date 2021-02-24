@@ -388,7 +388,15 @@
                           if ($y->girotocash == "1") {
                             echo "<span class='badge bg-green'>Penggantian Giro Ke Cash " . $y->no_giro . " </span>";
                           } else if ($y->status_bayar == "voucher") {
-                            echo "<span class='badge bg-green'>" . $y->status_bayar . "</span>";
+                            if ($y->ket_voucher == "1") {
+                              echo "<span class='badge bg-green'>" . $y->status_bayar . " Penghapusan Piutang </span> ";
+                            } else if ($y->ket_voucher == "2") {
+                              echo "<span class='badge bg-green'>" . $y->status_bayar . " Diskon Program </span> ";
+                            } else if ($y->ket_voucher == "3") {
+                              echo "<span class='badge bg-green'>" . $y->status_bayar . " Penyelesaian Piutang Oleh Salesman </span> ";
+                            } else {
+                              echo "<span class='badge bg-green'>" . $y->status_bayar . " Pengalihan Piutang Dgng Jd Piutang Kary </span> ";
+                            }
                           }
                           ?>
                         </td>

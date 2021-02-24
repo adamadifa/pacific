@@ -88,7 +88,7 @@ class Model_pembayaran extends CI_Model
     $this->db->join('karyawan', 'historibayar.id_karyawan = karyawan.id_karyawan', 'left');
     $this->db->join('giro', 'historibayar.id_giro = giro.id_giro', 'left');
     $this->db->select('nobukti,historibayar.no_fak_penj,tglbayar,jenistransaksi,jenisbayar,status_bayar,bayar,historibayar.id_giro
-      id_transfer,girotocash,historibayar.id_karyawan,nama_karyawan,no_giro');
+      id_transfer,girotocash,historibayar.id_karyawan,nama_karyawan,no_giro,ket_voucher');
     $this->db->from('historibayar');
     return $this->db->get();
   }
@@ -102,12 +102,18 @@ class Model_pembayaran extends CI_Model
     $id_admin     = $this->session->userdata('id_user');
     $jenisbayar   = $this->input->post('jenisbayar');
     $girotocash   = $this->input->post('girotocash');
+    $ketvoucher   = $this->input->post('ketvoucher');
     if ($girotocash == "1") {
       $id_giro = $this->input->post('nogiro');
     } else {
       $id_giro =  NULL;
     }
     $status_bayar = $this->input->post('voucher');
+    if ($status_bayar == "voucher") {
+      $ketv = $ketvoucher;
+    } else {
+      $ketv = "";
+    }
     $salesman     = $this->input->post('salesman');
     if ($jenisbayar != "lainlain") {
       if ($jenisbayar == "titipan") {
@@ -135,6 +141,7 @@ class Model_pembayaran extends CI_Model
         'status_bayar'    => $status_bayar,
         'id_karyawan'      => $salesman,
         'id_giro'         => $id_giro,
+        'ket_voucher'      => $ketv,
         'id_admin'        => $id_admin
 
       );
@@ -163,22 +170,39 @@ class Model_pembayaran extends CI_Model
     $jenisbayar   = $this->input->post('jenisbayar');
     $girotocash   = $this->input->post('girotocash');
     $status_bayar = $this->input->post('status_bayar');
+    $ketvoucher   = $this->input->post('ketvoucher');
     $salesman   = $this->input->post('salesman');
     if ($girotocash == "1") {
       $id_giro = $this->input->post('nogiro');
     } else {
       $id_giro =  NULL;
     }
-    $data = array(
-      'tglbayar'        => $tglbayar,
-      'bayar'           => $jmlbayar,
-      'jenisbayar'      => $jenisbayar,
-      'girotocash'      => $girotocash,
-      'status_bayar'    => $status_bayar,
-      'id_giro'         => $id_giro,
-      'id_karyawan'      => $salesman
-    );
-    $this->db->update('historibayar', $data, array('nobukti' => $nobukti));
+    $status_bayar = $this->input->post('voucher');
+    $salesman     = $this->input->post('salesman');
+    if ($status_bayar == "voucher") {
+      $ketv = $ketvoucher;
+    } else {
+      $ketv = "";
+    }
+    if ($jenisbayar != "lainlain") {
+      if ($jenisbayar == "titipan") {
+        $jenistrans = "kredit";
+      } else {
+        $jenistrans = "tunai";
+      }
+      $data = array(
+        'tglbayar'        => $tglbayar,
+        'bayar'           => $jmlbayar,
+        'jenisbayar'      => $jenisbayar,
+        'jenistransaksi'  => $jenistrans,
+        'girotocash'      => $girotocash,
+        'status_bayar'    => $status_bayar,
+        'id_giro'         => $id_giro,
+        'ket_voucher'     => $ketv,
+        'id_karyawan'     => $salesman
+      );
+      $this->db->update('historibayar', $data, array('nobukti' => $nobukti));
+    }
   }
 
   function hapus($nobukti)

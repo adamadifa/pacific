@@ -590,7 +590,7 @@ GROUP BY
 
 	function voucher($dari, $sampai, $cabang = null, $salesman = null, $pelanggan = null, $statusbayar = null)
 	{
-		$this->db->select('tglbayar,historibayar.no_fak_penj,penjualan.kode_pelanggan,nama_pelanggan,status_bayar,bayar');
+		$this->db->select('tglbayar,historibayar.no_fak_penj,penjualan.kode_pelanggan,nama_pelanggan,status_bayar,bayar,ket_voucher');
 		$this->db->from('historibayar');
 		$this->db->join('penjualan', 'historibayar.no_fak_penj = penjualan.no_fak_penj');
 		$this->db->join('pelanggan', 'penjualan.kode_pelanggan = pelanggan.kode_pelanggan');
@@ -1316,7 +1316,7 @@ GROUP BY
 							ON penjualan.kode_pelanggan = pelanggan.kode_pelanggan
 							LEFT JOIN (SELECT id_giro,tglbayar FROM historibayar WHERE tglbayar BETWEEN '$dari' AND '$sampaibayar') as hb
 							ON giro.id_giro = hb.id_giro
-							WHERE tgl_giro BETWEEN '$dari' AND '$sampai' AND pelanggan.kode_cabang = '$cabang' 
+							WHERE tgl_giro BETWEEN '$dari' AND '$sampai' AND pelanggan.kode_cabang = '$cabang'
 							OR omset_bulan ='$bulan' AND omset_tahun='$tahun' AND pelanggan.kode_cabang='$cabang'
 							OR tgl_giro < '$dari' AND omset_bulan ='0' AND pelanggan.kode_cabang='$cabang'
 							OR tgl_giro < '$dari' AND omset_bulan >'$bulan' AND omset_tahun = '$tahun' AND pelanggan.kode_cabang='$cabang'

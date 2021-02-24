@@ -15,7 +15,8 @@
               <line x1="8" y1="3" x2="8" y2="7" />
               <line x1="4" y1="11" x2="20" y2="11" />
               <line x1="11" y1="15" x2="12" y2="15" />
-              <line x1="12" y1="15" x2="12" y2="18" /></svg>
+              <line x1="12" y1="15" x2="12" y2="18" />
+            </svg>
           </span>
         </div>
       </div>
@@ -64,9 +65,21 @@
     <div class="col-md-12">
       <label class="form-check form-switch">
 
-        <input class="form-check-input" type="checkbox" name="voucher" value="voucher">
+        <input class="form-check-input voucher" type="checkbox" name="voucher" value="voucher">
         <span class="form-check-label">Voucher ?</span>
       </label>
+    </div>
+  </div>
+  <div id="ketvoucher" class="mb-3">
+    <label class="form-label">Keterangan</label>
+    <div class="form-group">
+      <select class="form-select" name="ketvoucher" id="ketvoucher">
+        <option value="1">Penghapusan Piutang</option>
+        <option value="2">Diskon Program</option>
+        <option value="3">Penyelesaian Piutang Oleh Salesman</option>
+        <option value="4">Pengalihan Piutang Dgng Jd Piutang Kary</option>
+      </select>
+      <div class="errorTxt28"></div>
     </div>
   </div>
   <div class="row mb-3">
@@ -183,6 +196,18 @@
         $("#nogirotolak").show();
       } else {
         $("#nogirotolak").hide();
+      }
+
+    });
+    $("#ketvoucher").hide();
+    $('.voucher').change(function() {
+      //alert('test');
+      if (this.checked) {
+        // var returnVal = confirm("Apakah Kamu Yakin Akan Mengganti Giro Ke Cash");
+        // $(this).prop("checked", returnVal);
+        $("#ketvoucher").show();
+      } else {
+        $("#ketvoucher").hide();
       }
 
     });
