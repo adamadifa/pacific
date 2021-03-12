@@ -54,6 +54,7 @@ function formatnumber($nilai)
         <td align="right"><?php echo formatnumber($totalrealisasi); ?></td>
         <td align="right"><?php echo formatnumber($k->jumlah_target_cashin); ?></td>
         <td align="right"><?php echo formatnumber($k->jml_cashin); ?></td>
+        <td align="right"><?php echo formatnumber($k->jumlah_target_collection); ?></td>
       </tr>
     <?php
       $no++;

@@ -43,7 +43,7 @@
         <div class="card-body">
           <?php if ($cb == 'pusat') { ?>
             <div class="form-group mb-3">
-              <select class="form-select" id="cabang" name="cabang">
+              <select class="form-select" id="cabangs" name="cabang">
                 <?php foreach ($cabang as $c) { ?>
                   <option <?php if ($cb == $c->kode_cabang) {
                             echo "selected";
@@ -52,7 +52,7 @@
               </select>
             </div>
           <?php } else { ?>
-            <input type="hidden" readonly id="cabangbs" name="cabangbs" value="<?php echo $cb; ?>" class="form-control" placeholder="Kode Cabang" />
+            <input type="hidden" readonly id="cabangs" name="cabang" value="<?php echo $cb; ?>" class="form-control" placeholder="Kode Cabang" />
           <?php } ?>
           <div id="loadsaldobs">
           </div>
@@ -81,7 +81,7 @@
     }
 
     function loadsaldobs() {
-      var kodecabang = $("#cabangbs").val();
+      var kodecabang = $("#cabangs").val();
       var status = 'BS';
       $.ajax({
         type: 'POST',
@@ -98,5 +98,15 @@
     }
     loadsaldo();
     loadsaldobs();
+
+    $("#cabang").change(function() {
+      loadsaldo();
+    });
+
+    $("#cabangs").change(function() {
+      loadsaldobs();
+    });
+
+
   });
 </script>

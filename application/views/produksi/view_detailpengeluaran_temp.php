@@ -8,6 +8,7 @@ foreach($data->result() as $d){
     <td><?php echo $d->nama_barang; ?></td>
     <td><?php echo $d->keterangan; ?></td>
     <td><?php echo number_format($d->qty,2); ?></td>
+    <td><?php echo number_format($d->qty_berat,2); ?></td>
     <td align="left"><a href="#" data-ket="<?php echo $d->keterangan; ?>"  data-kodebarang="<?php echo $d->kode_barang; ?>" data-idadmin="<?php echo $d->id_admin; ?>" class="btn btn-danger btn-sm hapus">Hapus</a> <a href="#"  data-kodebarang="<?php echo $d->kode_barang; ?>" data-nama="<?php echo $d->nama_barang; ?>"  data-ket="<?php echo $d->keterangan; ?>" data-jenis="<?php echo $d->jenis_barang; ?>" data-qty="<?php echo $d->qty; ?>"   class="btn btn-primary btn-sm edit">Edit</a></td>
   </tr>
   <?php $no++;} ?>

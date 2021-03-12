@@ -68,9 +68,11 @@
       var kodebarang = $(this).attr('data-kode');
       var namabarang = $(this).attr('data-nama');
       var jenis      = $(this).attr('data-jenis');
+      var kodebaranggb = $(this).attr('data-kodebaranggb');
 
       $("#kodebarang").val(kodebarang);
       $("#barang").val(namabarang);
+      $("#kodebaranggb").val(kodebaranggb);
 
       $("#jenisbarang").val(jenis);
 

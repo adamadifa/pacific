@@ -95,6 +95,7 @@ if ($pelanggan['kode_pelanggan'] != "") {
 
 		$totalallduaminggu  				= 0;
 		$totalallsatubulan					= 0;
+		$totalallsatubulan15					= 0;
 		//$totalallsatusetengahbulan 	= 0;
 		$totalallduabulan						=	0;
 		$totalalllebih3bulan				= 0;
@@ -146,7 +147,7 @@ if ($pelanggan['kode_pelanggan'] != "") {
 
 				$totalallduaminggu 					= $totalallduaminggu + $duaminggu;
 				$totalallsatubulan 	   			= $totalallsatubulan + $satubulan;
-				$totalallsatubulan15				= $totalsatubulan15 + $satubulan15;
+				$totalallsatubulan15				= $totalallsatubulan15 + $satubulan15;
 				//$totalallsatusetengahbulan 	= $totalallsatusetengahbulan + $satusetengahbulan;
 				$totalallduabulan 	   			= $totalallduabulan + $duabulan;
 				$totalalllebih3bulan   			= $totalalllebih3bulan + $lebihtigabulan;

@@ -1385,14 +1385,16 @@ class Model_gudangbahan extends CI_Model
 
     $nobukti              = $this->input->post('nobukti');
     $tgl_retur            = $this->input->post('tgl');
-    $tgl_approve          = $this->input->post('tgl_approve');
-    $supplier             = $this->input->post('supplier');
+    $tgl_approve_gb     = $this->input->post('tgl_approve_gb');
+    $tgl_approve_pemb     = $this->input->post('tgl_approve_pemb');
+    $supplier             = $this->input->post('kode_supplier');
 
     $data = array(
 
       'nobukti_retur'      => $nobukti,
       'tgl_retur'          => $tgl_retur,
-      'tgl_approve'        => $tgl_approve,
+      'tgl_approve_gb'     => $tgl_approve_gb,
+      'tgl_approve_pemb'   => $tgl_approve_pemb,
       'supplier'           => $supplier,
       'jenis_retur'        => "Retur IN"
     );
@@ -1406,8 +1408,9 @@ class Model_gudangbahan extends CI_Model
       $data = array(
 
         'nobukti_retur'     => $nobukti,
-        'kode_barang'       => $d->kode_barang,
+        'kode_barang'       => $d->kode_barang_gb,
         'qty'               => $d->qty,
+        'qty_berat'         => $d->qty_berat,
         'keterangan'        => $d->keterangan
 
       );

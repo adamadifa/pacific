@@ -1301,11 +1301,18 @@ GROUP BY
 
 	function rekapbg($cabang, $dari, $sampai, $bulan, $tahun, $sampaibayar)
 	{
-		if ($bulan == 12) {
-			$bulannext = "= 1";
+		if ($bulan == 1) {
+			$batasbulan = 11;
+			$tahunlast = $tahun - 1;
+		} else if ($bulan == 2) {
+			$batasbulan = 12;
+			$tahunlast = $tahun - 1;
 		} else {
-			$bulannext = "> " . $bulan;
+			$batasbulan = $bulan - 2;
+			$tahunlast = $tahun;
 		}
+
+		$tglbatas = $tahunlast . "-" . $batasbulan . "-01";
 		$query = "SELECT tgl_giro,penjualan.id_karyawan,nama_karyawan,giro.no_fak_penj,nama_pelanggan,namabank,no_giro,tglcair as jatuhtempo,jumlah,tglbayar as tgl_pencairan
 							FROM giro
 							INNER JOIN penjualan
@@ -1316,10 +1323,11 @@ GROUP BY
 							ON penjualan.kode_pelanggan = pelanggan.kode_pelanggan
 							LEFT JOIN (SELECT id_giro,tglbayar FROM historibayar WHERE tglbayar BETWEEN '$dari' AND '$sampaibayar') as hb
 							ON giro.id_giro = hb.id_giro
-							WHERE tgl_giro BETWEEN '$dari' AND '$sampai' AND pelanggan.kode_cabang = '$cabang'
+							WHERE 
+							tgl_giro BETWEEN '$dari' AND '$sampai' AND pelanggan.kode_cabang = '$cabang'
 							OR omset_bulan ='$bulan' AND omset_tahun='$tahun' AND pelanggan.kode_cabang='$cabang'
-							OR tgl_giro < '$dari' AND omset_bulan ='0' AND pelanggan.kode_cabang='$cabang'
-							OR tgl_giro < '$dari' AND omset_bulan >'$bulan' AND omset_tahun = '$tahun' AND pelanggan.kode_cabang='$cabang'
+							OR tgl_giro BETWEEN '$tglbatas' AND '$dari' AND omset_bulan ='0' AND pelanggan.kode_cabang='$cabang'
+							OR tgl_giro BETWEEN '$tglbatas' AND '$dari' AND omset_bulan >'$bulan' AND omset_tahun = '$tahun' AND pelanggan.kode_cabang='$cabang'
 							ORDER BY tgl_giro,no_giro ASC
 							";
 		return $this->db->query($query);

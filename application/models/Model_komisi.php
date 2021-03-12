@@ -176,7 +176,7 @@ class Model_komisi extends CI_Model
     targetkategoriA,realisasitargetA,
     targetkategoriB,realisasitargetB,
     targetproductfocus,realisasitargetproductfocus,
-    jumlah_target_cashin,jml_cashin
+    jumlah_target_cashin,jml_cashin,jumlah_target_collection
     FROM karyawan
     LEFT JOIN (
     SELECT  id_karyawan,
@@ -227,6 +227,18 @@ class Model_komisi extends CI_Model
     GROUP BY
       id_karyawan 
     ) hb ON ( karyawan.id_karyawan = hb.id_karyawan )
+
+    LEFT JOIN (
+    SELECT
+      id_karyawan,jumlah_target_collection
+    FROM
+      komisi_collection_detail k_collection
+      INNER JOIN komisi_target ON k_collection.kode_target = komisi_target.kode_target
+    WHERE
+      bulan = '$bulan' AND tahun = '$tahun' 
+    GROUP BY
+      id_karyawan,jumlah_target_collection 
+    ) komisicollection ON ( karyawan.id_karyawan = komisicollection.id_karyawan )
     WHERE kode_cabang ='$cabang' AND nama_karyawan !='-' ORDER BY karyawan.id_karyawan";
 
     return $this->db->query($query);

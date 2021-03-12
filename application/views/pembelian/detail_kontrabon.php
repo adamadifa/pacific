@@ -17,6 +17,7 @@
   <thead class="thead-dark">
     <tr>
       <th>No</th>
+      <th>Tanggal</th>
       <th>No Bukti</th>
       <th>Jumlah</th>
     </tr>
@@ -28,6 +29,7 @@
       $total = $total + $d->jmlbayar; ?>
       <tr>
         <td><?php echo $no; ?></td>
+        <td><a href="#" class="detailpmb" data-nobukti="<?php echo $d->nobukti_pembelian; ?>"><?php echo $d->tgl_pembelian; ?></a></td>
         <td><a href="#" class="detailpmb" data-nobukti="<?php echo $d->nobukti_pembelian; ?>"><?php echo $d->nobukti_pembelian; ?></a></td>
         <td align="right"><?php echo number_format($d->jmlbayar, '2', ',', '.'); ?></td>
       </tr>
@@ -35,7 +37,7 @@
     }  ?>
   </tbody>
   <tr>
-    <td colspan="2">TOTAL</td>
+    <td colspan="3">TOTAL</td>
     <td align="right"><b> <?php echo number_format($total, '2', ',', '.'); ?></b></td>
   </tr>
 </table>

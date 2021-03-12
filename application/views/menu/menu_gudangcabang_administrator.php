@@ -15,7 +15,7 @@ if ($level == "Administrator" || $level == "admin gudang" || $level == "kepala a
       </a>
     </div>
   </div>
-  <?php if ($this->session->userdata('cabang') == 'TSM') { ?>
+  <?php if ($this->session->userdata('cabang') == 'TSM' || $this->session->userdata('cabang') == 'pusat') { ?>
     <div class="card">
       <div class="list-group">
         <a href="#" class="list-group-item list-group-item-action active">

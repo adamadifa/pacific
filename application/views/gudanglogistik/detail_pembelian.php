@@ -21,6 +21,7 @@
         <th>No</th>
         <th>Kode Barang</th>
         <th>Nama Barang</th>
+        <th>Satuan</th>
         <th>Ket</th>
         <th>Qty</th>
         <th>Harga</th>
@@ -39,6 +40,7 @@
           <td><?php echo $no; ?></td>
           <td><?php echo $d->kode_barang; ?></td>
           <td><?php echo $d->nama_barang; ?></td>
+          <td><?php echo $d->satuan; ?></td>
           <td><?php echo $d->keterangan; ?></td>
           <td><?php echo $d->qty; ?></td>
           <td align="right"><?php echo number_format($d->harga, '2', ',', '.'); ?></td>
@@ -50,7 +52,7 @@
       }
       ?>
       <tr>
-        <th colspan="6">TOTAL PEMBELIAN</th>
+        <th colspan="7">TOTAL PEMBELIAN</th>
         <td align="right"><b> <?php echo number_format($total, '2', ',', '.'); ?></b></td>
       </tr>
     </tbody>
@@ -68,7 +70,8 @@
             <line x1="8" y1="3" x2="8" y2="7" />
             <line x1="4" y1="11" x2="20" y2="11" />
             <line x1="11" y1="15" x2="12" y2="15" />
-            <line x1="12" y1="15" x2="12" y2="18" /></svg>
+            <line x1="12" y1="15" x2="12" y2="18" />
+          </svg>
         </span>
       </div>
     </div>

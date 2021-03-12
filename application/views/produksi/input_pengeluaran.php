@@ -51,6 +51,21 @@
                       </select>
                     </div>
                   </div>
+                  <div class="form-group mb-3 kode_supplier">
+                    <div class="input-icon">
+                      <span class="input-icon-addon">
+                        <i class="fa fa-calendar-o"></i>
+                      </span>
+                      <select class="form-control show-tick" id="kode_supplier" name="kode_supplier" data-error=".errorTxt1">
+                        <option value="">--SUPPLIER--</option>
+                        <option value="SP0186">SURYA BUANA CV</option>
+                        <option value="SP0142">PT PURINUSA EKA PERSADA</option>
+                        <option value="SP0185">SAKU MAS JAYA, PT</option>
+                        <option value="SP0140">PT MULIAPACK GRAVURINDO</option>
+                        <option value="SP0032">PT EKADHARMA INTERNATIONAL</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -62,7 +77,7 @@
               <div class="card">
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                       <div class="row mb-2">
                         <div class="form-group">
                           <div class="input-icon">
@@ -71,6 +86,7 @@
                             </span>
                             <input type="hidden" value="" id="kode_edit" name="kode_edit" class="form-control" data-error=".errorTxt19" />
                             <input type="hidden" value="" id="kodebarang" name="kodebarang" class="form-control" placeholder="Kode Barang" data-error=".errorTxt19" />
+                            <input type="hidden" value="" id="kodebaranggb" name="kodebaranggb" class="form-control" placeholder="Kode Barang" data-error=".errorTxt19" />
                             <input type="text" readonly value="" id="barang" name="barang" class="form-control" placeholder="Nama Barang" data-error=".errorTxt19" />
                           </div>
                         </div>
@@ -108,6 +124,16 @@
                     </div>
                     <div class="col-md-2">
                       <div class="form-group">
+                        <div class="input-icon">
+                          <span class="input-icon-addon">
+                            <i class="fa fa-money"></i>
+                          </span>
+                          <input type="text" style="text-align:right" value="" id="berat" name="berat" class="form-control" placeholder="Berat" data-error=".errorTxt19" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-1">
+                      <div class="form-group">
                         <a href="#" id="tambahbarang" class="btn btn-primary">
                           <i class="fa fa-cart-plus mr-2"></i> Tambah
                         </a>
@@ -124,6 +150,7 @@
                             <th>Nama Barang</th>
                             <th>Keterangan</th>
                             <th>Qty</th>
+                            <th>Berat</th>
                             <th>Aksi</th>
                           </tr>
                         </thead>
@@ -206,16 +233,19 @@
 
     tampiltemp();
 
-    $('#harga,#jumlah').on("input", function() {
+    $('#harga,#qty,#berat').on("input", function() {
 
       var harga = $('#harga').val();
-      var jumlah = $('#jumlah').val();
+      var qty = $('#qty').val();
+      var berat = $('#berat').val();
 
       var harga = harga.replace(/[^\d]/g, "");
-      var jumlah = jumlah.replace(/[^\d]/g, "");
+      var qty = qty.replace(/[^\d]/g, "");
+      var berat = berat.replace(/[^\d]/g, "");
 
       $('#harga').val(formatAngka(harga * 1));
-      $('#jumlah').val(formatAngka(jumlah * 1));
+      $('#qty').val(formatAngka(qty * 1));
+      $('#berat').val(formatAngka(berat * 1));
 
     });
 
@@ -226,6 +256,20 @@
 
     });
 
+    $('.kode_supplier').hide();
+    $('.berat').hide();
+
+    $("#departemen").change(function() {
+      var departemen = $('#departemen').val();
+      if(departemen == "Retur Out"){
+        $('.kode_supplier').show();
+        $('.berat').show();
+      }else{
+        $('.kode_supplier').hide();
+        $('.berat').hide();
+      }
+    });
+    
     $("#barang").click(function() {
 
       $("#tabelbarang").load("<?php echo base_url(); ?>produksi/tabelbarang/");
@@ -250,10 +294,11 @@
           $('#kodebarang').val("");
           $('#namaakun').val("");
           $('#qty').val("");
+          $('#berat').val("");
+          $('#kodebaranggb').val("");
           $('#kode_edit').val("");
           $('#keterangan').val("");
           $('#jenisbarang').val("");
-          $('#kode_edit').val("");
 
         }
 
@@ -265,7 +310,9 @@
 
       var kodebarang = $('#kodebarang').val();
       var keterangan = $('#keterangan').val();
+      var kodebaranggb = $('#kodebaranggb').val();
       var qty = $('#qty').val();
+      var berat = $('#berat').val();
       var kode_edit = $('#kode_edit').val();
 
       if (kodebarang == 0) {
@@ -283,8 +330,10 @@
           url: '<?php echo base_url(); ?>produksi/inputpengeluaran_temp',
           data: {
             kodebarang: kodebarang,
+            kodebaranggb: kodebaranggb,
             kode_edit: kode_edit,
             qty: qty,
+            berat: berat,
             keterangan: keterangan
           },
           cache: false,

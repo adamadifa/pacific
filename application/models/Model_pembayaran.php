@@ -667,7 +667,9 @@ class Model_pembayaran extends CI_Model
     } else if ($cabang == "SBY") {
       $akun = "1-1486";
     } else if ($cabang == "PST") {
-      $akun = "1-1401";
+      $akun = "1-1489";
+    }else if ($cabang == "KLT") {
+      $akun = "1-1490";
     }
     // $data = array(
     //   'kode_setoranpusat' => $kode_setoranpusat,
@@ -908,7 +910,9 @@ class Model_pembayaran extends CI_Model
     } else if ($cabang == "SBY") {
       $akun = "1-1486";
     } else if ($cabang == "PST") {
-      $akun = "1-1401";
+      $akun = "1-1489";
+    }else if ($cabang == "KLT") {
+      $akun = "1-1490";
     }
 
     // $data = array(
@@ -1171,7 +1175,9 @@ class Model_pembayaran extends CI_Model
     } else if ($cabang == "SBY") {
       $akun = "1-1486";
     } else if ($cabang == "PST") {
-      $akun = "1-1401";
+      $akun = "1-1489";
+    }else if ($cabang == "KLT") {
+      $akun = "1-1490";
     }
 
     // $data = array(
@@ -1886,7 +1892,9 @@ class Model_pembayaran extends CI_Model
     } else if ($cabang == "SBY") {
       $akun = "1-1486";
     } else if ($cabang == "PST") {
-      $akun = "1-1401";
+      $akun = "1-1489";
+    }else if ($cabang == "KLT") {
+      $akun = "1-1490";
     }
 
     $dataledger = array(

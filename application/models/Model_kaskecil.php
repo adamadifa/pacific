@@ -1044,14 +1044,20 @@ class Model_kaskecil extends CI_Model
     $ceknolast      = $this->db->query($qledger)->row_array();
     $nobuktilast    = $ceknolast['no_bukti'];
     $no_bukti       = buatkode($nobuktilast, 'LR' . $cabang . $tahun, 4);
-
+    if ($cabang == "SMR") {
+      $akun = "1-1117";
+    } else if($cabang =="KLT"){
+		$akun = "1-1118";
+	}else {
+      $akun = "1-1104";
+    }
     $data = array(
       'no_bukti'        => $no_bukti,
       'tgl_ledger'      => $tgl,
       'bank'            => $bank,
       'pelanggan'       => 'BNI CAB ' . $cabang,
       'keterangan'      => $keterangan,
-      'kode_akun'       => '1-1104',
+      'kode_akun'       => $akun,
       'jumlah'          => $jumlah,
       'status_dk'       => 'D',
       'kode_klaim'      => $kode_klaim,

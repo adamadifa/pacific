@@ -232,7 +232,6 @@ if ($pelanggan['kode_pelanggan'] != "") {
 				$totalpiutang 			= 0;
 				$totalbayar 				= 0;
 				$totalsisabayar 		= 0;
-
 				$duaminggu					= 0;
 				$satubulan 					= 0;
 				$satubulan15				= 0;

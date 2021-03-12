@@ -891,15 +891,19 @@ class Model_produksi extends CI_Model
   {
 
     $kode_barang  = $this->input->post('kodebarang');
+    $kode_barang_gb  = $this->input->post('kodebaranggb');
     $kodeedit     = $this->input->post('kode_edit');
     $qty          = str_replace(",", "", $this->input->post('qty'));
+    $berat        = str_replace(",", "", $this->input->post('berat'));
     $keterangan   = $this->input->post('keterangan');
     $id_admin     = $this->session->userdata('id_user');
 
     $data = array(
 
       'kode_barang'         => $kode_barang,
+      'kode_barang_gb'         => $kode_barang_gb,
       'qty'                 => $qty,
+      'qty_berat'           => $berat,
       'keterangan'          => $keterangan,
       'id_admin'            => $id_admin
 
@@ -918,6 +922,7 @@ class Model_produksi extends CI_Model
 
     $nobukti            = $this->input->post('nobukti');
     $tgl_pengeluaran    = $this->input->post('tgl_pengeluaran');
+    $kode_supplier      = $this->input->post('kode_supplier');
     $kode_dept          = $this->input->post('departemen');
     $id_admin           = $this->session->userdata('id_user');
 
@@ -925,8 +930,8 @@ class Model_produksi extends CI_Model
 
       'nobukti_pengeluaran'   => $nobukti,
       'tgl_pengeluaran'       => $tgl_pengeluaran,
+      'kode_supplier'         => $kode_supplier,
       'kode_dept'             => $kode_dept
-
     );
 
     $this->db->insert('pengeluaran_gp', $data);
@@ -935,14 +940,14 @@ class Model_produksi extends CI_Model
 
     foreach ($data as $d) {
 
-
       $data = array(
 
         'nobukti_pengeluaran' => $nobukti,
         'kode_barang'         => $d->kode_barang,
         'qty'                 => $d->qty,
+        'qty_berat'           => $d->qty_berat,
+        'kode_barang_gb'      => $d->kode_barang_gb,
         'keterangan'          => $d->keterangan
-
       );
       $this->db->insert('detail_pengeluaran_gp', $data);
     }
@@ -983,13 +988,13 @@ class Model_produksi extends CI_Model
   {
 
     $departemen    = $this->uri->segment(3);
-    $this->datatables->select('kode_barang,nama_barang,satuan,master_barang_produksi.kode_dept,jenis_barang');
+    $this->datatables->select('kode_barang,nama_barang,satuan,master_barang_produksi.kode_dept,jenis_barang,kode_barang_gb');
     $this->datatables->from('master_barang_produksi');
     $this->datatables->where('master_barang_produksi.status', 'Aktif');
     if ($departemen == "Gudang" or $departemen == "Seasoning") {
       $this->datatables->where('master_barang_produksi.kode_dept', $departemen);
     }
-    $this->datatables->add_column('view', '<a href="#"  data-toggle="modal" data-kode="$1" data-nama="$2"  data-jenis="$3" class="btn btn-danger btn-sm waves-effect pilih">Pilih</a>', 'kode_barang,nama_barang,jenis_barang');
+    $this->datatables->add_column('view', '<a href="#"  data-toggle="modal" data-kode="$1" data-nama="$2"  data-jenis="$3" data-kodebaranggb="$4" class="btn btn-danger btn-sm waves-effect pilih">Pilih</a>', 'kode_barang,nama_barang,jenis_barang,kode_barang_gb');
     return $this->datatables->generate();
   }
 }

@@ -51,15 +51,16 @@ function uang($nilai)
               <button type="submit" name="submit" class="btn btn-primary btn-block mr-2" value="1"><i class="fa fa-search mr-2"></i>CARI</button>
             </div>
           </form>
-          <a href="<?php echo base_url(); ?>gudangbahan/input_retur" class="btn btn-danger mb-3">Tambah Data</a>
+          <!-- <a href="<?php echo base_url(); ?>gudangbahan/input_retur" class="btn btn-danger mb-3">Tambah Data</a> -->
           <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover" id="datatable">
               <thead class="thead-dark">
                 <tr>
                   <th width="10px">No</th>
                   <th width="150px">No Bukti</th>
-                  <th>Tanggal Masuk</th>
-                  <th>Tanggal Diterima</th>
+                  <th>Tgl Masuk</th>
+                  <th>Tgl Approve GB</th>
+                  <th>Tgl Approve Pemb</th>
                   <th>Supplier</th>
                   <th>Jenis Retur</th>
                   <th width="190px">Aksi</th>
@@ -75,9 +76,16 @@ function uang($nilai)
                     <td><?php echo $no; ?></td>
                     <td><?php echo $d['nobukti_retur']; ?></td>
                     <td><?php echo DateToIndo2($d['tgl_retur']); ?></td>
-                    <td><?php if (!empty($d['tgl_approve'])) {
-                          echo DateToIndo2($d['tgl_approve']);
+                    <td><?php if (!empty($d['tgl_approve_gb'])) {
+                          echo DateToIndo2($d['tgl_approve_gb']);
+                        }else{
+                          echo "";
                         } ?></td>
+                    <td><?php if (!empty($d['tgl_approve_pemb'])) {
+                      echo DateToIndo2($d['tgl_approve_pemb']);
+                    }else{
+                      echo "";
+                    } ?></td>
                     <td><?php echo $d['nama_supplier']; ?></td>
                     <td><?php echo $d['jenis_retur']; ?></td>
                     <td>

@@ -28,14 +28,10 @@ class Laporanpenjualan extends CI_Controller
 
   function penjualanpending()
   {
-    if ($this->session->userdata('cabang') == 'pusat') {
       $data['lvl']    = $this->session->userdata('level_user');
       $data['cb']     = $this->session->userdata('cabang');
       $data['cabang'] = $this->Model_cabang->view_cabang()->result();
       $this->template->load('template/template', 'penjualan/laporan/penjualanpending.php', $data);
-    } else {
-      redirect('dashboard');
-    }
   }
 
 

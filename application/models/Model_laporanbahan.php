@@ -198,6 +198,12 @@ class Model_laporanbahan extends CI_Model
 
   function list_detailPemasukan($dari, $sampai, $kode_barang)
   {
+    $role = $this->session->userdata('level_user');
+    if ($role == 'admin pembelian 2') {
+      $orderby = "master_barang_pembelian.nama_barang,";
+    } else {
+      $orderby = "";
+    }
 
     if ($kode_barang != "") {
 
@@ -215,6 +221,7 @@ class Model_laporanbahan extends CI_Model
       . $kode_barang
       . "
     ORDER BY 
+    $orderby
     pemasukan_gb.tgl_pemasukan,
     detail_pemasukan_gb.kode_barang,
     pemasukan_gb.nobukti_pemasukan 
@@ -261,6 +268,13 @@ class Model_laporanbahan extends CI_Model
   function list_detailPengeluaran($dari, $sampai, $kode_dept = "", $kode_barang = "", $unit = "")
   {
 
+    $role = $this->session->userdata('level_user');
+    if ($role == 'admin pembelian 2') {
+      $orderby = "master_barang_pembelian.nama_barang,";
+    } else {
+      $orderby = "";
+    }
+
     if ($kode_dept != "") {
 
       $kode_dept = "AND pengeluaran_gb.kode_dept = '" . $kode_dept . "' ";
@@ -290,10 +304,12 @@ class Model_laporanbahan extends CI_Model
       . $kode_barang
       . "
     ORDER BY 
+    $orderby
     pengeluaran_gb.tgl_pengeluaran,
     pengeluaran_gb.nobukti_pengeluaran 
     ASC
     ";
     return $this->db->query($query);
   }
+
 }

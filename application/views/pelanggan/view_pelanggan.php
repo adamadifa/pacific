@@ -87,7 +87,7 @@
             </div>
             <div class="mb-3 d-flex justify-content-end">
               <button type="submit" name="submit" class="btn btn-primary mr-2" value="1"><i class="fa fa-search mr-2"></i>CARI</button>
-              <button type="submit" name="export" class="btn btn-success" value="2"><i class="fa fa-download mr-2"></i> EXPORT EXCEL</button>
+              <button type="submit" name="export" class="btn btn-success mr-2" value="2"><i class="fa fa-download mr-2"></i> EXPORT EXCEL</button>
             </div>
           </form>
           <a href="#" class="btn btn-danger mb-2" id="tambahpel"> <i class="fa fa-plus mr-2"></i> Tambah Data </a>

@@ -22,6 +22,7 @@ $hariini = date("Y-m-d");
       <th>DEP</th>
       <th>DK</th>
       <th>DS</th>
+      <th>SP</th>
     </tr>
   </thead>
 
@@ -66,6 +67,10 @@ foreach ($saldo as $r){
   $ds = $this->db->query("SELECT tanggal,kode_produk,jumlah FROM saldoawal_bj_detail saldodetail
   INNER JOIN saldoawal_bj ON saldodetail.kode_saldoawal = saldoawal_bj.kode_saldoawal 
   WHERE kode_cabang ='$r->kode_cabang' AND kode_produk='DS' AND status='GS' ORDER BY tanggal DESC LIMIT 1")->row_array();
+
+  $sp = $this->db->query("SELECT tanggal,kode_produk,jumlah FROM saldoawal_bj_detail saldodetail
+  INNER JOIN saldoawal_bj ON saldodetail.kode_saldoawal = saldoawal_bj.kode_saldoawal 
+  WHERE kode_cabang ='$r->kode_cabang' AND kode_produk='SP' AND status='GS' ORDER BY tanggal DESC LIMIT 1")->row_array();
 
   $mab = $this->db->query("SELECT 
   SUM(IF(inout_good ='IN' AND tgl_mutasi_gudang_cabang >= '$ab[tanggal]' 
@@ -187,6 +192,18 @@ foreach ($saldo as $r){
   INNER JOIN mutasi_gudang_cabang mgc ON dmgc.no_mutasi_gudang_cabang = mgc.no_mutasi_gudang_cabang
   WHERE kode_cabang='$r->kode_cabang' AND kode_produk='DS'")->row_array();
 
+  $msp = $this->db->query("SELECT 
+  SUM(IF(inout_good ='IN' AND tgl_mutasi_gudang_cabang >= '$ds[tanggal]' 
+  AND tgl_mutasi_gudang_cabang <= '$hariini'  ,jumlah,0))-
+
+  SUM(IF(inout_good ='OUT' AND tgl_mutasi_gudang_cabang >= '$ds[tanggal]' 
+  AND tgl_mutasi_gudang_cabang <= '$hariini' ,jumlah,0)) 
+  as sisamutasi
+
+  FROM detail_mutasi_gudang_cabang dmgc
+  INNER JOIN mutasi_gudang_cabang mgc ON dmgc.no_mutasi_gudang_cabang = mgc.no_mutasi_gudang_cabang
+  WHERE kode_cabang='$r->kode_cabang' AND kode_produk='SP'")->row_array();
+
   $sab = $ab['jumlah'] + $mab['sisamutasi'];
   $sar = $ar['jumlah'] + $mar['sisamutasi'];
   $sas = $as['jumlah'] + $mas['sisamutasi'];
@@ -197,6 +214,7 @@ foreach ($saldo as $r){
   $sdep = $dep['jumlah'] + $mdep['sisamutasi'];
   $sdk  = $dk['jumlah'] + $mdk['sisamutasi'];
   $sds  = $ds['jumlah'] + $mds['sisamutasi'];
+  $ssp  = $sp['jumlah'] + $msp['sisamutasi'];
 
   if($sab <= 0){
     $colorab = "bg-red";
@@ -257,6 +275,12 @@ foreach ($saldo as $r){
   }else{
     $colorsds = "bg-green";
   }
+
+  if($ssp <= 0){
+    $colorssp = "bg-red";
+  }else{
+    $colorssp = "bg-green";
+  }
  ?>
   <tr class="text-right">
     <td class="text-left"><b><?php echo strtoupper($r->nama_cabang); ?></b></td>
@@ -270,6 +294,7 @@ foreach ($saldo as $r){
     <td><span class="badge <?php echo $colorsdep; ?>"><?php echo number_format($sdep/20,'0',',','.'); ?></span></td>
     <td><span class="badge <?php echo $colorsdk; ?>"><?php echo number_format($sdk/30,'0',',','.'); ?></span></td>
     <td><span class="badge <?php echo $colorsds; ?>"><?php echo number_format($sds/504,'0',',','.'); ?></span></td>
+    <td><span class="badge <?php echo $colorssp; ?>"><?php echo number_format($ssp/12,'0',',','.'); ?></span></td>
   </tr>
 <?php } ?>
 </table>

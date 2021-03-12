@@ -39,6 +39,7 @@
 
             e.preventDefault();
             var tgl_fsthp = $("#tgl_fsthp").val();
+            var shift = $("#shift").val();
             var kode_produk = $(this).attr("data-kodebrg");
             $.ajax({
 
@@ -46,6 +47,7 @@
                 url: '<?php echo base_url(); ?>fsthp/buat_nomor_fsthp',
                 data: {
                     tgl_fsthp: tgl_fsthp,
+                    shift: shift,
                     kode_produk: kode_produk
                 },
                 cache: false,

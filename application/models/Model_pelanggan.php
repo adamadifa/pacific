@@ -207,6 +207,7 @@ class Model_pelanggan extends CI_Model
     $latitude       = $this->input->post('latitude');
     $longitude       = $this->input->post('longitude');
     $status_pelanggan = $this->input->post('status_pelanggan');
+	$jatuhtempo = $this->input->post('jatuhtempo');
 
     $data = array(
       'kode_pelanggan'     => $kode_pelanggan,
@@ -228,7 +229,8 @@ class Model_pelanggan extends CI_Model
       'latitude'          => $latitude,
       'longitude'          => $longitude,
       'foto'              => $foto,
-      'status_pelanggan' => $status_pelanggan
+      'status_pelanggan' => $status_pelanggan,
+	  'jatuhtempo' => $jatuhtempo
     );
     $this->db->update('pelanggan', $data, array('kode_pelanggan' => $kode_pelanggan));
   }

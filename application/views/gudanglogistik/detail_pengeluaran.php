@@ -2,7 +2,7 @@
   <thead class="thead-dark">
     <tr style="font-weight:bold">
       <th>Tanggal</th>
-      <th>NO Bukti</th>
+      <th>No. Bukti</th>
       <th>Departemen</th>
     </tr>
     <tr>
@@ -18,6 +18,7 @@
       <th>No</th>
       <th>Kode Barang</th>
       <th>Nama Barang</th>
+      <th>Satuan</th>
       <th>Ket</th>
       <th>Cabang</th>
       <th>Qty</th>
@@ -32,6 +33,7 @@
         <td><?php echo $no; ?></td>
         <td><?php echo $d->kode_barang; ?></td>
         <td><?php echo $d->nama_barang; ?></td>
+        <td><?php echo $d->satuan; ?></td>
         <td><?php echo $d->keterangan; ?></td>
         <td><?php echo $d->nama_cabang; ?></td>
         <td><?php echo $d->qty; ?></td>

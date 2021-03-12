@@ -506,8 +506,9 @@ class Model_pembelian extends CI_Model
 
   function getDetailKontrabon($nokontrabon)
   {
-    $this->db->select('detail_kontrabon.no_kontrabon,detail_kontrabon.nobukti_pembelian,detail_kontrabon.jmlbayar');
+    $this->db->select('detail_kontrabon.no_kontrabon,detail_kontrabon.nobukti_pembelian,detail_kontrabon.jmlbayar,tgl_pembelian');
     $this->db->from('detail_kontrabon');
+    $this->db->join('pembelian', 'detail_kontrabon.nobukti_pembelian = pembelian.nobukti_pembelian');
     $this->db->order_by('detail_kontrabon.nobukti_pembelian', 'DESC');
     $this->db->where('detail_kontrabon.no_kontrabon', $nokontrabon);
     return $this->db->get();
@@ -2501,5 +2502,18 @@ WHERE tgl_pembelian BETWEEN '$dari' AND '$sampai'"
     if ($update) {
       return 1;
     }
+  }
+
+  function cetak_rekapkontrabon($dari = "", $sampai = "", $ppn)
+  {
+    $query = "SELECT no_dokumen,nama_supplier,SUM(jmlbayar) as jumlah,ppn,norekening
+    FROM detail_kontrabon
+    LEFT JOIN kontrabon ON detail_kontrabon.no_kontrabon = kontrabon.no_kontrabon
+    LEFT JOIN supplier ON kontrabon.kode_supplier = supplier.kode_supplier
+    LEFT JOIN pembelian ON detail_kontrabon.nobukti_pembelian = pembelian.nobukti_pembelian
+    WHERE tgl_kontrabon BETWEEN '$dari' AND '$sampai' AND ppn = '$ppn'
+    GROUP BY detail_kontrabon.no_kontrabon,no_dokumen,nama_supplier,ppn,norekening
+    ";
+    return $this->db->query($query);
   }
 }

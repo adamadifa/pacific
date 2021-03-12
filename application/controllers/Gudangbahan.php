@@ -1,4 +1,4 @@
-<?php
+'<?php
 
 class Gudangbahan extends CI_Controller
 {

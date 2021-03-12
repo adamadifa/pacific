@@ -255,4 +255,24 @@ class laporanpembelian extends CI_Controller
 		}
 		$this->load->view('laporanpembelian/cetak_rekapbarang', $data);
 	}
+
+	function rekapkontrabon()
+	{
+		$this->template->load('template/template', 'laporanpembelian/rekapkontrabon.php');
+	}
+
+	function cetak_rekapkontrabon()
+	{
+		$data['dari'] 		=	$this->input->post('dari');
+		$data['sampai'] 	= $this->input->post('sampai');
+		$data['kb']				= $this->Model_pembelian->cetak_rekapkontrabon($data['dari'], $data['sampai'], $ppn = "0")->result();
+		$data['pf']				= $this->Model_pembelian->cetak_rekapkontrabon($data['dari'], $data['sampai'], $ppn = "1")->result();
+		if (isset($_POST['export'])) {
+			// Fungsi header dengan mengirimkan raw data excel
+			header("Content-type: application/vnd-ms-excel");
+			// Mendefinisikan nama file ekspor "hasil-export.xls"
+			header("Content-Disposition: attachment; filename=Rekap Kontrabon" . $data['dari'] . ".xls");
+		}
+		$this->load->view('laporanpembelian/cetak_rekapkontrabon', $data);
+	}
 }

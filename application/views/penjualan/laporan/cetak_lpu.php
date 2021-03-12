@@ -69,7 +69,7 @@ function uang($nilai)
       <?php
       $totalsetoranbulanlast = 0;
       foreach ($salesman as $s) {
-        $qsetoranbulanlast = "SELECT jumlah FROM belumsetor_detail 
+        $qsetoranbulanlast = "SELECT jumlah FROM belumsetor_detail
           INNER JOIN belumsetor ON belumsetor_detail.kode_saldobs = belumsetor.kode_saldobs
           WHERE bulan='$bulanlast' AND tahun='$tahunlast' AND id_karyawan='$s->id_karyawan'";
         $setoranbulanlast = $this->db->query($qsetoranbulanlast)->row_array();
@@ -114,7 +114,7 @@ function uang($nilai)
         foreach ($salesman as $s) {
           $sampaibulanskrg = $tahunskrg . "-" . $bulanskrg . "-31";
           if (strtotime($dari) <= strtotime($sampaibulanskrg)) {
-            $qsetoran     = "SELECT SUM(lhp_tunai+lhp_tagihan) as totallhp FROM setoran_penjualan WHERE tgl_lhp='$dari' AND 
+            $qsetoran     = "SELECT SUM(lhp_tunai+lhp_tagihan) as totallhp FROM setoran_penjualan WHERE tgl_lhp='$dari' AND
           id_karyawan='$s->id_karyawan' GROUP BY tgl_lhp,id_karyawan";
             $setoran      = $this->db->query($qsetoran)->row_array();
             $setoranlhp = $setoran['totallhp'];
@@ -138,6 +138,7 @@ function uang($nilai)
         <?php
         $totalsetoranpusat = 0;
         foreach ($listbank as $b) {
+
           $qsetoranpusat     = "SELECT SUM(uang_kertas+uang_logam+giro+IFNULL(transfer,0)) as totalsetoranpusat FROM setoran_pusat WHERE tgl_diterimapusat='$dari' AND bank='$b->kode_bank' AND kode_cabang='$cbg' AND status='1' AND omset_bulan ='$bulanskrg' AND omset_tahun='$tahunskrg'  GROUP BY tgl_diterimapusat,bank";
           $setoranpusat      = $this->db->query($qsetoranpusat)->row_array();
           $totalsetoranpusat = $totalsetoranpusat + $setoranpusat['totalsetoranpusat'];
@@ -163,7 +164,7 @@ function uang($nilai)
       <?php
       $totalallsetoran = 0;
       foreach ($salesman as $s) {
-        $qsetoranbulanlast = "SELECT jumlah FROM belumsetor_detail 
+        $qsetoranbulanlast = "SELECT jumlah FROM belumsetor_detail
           INNER JOIN belumsetor ON belumsetor_detail.kode_saldobs = belumsetor.kode_saldobs
           WHERE bulan='$bulanlast' AND tahun='$tahunlast' AND id_karyawan='$s->id_karyawan'";
         $setoranbulanlast = $this->db->query($qsetoranbulanlast)->row_array();
@@ -185,19 +186,24 @@ function uang($nilai)
       <td><b>TOTAL</b></td>
       <?php
       $totalallsetoranpusat = 0;
+      $totalallsetoranpusatlast = 0;
       foreach ($listbank as $b) {
-        $qallsetoranpusat     = "SELECT SUM(uang_kertas+uang_logam+giro +IFNULL(transfer,0)) as totalsetoranpusat FROM setoran_pusat WHERE tgl_diterimapusat BETWEEN '$fromlast' AND '$sampai' AND bank='$b->kode_bank' AND kode_cabang='$cbg' AND status ='1' AND omset_bulan ='$bulanskrg' AND omset_tahun='$tahunskrg'  GROUP BY bank";
-        $allsetoranpusat      = $this->db->query($qallsetoranpusat)->row_array();
-        $totalallsetoranpusat = $totalallsetoranpusat + $allsetoranpusat['totalsetoranpusat'];
+        $qallsetoranpusatlast     = "SELECT SUM(uang_kertas+uang_logam+giro+IFNULL(transfer,0)) as totalsetoranpusat FROM setoran_pusat WHERE tgl_diterimapusat<'$dari' AND bank='$b->kode_bank' AND kode_cabang='$cbg' AND status='1' AND omset_bulan ='$bulanskrg' AND omset_tahun='$tahunskrg'  GROUP BY omset_bulan,omset_tahun,bank";
+        $allsetoranpusatlast      = $this->db->query($qallsetoranpusatlast)->row_array();
+        $totalallsetoranpusatlast = $totalallsetoranpusatlast + $allsetoranpusatlast['totalsetoranpusat'];
+
+        // $qallsetoranpusat     = "SELECT SUM(uang_kertas+uang_logam+giro +IFNULL(transfer,0)) as totalsetoranpusat FROM setoran_pusat WHERE tgl_diterimapusat BETWEEN '$fromlast' AND '$sampai' AND bank='$b->kode_bank' AND kode_cabang='$cbg' AND status ='1' AND omset_bulan ='$bulanskrg' AND omset_tahun='$tahunskrg'  GROUP BY bank";
+        // $allsetoranpusat      = $this->db->query($qallsetoranpusat)->row_array();
+        // $totalallsetoranpusat = $totalallsetoranpusat + $allsetoranpusat['totalsetoranpusat'];
       ?>
-        <td style="text-align:right; font-weight:bold"><?php if (!empty($allsetoranpusat['totalsetoranpusat'])) {
-                                                          echo uang($allsetoranpusat['totalsetoranpusat']);
+        <td style="text-align:right; font-weight:bold"><?php if (!empty($allsetoranpusatlast['totalsetoranpusat'])) {
+                                                          echo uang($allsetoranpusatlast['totalsetoranpusat']);
                                                         } ?></td>
       <?php
       }
       ?>
-      <td style="text-align:right; font-weight:bold"><?php if (!empty($totalallsetoranpusat)) {
-                                                        echo uang($totalallsetoranpusat);
+      <td style="text-align:right; font-weight:bold"><?php if (!empty($totalallsetoranpusatlast)) {
+                                                        echo uang($totalallsetoranpusatlast);
                                                       } ?></td>
     </tr>
     <tr style="font-size:12px; background-color:#199291; color:white">
@@ -259,15 +265,15 @@ function uang($nilai)
         FROM
           giro
           INNER JOIN penjualan ON giro.no_fak_penj = penjualan.no_fak_penj
-          LEFT JOIN historibayar ON giro.id_giro = historibayar.id_giro 
+          LEFT JOIN historibayar ON giro.id_giro = historibayar.id_giro
         WHERE
           giro.id_karyawan = '$s->id_karyawan' AND
           tgl_giro >= '$dari' AND tgl_giro <= '$sampai'
-          AND tglbayar IS NULL  AND omset_bulan =  '0' AND omset_tahun = ''   
+          AND tglbayar IS NULL  AND omset_bulan =  '0' AND omset_tahun = ''
           OR
           giro.id_karyawan = '$s->id_karyawan' AND
           tgl_giro >= '$dari' AND tgl_giro <= '$sampai'
-          AND tglbayar >=  '$end'" . $om_bulan . " AND omset_tahun >= '$tahunskrg' 
+          AND tglbayar >=  '$end'" . $om_bulan . " AND omset_tahun >= '$tahunskrg'
 
 
           GROUP BY giro.id_karyawan";
@@ -320,7 +326,7 @@ function uang($nilai)
       }
       foreach ($salesman as $s) {
 
-        $qsetoranbulanlast = "SELECT jumlah FROM belumsetor_detail 
+        $qsetoranbulanlast = "SELECT jumlah FROM belumsetor_detail
           INNER JOIN belumsetor ON belumsetor_detail.kode_saldobs = belumsetor.kode_saldobs
           WHERE bulan='$bulanlast' AND tahun='$tahunlast' AND id_karyawan='$s->id_karyawan'";
         $setoranbulanlast = $this->db->query($qsetoranbulanlast)->row_array();
@@ -341,15 +347,15 @@ function uang($nilai)
         FROM
           giro
           INNER JOIN penjualan ON giro.no_fak_penj = penjualan.no_fak_penj
-          LEFT JOIN historibayar ON giro.id_giro = historibayar.id_giro 
+          LEFT JOIN historibayar ON giro.id_giro = historibayar.id_giro
         WHERE
           giro.id_karyawan = '$s->id_karyawan' AND
           tgl_giro >= '$dari' AND tgl_giro <= '$sampai'
-          AND tglbayar IS NULL AND omset_bulan =  '0' AND omset_tahun = ''   
+          AND tglbayar IS NULL AND omset_bulan =  '0' AND omset_tahun = ''
           OR
           giro.id_karyawan = '$s->id_karyawan' AND
           tgl_giro >= '$dari' AND tgl_giro <= '$sampai'
-          AND tglbayar >=  '$end' " . $om_bulan . " AND omset_tahun >= '$tahunskrg' 
+          AND tglbayar >=  '$end' " . $om_bulan . " AND omset_tahun >= '$tahunskrg'
           GROUP BY giro.id_karyawan";
         $gmnow = $this->db->query($qgmnow)->row_array();
 
@@ -384,11 +390,11 @@ function uang($nilai)
   </tr>
   <tr>
     <td style="font-weight:bold; background-color:yellow">PENERIMAAN UANG DI PUSAT BULAN INI</td>
-    <td style="text-align:right; font-weight:bold;"><?php echo uang($totalallsetoranpusat); ?></td>
+    <td style="text-align:right; font-weight:bold;"><?php echo uang($totalallsetoranpusatlast); ?></td>
   </tr>
   <tr>
     <td style="font-weight:bold; background-color:yellow">SELISIH</td>
-    <td style="text-align:right; font-weight:bold;"><?php echo uang(($grandtotal) - $totalallsetoranpusat); ?></td>
+    <td style="text-align:right; font-weight:bold;"><?php echo uang(($grandtotal) - $totalallsetoranpusatlast); ?></td>
   </tr>
 </table>
 <p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>

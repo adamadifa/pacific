@@ -2620,7 +2620,7 @@ class Model_penjualan extends CI_Model
     } else if ($cabang == "SBY") {
       $akun = "1-1486";
     } else if ($cabang == "PST") {
-      $akun = "1-1401";
+      $akun = "1-1489";
     }
     $update      = $this->db->update('setoran_pusat', $data, array('kode_setoranpusat' => $kode_setoran));
     if ($update) {
@@ -3693,6 +3693,58 @@ class Model_penjualan extends CI_Model
     $this->db->limit($rowperpage, $rowno);
     $query = $this->db->get();
     return $query->result_array();
+  }
+
+  public function ExportLimit($cbg = "", $dari = "", $sampai = "", $salesman = "", $pelanggan = "")
+  {
+    $cabang = $this->session->userdata('cabang');
+    $level   = $this->session->userdata('level_user');
+    if ($cabang != "pusat") {
+      $this->db->where('pelanggan.kode_cabang', $cabang);
+    } else {
+      if ($cbg != "") {
+        $this->db->where('pelanggan.kode_cabang', $cbg);
+      }
+    }
+
+    if ($dari !=  '') {
+      $this->db->where('tgl_pengajuan >=', $dari);
+    }
+    if ($sampai !=  '') {
+      $this->db->where('tgl_pengajuan <=', $sampai);
+    }
+
+    if ($pelanggan !=  '') {
+      $this->db->like('nama_pelanggan', $pelanggan);
+    }
+
+    if ($salesman !=  '') {
+      $this->db->where('pelanggan.id_sales', $salesman);
+    }
+
+    $this->db->select('no_pengajuan,
+		tgl_pengajuan,
+		pengajuan_limitkredit_v2.kode_pelanggan,
+		nama_pelanggan,
+		nama_karyawan,
+		jumlah,
+		jumlah_rekomendasi,
+		pengajuan_limitkredit_v2.jatuhtempo,
+		jatuhtempo_rekomendasi,
+		status,
+		id_admin,
+		id_approval,
+		kacab,
+		mm,
+		gm,
+		dirut');
+    $this->db->from('pengajuan_limitkredit_v2');
+    $this->db->join('pelanggan', 'pengajuan_limitkredit_v2.kode_pelanggan = pelanggan.kode_pelanggan');
+    $this->db->join('karyawan', 'pelanggan.id_sales = karyawan.id_karyawan');
+    $this->db->join('users', 'pengajuan_limitkredit_v2.id_approval = users.id_user', 'left');
+    $this->db->order_by('tgl_pengajuan', 'DESC');
+
+    return $this->db->get();
   }
 
   // Select total records

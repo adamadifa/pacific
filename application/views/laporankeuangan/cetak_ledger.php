@@ -21,6 +21,7 @@ function uang($nilai){
       <th>TGL Penerimaan</th>
       <th>Pelanggan</th>
       <th>Keterangan</th>
+	  <th>Peruntukan</th>
       <th>Kode Akun</th>
       <th>Akun</th>
       <th>Debet</th>
@@ -30,7 +31,7 @@ function uang($nilai){
       <th rowspan="2">Tanggal Update</th>
     </tr>
     <tr>
-      <th colspan='11'>SALDO AWAL</th>
+      <th colspan='12'>SALDO AWAL</th>
       <th style= 'text-align:right'><?php if($saldo['jumlah']!=0){echo uang($saldo['jumlah']);}?></td>
       </tr>
     </thead>
@@ -80,6 +81,7 @@ function uang($nilai){
         <td><?php echo $l->tgl_penerimaan; ?></td>
         <td><?php echo $l->pelanggan; ?></td>
         <td><?php echo $l->keterangan; ?></td>
+		<td><?php echo $l->ket_peruntukan; ?></td>
         <td><?php echo "'".$l->kode_akun; ?></td>
         <td><?php echo $l->nama_akun; ?></td>
         <td align="right"><?php if($debet!=0){echo uang($debet);}?></td>
@@ -94,7 +96,7 @@ function uang($nilai){
     ?>
   </tbody>
   <tr bgcolor="#024a75" style="color:white; font-size:12;">
-    <th colspan="9">TOTAL</th>
+    <th colspan="10">TOTAL</th>
     <th><?php if($totaldebet!=0){echo uang($totaldebet);}?></th>
     <th><?php if($totalkredit!=0){echo uang($totalkredit);}?></th>
     <th align="right"><?php echo uang($saldo);?></th>

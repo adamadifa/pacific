@@ -57,8 +57,8 @@ function angka($nilai)
 			<td>NAMA BARANG</td>
 			<td>KETERANGAN</td>
 			<td>PCF/MP</td>
-			<td>JURNAL</td>
 			<td>AKUN</td>
+			<td>JURNAL</td>
 			<td>PPN</td>
 			<td>QTY</td>
 			<td>HARGA</td>
@@ -127,9 +127,13 @@ function angka($nilai)
 				<td><?php echo $d->nama_supplier; ?></td>
 				<td><?php echo $namabarang; ?></td>
 				<td><?php echo $d->keterangan; ?></td>
-				<td><?php if(!empty($d->kode_cabang)) {echo  $d->kode_cabang; } else{ echo  "MP";} ?></td>
-				<td><?php echo $d->nama_akun; ?></td>
+				<td><?php if (substr($d->kode_akun, 0, 1) == "6" and !empty($d->kode_cabang) or substr($d->kode_akun, 0, 1) == "5" and !empty($d->kode_cabang)) {
+							echo  $d->kode_cabang;
+						} else {
+							echo  "";
+						} ?></td>
 				<td align="center" class="str"><?php echo $d->kode_akun; ?></td>
+				<td><?php echo $d->nama_akun; ?></td>
 				<td align="center"><?php echo $cekppn; ?></td>
 				<td align="center"><?php echo angka($d->qty); ?></td>
 				<td align="right"><?php echo uang($d->harga); ?></td>
@@ -159,8 +163,8 @@ function angka($nilai)
             <td></td>
             <td></td>
 						<td></td>
-						<td>' . $namaakun . '</td>
 						<td align=center>' . $akun . '</td>
+						<td>' . $namaakun . '</td>
 						<td></td>
 						<td></td>
 						<td></td>

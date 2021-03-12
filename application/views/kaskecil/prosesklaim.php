@@ -106,11 +106,13 @@
         <td align="right" style="color:green">
           <b><?php if (!empty($totalpenerimaan)) {
                 echo number_format($totalpenerimaan, '0', '', '.');
-              } ?></b></td>
+              } ?></b>
+        </td>
         <td align="right" style="color:red">
           <b><?php if (!empty($totalpengeluaran)) {
                 echo number_format($totalpengeluaran, '0', '', '.');
-              } ?></b></td>
+              } ?></b>
+        </td>
         <td align="right"><b><?php if (!empty($saldo)) {
                                 echo number_format($saldo, '0', '', '.');
                               } ?></b></td>
@@ -127,12 +129,14 @@
         <td colspan="3" align="right">
           <b><?php if (!empty($penggantian)) {
                 echo number_format($penggantian, '0', '', '.');
-              } ?></b></td>
+              } ?></b>
+        </td>
         <td class="bg-blue text-white">Saldo Awal</td>
         <td colspan="3" align="right">
           <b><?php if (!empty($saldoawal)) {
                 echo number_format($saldoawal, '0', '', '.');
-              } ?></b></td>
+              } ?></b>
+        </td>
       </tr>
       <tr>
         <td class="bg-blue text-white">Terbilang</td>
@@ -141,7 +145,8 @@
         <td colspan="2" align="right">
           <b><?php if (!empty($totalpenerimaan)) {
                 echo number_format($totalpenerimaan, '0', '', '.');
-              } ?></b></td>
+              } ?></b>
+        </td>
       </tr>
       <tr>
         <td></td>
@@ -160,7 +165,8 @@
         <td colspan="2" align="right">
           <b><?php if (!empty($totalpengeluaran)) {
                 echo number_format($totalpengeluaran, '0', '', '.');
-              } ?></b></td>
+              } ?></b>
+        </td>
       </tr>
       <tr>
         <td></td>
@@ -188,7 +194,8 @@
             <line x1="8" y1="3" x2="8" y2="7" />
             <line x1="4" y1="11" x2="20" y2="11" />
             <line x1="11" y1="15" x2="12" y2="15" />
-            <line x1="12" y1="15" x2="12" y2="18" /></svg>
+            <line x1="12" y1="15" x2="12" y2="18" />
+          </svg>
         </span>
       </div>
     </div>

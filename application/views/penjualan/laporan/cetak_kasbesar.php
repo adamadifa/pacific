@@ -209,13 +209,13 @@
 			foreach ($sb as $v) {
 				$totalvoucher = $totalvoucher + $v->bayar;
 				if ($v->ket_voucher == "1") {
-					$voucher = "Penghapusan Piutang";
+					$voucher = "Voucher Penghapusan Piutang";
 				} else if ($v->ket_voucher == "2") {
-					$voucher = "Diskon Program";
+					$voucher = "Voucher Diskon Program";
 				} else if ($v->ket_voucher == "3") {
-					$voucher = "Penyelesaian Piutang Oleh Salesman";
+					$voucher = "Voucher Penyelesaian Piutang Oleh Salesman";
 				} else {
-					$voucher = "Pengalihan Piutang Dgng Jd Piutang Kary";
+					$voucher = "Voucher Pengalihan Piutang Dgng Jd Piutang Kary";
 				}
 			?>
 				<tr>

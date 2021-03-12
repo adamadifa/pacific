@@ -70,7 +70,7 @@ if ($level == "Administrator" || $level == "admin pembelian 2" || $level == "adm
         <i class="fa  fa-file-o mr-2"></i>Laporan Rekap Per-Akun
       </a>
       <a href="<?php echo base_url(); ?>laporanpembelian/rekapkontrabon" class="list-group-item list-group-item-action">
-        <i class="fa  fa-file-o mr-2"></i>Rekap Kontrabons
+        <i class="fa  fa-file-o mr-2"></i>Rekap Kontrabon
       </a>
       <a href="<?php echo base_url(); ?>laporangudangbahan/persediaan" class="list-group-item list-group-item-action">
         <i class="fa  fa-copy mr-2"></i>Persedian Bahan & Kemasan

@@ -12,7 +12,7 @@
 
 
   <div class="row">
-    <div class="col-6">
+    <div class="col-md-6">
       <div class="card">
         <div class="card-header">
           <h4 class="card-title">Edit Pelanggan</h4>
@@ -205,6 +205,19 @@
                 <label class="form-label">Limit Pelanggan</label>
                 <div class="form-group">
                   <input type="text" id="limitpel" value="<?php echo $pel['limitpel']; ?>" name="limitpel" class="form-control" placeholder="Limit Pelanggan">
+                </div>
+              </div>
+            </div>
+			<div class="row">
+              <div class="col-md-12">
+                <label class="form-label">Jatuh Tempo</label>
+                <div class="form-group">
+                  <select name="jatuhtempo" class="form-select">
+				  <option value="">Jatuh  Tempo</option>
+				  <option value="14" <?php if($pel['jatuhtempo']==14){echo "selected";} ?>>14</option>
+				  <option value="30" <?php if($pel['jatuhtempo']==30){echo "selected";} ?>>30</option>
+				  <option value="45" <?php if($pel['jatuhtempo']==45){echo "selected";} ?>>45</option>
+				  </select>
                 </div>
               </div>
             </div>

@@ -54,7 +54,7 @@
     </div>
   </div>
   <div class="form-group mb-3">
-    <select class="form-select show-tick " id="coa" name="kodeakun" data-error=".errorTxt1"">
+    <select class="form-select selectoption" id="coa" name="kodeakun" data-error=".errorTxt1">
       <?php foreach ($coa as $r) { ?>
         <option <?php if ($brg['kode_akun'] == $r->kode_akun) {
                   echo "selected";
@@ -88,7 +88,7 @@
     <button type="submit" name="submit" class="btn btn-primary btn-block mr-2" value="1"><i class="fa fa-send mr-2"></i>Simpan</button>
   </div>
 </form>
-<script src="<?php echo base_url(); ?>assets/js/pages/forms/advanced-form-elements.js"></script>
+
 <script>
   var h = document.getElementById('hargaedit');
   h.addEventListener('keyup', function(e) {
@@ -126,9 +126,11 @@
     return rupiah.split('', rupiah.length - 1).reverse().join('');
   }
 </script>
+
 <script type="text/javascript">
   $(function() {
-    $('#coa').selectize({});
+    $('.selectoption').selectize({});
+    
     $("#EditDetailBarang").submit(function() {
       var kodeakun = $("#coa").val();
       var keterangan = $("#keteranganedit").val();

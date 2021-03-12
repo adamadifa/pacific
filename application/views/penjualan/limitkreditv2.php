@@ -97,7 +97,7 @@
             </ol>
           </div>
           <a href="#" class="btn btn-danger mb-2" id="tambahpengajuan"> <i class="fa fa-plus mr-2"></i> Tambah Data </a>
-
+          <button type="submit" name="export" class="btn btn-success mb-2" value="1"><i class="fa fa-download mr-2"></i> EXPORT EXCEL</button>
           <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover" id="mytable">
               <thead class="thead-dark">

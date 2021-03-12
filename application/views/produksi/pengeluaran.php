@@ -27,7 +27,7 @@ function uang($nilai)
         <div class="card-body">
           <form class="form-horizontal" method="post" action="<?php echo base_url(); ?>produksi/pengeluaran" autocomplete="off">
             <div class="mb-3">
-              <input type="text" value="<?php echo $nobukti; ?>" id="nobukti" name="nobukti" class="form-control" placeholder="No Bukti pemasukan" data-error=".errorTxt19" />
+              <input type="text" value="<?php echo $nobukti; ?>" id="nobukti" name="nobukti" class="form-control" placeholder="No Bukti Pengeluaran" data-error=".errorTxt19" />
             </div>
             <div class="mb-3">
               <div class="row">

@@ -2,13 +2,13 @@
   <thead class="thead-dark">
     <tr style="font-weight:bold">
       <th>Tanggal</th>
+      <th>Supplier</th>
       <th>NO Bukti</th>
-      <th>Jenis Pengeluaran</th>
     </tr>
     <tr>
       <td><?php echo DateToIndo2($data['tgl_pengeluaran']); ?></td>
+      <td><?php echo $data['kode_supplier']; ?></td>
       <td><?php echo $data['nobukti_pengeluaran']; ?></td>
-      <td><?php echo $data['kode_dept']; ?></td>
     </tr>
   </thead>
 </table>
@@ -21,6 +21,7 @@
       <th>Satuan</th>
       <th>Ket</th>
       <th>Qty</th>
+      <th>Berat</th>
     </tr>
   </thead>
   <tbody>
@@ -35,6 +36,7 @@
         <td><?php echo $d->satuan; ?></td>
         <td><?php echo $d->keterangan; ?></td>
         <td><?php echo number_format($d->qty, 2); ?></td>
+        <td><?php echo number_format($d->qty_berat, 2); ?></td>
       </tr>
     <?php $no++;
     }  ?>
@@ -58,25 +60,10 @@
       </div>
     </div>
   </div>
-  <div class="form-group mb-3">
-    <div class="input-icon">
-      <span class="input-icon-addon">
-        <i class="fa fa-list"></i>
-      </span>
-      <select class="form-control show-tick" id="supplier" name="supplier" data-error=".errorTxt1">
-        <option value="">--SUPPLIER--</option>
-        <option value="SP0186">SURYA BUANA CV</option>
-        <option value="SP0142">PT PURINUSA EKA PERSADA</option>
-        <option value="SP0185">SAKU MAS JAYA, PT</option>
-        <option value="SP0140">PT MULIAPACK GRAVURINDO</option>
-        <option value="SP0032">PT EKADHARMA INTERNATIONAL</option>
-      </select>
-    </div>
-  </div>
   <div class="col-md-12">
     <div class="form-group">
       <div class="col-md-offset-11">
-        <a href="#" data-tgl="<?php echo $data['tgl_pengeluaran']; ?>" data-nobukti="<?php echo $data['nobukti_pengeluaran']; ?>" class="btn btn-md btn-success approve">Approve</a>
+        <a href="#" data-tgl="<?php echo $data['tgl_pengeluaran']; ?>" data-supplier="<?php echo $data['kode_supplier']; ?>" data-nobukti="<?php echo $data['nobukti_pengeluaran']; ?>" class="btn btn-md btn-success approve">Approve</a>
       </div>
     </div>
   </div>
@@ -94,10 +81,10 @@
 
       var nobukti = $(this).attr("data-nobukti");
       var tgl = $(this).attr("data-tgl");
-      var tgl_approve = $('#tgl_pengeluaran2').val();
-      var supplier = $('#supplier').val();
+      var supplier = $(this).attr("data-supplier");
+      var tgl_approve_gb = $('#tgl_pengeluaran2').val();
 
-      if (tgl_approve == "") {
+      if (tgl_approve_gb == "") {
 
         swal("Oops!", "Silahkan Pilih Tanggal terlebih dahulu!", "warning");
 
@@ -108,7 +95,7 @@
           url: '<?php echo base_url(); ?>gudangbahan/insert_returproduksi',
           data: {
             nobukti: nobukti,
-            tgl_approve: tgl_approve,
+            tgl_approve_gb: tgl_approve_gb,
             supplier: supplier,
             tgl: tgl
           },
