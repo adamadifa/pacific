@@ -81,6 +81,9 @@ if ($level == "Administrator" || $level == "manager accounting" || $level == "sp
       <a href="<?php echo base_url(); ?>komisi/laporankomisi" class="list-group-item list-group-item-action">
         <i class="fa  fa-file-text mr-2"></i>Komisi
       </a>
+      <a href="<?php echo base_url(); ?>laporanpenjualan/detail_costratio" class="list-group-item list-group-item-action">
+        <i class="fa  fa-file-text mr-2"></i>Detail Cost Rasio
+      </a>
     </div>
   </div>
 <?php } else { ?>
@@ -115,6 +118,9 @@ if ($level == "Administrator" || $level == "manager accounting" || $level == "sp
       </a>
       <a href="<?php echo base_url(); ?>laporanpenjualan/costratio" class="list-group-item list-group-item-action">
         <i class="fa  fa-file-text mr-2"></i>Cost Rasio
+      </a>
+      <a href="<?php echo base_url(); ?>laporanpenjualan/detail_costratio" class="list-group-item list-group-item-action">
+        <i class="fa  fa-file-text mr-2"></i>Detail Cost Rasio
       </a>
     </div>
   </div>

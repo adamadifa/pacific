@@ -75,7 +75,7 @@ if ($dari < '2018-09-01') {
 				<td rowspan="2" style="background-color:#10a743">Retur Penjualan</td>
 
 				<td rowspan="2" style="background-color:#10a743">Penyesuaian Harga</td>
-				<td rowspan="2" style="background-color:#10a743">Potongan Harga</td>
+				<td colspan="5" style="background-color:#a71048">Potongan</td>
 				<td rowspan="2" style="background-color:#10a743">Potongan Istimewa</td>
 				<td rowspan="2" style="background-color:#10a743">Penjualan Netto</td>
 				<td rowspan="2" style="background-color:#10a743">TUNAI/KREDIT</td>
@@ -90,6 +90,11 @@ if ($dari < '2018-09-01') {
 				<td>PCS</td>
 				<td>Harga</td>
 				<td>Subtotal</td>
+				<td style="background-color: #a71048;">AIDA</td>
+				<td style="background-color: #a71048;">SWAN</td>
+				<td style="background-color: #a71048;">STICK</td>
+				<td style="background-color: #a71048;">SP</td>
+				<td style="background-color: #a71048;">TOTAL POTONGAN</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -101,6 +106,10 @@ if ($dari < '2018-09-01') {
 			$total 						= 0;
 			$totalretur 				= 0;
 			$totalpenyharga				= 0;
+			$totalpotaida = 0;
+			$totalpotswan = 0;
+			$totalpotstick = 0;
+			$totalpotsp = 0;
 			$totalpotongan				= 0;
 			$totalpotist				= 0;
 			$netto 						= 0;
@@ -163,6 +172,10 @@ if ($dari < '2018-09-01') {
 				$total 				= $total + $p->subtotal;
 				$totalretur 		= $totalretur + $p->totalretur;
 				$totalpenyharga 	= $totalpenyharga + $p->penyharga;
+				$totalpotaida 	= $totalpotaida + $p->potaida;
+				$totalpotswan 	= $totalpotswan + $p->potswan;
+				$totalpotstick 	= $totalpotstick + $p->potstick;
+				$totalpotsp 	= $totalpotsp + $p->potsp;
 				$totalpotongan  	= $totalpotongan + $p->potongan;
 				$totalpotist		= $totalpotist + $p->potistimewa;
 				$netto 				= $netto + $p->totalpiutang;
@@ -234,6 +247,10 @@ if ($dari < '2018-09-01') {
 					<td align="right" rowspan="<?php echo $jmlbarang; ?>"><?php echo number_format($p->totalretur, '0', '', '.'); ?></td>
 
 					<td align="right" rowspan="<?php echo $jmlbarang; ?>"><?php echo number_format($p->penyharga, '0', '', '.'); ?></td>
+					<td align="right" rowspan="<?php echo $jmlbarang; ?>"><?php echo number_format($p->potaida, '0', '', '.'); ?></td>
+					<td align="right" rowspan="<?php echo $jmlbarang; ?>"><?php echo number_format($p->potswan, '0', '', '.'); ?></td>
+					<td align="right" rowspan="<?php echo $jmlbarang; ?>"><?php echo number_format($p->potstick, '0', '', '.'); ?></td>
+					<td align="right" rowspan="<?php echo $jmlbarang; ?>"><?php echo number_format($p->potsp, '0', '', '.'); ?></td>
 					<td align="right" rowspan="<?php echo $jmlbarang; ?>"><?php echo number_format($p->potongan, '0', '', '.'); ?></td>
 					<td align="right" rowspan="<?php echo $jmlbarang; ?>"><?php echo number_format($p->potistimewa, '0', '', '.'); ?></td>
 					<td align="right" rowspan="<?php echo $jmlbarang; ?>"><?php echo number_format($p->totalpiutang, '0', '', '.'); ?></td>
@@ -330,6 +347,10 @@ if ($dari < '2018-09-01') {
 			<td align="right"><?php echo number_format($totalretur, '0', '', '.'); ?></td>
 
 			<td align="right"><?php echo number_format($totalpenyharga, '0', '', '.'); ?></td>
+			<td align="right"><?php echo number_format($totalpotaida, '0', '', '.'); ?></td>
+			<td align="right"><?php echo number_format($totalpotswan, '0', '', '.'); ?></td>
+			<td align="right"><?php echo number_format($totalpotstick, '0', '', '.'); ?></td>
+			<td align="right"><?php echo number_format($totalpotsp, '0', '', '.'); ?></td>
 			<td align="right"><?php echo number_format($totalpotongan, '0', '', '.'); ?></td>
 			<td align="right"><?php echo number_format($totalpotist, '0', '', '.'); ?></td>
 			<td align="right"><?php echo number_format($netto, '0', '', '.'); ?></td>

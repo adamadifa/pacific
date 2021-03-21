@@ -18,9 +18,11 @@
   <thead class="thead-dark">
     <tr>
       <th>No</th>
+      <th>Kode Barang</th>
       <th>Nama Barang</th>
       <th>Ket</th>
       <th>Qty</th>
+      <th>Berat</th>
     </tr>
   </thead>
   <tbody>
@@ -31,9 +33,11 @@
     ?>
       <tr>
         <td><?php echo $no; ?></td>
+        <td><?php echo $d->kode_barang; ?></td>
         <td><?php echo $d->nama_barang; ?></td>
         <td><?php echo $d->keterangan; ?></td>
         <td><?php echo number_format($d->qty); ?></td>
+        <td><?php echo number_format($d->qty_berat); ?></td>
       </tr>
     <?php $no++;
     }  ?>

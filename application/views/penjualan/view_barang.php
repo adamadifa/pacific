@@ -6,9 +6,9 @@
             <th>Nama Barang</th>
             <th>Kategori</th>
             <th>Satuan</th>
-            <th>Harga/Dus</th>
-            <th>Harga/Pack</th>
-            <th>Harga/Pcs</th>
+            <th>Dus</th>
+            <th>Pack</th>
+            <th>Pcs</th>
             <th>Aksi</th>
         </tr>
     </thead>
@@ -37,7 +37,7 @@
             <tr>
                 <td><?php echo $no; ?></td>
                 <td><?php echo $b->kode_barang; ?></td>
-                <td><?php echo $b->nama_barang; ?></td>
+                <td><?php echo $b->nama_barang; ?> ( <?php echo $b->kode_produk; ?> ) </td>
                 <td><?php echo $b->kategori; ?></td>
                 <td><?php echo $b->satuan; ?></td>
                 <td align="right"><?php echo number_format($b->harga_dus, '0', '', '.'); ?></td>

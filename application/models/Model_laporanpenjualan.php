@@ -3,6 +3,27 @@
 class Model_laporanpenjualan extends CI_Model
 {
 
+	function getDetailCostratioBiaya($cabang = "", $dari, $sampai)
+  {
+    
+	if ($cabang != "") {
+		$cabang = "AND costratio_biaya.kode_cabang = '".$cabang."' ";
+	}
+    return $this->db->query("SELECT kode_cr,tgl_transaksi,costratio_biaya.kode_akun,nama_akun,costratio_biaya.id_sumber_costratio,jumlah,keterangan,nama_sumber,kode_cabang
+	FROM costratio_biaya
+	LEFT JOIN coa ON coa.kode_akun=costratio_biaya.kode_akun
+	LEFT JOIN costratio_sumber ON costratio_sumber.id_sumber_costratio=costratio_biaya.id_sumber_costratio
+	WHERE tgl_transaksi BETWEEN '$dari' AND '$sampai' 
+	AND LEFT(costratio_biaya.kode_akun,3) = '6-1' 
+	"
+	.$cabang
+	."
+	OR tgl_transaksi BETWEEN '$dari' AND '$sampai' AND LEFT(costratio_biaya.kode_akun,3) = '6-2' "
+	.$cabang
+	."
+	");
+  }
+  
 	function get_salesman($cabang)
 	{
 		$this->db->order_by('id_karyawan', 'asc');
@@ -239,6 +260,10 @@ GROUP BY
     pelanggan.kode_cabang AS kode_cabang,
     penjualan.subtotal AS subtotal,
     penjualan.potongan AS potongan,
+		penjualan.potaida as potaida,
+		penjualan.potswan as potswan,
+		penjualan.potstick as potstick,
+		penjualan.potsp as potsp,
     penjualan.potistimewa AS potistimewa,
     penjualan.penyharga AS penyharga,
     date_format(penjualan.date_created, '%d %M %Y %H:%i:%s') as date_created,
@@ -1620,7 +1645,8 @@ GROUP BY
 					SUM( IF ( kode_produk = 'DS', jumlah/isipcsdus, 0 ) )  AS DS,
 					SUM( IF ( kode_produk = 'DB', jumlah/isipcsdus, 0 ) )  AS DB,
 					SUM( IF ( kode_produk = 'CG', jumlah/isipcsdus, 0 ) )  AS CG,
-					SUM( IF ( kode_produk = 'CGG', jumlah/isipcsdus, 0 ) ) AS CGG
+					SUM( IF ( kode_produk = 'CGG', jumlah/isipcsdus, 0 ) ) AS CGG,
+					SUM( IF ( kode_produk = 'SP', jumlah/isipcsdus, 0 ) ) AS SP
 					FROM detailpenjualan
 
 					INNER JOIN barang ON detailpenjualan.kode_barang = barang.kode_barang
@@ -2669,8 +2695,9 @@ GROUP BY
 
 	function piutanglebihsatubulan($bulan, $tahun)
 	{
-		$tanggal = $tahun . "-" . $bulan . "-31";
+		//$tanggal = $tahun . "-" . $bulan . "-31";
 		$tanggalawal = $tahun . "-" . $bulan . "-01";
+		$tanggal = date("Y-m-t", strtotime($tanggalawal));
 
 		$query = "SELECT
 			sum(
@@ -2870,7 +2897,10 @@ GROUP BY
 
 	function piutanglebihsatubulanCabang($bulan, $tahun, $cabang)
 	{
-		$tanggal = $tahun . "-" . $bulan . "-31";
+		$tgl = $tahun . "-" . $bulan . "-01";
+		$tanggal = date("Y-m-t", strtotime($tgl));
+		
+		
 		$query = "SELECT
 			sum(ifnull(penjualan.total, 0) - ifnull(retur.total, 0) - ifnull(hblalu.jmlbayar, 0)) AS jumlah
 		FROM

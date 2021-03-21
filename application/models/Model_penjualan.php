@@ -266,6 +266,75 @@ class Model_penjualan extends CI_Model
     } else {
       $jt = $jatuhtempo;
     }
+
+    if (empty($limitpelanggan) and $jenistransaksi == 'kredit' or $totalpiutang >= $limitpelanggan and $jenistransaksi == 'kredit') {
+
+      // echo $jenistransaksi;
+      // die;
+      // echo $totalpiutang;
+      // echo "Jalankan Perintah Ini";
+      // $penjualan_pending = $this->db->insert('penjualan_pending', $data);
+      // if ($penjualan_pending) {
+      //   $tmp = $this->db->query("SELECT detailpenjualan_temp.kode_barang,kode_produk,nama_barang,isipcsdus,
+      // 																	detailpenjualan_temp.harga_dus,isipack,detailpenjualan_temp.harga_pack,isipcs,jumlah,
+      // 																	detailpenjualan_temp.harga_pcs,subtotal,promo
+      // 														FROM detailpenjualan_temp
+      // 														INNER JOIN barang ON detailpenjualan_temp.kode_barang = barang.kode_barang
+      // 														WHERE id_admin = '$id_admin'")->result();
+      //   foreach ($tmp as $t) {
+      //     $dtmp = array(
+      //       'no_fak_penj' => $nofaktur,
+      //       'kode_barang' => $t->kode_barang,
+      //       'harga_dus'   => $t->harga_dus,
+      //       'harga_pack'  => $t->harga_pack,
+      //       'harga_pcs'   => $t->harga_pcs,
+      //       'jumlah'       => $t->jumlah,
+      //       'subtotal'     => $t->subtotal,
+      //       'promo'       => $t->promo,
+      //       'id_admin'    => $id_admin
+      //     );
+      //     $this->db->insert('detailpenjualan_pending', $dtmp);
+      //   }
+      //   $this->db->delete('detailpenjualan_temp', array('id_admin' => $id_admin));
+      //   if ($jenisbayar == "titipan") {
+      //     if ($titipan != 0) {
+      //       $dbayar = array(
+      //         'nobukti'         => $nobukti,
+      //         'no_fak_penj'      => $nofaktur,
+      //         'tglbayar'        => $tgltransaksi,
+      //         'jenistransaksi'  => $jenistransaksi,
+      //         'jenisbayar'      => $jenisbayar,
+      //         'bayar'            => $titipan,
+      //         'id_admin'        => $id_admin,
+      //         'id_karyawan'      => $kodesales
+      //       );
+
+      //       $this->db->insert('historibayar_pending', $dbayar);
+      //       $this->session->set_flashdata(
+      //         'msg',
+      //         '<div class="alert bg-yellow text-white alert-dismissible" role="alert">
+      // 						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      // 						<i class="fa fa-info" style="float:left; margin-right:10px"></i> Data Penjualan Pending, Menunggu Approval Limit !
+      // 				</div>'
+      //       );
+      //       redirect('penjualan/input_penjualan');
+      //     } else {
+      //       $this->session->set_flashdata(
+      //         'msg',
+      //         '<div class="alert bg-yellow text-white alert-dismissible" role="alert">
+      // 						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      // 						<i class="fa fa-info" style="float:left; margin-right:10px"></i> Data Penjualan Pending, Menunggu Approval Limit !
+      // 				</div>'
+      //       );
+      //       redirect('penjualan/input_penjualan');
+      //     }
+      //   }
+      // }
+
+      $status = 1;
+    } else {
+      $status = '';
+    }
     $data = array(
       'no_fak_penj' => $nofaktur,
       'tgltransaksi' => $tgltransaksi,
@@ -289,218 +358,516 @@ class Model_penjualan extends CI_Model
       'jenistransaksi' => $jenistransaksi,
       'jenisbayar' => $jenisbayar,
       'jatuhtempo' => $jt,
-      'id_admin' => $id_admin
+      'id_admin' => $id_admin,
+      'status' => $status
     );
-    if (empty($limitpelanggan) and $jenistransaksi == 'kredit' or $totalpiutang >= $limitpelanggan and $jenistransaksi == 'kredit') {
+    $penjualan = $this->db->insert('penjualan', $data);
+    if ($penjualan) {
+      // $data_penjualan 	= array(
+      // 	'no_mutasi_gudang_cabang'   => $nofaktur,
+      // 	'tgl_mutasi_gudang_cabang'  => $tgltransaksi,
+      // 	'kode_cabang'               => $cabang,
+      // 	'kondisi'                   => 'GOOD',
+      // 	'inout_good'                => 'OUT',
+      // 	'jenis_mutasi'              => 'PENJUALAN',
+      // 	'order'											=> '2',
+      // 	'id_admin'                  => $id_admin
 
-      // echo $jenistransaksi;
-      // die;
-      // echo $totalpiutang;
-      // echo "Jalankan Perintah Ini";
-      $penjualan_pending = $this->db->insert('penjualan_pending', $data);
-      if ($penjualan_pending) {
-        $tmp = $this->db->query("SELECT detailpenjualan_temp.kode_barang,kode_produk,nama_barang,isipcsdus,
+      // );
+      $tmp = $this->db->query("SELECT detailpenjualan_temp.kode_barang,kode_produk,nama_barang,isipcsdus,
 																				detailpenjualan_temp.harga_dus,isipack,detailpenjualan_temp.harga_pack,isipcs,jumlah,
 																				detailpenjualan_temp.harga_pcs,subtotal,promo
 																	FROM detailpenjualan_temp
 																	INNER JOIN barang ON detailpenjualan_temp.kode_barang = barang.kode_barang
 																	WHERE id_admin = '$id_admin'")->result();
-        foreach ($tmp as $t) {
-          $dtmp = array(
-            'no_fak_penj' => $nofaktur,
-            'kode_barang' => $t->kode_barang,
-            'harga_dus'   => $t->harga_dus,
-            'harga_pack'  => $t->harga_pack,
-            'harga_pcs'   => $t->harga_pcs,
-            'jumlah'       => $t->jumlah,
-            'subtotal'     => $t->subtotal,
-            'promo'       => $t->promo,
-            'id_admin'    => $id_admin
-          );
-          $this->db->insert('detailpenjualan_pending', $dtmp);
-        }
-        $this->db->delete('detailpenjualan_temp', array('id_admin' => $id_admin));
-        if ($jenisbayar == "titipan") {
-          if ($titipan != 0) {
-            $dbayar = array(
-              'nobukti'         => $nobukti,
-              'no_fak_penj'      => $nofaktur,
-              'tglbayar'        => $tgltransaksi,
-              'jenistransaksi'  => $jenistransaksi,
-              'jenisbayar'      => $jenisbayar,
-              'bayar'            => $titipan,
-              'id_admin'        => $id_admin,
-              'id_karyawan'      => $kodesales
-            );
-
-            $this->db->insert('historibayar_pending', $dbayar);
-            $this->session->set_flashdata(
-              'msg',
-              '<div class="alert bg-yellow text-white alert-dismissible" role="alert">
-									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-									<i class="fa fa-info" style="float:left; margin-right:10px"></i> Data Penjualan Pending, Menunggu Approval Limit !
-							</div>'
-            );
-            redirect('penjualan/input_penjualan');
-          } else {
-            $this->session->set_flashdata(
-              'msg',
-              '<div class="alert bg-yellow text-white alert-dismissible" role="alert">
-									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-									<i class="fa fa-info" style="float:left; margin-right:10px"></i> Data Penjualan Pending, Menunggu Approval Limit !
-							</div>'
-            );
-            redirect('penjualan/input_penjualan');
-          }
-        }
+      foreach ($tmp as $t) {
+        $dtmp = array(
+          'no_fak_penj' => $nofaktur,
+          'kode_barang' => $t->kode_barang,
+          'harga_dus'   => $t->harga_dus,
+          'harga_pack'  => $t->harga_pack,
+          'harga_pcs'   => $t->harga_pcs,
+          'jumlah'       => $t->jumlah,
+          'subtotal'     => $t->subtotal,
+          'promo'       => $t->promo,
+          'id_admin'    => $id_admin
+        );
+        $this->db->insert('detailpenjualan', $dtmp);
       }
-    } else {
-      $penjualan = $this->db->insert('penjualan', $data);
-      if ($penjualan) {
-        // $data_penjualan 	= array(
-        // 	'no_mutasi_gudang_cabang'   => $nofaktur,
-        // 	'tgl_mutasi_gudang_cabang'  => $tgltransaksi,
-        // 	'kode_cabang'               => $cabang,
-        // 	'kondisi'                   => 'GOOD',
-        // 	'inout_good'                => 'OUT',
-        // 	'jenis_mutasi'              => 'PENJUALAN',
-        // 	'order'											=> '2',
-        // 	'id_admin'                  => $id_admin
-
-        // );
-        $tmp = $this->db->query("SELECT detailpenjualan_temp.kode_barang,kode_produk,nama_barang,isipcsdus,
-																				detailpenjualan_temp.harga_dus,isipack,detailpenjualan_temp.harga_pack,isipcs,jumlah,
-																				detailpenjualan_temp.harga_pcs,subtotal,promo
-																	FROM detailpenjualan_temp
-																	INNER JOIN barang ON detailpenjualan_temp.kode_barang = barang.kode_barang
-																	WHERE id_admin = '$id_admin'")->result();
-        foreach ($tmp as $t) {
-          $dtmp = array(
-            'no_fak_penj' => $nofaktur,
-            'kode_barang' => $t->kode_barang,
-            'harga_dus'   => $t->harga_dus,
-            'harga_pack'  => $t->harga_pack,
-            'harga_pcs'   => $t->harga_pcs,
-            'jumlah'       => $t->jumlah,
-            'subtotal'     => $t->subtotal,
-            'promo'       => $t->promo,
-            'id_admin'    => $id_admin
-          );
-          $this->db->insert('detailpenjualan', $dtmp);
-        }
-        // Hapus Tabel Temporrary
-        $this->db->delete('detailpenjualan_temp', array('id_admin' => $id_admin));
-        if ($jenisbayar == "tunai") {
-          //Input Pembayaran
-          $dbayar = array(
-            'nobukti'       => $nobukti,
-            'no_fak_penj'    => $nofaktur,
-            'tglbayar'      => $tgltransaksi,
-            'jenistransaksi' => $jenistransaksi,
-            'jenisbayar'    => $jenisbayar,
-            'bayar'          => $tb,
-            'id_admin'      => $id_admin,
-            'id_karyawan'    => $kodesales
-          );
-          $simpantunai = $this->db->insert('historibayar', $dbayar);
-          if ($simpantunai) {
-            if (!empty($voucher)) {
-              $qbayar           = "SELECT nobukti FROM historibayar WHERE LEFT(nobukti,6) ='$cabang$tahunini-'ORDER BY nobukti DESC LIMIT 1 ";
-              $ceknolast        = $this->db->query($qbayar)->row_array();
-              $nobuktilast      = $ceknolast['nobukti'];
-              $nobukti          = buatkode($nobuktilast, $cabang . $tahunini . "-", 6);
-              $dbayar2 = array(
-                'nobukti'       => $nobukti,
-                'no_fak_penj'    => $nofaktur,
-                'tglbayar'      => $tgltransaksi,
-                'jenistransaksi' => $jenistransaksi,
-                'jenisbayar'    => $jenisbayar,
-                'bayar'          => $voucher,
-                'id_admin'      => $id_admin,
-                'ket_voucher'   => 2,
-                'status_bayar'  => 'voucher',
-                'id_karyawan'    => $kodesales
-              );
-              $this->db->insert('historibayar', $dbayar2);
-            }
+      // Hapus Tabel Temporrary
+      $this->db->delete('detailpenjualan_temp', array('id_admin' => $id_admin));
+      if ($jenisbayar == "tunai") {
+        //Input Pembayaran
+        $dbayar = array(
+          'nobukti'       => $nobukti,
+          'no_fak_penj'    => $nofaktur,
+          'tglbayar'      => $tgltransaksi,
+          'jenistransaksi' => $jenistransaksi,
+          'jenisbayar'    => $jenisbayar,
+          'bayar'          => $tb,
+          'id_admin'      => $id_admin,
+          'id_karyawan'    => $kodesales
+        );
+        $simpantunai = $this->db->insert('historibayar', $dbayar);
+        if ($simpantunai) {
+          if (!empty($voucher)) {
+            $qbayar           = "SELECT nobukti FROM historibayar WHERE LEFT(nobukti,6) ='$cabang$tahunini-'ORDER BY nobukti DESC LIMIT 1 ";
+            $ceknolast        = $this->db->query($qbayar)->row_array();
+            $nobuktilast      = $ceknolast['nobukti'];
+            $nobukti          = buatkode($nobuktilast, $cabang . $tahunini . "-", 6);
+            $dbayar2 = array(
+              'nobukti'       => $nobukti,
+              'no_fak_penj'    => $nofaktur,
+              'tglbayar'      => $tgltransaksi,
+              'jenistransaksi' => $jenistransaksi,
+              'jenisbayar'    => $jenisbayar,
+              'bayar'          => $voucher,
+              'id_admin'      => $id_admin,
+              'ket_voucher'   => 2,
+              'status_bayar'  => 'voucher',
+              'id_karyawan'    => $kodesales
+            );
+            $this->db->insert('historibayar', $dbayar2);
           }
-          $this->session->set_flashdata(
-            'msg',
-            '<div class="alert bg-green text-white alert-dismissible" role="alert">
+        }
+        $this->session->set_flashdata(
+          'msg',
+          '<div class="alert bg-green text-white alert-dismissible" role="alert">
 								<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 								<i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil Disimpan !
 						</div>'
+        );
+        redirect('penjualan/input_penjualan');
+      } elseif ($jenisbayar == "titipan") {
+        if ($titipan != 0) {
+          $dbayar = array(
+            'nobukti'         => $nobukti,
+            'no_fak_penj'      => $nofaktur,
+            'tglbayar'        => $tgltransaksi,
+            'jenistransaksi'  => $jenistransaksi,
+            'jenisbayar'      => $jenisbayar,
+            'bayar'            => $titipan,
+            'id_admin'        => $id_admin,
+            'id_karyawan'      => $kodesales
+          );
+
+          $this->db->insert('historibayar', $dbayar);
+          $this->session->set_flashdata(
+            'msg',
+            '<div class="alert bg-green text-white alert-dismissible" role="alert">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil Disimpan !
+							</div>'
           );
           redirect('penjualan/input_penjualan');
-        } elseif ($jenisbayar == "titipan") {
-          if ($titipan != 0) {
-            $dbayar = array(
-              'nobukti'         => $nobukti,
-              'no_fak_penj'      => $nofaktur,
-              'tglbayar'        => $tgltransaksi,
-              'jenistransaksi'  => $jenistransaksi,
-              'jenisbayar'      => $jenisbayar,
-              'bayar'            => $titipan,
-              'id_admin'        => $id_admin,
-              'id_karyawan'      => $kodesales
-            );
 
-            $this->db->insert('historibayar', $dbayar);
-            $this->session->set_flashdata(
-              'msg',
-              '<div class="alert bg-green text-white alert-dismissible" role="alert">
+          $this->session->set_flashdata(
+            'msg',
+            '<div class="alert bg-green text-white alert-dismissible" role="alert">
 									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 									<i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil Disimpan !
 							</div>'
-            );
-            redirect('penjualan/input_penjualan');
-
-            $this->session->set_flashdata(
-              'msg',
-              '<div class="alert bg-green text-white alert-dismissible" role="alert">
-									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-									<i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil Disimpan !
-							</div>'
-            );
-          } else {
-            $this->session->set_flashdata(
-              'msg',
-              '<div class="alert bg-green text-white alert-dismissible" role="alert">
-									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-									<i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil Disimpan !
-							</div>'
-            );
-            redirect('penjualan/input_penjualan');
-          }
-        } elseif ($jenisbayar == "giro") {
-          $dgiro = array(
-            'no_fak_penj'     => $nofaktur,
-            'no_giro'          => $nogiro,
-            'tgl_giro'        => $tglgiro,
-            'materai'          => $materai,
-            'namabank'        => $namabank,
-            'jumlah'          => $jml,
-            'tglcair'          => $tglcair,
-            'status'          => 0
           );
-          $this->db->insert('giro', $dgiro);
-          redirect('penjualan/input_penjualan');
-        } elseif ($jenisbayar == "transfer") {
-          $dtransfer = array(
-            'no_fak_penj'     => $nofaktur,
-            'tgl_transfer'    => $tglgiro,
-            'namabank'        => $namabank,
-            'jumlah'          => $jml,
-            'tglcair'          => $tglcair,
-            'status'          => 0
+        } else {
+          $this->session->set_flashdata(
+            'msg',
+            '<div class="alert bg-green text-white alert-dismissible" role="alert">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil Disimpan !
+							</div>'
           );
-          $this->db->insert('transfer', $dtransfer);
           redirect('penjualan/input_penjualan');
         }
+      } elseif ($jenisbayar == "giro") {
+        $dgiro = array(
+          'no_fak_penj'     => $nofaktur,
+          'no_giro'          => $nogiro,
+          'tgl_giro'        => $tglgiro,
+          'materai'          => $materai,
+          'namabank'        => $namabank,
+          'jumlah'          => $jml,
+          'tglcair'          => $tglcair,
+          'status'          => 0
+        );
+        $this->db->insert('giro', $dgiro);
+        redirect('penjualan/input_penjualan');
+      } elseif ($jenisbayar == "transfer") {
+        $dtransfer = array(
+          'no_fak_penj'     => $nofaktur,
+          'tgl_transfer'    => $tglgiro,
+          'namabank'        => $namabank,
+          'jumlah'          => $jml,
+          'tglcair'          => $tglcair,
+          'status'          => 0
+        );
+        $this->db->insert('transfer', $dtransfer);
+        redirect('penjualan/input_penjualan');
       }
     }
   }
 
+
+
+  // function insert_penjualan()
+  // {
+
+  //   $nofaktur       = $this->input->post('nofaktur');
+  //   $limitpelanggan = $this->input->post('limitpelanggan');
+  //   $sisapiutang     = $this->input->post('sisapiutang');
+  //   $tgltransaksi    = $this->input->post('tgltransaksi');
+  //   $kode_pelanggan = $this->input->post('kodepelanggan');
+  //   $kodesales       = $this->input->post('kodesales');
+  //   $jenistransaksi = $this->input->post('jenistransaksi');
+  //   // echo $jenistransaksi;
+  //   // die;
+  //   $jenisbayar     = $this->input->post('jenisbayar');
+  //   $subtotal       = $this->input->post('subtotal');
+  //   //Potongan
+
+
+  //   $potaida        = str_replace(".", "", $this->input->post('potaida'));
+  //   if (empty($potaida)) {
+  //     $potaida = 0;
+  //   } else {
+  //     $potaida = $potaida;
+  //   }
+  //   $potswan        = str_replace(".", "", $this->input->post('potswan'));
+  //   if (empty($potswan)) {
+  //     $potswan = 0;
+  //   } else {
+  //     $potswan = $potswan;
+  //   }
+  //   $potstick       = str_replace(".", "", $this->input->post('potstick'));
+  //   if (empty($potstick)) {
+  //     $potstick = 0;
+  //   } else {
+  //     $potstick = $potstick;
+  //   }
+
+  //   $potsp       = str_replace(".", "", $this->input->post('potsp'));
+  //   if (empty($potsp)) {
+  //     $potsp = 0;
+  //   } else {
+  //     $potsp = $potsp;
+  //   }
+  //   $potongan       = $potaida + $potswan + $potstick + $potsp;
+
+
+  //   $voucher       = str_replace(".", "", $this->input->post('voucher'));
+  //   if (empty($voucher)) {
+  //     $voucher = 0;
+  //   } else {
+  //     $voucher = $voucher;
+  //   }
+
+  //   // echo $potongan;
+  //   // die;
+
+  //   //Potongan Istimewa
+  //   $potisaida        = str_replace(".", "", $this->input->post('potisaida'));
+  //   $potisswan        = str_replace(".", "", $this->input->post('potisswan'));
+  //   $potisstick       = str_replace(".", "", $this->input->post('potisstick'));
+  //   if (empty($potisaida)) {
+  //     $potisaida = 0;
+  //   } else {
+  //     $potisaida = $potisaida;
+  //   }
+  //   if (empty($potisswan)) {
+  //     $potisswan = 0;
+  //   } else {
+  //     $potisswan = $potisswan;
+  //   }
+  //   if (empty($potisstick)) {
+  //     $potisstick = 0;
+  //   } else {
+  //     $potisstick = $potisstick;
+  //   }
+  //   $potistimewa      = $potisaida + $potisswan + $potisstick;
+
+  //   //Penyesuaian
+  //   $penyaida        = str_replace(".", "", $this->input->post('penyaida'));
+  //   $penyswan        = str_replace(".", "", $this->input->post('penyswan'));
+  //   $penystick       = str_replace(".", "", $this->input->post('penystick'));
+
+  //   if (empty($penyaida)) {
+  //     $penyaida = 0;
+  //   } else {
+  //     $penyaida = $penyaida;
+  //   }
+  //   if (empty($penyswan)) {
+  //     $penyswan = 0;
+  //   } else {
+  //     $penyswan = $penyswan;
+  //   }
+  //   if (empty($penystick)) {
+  //     $penystick = 0;
+  //   } else {
+  //     $penystick = $penystick;
+  //   }
+  //   $penyharga        = $penyaida + $penyswan + $penystick;
+  //   $tb       = str_replace(".", "", $this->input->post('totalbayar'));
+  //   if ($jenisbayar == "tunai") {
+  //     $totalbayar = $tb + $voucher;
+  //   } else {
+  //     $totalbayar = $tb;
+  //   }
+
+  //   $nogiro           = $this->input->post('nogiro');
+  //   $jml              = $this->input->post('jml');
+  //   $materai          = $this->input->post('materai');
+  //   $namabank         = $this->input->post('namabank');
+  //   $tglcair          = $this->input->post('tglcair');
+  //   $tglgiro          = $this->input->post('tglgiro');
+  //   $jatuhtempo       = $this->input->post('jatuhtempo');
+  //   $titipan          = str_replace(".", "", $this->input->post('titipan'));
+  //   $cabang           = $this->input->post('kodecabang');
+  //   $id_admin         = $this->session->userdata('id_user');
+  //   $hariini          = date('ymd');
+  //   $tahunini         = date('y');
+  //   $qbayar           = "SELECT nobukti FROM historibayar WHERE LEFT(nobukti,6) ='$cabang$tahunini-'ORDER BY nobukti DESC LIMIT 1 ";
+  //   $ceknolast        = $this->db->query($qbayar)->row_array();
+  //   $nobuktilast      = $ceknolast['nobukti'];
+  //   $nobukti          = buatkode($nobuktilast, $cabang . $tahunini . "-", 6);
+  //   $totalpiutang     = $sisapiutang + $totalbayar;
+  //   if ($jenisbayar == "tunai") {
+  //     $jt = $jatuhtempo;
+  //   } else {
+  //     $jt = $jatuhtempo;
+  //   }
+  //   $data = array(
+  //     'no_fak_penj' => $nofaktur,
+  //     'tgltransaksi' => $tgltransaksi,
+  //     'kode_pelanggan' => $kode_pelanggan,
+  //     'id_karyawan' => $kodesales,
+  //     'subtotal' => $subtotal,
+  //     'potaida' => $potaida,
+  //     'potswan' => $potswan,
+  //     'potstick' => $potstick,
+  //     'potsp' => $potsp,
+  //     'potongan' => $potongan,
+  //     'potisaida' => $potisaida,
+  //     'potisswan' => $potisswan,
+  //     'potisstick' => $potisstick,
+  //     'potistimewa' => $potistimewa,
+  //     'penyaida' => $penyaida,
+  //     'penyswan' => $penyswan,
+  //     'penystick' => $penystick,
+  //     'penyharga' => $penyharga,
+  //     'total' => $totalbayar,
+  //     'jenistransaksi' => $jenistransaksi,
+  //     'jenisbayar' => $jenisbayar,
+  //     'jatuhtempo' => $jt,
+  //     'id_admin' => $id_admin
+  //   );
+  //   if (empty($limitpelanggan) and $jenistransaksi == 'kredit' or $totalpiutang >= $limitpelanggan and $jenistransaksi == 'kredit') {
+
+  //     // echo $jenistransaksi;
+  //     // die;
+  //     // echo $totalpiutang;
+  //     // echo "Jalankan Perintah Ini";
+  //     $penjualan_pending = $this->db->insert('penjualan_pending', $data);
+  //     if ($penjualan_pending) {
+  //       $tmp = $this->db->query("SELECT detailpenjualan_temp.kode_barang,kode_produk,nama_barang,isipcsdus,
+  // 																			detailpenjualan_temp.harga_dus,isipack,detailpenjualan_temp.harga_pack,isipcs,jumlah,
+  // 																			detailpenjualan_temp.harga_pcs,subtotal,promo
+  // 																FROM detailpenjualan_temp
+  // 																INNER JOIN barang ON detailpenjualan_temp.kode_barang = barang.kode_barang
+  // 																WHERE id_admin = '$id_admin'")->result();
+  //       foreach ($tmp as $t) {
+  //         $dtmp = array(
+  //           'no_fak_penj' => $nofaktur,
+  //           'kode_barang' => $t->kode_barang,
+  //           'harga_dus'   => $t->harga_dus,
+  //           'harga_pack'  => $t->harga_pack,
+  //           'harga_pcs'   => $t->harga_pcs,
+  //           'jumlah'       => $t->jumlah,
+  //           'subtotal'     => $t->subtotal,
+  //           'promo'       => $t->promo,
+  //           'id_admin'    => $id_admin
+  //         );
+  //         $this->db->insert('detailpenjualan_pending', $dtmp);
+  //       }
+  //       $this->db->delete('detailpenjualan_temp', array('id_admin' => $id_admin));
+  //       if ($jenisbayar == "titipan") {
+  //         if ($titipan != 0) {
+  //           $dbayar = array(
+  //             'nobukti'         => $nobukti,
+  //             'no_fak_penj'      => $nofaktur,
+  //             'tglbayar'        => $tgltransaksi,
+  //             'jenistransaksi'  => $jenistransaksi,
+  //             'jenisbayar'      => $jenisbayar,
+  //             'bayar'            => $titipan,
+  //             'id_admin'        => $id_admin,
+  //             'id_karyawan'      => $kodesales
+  //           );
+
+  //           $this->db->insert('historibayar_pending', $dbayar);
+  //           $this->session->set_flashdata(
+  //             'msg',
+  //             '<div class="alert bg-yellow text-white alert-dismissible" role="alert">
+  // 								<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  // 								<i class="fa fa-info" style="float:left; margin-right:10px"></i> Data Penjualan Pending, Menunggu Approval Limit !
+  // 						</div>'
+  //           );
+  //           redirect('penjualan/input_penjualan');
+  //         } else {
+  //           $this->session->set_flashdata(
+  //             'msg',
+  //             '<div class="alert bg-yellow text-white alert-dismissible" role="alert">
+  // 								<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  // 								<i class="fa fa-info" style="float:left; margin-right:10px"></i> Data Penjualan Pending, Menunggu Approval Limit !
+  // 						</div>'
+  //           );
+  //           redirect('penjualan/input_penjualan');
+  //         }
+  //       }
+  //     }
+  //   } else {
+  //     $penjualan = $this->db->insert('penjualan', $data);
+  //     if ($penjualan) {
+  //       // $data_penjualan 	= array(
+  //       // 	'no_mutasi_gudang_cabang'   => $nofaktur,
+  //       // 	'tgl_mutasi_gudang_cabang'  => $tgltransaksi,
+  //       // 	'kode_cabang'               => $cabang,
+  //       // 	'kondisi'                   => 'GOOD',
+  //       // 	'inout_good'                => 'OUT',
+  //       // 	'jenis_mutasi'              => 'PENJUALAN',
+  //       // 	'order'											=> '2',
+  //       // 	'id_admin'                  => $id_admin
+
+  //       // );
+  //       $tmp = $this->db->query("SELECT detailpenjualan_temp.kode_barang,kode_produk,nama_barang,isipcsdus,
+  // 																			detailpenjualan_temp.harga_dus,isipack,detailpenjualan_temp.harga_pack,isipcs,jumlah,
+  // 																			detailpenjualan_temp.harga_pcs,subtotal,promo
+  // 																FROM detailpenjualan_temp
+  // 																INNER JOIN barang ON detailpenjualan_temp.kode_barang = barang.kode_barang
+  // 																WHERE id_admin = '$id_admin'")->result();
+  //       foreach ($tmp as $t) {
+  //         $dtmp = array(
+  //           'no_fak_penj' => $nofaktur,
+  //           'kode_barang' => $t->kode_barang,
+  //           'harga_dus'   => $t->harga_dus,
+  //           'harga_pack'  => $t->harga_pack,
+  //           'harga_pcs'   => $t->harga_pcs,
+  //           'jumlah'       => $t->jumlah,
+  //           'subtotal'     => $t->subtotal,
+  //           'promo'       => $t->promo,
+  //           'id_admin'    => $id_admin
+  //         );
+  //         $this->db->insert('detailpenjualan', $dtmp);
+  //       }
+  //       // Hapus Tabel Temporrary
+  //       $this->db->delete('detailpenjualan_temp', array('id_admin' => $id_admin));
+  //       if ($jenisbayar == "tunai") {
+  //         //Input Pembayaran
+  //         $dbayar = array(
+  //           'nobukti'       => $nobukti,
+  //           'no_fak_penj'    => $nofaktur,
+  //           'tglbayar'      => $tgltransaksi,
+  //           'jenistransaksi' => $jenistransaksi,
+  //           'jenisbayar'    => $jenisbayar,
+  //           'bayar'          => $tb,
+  //           'id_admin'      => $id_admin,
+  //           'id_karyawan'    => $kodesales
+  //         );
+  //         $simpantunai = $this->db->insert('historibayar', $dbayar);
+  //         if ($simpantunai) {
+  //           if (!empty($voucher)) {
+  //             $qbayar           = "SELECT nobukti FROM historibayar WHERE LEFT(nobukti,6) ='$cabang$tahunini-'ORDER BY nobukti DESC LIMIT 1 ";
+  //             $ceknolast        = $this->db->query($qbayar)->row_array();
+  //             $nobuktilast      = $ceknolast['nobukti'];
+  //             $nobukti          = buatkode($nobuktilast, $cabang . $tahunini . "-", 6);
+  //             $dbayar2 = array(
+  //               'nobukti'       => $nobukti,
+  //               'no_fak_penj'    => $nofaktur,
+  //               'tglbayar'      => $tgltransaksi,
+  //               'jenistransaksi' => $jenistransaksi,
+  //               'jenisbayar'    => $jenisbayar,
+  //               'bayar'          => $voucher,
+  //               'id_admin'      => $id_admin,
+  //               'ket_voucher'   => 2,
+  //               'status_bayar'  => 'voucher',
+  //               'id_karyawan'    => $kodesales
+  //             );
+  //             $this->db->insert('historibayar', $dbayar2);
+  //           }
+  //         }
+  //         $this->session->set_flashdata(
+  //           'msg',
+  //           '<div class="alert bg-green text-white alert-dismissible" role="alert">
+  // 							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  // 							<i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil Disimpan !
+  // 					</div>'
+  //         );
+  //         redirect('penjualan/input_penjualan');
+  //       } elseif ($jenisbayar == "titipan") {
+  //         if ($titipan != 0) {
+  //           $dbayar = array(
+  //             'nobukti'         => $nobukti,
+  //             'no_fak_penj'      => $nofaktur,
+  //             'tglbayar'        => $tgltransaksi,
+  //             'jenistransaksi'  => $jenistransaksi,
+  //             'jenisbayar'      => $jenisbayar,
+  //             'bayar'            => $titipan,
+  //             'id_admin'        => $id_admin,
+  //             'id_karyawan'      => $kodesales
+  //           );
+
+  //           $this->db->insert('historibayar', $dbayar);
+  //           $this->session->set_flashdata(
+  //             'msg',
+  //             '<div class="alert bg-green text-white alert-dismissible" role="alert">
+  // 								<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  // 								<i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil Disimpan !
+  // 						</div>'
+  //           );
+  //           redirect('penjualan/input_penjualan');
+
+  //           $this->session->set_flashdata(
+  //             'msg',
+  //             '<div class="alert bg-green text-white alert-dismissible" role="alert">
+  // 								<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  // 								<i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil Disimpan !
+  // 						</div>'
+  //           );
+  //         } else {
+  //           $this->session->set_flashdata(
+  //             'msg',
+  //             '<div class="alert bg-green text-white alert-dismissible" role="alert">
+  // 								<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  // 								<i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil Disimpan !
+  // 						</div>'
+  //           );
+  //           redirect('penjualan/input_penjualan');
+  //         }
+  //       } elseif ($jenisbayar == "giro") {
+  //         $dgiro = array(
+  //           'no_fak_penj'     => $nofaktur,
+  //           'no_giro'          => $nogiro,
+  //           'tgl_giro'        => $tglgiro,
+  //           'materai'          => $materai,
+  //           'namabank'        => $namabank,
+  //           'jumlah'          => $jml,
+  //           'tglcair'          => $tglcair,
+  //           'status'          => 0
+  //         );
+  //         $this->db->insert('giro', $dgiro);
+  //         redirect('penjualan/input_penjualan');
+  //       } elseif ($jenisbayar == "transfer") {
+  //         $dtransfer = array(
+  //           'no_fak_penj'     => $nofaktur,
+  //           'tgl_transfer'    => $tglgiro,
+  //           'namabank'        => $namabank,
+  //           'jumlah'          => $jml,
+  //           'tglcair'          => $tglcair,
+  //           'status'          => 0
+  //         );
+  //         $this->db->insert('transfer', $dtransfer);
+  //         redirect('penjualan/input_penjualan');
+  //       }
+  //     }
+  //   }
+  // }
 
   function hapus($nofaktur)
   {

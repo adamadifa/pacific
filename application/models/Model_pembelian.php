@@ -177,6 +177,97 @@ class Model_pembelian extends CI_Model
     return $this->datatables->generate();
   }
 
+
+  function insert_returproduksi()
+  {
+
+    $nobukti              = $this->input->post('nobukti');
+    $tgl_approve_pemb     = $this->input->post('tgl_approve_pemb');
+
+    $data = array(
+
+      'nobukti_retur'      => $nobukti,
+      'tgl_approve_pemb'   => $tgl_approve_pemb,
+    );
+
+    $this->db->where('nobukti_retur', $nobukti);
+    $this->db->update('retur_gb', $data);
+
+  }
+
+  function getPengeluaranGp()
+  {
+
+    $nobukti            = $this->input->post('nobukti');
+    $this->db->join('supplier', 'retur_gb.supplier = supplier.kode_supplier');
+    return $this->db->get_where('retur_gb', array('nobukti_retur' => $nobukti));
+  }
+
+  function getDetailPengeluaran()
+  {
+
+    $nobukti            = $this->input->post('nobukti');
+    $this->db->join('master_barang_pembelian', 'detail_retur_gb.kode_barang = master_barang_pembelian.kode_barang');
+    return $this->db->get_where('detail_retur_gb', array('detail_retur_gb.nobukti_retur' => $nobukti));
+  }
+
+  function batalapprove()
+  {
+
+    $nobukti            = str_replace("." , "/" , $this->uri->segment(3));
+    $data = array(
+      'tgl_approve_pemb' => NULL
+    );
+    $this->db->update('retur_gb', $data, array('nobukti_retur' => $nobukti));
+  }
+
+
+  public function getrecordPengeluaranCountR($nobukti = "", $tgl_retur = "")
+  {
+
+    $this->db->select('count(*) as allcount');
+    $this->db->from('retur_gb');
+    $this->db->order_by('tgl_approve_pemb', 'desc');
+    $this->db->where('tgl_approve_gb!=', '');
+    $this->db->where('jenis_retur', 'Retur IN');
+
+    if ($nobukti != '') {
+      $this->db->like('nobukti_retur', $nobukti);
+    }
+
+    if ($tgl_retur != '') {
+      $this->db->where('tgl_retur', $tgl_retur);
+    }
+
+    $query  = $this->db->get();
+    $result = $query->result_array();
+    return $result[0]['allcount'];
+  }
+
+  public function getDataPengeluaranR($rowno, $rowperpage, $nobukti = "", $tgl_retur = "")
+  {
+
+    $this->db->select('*');
+    $this->db->from('retur_gb');
+    $this->db->order_by('tgl_approve_pemb', 'desc');
+    $this->db->where('jenis_retur', 'Retur IN');
+    $this->db->where('tgl_approve_gb!=', '');
+    // $this->db->where('nobukti_retur NOT IN (SELECT nobukti_retur FROM retur_gb)');
+
+    if ($nobukti != '') {
+      $this->db->like('nobukti_retur', $nobukti);
+    }
+
+    if ($tgl_retur != '') {
+      $this->db->where('tgl_retur', $tgl_retur);
+    }
+
+
+    $this->db->limit($rowperpage, $rowno);
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+
   function jsonBarang()
   {
     $kodedept = $this->session->userdata('dept');

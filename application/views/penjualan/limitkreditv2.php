@@ -76,7 +76,6 @@
             <div class="mb-3 d-flex justify-content-end">
               <button type="submit" name="submit" class="btn btn-primary btn-block mr-2" value="1"><i class="fa fa-search mr-2"></i>CARI</button>
             </div>
-          </form>
           <div class="alert alert-icon alert-danger" style="font-size:18px !important" role="alert">
             <i class="fa fa-bell mr-2" aria-hidden="true"></i>
             Sehubungan ada beberapa data pengajuan yang ter approve, sebelum di setujui oleh stakeholder terkait, maka dari itu ada beberpa perbaikan
@@ -98,6 +97,7 @@
           </div>
           <a href="#" class="btn btn-danger mb-2" id="tambahpengajuan"> <i class="fa fa-plus mr-2"></i> Tambah Data </a>
           <button type="submit" name="export" class="btn btn-success mb-2" value="1"><i class="fa fa-download mr-2"></i> EXPORT EXCEL</button>
+          </form>
           <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover" id="mytable">
               <thead class="thead-dark">

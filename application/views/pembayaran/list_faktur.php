@@ -190,12 +190,7 @@
 <script type="text/javascript">
   $(function() {
 
-    $('#mytable').DataTable({
-      responsive: true,
-      "order": [
-        [1, "desc"]
-      ]
-    });
+  
 
     function loadTotal() {
       $("#grandtotal").text($("#totalpiutang").text());

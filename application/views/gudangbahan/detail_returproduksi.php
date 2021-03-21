@@ -2,12 +2,14 @@
   <thead class="thead-dark">
     <tr style="font-weight:bold">
       <th>Tanggal</th>
+      <th>Kode Supplier</th>
       <th>Supplier</th>
       <th>NO Bukti</th>
     </tr>
     <tr>
       <td><?php echo DateToIndo2($data['tgl_pengeluaran']); ?></td>
       <td><?php echo $data['kode_supplier']; ?></td>
+      <td><?php echo $data['nama_supplier']; ?></td>
       <td><?php echo $data['nobukti_pengeluaran']; ?></td>
     </tr>
   </thead>
@@ -63,7 +65,7 @@
   <div class="col-md-12">
     <div class="form-group">
       <div class="col-md-offset-11">
-        <a href="#" data-tgl="<?php echo $data['tgl_pengeluaran']; ?>" data-supplier="<?php echo $data['kode_supplier']; ?>" data-nobukti="<?php echo $data['nobukti_pengeluaran']; ?>" class="btn btn-md btn-success approve">Approve</a>
+        <a href="#" data-supplier="<?php echo $data['kode_supplier']; ?>" data-tgl="<?php echo $data['tgl_pengeluaran']; ?>" data-nobukti="<?php echo $data['nobukti_pengeluaran']; ?>" class="btn btn-md btn-success approve">Approve</a>
       </div>
     </div>
   </div>

@@ -1223,6 +1223,35 @@ class Laporanpenjualan extends CI_Controller
     }
   }
 
+  function detail_costratio()
+  {
+    $data['cb']    = $this->session->userdata('cabang');
+    $data['bulan'] = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+    $data['cabang'] = $this->Model_cabang->view_cabang()->result();
+    $this->template->load('template/template', 'penjualan/laporan/detail_costratio', $data);
+  }
+
+  function cetak_detail_costratio()
+  {
+    $cabang = $this->input->post('cabang');
+    $dari = $this->input->post('dari');
+    $sampai = $this->input->post('sampai');
+    $data['dari'] = $dari;
+    $data['sampai'] = $sampai;
+    $data['cabang'] = $cabang;
+    
+    if (isset($_POST['export'])) {
+      // Fungsi header dengan mengirimkan raw data excel
+      header("Content-type: application/vnd-ms-excel");
+
+      // Mendefinisikan nama file ekspor "hasil-export.xls"
+      header("Content-Disposition: attachment; filename=Detail CostRatio.xls");
+    }
+    
+    $data['data'] = $this->Model_laporanpenjualan->getDetailCostratioBiaya($cabang, $dari, $sampai)->result();
+    $this->load->view('penjualan/laporan/cetak_detail_costratio', $data);
+  }
+
   function rekapkendaraan()
   {
     $data['cb']    = $this->session->userdata('cabang');

@@ -1541,7 +1541,7 @@ class Model_pembayaran extends CI_Model
       $cabang = "";
     }
     if ($nofaktur != '') {
-      $nofaktur = "AND penjualan.no_fak_penj = '" . $nofaktur . "'";
+      $nofaktur = "AND penjualan.no_fak_penj like '%" . $nofaktur . "%'";
     }
     if ($namapel != '') {
       $namapel = "AND nama_pelanggan like '%" . $namapel . "%'";
@@ -1616,7 +1616,7 @@ class Model_pembayaran extends CI_Model
       $cabang = "";
     }
     if ($nofaktur != '') {
-      $nofaktur = "AND penjualan.no_fak_penj = '" . $nofaktur . "'";
+      $nofaktur = "AND penjualan.no_fak_penj like '%" . $nofaktur . "%'";
     }
     if ($namapel != '') {
       $namapel = "AND nama_pelanggan like '%" . $namapel . "%'";

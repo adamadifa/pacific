@@ -1,4 +1,4 @@
-'<?php
+<?php
 
 class Gudangbahan extends CI_Controller
 {
@@ -84,7 +84,7 @@ class Gudangbahan extends CI_Controller
   function detail_returproduksi()
   {
 
-    $data['data']    = $this->Model_produksi->getPengeluaran()->row_array();
+    $data['data']    = $this->Model_gudangbahan->getPengeluaranGp()->row_array();
     $data['detail']  = $this->Model_produksi->getDetailPengeluaran();
     $this->load->view('gudangbahan/detail_returproduksi', $data);
   }

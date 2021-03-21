@@ -24,6 +24,7 @@ $hariini = date("Y-m-d");
         <th>DK</th>
         <th>DS</th>
         <th>SP</th>
+        <th>SPP</th>
       </tr>
     </thead>
 
@@ -72,6 +73,10 @@ $hariini = date("Y-m-d");
     $sp = $this->db->query("SELECT tanggal,kode_produk,jumlah FROM saldoawal_bj_detail saldodetail
     INNER JOIN saldoawal_bj ON saldodetail.kode_saldoawal = saldoawal_bj.kode_saldoawal 
     WHERE kode_cabang ='$r->kode_cabang' AND kode_produk='SP' AND status='GS' ORDER BY tanggal DESC LIMIT 1")->row_array();
+
+    $spp = $this->db->query("SELECT tanggal,kode_produk,jumlah FROM saldoawal_bj_detail saldodetail
+    INNER JOIN saldoawal_bj ON saldodetail.kode_saldoawal = saldoawal_bj.kode_saldoawal 
+    WHERE kode_cabang ='$r->kode_cabang' AND kode_produk='SPP' AND status='GS' ORDER BY tanggal DESC LIMIT 1")->row_array();
 
 
       $msjab = $this->db->query("SELECT 
@@ -463,6 +468,44 @@ WHERE tgl_pengambilan >= '$ab[tanggal]' AND tgl_pengambilan <= '$hariini'
 AND `kode_produk` = 'SP' AND kode_cabang='$r->kode_cabang'")->row_array();
 
 
+$msjspp = $this->db->query("SELECT 
+SUM(IF(inout_good ='IN' AND tgl_mutasi_gudang_cabang >= '$ab[tanggal]' AND tgl_mutasi_gudang_cabang <= '$hariini'  ,jumlah,0))-
+SUM(IF(inout_good ='OUT' AND tgl_mutasi_gudang_cabang >= '$ab[tanggal]' AND tgl_mutasi_gudang_cabang <= '$hariini' ,jumlah,0)) as jumlah
+FROM `detail_mutasi_gudang_cabang` 
+JOIN `mutasi_gudang_cabang` ON `detail_mutasi_gudang_cabang`.`no_mutasi_gudang_cabang`=`mutasi_gudang_cabang`.`no_mutasi_gudang_cabang`  
+WHERE `detail_mutasi_gudang_cabang`.`kode_produk` = 'SPP' 
+AND `mutasi_gudang_cabang`.`kode_cabang` = '$r->kode_cabang' 
+AND `jenis_mutasi` = 'SURAT JALAN' 
+OR `jenis_mutasi` = 'TRANSIT OUT' 
+AND `detail_mutasi_gudang_cabang`.`kode_produk` = 'SPP' 
+AND `mutasi_gudang_cabang`.`kode_cabang` = '$r->kode_cabang' 
+OR `jenis_mutasi` = 'TRANSIT IN'  
+AND `detail_mutasi_gudang_cabang`.`kode_produk` = 
+'SPP' AND `mutasi_gudang_cabang`.`kode_cabang` = '$r->kode_cabang'
+OR `jenis_mutasi` = 'REJECT GUDANG'  
+AND `detail_mutasi_gudang_cabang`.`kode_produk` = 
+'SPP' AND `mutasi_gudang_cabang`.`kode_cabang` = '$r->kode_cabang' 
+OR `jenis_mutasi` = 'REJECT PASAR'  
+AND `detail_mutasi_gudang_cabang`.`kode_produk` = 
+'SPP' AND `mutasi_gudang_cabang`.`kode_cabang` = '$r->kode_cabang' 
+OR `jenis_mutasi` = 'REPACK'  
+AND `detail_mutasi_gudang_cabang`.`kode_produk` = 
+'SPP' AND `mutasi_gudang_cabang`.`kode_cabang` = '$r->kode_cabang' 
+OR `jenis_mutasi` = 'PENYESUAIAN'  
+ AND `detail_mutasi_gudang_cabang`.`kode_produk` = 
+ 'SPP' AND `mutasi_gudang_cabang`.`kode_cabang` = '$r->kode_cabang' 
+ORDER BY `tgl_mutasi_gudang_cabang` ASC")->row_array();
+
+    $dpbambilspp = $this->db->query("SELECT
+TRUNCATE(SUM(jml_pengambilan),2) as jumlah,TRUNCATE(SUM(jml_pengembalian),2) as jumlah_kembali   
+FROM
+`detail_dpb`
+JOIN `dpb` ON `detail_dpb`.`no_dpb` = `dpb`.`no_dpb`
+WHERE tgl_pengambilan >= '$ab[tanggal]' AND tgl_pengambilan <= '$hariini'
+AND `kode_produk` = 'SPP' AND kode_cabang='$r->kode_cabang'")->row_array();
+
+
+
 
       $sab = ($ab['jumlah'] / 30) + ($msjab['jumlah'] / 30) - $dpbambilab['jumlah'] + $dpbambilab['jumlah_kembali'];
       $sar = ($ar['jumlah'] / 240) + ($msjar['jumlah'] / 240) - $dpbambilar['jumlah'] + $dpbambilar['jumlah_kembali'];
@@ -475,6 +518,7 @@ AND `kode_produk` = 'SP' AND kode_cabang='$r->kode_cabang'")->row_array();
       $sdk  = ($dk['jumlah'] / 30) + ($msjdk['jumlah'] / 30) - $dpbambildk['jumlah'] + $dpbambildk['jumlah_kembali'];
       $sds  = ($ds['jumlah'] / 504) + ($msjds['jumlah'] / 504) - $dpbambilds['jumlah'] + $dpbambilds['jumlah_kembali'];
       $ssp  = ($sp['jumlah'] / 12) + ($msjsp['jumlah'] / 12) - $dpbambilsp['jumlah'] + $dpbambilsp['jumlah_kembali'];
+      $sspp  = ($spp['jumlah'] / 12) + ($msjspp['jumlah'] / 12) - $dpbambilspp['jumlah'] + $dpbambilspp['jumlah_kembali'];
 
       if ($sab <= 0) {
         $colorab = "bg-red";
@@ -537,6 +581,12 @@ AND `kode_produk` = 'SP' AND kode_cabang='$r->kode_cabang'")->row_array();
       } else {
         $colorssp = "bg-green";
       }
+
+      if ($sspp <= 0) {
+        $colorsspp = "bg-red";
+      } else {
+        $colorsspp = "bg-green";
+      }
     ?>
       <tr>
         <td><?php echo strtoupper($r->nama_cabang); ?></td>
@@ -551,6 +601,7 @@ AND `kode_produk` = 'SP' AND kode_cabang='$r->kode_cabang'")->row_array();
         <td><span class="badge <?php echo $colorsdk; ?>"><?php echo number_format($sdk, '2', ',', '.'); ?></span></td>
         <td><span class="badge <?php echo $colorsds; ?>"><?php echo number_format($sds, '2', ',', '.'); ?></span></td>
         <td><span class="badge <?php echo $colorssp; ?>"><?php echo number_format($ssp, '2', ',', '.'); ?></span></td>
+        <td><span class="badge <?php echo $colorsspp; ?>"><?php echo number_format($sspp, '2', ',', '.'); ?></span></td>
       </tr>
     <?php } ?>
   </table>

@@ -52,7 +52,7 @@ function uang($nilai)
 			<th rowspan="2">NAMA PELANGGAN</th>
 			<th rowspan="2">PASAR/DAERAH</th>
 			<th rowspan="2">SALESMAN</th>
-			<th colspan="10">PRODUK</th>
+			<th colspan="11">PRODUK</th>
 		</tr>
 		<tr bgcolor="#024a75" style="color:white; font-size:12;">
 			<th>BB</th>
@@ -65,6 +65,7 @@ function uang($nilai)
 			<th>DB</th>
 			<th>CG</th>
 			<th>CGG</th>
+			<th>SP</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -79,6 +80,7 @@ function uang($nilai)
 		$total_db = 0;
 		$total_cg = 0;
 		$total_cgg = 0;
+		$total_sp = 0;
 		foreach ($dpp as $d) {
 			$total_bb = $total_bb + $d->BB;
 			$total_ab = $total_ab + $d->AB;
@@ -90,6 +92,7 @@ function uang($nilai)
 			$total_db = $total_db + $d->DB;
 			$total_cg = $total_cg + $d->CG;
 			$total_cgg = $total_cgg + $d->CGG;
+			$total_sp = $total_sp + $d->SP;
 		?>
 			<tr style="font-size:12;">
 				<td><?php echo DateToIndo2($d->tgltransaksi); ?></td>
@@ -127,6 +130,9 @@ function uang($nilai)
 				<td align="right"><?php if ($d->CGG != 0) {
 														echo uang($d->CGG);
 													} ?></td>
+				<td align="right"><?php if ($d->SP != 0) {
+					echo uang($d->SP);
+				} ?></td>
 			</tr>
 		<?php } ?>
 	</tbody>
@@ -162,6 +168,9 @@ function uang($nilai)
 					} ?></td>
 			<td><?php if ($total_cgg != 0) {
 						echo uang($total_cgg);
+					} ?></td>
+			<td><?php if ($total_sp != 0) {
+						echo uang($total_sp);
 					} ?></td>
 		</tr>
 

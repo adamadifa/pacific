@@ -111,8 +111,10 @@ function uang($nilai)
         <td><?php echo DateToIndo2($dari); ?></td>
         <?php
         $totalsetoran = 0;
+		$tglskrg = $tahunskrg . "-" . $bulanskrg . "-01";
+	
         foreach ($salesman as $s) {
-          $sampaibulanskrg = $tahunskrg . "-" . $bulanskrg . "-31";
+          $sampaibulanskrg =  date('Y-m-t', strtotime($tglskrg));
           if (strtotime($dari) <= strtotime($sampaibulanskrg)) {
             $qsetoran     = "SELECT SUM(lhp_tunai+lhp_tagihan) as totallhp FROM setoran_penjualan WHERE tgl_lhp='$dari' AND
           id_karyawan='$s->id_karyawan' GROUP BY tgl_lhp,id_karyawan";
@@ -219,13 +221,24 @@ function uang($nilai)
       ?>
       <td><b>GM <?php echo strtoupper($namaBulanlast[$bulanlast]) . " " . $tahunlast; ?></b></td>
       <?php
+	  if($bulanlast==1){
+		$blnlast1 = 12;
+		$thnlast1 = $tahunskrg -1;
+	  }else{
+		 $blnlast1 = $bulanlast -1;
+		 $thnlast1 = $tahunskrg;
+	  }
       $totalgmlast = 0;
       foreach ($salesman as $s) {
         $qgmlast    = "SELECT giro.id_karyawan, SUM(jumlah) as jumlah
           FROM giro
           INNER JOIN penjualan ON giro.no_fak_penj = penjualan.no_fak_penj
           LEFT JOIN historibayar ON  giro.id_giro = historibayar.id_giro
-          WHERE giro.id_karyawan = '$s->id_karyawan' AND MONTH(tgl_giro) <= '$bulanlast' AND YEAR(tgl_giro)<='$tahunlast' AND omset_bulan ='$bulanskrg' AND omset_tahun='$tahunskrg'  GROUP BY id_karyawan";
+          WHERE 
+		  giro.id_karyawan = '$s->id_karyawan' AND MONTH(tgl_giro) = '$bulanlast' AND YEAR(tgl_giro) ='$tahunlast'  AND omset_tahun='$tahunskrg' AND omset_bulan='$bulanskrg'
+		  OR 
+		  giro.id_karyawan = '$s->id_karyawan' AND MONTH(tgl_giro) = '$blnlast1' AND YEAR(tgl_giro) ='$thnlast1'  AND omset_tahun='$tahunskrg' AND omset_bulan='$bulanskrg'
+		  GROUP BY id_karyawan";
         $gmlast = $this->db->query($qgmlast)->row_array();
         $totalgmlast = $totalgmlast + $gmlast['jumlah'];
       ?>
@@ -253,9 +266,12 @@ function uang($nilai)
       $totalgmnow = 0;
 
       if ($bulanskrg == 12) {
-        $om_bulan = "AND omset_bulan = '1'";
+		$thnskr = $tahunskrg + 1;
+        $om_bulan = "AND omset_bulan >= '1'";
+		$om_tahun = "AND omset_tahun >= '$thnskr'";
       } else {
         $om_bulan = "AND omset_bulan > '$bulanskrg'";
+		$om_tahun = "AND omset_tahun >= '$tahunskrg'";
       }
       foreach ($salesman as $s) {
         //echo $s->id_karyawan;
@@ -273,7 +289,7 @@ function uang($nilai)
           OR
           giro.id_karyawan = '$s->id_karyawan' AND
           tgl_giro >= '$dari' AND tgl_giro <= '$sampai'
-          AND tglbayar >=  '$end'" . $om_bulan . " AND omset_tahun >= '$tahunskrg'
+          AND tglbayar >=  '$end'" . $om_bulan . $om_tahun."
 
 
           GROUP BY giro.id_karyawan";
@@ -320,10 +336,21 @@ function uang($nilai)
       $grandall     = 0;
       $grandtotal   = 0;
       if ($bulanskrg == 12) {
-        $om_bulan = "AND omset_bulan = '1'";
+		$thnskr = $tahunskrg + 1;
+        $om_bulan = "AND omset_bulan >= '1'";
+		$om_tahun = "AND omset_tahun >= '$thnskr'";
       } else {
         $om_bulan = "AND omset_bulan > '$bulanskrg'";
+		$om_tahun = "AND omset_tahun >= '$tahunskrg'";
       }
+	  
+	  if($bulanlast==1){
+		$blnlast1 = 12;
+		$thnlast1 = $tahunskrg -1;
+	  }else{
+		 $blnlast1 = $bulanlast -1;
+		 $thnlast1 = $tahunskrg;
+	  }
       foreach ($salesman as $s) {
 
         $qsetoranbulanlast = "SELECT jumlah FROM belumsetor_detail
@@ -338,7 +365,11 @@ function uang($nilai)
           FROM giro
           INNER JOIN penjualan ON giro.no_fak_penj = penjualan.no_fak_penj
           LEFT JOIN historibayar ON  giro.id_giro = historibayar.id_giro
-          WHERE giro.id_karyawan = '$s->id_karyawan' AND MONTH(tgl_giro) <= '$bulanlast' AND YEAR(tgl_giro)<='$tahunlast'  AND omset_tahun='$tahunskrg' AND omset_bulan='$bulanskrg' GROUP BY id_karyawan";
+          WHERE 
+		  giro.id_karyawan = '$s->id_karyawan' AND MONTH(tgl_giro) = '$bulanlast' AND YEAR(tgl_giro) ='$tahunlast'  AND omset_tahun='$tahunskrg' AND omset_bulan='$bulanskrg'
+		  OR 
+		  giro.id_karyawan = '$s->id_karyawan' AND MONTH(tgl_giro) = '$blnlast1' AND YEAR(tgl_giro) ='$thnlast1'  AND omset_tahun='$tahunskrg' AND omset_bulan='$bulanskrg'
+		  GROUP BY id_karyawan";
         $gmlast = $this->db->query($qgmlast)->row_array();
 
         $qgmnow = "SELECT
@@ -355,7 +386,7 @@ function uang($nilai)
           OR
           giro.id_karyawan = '$s->id_karyawan' AND
           tgl_giro >= '$dari' AND tgl_giro <= '$sampai'
-          AND tglbayar >=  '$end' " . $om_bulan . " AND omset_tahun >= '$tahunskrg'
+          AND tglbayar >=  '$end' " . $om_bulan . $om_tahun."
           GROUP BY giro.id_karyawan";
         $gmnow = $this->db->query($qgmnow)->row_array();
 

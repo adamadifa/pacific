@@ -516,6 +516,7 @@ class Model_produksi extends CI_Model
   {
 
     $nobukti            = $this->input->post('nobukti');
+    // $this->db->join('supplier', 'pengeluaran_gp.kode_supplier = supplier.kode_supplier');
     return $this->db->get_where('pengeluaran_gp', array('nobukti_pengeluaran' => $nobukti));
   }
 

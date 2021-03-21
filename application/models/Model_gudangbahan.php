@@ -108,6 +108,7 @@ class Model_gudangbahan extends CI_Model
     $this->db->from('pengeluaran_gp');
     $this->db->order_by('tgl_pengeluaran,nobukti_pengeluaran', 'DESC');
     $this->db->where('kode_dept', 'Retur Out');
+    $this->db->where('kode_supplier!=', '');
     $this->db->where('nobukti_pengeluaran NOT IN (SELECT nobukti_retur FROM retur_gb)');
 
     if ($nobukti != '') {
@@ -130,7 +131,9 @@ class Model_gudangbahan extends CI_Model
     $this->db->select('count(*) as allcount');
     $this->db->from('pengeluaran_gp');
     $this->db->order_by('tgl_pengeluaran', 'desc');
+    $this->db->where('kode_supplier!=', '');
     $this->db->where('kode_dept', 'Retur Out');
+    $this->db->where('nobukti_pengeluaran NOT IN (SELECT nobukti_retur FROM retur_gb)');
 
     if ($nobukti != '') {
       $this->db->like('nobukti_pengeluaran', $nobukti);
@@ -680,7 +683,9 @@ class Model_gudangbahan extends CI_Model
   {
 
     $nobukti            = $this->input->post('nobukti');
-    return $this->db->get_where('pengeluaran_gb', array('nobukti_pengeluaran' => $nobukti));
+    $this->db->from('pengeluaran_gb');
+    // $this->db->join('supplier', 'pengeluaran_gb.supplier = supplier.kode_supplier');
+    $this->db->where('nobukti_pengeluaran', $nobukti);
   }
 
   public function getrecordPembelianCount($nobukti = "", $tgl_pembelian = "", $departemen = "", $ppn = "", $ln = "", $supplier = "")
@@ -1387,7 +1392,7 @@ class Model_gudangbahan extends CI_Model
     $tgl_retur            = $this->input->post('tgl');
     $tgl_approve_gb     = $this->input->post('tgl_approve_gb');
     $tgl_approve_pemb     = $this->input->post('tgl_approve_pemb');
-    $supplier             = $this->input->post('kode_supplier');
+    $supplier             = $this->input->post('supplier');
 
     $data = array(
 
@@ -1618,6 +1623,14 @@ class Model_gudangbahan extends CI_Model
     $nobukti  = $this->input->post('nobukti');
     $this->db->join('master_barang_pembelian', 'detail_pengeluaran_gb.kode_barang = master_barang_pembelian.kode_barang');
     return $this->db->get_where('detail_pengeluaran_gb', array('nobukti_pengeluaran' => $nobukti));
+  }
+
+  function getPengeluaranGp()
+  {
+
+    $nobukti            = $this->input->post('nobukti');
+    $this->db->join('supplier', 'pengeluaran_gp.kode_supplier = supplier.kode_supplier');
+    return $this->db->get_where('pengeluaran_gp', array('nobukti_pengeluaran' => $nobukti));
   }
 
   function hapus_detailpengeluaran_temp()
