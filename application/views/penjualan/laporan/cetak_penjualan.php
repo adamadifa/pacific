@@ -193,10 +193,15 @@ if ($dari < '2018-09-01') {
 				$subtotalpotist		= $subtotalpotist + $p->potistimewa;
 				$subtotalnetto  	= $subtotalnetto + $p->totalpiutang;
 
+				if ($p->status == "1") {
+					$bgcolor = "orange";
+				} else {
+					$bgcolor = "";
+				}
 
 
 			?>
-				<tr>
+				<tr bgcolor="<?php echo $bgcolor; ?>">
 					<td rowspan="<?php echo $jmlbarang; ?>"><?php echo $no; ?></td>
 					<td rowspan="<?php echo $jmlbarang; ?>"><?php echo DateToIndo2($p->tgltransaksi); ?></td>
 					<td rowspan="<?php echo $jmlbarang; ?>"><?php echo $p->no_fak_penj; ?></td>
@@ -296,7 +301,11 @@ if ($dari < '2018-09-01') {
 						if ($b2->promo == 1) {
 							$color = "background-color:yellow";
 						} else {
-							$color = "background-color:white";
+							if ($p->status == 1) {
+								$color = "background-color:orange";
+							} else {
+								$color = "background-color:white";
+							}
 						}
 				?>
 						<tr style="<?php echo $color; ?>">

@@ -4,26 +4,26 @@ class Model_laporanpenjualan extends CI_Model
 {
 
 	function getDetailCostratioBiaya($cabang = "", $dari, $sampai)
-  {
-    
-	if ($cabang != "") {
-		$cabang = "AND costratio_biaya.kode_cabang = '".$cabang."' ";
-	}
-    return $this->db->query("SELECT kode_cr,tgl_transaksi,costratio_biaya.kode_akun,nama_akun,costratio_biaya.id_sumber_costratio,jumlah,keterangan,nama_sumber,kode_cabang
+	{
+
+		if ($cabang != "") {
+			$cabang = "AND costratio_biaya.kode_cabang = '" . $cabang . "' ";
+		}
+		return $this->db->query("SELECT kode_cr,tgl_transaksi,costratio_biaya.kode_akun,nama_akun,costratio_biaya.id_sumber_costratio,jumlah,keterangan,nama_sumber,kode_cabang
 	FROM costratio_biaya
 	LEFT JOIN coa ON coa.kode_akun=costratio_biaya.kode_akun
 	LEFT JOIN costratio_sumber ON costratio_sumber.id_sumber_costratio=costratio_biaya.id_sumber_costratio
 	WHERE tgl_transaksi BETWEEN '$dari' AND '$sampai' 
 	AND LEFT(costratio_biaya.kode_akun,3) = '6-1' 
 	"
-	.$cabang
-	."
+			. $cabang
+			. "
 	OR tgl_transaksi BETWEEN '$dari' AND '$sampai' AND LEFT(costratio_biaya.kode_akun,3) = '6-2' "
-	.$cabang
-	."
+			. $cabang
+			. "
 	");
-  }
-  
+	}
+
 	function get_salesman($cabang)
 	{
 		$this->db->order_by('id_karyawan', 'asc');
@@ -277,7 +277,8 @@ GROUP BY
     penjualan.jenisbayar AS jenisbayar,
     penjualan.id_karyawan AS id_karyawan,
     karyawan.nama_karyawan AS nama_karyawan,
-    penjualan.jatuhtempo AS jatuhtempo
+    penjualan.jatuhtempo AS jatuhtempo,
+		penjualan.status
   FROM
     penjualan
         JOIN
@@ -563,7 +564,7 @@ GROUP BY
 	function kasbesar($dari, $sampai, $cabang = null, $salesman = null, $pelanggan = null, $jenisbayar = null)
 	{
 
-		$this->db->select('historibayar.no_fak_penj,karyawan.nama_karyawan,k.nama_karyawan as penagih,tgltransaksi,tglbayar,bayar,bayar as bayarterakhir,girotocash,status_bayar,date_format(historibayar.date_created, "%d %M %Y %H:%i:%s") as date_created, date_format(historibayar.date_updated, "%d %M %Y %H:%i:%s") as date_updated,
+		$this->db->select('historibayar.no_fak_penj,karyawan.nama_karyawan,k.nama_karyawan as penagih,tgltransaksi,tglbayar,bayar,bayar as bayarterakhir,girotocash,status_bayar,date_format(historibayar.date_created, "%d %M %Y %H:%i:%s") as date_created, date_format(historibayar.date_updated, "%d %M %Y %H:%i:%s") as date_updated,penjualan.status,
 			(
 				SELECT IFNULL(penjualan.total, 0) - (ifnull(r.totalpf, 0) - ifnull(r.totalgb, 0)) AS totalpiutang
 				FROM penjualan
@@ -718,6 +719,7 @@ GROUP BY
 			penjualan.jenistransaksi AS jenistransaksi,
 			penjualan.jenisbayar AS jenisbayar,
 			penjualan.id_karyawan AS id_karyawan,
+			penjualan.status,
 			salesbarunew,
 			karyawan.nama_karyawan AS nama_karyawan,
 			IFNULL(penjbulanini.subtotal,0) AS subtotal,
@@ -2899,8 +2901,8 @@ GROUP BY
 	{
 		$tgl = $tahun . "-" . $bulan . "-01";
 		$tanggal = date("Y-m-t", strtotime($tgl));
-		
-		
+
+
 		$query = "SELECT
 			sum(ifnull(penjualan.total, 0) - ifnull(retur.total, 0) - ifnull(hblalu.jmlbayar, 0)) AS jumlah
 		FROM

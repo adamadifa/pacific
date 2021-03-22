@@ -28,10 +28,10 @@ class Laporanpenjualan extends CI_Controller
 
   function penjualanpending()
   {
-      $data['lvl']    = $this->session->userdata('level_user');
-      $data['cb']     = $this->session->userdata('cabang');
-      $data['cabang'] = $this->Model_cabang->view_cabang()->result();
-      $this->template->load('template/template', 'penjualan/laporan/penjualanpending.php', $data);
+    $data['lvl']    = $this->session->userdata('level_user');
+    $data['cb']     = $this->session->userdata('cabang');
+    $data['cabang'] = $this->Model_cabang->view_cabang()->result();
+    $this->template->load('template/template', 'penjualan/laporan/penjualanpending.php', $data);
   }
 
 
@@ -1239,7 +1239,7 @@ class Laporanpenjualan extends CI_Controller
     $data['dari'] = $dari;
     $data['sampai'] = $sampai;
     $data['cabang'] = $cabang;
-    
+
     if (isset($_POST['export'])) {
       // Fungsi header dengan mengirimkan raw data excel
       header("Content-type: application/vnd-ms-excel");
@@ -1247,7 +1247,7 @@ class Laporanpenjualan extends CI_Controller
       // Mendefinisikan nama file ekspor "hasil-export.xls"
       header("Content-Disposition: attachment; filename=Detail CostRatio.xls");
     }
-    
+
     $data['data'] = $this->Model_laporanpenjualan->getDetailCostratioBiaya($cabang, $dari, $sampai)->result();
     $this->load->view('penjualan/laporan/cetak_detail_costratio', $data);
   }
