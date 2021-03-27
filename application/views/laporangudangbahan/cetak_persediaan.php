@@ -22,21 +22,26 @@ function uang($nilai)
   TAHUN <?php echo $tahun; ?><br>
 </b>
 <br>
+<style>
+tr:nth-child(even) {
+  background-color: #d6d6d6c2;
+}
+</style>
 <table class="datatable3" style="width:100%" border="1">
   <thead>
-    <tr>
+    <tr bgcolor="#024a75">
       <th rowspan="3" bgcolor="#024a75" style="color:white; font-size:14;">NO</th>
       <th rowspan="3" bgcolor="#024a75" style="color:white; font-size:14;">KODE BARANG</th>
       <th rowspan="3" bgcolor="#024a75" style="color:white; font-size:14;">NAMA BARANG</th>
       <th rowspan="3" bgcolor="#024a75" style="color:white; font-size:14;">SATUAN</th>
     </tr>
-    <tr bgcolor="#024a75">
-      <th colspan="2" style="color:white; font-size:14;">SALDO AWAL</th>
-      <th colspan="3" style="color:white; font-size:14;">PEMASUKAN</th>
-      <th colspan="6" style="color:white; font-size:14;">PENGELUARAN</th>
-      <th colspan="2" style="color:white; font-size:14;">SALDO AKHIR</th>
+    <tr bgcolor="#28a745">
+      <th colspan="2" bgcolor="#28a745" style="color:white; font-size:14;">SALDO AWAL</th>
+      <th colspan="3" bgcolor="#28a745" style="color:white; font-size:14;">PEMASUKAN</th>
+      <th colspan="6" bgcolor="#28a745" style="color:white; font-size:14;">PENGELUARAN</th>
+      <th colspan="2" bgcolor="#28a745" style="color:white; font-size:14;">SALDO AKHIR</th>
     </tr>
-    <tr bgcolor="#024a75">
+    <tr bgcolor="red">
       <th style="color:white; font-size:14;">UNIT</th>
       <th style="color:white; font-size:14;">BERAT</th>
       <th style="color:white; font-size:14;">PEMBELIAN</th>

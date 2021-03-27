@@ -121,8 +121,14 @@
 				$totalother 	= $totalother + $other;
 				$totalpelunasan = $totalpelunasan + $pelunasan;
 				$totalbayar 	= $totalbayar + $bayar;
+
+				if ($k->status == "1") {
+					$bgcolor = "orange";
+				} else {
+					$bgcolor = "";
+				}
 		?>
-				<tr>
+				<tr bgcolor="<?php echo $bgcolor; ?>">
 
 					<td><?php echo DateToIndo2($k->tglbayar); ?></td>
 					<td><?php echo $k->no_fak_penj; ?></td>

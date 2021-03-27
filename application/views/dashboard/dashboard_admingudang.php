@@ -9,6 +9,14 @@
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="table-responsive mb-4">
+        <div id="loadrekappenjualan">
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- Content here -->
   <div class="row">
     <div class="col-md-6">
@@ -107,6 +115,22 @@
       loadsaldobs();
     });
 
-
+    function loadrekappenjualan() {
+      var bulan = "<?php echo date("m"); ?>";
+      var tahun = "<?php echo date("Y"); ?>"
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>laporanpenjualan/loadrekappenjualanka',
+        data: {
+          bulan: bulan,
+          tahun: tahun
+        },
+        cache: false,
+        success: function(respond) {
+          $("#loadrekappenjualan").html(respond);
+        }
+      });
+    }
+    loadrekappenjualan();
   });
 </script>

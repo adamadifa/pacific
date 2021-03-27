@@ -69,6 +69,16 @@
                       </div>
                     </div>
                   </div>
+                  <div class="row mb-3">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <select id="status" name="status" class="form-select">
+                          <option value="">Semua Status</option>
+                          <option value="pending">Pending</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
                   <div class="mb-3 form-group">
                     <div class="row">
                       <div class="col-md-6">
@@ -81,7 +91,8 @@
                               <line x1="8" y1="3" x2="8" y2="7" />
                               <line x1="4" y1="11" x2="20" y2="11" />
                               <line x1="11" y1="15" x2="12" y2="15" />
-                              <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                              <line x1="12" y1="15" x2="12" y2="18" />
+                            </svg>
                           </span>
                         </div>
                       </div>
@@ -96,7 +107,8 @@
                               <line x1="8" y1="3" x2="8" y2="7" />
                               <line x1="4" y1="11" x2="20" y2="11" />
                               <line x1="11" y1="15" x2="12" y2="15" />
-                              <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                              <line x1="12" y1="15" x2="12" y2="18" />
+                            </svg>
                           </span>
                         </div>
                       </div>
@@ -167,7 +179,8 @@
                               <line x1="8" y1="3" x2="8" y2="7" />
                               <line x1="4" y1="11" x2="20" y2="11" />
                               <line x1="11" y1="15" x2="12" y2="15" />
-                              <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                              <line x1="12" y1="15" x2="12" y2="18" />
+                            </svg>
                           </span>
                         </div>
                       </div>
@@ -182,7 +195,8 @@
                               <line x1="8" y1="3" x2="8" y2="7" />
                               <line x1="4" y1="11" x2="20" y2="11" />
                               <line x1="11" y1="15" x2="12" y2="15" />
-                              <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                              <line x1="12" y1="15" x2="12" y2="18" />
+                            </svg>
                           </span>
                         </div>
                       </div>

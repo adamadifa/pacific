@@ -311,7 +311,13 @@
     </div>
   </div>
 
-
+  <script>
+    function toggleZoomScreen() {
+      var width = window.screen.width;
+      document.body.style.zoom = "80%";
+    }
+    toggleZoomScreen();
+  </script>
   <script type="text/javascript">
     $(function() {
 
@@ -323,13 +329,7 @@
   <script>
     document.body.style.display = "block"
   </script>
-  <script>
-    function toggleZoomScreen() {
-      var width = window.screen.width;
-      document.body.style.zoom = "90%";
-    }
-    toggleZoomScreen();
-  </script>
+
 </body>
 
 </html>

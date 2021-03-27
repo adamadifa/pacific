@@ -1,3 +1,4 @@
+
 <?php
 
 class Model_penjualan extends CI_Model
@@ -3354,7 +3355,7 @@ class Model_penjualan extends CI_Model
     }
 
     $querysetpenj = "SELECT SUM(setoran_kertas) as uangkertas,
-		SUM(setoran_logam) as uanglogam,SUM(setoran_bg) as giro,SUM(setoran_transfer) as transfer,SUM(girotocash) as girotocash
+		SUM(setoran_logam) as uanglogam,SUM(setoran_bg) as giro,SUM(setoran_transfer) as transfer,SUM(girotocash) as girotocash,SUM(girototransfer) as girototransfer
 		FROM setoran_penjualan
 		WHERE kode_cabang='$cabang' AND MONTH(tgl_lhp)='$bulan' AND YEAR(tgl_lhp)='$tahun'";
     $setpenj = $this->db->query($querysetpenj);
@@ -5194,94 +5195,95 @@ class Model_penjualan extends CI_Model
       $totalpiutang = $piutang + $d->total;
 
       //echo $ceklimit['limitpel'];
-      if ($totalpiutang <= $ceklimit['limitpel']) {
-        $datapenjualan = [
-          'no_fak_penj' => $d->no_fak_penj,
-          'tgltransaksi' => $d->tgltransaksi,
-          'kode_pelanggan' => $d->kode_pelanggan,
-          'id_karyawan' => $d->id_karyawan,
-          'subtotal' => $d->subtotal,
-          'potaida' => $d->potaida,
-          'potswan' => $d->potswan,
-          'potstick' => $d->potstick,
-          'potongan' => $d->potongan,
-          'potisaida' => $d->potisaida,
-          'potisswan' => $d->potisswan,
-          'potisstick' => $d->potisstick,
-          'potistimewa' => $d->potistimewa,
-          'penyaida' => $d->penyaida,
-          'penyswan' => $d->penyswan,
-          'penystick' => $d->penystick,
-          'penyharga' => $d->penyharga,
-          'total' => $d->total,
-          'jenistransaksi' => $d->jenistransaksi,
-          'jenisbayar' => $d->jenisbayar,
-          'jatuhtempo' => $d->jatuhtempo,
-          'id_admin' => $id_admin
-        ];
+      // if ($totalpiutang <= $ceklimit['limitpel']) {
+      $datapenjualan = [
+        'no_fak_penj' => $d->no_fak_penj,
+        'tgltransaksi' => $d->tgltransaksi,
+        'kode_pelanggan' => $d->kode_pelanggan,
+        'id_karyawan' => $d->id_karyawan,
+        'subtotal' => $d->subtotal,
+        'potaida' => $d->potaida,
+        'potswan' => $d->potswan,
+        'potstick' => $d->potstick,
+        'potongan' => $d->potongan,
+        'potisaida' => $d->potisaida,
+        'potisswan' => $d->potisswan,
+        'potisstick' => $d->potisstick,
+        'potistimewa' => $d->potistimewa,
+        'penyaida' => $d->penyaida,
+        'penyswan' => $d->penyswan,
+        'penystick' => $d->penystick,
+        'penyharga' => $d->penyharga,
+        'total' => $d->total,
+        'jenistransaksi' => $d->jenistransaksi,
+        'jenisbayar' => $d->jenisbayar,
+        'jatuhtempo' => $d->jatuhtempo,
+        'id_admin' => $id_admin,
+        'status' => 1
+      ];
 
-        $simpanpenjualan = $this->db->insert('penjualan', $datapenjualan);
-        //echo $totalpiutang;
-        if ($simpanpenjualan) {
-          $detailpenjpending = $this->db->get_where('detailpenjualan_pending', array('no_fak_penj' => $d->no_fak_penj))->result();
-          $hbpending = $this->db->get_where('historibayar_pending', array('no_fak_penj' => $d->no_fak_penj))->result();
-          //var_dump($detailpenjpending);
-          //echo $detailpenjpending;
-          foreach ($detailpenjpending as $dp) {
-            $datadetail = [
-              'no_fak_penj' => $dp->no_fak_penj,
-              'kode_barang' => $dp->kode_barang,
-              'harga_dus' => $dp->harga_dus,
-              'harga_pack' => $dp->harga_pack,
-              'harga_pcs' => $dp->harga_pcs,
-              'jumlah' => $dp->jumlah,
-              'subtotal' => $dp->subtotal,
-              'promo' => $dp->promo,
-              'id_admin' => $dp->id_admin
-            ];
+      $simpanpenjualan = $this->db->insert('penjualan', $datapenjualan);
+      //echo $totalpiutang;
+      if ($simpanpenjualan) {
+        $detailpenjpending = $this->db->get_where('detailpenjualan_pending', array('no_fak_penj' => $d->no_fak_penj))->result();
+        $hbpending = $this->db->get_where('historibayar_pending', array('no_fak_penj' => $d->no_fak_penj))->result();
+        //var_dump($detailpenjpending);
+        //echo $detailpenjpending;
+        foreach ($detailpenjpending as $dp) {
+          $datadetail = [
+            'no_fak_penj' => $dp->no_fak_penj,
+            'kode_barang' => $dp->kode_barang,
+            'harga_dus' => $dp->harga_dus,
+            'harga_pack' => $dp->harga_pack,
+            'harga_pcs' => $dp->harga_pcs,
+            'jumlah' => $dp->jumlah,
+            'subtotal' => $dp->subtotal,
+            'promo' => $dp->promo,
+            'id_admin' => $dp->id_admin
+          ];
 
-            $simpandetailpending = $this->db->insert('detailpenjualan', $datadetail);
-          }
-          $cabang         = $d->kode_cabang;
-          $tahunini       = date('y');
-          $qbayar         = "SELECT nobukti FROM historibayar WHERE LEFT(nobukti,6) ='$cabang$tahunini-'ORDER BY nobukti DESC LIMIT 1 ";
-          $ceknolast      = $this->db->query($qbayar)->row_array();
-          $nobuktilast    = $ceknolast['nobukti'];
-          $nobukti         = buatkode($nobuktilast, $cabang . $tahunini . "-", 6);
-          foreach ($hbpending as $h) {
-            $databayar = [
-              'nobukti' => $nobukti,
-              'no_fak_penj' => $h->no_fak_penj,
-              'tglbayar' => $h->tglbayar,
-              'jenistransaksi' => $h->jenistransaksi,
-              'jenisbayar' => $h->jenisbayar,
-              'status_bayar' => $h->status_bayar,
-              'bayar' => $h->bayar,
-              'id_karyawan' => $h->id_karyawan,
-              'id_admin' => $h->id_admin,
-            ];
-
-            $simpanbayar = $this->db->insert('historibayar', $databayar);
-          }
+          $simpandetailpending = $this->db->insert('detailpenjualan', $datadetail);
         }
-        $this->session->set_flashdata(
-          'msg',
-          '<div class="alert bg-green text-white alert-dismissible" role="alert">
+        $cabang         = $d->kode_cabang;
+        $tahunini       = date('y');
+        $qbayar         = "SELECT nobukti FROM historibayar WHERE LEFT(nobukti,6) ='$cabang$tahunini-'ORDER BY nobukti DESC LIMIT 1 ";
+        $ceknolast      = $this->db->query($qbayar)->row_array();
+        $nobuktilast    = $ceknolast['nobukti'];
+        $nobukti         = buatkode($nobuktilast, $cabang . $tahunini . "-", 6);
+        foreach ($hbpending as $h) {
+          $databayar = [
+            'nobukti' => $nobukti,
+            'no_fak_penj' => $h->no_fak_penj,
+            'tglbayar' => $h->tglbayar,
+            'jenistransaksi' => $h->jenistransaksi,
+            'jenisbayar' => $h->jenisbayar,
+            'status_bayar' => $h->status_bayar,
+            'bayar' => $h->bayar,
+            'id_karyawan' => $h->id_karyawan,
+            'id_admin' => $h->id_admin,
+          ];
+
+          $simpanbayar = $this->db->insert('historibayar', $databayar);
+        }
+      }
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-green text-white alert-dismissible" role="alert">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil Disimpan !
           </div>'
-        );
-        redirect('penjualan/penjualanpend');
-      } else {
-        $this->session->set_flashdata(
-          'msg',
-          '<div class="alert bg-orange text-white alert-dismissible" role="alert">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <i class="fa fa-info" style="float:left; margin-right:10px"></i> Data Transaksi Masih Melebihi Limit!
-          </div>'
-        );
-        redirect('penjualan/penjualanpend');
-      }
+      );
+      redirect('penjualan/penjualanpend');
+      // } else {
+      //   $this->session->set_flashdata(
+      //     'msg',
+      //     '<div class="alert bg-orange text-white alert-dismissible" role="alert">
+      //         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      //         <i class="fa fa-info" style="float:left; margin-right:10px"></i> Data Transaksi Masih Melebihi Limit!
+      //     </div>'
+      //   );
+      //   redirect('penjualan/penjualanpend');
+      // }
     }
 
     // die;

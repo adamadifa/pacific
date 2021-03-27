@@ -46,29 +46,29 @@ function uang($nilai)
                               } ?> border="1">
   <thead>
     <tr bgcolor="#024a75">
-      <th rowspan="2" bgcolor="#024a75" style="color:white; font-size:14;width:30px">NO</th>
-      <th rowspan="2" bgcolor="#024a75" style="color:white; font-size:14;width:50px">KODE</th>
-      <th rowspan="2" bgcolor="#024a75" style="color:white; font-size:14;width:150px">NAMA BARANG</th>
+      <th rowspan="2" bgcolor="#024a75" style="color:white; font-size:14;width:15px">NO</th>
+      <th rowspan="2" bgcolor="#024a75" style="color:white; font-size:14;width:100px">KODE</th>
+      <th rowspan="2" bgcolor="#024a75" style="color:white; font-size:14;">NAMA BARANG</th>
       <th <?php if ($kategori == "K001") {
             echo "colspan='3'";
           } else {
             echo "rowspan='2'";
-          } ?> style="color:white; font-size:14;width:280px">SALDO AWAL</th>
+          } ?> style="color:white; font-size:14;width:180px">SALDO AWAL</th>
       <th <?php if ($kategori == "K001") {
             echo "colspan='3'";
           } else {
             echo "rowspan='2'";
-          } ?> style="color:white; font-size:14;width:280px">MASUK</th>
+          } ?> style="color:white; font-size:14;width:180px">MASUK</th>
       <th <?php if ($kategori == "K001") {
             echo "colspan='3'";
           } else {
             echo "rowspan='2'";
-          } ?> style="color:white; font-size:14;width:280px">KELUAR</th>
+          } ?> style="color:white; font-size:14;width:180px">KELUAR</th>
       <th <?php if ($kategori == "K001") {
             echo "colspan='3'";
           } else {
             echo "rowspan='2'";
-          } ?> style="color:white; font-size:14;width:280px">STOK AKHIR KARTU GUDANG</th>
+          } ?> style="color:white; font-size:14;width:180px">STOK AKHIR KARTU GUDANG</th>
       <th rowspan="2" style="color:white; font-size:14;width:70px">OPNAME</th>
       <th rowspan="2" style="color:white; font-size:14;width:70px">SELISIH</th>
     </tr>
@@ -153,9 +153,9 @@ function uang($nilai)
 
     ?>
       <tr style="font-size: 12">
-        <td width="31px"><?php echo $no++; ?></td>
-        <td width="50px"><?php echo $d->kode_barang; ?></td>
-        <td width="154px"><?php echo $d->nama_barang; ?></td>
+        <td width="15px"><?php echo $no++; ?></td>
+        <td width="100px"><?php echo $d->kode_barang; ?></td>
+        <td><?php echo $d->nama_barang; ?></td>
         <!-- Saldo Awal -->
         <td width="70px" align="center">
           <?php
@@ -236,13 +236,13 @@ function uang($nilai)
           </td>
         <?php } ?>
         <!-- Opname -->
-        <td width="70px" align="right">
+        <td width="70px" align="center">
           <?php if (!empty($d->qtyopname) and $d->qtyopname != "0") {
             echo uang($d->qtyopname);
           }
           ?>
         </td>
-        <td width="70px" align="right">
+        <td width="70px" align="center">
           <?php if (!empty($selsish) and $selsish != "0") {
             echo uang($selsish);
           }

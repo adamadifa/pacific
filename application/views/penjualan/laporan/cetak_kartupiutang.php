@@ -135,8 +135,14 @@
 				$netto 						= $netto + $piutangbulanini;
 				$totalpmb 				= $totalpmb + $k->bayarbulanini;
 				$totalsaldoakkhir	= $totalsaldoakkhir + $saldoakhir;
+
+				if ($k->status == "1") {
+					$bgcolor = "orange";
+				} else {
+					$bgcolor = "";
+				}
 		?>
-				<tr>
+				<tr bgcolor="<?php echo $bgcolor; ?>">
 					<td><?php echo $no; ?></td>
 					<td><?php echo DateToIndo2($k->tgltransaksi); ?></td>
 					<td><?php echo $k->usiapiutang . " Hari"; ?></td>

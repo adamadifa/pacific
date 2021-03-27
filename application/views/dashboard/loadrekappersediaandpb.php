@@ -518,7 +518,7 @@ AND `kode_produk` = 'SPP' AND kode_cabang='$r->kode_cabang'")->row_array();
       $sdk  = ($dk['jumlah'] / 30) + ($msjdk['jumlah'] / 30) - $dpbambildk['jumlah'] + $dpbambildk['jumlah_kembali'];
       $sds  = ($ds['jumlah'] / 504) + ($msjds['jumlah'] / 504) - $dpbambilds['jumlah'] + $dpbambilds['jumlah_kembali'];
       $ssp  = ($sp['jumlah'] / 12) + ($msjsp['jumlah'] / 12) - $dpbambilsp['jumlah'] + $dpbambilsp['jumlah_kembali'];
-      $sspp  = ($spp['jumlah'] / 12) + ($msjspp['jumlah'] / 12) - $dpbambilspp['jumlah'] + $dpbambilspp['jumlah_kembali'];
+      $sspp  = ($spp['jumlah'] / 1) + ($msjspp['jumlah'] / 1) - $dpbambilspp['jumlah'] + $dpbambilspp['jumlah_kembali'];
 
       if ($sab <= 0) {
         $colorab = "bg-red";

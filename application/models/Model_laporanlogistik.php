@@ -237,31 +237,19 @@ class Model_laporanlogistik extends CI_Model
     }
 
     $query = "
-    SELECT detail_pengeluaran.nobukti_pengeluaran,
-    detail_pengeluaran.kode_barang,
-    detail_pengeluaran.keterangan,
-    detail_pengeluaran.kode_cabang,
-    detail_pengeluaran.qty,
-    pengeluaran.kode_dept,
-    pengeluaran.tgl_pengeluaran,
-    pengeluaran.gdb,
-    pengeluaran.tgl_pembelian,
-    detail_pengeluaran.kode_akun,
-    master_barang_pembelian.nama_barang,
-    master_barang_pembelian.satuan,
-    master_barang_pembelian.jenis_barang,
-    cabang.nama_cabang
+    SELECT *
+    
     FROM detail_pengeluaran
 
     INNER JOIN pengeluaran ON 
     pengeluaran.nobukti_pengeluaran = detail_pengeluaran.nobukti_pengeluaran
-    LEFt JOIN cabang ON 
+    LEFT JOIN cabang ON 
     detail_pengeluaran.kode_cabang = cabang.kode_cabang
-    INNER JOIN departemen ON 
+    LEFT JOIN departemen ON 
     departemen.kode_dept = pengeluaran.kode_dept
-    INNER JOIN master_barang_pembelian ON 
+    LEFT JOIN master_barang_pembelian ON 
     master_barang_pembelian.kode_barang = detail_pengeluaran.kode_barang
-    INNER JOIN kategori_barang_pembelian ON 
+    LEFT JOIN kategori_barang_pembelian ON 
     master_barang_pembelian.kode_kategori = kategori_barang_pembelian.kode_kategori
 
     WHERE pengeluaran.tgl_pengeluaran BETWEEN '$dari' AND '$sampai' AND master_barang_pembelian.status = 'Aktif' AND  master_barang_pembelian.kode_dept = 'GDL'"

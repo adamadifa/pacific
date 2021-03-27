@@ -17,6 +17,11 @@ function uang($nilai)
   TAHUN <?php echo $tahun; ?><br>
 </b>
 <br>
+<style>
+tr:nth-child(even) {
+  background-color: #d6d6d6c2;
+}
+</style>
 <table class="datatable3" style="width:100%" border="1" style="font-size: 14">
   <thead>
     <tr bgcolor="#024a75">

@@ -4,26 +4,26 @@ class Model_laporanpenjualan extends CI_Model
 {
 
 	function getDetailCostratioBiaya($cabang = "", $dari, $sampai)
-  {
-    
-	if ($cabang != "") {
-		$cabang = "AND costratio_biaya.kode_cabang = '".$cabang."' ";
-	}
-    return $this->db->query("SELECT kode_cr,tgl_transaksi,costratio_biaya.kode_akun,nama_akun,costratio_biaya.id_sumber_costratio,jumlah,keterangan,nama_sumber,kode_cabang
+	{
+
+		if ($cabang != "") {
+			$cabang = "AND costratio_biaya.kode_cabang = '" . $cabang . "' ";
+		}
+		return $this->db->query("SELECT kode_cr,tgl_transaksi,costratio_biaya.kode_akun,nama_akun,costratio_biaya.id_sumber_costratio,jumlah,keterangan,nama_sumber,kode_cabang
 	FROM costratio_biaya
 	LEFT JOIN coa ON coa.kode_akun=costratio_biaya.kode_akun
 	LEFT JOIN costratio_sumber ON costratio_sumber.id_sumber_costratio=costratio_biaya.id_sumber_costratio
 	WHERE tgl_transaksi BETWEEN '$dari' AND '$sampai' 
 	AND LEFT(costratio_biaya.kode_akun,3) = '6-1' 
 	"
-	.$cabang
-	."
+			. $cabang
+			. "
 	OR tgl_transaksi BETWEEN '$dari' AND '$sampai' AND LEFT(costratio_biaya.kode_akun,3) = '6-2' "
-	.$cabang
-	."
+			. $cabang
+			. "
 	");
-  }
-  
+	}
+
 	function get_salesman($cabang)
 	{
 		$this->db->order_by('id_karyawan', 'asc');
@@ -231,7 +231,7 @@ GROUP BY
 		return $this->db->query($query);
 	}
 
-	function list_penjualan($dari, $sampai, $cabang = null, $salesman = null, $pelanggan = null, $jt = null)
+	function list_penjualan($dari, $sampai, $cabang = null, $salesman = null, $pelanggan = null, $jt = null, $status = null)
 	{
 		if ($cabang  != "") {
 			$cabang = "AND karyawan.kode_cabang = '" . $cabang . "' ";
@@ -248,6 +248,18 @@ GROUP BY
 		if ($jt != "") {
 			$jt = "AND penjualan.jenistransaksi = '" . $jt . "'";
 		}
+
+		if ($status != "") {
+			if ($status == "pending") {
+				$sts = 1;
+				$st = "AND penjualan.status = '" . $sts . "'";
+			} else {
+				$st = "";
+			}
+		} else {
+			$st = "";
+		}
+
 		$query = "SELECT
     penjualan.no_fak_penj AS no_fak_penj,
     penjualan.tgltransaksi AS tgltransaksi,
@@ -277,7 +289,8 @@ GROUP BY
     penjualan.jenisbayar AS jenisbayar,
     penjualan.id_karyawan AS id_karyawan,
     karyawan.nama_karyawan AS nama_karyawan,
-    penjualan.jatuhtempo AS jatuhtempo
+    penjualan.jatuhtempo AS jatuhtempo,
+		penjualan.status
   FROM
     penjualan
         JOIN
@@ -305,6 +318,7 @@ GROUP BY
 			. $salesman
 			. $pelanggan
 			. $jt
+			. $st
 			. "
         GROUP BY
           penjualan.no_fak_penj,
@@ -414,27 +428,43 @@ GROUP BY
 	function loadrekappenjualan($bulan, $tahun)
 	{
 
+		$cabang = $this->session->userdata('cabang');
+		if ($cabang != "pusat") {
+			$jt = "AND pelanggan.kode_cabang = '" . $cabang . "'";
+		} else {
+			$jt = "";
+		}
 		$query = "SELECT
 
           pelanggan.kode_cabang AS kode_cabang,nama_cabang,
 
-          (
-          ifnull( SUM(penjualan.subtotal), 0 )
-          ) AS totalbruto, totalretur,ifnull( SUM(penjualan.penyharga), 0 )  as totalpenyharga,
-          ifnull( SUM(penjualan.potongan), 0 )  as totalpotongan,
-          ifnull( SUM(penjualan.potistimewa), 0 )  as totalpotistimewa
-
+          ( ifnull( SUM( penjualan.subtotal ), 0 ) ) AS totalbruto,
+			ifnull(SUM(IF(penjualan.`status`=1,penjualan.subtotal,0)),0) as totalbrutopending,
+			ifnull(totalretur,0) as totalretur,
+			ifnull(totalreturpending,0) as totalreturpending,
+			
+			ifnull( SUM( penjualan.penyharga ), 0 ) AS totalpenyharga,
+			ifnull(SUM(IF(penjualan.`status`=1,penjualan.penyharga,0)),0) as totalpenyhargapending,
+			
+			
+			ifnull( SUM( penjualan.potongan ), 0 ) AS totalpotongan,
+			ifnull(SUM(IF(penjualan.`status`=1,penjualan.potongan,0)),0) as totalpotonganpending,
+			
+			ifnull( SUM( penjualan.potistimewa ), 0 ) AS totalpotistimewa,
+			ifnull(SUM(IF(penjualan.`status`=1,penjualan.potistimewa,0)),0) as totalpotistimewapending
         FROM
           penjualan
           JOIN pelanggan ON penjualan.kode_pelanggan = pelanggan.kode_pelanggan
           JOIN cabang    ON pelanggan.kode_cabang = cabang.kode_cabang
           LEFT JOIN (
-          SELECT pelanggan.kode_cabang, SUM(retur.total )AS totalretur FROM retur
+          SELECT pelanggan.kode_cabang, SUM(retur.total )AS totalretur ,
+		  SUM(IF(penjualan.`status`=1,retur.total,0)) as totalreturpending
+		  FROM retur
           INNER JOIN penjualan ON retur.no_fak_penj = penjualan.no_fak_penj
           INNER JOIN pelanggan ON penjualan.kode_pelanggan = pelanggan.kode_pelanggan
           WHERE MONTH(tglretur) ='$bulan' AND YEAR(tglretur)='$tahun' GROUP BY pelanggan.kode_cabang) r ON ( pelanggan.kode_cabang = r.kode_cabang )
 
-        WHERE  MONTH(tgltransaksi) ='$bulan' AND YEAR(tgltransaksi)='$tahun'"
+        WHERE  MONTH(tgltransaksi) ='$bulan' AND YEAR(tgltransaksi)='$tahun'" . $jt
 
 			. "
         GROUP BY
@@ -563,7 +593,7 @@ GROUP BY
 	function kasbesar($dari, $sampai, $cabang = null, $salesman = null, $pelanggan = null, $jenisbayar = null)
 	{
 
-		$this->db->select('historibayar.no_fak_penj,karyawan.nama_karyawan,k.nama_karyawan as penagih,tgltransaksi,tglbayar,bayar,bayar as bayarterakhir,girotocash,status_bayar,date_format(historibayar.date_created, "%d %M %Y %H:%i:%s") as date_created, date_format(historibayar.date_updated, "%d %M %Y %H:%i:%s") as date_updated,
+		$this->db->select('historibayar.no_fak_penj,karyawan.nama_karyawan,k.nama_karyawan as penagih,tgltransaksi,tglbayar,bayar,bayar as bayarterakhir,girotocash,status_bayar,date_format(historibayar.date_created, "%d %M %Y %H:%i:%s") as date_created, date_format(historibayar.date_updated, "%d %M %Y %H:%i:%s") as date_updated,penjualan.status,
 			(
 				SELECT IFNULL(penjualan.total, 0) - (ifnull(r.totalpf, 0) - ifnull(r.totalgb, 0)) AS totalpiutang
 				FROM penjualan
@@ -718,6 +748,7 @@ GROUP BY
 			penjualan.jenistransaksi AS jenistransaksi,
 			penjualan.jenisbayar AS jenisbayar,
 			penjualan.id_karyawan AS id_karyawan,
+			penjualan.status,
 			salesbarunew,
 			karyawan.nama_karyawan AS nama_karyawan,
 			IFNULL(penjbulanini.subtotal,0) AS subtotal,
@@ -1740,6 +1771,7 @@ GROUP BY
 							DEP,
 							DK,
 							DS,
+							SP,
 							totalbruto,
 							totalretur,
 							totalpotongan, totalpotistimewa,
@@ -1770,7 +1802,8 @@ GROUP BY
 							SUM( IF ( kode_produk = 'DB', detailpenjualan.subtotal, NULL ) ) AS DB,
 							SUM( IF ( kode_produk = 'DEP', detailpenjualan.subtotal, NULL ) ) AS DEP,
 							SUM( IF ( kode_produk = 'DK', detailpenjualan.subtotal, NULL ) ) AS DK,
-							SUM( IF ( kode_produk = 'DS', detailpenjualan.subtotal, NULL ) ) AS DS
+							SUM( IF ( kode_produk = 'DS', detailpenjualan.subtotal, NULL ) ) AS DS,
+							SUM( IF ( kode_produk = 'SP', detailpenjualan.subtotal, NULL ) ) AS SP
 						FROM
 							detailpenjualan
 							INNER JOIN barang ON detailpenjualan.kode_barang = barang.kode_barang
@@ -2899,8 +2932,8 @@ GROUP BY
 	{
 		$tgl = $tahun . "-" . $bulan . "-01";
 		$tanggal = date("Y-m-t", strtotime($tgl));
-		
-		
+
+
 		$query = "SELECT
 			sum(ifnull(penjualan.total, 0) - ifnull(retur.total, 0) - ifnull(hblalu.jmlbayar, 0)) AS jumlah
 		FROM

@@ -13,6 +13,11 @@ error_reporting(0);
   PERIODE <?php echo DateToIndo2($dari) . " s/d " . DateToIndo2($sampai); ?><br><br>
 </b>
 <br>
+<style>
+tr:nth-child(even) {
+  background-color: #d6d6d6c2;
+}
+</style>
 <table class="datatable3" style="width:100%" border="1" style="font-size: 14">
   <thead>
     <tr>
@@ -22,12 +27,12 @@ error_reporting(0);
       <th colspan="7" bgcolor="#28a745" style="color:white; font-size:14;">BARANG KELUAR</th>
     </tr>
     <tr bgcolor="#024a75">
-      <th style="color:white; font-size:14;">NAMA BARANG</th>
-      <th style="color:white; font-size:14;">SATUAN</th>
-      <th style="color:white; font-size:14;">KETERANGAN</th>
-      <th style="color:white; font-size:14;">QTY UNIT</th>
-      <th style="color:white; font-size:14;">QTY BERAT</th>
-      <th style="color:white; font-size:14;">QTY LEBIH</th>
+      <th style="color:white; font-size:14;" bgcolor="red" >NAMA BARANG</th>
+      <th style="color:white; font-size:14;" bgcolor="red">SATUAN</th>
+      <th style="color:white; font-size:14;" bgcolor="red">KETERANGAN</th>
+      <th style="color:white; font-size:14;" bgcolor="red">QTY UNIT</th>
+      <th style="color:white; font-size:14;" bgcolor="red">QTY BERAT</th>
+      <th style="color:white; font-size:14;" bgcolor="red">QTY LEBIH</th>
     </tr>
   </thead>
   <tbody>

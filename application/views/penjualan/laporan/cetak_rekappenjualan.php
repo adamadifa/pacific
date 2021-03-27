@@ -62,7 +62,7 @@ if ($dari < '2018-09-01') {
 			<tr bgcolor="#024a75" style="color:white; font-size:12;">
 				<td rowspan="2">No</td>
 				<td rowspan="2">Nama Sales</td>
-				<td colspan="10">Produk</td>
+				<td colspan="11">Produk</td>
 				<td rowspan="2" bgcolor="#f5ae15">Penjualan Bruto</td>
 				<td rowspan="2" bgcolor="#f5ae15">Retur</td>
 				<td rowspan="2" bgcolor="#f5ae15">Potongan</td>
@@ -84,6 +84,7 @@ if ($dari < '2018-09-01') {
 				<td>SAUS EXTRA PEDAS</td>
 				<td>KECAP DUS</td>
 				<td>SAUS STICK</td>
+				<td>SAUS PREMIUM</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -99,6 +100,7 @@ if ($dari < '2018-09-01') {
 			$totalDEP 				= 0;
 			$totalDK 					= 0;
 			$totalDS 					= 0;
+			$totalSP 					= 0;
 			$subtotalbruto 		= 0;
 			$totalpotongan 		= 0;
 			$totalpotistimewa	= 0;
@@ -118,6 +120,7 @@ if ($dari < '2018-09-01') {
 			$grandtotalDEP 					= 0;
 			$grandtotalDK 					= 0;
 			$grandtotalDS 					= 0;
+			$grandtotalSP 					= 0;
 			$grandsubtotalbruto 		= 0;
 			$grandtotalpotongan 		= 0;
 			$grandtotalpotistimewa	= 0;
@@ -139,6 +142,7 @@ if ($dari < '2018-09-01') {
 				$totalDEP 							= $totalDEP + $p->DEP;
 				$totalDK 								= $totalDK + $p->DK;
 				$totalDS 								= $totalDS + $p->DS;
+				$totalSP 								= $totalSP + $p->SP;
 				$subtotalbruto					= $subtotalbruto + $p->totalbruto;
 				$totalpotongan  				= $totalpotongan + $p->totalpotongan;
 				$totalretur 						= $totalretur + $p->totalretur;
@@ -159,6 +163,7 @@ if ($dari < '2018-09-01') {
 				$grandtotalDEP 					= $grandtotalDEP + $p->DEP;
 				$grandtotalDK 					= $grandtotalDK + $p->DK;
 				$grandtotalDS 					= $grandtotalDS + $p->DS;
+				$grandtotalSP 					= $grandtotalSP + $p->SP;
 				$grandsubtotalbruto			= $grandsubtotalbruto + $p->totalbruto;
 				$grandtotalpotongan  		= $grandtotalpotongan + $p->totalpotongan;
 				$grandtotalretur 				= $grandtotalretur + $p->totalretur;
@@ -201,6 +206,9 @@ if ($dari < '2018-09-01') {
 																													} ?></td>
 					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->DS)) {
 																														echo uang($p->DS);
+																													} ?></td>
+					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->SP)) {
+																														echo uang($p->SP);
 																													} ?></td>
 					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->totalbruto)) {
 																														echo uang($p->totalbruto);
@@ -248,6 +256,7 @@ if ($dari < '2018-09-01') {
 					<td align="right" >' . uang($totalDEP) . '</td>
 					<td align="right" >' . uang($totalDK) . '</td>
 					<td align="right" >' . uang($totalDS) . '</td>
+					<td align="right" >' . uang($totalSP) . '</td>
 					<td align="right" >' . uang($subtotalbruto) . '</td>
 					<td align="right" >' . uang($totalretur) . '</td>
 					<td align="right" >' . uang($totalpotongan) . '</td>
@@ -268,6 +277,7 @@ if ($dari < '2018-09-01') {
 					$totalDEP 					= 0;
 					$totalDK 						= 0;
 					$totalDS 						= 0;
+					$totalSP 						= 0;
 					$subtotalbruto 			= 0;
 					$totalretur 				= 0;
 					$totalpotongan 			= 0;
@@ -297,6 +307,7 @@ if ($dari < '2018-09-01') {
 					<td align="right" >' . uang($grandtotalDEP) . '</td>
 					<td align="right" >' . uang($grandtotalDK) . '</td>
 					<td align="right" >' . uang($grandtotalDS) . '</td>
+					<td align="right" >' . uang($grandtotalSP) . '</td>
 					<td align="right" >' . uang($grandsubtotalbruto) . '</td>
 					<td align="right" >' . uang($grandtotalretur) . '</td>
 					<td align="right" >' . uang($grandtotalpotongan) . '</td>
@@ -432,6 +443,12 @@ if ($dari < '2018-09-01') {
 				<td style="border:0px"></td>
 				<td colspan="2" style="border:0px">PENJUALAN KECAP BOTOL</td>
 				<td style="border:0px" align="right"><b>-</b></td>
+			</tr>
+			<tr>
+				<td style="border:0px"></td>
+				<td colspan="2" style="border:0px">PENJUALAN SAUS PREMIUM</td>
+				<td style="border:0px" align="right"><b>-</b></td>
+				<!-- <td style="border:0px" align="right"><b><?php echo uang($grandtotalSP); ?></b></td> -->
 			</tr>
 			<tr>
 				<td style="border:0px"></td>

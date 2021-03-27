@@ -13,7 +13,12 @@ error_reporting(0);
   PERIODE <?php echo DateToIndo2($dari) . " s/d " . DateToIndo2($sampai); ?><br><br>
 </b>
 <br>
-<table class="datatable3" style="width:100%; size: A4;zoom:80%" border="1">
+<style>
+tr:nth-child(even) {
+  background-color: #d6d6d6c2;
+}
+</style>
+<table class="datatable3" style="width:100%; zoom:80%" border="1">
   <thead>
     <tr>
       <th rowspan="2" bgcolor="#024a75" style="color:white; font-size:14;">NO</th>
@@ -22,13 +27,13 @@ error_reporting(0);
       <th rowspan="2" bgcolor="#024a75" style="color:white; font-size:14;">DEPARTEMEN</th>
       <th colspan="7" bgcolor="#28a745" style="color:white; font-size:14;">BARANG KELUAR</th>
     </tr>
-    <tr bgcolor="#024a75">
-      <th style="color:white; font-size:14;">KODE BARANG</th>
-      <th style="color:white; font-size:14;">NAMA BARANG</th>
-      <th style="color:white; font-size:14;">SATUAN</th>
-      <th style="color:white; font-size:14;">KETERANGAN</th>
-      <th style="color:white; font-size:14;">CABANG</th>
-      <th style="color:white; font-size:14;">QTY</th>
+    <tr bgcolor="red">
+      <th style="color:white; font-size:14;" bgcolor="red">KODE BARANG</th>
+      <th style="color:white; font-size:14;" bgcolor="red">NAMA BARANG</th>
+      <th style="color:white; font-size:14;" bgcolor="red">SATUAN</th>
+      <th style="color:white; font-size:14;" bgcolor="red">KETERANGAN</th>
+      <th style="color:white; font-size:14;" bgcolor="red">CABANG</th>
+      <th style="color:white; font-size:14;" bgcolor="red">QTY</th>
     </tr>
   </thead>
   <tbody>
@@ -40,7 +45,7 @@ error_reporting(0);
       $qty    = $qty + $d->qty;
       $harga  = $harga + $d->harga;
     ?>
-      <tr style="font-size: 14">
+      <tr style="font-size: 14px">
         <td><?php echo $no++; ?></td>
         <td><?php echo DateToIndo2($d->tgl_pengeluaran); ?></td>
         <td><?php echo $d->nobukti_pengeluaran; ?></td>
@@ -55,7 +60,7 @@ error_reporting(0);
     <?php
     }
     ?>
-    <tr bgcolor="#024a75" style="color:white; text-align: center" style="font-size: 16">
+    <tr bgcolor="#024a75" style="color:white; text-align: center;font-size: 16px" >
       <td colspan="9">TOTAL</td>
       <td align="center"><?php echo uang($qty); ?></td>
     </tr>

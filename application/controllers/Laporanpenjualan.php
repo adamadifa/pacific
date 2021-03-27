@@ -28,10 +28,10 @@ class Laporanpenjualan extends CI_Controller
 
   function penjualanpending()
   {
-      $data['lvl']    = $this->session->userdata('level_user');
-      $data['cb']     = $this->session->userdata('cabang');
-      $data['cabang'] = $this->Model_cabang->view_cabang()->result();
-      $this->template->load('template/template', 'penjualan/laporan/penjualanpending.php', $data);
+    $data['lvl']    = $this->session->userdata('level_user');
+    $data['cb']     = $this->session->userdata('cabang');
+    $data['cabang'] = $this->Model_cabang->view_cabang()->result();
+    $this->template->load('template/template', 'penjualan/laporan/penjualanpending.php', $data);
   }
 
 
@@ -203,12 +203,42 @@ class Laporanpenjualan extends CI_Controller
     }
   }
 
+
+  function cetak_lappenjualanpend()
+  {
+
+    $cabang         = $this->uri->segment(3);
+    $bulan          = $this->uri->segment(4);
+    $tahun          = $this->uri->segment(5);
+    $dari           = $tahun . "-" . $bulan . "-01";
+    $sampai         = date("Y-m-t", strtotime($dari));
+    $data['dari']    = $dari;
+    $data['sampai']  = $sampai;
+    if (isset($_POST['export'])) {
+      // Fungsi header dengan mengirimkan raw data excel
+      header("Content-type: application/vnd-ms-excel");
+
+      // Mendefinisikan nama file ekspor "hasil-export.xls"
+      header("Content-Disposition: attachment; filename=Laporan Penjualan.xls");
+    }
+    $data['penjualan']  = $this->Model_laporanpenjualan->list_penjualan($dari, $sampai, $cabang, $salesman = null, $pelanggan = null, $jt = null, $status = "pending")->result();
+    $this->load->view('penjualan/laporan/cetak_penjualan', $data);
+  }
+
   function loadrekappenjualan()
   {
     $bulan = $this->input->post('bulan');
     $tahun = $this->input->post('tahun');
     $data['rekappenjualancabang'] = $this->Model_laporanpenjualan->loadrekappenjualan($bulan, $tahun)->result();
     $this->load->view('penjualan/laporan/loadrekappenjualan', $data);
+  }
+
+  function loadrekappenjualanka()
+  {
+    $bulan = $this->input->post('bulan');
+    $tahun = $this->input->post('tahun');
+    $data['rekappenjualancabang'] = $this->Model_laporanpenjualan->loadrekappenjualan($bulan, $tahun)->result();
+    $this->load->view('penjualan/laporan/loadrekappenjualanka', $data);
   }
 
   function cetak_lappenjualanpending()
@@ -1239,7 +1269,7 @@ class Laporanpenjualan extends CI_Controller
     $data['dari'] = $dari;
     $data['sampai'] = $sampai;
     $data['cabang'] = $cabang;
-    
+
     if (isset($_POST['export'])) {
       // Fungsi header dengan mengirimkan raw data excel
       header("Content-type: application/vnd-ms-excel");
@@ -1247,7 +1277,7 @@ class Laporanpenjualan extends CI_Controller
       // Mendefinisikan nama file ekspor "hasil-export.xls"
       header("Content-Disposition: attachment; filename=Detail CostRatio.xls");
     }
-    
+
     $data['data'] = $this->Model_laporanpenjualan->getDetailCostratioBiaya($cabang, $dari, $sampai)->result();
     $this->load->view('penjualan/laporan/cetak_detail_costratio', $data);
   }

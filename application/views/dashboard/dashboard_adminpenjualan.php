@@ -1,4 +1,12 @@
 <div class="row">
+  <div class="col-md-8">
+    <div class="table-responsive mb-4">
+      <div id="loadrekappenjualan">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
   <div class="col-md-12">
     <div class="col-md-4">
       <div class="info-box hover-zoom-effect">
@@ -38,26 +46,28 @@
 <div class="row">
   <div class="col-md-12">
     <div class="col-md-6">
-       <div class="card">
-        <div class="header bg-green" >
+      <div class="card">
+        <div class="header bg-green">
           <h2>
             DATA PERSEDIAAN GOOD STOK GUDANG CABANG
             <small>Data Persediaan Good Stok Gudang Cabang</small>
           </h2>
         </div>
         <div class="body">
-          <?php if($cb == 'pusat'){ ?>
-          <div class="form-group" >
-            <div class="form-line">
-              <select class="form-control" id="cabang" name="cabang">
-                <?php foreach($cabang as $c){ ?>
-                  <option <?php if($cb==$c->kode_cabang){echo "selected"; } ?> value="<?php echo $c->kode_cabang; ?>"><?php echo strtoupper($c->nama_cabang); ?></option>
-                 <?php } ?>
-              </select>
+          <?php if ($cb == 'pusat') { ?>
+            <div class="form-group">
+              <div class="form-line">
+                <select class="form-control" id="cabang" name="cabang">
+                  <?php foreach ($cabang as $c) { ?>
+                    <option <?php if ($cb == $c->kode_cabang) {
+                              echo "selected";
+                            } ?> value="<?php echo $c->kode_cabang; ?>"><?php echo strtoupper($c->nama_cabang); ?></option>
+                  <?php } ?>
+                </select>
+              </div>
             </div>
-          </div>
-          <?php }else{ ?>
-            <input type="hidden" readonly id="cabang" name="cabang" value="<?php echo $cb; ?>" class="form-control" placeholder="Kode Cabang"  />
+          <?php } else { ?>
+            <input type="hidden" readonly id="cabang" name="cabang" value="<?php echo $cb; ?>" class="form-control" placeholder="Kode Cabang" />
           <?php } ?>
           <div id="loadsaldo">
           </div>
@@ -65,26 +75,28 @@
       </div>
     </div>
     <div class="col-md-6">
-       <div class="card">
-        <div class="header bg-red" >
+      <div class="card">
+        <div class="header bg-red">
           <h2>
             DATA PERSEDIAAN BAD STOK GUDANG CABANG
             <small>Data Persediaan Bad Stok Gudang Cabang</small>
           </h2>
         </div>
         <div class="body">
-          <?php if($cb == 'pusat'){ ?>
-          <div class="form-group" >
-            <div class="form-line">
-              <select class="form-control" id="cabang" name="cabang">
-                <?php foreach($cabang as $c){ ?>
-                  <option <?php if($cb==$c->kode_cabang){echo "selected"; } ?> value="<?php echo $c->kode_cabang; ?>"><?php echo strtoupper($c->nama_cabang); ?></option>
-                 <?php } ?>
-              </select>
+          <?php if ($cb == 'pusat') { ?>
+            <div class="form-group">
+              <div class="form-line">
+                <select class="form-control" id="cabang" name="cabang">
+                  <?php foreach ($cabang as $c) { ?>
+                    <option <?php if ($cb == $c->kode_cabang) {
+                              echo "selected";
+                            } ?> value="<?php echo $c->kode_cabang; ?>"><?php echo strtoupper($c->nama_cabang); ?></option>
+                  <?php } ?>
+                </select>
+              </div>
             </div>
-          </div>
-          <?php }else{ ?>
-            <input type="hidden" readonly id="cabangbs" name="cabangbs" value="<?php echo $cb; ?>" class="form-control" placeholder="Kode Cabang"  />
+          <?php } else { ?>
+            <input type="hidden" readonly id="cabangbs" name="cabangbs" value="<?php echo $cb; ?>" class="form-control" placeholder="Kode Cabang" />
           <?php } ?>
           <div id="loadsaldobs">
           </div>
@@ -94,37 +106,58 @@
   </div>
 </div>
 <script type="text/javascript">
-  $(function(){
-    function loadsaldo()
-    {
+  $(function() {
+    function loadsaldo() {
       var kodecabang = $("#cabang").val();
-      var status     = 'GS';
+      var status = 'GS';
       $.ajax({
-        type  : 'POST',
-        url   : '<?php echo base_url(); ?>dashboard/loadsaldo',
-        data  : {kodecabang:kodecabang,status:status},
-        cache : false,
-        success: function(respond)
-        {
+        type: 'POST',
+        url: '<?php echo base_url(); ?>dashboard/loadsaldo',
+        data: {
+          kodecabang: kodecabang,
+          status: status
+        },
+        cache: false,
+        success: function(respond) {
           $("#loadsaldo").html(respond);
         }
       });
     }
-    function loadsaldobs()
-    {
+
+    function loadsaldobs() {
       var kodecabang = $("#cabangbs").val();
-      var status     = 'BS';
+      var status = 'BS';
       $.ajax({
-        type  : 'POST',
-        url   : '<?php echo base_url(); ?>dashboard/loadsaldobs',
-        data  : {kodecabang:kodecabang,status:status},
-        cache : false,
-        success: function(respond)
-        {
+        type: 'POST',
+        url: '<?php echo base_url(); ?>dashboard/loadsaldobs',
+        data: {
+          kodecabang: kodecabang,
+          status: status
+        },
+        cache: false,
+        success: function(respond) {
           $("#loadsaldobs").html(respond);
         }
       });
     }
+
+    function loadrekappenjualan() {
+      var bulan = $("#bulan").val();
+      var tahun = $("#tahun").val();
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>laporanpenjualan/loadrekappenjualan',
+        data: {
+          bulan: bulan,
+          tahun: tahun
+        },
+        cache: false,
+        success: function(respond) {
+          $("#loadrekappenjualan").html(respond);
+        }
+      });
+    }
+    loadrekappenjualan();
     loadsaldo();
     loadsaldobs();
   });

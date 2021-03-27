@@ -20,6 +20,11 @@ function uang($nilai)
   PERIODE <?php echo DateToIndo2($dari) . " s/d " . DateToIndo2($sampai); ?><br>
 </b>
 <br>
+<style>
+tr:nth-child(even) {
+  background-color: #d6d6d6c2;
+}
+</style>
 <table class="datatable3" style="width:100%" border="1">
   <thead>
     <tr>

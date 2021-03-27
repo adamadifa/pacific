@@ -28,7 +28,7 @@ error_reporting(0);
 	</table>
 </b>
 <br>
-<table class="datatable3" style="width:80%" border="1">
+<table class="datatable3" style="width:100%" border="1">
 	<thead>
 		<tr>
 
