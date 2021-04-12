@@ -222,6 +222,7 @@ class Dashboard extends CI_Controller
 
   function loadrekappersediaandpb()
   {
+    $data['rekap'] = $this->Model_dashboard->persediaangudang()->result();
     $data['saldo'] = $this->Model_dashboard->rekappersediaan()->result();
     $this->load->view('dashboard/loadrekappersediaandpb', $data);
   }

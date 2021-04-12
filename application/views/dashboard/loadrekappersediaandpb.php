@@ -19,6 +19,7 @@ $hariini = date("Y-m-d");
         <th>AS</th>
         <th>BB</th>
         <th>CG</th>
+        <th>CG5</th>
         <th>CGG</th>
         <th>DEP</th>
         <th>DK</th>
@@ -28,6 +29,163 @@ $hariini = date("Y-m-d");
       </tr>
     </thead>
 
+    <?php
+    $gAB = 0;
+    $gAR = 0;
+    $gAS = 0;
+    $gBB = 0;
+    $gCG = 0;
+    $gCG5 = 0;
+    $gCGG = 0;
+    $gDEP = 0;
+    $gDK = 0;
+    $gDS = 0;
+    $gSP = 0;
+    $gSPP = 0;
+    foreach ($rekap as $g) {
+
+      if ($g->kode_produk == "AB") {
+        $gAB = $gAB + $g->saldoakhir;
+      }
+
+      if ($g->kode_produk == "AR") {
+        $gAR = $gAR + $g->saldoakhir;
+      }
+
+      if ($g->kode_produk == "AS") {
+        $gAS = $gAS + $g->saldoakhir;
+      }
+
+      if ($g->kode_produk == "BB") {
+        $gBB = $gBB + $g->saldoakhir;
+      }
+
+      if ($g->kode_produk == "CG") {
+        $gCG = $gCG + $g->saldoakhir;
+      }
+
+      if ($g->kode_produk == "CG5") {
+        $gCG = $gCG + $g->saldoakhir;
+      }
+
+      if ($g->kode_produk == "CGG") {
+        $gCGG = $gCGG + $g->saldoakhir;
+      }
+
+      if ($g->kode_produk == "DEP") {
+        $gDEP = $gDEP + $g->saldoakhir;
+      }
+
+      if ($g->kode_produk == "DK") {
+        $gDK = $gDK + $g->saldoakhir;
+      }
+
+      if ($g->kode_produk == "DS") {
+        $gDS = $gDS + $g->saldoakhir;
+      }
+
+      if ($g->kode_produk == "SP") {
+        $gSP =  $gSP + $g->saldoakhir;
+      }
+
+      if ($g->kode_produk == "SPP") {
+        $gSPP =  $gSPP + $g->saldoakhir;
+      }
+    }
+
+    if ($gAB <= 0) {
+      $colorgAB = "bg-red";
+    } else {
+      $colorgAB = "bg-green";
+    }
+
+    if ($gAS <= 0) {
+      $colorgAS = "bg-red";
+    } else {
+      $colorgAS = "bg-green";
+    }
+
+    if ($gAR <= 0) {
+      $colorgAR = "bg-red";
+    } else {
+      $colorgAR = "bg-green";
+    }
+
+    if ($gAS <= 0) {
+      $colorgAS = "bg-red";
+    } else {
+      $colorgAS = "bg-green";
+    }
+
+    if ($gBB <= 0) {
+      $colorgBB = "bg-red";
+    } else {
+      $colorgBB = "bg-green";
+    }
+
+    if ($gCG <= 0) {
+      $colorgCG = "bg-red";
+    } else {
+      $colorgCG = "bg-green";
+    }
+
+    if ($gCG5 <= 0) {
+      $colorgCG5 = "bg-red";
+    } else {
+      $colorgCG5 = "bg-green";
+    }
+
+    if ($gCGG <= 0) {
+      $colorgCGG = "bg-red";
+    } else {
+      $colorgCGG = "bg-green";
+    }
+
+    if ($gDEP <= 0) {
+      $colorgDEP = "bg-red";
+    } else {
+      $colorgDEP = "bg-green";
+    }
+
+    if ($gDK <= 0) {
+      $colorgDK = "bg-red";
+    } else {
+      $colorgDK = "bg-green";
+    }
+
+    if ($gDS <= 0) {
+      $colorgDS = "bg-red";
+    } else {
+      $colorgDS = "bg-green";
+    }
+
+    if ($gSP <= 0) {
+      $colorgSP = "bg-red";
+    } else {
+      $colorgSP = "bg-green";
+    }
+
+    if ($gSPP <= 0) {
+      $colorgSPP = "bg-red";
+    } else {
+      $colorgSPP = "bg-green";
+    }
+    ?>
+    <tr>
+      <td>GUDANG PUSAT</td>
+      <td><span class="badge <?php echo $colorgAB; ?>"><?php echo number_format(floor($gAB), '0', ',', '.'); ?></span></td>
+      <td><span class="badge <?php echo $colorgAR; ?>"><?php echo number_format(floor($gAR), '0', ',', '.'); ?></span></td>
+      <td><span class="badge <?php echo $colorgAS; ?>"><?php echo number_format(floor($gAS), '0', ',', '.'); ?></span></td>
+      <td><span class="badge <?php echo $colorgBB; ?>"><?php echo number_format(floor($gBB), '0', ',', '.'); ?></span></td>
+      <td><span class="badge <?php echo $colorgCG; ?>"><?php echo number_format(floor($gCG), '0', ',', '.'); ?></span></td>
+      <td><span class="badge <?php echo $colorgCG5; ?>"><?php echo number_format(floor($gCG5), '0', ',', '.'); ?></span></td>
+      <td><span class="badge <?php echo $colorgCGG; ?>"><?php echo number_format(floor($gCGG), '0', ',', '.'); ?></span></td>
+      <td><span class="badge <?php echo $colorgDEP; ?>"><?php echo number_format(floor($gDEP), '0', ',', '.'); ?></span></td>
+      <td><span class="badge <?php echo $colorgDK; ?>"><?php echo number_format(floor($gDK), '0', ',', '.'); ?></span></td>
+      <td><span class="badge <?php echo $colorgDS; ?>"><?php echo number_format(floor($gDS), '0', ',', '.'); ?></span></td>
+      <td><span class="badge <?php echo $colorgSP; ?>"><?php echo number_format(floor($gSP), '0', ',', '.'); ?></span></td>
+      <td><span class="badge <?php echo $colorgSPP; ?>"><?php echo number_format(floor($gSPP), '0', ',', '.'); ?></span></td>
+    </tr>
     <?php
     foreach ($saldo as $r) {
       $ab = $this->db->query("SELECT tanggal,kode_produk,jumlah FROM saldoawal_bj_detail saldodetail
@@ -50,6 +208,10 @@ $hariini = date("Y-m-d");
     INNER JOIN saldoawal_bj ON saldodetail.kode_saldoawal = saldoawal_bj.kode_saldoawal 
     WHERE kode_cabang ='$r->kode_cabang' AND kode_produk='CG' AND status='GS' ORDER BY tanggal DESC LIMIT 1")->row_array();
 
+    $cg5 = $this->db->query("SELECT tanggal,kode_produk,jumlah FROM saldoawal_bj_detail saldodetail
+    INNER JOIN saldoawal_bj ON saldodetail.kode_saldoawal = saldoawal_bj.kode_saldoawal 
+    WHERE kode_cabang ='$r->kode_cabang' AND kode_produk='CG5' AND status='GS' ORDER BY tanggal DESC LIMIT 1")->row_array();
+
       $cgg = $this->db->query("SELECT tanggal,kode_produk,jumlah FROM saldoawal_bj_detail saldodetail
     INNER JOIN saldoawal_bj ON saldodetail.kode_saldoawal = saldoawal_bj.kode_saldoawal 
     WHERE kode_cabang ='$r->kode_cabang' AND kode_produk='CGG' AND status='GS' ORDER BY tanggal DESC LIMIT 1")->row_array();
@@ -70,11 +232,11 @@ $hariini = date("Y-m-d");
     INNER JOIN saldoawal_bj ON saldodetail.kode_saldoawal = saldoawal_bj.kode_saldoawal 
     WHERE kode_cabang ='$r->kode_cabang' AND kode_produk='DS' AND status='GS' ORDER BY tanggal DESC LIMIT 1")->row_array();
 
-    $sp = $this->db->query("SELECT tanggal,kode_produk,jumlah FROM saldoawal_bj_detail saldodetail
+      $sp = $this->db->query("SELECT tanggal,kode_produk,jumlah FROM saldoawal_bj_detail saldodetail
     INNER JOIN saldoawal_bj ON saldodetail.kode_saldoawal = saldoawal_bj.kode_saldoawal 
     WHERE kode_cabang ='$r->kode_cabang' AND kode_produk='SP' AND status='GS' ORDER BY tanggal DESC LIMIT 1")->row_array();
 
-    $spp = $this->db->query("SELECT tanggal,kode_produk,jumlah FROM saldoawal_bj_detail saldodetail
+      $spp = $this->db->query("SELECT tanggal,kode_produk,jumlah FROM saldoawal_bj_detail saldodetail
     INNER JOIN saldoawal_bj ON saldodetail.kode_saldoawal = saldoawal_bj.kode_saldoawal 
     WHERE kode_cabang ='$r->kode_cabang' AND kode_produk='SPP' AND status='GS' ORDER BY tanggal DESC LIMIT 1")->row_array();
 
@@ -276,6 +438,44 @@ $hariini = date("Y-m-d");
 
 
 
+$msjcg = $this->db->query("SELECT 
+SUM(IF(inout_good ='IN' AND tgl_mutasi_gudang_cabang >= '$ab[tanggal]' AND tgl_mutasi_gudang_cabang <= '$hariini'  ,jumlah,0))-
+SUM(IF(inout_good ='OUT' AND tgl_mutasi_gudang_cabang >= '$ab[tanggal]' AND tgl_mutasi_gudang_cabang <= '$hariini' ,jumlah,0)) as jumlah
+FROM `detail_mutasi_gudang_cabang` 
+JOIN `mutasi_gudang_cabang` ON `detail_mutasi_gudang_cabang`.`no_mutasi_gudang_cabang`=`mutasi_gudang_cabang`.`no_mutasi_gudang_cabang`  
+WHERE `detail_mutasi_gudang_cabang`.`kode_produk` = 'CG' 
+AND `mutasi_gudang_cabang`.`kode_cabang` = '$r->kode_cabang' 
+AND `jenis_mutasi` = 'SURAT JALAN' 
+OR `jenis_mutasi` = 'TRANSIT OUT' 
+AND `detail_mutasi_gudang_cabang`.`kode_produk` = 'CG' 
+AND `mutasi_gudang_cabang`.`kode_cabang` = '$r->kode_cabang' 
+OR `jenis_mutasi` = 'TRANSIT IN'  
+AND `detail_mutasi_gudang_cabang`.`kode_produk` = 
+'CG' AND `mutasi_gudang_cabang`.`kode_cabang` = '$r->kode_cabang'
+OR `jenis_mutasi` = 'REJECT GUDANG'  
+AND `detail_mutasi_gudang_cabang`.`kode_produk` = 
+'CG' AND `mutasi_gudang_cabang`.`kode_cabang` = '$r->kode_cabang' 
+OR `jenis_mutasi` = 'REJECT PASAR'  
+AND `detail_mutasi_gudang_cabang`.`kode_produk` = 
+'CG' AND `mutasi_gudang_cabang`.`kode_cabang` = '$r->kode_cabang' 
+OR `jenis_mutasi` = 'REPACK'  
+AND `detail_mutasi_gudang_cabang`.`kode_produk` = 
+'CG' AND `mutasi_gudang_cabang`.`kode_cabang` = '$r->kode_cabang' 
+OR `jenis_mutasi` = 'PENYESUAIAN'  
+ AND `detail_mutasi_gudang_cabang`.`kode_produk` = 
+ 'CG' AND `mutasi_gudang_cabang`.`kode_cabang` = '$r->kode_cabang' 
+ORDER BY `tgl_mutasi_gudang_cabang` ASC")->row_array();
+
+    $dpbambilcg = $this->db->query("SELECT
+TRUNCATE(SUM(jml_pengambilan),2) as jumlah,TRUNCATE(SUM(jml_pengembalian),2) as jumlah_kembali   
+FROM
+`detail_dpb`
+JOIN `dpb` ON `detail_dpb`.`no_dpb` = `dpb`.`no_dpb`
+WHERE tgl_pengambilan >= '$ab[tanggal]' AND tgl_pengambilan <= '$hariini'
+AND `kode_produk` = 'CG' AND kode_cabang='$r->kode_cabang'")->row_array();
+
+
+
       $msjcgg = $this->db->query("SELECT 
   SUM(IF(inout_good ='IN' AND tgl_mutasi_gudang_cabang >= '$ab[tanggal]' AND tgl_mutasi_gudang_cabang <= '$hariini'  ,jumlah,0))-
   SUM(IF(inout_good ='OUT' AND tgl_mutasi_gudang_cabang >= '$ab[tanggal]' AND tgl_mutasi_gudang_cabang <= '$hariini' ,jumlah,0)) as jumlah
@@ -429,9 +629,9 @@ $hariini = date("Y-m-d");
   WHERE tgl_pengambilan >= '$ab[tanggal]' AND tgl_pengambilan <= '$hariini'
   AND `kode_produk` = 'DS' AND kode_cabang='$r->kode_cabang'")->row_array();
 
-  
 
-$msjsp = $this->db->query("SELECT 
+
+      $msjsp = $this->db->query("SELECT 
 SUM(IF(inout_good ='IN' AND tgl_mutasi_gudang_cabang >= '$ab[tanggal]' AND tgl_mutasi_gudang_cabang <= '$hariini'  ,jumlah,0))-
 SUM(IF(inout_good ='OUT' AND tgl_mutasi_gudang_cabang >= '$ab[tanggal]' AND tgl_mutasi_gudang_cabang <= '$hariini' ,jumlah,0)) as jumlah
 FROM `detail_mutasi_gudang_cabang` 
@@ -459,7 +659,7 @@ OR `jenis_mutasi` = 'PENYESUAIAN'
  'SP' AND `mutasi_gudang_cabang`.`kode_cabang` = '$r->kode_cabang' 
 ORDER BY `tgl_mutasi_gudang_cabang` ASC")->row_array();
 
-    $dpbambilsp = $this->db->query("SELECT
+      $dpbambilsp = $this->db->query("SELECT
 TRUNCATE(SUM(jml_pengambilan),2) as jumlah,TRUNCATE(SUM(jml_pengembalian),2) as jumlah_kembali   
 FROM
 `detail_dpb`
@@ -468,7 +668,7 @@ WHERE tgl_pengambilan >= '$ab[tanggal]' AND tgl_pengambilan <= '$hariini'
 AND `kode_produk` = 'SP' AND kode_cabang='$r->kode_cabang'")->row_array();
 
 
-$msjspp = $this->db->query("SELECT 
+      $msjspp = $this->db->query("SELECT 
 SUM(IF(inout_good ='IN' AND tgl_mutasi_gudang_cabang >= '$ab[tanggal]' AND tgl_mutasi_gudang_cabang <= '$hariini'  ,jumlah,0))-
 SUM(IF(inout_good ='OUT' AND tgl_mutasi_gudang_cabang >= '$ab[tanggal]' AND tgl_mutasi_gudang_cabang <= '$hariini' ,jumlah,0)) as jumlah
 FROM `detail_mutasi_gudang_cabang` 
@@ -496,7 +696,7 @@ OR `jenis_mutasi` = 'PENYESUAIAN'
  'SPP' AND `mutasi_gudang_cabang`.`kode_cabang` = '$r->kode_cabang' 
 ORDER BY `tgl_mutasi_gudang_cabang` ASC")->row_array();
 
-    $dpbambilspp = $this->db->query("SELECT
+      $dpbambilspp = $this->db->query("SELECT
 TRUNCATE(SUM(jml_pengambilan),2) as jumlah,TRUNCATE(SUM(jml_pengembalian),2) as jumlah_kembali   
 FROM
 `detail_dpb`
@@ -512,6 +712,7 @@ AND `kode_produk` = 'SPP' AND kode_cabang='$r->kode_cabang'")->row_array();
       $sas = ($as['jumlah'] / 36) + ($msjas['jumlah'] / 36) - $dpbambilas['jumlah'] + $dpbambilas['jumlah_kembali'];
       $sbb = ($bb['jumlah'] / 20) + ($msjbb['jumlah'] / 20) - $dpbambilbb['jumlah'] + $dpbambilbb['jumlah_kembali'];
       $scg  = ($cg['jumlah'] / 10) + ($msjcg['jumlah'] / 10) - $dpbambilcg['jumlah'] + $dpbambilcg['jumlah_kembali'];
+      $scg5  = ($cg5['jumlah'] / 10) + ($msjcg5['jumlah'] / 10) - $dpbambilcg5['jumlah'] + $dpbambilcg5['jumlah_kembali'];
       $scgg = ($cgg['jumlah'] / 10) + ($msjcgg['jumlah'] / 10) - $dpbambilcgg['jumlah'] + $dpbambilcgg['jumlah_kembali'];
 
       $sdep = ($dep['jumlah'] / 20) + ($msjdep['jumlah'] / 20) - $dpbambildep['jumlah'] + $dpbambildep['jumlah_kembali'];
@@ -548,6 +749,12 @@ AND `kode_produk` = 'SPP' AND kode_cabang='$r->kode_cabang'")->row_array();
         $colorcg = "bg-red";
       } else {
         $colorcg = "bg-green";
+      }
+
+      if ($scg5 <= 0) {
+        $colorcg5 = "bg-red";
+      } else {
+        $colorcg5 = "bg-green";
       }
 
       if ($scgg <= 0) {
@@ -587,21 +794,24 @@ AND `kode_produk` = 'SPP' AND kode_cabang='$r->kode_cabang'")->row_array();
       } else {
         $colorsspp = "bg-green";
       }
+
+
     ?>
       <tr>
         <td><?php echo strtoupper($r->nama_cabang); ?></td>
-        <td><span class="badge <?php echo $colorab; ?>"><?php echo number_format($sab, '2', ',', '.'); ?></span></td>
-        <td><span class="badge <?php echo $colorar; ?>"><?php echo number_format($sar, '2', ',', '.'); ?></span></td>
-        <td><span class="badge <?php echo $coloras; ?>"><?php echo number_format($sas, '2', ',', '.'); ?></span></td>
-        <td><span class="badge <?php echo $colorbb; ?>"><?php echo number_format($sbb, '2', ',', '.'); ?></span></td>
-        <td><span class="badge <?php echo $colorcg; ?>"><?php echo number_format($scg, '2', ',', '.'); ?></span></td>
-        <td><span class="badge <?php echo $colorcgg; ?>"><?php echo number_format($scgg, '2', ',', '.'); ?></span></td>
+        <td><span class="badge <?php echo $colorab; ?>"><?php echo number_format(floor($sab), '0', ',', '.'); ?></span></td>
+        <td><span class="badge <?php echo $colorar; ?>"><?php echo number_format(floor($sar), '0', ',', '.'); ?></span></td>
+        <td><span class="badge <?php echo $coloras; ?>"><?php echo number_format(floor($sas), '0', ',', '.'); ?></span></td>
+        <td><span class="badge <?php echo $colorbb; ?>"><?php echo number_format(floor($sbb), '0', ',', '.'); ?></span></td>
+        <td><span class="badge <?php echo $colorcg; ?>"><?php echo number_format(floor($scg), '0', ',', '.'); ?></span></td>
+        <td><span class="badge <?php echo $colorcg5; ?>"><?php echo number_format(floor($scg5), '0', ',', '.'); ?></span></td>
+        <td><span class="badge <?php echo $colorcgg; ?>"><?php echo number_format(floor($scgg), '0', ',', '.'); ?></span></td>
 
-        <td><span class="badge <?php echo $colorsdep; ?>"><?php echo number_format($sdep, '2', ',', '.'); ?></span></td>
-        <td><span class="badge <?php echo $colorsdk; ?>"><?php echo number_format($sdk, '2', ',', '.'); ?></span></td>
-        <td><span class="badge <?php echo $colorsds; ?>"><?php echo number_format($sds, '2', ',', '.'); ?></span></td>
-        <td><span class="badge <?php echo $colorssp; ?>"><?php echo number_format($ssp, '2', ',', '.'); ?></span></td>
-        <td><span class="badge <?php echo $colorsspp; ?>"><?php echo number_format($sspp, '2', ',', '.'); ?></span></td>
+        <td><span class="badge <?php echo $colorsdep; ?>"><?php echo number_format(floor($sdep), '0', ',', '.'); ?></span></td>
+        <td><span class="badge <?php echo $colorsdk; ?>"><?php echo number_format(floor($sdk), '0', ',', '.'); ?></span></td>
+        <td><span class="badge <?php echo $colorsds; ?>"><?php echo number_format(floor($sds), '0', ',', '.'); ?></span></td>
+        <td><span class="badge <?php echo $colorssp; ?>"><?php echo number_format(floor($ssp), '0', ',', '.'); ?></span></td>
+        <td><span class="badge <?php echo $colorsspp; ?>"><?php echo number_format(floor($sspp), '0', ',', '.'); ?></span></td>
       </tr>
     <?php } ?>
   </table>

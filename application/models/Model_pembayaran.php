@@ -58,6 +58,13 @@ class Model_pembayaran extends CI_Model
     return $this->db->get_where('view_pembayaran', array('kode_pelanggan' => $kodepelanggan));
   }
 
+  function listfakturajuankredit($kodepelanggan)
+  {
+    $this->db->where('sisabayar !=', '0');
+    $this->db->order_by('tgltransaksi,no_fak_penj', 'desc');
+    return $this->db->get_where('view_pembayaran', array('kode_pelanggan' => $kodepelanggan));
+  }
+
 
   function get_giro($nofaktur)
   {
@@ -668,7 +675,7 @@ class Model_pembayaran extends CI_Model
       $akun = "1-1486";
     } else if ($cabang == "PST") {
       $akun = "1-1489";
-    }else if ($cabang == "KLT") {
+    } else if ($cabang == "KLT") {
       $akun = "1-1490";
     }
     // $data = array(
@@ -911,7 +918,7 @@ class Model_pembayaran extends CI_Model
       $akun = "1-1486";
     } else if ($cabang == "PST") {
       $akun = "1-1489";
-    }else if ($cabang == "KLT") {
+    } else if ($cabang == "KLT") {
       $akun = "1-1490";
     }
 
@@ -1176,7 +1183,7 @@ class Model_pembayaran extends CI_Model
       $akun = "1-1486";
     } else if ($cabang == "PST") {
       $akun = "1-1489";
-    }else if ($cabang == "KLT") {
+    } else if ($cabang == "KLT") {
       $akun = "1-1490";
     }
 
@@ -1893,7 +1900,7 @@ class Model_pembayaran extends CI_Model
       $akun = "1-1486";
     } else if ($cabang == "PST") {
       $akun = "1-1489";
-    }else if ($cabang == "KLT") {
+    } else if ($cabang == "KLT") {
       $akun = "1-1490";
     }
 

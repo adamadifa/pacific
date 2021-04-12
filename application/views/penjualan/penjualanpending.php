@@ -47,12 +47,12 @@ function uang($nilai)
               <select id="status" name="statuspenjpending" class="form-select">
                 <option value="">-- Status --</option>
                 <option value="">Status</option>
-                <option <?php if ($status == "1") {
-                          echo "selected";
-                        } ?> value="1">Disetujui</option>
                 <option <?php if ($status == "2") {
                           echo "selected";
-                        } ?> value="2">Pending</option>
+                        } ?> value="2">Disetujui</option>
+                <option <?php if ($status == "1") {
+                          echo "selected";
+                        } ?> value="1">Pending</option>
               </select>
             </div>
             <div class="mb-3">
@@ -99,6 +99,7 @@ function uang($nilai)
                   <tr>
                     <th>No</th>
                     <th>No Faktur</th>
+                    <th>Kode Pelanggan</th>
                     <th>Nama Pelanggan</th>
                     <th>Tanggal</th>
                     <th>Total</th>
@@ -115,13 +116,14 @@ function uang($nilai)
                     <tr>
                       <td><?php echo $sno; ?></td>
                       <td><?php echo $d['no_fak_penj']; ?></td>
+                      <td><?php echo $d['kode_pelanggan']; ?></td>
                       <td><?php echo $d['nama_pelanggan']; ?></td>
                       <td><?php echo $d['tgltransaksi']; ?></td>
                       <td align="right"><?php echo uang($d['total']); ?></td>
                       <td><?php echo $d['nama_karyawan']; ?></td>
                       <td>
                         <?php
-                        if ($d['status'] == "1") {
+                        if ($d['status'] == "2") {
                         ?>
                           <span class="badge bg-green"><i class="fa fa-check"></i></span>
                         <?php
@@ -131,19 +133,23 @@ function uang($nilai)
                         <?php } ?>
                       </td>
                       <td>
-                        <a href="<?php echo base_url(); ?>penjualan/updatepenjualanpending/<?php echo $d['kode_pelanggan']; ?>/<?php echo $d['no_fak_penj']; ?>" class="btn btn-sm btn-success""><i class=" fa fa-refresh"></i></a>
-                        <a href="#" class="btn btn-sm btn-primary detail" data-nofakpenj="<?php echo $d['no_fak_penj']; ?>"><i class="fa fa-list"></i></a>
                         <?php
-                        if ($d['status'] != "1") {
-                          if (empty($d['cektransfer'])) {
+                        if ($d['status'] == "1") {
                         ?>
+                          <a href="<?php echo base_url(); ?>penjualan/updatepenjualanpending/<?php echo $d['kode_pelanggan']; ?>/<?php echo $d['no_fak_penj']; ?>" class="btn btn-sm btn-success""><i class=" fa fa-refresh"></i></a>
+                        <?php } ?>
+                        <a href="#" class="btn btn-sm btn-primary detail" data-nofakpenj="<?php echo $d['no_fak_penj']; ?>"><i class="fa fa-list"></i></a>
+                        <!-- <?php
+                              if ($d['status'] != "1") {
+                                if (empty($d['cektransfer'])) {
+                              ?>
                             <a href="#" class="btn btn-sm btn-info inputtransfer" data-nofakpenj="<?php echo $d['no_fak_penj']; ?>" data-total="<?php echo $d['total']; ?>" data-kodepel="<?php echo $d['kode_pelanggan']; ?>"><i class="fa fa-money mr-2"></i> Bayar</a>
                           <?php } else { ?>
                             <a href="<?php echo base_url(); ?>penjualan/bataltransferpending/<?php echo $d['no_fak_penj']; ?>" class="btn btn-sm btn-danger bataltransfer" data-nofakpenj="<?php echo $d['no_fak_penj']; ?>"><i class="fa fa-money mr-2"></i> Batalkan Transfer</a>
                         <?php
-                          }
-                        } ?>
-                        <a href="<?php echo base_url(); ?>penjualan/hapuspenjualanpending/<?php echo $d['no_fak_penj']; ?>" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></a>
+                                }
+                              } ?> -->
+                      <a href="<?php echo base_url(); ?>penjualan/input_ajuankredit/<?php echo $d['kode_pelanggan'] ?>" class="btn btn-sm btn-info">Ajukan Limit</a>
                       </td>
                     </tr>
                   <?php

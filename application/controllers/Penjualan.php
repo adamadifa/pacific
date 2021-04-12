@@ -2057,6 +2057,11 @@ class Penjualan extends CI_Controller
   {
     $this->Model_penjualan->insertpengajuanlimitv2();
   }
+
+  function insertpengajuanlimitv3()
+  {
+    $this->Model_penjualan->insertpengajuanlimitv3();
+  }
   function updatepengajuanlimit()
   {
     $this->Model_penjualan->updatepengajuanlimit();
@@ -3727,5 +3732,24 @@ class Penjualan extends CI_Controller
     $data['lebihsetor'] = $this->Model_penjualan->getLebihsetor($id)->row_array();
     $data['detaillebihsetor'] = $this->Model_penjualan->getDetailebihsetor($id)->result();
     $this->load->view('penjualan/lebihsetor_detail', $data);
+  }
+
+  function input_ajuankredit()
+  {
+    $id_pelanggan = $this->uri->segment(3);
+    $data['cabang'] = $this->Model_cabang->view_cabang()->result();
+    $data['cb'] = $this->session->userdata('cabang');
+    $data['pelanggan'] = $this->Model_pelanggan->get_pelanggan($id_pelanggan)->row_array();
+    $data['lasttopup'] = $this->Model_penjualan->getLastTopUp($id_pelanggan)->row_array();
+    $data['firstsale'] = $this->Model_penjualan->getFirstSale($id_pelanggan)->row_array();
+    $data['pmb'] = $this->Model_pembayaran->listfakturajuankredit($id_pelanggan)->result();
+    $this->template->load('template/template', 'penjualan/input_ajuankredit', $data);
+  }
+
+  function cetak_ajuankredit()
+  {
+    $no_pengajuan = $this->uri->segment(3);
+    $data['pengajuan'] = $this->Model_penjualan->getPengajuankredit($no_pengajuan)->row_array();
+    $this->load->view('penjualan/laporan/cetak_ajuankredit', $data);
   }
 }

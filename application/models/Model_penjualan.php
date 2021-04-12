@@ -2219,7 +2219,7 @@ class Model_penjualan extends CI_Model
     kode_setoran,tgl_lhp,setoran_penjualan.id_karyawan,setoran_penjualan.kode_cabang,nama_karyawan,lhp_tunai,
     ifnull(cektunai,0) AS cektunai,lhp_tagihan,ifnull(cekkredit,0) AS cekkredit,ifnull(ceksetorangiro,0) AS ceksetorangiro,
     ifnull(ceksetorantransfer,0) AS ceksetorantransfer,ifnull(cekgirotocash,0) AS cekgirotocash,
-    setoran_kertas,setoran_logam,setoran_bg,setoran_transfer,keterangan,girotocash,
+    setoran_kertas,setoran_logam,setoran_bg,setoran_transfer,keterangan,girotocash,girototransfer,
     ifnull(kurangsetorlogam,0) AS kurangsetorlogam,ifnull(kurangsetorkertas,0) AS kurangsetorkertas,
     ifnull(lebihsetorlogam,0) AS lebihsetorlogam,ifnull(lebihsetorkertas,0) AS lebihsetorkertas
     FROM
@@ -2246,8 +2246,10 @@ class Model_penjualan extends CI_Model
       LEFT JOIN (
         SELECT transfer.id_karyawan,tgl_transfer,SUM(jumlah) as ceksetorantransfer
           FROM transfer
+          LEFT JOIN historibayar ON transfer.id_transfer = historibayar.id_transfer
           WHERE tgl_transfer >= '$dari'
-        AND tgl_transfer <= '$sampai'
+        AND tgl_transfer <= '$sampai' AND girotocash ='' OR tgl_transfer >= '$dari'
+        AND tgl_transfer <= '$sampai' AND girotocash IS NULL
           GROUP BY transfer.id_karyawan,tgl_transfer
       ) cektransfer ON (setoran_penjualan.id_karyawan = cektransfer.id_karyawan AND setoran_penjualan.tgl_lhp = cektransfer.tgl_transfer)
 
@@ -4043,6 +4045,7 @@ class Model_penjualan extends CI_Model
 		pengajuan_limitkredit_v2.jatuhtempo,
 		jatuhtempo_rekomendasi,
 		status,
+    skor,
 		id_admin,
 		id_approval,
 		kacab,
@@ -4268,6 +4271,105 @@ class Model_penjualan extends CI_Model
 			</div>'
       );
       redirect('penjualan/limitkreditv2');
+    }
+  }
+
+
+  function insertpengajuanlimitv3()
+  {
+    $cabang          = $this->input->post('cabang');
+    $tanggal         = $this->input->post('tgl_pengajuan');
+    $tgl             = explode("-", $tanggal);
+    $tahun           = $tgl[0];
+    $thn             = substr($tahun, 2, 2);
+    $ceknolast       = $this->db->query("SELECT no_pengajuan FROM pengajuan_limitkredit_v2
+		INNER JOIN pelanggan ON pengajuan_limitkredit_v2.kode_pelanggan = pelanggan.kode_pelanggan WHERE YEAR(tgl_pengajuan) ='$tahun' AND pelanggan.kode_cabang='$cabang' AND MID(no_pengajuan,4,3)='$cabang' ORDER BY no_pengajuan DESC LIMIT 1")->row_array();
+    $nobuktilast    = $ceknolast['no_pengajuan'];
+    $no_pengajuan   = buatkode($nobuktilast, 'PLK' . $cabang . $thn, 5);
+    echo $no_pengajuan;
+    $pelanggan      = $this->input->post('kode_pelanggan');
+    $namapelanggan  = $this->input->post('nama_pelanggan');
+    $alamatpelanggan = $this->input->post('alamat_pelanggan');
+    $nik            = $this->input->post('nik');
+    $alamattoko     = $this->input->post('alamat_toko');
+    $longitude      = $this->input->post('longitude');
+    $latitude       = $this->input->post('latitude');
+    $nohp           = $this->input->post('nohp');
+    $hari           = $this->input->post('hari');
+    $status_outlet  = $this->input->post('status_outlet');
+    $type_outlet    = $this->input->post('typeoutlet');
+    $cara_bayar     = $this->input->post('cara_pembayaran');
+    $kepemilikan    = $this->input->post('kepemilikan');
+    $lama_langganan = $this->input->post('lamalangganan');
+    $lama_usaha     = $this->input->post('lamausaha');
+    $jaminan        = $this->input->post('jaminan');
+    $omsettoko      = str_replace(".", "", $this->input->post('omsettoko'));
+    $skor           = $this->input->post('skor');
+    $jatuhtempo     = $this->input->post('jatuhtempo');
+    $jumlah         = str_replace(".", "", $this->input->post('jumlah'));
+    $topupterakhir  = $this->input->post('topup_terakhir');
+    if (empty($topupterakhir)) {
+      $topupterakhir = date("Y-m-d");
+    }
+    $lamatopup      = $this->input->post('lamatopup');
+    $jmlfaktur      = $this->input->post('jmlfaktur');
+    $historitransaksi = $this->input->post('historitransaksi');
+    $id_admin       = $this->session->userdata('id_user');
+
+    $datapelanggan = [
+      'nik' => $nik,
+      'nama_pelanggan' => $namapelanggan,
+      'alamat_pelanggan' => $alamatpelanggan,
+      'alamat_toko' => $alamattoko,
+      'latitude' => $latitude,
+      'longitude' => $longitude,
+      'no_hp' => $nohp,
+      'hari'  => $hari,
+      'status_outlet' => $status_outlet,
+      'type_outlet' => $type_outlet,
+      'cara_pembayaran' => $cara_bayar,
+      'kepemilikan' => $kepemilikan,
+      'lama_langganan' => $lama_langganan,
+      'lama_usaha' => $lama_usaha,
+      'jaminan' => $jaminan,
+      'omset_toko' => $omsettoko
+    ];
+    $data = [
+      'no_pengajuan' => $no_pengajuan,
+      'tgl_pengajuan' => $tanggal,
+      'kode_pelanggan' => $pelanggan,
+      'jumlah'  => $jumlah,
+      'jatuhtempo' => $jatuhtempo,
+      'topup_terakhir' => $topupterakhir,
+      'lama_topup' => $lamatopup,
+      'jml_faktur' => $jmlfaktur,
+      'histori_transaksi' => $historitransaksi,
+      'status' => 0,
+      'skor' => $skor,
+      'id_admin' => $id_admin
+    ];
+    $updatepelanggan = $this->db->update('pelanggan', $datapelanggan, array('kode_pelanggan' => $pelanggan));
+    if ($updatepelanggan) {
+      $simpan = $this->db->insert('pengajuan_limitkredit_v2', $data);
+      if ($simpan) {
+        $this->session->set_flashdata(
+          'msg',
+          '<div class="alert bg-green alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <i class="material-icons" style="float:left; margin-right:10px">check</i> Data Berhasil di Simpan !
+        </div>'
+        );
+        redirect('penjualan/limitkreditv2');
+      } else {
+        $this->session->set_flashdata(
+          'msg',
+          '<div class="alert bg-red alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <i class="material-icons" style="float:left; margin-right:10px">check</i> Gagal di Simpan !
+        </div>'
+        );
+        redirect('penjualan/limitkreditv2');
+      }
     }
   }
 
@@ -4754,9 +4856,9 @@ class Model_penjualan extends CI_Model
       }
       $ceklimit = $this->db->get_where('pelanggan', array('kode_pelanggan' => $kode_pelanggan))->row_array();
       //$getpenjualanpending  = $this->db->join('karyawan','penjualan_pending.id_karyawan = karyawan.id_karyawan');
-      $querypenjualanpend = "SELECT * FROM penjualan_pending
-				INNER JOIN karyawan ON penjualan_pending.id_karyawan = karyawan.id_karyawan
-				WHERE kode_pelanggan ='$kode_pelanggan' AND no_fak_penj NOT IN (SELECT no_fak_penj FROM penjualan WHERE kode_pelanggan ='$kode_pelanggan')
+      $querypenjualanpend = "SELECT * FROM penjualan  
+				INNER JOIN karyawan ON penjualan.id_karyawan = karyawan.id_karyawan
+				WHERE kode_pelanggan ='$kode_pelanggan' AND  penjualan.status ='1'
 				";
       $getpenjualanpending  = $this->db->query($querypenjualanpend)->result();
 
@@ -4789,74 +4891,11 @@ class Model_penjualan extends CI_Model
         //echo $ceklimit['limitpel'];
         if ($totalpiutang <= $ceklimit['limitpel']) {
           $datapenjualan = [
-            'no_fak_penj' => $d->no_fak_penj,
-            'tgltransaksi' => $d->tgltransaksi,
-            'kode_pelanggan' => $d->kode_pelanggan,
-            'id_karyawan' => $d->id_karyawan,
-            'subtotal' => $d->subtotal,
-            'potaida' => $d->potaida,
-            'potswan' => $d->potswan,
-            'potstick' => $d->potstick,
-            'potongan' => $d->potongan,
-            'potisaida' => $d->potisaida,
-            'potisswan' => $d->potisswan,
-            'potisstick' => $d->potisstick,
-            'potistimewa' => $d->potistimewa,
-            'penyaida' => $d->penyaida,
-            'penyswan' => $d->penyswan,
-            'penystick' => $d->penystick,
-            'penyharga' => $d->penyharga,
-            'total' => $d->total,
-            'jenistransaksi' => $d->jenistransaksi,
-            'jenisbayar' => $d->jenisbayar,
-            'jatuhtempo' => $d->jatuhtempo,
-            'id_admin' => $id_admin
+            'status' => 2
           ];
 
-          $simpanpenjualan = $this->db->insert('penjualan', $datapenjualan);
+          $simpanpenjualan = $this->db->update('penjualan', $datapenjualan, array('no_fak_penj' => $d->no_fak_penj));
           //echo $totalpiutang;
-          if ($simpanpenjualan) {
-            $detailpenjpending = $this->db->get_where('detailpenjualan_pending', array('no_fak_penj' => $d->no_fak_penj))->result();
-            $hbpending = $this->db->get_where('historibayar_pending', array('no_fak_penj' => $d->no_fak_penj))->result();
-            //var_dump($detailpenjpending);
-            //echo $detailpenjpending;
-            foreach ($detailpenjpending as $dp) {
-              $datadetail = [
-                'no_fak_penj' => $dp->no_fak_penj,
-                'kode_barang' => $dp->kode_barang,
-                'harga_dus' => $dp->harga_dus,
-                'harga_pack' => $dp->harga_pack,
-                'harga_pcs' => $dp->harga_pcs,
-                'jumlah' => $dp->jumlah,
-                'subtotal' => $dp->subtotal,
-                'promo' => $dp->promo,
-                'id_admin' => $dp->id_admin
-              ];
-
-              $simpandetailpending = $this->db->insert('detailpenjualan', $datadetail);
-            }
-            $cabang         = $d->kode_cabang;
-            $tahunini       = date('y');
-            $qbayar         = "SELECT nobukti FROM historibayar WHERE LEFT(nobukti,6) ='$cabang$tahunini-'ORDER BY nobukti DESC LIMIT 1 ";
-            $ceknolast      = $this->db->query($qbayar)->row_array();
-            $nobuktilast    = $ceknolast['nobukti'];
-            $nobukti         = buatkode($nobuktilast, $cabang . $tahunini . "-", 6);
-            foreach ($hbpending as $h) {
-              $databayar = [
-                'nobukti' => $nobukti,
-                'no_fak_penj' => $h->no_fak_penj,
-                'tglbayar' => $h->tglbayar,
-                'jenistransaksi' => $h->jenistransaksi,
-                'jenisbayar' => $h->jenisbayar,
-                'status_bayar' => $h->status_bayar,
-                'bayar' => $h->bayar,
-                'id_karyawan' => $h->id_karyawan,
-                'id_admin' => $h->id_admin,
-              ];
-
-              $simpanbayar = $this->db->insert('historibayar', $databayar);
-            }
-          }
         }
       }
 
@@ -4868,7 +4907,7 @@ class Model_penjualan extends CI_Model
 							<i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil Di Approve !
 					</div>'
       );
-      redirect('penjualan/approvallimitv2');
+      redirectPreviousPage();
     } else {
       $this->session->set_flashdata(
         'msg',
@@ -4878,7 +4917,7 @@ class Model_penjualan extends CI_Model
 					</div>'
       );
 
-      redirect('penjualan/approvallimitv2');
+      redirectPreviousPage();
     }
   }
 
@@ -5051,13 +5090,73 @@ class Model_penjualan extends CI_Model
     return $this->db->get_where('pengajuan_limitkredit_v2', array('no_pengajuan' => $id));
   }
 
+  // public function getDataPenjualanpend($rowno, $rowperpage, $cbg = "", $salesman = "", $dari = "", $sampai = "", $status = "")
+  // {
+  //   if ($cbg != "") {
+  //     $this->db->where('karyawan.kode_cabang', $cbg);
+  //   }
+  //   if ($salesman != '') {
+  //     $this->db->where('penjualan_pending.id_karyawan', $salesman);
+  //   }
+  //   if ($dari !=  '') {
+  //     $this->db->where('tgltransaksi >=', $dari);
+  //   }
+  //   if ($sampai !=  '') {
+  //     $this->db->where('tgltransaksi <=', $sampai);
+  //   }
+  //   if ($status == "1") {
+  //     $this->db->where('(SELECT count(no_fak_penj) FROM penjualan WHERE penjualan.no_fak_penj = penjualan_pending.no_fak_penj) =', '1');
+  //   } else if ($status == "2") {
+  //     $this->db->where('(SELECT count(no_fak_penj) FROM penjualan WHERE penjualan.no_fak_penj = penjualan_pending.no_fak_penj) !=', '1');
+  //   }
+  //   $this->db->select("no_fak_penj,tgltransaksi,penjualan_pending.kode_pelanggan,nama_pelanggan,penjualan_pending.id_karyawan,nama_karyawan,
+  // 	total,jenistransaksi,(SELECT count(no_fak_penj) FROM penjualan WHERE penjualan.no_fak_penj = penjualan_pending.no_fak_penj) as status,cektransfer");
+  //   $this->db->from('penjualan_pending');
+  //   $this->db->join('pelanggan', 'penjualan_pending.kode_pelanggan = pelanggan.kode_pelanggan');
+  //   $this->db->join('karyawan', 'penjualan_pending.id_karyawan = karyawan.id_karyawan');
+  //   $this->db->join('v_transfer', 'penjualan_pending.no_fak_penj = v_transfer.cektransfer', 'left');
+  //   $this->db->limit($rowperpage, $rowno);
+  //   $query = $this->db->get();
+  //   return $query->result_array();
+  // }
+
+  // // Select total records
+  // public function getrecordPenjualanpendCount($cbg = "", $salesman = "", $dari = "", $sampai = "", $status = "")
+  // {
+  //   if ($cbg != "") {
+  //     $this->db->where('karyawan.kode_cabang', $cbg);
+  //   }
+  //   if ($salesman != '') {
+  //     $this->db->where('penjualan_pending.id_karyawan', $salesman);
+  //   }
+  //   if ($dari !=  '') {
+  //     $this->db->where('tgltransaksi >=', $dari);
+  //   }
+  //   if ($sampai !=  '') {
+  //     $this->db->where('tgltransaksi <=', $sampai);
+  //   }
+  //   if ($status == "1") {
+  //     $this->db->where('(SELECT count(no_fak_penj) FROM penjualan WHERE penjualan.no_fak_penj = penjualan_pending.no_fak_penj) =', '1');
+  //   } else if ($status == "2") {
+  //     $this->db->where('(SELECT count(no_fak_penj) FROM penjualan WHERE penjualan.no_fak_penj = penjualan_pending.no_fak_penj) !=', '1');
+  //   }
+  //   $this->db->select("count(*) as allcount");
+  //   $this->db->from('penjualan_pending');
+  //   $this->db->join('pelanggan', 'penjualan_pending.kode_pelanggan = pelanggan.kode_pelanggan');
+  //   $this->db->join('karyawan', 'penjualan_pending.id_karyawan = karyawan.id_karyawan');
+  //   $this->db->join('v_transfer', 'penjualan_pending.no_fak_penj = v_transfer.cektransfer', 'left');
+  //   $query  = $this->db->get();
+  //   $result = $query->result_array();
+  //   return $result[0]['allcount'];
+  // }
+
   public function getDataPenjualanpend($rowno, $rowperpage, $cbg = "", $salesman = "", $dari = "", $sampai = "", $status = "")
   {
     if ($cbg != "") {
       $this->db->where('karyawan.kode_cabang', $cbg);
     }
     if ($salesman != '') {
-      $this->db->where('penjualan_pending.id_karyawan', $salesman);
+      $this->db->where('penjualan.id_karyawan', $salesman);
     }
     if ($dari !=  '') {
       $this->db->where('tgltransaksi >=', $dari);
@@ -5065,17 +5164,30 @@ class Model_penjualan extends CI_Model
     if ($sampai !=  '') {
       $this->db->where('tgltransaksi <=', $sampai);
     }
-    if ($status == "1") {
-      $this->db->where('(SELECT count(no_fak_penj) FROM penjualan WHERE penjualan.no_fak_penj = penjualan_pending.no_fak_penj) =', '1');
-    } else if ($status == "2") {
-      $this->db->where('(SELECT count(no_fak_penj) FROM penjualan WHERE penjualan.no_fak_penj = penjualan_pending.no_fak_penj) !=', '1');
+    if ($status == "") {
+      $this->db->where('status', '1');
+      $this->db->or_where('status', '2');
+      if ($cbg != "") {
+        $this->db->where('karyawan.kode_cabang', $cbg);
+      }
+      if ($salesman != '') {
+        $this->db->where('penjualan.id_karyawan', $salesman);
+      }
+      if ($dari !=  '') {
+        $this->db->where('tgltransaksi >=', $dari);
+      }
+      if ($sampai !=  '') {
+        $this->db->where('tgltransaksi <=', $sampai);
+      }
+    } else {
+      $this->db->where('status', $status);
     }
-    $this->db->select("no_fak_penj,tgltransaksi,penjualan_pending.kode_pelanggan,nama_pelanggan,penjualan_pending.id_karyawan,nama_karyawan,
-		total,jenistransaksi,(SELECT count(no_fak_penj) FROM penjualan WHERE penjualan.no_fak_penj = penjualan_pending.no_fak_penj) as status,cektransfer");
-    $this->db->from('penjualan_pending');
-    $this->db->join('pelanggan', 'penjualan_pending.kode_pelanggan = pelanggan.kode_pelanggan');
-    $this->db->join('karyawan', 'penjualan_pending.id_karyawan = karyawan.id_karyawan');
-    $this->db->join('v_transfer', 'penjualan_pending.no_fak_penj = v_transfer.cektransfer', 'left');
+    $this->db->order_by('tgltransaksi');
+    $this->db->select("no_fak_penj,tgltransaksi,penjualan.kode_pelanggan,nama_pelanggan,penjualan.id_karyawan,nama_karyawan,
+		total,jenistransaksi,status");
+    $this->db->from('penjualan');
+    $this->db->join('pelanggan', 'penjualan.kode_pelanggan = pelanggan.kode_pelanggan');
+    $this->db->join('karyawan', 'penjualan.id_karyawan = karyawan.id_karyawan');
     $this->db->limit($rowperpage, $rowno);
     $query = $this->db->get();
     return $query->result_array();
@@ -5088,7 +5200,7 @@ class Model_penjualan extends CI_Model
       $this->db->where('karyawan.kode_cabang', $cbg);
     }
     if ($salesman != '') {
-      $this->db->where('penjualan_pending.id_karyawan', $salesman);
+      $this->db->where('penjualan.id_karyawan', $salesman);
     }
     if ($dari !=  '') {
       $this->db->where('tgltransaksi >=', $dari);
@@ -5096,26 +5208,37 @@ class Model_penjualan extends CI_Model
     if ($sampai !=  '') {
       $this->db->where('tgltransaksi <=', $sampai);
     }
-    if ($status == "1") {
-      $this->db->where('(SELECT count(no_fak_penj) FROM penjualan WHERE penjualan.no_fak_penj = penjualan_pending.no_fak_penj) =', '1');
-    } else if ($status == "2") {
-      $this->db->where('(SELECT count(no_fak_penj) FROM penjualan WHERE penjualan.no_fak_penj = penjualan_pending.no_fak_penj) !=', '1');
+    if ($status == "") {
+      $this->db->where('status', '1');
+      $this->db->or_where('status', '2');
+      if ($cbg != "") {
+        $this->db->where('karyawan.kode_cabang', $cbg);
+      }
+      if ($salesman != '') {
+        $this->db->where('penjualan.id_karyawan', $salesman);
+      }
+      if ($dari !=  '') {
+        $this->db->where('tgltransaksi >=', $dari);
+      }
+      if ($sampai !=  '') {
+        $this->db->where('tgltransaksi <=', $sampai);
+      }
+    } else {
+      $this->db->where('status', $status);
     }
     $this->db->select("count(*) as allcount");
-    $this->db->from('penjualan_pending');
-    $this->db->join('pelanggan', 'penjualan_pending.kode_pelanggan = pelanggan.kode_pelanggan');
-    $this->db->join('karyawan', 'penjualan_pending.id_karyawan = karyawan.id_karyawan');
-    $this->db->join('v_transfer', 'penjualan_pending.no_fak_penj = v_transfer.cektransfer', 'left');
+    $this->db->from('penjualan');
+    $this->db->join('pelanggan', 'penjualan.kode_pelanggan = pelanggan.kode_pelanggan');
+    $this->db->join('karyawan', 'penjualan.id_karyawan = karyawan.id_karyawan');
     $query  = $this->db->get();
     $result = $query->result_array();
     return $result[0]['allcount'];
   }
-
   function getDetailpenjualanpending($nofaktur)
   {
-    $this->db->select('no_fak_penj,detailpenjualan_pending.kode_barang,nama_barang,kategori,satuan,stok,harga_returdus,harga_returpack,harga_returpcs,isipcsdus,isipack,isipcs,jumlah,detailpenjualan_pending.harga_dus,detailpenjualan_pending.harga_pack,detailpenjualan_pending.harga_pcs,subtotal,promo,id_admin');
-    $this->db->from('detailpenjualan_pending');
-    $this->db->join('barang', 'detailpenjualan_pending.kode_barang = barang.kode_barang');
+    $this->db->select('no_fak_penj,detailpenjualan.kode_barang,nama_barang,kategori,satuan,stok,harga_returdus,harga_returpack,harga_returpcs,isipcsdus,isipack,isipcs,jumlah,detailpenjualan.harga_dus,detailpenjualan.harga_pack,detailpenjualan.harga_pcs,subtotal,promo,id_admin');
+    $this->db->from('detailpenjualan');
+    $this->db->join('barang', 'detailpenjualan.kode_barang = barang.kode_barang');
     $this->db->where('no_fak_penj', $nofaktur);
     return $this->db->get();
   }
@@ -5141,8 +5264,154 @@ class Model_penjualan extends CI_Model
 
   function getPenjualanpending($nofaktur)
   {
-    return $this->db->get_where('penjualan_pending', array('no_fak_penj' => $nofaktur));
+    return $this->db->get_where('penjualan', array('no_fak_penj' => $nofaktur));
   }
+
+  // function updatepenjualanpending($kode_pelanggan, $nofaktur)
+  // {
+
+  //   $id_admin = $this->session->userdata('id_user');
+  //   $ceklimit = $this->db->get_where('pelanggan', array('kode_pelanggan' => $kode_pelanggan))->row_array();
+
+  //   //$getpenjualanpending  = $this->db->join('karyawan','penjualan_pending.id_karyawan = karyawan.id_karyawan');
+  //   $querypenjualanpend = "SELECT * FROM penjualan_pending
+  // 	INNER JOIN karyawan ON penjualan_pending.id_karyawan = karyawan.id_karyawan
+  // 	WHERE kode_pelanggan ='$kode_pelanggan' AND no_fak_penj ='$nofaktur'
+  // 	";
+  //   $getpenjualanpending  = $this->db->query($querypenjualanpend)->result();
+  //   // var_dump($getpenjualanpending);
+  //   // die;
+  //   foreach ($getpenjualanpending as $d) {
+  //     $query = "SELECT
+
+  // 					SUM(((IFNULL(penjualan.total, 0)) - (IFNULL(retur.total, 0)))) AS totalpiutang,
+  // 					SUM(jmlbayar) AS jmlbayar
+  // 				FROM penjualan
+  // 				LEFT JOIN (
+  // 					SELECT historibayar.no_fak_penj,
+  // 						IFNULL(SUM(bayar), 0) AS jmlbayar
+  // 					FROM
+  // 					historibayar
+  // 					GROUP BY historibayar.no_fak_penj
+  // 				) hb ON (penjualan.no_fak_penj = hb.no_fak_penj)
+  // 				LEFT JOIN (
+  // 					SELECT
+  // 						retur.no_fak_penj AS no_fak_penj,
+  // 						SUM(total) AS total
+  // 					FROM
+  // 						retur
+  // 					GROUP BY
+  // 						retur.no_fak_penj
+  // 				) retur ON (
+  // 					penjualan.no_fak_penj = retur.no_fak_penj
+  // 				)
+  // 				WHERE
+  //           penjualan.kode_pelanggan = '$kode_pelanggan'";
+
+
+
+  //     $ceksisapiutang = $this->db->query($query)->row_array();
+  //     $piutang = $ceksisapiutang['totalpiutang'] - $ceksisapiutang['jmlbayar'];
+
+
+
+  //     $totalpiutang = $piutang + $d->total;
+
+  //     //echo $ceklimit['limitpel'];
+  //     // if ($totalpiutang <= $ceklimit['limitpel']) {
+  //     $datapenjualan = [
+  //       'no_fak_penj' => $d->no_fak_penj,
+  //       'tgltransaksi' => $d->tgltransaksi,
+  //       'kode_pelanggan' => $d->kode_pelanggan,
+  //       'id_karyawan' => $d->id_karyawan,
+  //       'subtotal' => $d->subtotal,
+  //       'potaida' => $d->potaida,
+  //       'potswan' => $d->potswan,
+  //       'potstick' => $d->potstick,
+  //       'potongan' => $d->potongan,
+  //       'potisaida' => $d->potisaida,
+  //       'potisswan' => $d->potisswan,
+  //       'potisstick' => $d->potisstick,
+  //       'potistimewa' => $d->potistimewa,
+  //       'penyaida' => $d->penyaida,
+  //       'penyswan' => $d->penyswan,
+  //       'penystick' => $d->penystick,
+  //       'penyharga' => $d->penyharga,
+  //       'total' => $d->total,
+  //       'jenistransaksi' => $d->jenistransaksi,
+  //       'jenisbayar' => $d->jenisbayar,
+  //       'jatuhtempo' => $d->jatuhtempo,
+  //       'id_admin' => $id_admin,
+  //       'status' => 1
+  //     ];
+
+  //     $simpanpenjualan = $this->db->insert('penjualan', $datapenjualan);
+  //     //echo $totalpiutang;
+  //     if ($simpanpenjualan) {
+  //       $detailpenjpending = $this->db->get_where('detailpenjualan_pending', array('no_fak_penj' => $d->no_fak_penj))->result();
+  //       $hbpending = $this->db->get_where('historibayar_pending', array('no_fak_penj' => $d->no_fak_penj))->result();
+  //       //var_dump($detailpenjpending);
+  //       //echo $detailpenjpending;
+  //       foreach ($detailpenjpending as $dp) {
+  //         $datadetail = [
+  //           'no_fak_penj' => $dp->no_fak_penj,
+  //           'kode_barang' => $dp->kode_barang,
+  //           'harga_dus' => $dp->harga_dus,
+  //           'harga_pack' => $dp->harga_pack,
+  //           'harga_pcs' => $dp->harga_pcs,
+  //           'jumlah' => $dp->jumlah,
+  //           'subtotal' => $dp->subtotal,
+  //           'promo' => $dp->promo,
+  //           'id_admin' => $dp->id_admin
+  //         ];
+
+  //         $simpandetailpending = $this->db->insert('detailpenjualan', $datadetail);
+  //       }
+  //       $cabang         = $d->kode_cabang;
+  //       $tahunini       = date('y');
+  //       $qbayar         = "SELECT nobukti FROM historibayar WHERE LEFT(nobukti,6) ='$cabang$tahunini-'ORDER BY nobukti DESC LIMIT 1 ";
+  //       $ceknolast      = $this->db->query($qbayar)->row_array();
+  //       $nobuktilast    = $ceknolast['nobukti'];
+  //       $nobukti         = buatkode($nobuktilast, $cabang . $tahunini . "-", 6);
+  //       foreach ($hbpending as $h) {
+  //         $databayar = [
+  //           'nobukti' => $nobukti,
+  //           'no_fak_penj' => $h->no_fak_penj,
+  //           'tglbayar' => $h->tglbayar,
+  //           'jenistransaksi' => $h->jenistransaksi,
+  //           'jenisbayar' => $h->jenisbayar,
+  //           'status_bayar' => $h->status_bayar,
+  //           'bayar' => $h->bayar,
+  //           'id_karyawan' => $h->id_karyawan,
+  //           'id_admin' => $h->id_admin,
+  //         ];
+
+  //         $simpanbayar = $this->db->insert('historibayar', $databayar);
+  //       }
+  //     }
+  //     $this->session->set_flashdata(
+  //       'msg',
+  //       '<div class="alert bg-green text-white alert-dismissible" role="alert">
+  //             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  //             <i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil Disimpan !
+  //         </div>'
+  //     );
+  //     redirect('penjualan/penjualanpend');
+  //     // } else {
+  //     //   $this->session->set_flashdata(
+  //     //     'msg',
+  //     //     '<div class="alert bg-orange text-white alert-dismissible" role="alert">
+  //     //         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  //     //         <i class="fa fa-info" style="float:left; margin-right:10px"></i> Data Transaksi Masih Melebihi Limit!
+  //     //     </div>'
+  //     //   );
+  //     //   redirect('penjualan/penjualanpend');
+  //     // }
+  //   }
+
+  //   // die;
+
+  // }
 
   function updatepenjualanpending($kode_pelanggan, $nofaktur)
   {
@@ -5151,9 +5420,9 @@ class Model_penjualan extends CI_Model
     $ceklimit = $this->db->get_where('pelanggan', array('kode_pelanggan' => $kode_pelanggan))->row_array();
 
     //$getpenjualanpending  = $this->db->join('karyawan','penjualan_pending.id_karyawan = karyawan.id_karyawan');
-    $querypenjualanpend = "SELECT * FROM penjualan_pending
-		INNER JOIN karyawan ON penjualan_pending.id_karyawan = karyawan.id_karyawan
-		WHERE kode_pelanggan ='$kode_pelanggan' AND no_fak_penj ='$nofaktur'
+    $querypenjualanpend = "SELECT * FROM penjualan
+		INNER JOIN karyawan ON penjualan.id_karyawan = karyawan.id_karyawan
+		WHERE kode_pelanggan ='$kode_pelanggan' AND no_fak_penj ='$nofaktur' AND status = '1'
 		";
     $getpenjualanpending  = $this->db->query($querypenjualanpend)->result();
     // var_dump($getpenjualanpending);
@@ -5183,7 +5452,7 @@ class Model_penjualan extends CI_Model
 						penjualan.no_fak_penj = retur.no_fak_penj
 					)
 					WHERE
-            penjualan.kode_pelanggan = '$kode_pelanggan'";
+            penjualan.kode_pelanggan = '$kode_pelanggan' AND penjualan.status !='1' OR penjualan.kode_pelanggan = '$kode_pelanggan' AND penjualan.status IS NULL";
 
 
 
@@ -5193,101 +5462,36 @@ class Model_penjualan extends CI_Model
 
 
       $totalpiutang = $piutang + $d->total;
+      echo $piutang;
+      echo $ceklimit['limitpel'];
+      //die;
+      if ($totalpiutang <= $ceklimit['limitpel']) {
+        $datapenjualan = [
+          'status' => 2
+        ];
 
-      //echo $ceklimit['limitpel'];
-      // if ($totalpiutang <= $ceklimit['limitpel']) {
-      $datapenjualan = [
-        'no_fak_penj' => $d->no_fak_penj,
-        'tgltransaksi' => $d->tgltransaksi,
-        'kode_pelanggan' => $d->kode_pelanggan,
-        'id_karyawan' => $d->id_karyawan,
-        'subtotal' => $d->subtotal,
-        'potaida' => $d->potaida,
-        'potswan' => $d->potswan,
-        'potstick' => $d->potstick,
-        'potongan' => $d->potongan,
-        'potisaida' => $d->potisaida,
-        'potisswan' => $d->potisswan,
-        'potisstick' => $d->potisstick,
-        'potistimewa' => $d->potistimewa,
-        'penyaida' => $d->penyaida,
-        'penyswan' => $d->penyswan,
-        'penystick' => $d->penystick,
-        'penyharga' => $d->penyharga,
-        'total' => $d->total,
-        'jenistransaksi' => $d->jenistransaksi,
-        'jenisbayar' => $d->jenisbayar,
-        'jatuhtempo' => $d->jatuhtempo,
-        'id_admin' => $id_admin,
-        'status' => 1
-      ];
-
-      $simpanpenjualan = $this->db->insert('penjualan', $datapenjualan);
-      //echo $totalpiutang;
-      if ($simpanpenjualan) {
-        $detailpenjpending = $this->db->get_where('detailpenjualan_pending', array('no_fak_penj' => $d->no_fak_penj))->result();
-        $hbpending = $this->db->get_where('historibayar_pending', array('no_fak_penj' => $d->no_fak_penj))->result();
-        //var_dump($detailpenjpending);
-        //echo $detailpenjpending;
-        foreach ($detailpenjpending as $dp) {
-          $datadetail = [
-            'no_fak_penj' => $dp->no_fak_penj,
-            'kode_barang' => $dp->kode_barang,
-            'harga_dus' => $dp->harga_dus,
-            'harga_pack' => $dp->harga_pack,
-            'harga_pcs' => $dp->harga_pcs,
-            'jumlah' => $dp->jumlah,
-            'subtotal' => $dp->subtotal,
-            'promo' => $dp->promo,
-            'id_admin' => $dp->id_admin
-          ];
-
-          $simpandetailpending = $this->db->insert('detailpenjualan', $datadetail);
+        $simpanpenjualan = $this->db->update('penjualan', $datapenjualan, array('no_fak_penj' => $d->no_fak_penj));
+        if ($simpanpenjualan) {
+          $this->session->set_flashdata(
+            'msg',
+            '<div class="alert bg-green text-white alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil Disimpan !
+            </div>'
+          );
+          redirectPreviousPage();
         }
-        $cabang         = $d->kode_cabang;
-        $tahunini       = date('y');
-        $qbayar         = "SELECT nobukti FROM historibayar WHERE LEFT(nobukti,6) ='$cabang$tahunini-'ORDER BY nobukti DESC LIMIT 1 ";
-        $ceknolast      = $this->db->query($qbayar)->row_array();
-        $nobuktilast    = $ceknolast['nobukti'];
-        $nobukti         = buatkode($nobuktilast, $cabang . $tahunini . "-", 6);
-        foreach ($hbpending as $h) {
-          $databayar = [
-            'nobukti' => $nobukti,
-            'no_fak_penj' => $h->no_fak_penj,
-            'tglbayar' => $h->tglbayar,
-            'jenistransaksi' => $h->jenistransaksi,
-            'jenisbayar' => $h->jenisbayar,
-            'status_bayar' => $h->status_bayar,
-            'bayar' => $h->bayar,
-            'id_karyawan' => $h->id_karyawan,
-            'id_admin' => $h->id_admin,
-          ];
-
-          $simpanbayar = $this->db->insert('historibayar', $databayar);
-        }
-      }
-      $this->session->set_flashdata(
-        'msg',
-        '<div class="alert bg-green text-white alert-dismissible" role="alert">
+      } else {
+        $this->session->set_flashdata(
+          'msg',
+          '<div class="alert bg-orange text-white alert-dismissible" role="alert">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil Disimpan !
+              <i class="fa fa-info" style="float:left; margin-right:10px"></i> Data Transaksi Masih Melebihi Limit!
           </div>'
-      );
-      redirect('penjualan/penjualanpend');
-      // } else {
-      //   $this->session->set_flashdata(
-      //     'msg',
-      //     '<div class="alert bg-orange text-white alert-dismissible" role="alert">
-      //         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      //         <i class="fa fa-info" style="float:left; margin-right:10px"></i> Data Transaksi Masih Melebihi Limit!
-      //     </div>'
-      //   );
-      //   redirect('penjualan/penjualanpend');
-      // }
+        );
+        redirectPreviousPage();
+      }
     }
-
-    // die;
-
   }
 
   function inputsetorangiro()
@@ -6489,5 +6693,30 @@ class Model_penjualan extends CI_Model
   {
     $this->db->join('master_bank', 'lebihsetor_detail.kode_bank = master_bank.kode_bank');
     return $this->db->get_where('lebihsetor_detail', array('kode_ls' => $id));
+  }
+
+  function getLastTopUp($id_pelanggan)
+  {
+    $this->db->order_by('tgl_pengajuan', 'desc');
+    $this->db->limit(1);
+    return $this->db->get_where('pengajuan_limitkredit_v2', array('kode_pelanggan' => $id_pelanggan));
+  }
+
+  function getFirstSale($id_pelanggan)
+  {
+    $this->db->order_by('tgltransaksi', 'asc');
+    $this->db->limit(1);
+    return $this->db->get_where('penjualan', array('kode_pelanggan' => $id_pelanggan));
+  }
+
+  function getPengajuankredit($no_pengajuan)
+  {
+    return $this->db->query("SELECT no_pengajuan,tgl_pengajuan,lk.kode_pelanggan,nama_pelanggan,latitude,longitude,pelanggan.kode_cabang,
+    nik,type_outlet,nama_karyawan,hari,alamat_pelanggan,alamat_toko,pelanggan.no_hp,lk.jatuhtempo,cara_pembayaran,
+    kepemilikan,histori_transaksi,omset_toko,lama_topup,lama_usaha,lama_langganan,jaminan,jml_faktur,pelanggan.limitpel,lk.jumlah,skor
+    FROM pengajuan_limitkredit_v2 lk
+    INNER JOIN pelanggan ON lk.kode_pelanggan = pelanggan.kode_pelanggan
+    INNER JOIN karyawan ON pelanggan.id_sales = karyawan.id_karyawan
+    WHERE no_pengajuan ='$no_pengajuan'");
   }
 }

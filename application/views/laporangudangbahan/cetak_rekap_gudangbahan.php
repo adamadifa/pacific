@@ -37,23 +37,23 @@ tr:nth-child(even) {
       <th rowspan="1" colspan="6" bgcolor="#024a75" style="color:white; font-size:14;">KELUAR</th>
       <th rowspan="1" bgcolor="#024a75" style="color:white; font-size:14;">SALDO AKHIR</th>
     </tr>
-    <tr bgcolor="#024a75">
-      <th style="color:white; font-size:14;">IN</th>
-      <th style="color:white; font-size:14;">OUT</th>
+    <tr >
+      <th bgcolor="#024a75" style="color:white; font-size:14;">IN</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">OUT</th>
       <th bgcolor="orange" style="color:white; font-size:14;">
         <?php if (!empty($saldoawal['qtyunitsa'])) {
           echo uang($saldoawal['qtyunitsa']);
         } ?>
       </th>
-      <th style="color:white; font-size:14;">PEMBELIAN</th>
-      <th style="color:white; font-size:14;">LAINNYA</th>
-      <th style="color:white; font-size:14;">RETUR PENGGANTI</th>
-      <th style="color:white; font-size:14;">PRODUKSI</th>
-      <th style="color:white; font-size:14;">SEASONING</th>
-      <th style="color:white; font-size:14;">PDQC</th>
-      <th style="color:white; font-size:14;">SUSUT</th>
-      <th style="color:white; font-size:14;">CABANG</th>
-      <th style="color:white; font-size:14;">LAINNYA</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">PEMBELIAN</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">LAINNYA</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">RETUR PENGGANTI</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">PRODUKSI</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">SEASONING</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">PDQC</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">SUSUT</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">CABANG</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">LAINNYA</th>
       <th bgcolor="orange" style="color:white; font-size:14;">
         <?php if (!empty($saldoawal['qtyberatsa'])) {
           echo uang($saldoawal['qtyberatsa']);

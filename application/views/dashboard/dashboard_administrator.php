@@ -76,7 +76,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-4">
+    <!-- <div class="col-md-4">
       <div class="card">
         <div class="card-header bg-dark text-white">
           <h4 class="card-title">Data Persediaan Gudang</h4>
@@ -94,8 +94,8 @@
           <?php } ?>
         </div>
       </div>
-    </div>
-    <div class="col-md-8">
+    </div> -->
+    <div class="col-md-12">
       <div class="card">
         <div class="card-header bg-dark text-white">
           <h4 class="card-title">Data Persediaan All Cabang (DPB)</h4>

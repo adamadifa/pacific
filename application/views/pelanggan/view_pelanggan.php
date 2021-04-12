@@ -108,8 +108,8 @@
                   <th width="10px">No</th>
                   <th>Kode</th>
                   <th>Nama Pelanggan</th>
-                  <th>HP</th>
-                  <th>Pasar</th>
+                  <!-- <th>HP</th>
+                  <th>Pasar</th> -->
                   <th>JT</th>
                   <th>Limit</th>
                   <th>Cabang</th>
@@ -130,8 +130,8 @@
                     <td><?php echo $sno; ?></td>
                     <td><?php echo $d['kode_pelanggan']; ?></td>
                     <td><?php echo $d['nama_pelanggan']; ?></td>
-                    <td><?php echo $d['no_hp']; ?></td>
-                    <td><?php echo $d['pasar']; ?></td>
+                    <!-- <td><?php echo $d['no_hp']; ?></td>
+                    <td><?php echo $d['pasar']; ?></td> -->
                     <td align="center">
                       <?php
                       if ($d['jatuhtempo'] == 14) {
@@ -155,7 +155,7 @@
                       ?>
                     </td>
                     <td><?php echo number_format($d['limitpel'], '0', '', '.'); ?></td>
-                    <td><?php echo $d['nama_cabang']; ?></td>
+                    <td><?php echo $d['kode_cabang']; ?></td>
                     <td><?php echo $d['nama_karyawan']; ?></td>
                     <td>
                       <?php
@@ -184,6 +184,7 @@
                     </td>
                     <td>
                       <a href="<?php echo base_url(); ?>pelanggan/edit_pelanggan/<?php echo $d['kode_pelanggan'] ?>" class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i></a>
+                      <a href="<?php echo base_url(); ?>penjualan/input_ajuankredit/<?php echo $d['kode_pelanggan'] ?>" class="btn btn-sm btn-info">Ajukan Limit</a>
                     </td>
                   </tr>
                 <?php

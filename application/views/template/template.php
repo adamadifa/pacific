@@ -181,6 +181,38 @@
           <img src="<?php echo base_url(); ?>assets/images/pac.png" alt="Tabler" class="navbar-brand-image">
         </a>
         <div class="navbar-nav flex-row order-md-last">
+        <?php
+        $level = $this->session->userdata('level_user');
+        if ($level == "manager accounting") {
+        ?>
+          <div class="nav-item dropdown d-none d-md-flex mr-3">
+            <a href="#" class="nav-link px-0" data-toggle="dropdown" tabindex="-1">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" />
+                <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
+                <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
+              </svg>
+              <?php 
+              $menu = $this->db->query("SELECT * FROM maintenance WHERE status='0'")->num_rows();
+              ?>
+              <span class="badge bg-red"><?php echo $menu;?></span>
+            </a>
+          </div>
+        <?php }else if ($level == "Administrator") { ?>
+          <div class="nav-item dropdown d-none d-md-flex mr-3">
+            <a href="#" class="nav-link px-0" data-toggle="dropdown" tabindex="-1">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" />
+                <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
+                <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
+              </svg>
+              <?php 
+              $menu = $this->db->query("SELECT * FROM maintenance WHERE status='1'")->num_rows();
+              ?>
+              <span class="badge bg-red"><?php echo $menu;?></span>
+            </a>
+          </div>
+        <?php }else{ ?>
           <div class="nav-item dropdown d-none d-md-flex mr-3">
             <a href="#" class="nav-link px-0" data-toggle="dropdown" tabindex="-1">
               <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -190,14 +222,8 @@
               </svg>
               <span class="badge bg-red"></span>
             </a>
-            <div class="dropdown-menu dropdown-menu-right dropdown-menu-card">
-              <div class="card">
-                <div class="card-body">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus ad amet consectetur exercitationem fugiat in ipsa ipsum, natus odio quidem quod repudiandae sapiente. Amet debitis et magni maxime necessitatibus ullam.
-                </div>
-              </div>
-            </div>
           </div>
+        <?php } ?>
           <div class="nav-item dropdown">
             <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-toggle="dropdown">
               <span class="avatar" style="background-image: url(<?php echo base_url(); ?>assets/images/user.png)"></span>
@@ -279,6 +305,21 @@
                 }
               }
               ?>
+              <?php
+              $level = $this->session->userdata('level_user');
+              if ($level != "Administrator" && $level != "manager accounting") {
+              ?>
+                <li class="nav-item">
+                  <a class="nav-link" href="<?php echo base_url(); ?>maintenance/view_maintenance">
+                    <span class="nav-link-icon d-md-none d-lg-inline-block mr-3">
+                      <i class="fa fa-gears icon"></i>
+                    </span>
+                    <span class="nav-link-title">
+                      Pengajuan Maintenance
+                    </span>
+                  </a>
+                </li>
+              <?php } ?>
             </ul>
 
           </div>
@@ -311,13 +352,13 @@
     </div>
   </div>
 
-  <script>
+  <!-- <script>
     function toggleZoomScreen() {
       var width = window.screen.width;
       document.body.style.zoom = "80%";
     }
     toggleZoomScreen();
-  </script>
+  </script> -->
   <script type="text/javascript">
     $(function() {
 
@@ -327,7 +368,8 @@
     });
   </script>
   <script>
-    document.body.style.display = "block"
+    document.body.style.display = "block";
+    //document.body.style.zoom = 0.8
   </script>
 
 </body>

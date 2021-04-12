@@ -20,9 +20,9 @@ function formatnumber($nilai)
       <th rowspan="2">NO</th>
       <th rowspan="2">ID KARYAWAN</th>
       <th rowspan="2">NAMA KARYAWAN</th>
-      <th colspan="3">TARGET & REALISASI KATEGORI A (BB)(50)</th>
+      <th colspan="3">TARGET & REALISASI KATEGORI A (BB & DEP)(50)</th>
       <th colspan="3">TARGET & REALISASI KATEGORI B (ALL AIDA)(30)</th>
-      <th colspan="3">TARGET & REALISASI KATEGORI PF (PRODUCT FOCUS)(20)</th>
+      <th colspan="3">TARGET & REALISASI KATEGORI PF (DS,SP,DK)(20)</th>
       <th rowspan="2">TOTAL POIN (A,B,PF)</th>
       <th colspan="4">TARGET & REALISASI CASHIN</th>
       <th rowspan="2"> PIUTANG JATUH TEMPO</th>
@@ -52,7 +52,21 @@ function formatnumber($nilai)
     $poinkategoriB = 30;
     $poinkategoriPF = 20;
 
+
+    $totaltargetA = 0;
+    $totaltargetB = 0;
+    $totaltargetPF = 0;
+
+    $totalrealisasiA =  0;
+    $totalrealisasiB = 0;
+    $totalrealisasiPF = 0;
+
+    $totaltargetcashin = 0;
+    $totalrealisasicashin = 0;
+
+    $totalsisapiutang = 0;
     foreach ($komisi as $k) {
+
       if (!empty($k->targetkategoriA)) {
         $hasilkategoriA = ($k->realisasitargetA / $k->targetkategoriA) * $poinkategoriA;
       } else {
@@ -83,7 +97,55 @@ function formatnumber($nilai)
         $bfjt = 0;
       }
 
+
+
       $totalpoin = ($hasilkategoriA + $hasilkategoriB + $hasilkategoriPF);
+
+      $totaltargetA = $totaltargetA + $k->targetkategoriA;
+      $totaltargetB = $totaltargetB + $k->targetkategoriB;
+      $totaltargetPF = $totaltargetPF + $k->targetproductfocus;
+
+      $totalrealisasiA += $k->realisasitargetA;
+      $totalrealisasiB += $k->realisasitargetB;
+      $totalrealisasiPF += $k->realisasitargetproductfocus;
+
+      if (!empty($totaltargetA)) {
+        $totalhasilkategoriA = ($totalrealisasiA / $totaltargetA) * $poinkategoriA;
+      } else {
+        $totalhasilkategoriA = 0;
+      }
+
+      if (!empty($totaltargetB)) {
+        $totalhasilkategoriB = ($totalrealisasiB / $totaltargetB) * $poinkategoriB;
+      } else {
+        $totalhasilkategoriB = 0;
+      }
+
+      if (!empty($totaltargetPF)) {
+        $totalhasilkategoriPF = ($totalrealisasiPF / $totaltargetPF) * $poinkategoriPF;
+      } else {
+        $totalhasilkategoriPF = 0;
+      }
+
+      $totalallpoint = ($totalhasilkategoriA + $totalhasilkategoriB + $totalhasilkategoriPF);
+
+      $totaltargetcashin += $k->jumlah_target_cashin;
+      $totalrealisasicashin += $k->jml_cashin;
+
+      if (!empty($totaltargetcashin)) {
+        $totalhasilcashin = ($totalrealisasicashin / $totaltargetcashin) * 100;
+      } else {
+        $totalhasilcashin = 0;
+      }
+
+
+      $totalsisapiutang += $k->sisapiutang;
+
+      if (!empty($totalrealisasicashin)) {
+        $bftotaljt = ($totalsisapiutang / $totalrealisasicashin) * 100;
+      } else {
+        $bftotaljt = 0;
+      }
     ?>
       <tr>
         <td><?php echo $no; ?></td>
@@ -103,17 +165,63 @@ function formatnumber($nilai)
         <td align="right"><?php echo formatnumber($k->jml_cashin); ?></td>
         <td align="right"><?php echo formatnumber($hasilcashin); ?></td>
         <td align="right"><?php if (!empty($totalpoin)) {
-                            echo formatnumber(100 - $hasilcashin);
-                          } ?></td>
+                            $bfcashin = 100 - $hasilcashin;
+                            if ($bfcashin < 0) {
+                              $bfcash = 0;
+                            } else {
+                              $bfcash = $bfcashin;
+                            }
+                            echo formatnumber($bfcash);
+                          } ?>
+        </td>
         <td align="right"><?php echo formatnumber($k->sisapiutang); ?></td>
         <td align="right"><?php if (!empty($totalpoin)) {
                             echo formatnumber($bfjt);
                           } ?></td>
         <td align="right"><?php if (!empty($totalpoin)) {
-                            echo formatnumber($bfjt + (100 - $hasilcashin));
+                            echo formatnumber($bfjt + ($bfcash));
                           } ?></td>
       </tr>
     <?php $no++;
     } ?>
+    <tr>
+      <td><?php echo $no; ?></td>
+      <td></td>
+      <td>Kepala Penjualan</td>
+      <td align="right"><?php echo formatnumber($totaltargetA); ?></td>
+      <td align="right"><?php echo formatnumber($totalrealisasiA); ?></td>
+      <td align="right"><?php echo formatnumber($totalhasilkategoriA); ?></td>
+      <td align="right"><?php echo formatnumber($totaltargetB); ?></td>
+      <td align="right"><?php echo formatnumber($totalrealisasiB); ?></td>
+      <td align="right"><?php echo formatnumber($totalhasilkategoriB); ?></td>
+      <td align="right"><?php echo formatnumber($totaltargetPF); ?></td>
+      <td align="right"><?php echo formatnumber($totalrealisasiPF); ?></td>
+      <td align="right"><?php echo formatnumber($totalhasilkategoriPF); ?></td>
+      <td align="right"><?php echo formatnumber($totalallpoint); ?></td>
+      <td align="right"><?php echo formatnumber($totaltargetcashin); ?></td>
+      <td align="right"><?php echo formatnumber($totalrealisasicashin); ?></td>
+      <td align="right"><?php echo formatnumber($totalhasilcashin); ?></td>
+
+      <td align="right">
+        <?php if (!empty($totalallpoint)) {
+          $bftotalcashin = 100 - $totalhasilcashin;
+          if ($bftotalcashin < 0) {
+            $bftotalcash = 0;
+          } else {
+            $bftotalcash = $bftotalcashin;
+          }
+          echo formatnumber($bftotalcash);
+        } ?>
+      </td>
+      <td align="right"><?php echo formatnumber($totalsisapiutang); ?></td>
+      <td align="right">
+        <?php if (!empty($totalallpoint)) {
+          echo formatnumber($bftotaljt);
+        } ?>
+      </td>
+      <td align="right"><?php if (!empty($totalallpoint)) {
+                          echo formatnumber($bftotaljt + ($bftotalcash));
+                        } ?></td>
+    </tr>
   </tbody>
 </table>

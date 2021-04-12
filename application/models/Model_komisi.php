@@ -52,12 +52,12 @@ class Model_komisi extends CI_Model
     $dari = $tahun . "-" . $bulan . "-01";
     $sampai = $tahun . "-" . $bulan . "-31";
     $query = "SELECT karyawan.id_karyawan,nama_karyawan,
-    targetkategoriA,realisasitargetA,
+     targetkategoriA,realisasitargetA,
     targetkategoriB,realisasitargetB,
     targetproductfocus,realisasitargetproductfocus,
     jumlah_target_cashin,jml_cashin,sisapiutang
     FROM karyawan
-    LEFT JOIN (
+    INNER JOIN (
     SELECT  id_karyawan,
     SUM(IF(kategori_komisi='KKQ01',jumlah_target,0)) as targetkategoriA,
     SUM(IF(kategori_komisi='KKQ02',jumlah_target,0)) as targetkategoriB,
@@ -68,7 +68,7 @@ class Model_komisi extends CI_Model
     INNER JOIN master_barang ON k_detail.kode_produk = master_barang.kode_produk
     WHERE bulan ='$bulan' AND tahun='$tahun'
     GROUP BY id_karyawan) komisi ON (karyawan.id_karyawan = komisi.id_karyawan)
-
+    
     LEFT JOIN
     (
     SELECT penjualan.id_karyawan, 
@@ -83,16 +83,17 @@ class Model_komisi extends CI_Model
     GROUP BY penjualan.id_karyawan
     ) realisasi ON (karyawan.id_karyawan = realisasi.id_karyawan)
 
+
     LEFT JOIN (
     SELECT
-      id_karyawan,jumlah_target_cashin
+      id_karyawan,SUM(jumlah_target_cashin) as jumlah_target_cashin
     FROM
       komisi_target_cashin_detail k_cashin
       INNER JOIN komisi_target ON k_cashin.kode_target = komisi_target.kode_target
     WHERE
       bulan = '$bulan' AND tahun = '$tahun' 
     GROUP BY
-      id_karyawan,jumlah_target_cashin 
+      id_karyawan 
     ) komisicashin ON ( karyawan.id_karyawan = komisicashin.id_karyawan )
     
     LEFT JOIN (
@@ -106,6 +107,7 @@ class Model_komisi extends CI_Model
     GROUP BY
       id_karyawan 
     ) hb ON ( karyawan.id_karyawan = hb.id_karyawan )
+    
 
     LEFT JOIN (
       SELECT 
@@ -163,6 +165,8 @@ class Model_komisi extends CI_Model
         AND tgltransaksi <= '$sampai' AND (IFNULL( penjualan.total, 0 )- (IFNULL(totalpf_last,0)- IFNULL(totalgb_last,0))) - IFNULL(jmlbayar,0) !=0 AND datediff('$sampai', tgltransaksi) > (pelanggan.jatuhtempo+1)
         GROUP BY salesbarunew
     ) ljt ON (karyawan.id_karyawan = ljt.salesbarunew)
+
+
     WHERE kode_cabang ='$cabang' AND nama_karyawan !='-'";
 
     return $this->db->query($query);

@@ -52,7 +52,8 @@
                         <line x1="8" y1="3" x2="8" y2="7" />
                         <line x1="4" y1="11" x2="20" y2="11" />
                         <line x1="11" y1="15" x2="12" y2="15" />
-                        <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                        <line x1="12" y1="15" x2="12" y2="18" />
+                      </svg>
                     </span>
                   </div>
                 </div>
@@ -67,7 +68,8 @@
                         <line x1="8" y1="3" x2="8" y2="7" />
                         <line x1="4" y1="11" x2="20" y2="11" />
                         <line x1="11" y1="15" x2="12" y2="15" />
-                        <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                        <line x1="12" y1="15" x2="12" y2="18" />
+                      </svg>
                     </span>
                   </div>
                 </div>
@@ -76,30 +78,30 @@
             <div class="mb-3 d-flex justify-content-end">
               <button type="submit" name="submit" class="btn btn-primary btn-block mr-2" value="1"><i class="fa fa-search mr-2"></i>CARI</button>
             </div>
-          <div class="alert alert-icon alert-danger" style="font-size:18px !important" role="alert">
-            <i class="fa fa-bell mr-2" aria-hidden="true"></i>
-            Sehubungan ada beberapa data pengajuan yang ter approve, sebelum di setujui oleh stakeholder terkait, maka dari itu ada beberpa perbaikan
-            yang kami lakukan dalam proses pengajuan diantaranya :
-            <ol>
-              <li>
-                Membuat Proses Pengajuan Baru, dengan ketentuan semua pengajuan limit kredit yang diajukan harus di approve oleh semua stakeholder yang terkait sampai ke direktur, sehingga
-                semua pengajuan, dapat diketahui oleh semua stakeholder terutama Direktur.
-              </li>
-              <li>
-                Untuk History Pengajuan Limit Kredit, dengan ketentuan sebelumnya bisa di lihat <a href="<?php echo base_url(); ?>penjualan/limitkredit"><b>Disini</b></a>
-              </li>
-              <li>
-                Data Pengajuan Limit Kredit Pelanggan, yang ter approve sebelum disetujui oleh stakeholder terkait, maka data limit kredit tersebut
-                akan di reset kembali terlebih dahulu, dan data pengajuan tersebut akan masuk ke data pengajuan limit kredit dengan ketentuan yang baru ini.
-                untuk di approve kembali oleh stakeholder terkait yang belum melakukan approval di pengajuan sebelumnya.
-              </li>
-            </ol>
-          </div>
-          <a href="#" class="btn btn-danger mb-2" id="tambahpengajuan"> <i class="fa fa-plus mr-2"></i> Tambah Data </a>
-          <button type="submit" name="export" class="btn btn-success mb-2" value="1"><i class="fa fa-download mr-2"></i> EXPORT EXCEL</button>
+            <div class="alert alert-icon alert-danger" style="font-size:18px !important" role="alert">
+              <i class="fa fa-bell mr-2" aria-hidden="true"></i>
+              Sehubungan ada beberapa data pengajuan yang ter approve, sebelum di setujui oleh stakeholder terkait, maka dari itu ada beberpa perbaikan
+              yang kami lakukan dalam proses pengajuan diantaranya :
+              <ol>
+                <li>
+                  Membuat Proses Pengajuan Baru, dengan ketentuan semua pengajuan limit kredit yang diajukan harus di approve oleh semua stakeholder yang terkait sampai ke direktur, sehingga
+                  semua pengajuan, dapat diketahui oleh semua stakeholder terutama Direktur.
+                </li>
+                <li>
+                  Untuk History Pengajuan Limit Kredit, dengan ketentuan sebelumnya bisa di lihat <a href="<?php echo base_url(); ?>penjualan/limitkredit"><b>Disini</b></a>
+                </li>
+                <li>
+                  Data Pengajuan Limit Kredit Pelanggan, yang ter approve sebelum disetujui oleh stakeholder terkait, maka data limit kredit tersebut
+                  akan di reset kembali terlebih dahulu, dan data pengajuan tersebut akan masuk ke data pengajuan limit kredit dengan ketentuan yang baru ini.
+                  untuk di approve kembali oleh stakeholder terkait yang belum melakukan approval di pengajuan sebelumnya.
+                </li>
+              </ol>
+            </div>
+
+            <button type="submit" name="export" class="btn btn-success mb-2" value="1"><i class="fa fa-download mr-2"></i> EXPORT EXCEL</button>
           </form>
           <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover" id="mytable">
+            <table style="font-size:11px" class="table table-bordered table-striped table-hover" id="mytable">
               <thead class="thead-dark">
                 <tr>
                   <th>No</th>
@@ -110,6 +112,8 @@
                   <th>Salesman</th>
                   <th>Jumlah</th>
                   <th>Jatuh Tempo</th>
+                  <th>Skor</th>
+                  <th>Ket</th>
                   <!-- <th>Status</th>
                     <th>Ket</th> -->
                   <th>Kacab</th>
@@ -155,7 +159,35 @@
                       echo $lama;
                       ?>
                     </td>
+                    <td>
+                      <?php
+                      $scoreakhir =  $d['skor'];
+                      if ($scoreakhir <= 2) {
+                        $rekomendasi = "Tidak Layak";
+                      } else if ($scoreakhir > 2 && $scoreakhir <= 4) {
+                        $rekomendasi = "Tidak Disarankan";
+                      } else if ($scoreakhir > 4 && $scoreakhir <= 6) {
+                        $rekomendasi = "Beresiko";
+                      } else if ($scoreakhir > 6 && $scoreakhir <= 8.5) {
+                        $rekomendasi = "Layak Dengan Pertimbangan";
+                      } else if ($scoreakhir > 8.5 && $scoreakhir <= 10) {
+                        $rekomendasi = "Layak";
+                      }
 
+                      if ($scoreakhir <= 4) {
+                        $bg = "red";
+                      } else if ($scoreakhir <= 6) {
+                        $bg = "orange";
+                      } else {
+                        $bg = "green";
+                      }
+                      //echo $scoreakhir;
+                      ?>
+                      <span class="badge bg-<?php echo $bg; ?>"><?php echo $scoreakhir; ?></span>
+                    </td>
+                    <td>
+                      <span class="badge bg-<?php echo $bg; ?>"><?php echo $rekomendasi; ?></span>
+                    </td>
                     <td>
                       <?php
                       if (empty($d['kacab'])) {
@@ -240,6 +272,7 @@
                       ?>
                     </td>
                     <td>
+                      <a href="<?php echo base_url(); ?>penjualan/cetak_ajuankredit/<?php echo $d['no_pengajuan']; ?>" class="btn btn-primary btn-sm"><i class="fa fa-print"></i></a>
                       <?php if ($d['status'] == 0) { ?>
                         <a href="#" data-href="<?php echo base_url(); ?>penjualan/hapuspengajuanlimitv2/<?php echo $d['no_pengajuan']; ?>" class="btn btn-red btn-sm hapus"><i class="fa fa-trash-o"></i></a>
                       <?php } ?>

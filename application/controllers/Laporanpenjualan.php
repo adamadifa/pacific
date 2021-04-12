@@ -175,6 +175,7 @@ class Laporanpenjualan extends CI_Controller
     $sampai         = $this->input->post('sampai');
     $jt              = $this->input->post('jenistransaksi');
     $jl             = $this->input->post('jenislaporan');
+    $status         = $this->input->post('status');
     $data['dari']    = $dari;
     $data['sampai']  = $sampai;
     if (isset($_POST['export'])) {
@@ -194,7 +195,7 @@ class Laporanpenjualan extends CI_Controller
         $data['penjualan']  = $this->Model_laporanpenjualan->list_penjualanpelanggan($dari, $sampai, $cabang, $salesman, $pelanggan, $jt)->result();
         $this->load->view('penjualan/laporan/cetak_penjualanpelanggan', $data);
       } else {
-        $data['penjualan']  = $this->Model_laporanpenjualan->list_penjualan($dari, $sampai, $cabang, $salesman, $pelanggan, $jt)->result();
+        $data['penjualan']  = $this->Model_laporanpenjualan->list_penjualan($dari, $sampai, $cabang, $salesman, $pelanggan, $jt, $status)->result();
         $this->load->view('penjualan/laporan/cetak_penjualan', $data);
       }
     } else {

@@ -51,11 +51,23 @@ class Model_laporanpenjualan extends CI_Model
 
 	function get_pelanggancabang($cabang)
 	{
+
 		$this->db->where('kode_cabang', $cabang);
 		$this->db->select('DISTINCT(pelanggan.kode_pelanggan),nama_pelanggan');
 		$this->db->from('pelanggan');
 		return $this->db->get();
 	}
+
+	function get_pelangganajuankredit($cabang)
+	{
+		if ($cabang != "pusat") {
+			$this->db->where('kode_cabang', $cabang);
+		}
+		$this->db->select('DISTINCT(pelanggan.kode_pelanggan),nama_pelanggan');
+		$this->db->from('pelanggan');
+		return $this->db->get();
+	}
+
 
 	function listdiskon($cabang, $dari, $sampai)
 	{
@@ -1246,10 +1258,11 @@ GROUP BY
 	function listtransfer($tanggallhp = null, $cabang = null, $salesman = null)
 	{
 
-		$this->db->select("transfer.no_fak_penj,penjualan.kode_pelanggan,nama_pelanggan,tgl_transfer,namabank,jumlah,tglcair,transfer.status");
+		$this->db->select("transfer.no_fak_penj,penjualan.kode_pelanggan,nama_pelanggan,tgl_transfer,namabank,jumlah,tglcair,transfer.status,girotocash");
 		$this->db->from('transfer');
 		$this->db->join('penjualan', 'transfer.no_fak_penj = penjualan.no_fak_penj');
 		$this->db->join('pelanggan', 'penjualan.kode_pelanggan = pelanggan.kode_pelanggan');
+		$this->db->join('historibayar', 'transfer.id_transfer = historibayar.id_transfer', 'left');
 		$this->db->where('tgl_transfer', $tanggallhp);
 		$this->db->where('pelanggan.kode_cabang', $cabang);
 		$this->db->where('transfer.id_karyawan', $salesman);
@@ -1377,7 +1390,7 @@ GROUP BY
 							ON penjualan.id_karyawan = karyawan.id_karyawan
 							INNER JOIN pelanggan
 							ON penjualan.kode_pelanggan = pelanggan.kode_pelanggan
-							LEFT JOIN (SELECT id_giro,tglbayar FROM historibayar WHERE tglbayar BETWEEN '$dari' AND '$sampaibayar') as hb
+							LEFT JOIN (SELECT id_giro,tglbayar FROM historibayar WHERE tglbayar BETWEEN '$dari' AND '$sampaibayar' GROUP BY id_giro,tglbayar) as hb
 							ON giro.id_giro = hb.id_giro
 							WHERE 
 							tgl_giro BETWEEN '$dari' AND '$sampai' AND pelanggan.kode_cabang = '$cabang'

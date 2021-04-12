@@ -65,7 +65,7 @@
     </tr>
   </tbody>
 </table>
-<table class="table table-bordered table-hover">
+<!-- <table class="table table-bordered table-hover">
   <thead class="thead-dark">
     <tr>
       <th colspan="9"><b>Data Pembayaran</b></th>
@@ -95,4 +95,4 @@
       </tr>
     <?php } ?>
   </tbody>
-</table>
+</table> -->

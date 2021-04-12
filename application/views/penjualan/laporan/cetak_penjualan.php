@@ -147,9 +147,8 @@ if ($dari < '2018-09-01') {
 						  INNER JOIN barang ON detailpenjualan.kode_barang = barang.kode_barang
 						  WHERE no_fak_penj = '$p->no_fak_penj' ORDER BY detailpenjualan.kode_barang ASC LIMIT 1";
         $barang1   = $this->db->query($query1)->row_array();
-
-
         $jmldus    = floor($barang1['jumlah'] / $barang1['isipcsdus']);
+
         if ($barang1['jumlah'] != 0) {
           $sisadus   = $barang1['jumlah'] % $barang1['isipcsdus'];
         } else {
@@ -165,6 +164,12 @@ if ($dari < '2018-09-01') {
 
         $jmlpcs = $sisapack;
 
+        if ($barang1['isipcsdus'] == 1) {
+
+          $jmldus = 0;
+          $jmlpack = 0;
+          $jmlpcs = $barang1['jumlah'];
+        }
 
         $totaldus       = $totaldus + $jmldus;
         $totalpack       = $totalpack + $jmlpack;

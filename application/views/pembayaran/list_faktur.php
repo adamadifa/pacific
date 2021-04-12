@@ -190,7 +190,7 @@
 <script type="text/javascript">
   $(function() {
 
-  
+
 
     function loadTotal() {
       $("#grandtotal").text($("#totalpiutang").text());

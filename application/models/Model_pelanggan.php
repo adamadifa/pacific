@@ -90,7 +90,7 @@ class Model_pelanggan extends CI_Model
 
   public function getdataPelanggan($rowno, $rowperpage, $cabang = "", $salesman = "", $namapel = "", $dari = "", $sampai = "", $kodepel = "", $status = "")
   {
-    $this->db->select('kode_pelanggan,limitpel,nama_pelanggan,alamat_pelanggan,pelanggan.no_hp,pasar,hari,nama_cabang,nama_karyawan,latitude,longitude,time_stamps,jatuhtempo,foto,status_pelanggan');
+    $this->db->select('kode_pelanggan,pelanggan.kode_cabang,limitpel,nama_pelanggan,alamat_pelanggan,pelanggan.no_hp,pasar,hari,nama_cabang,nama_karyawan,latitude,longitude,time_stamps,jatuhtempo,foto,status_pelanggan');
     $this->db->from('pelanggan');
     $this->db->join('cabang', 'pelanggan.kode_cabang = cabang.kode_cabang');
     $this->db->join('karyawan', 'pelanggan.id_sales = karyawan.id_karyawan');
@@ -125,10 +125,16 @@ class Model_pelanggan extends CI_Model
   }
 
 
+  // function get_pelanggan($id_pelanggan)
+  // {
+  //   $this->db->where('kode_pelanggan', $id_pelanggan);
+  //   $this->db->join('karyawan', 'karyawan.id_karyawan = pelanggan.id_sales');
+  //   return $this->db->get('pelanggan');
+  // }
+
   function get_pelanggan($id_pelanggan)
   {
-    $this->db->where('kode_pelanggan', $id_pelanggan);
-    return $this->db->get('pelanggan');
+    return $this->db->query("SELECT *,pelanggan.no_hp FROM pelanggan INNER JOIN karyawan ON karyawan.id_karyawan=pelanggan.id_sales WHERE kode_pelanggan = '$id_pelanggan' ");
   }
 
   function get_salespel($kode_cabang)
@@ -207,7 +213,7 @@ class Model_pelanggan extends CI_Model
     $latitude       = $this->input->post('latitude');
     $longitude       = $this->input->post('longitude');
     $status_pelanggan = $this->input->post('status_pelanggan');
-	$jatuhtempo = $this->input->post('jatuhtempo');
+    $jatuhtempo = $this->input->post('jatuhtempo');
 
     $data = array(
       'kode_pelanggan'     => $kode_pelanggan,
@@ -230,7 +236,7 @@ class Model_pelanggan extends CI_Model
       'longitude'          => $longitude,
       'foto'              => $foto,
       'status_pelanggan' => $status_pelanggan,
-	  'jatuhtempo' => $jatuhtempo
+      'jatuhtempo' => $jatuhtempo
     );
     $this->db->update('pelanggan', $data, array('kode_pelanggan' => $kode_pelanggan));
   }

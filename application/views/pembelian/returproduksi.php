@@ -62,7 +62,7 @@ function uang($nilai)
                   <th>Tanggal Approve Gudang</th>
                   <th>Tanggal Approve Pemb</th>
                   <th>Jenis Pengeluaran</th>
-                  <th width="130px">Aksi</th>
+                  <th width="70px">Aksi</th>
                 </tr>
               </thead>
               <tbody>
@@ -80,7 +80,7 @@ function uang($nilai)
                     <td><?php echo $d['jenis_retur']; ?></td>
                     <td>
                       <a href="#" data-nobukti="<?php echo $d['nobukti_retur']; ?>" class="btn btn-sm btn-primary detail">Proses</a>
-                      <a href="#" data-href="<?php echo base_url(); ?>pembelian/batalapprove/<?php echo $nobukti; ?>" class="btn btn-sm btn-danger hapus">Hapus</a>
+                      <!-- <a href="#" data-href="<?php echo base_url(); ?>pembelian/batalapprove/<?php echo $nobukti; ?>" class="btn btn-sm btn-danger hapus">Hapus</a> -->
                     </td>
                   </tr>
                 <?php
