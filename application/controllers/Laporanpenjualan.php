@@ -1304,4 +1304,40 @@ class Laporanpenjualan extends CI_Controller
     $data['rekapkendaraan'] = $this->Model_laporanpenjualan->rekapkendaraan($dari, $sampai, $nokendaraan)->result();
     $this->load->view('penjualan/laporan/cetak_rekapkendaraan', $data);
   }
+
+  function lapdppp_v2()
+  {
+    $data['cb']    = $this->session->userdata('cabang');
+    $data['cabang'] = $this->Model_cabang->view_cabang()->result();
+    $this->template->load('template/template', 'penjualan/laporan/dppp_v2', $data);
+  }
+
+  function cetak_dppp_v2()
+  {
+
+    $cabang = $this->input->post('cabang');
+    $bulan = $this->input->post('bulan');
+    $tahun = $this->input->post('tahun');
+
+    $data['bulan']  = $bulan;
+    $data['tahun'] = $tahun;
+    $data['produk'] = $this->Model_laporanpenjualan->getProduct()->result();
+    $data['cb']    = $this->Model_cabang->get_cabang($cabang)->row_array();
+
+
+    if (isset($_POST['export'])) {
+      // Fungsi header dengan mengirimkan raw data excel
+      header("Content-type: application/vnd-ms-excel");
+
+      // Mendefinisikan nama file ekspor "hasil-export.xls"
+      header("Content-Disposition: attachment; filename=DPPP.xls");
+    }
+    if (!empty($cabang)) {
+      $data['dppp']  = $this->Model_laporanpenjualan->dppp_v2_sales($cabang, $tahun, $bulan)->result();
+      $this->load->view('penjualan/laporan/cetak_dppp_v2_sales', $data);
+    } else {
+      $data['dppp']  = $this->Model_laporanpenjualan->dppp_v2($cabang, $tahun, $bulan)->result();
+      $this->load->view('penjualan/laporan/cetak_dppp_v2', $data);
+    }
+  }
 }
