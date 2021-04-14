@@ -29,7 +29,7 @@ date_default_timezone_set('Asia/Jakarta');
 //Setingan Database
 $config['database_host']  = 'localhost';
 $config['database_user']  = 'root';
-$config['database_pass']   = '';
+$config['database_pass']   = 'swanpacific160';
 $config['database_name']  = 'pacific';
 
 
@@ -558,4 +558,4 @@ $config['proxy_ips'] = '';
 | $config['maintenance_mode'] = TRUE; // site is offline
 | $config['maintenance_mode'] = FALSE; // site is online
 */
-$config['maintenance_mode'] = TRUE;
+$config['maintenance_mode'] = FALSE;
