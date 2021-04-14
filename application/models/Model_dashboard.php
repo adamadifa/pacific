@@ -253,4 +253,150 @@ class Model_dashboard extends CI_Model
 
 		return $this->db->query($query);
 	}
+
+	function rekappenjualancashin($bulan, $tahun)
+	{
+		$dari = $tahun . "-" . $bulan . "-01";
+		$sampai = date('Y-m-t', strtotime($dari));
+
+		$query = "SELECT cabang.kode_cabang,nama_cabang,ifnull(total,0) - ifnull(totalretur,0) as netto,totalbayar
+		FROM cabang
+		LEFT JOIN (
+			SELECT karyawan.kode_cabang,SUM(total) as total
+			FROM penjualan 
+			INNER JOIN karyawan ON penjualan.id_karyawan = karyawan.id_karyawan
+		WHERE tgltransaksi BETWEEN '$dari'  AND '$sampai'
+		GROUP BY karyawan.kode_cabang
+		) pj ON (cabang.kode_cabang = pj.kode_cabang)
+		
+		LEFT JOIN (
+				SELECT karyawan.kode_cabang, SUM(retur.total )AS totalretur
+				FROM retur
+				INNER JOIN penjualan ON retur.no_fak_penj = penjualan.no_fak_penj
+				INNER JOIN karyawan ON penjualan.id_karyawan = karyawan.id_karyawan
+				WHERE tglretur BETWEEN '$dari'  AND '$sampai'
+				GROUP BY karyawan.kode_cabang) r ON ( cabang.kode_cabang = r.kode_cabang )
+		LEFT JOIN (
+				SELECT karyawan.kode_cabang, SUM(bayar )AS totalbayar
+				FROM historibayar
+				INNER JOIN penjualan ON historibayar.no_fak_penj = penjualan.no_fak_penj
+				INNER JOIN karyawan ON historibayar.id_karyawan = karyawan.id_karyawan
+				WHERE tglbayar BETWEEN '$dari'  AND '$sampai' AND status_bayar IS NULL
+				GROUP BY karyawan.kode_cabang) hb ON ( cabang.kode_cabang = hb.kode_cabang )";
+
+		return $this->db->query($query);
+	}
+
+	function aupallcabang($tanggal_aup, $exclude)
+	{
+		if ($exclude == "yes") {
+			$cabang = "AND cabangbarunew !='PST'";
+		}
+		$query = "SELECT
+		cabangbarunew,
+		SUM(IF(datediff( '$tanggal_aup', tgltransaksi ) <= 15,(IFNULL(penjualan.total,0)-IFNULL(retur.total,0)-IFNULL(jmlbayar,0)),0)) as duaminggu,
+		SUM(IF(datediff( '$tanggal_aup', tgltransaksi ) <= 31 AND datediff( '$tanggal_aup', tgltransaksi ) > 15,(IFNULL(penjualan.total,0)-IFNULL(retur.total,0)-IFNULL(jmlbayar,0)),0)) as satubulan,
+		SUM(IF(datediff( '$tanggal_aup', tgltransaksi ) <= 46 AND datediff( '$tanggal_aup', tgltransaksi ) > 31,(IFNULL(penjualan.total,0)-IFNULL(retur.total,0)-IFNULL(jmlbayar,0)),0)) as satubulan15,
+		SUM(IF(datediff( '$tanggal_aup', tgltransaksi ) <= 60 AND datediff( '$tanggal_aup', tgltransaksi ) > 46,(IFNULL(penjualan.total,0)-IFNULL(retur.total,0)-IFNULL(jmlbayar,0)),0)) as duabulan,
+		SUM(IF(datediff( '$tanggal_aup', tgltransaksi ) <= 90 AND datediff( '$tanggal_aup', tgltransaksi ) > 60,(IFNULL(penjualan.total,0)-IFNULL(retur.total,0)-IFNULL(jmlbayar,0)),0)) as tigabulan,
+		SUM(IF(datediff( '$tanggal_aup', tgltransaksi ) <= 180 AND datediff( '$tanggal_aup', tgltransaksi ) > 90,(IFNULL(penjualan.total,0)-IFNULL(retur.total,0)-IFNULL(jmlbayar,0)),0)) as enambulan,
+		SUM(IF(datediff( '$tanggal_aup', tgltransaksi ) > 180,(IFNULL(penjualan.total,0)-IFNULL(retur.total,0)-IFNULL(jmlbayar,0)),0)) as lebihenambulan
+	FROM
+		penjualan
+		LEFT JOIN (
+		SELECT
+			pj.no_fak_penj,
+		IF
+			( salesbaru IS NULL, pj.id_karyawan, salesbaru ) AS salesbarunew,
+			karyawan.nama_karyawan AS nama_sales,
+		IF
+			( cabangbaru IS NULL, karyawan.kode_cabang, cabangbaru ) AS cabangbarunew 
+		FROM
+			penjualan pj
+			INNER JOIN karyawan ON pj.id_karyawan = karyawan.id_karyawan
+			LEFT JOIN (
+			SELECT
+				MAX( id_move ) AS id_move,
+				no_fak_penj,
+				move_faktur.id_karyawan AS salesbaru,
+				karyawan.kode_cabang AS cabangbaru 
+			FROM
+				move_faktur
+				INNER JOIN karyawan ON move_faktur.id_karyawan = karyawan.id_karyawan 
+			WHERE
+				tgl_move <= '$tanggal_aup' 
+			GROUP BY
+				no_fak_penj,
+				move_faktur.id_karyawan,
+				karyawan.kode_cabang 
+			) move_fak ON ( pj.no_fak_penj = move_fak.no_fak_penj ) 
+			) pjmove ON (
+		penjualan.no_fak_penj = pjmove.no_fak_penj 
+		)
+		LEFT JOIN 
+		(SELECT no_fak_penj, sum( historibayar.bayar ) AS jmlbayar 
+		FROM historibayar WHERE tglbayar <= '$tanggal_aup' GROUP BY no_fak_penj ) hblalu ON ( penjualan.no_fak_penj = hblalu.no_fak_penj )
+		LEFT JOIN ( 
+		SELECT retur.no_fak_penj AS no_fak_penj, SUM( total ) AS total 
+		FROM retur WHERE tglretur <= '$tanggal_aup' GROUP BY retur.no_fak_penj ) retur ON ( penjualan.no_fak_penj = retur.no_fak_penj ) 
+		WHERE tgltransaksi <= '$tanggal_aup' AND status_lunas='2'" . $cabang . " GROUP BY cabangbarunew";
+
+		return $this->db->query($query);
+	}
+
+	function aupcabang($cbg, $tanggal_aup)
+	{
+
+		$query = "SELECT
+		salesbarunew,nama_sales,
+		SUM(IF(datediff( '$tanggal_aup', tgltransaksi ) <= 15,(IFNULL(penjualan.total,0)-IFNULL(retur.total,0)-IFNULL(jmlbayar,0)),0)) as duaminggu,
+		SUM(IF(datediff( '$tanggal_aup', tgltransaksi ) <= 31 AND datediff( '$tanggal_aup', tgltransaksi ) > 15,(IFNULL(penjualan.total,0)-IFNULL(retur.total,0)-IFNULL(jmlbayar,0)),0)) as satubulan,
+		SUM(IF(datediff( '$tanggal_aup', tgltransaksi ) <= 46 AND datediff( '$tanggal_aup', tgltransaksi ) > 31,(IFNULL(penjualan.total,0)-IFNULL(retur.total,0)-IFNULL(jmlbayar,0)),0)) as satubulan15,
+		SUM(IF(datediff( '$tanggal_aup', tgltransaksi ) <= 60 AND datediff( '$tanggal_aup', tgltransaksi ) > 46,(IFNULL(penjualan.total,0)-IFNULL(retur.total,0)-IFNULL(jmlbayar,0)),0)) as duabulan,
+		SUM(IF(datediff( '$tanggal_aup', tgltransaksi ) <= 90 AND datediff( '$tanggal_aup', tgltransaksi ) > 60,(IFNULL(penjualan.total,0)-IFNULL(retur.total,0)-IFNULL(jmlbayar,0)),0)) as tigabulan,
+		SUM(IF(datediff( '$tanggal_aup', tgltransaksi ) <= 180 AND datediff( '$tanggal_aup', tgltransaksi ) > 90,(IFNULL(penjualan.total,0)-IFNULL(retur.total,0)-IFNULL(jmlbayar,0)),0)) as enambulan,
+		SUM(IF(datediff( '$tanggal_aup', tgltransaksi ) > 180,(IFNULL(penjualan.total,0)-IFNULL(retur.total,0)-IFNULL(jmlbayar,0)),0)) as lebihenambulan
+	FROM
+		penjualan
+		LEFT JOIN (
+		SELECT
+			pj.no_fak_penj,
+		IF
+			( salesbaru IS NULL, pj.id_karyawan, salesbaru ) AS salesbarunew,
+		IF
+			( salesbaru IS NULL,karyawan.nama_karyawan, nama_sales_baru ) AS nama_sales,
+		IF
+			( cabangbaru IS NULL, karyawan.kode_cabang, cabangbaru ) AS cabangbarunew 
+		FROM
+			penjualan pj
+			INNER JOIN karyawan ON pj.id_karyawan = karyawan.id_karyawan
+			LEFT JOIN (
+			SELECT
+				MAX( id_move ) AS id_move,
+				no_fak_penj,
+				move_faktur.id_karyawan AS salesbaru,karyawan.nama_karyawan AS nama_sales_baru,
+				karyawan.kode_cabang AS cabangbaru 
+			FROM
+				move_faktur
+				INNER JOIN karyawan ON move_faktur.id_karyawan = karyawan.id_karyawan 
+			WHERE
+				tgl_move <= '$tanggal_aup' 
+			GROUP BY
+				no_fak_penj,
+				move_faktur.id_karyawan,
+				karyawan.kode_cabang 
+			) move_fak ON ( pj.no_fak_penj = move_fak.no_fak_penj ) 
+			) pjmove ON (
+		penjualan.no_fak_penj = pjmove.no_fak_penj 
+		)
+		LEFT JOIN 
+		(SELECT no_fak_penj, sum( historibayar.bayar ) AS jmlbayar 
+		FROM historibayar WHERE tglbayar <= '$tanggal_aup' GROUP BY no_fak_penj ) hblalu ON ( penjualan.no_fak_penj = hblalu.no_fak_penj )
+		LEFT JOIN ( 
+		SELECT retur.no_fak_penj AS no_fak_penj, SUM( total ) AS total 
+		FROM retur WHERE tglretur <= '$tanggal_aup' GROUP BY retur.no_fak_penj ) retur ON ( penjualan.no_fak_penj = retur.no_fak_penj ) 
+		WHERE tgltransaksi <= '$tanggal_aup' AND status_lunas='2' AND cabangbarunew='$cbg' GROUP BY salesbarunew,nama_sales";
+
+		return $this->db->query($query);
+	}
 }
