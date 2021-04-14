@@ -336,6 +336,12 @@ class Model_penjualan extends CI_Model
     } else {
       $status = '';
     }
+
+    if ($jenistransaksi == "tunai") {
+      $status_lunas = "1";
+    } else {
+      $status_lunas = "2";
+    }
     $data = array(
       'no_fak_penj' => $nofaktur,
       'tgltransaksi' => $tgltransaksi,
@@ -360,7 +366,8 @@ class Model_penjualan extends CI_Model
       'jenisbayar' => $jenisbayar,
       'jatuhtempo' => $jt,
       'id_admin' => $id_admin,
-      'status' => $status
+      'status' => $status,
+      'status_lunas' => $status_lunas
     );
     $penjualan = $this->db->insert('penjualan', $data);
     if ($penjualan) {
