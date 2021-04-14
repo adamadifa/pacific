@@ -605,7 +605,7 @@
       var ratioomset = Math.round(parseInt(ot) / parseInt(jm));
 
       if (ratioomset < 3) {
-        score_omset = 0.35;
+        score_omset = 0.40;
       } else if (ratioomset >= 3) {
         score_omset = 0.50;
       } else {
@@ -615,17 +615,17 @@
       if (jmlfaktur == 1) {
         score_faktur = 0.50;
       } else if (jmlfaktur == 2) {
-        score_faktur = 0.35;
+        score_faktur = 0.40;
       } else if (jmlfaktur == 3) {
-        score_faktur = 0.20;
+        score_faktur = 0.30;
       } else if (jmlfaktur > 3) {
-        score_faktur = 0.05;
+        score_faktur = 0.20;
       } else {
         score_faktur = 0;
       }
 
       if (status_outlet == 1) {
-        score_outlet = 1.05;
+        score_outlet = 1.20;
       } else if (status_outlet == 2) {
         score_outlet = 1.50;
       } else {
@@ -643,7 +643,7 @@
       if (type_outlet == 1) {
         score_typeoutlet = 0.50;
       } else if (type_outlet == 2) {
-        score_typeoutlet = 0.35;
+        score_typeoutlet = 0.40;
       } else {
         score_typeoutlet = 0.00;
       }
@@ -651,9 +651,9 @@
       if (jatuhtempo == 14) {
         score_top = 1.00;
       } else if (jatuhtempo == 30) {
-        score_top = 0.70;
+        score_top = 0.80;
       } else if (jatuhtempo == 45) {
-        score_top = 0.40;
+        score_top = 0.60;
       } else {
         score_top = 0.00;
       }
@@ -661,9 +661,9 @@
       if (cara_pembayaran == 1) {
         score_carabayar = 0.50;
       } else if (cara_pembayaran == 2) {
-        score_carabayar = 0.35;
+        score_carabayar = 0.40;
       } else if (cara_pembayaran == 3) {
-        score_carabayar = 0.20;
+        score_carabayar = 0.30;
       } else {
         score_carabayar = 0.00;
       }
@@ -671,7 +671,7 @@
       if (kepemilikan == "Milik Sendiri") {
         score_kepemilikan = 1.00;
       } else if (kepemilikan == "Sewa") {
-        score_kepemilikan = 0.70;
+        score_kepemilikan = 0.80;
       } else {
         score_kepemilikan = 0.00;
       }
@@ -679,17 +679,17 @@
       if (historitransaksi == "< TOP") {
         score_ht = 1.00;
       } else if (historitransaksi == "= TOP") {
-        score_ht = 0.70;
+        score_ht = 0.80;
       } else if (historitransaksi == "> TOP") {
-        score_ht = 0.40;
+        score_ht = 0.60;
       } else {
         score_ht = 0.00;
       }
 
       if (lamausaha == "< 2 Tahun") {
-        score_lamausaha = 0.40;
+        score_lamausaha = 0.60;
       } else if (lamausaha == "2-5 Tahun") {
-        score_lamausaha = 0.70;
+        score_lamausaha = 0.80;
       } else if (lamausaha == "> 5 Tahun") {
         score_lamausaha = 1.00;
       } else {
@@ -697,7 +697,7 @@
       }
 
       if (lamalangganan == "< 2 Tahun") {
-        score_lamalangganan = 0.70;
+        score_lamalangganan = 0.80;
       } else if (lamalangganan == "> 2 Tahun") {
         score_lamalangganan = 1.00;
       } else {
@@ -709,7 +709,7 @@
       } else if (lamatopup <= 31) {
         score_lamatopup = 0.50;
       } else if (lamatopup > 31) {
-        score_lamatopup = 0.35;
+        score_lamatopup = 0.40;
       } else {
         score_lamatopup = 0.00;
       }
