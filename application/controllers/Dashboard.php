@@ -16,14 +16,16 @@ class Dashboard extends CI_Controller
       // $data['jmlPelanggan']    = $this->Model_dashboard->jumlahPelanggan()->row_array();
       // $data['jmlSales']        = $this->Model_dashboard->jumlahSales()->row_array();
       // $data['jmlBrg']          = $this->Model_dashboard->jumlahBarang()->row_array();
-      $data['rekap']           = $this->Model_dashboard->persediaangudang()->result();
+      // $data['rekap']           = $this->Model_dashboard->persediaangudang()->result();
       $data['cabang']          = $this->Model_cabang->view_cabang()->result();
-      $data['grap']            = $this->Model_dashboard->grafikPenjualan()->result();
-      $data['cb']              = $this->session->userdata('cabang');
-      $data['produk']          = $this->Model_laporangudangjadi->listproduk()->result();
+      // $data['grap']            = $this->Model_dashboard->grafikPenjualan()->result();
+      // $data['cb']              = $this->session->userdata('cabang');
+      // $data['produk']          = $this->Model_laporangudangjadi->listproduk()->result();
       $data['tahun']           = date("Y");
+
+      //$this->template->load('template/template', 'dashboard/dashboard_administrator', $data);
       $data['bulan']             = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
-      $this->template->load('template/template', 'dashboard/dashboard_administrator', $data);
+      $this->template->load('template/template', 'dashboard_v2/dashboard_administrator', $data);
     } elseif ($level_user == "admin penjualan") {
       $data['jmlPelanggan']    = $this->Model_dashboard->jumlahPelanggan()->row_array();
       $data['jmlSales']        = $this->Model_dashboard->jumlahSales()->row_array();
@@ -249,5 +251,28 @@ class Dashboard extends CI_Controller
     $data['cek']        = $this->Model_dashboard->get_permintaanproduksi($bulan, $tahun)->num_rows();
     $data['oman']       = $this->Model_dashboard->permintaanproduksi($bulan, $tahun)->result();
     $this->template->load('template/template', 'dashboard/dashboard_adminproduksi.php', $data);
+  }
+
+  function rekappenjualancashin()
+  {
+    $bulan = $this->input->post('bulan');
+    $tahun = $this->input->post('tahun');
+    $data['pnj'] = $this->Model_dashboard->rekappenjualancashin($bulan, $tahun)->result();
+    $this->load->view('dashboard_v2/load_penjualancashin', $data);
+  }
+
+  function aup()
+  {
+    $cabang = $this->input->post('cabang');
+    $tanggal_aup = $this->input->post('tanggal_aup');
+    $exclude = $this->input->post('exclude');
+
+    if (!empty($cabang)) {
+      $data['aup'] = $this->Model_dashboard->aupcabang($cabang, $tanggal_aup, $exclude)->result();
+      $this->load->view('dashboard_v2/load_aupcabang', $data);
+    } else {
+      $data['aup'] = $this->Model_dashboard->aupallcabang($tanggal_aup, $exclude)->result();
+      $this->load->view('dashboard_v2/load_aupallcabang', $data);
+    }
   }
 }
