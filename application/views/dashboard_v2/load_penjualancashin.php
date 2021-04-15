@@ -9,7 +9,12 @@
   </thead>
   <tbody>
     <?php $no = 1;
-    foreach ($pnj as $d) { ?>
+    $totalpenjualan = 0;
+    $totalbayar = 0;
+    foreach ($pnj as $d) {
+      $totalpenjualan += $d->netto;
+      $totalbayar += $d->totalbayar;
+    ?>
       <tr>
         <td><?php echo $no; ?></td>
         <td><?php echo strtoupper($d->nama_cabang); ?></td>
@@ -19,5 +24,10 @@
     <?php
       $no++;
     } ?>
+    <tr style="font-weight: bold;">
+      <td colspan="2">TOTAL</td>
+      <td align="right"><?php echo number_format($totalpenjualan, '0', '', '.'); ?></td>
+      <td align="right"><?php echo number_format($totalbayar, '0', '', '.'); ?></td>
+    </tr>
   </tbody>
 </table>

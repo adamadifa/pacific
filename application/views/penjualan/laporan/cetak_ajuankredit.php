@@ -18,10 +18,10 @@ error_reporting(0);
   <br>
   <br>
   <table class="datatable3" style="font-size: 14px;">
-  <tr style="text-align: left;">
+    <tr style="text-align: left;">
       <td bgcolor="#024a75" style="color:white;">No. Pengajuan</td>
       <td><?php echo $pengajuan['no_pengajuan']; ?></td>
-	  </tr>
+    </tr>
     <tr style="text-align: left;">
       <td bgcolor="#024a75" style="color:white;">Tanggal. Pengajuan</td>
       <td><?php echo $pengajuan['tgl_pengajuan']; ?></td>
@@ -39,16 +39,9 @@ error_reporting(0);
       <td bgcolor="#024a75" style="color:white">Nomor Identitas</td>
       <td><?php echo $pengajuan['nik']; ?></td>
       <td style="border:0px; width:50px"></td>
-      <td bgcolor="#024a75" style="color:white">Type Outlet</td>
-      <td>
-        <?php
-        if ($pengajuan['type_outlet'] == 1) {
-          echo "Grosir";
-        } else {
-          echo "Retail";
-        }
-        ?>
-      </td>
+      <td bgcolor="#024a75" style="color:white">Hari Kunjungan</td>
+      <td><?php echo $pengajuan['hari']; ?></td>
+
     <tr style="text-align: left;">
       <td bgcolor="#024a75" style="color:white">Salesman</td>
       <td><?php echo $pengajuan['nama_karyawan']; ?></td>
@@ -56,8 +49,9 @@ error_reporting(0);
       <td bgcolor="#024a75" style="color:white">Nama Outlet</td>
       <td><?php echo $pengajuan['nama_pelanggan']; ?></td>
       <td style="border:0px; width:50px"></td>
-      <td bgcolor="#024a75" style="color:white">Hari Kunjungan</td>
-      <td><?php echo $pengajuan['hari']; ?></td>
+      <td bgcolor="#024a75" style="color:white">No HP/Telepon</td>
+      <td><?php echo $pengajuan['no_hp']; ?></td>
+
     </tr>
     <tr style="text-align: left;">
       <td bgcolor="#024a75" style="color:white">Alamat KTP</td>
@@ -65,9 +59,7 @@ error_reporting(0);
       <td style="border:0px; width:50px"></td>
       <td bgcolor="#024a75" style="color:white">Alamat Toko</td>
       <td><?php echo $pengajuan['alamat_toko']; ?></td>
-      <td style="border:0px; width:50px"></td>
-      <td bgcolor="#024a75" style="color:white">No HP/Telepon</td>
-      <td><?php echo $pengajuan['no_hp']; ?></td>
+
     </tr>
     <tr style="text-align: left;">
       <td bgcolor="#024a75" style="color:white">Kode Pelanggan</td>
@@ -146,6 +138,17 @@ error_reporting(0);
     <tr style="text-align: left;">
       <td bgcolor="#1d9e27" style="color:white;">Jumlah Faktur</td>
       <td><?php echo $pengajuan['jml_faktur']; ?></td>
+      <td style="border:0px; width:50px"></td>
+      <td bgcolor="#1d9e27" style="color:white">Type Outlet</td>
+      <td>
+        <?php
+        if ($pengajuan['type_outlet'] == 1) {
+          echo "Grosir";
+        } else {
+          echo "Retail";
+        }
+        ?>
+      </td>
     </tr>
   </table>
   <br>
