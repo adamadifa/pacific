@@ -47,6 +47,17 @@
                       </div>
                     </div>
                   </div>
+                  <!-- <div class="row mb-3">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <select id="jatuhtempo" name="jatuhtempo" class="form-control show-tick" data-live-search="true">
+                          <option value="">Semua Kategori</option>
+                          <option value="BJT">Belum Jatuh Tempo</option>
+                          <option value="LDJT">Lebih Dari Jatuh Tempo</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div> -->
 
                   <div class="mb-3 form-group">
                     <div class="row">

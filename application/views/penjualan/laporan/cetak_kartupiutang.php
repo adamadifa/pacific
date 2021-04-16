@@ -82,6 +82,19 @@
 
 		foreach ($kartupiutang as $k) {
 
+			if($jatuhtempo = "BJT"){
+				$tanggal = Date("Y-m-d");
+				$jatuhtempopel 	= date("Y-m-d", strtotime("+$k->jatuhtempopel days", strtotime($k->tgltransaksi)));
+				$jatuhtempopel2 = $jatuhtempopel < $tanggal;
+			}else if($jatuhtempo = "LDJT"){
+				$tanggal = Date("Y-m-d");
+				$jatuhtempopel 	= date("Y-m-d", strtotime("+$k->jatuhtempopel days", strtotime($k->tgltransaksi)));
+				$jatuhtempopel2 = $jatuhtempopel > $tanggal;
+			}else{
+				$jatuhtempopel2 = "";
+			}
+			$tgl2 	= date("Y-m-d", strtotime("+$k->jatuhtempopel days", strtotime($k->tgltransaksi)));
+			
 			if ($k->usiapiutang <= 15) {
 				$kategori = "1 s/d 15 Hari";
 			} else if ($k->usiapiutang <= 30 and $k->usiapiutang > 15) {
@@ -154,11 +167,7 @@
 					<td><?php echo $k->kode_cabang; ?></td>
 					<td><?php echo $k->pasar; ?></td>
 					<td><?php echo $k->hari; ?></td>
-					<td>
-						<?php if ($k->jatuhtempo != "0000-00-00") {
-							echo DateToIndo2($k->jatuhtempo);
-						} ?>
-					</td>
+					<td><?php echo DateToIndo2($tgl2); ?></td>
 					<td style="text-align:right"><?php echo number_format($k->totalpiutang, '0', '', '.'); ?></td>
 					<td style="text-align:right"><?php echo number_format($saldoawal, '0', '', '.'); ?></td>
 					<td style="text-align:right"><?php echo number_format($k->subtotal, '0', '', '.'); ?></td>
