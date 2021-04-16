@@ -11,6 +11,24 @@ error_reporting(0);
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/table.css">
 
 <div style="margin-top:10px; margin-left:10px;">
+  <table class="datatable3">
+    <tr>
+      <td>
+        <img src="<?php echo base_url(); ?>assets/images/pac.png" width="100px" height="100px" alt="">
+      </td>
+      <td></td>
+      <td>
+        <b style="font-size:18px">CV PACIFIC</b><br>
+        <font size="2">
+          Factor / Head Office<br>
+          Jln Perintis Kemerdekaan No. 106 Tasikmalaya
+          <br>
+          Tlp. (0265) 330794, 337694. Fax (0265) 332329<br>
+          Emai: pacific.tasikmalaya@gmail.com
+        </font>
+      </td>
+    </tr>
+  </table>
   <h2 style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">ANALISA AJUAN KREDIT</h2>
   <br>
   <br>
@@ -19,36 +37,36 @@ error_reporting(0);
   <br>
   <table class="datatable3" style="font-size: 14px;">
     <tr style="text-align: left;">
-      <td bgcolor="#024a75" style="color:white;">No. Pengajuan</td>
+      <td bgcolor="#024a75" style="color:white; width:150px">No. Pengajuan</td>
       <td><?php echo $pengajuan['no_pengajuan']; ?></td>
     </tr>
     <tr style="text-align: left;">
       <td bgcolor="#024a75" style="color:white;">Tanggal. Pengajuan</td>
       <td><?php echo $pengajuan['tgl_pengajuan']; ?></td>
-      <td style="border:0px; width:50px"></td>
+      <td style="border:0px; width:20px"></td>
       <td bgcolor="#024a75" style="color:white">Nama Pelanggan</td>
       <td><?php echo $pengajuan['nama_pelanggan']; ?></td>
-      <td style="border:0px; width:50px"></td>
+      <td style="border:0px; width:20px"></td>
       <td bgcolor="#024a75" style="color:white">Koordinat GPS</td>
       <td><?php echo $pengajuan['latitude'] . "," . $pengajuan['longitude']; ?></td>
     </tr>
     <tr style="text-align: left;">
       <td bgcolor="#024a75" style="color:white">Cabang</td>
       <td><?php echo $pengajuan['kode_cabang']; ?></td>
-      <td style="border:0px; width:50px"></td>
+      <td style="border:0px; width:20px"></td>
       <td bgcolor="#024a75" style="color:white">Nomor Identitas</td>
       <td><?php echo $pengajuan['nik']; ?></td>
-      <td style="border:0px; width:50px"></td>
+      <td style="border:0px; width:20px"></td>
       <td bgcolor="#024a75" style="color:white">Hari Kunjungan</td>
       <td><?php echo $pengajuan['hari']; ?></td>
 
     <tr style="text-align: left;">
       <td bgcolor="#024a75" style="color:white">Salesman</td>
       <td><?php echo $pengajuan['nama_karyawan']; ?></td>
-      <td style="border:0px; width:50px"></td>
+      <td style="border:0px; width:20px"></td>
       <td bgcolor="#024a75" style="color:white">Nama Outlet</td>
       <td><?php echo $pengajuan['nama_pelanggan']; ?></td>
-      <td style="border:0px; width:50px"></td>
+      <td style="border:0px; width:20px"></td>
       <td bgcolor="#024a75" style="color:white">No HP/Telepon</td>
       <td><?php echo $pengajuan['no_hp']; ?></td>
 
@@ -56,7 +74,7 @@ error_reporting(0);
     <tr style="text-align: left;">
       <td bgcolor="#024a75" style="color:white">Alamat KTP</td>
       <td><?php echo $pengajuan['alamat_pelanggan']; ?></td>
-      <td style="border:0px; width:50px"></td>
+      <td style="border:0px; width:20px"></td>
       <td bgcolor="#024a75" style="color:white">Alamat Toko</td>
       <td><?php echo $pengajuan['alamat_toko']; ?></td>
 
