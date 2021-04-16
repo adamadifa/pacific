@@ -155,9 +155,11 @@
 					<td><?php echo $k->pasar; ?></td>
 					<td><?php echo $k->hari; ?></td>
 					<td>
-						<?php if ($k->jatuhtempo != "0000-00-00") {
-							echo DateToIndo2($k->jatuhtempo);
-						} ?>
+						<!-- <?php if ($k->jatuhtempo != "0000-00-00") {
+										echo DateToIndo2($k->jatuhtempo);
+									} ?> -->
+
+						<?php echo $k->jatuhtempo . " Hari"; ?>
 					</td>
 					<td style="text-align:right"><?php echo number_format($k->totalpiutang, '0', '', '.'); ?></td>
 					<td style="text-align:right"><?php echo number_format($saldoawal, '0', '', '.'); ?></td>
