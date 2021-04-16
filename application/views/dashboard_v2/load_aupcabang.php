@@ -15,7 +15,22 @@
   </thead>
   <tbody>
     <?php $no = 1;
-    foreach ($aup as $d) { ?>
+    $totalduaminggu = 0;
+    $totalsatubulan = 0;
+    $totalsatubulan15 = 0;
+    $totalduabulan = 0;
+    $totaltigabulan = 0;
+    $totalenambulan = 0;
+    $totallebihenambulan = 0;
+    foreach ($aup as $d) {
+      $totalduaminggu += $d->duaminggu;
+      $totalsatubulan  += $d->satubulan;
+      $totalsatubulan15 += $d->satubulan15;
+      $totalduabulan += $d->duabulan;
+      $totaltigabulan += $d->tigabulan;
+      $totalenambulan += $d->enambulan;
+      $totallebihenambulan += $d->lebihenambulan;
+    ?>
       <tr>
         <td><?php echo $no; ?></td>
         <td><?php echo strtoupper(($d->salesbarunew)); ?></td>
@@ -31,5 +46,15 @@
       </tr>
     <?php $no++;
     } ?>
+    <tr style="font-weight: bold;">
+      <td colspan="3">TOTAL</td>
+      <td align="right"><?php echo number_format($totalduaminggu, '0', '', '.'); ?></td>
+      <td align="right"><?php echo number_format($totalsatubulan, '0', '', '.'); ?></td>
+      <td align="right"><?php echo number_format($totalsatubulan15, '0', '', '.'); ?></td>
+      <td align="right"><?php echo number_format($totalduabulan, '0', '', '.'); ?></td>
+      <td align="right"><?php echo number_format($totaltigabulan, '0', '', '.'); ?></td>
+      <td align="right"><?php echo number_format($totalenambulan, '0', '', '.'); ?></td>
+      <td align="right"><?php echo number_format($totallebihenambulan, '0', '', '.'); ?></td>
+    </tr>
   </tbody>
 </table>

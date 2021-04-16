@@ -121,21 +121,17 @@ class Dashboard extends CI_Controller
       $data['bulan']           = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
       $this->template->load('template/template', 'dashboard/dashboard_administrator', $data);
     } elseif ($level_user == "kepala cabang") {
-      $data['jmlPelanggan']    = $this->Model_dashboard->jumlahPelanggan()->row_array();
-      $data['jmlSales']        = $this->Model_dashboard->jumlahSales()->row_array();
-      $data['jmlBrg']          = $this->Model_dashboard->jumlahBarang()->row_array();
       $data['rekap']           = $this->Model_dashboard->persediaangudang()->result();
       $data['cabang']          = $this->Model_cabang->view_cabang()->result();
       $data['cb']              = $this->session->userdata('cabang');
-      $this->template->load('template/template', 'dashboard/dashboard_admingudang', $data);
+      $this->template->load('template/template', 'dashboard_v2/dashboard_penjualan', $data);
     } elseif ($level_user == "kepala admin") {
-      $data['jmlPelanggan']    = $this->Model_dashboard->jumlahPelanggan()->row_array();
-      $data['jmlSales']        = $this->Model_dashboard->jumlahSales()->row_array();
-      $data['jmlBrg']          = $this->Model_dashboard->jumlahBarang()->row_array();
       $data['rekap']           = $this->Model_dashboard->persediaangudang()->result();
       $data['cabang']          = $this->Model_cabang->view_cabang()->result();
       $data['cb']              = $this->session->userdata('cabang');
-      $this->template->load('template/template', 'dashboard/dashboard_admingudang', $data);
+      $data['bulan']           = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+      $data['tahun']           = date("Y");
+      $this->template->load('template/template', 'dashboard_v2/dashboard_penjualan', $data);
     } elseif ($level_user == "koordinator kepala admin") {
       $data['rekap']           = $this->Model_dashboard->persediaangudang()->result();
       $data['cabang']          = $this->Model_cabang->view_cabang()->result();
@@ -274,5 +270,14 @@ class Dashboard extends CI_Controller
       $data['aup'] = $this->Model_dashboard->aupallcabang($tanggal_aup, $exclude)->result();
       $this->load->view('dashboard_v2/load_aupallcabang', $data);
     }
+  }
+
+  function rekapkendaraan()
+  {
+    $cabang = $this->input->post('cabang');
+    $bulan = $this->input->post('bulan');
+    $tahun = $this->input->post('tahun');
+    $data['kendaraan'] = $this->Model_dashboard->rekapkendaraan($cabang, $bulan, $tahun)->result();
+    $this->load->view('dashboard_v2/load_kendaraan', $data);
   }
 }

@@ -339,7 +339,8 @@ class Model_dashboard extends CI_Model
 		LEFT JOIN ( 
 		SELECT retur.no_fak_penj AS no_fak_penj, SUM( total ) AS total 
 		FROM retur WHERE tglretur <= '$tanggal_aup' GROUP BY retur.no_fak_penj ) retur ON ( penjualan.no_fak_penj = retur.no_fak_penj ) 
-		WHERE tgltransaksi <= '$tanggal_aup' AND status_lunas='2'" . $cabang . " GROUP BY cabangbarunew";
+	
+		WHERE tgltransaksi <= '$tanggal_aup' AND (ifnull( penjualan.total, 0 ) - (ifnull( retur.total, 0 ))) != IFNULL( jmlbayar, 0 ) " . $cabang . " GROUP BY cabangbarunew";
 
 		return $this->db->query($query);
 	}
@@ -395,8 +396,36 @@ class Model_dashboard extends CI_Model
 		LEFT JOIN ( 
 		SELECT retur.no_fak_penj AS no_fak_penj, SUM( total ) AS total 
 		FROM retur WHERE tglretur <= '$tanggal_aup' GROUP BY retur.no_fak_penj ) retur ON ( penjualan.no_fak_penj = retur.no_fak_penj ) 
-		WHERE tgltransaksi <= '$tanggal_aup' AND status_lunas='2' AND cabangbarunew='$cbg' GROUP BY salesbarunew,nama_sales";
+		WHERE tgltransaksi <= '$tanggal_aup' AND cabangbarunew='$cbg' AND (ifnull( penjualan.total, 0 ) - (ifnull( retur.total, 0 ))) != IFNULL( jmlbayar, 0 ) GROUP BY salesbarunew,nama_sales";
 
+		return $this->db->query($query);
+	}
+
+	function rekapkendaraan($cabang, $bulan, $tahun)
+	{
+		if (!empty($cabang)) {
+			$cabang = "WHERE kendaraan.kode_cabang ='$cabang'";
+		}
+		$dari = $tahun . "-" . $bulan . "-01";
+		$sampai = date('Y-m-t', strtotime($dari));
+		$query = "SELECT kendaraan.no_polisi,model,jml_berangkat,jmlpenjualan
+		FROM kendaraan
+		LEFT JOIN (
+		SELECT no_kendaraan,COUNT(no_kendaraan) as jml_berangkat
+		FROM dpb
+		WHERE tgl_pengambilan BETWEEN '$dari' AND '$sampai'
+		GROUP BY no_kendaraan
+		) dpb ON (kendaraan.no_polisi = dpb.no_kendaraan)
+		
+		LEFT JOIN (SELECT no_kendaraan,
+				ROUND(SUM(IF(jenis_mutasi = 'PENJUALAN',jumlah,0) /isipcsdus),2) as jmlpenjualan
+				FROM detail_mutasi_gudang_cabang
+				INNER JOIN mutasi_gudang_cabang ON detail_mutasi_gudang_cabang.no_mutasi_gudang_cabang = mutasi_gudang_cabang.no_mutasi_gudang_cabang
+				INNER JOIN dpb ON mutasi_gudang_cabang.no_dpb = dpb.no_dpb
+				INNER JOIN master_barang ON detail_mutasi_gudang_cabang.kode_produk = master_barang.kode_produk
+				WHERE tgl_mutasi_gudang_cabang BETWEEN  '$dari' AND '$sampai'
+				GROUP BY no_kendaraan) penjualan ON (kendaraan.no_polisi = penjualan.no_kendaraan)
+		" . $cabang;
 		return $this->db->query($query);
 	}
 }
