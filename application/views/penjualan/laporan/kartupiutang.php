@@ -47,17 +47,14 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="row mb-3">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <select id="jatuhtempo" name="jatuhtempo" class="form-control show-tick" data-live-search="true">
-                          <option value="">Semua Kategori</option>
-                          <option value="BJT">Belum Jatuh Tempo</option>
-                          <option value="LDJT">Lebih Dari Jatuh Tempo</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div> -->
+
+                  <div class="form-group mb-3">
+                    <select name="ljt" id="ljt" class="form-select">
+                      <option value="all">All</option>
+                      <option value="1">Belum Jatuh Tempo</option>
+                      <option value="2">Sudah Jatuh Tempo</option>
+                    </select>
+                  </div>
 
                   <div class="mb-3 form-group">
                     <div class="row">
@@ -71,7 +68,8 @@
                               <line x1="8" y1="3" x2="8" y2="7" />
                               <line x1="4" y1="11" x2="20" y2="11" />
                               <line x1="11" y1="15" x2="12" y2="15" />
-                              <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                              <line x1="12" y1="15" x2="12" y2="18" />
+                            </svg>
                           </span>
                         </div>
                       </div>
@@ -86,12 +84,14 @@
                               <line x1="8" y1="3" x2="8" y2="7" />
                               <line x1="4" y1="11" x2="20" y2="11" />
                               <line x1="11" y1="15" x2="12" y2="15" />
-                              <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                              <line x1="12" y1="15" x2="12" y2="18" />
+                            </svg>
                           </span>
                         </div>
                       </div>
                     </div>
                   </div>
+
                   <div class="form-group">
                     <div class="row">
                       <div class="col-md-6">

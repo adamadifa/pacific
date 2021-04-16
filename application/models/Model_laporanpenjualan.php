@@ -726,7 +726,8 @@ GROUP BY
 
 
 
-	function kartupiutang($cabang = null, $salesman = null, $jatuhtempo = null, $pelanggan = null, $dari, $sampai)
+	function kartupiutang($cabang = null, $salesman = null, $pelanggan = null, $dari, $sampai, $ljt)
+
 	{
 
 
@@ -740,12 +741,18 @@ GROUP BY
 		if ($salesman != "") {
 			$salesman = "AND salesbarunew = '" . $salesman . "' ";
 		}
-		if ($jatuhtempo == "BJT") {
-			$jatuhtempo = "AND salesbarunew = '" . $jatuhtempo . "' ";
-		}
+
 
 		if ($pelanggan != "") {
 			$pelanggan = "AND penjualan.kode_pelanggan = '" . $pelanggan . "' ";
+		}
+
+		if ($ljt == 1) {
+			$ljt = "AND datediff('$sampai', penjualan.tgltransaksi) <= pelanggan.jatuhtempo";
+		} else if ($ljt == 2) {
+			$ljt = "AND datediff('$sampai', penjualan.tgltransaksi) > pelanggan.jatuhtempo";
+		} else {
+			$ljt = "";
 		}
 		$query = "SELECT
 			penjualan.no_fak_penj AS no_fak_penj,
@@ -758,7 +765,7 @@ GROUP BY
 			pelanggan.no_hp AS no_hp,
 			pelanggan.pasar AS pasar,
 			pelanggan.hari AS hari,
-			penjualan.jatuhtempo AS jatuhtempo,
+			pelanggan.jatuhtempo AS jatuhtempo,
 			pelanggan.kode_cabang AS kode_cabang,
 			penjualan.total AS total,
 			penjualan.jenistransaksi AS jenistransaksi,
@@ -851,6 +858,7 @@ GROUP BY
 			. $cabang
 			. $salesman
 			. $pelanggan
+			. $ljt
 			. "
 			AND (ifnull(penjualan.total,0) - (ifnull(totalpf_last,0)-ifnull(totalgb_last,0))) != IFNULL(bayarsebelumbulanini,0)
 			OR penjualan.jenistransaksi != 'tunai'
@@ -858,6 +866,7 @@ GROUP BY
 			. $cabang
 			. $salesman
 			. $pelanggan
+			. $ljt
 			. "
 			AND IFNULL(bayarbulanini,0) != 0
 
