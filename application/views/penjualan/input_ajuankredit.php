@@ -723,9 +723,9 @@
         rekomendasi = "Tidak Layak";
       } else if (scoreakhir > 2 && scoreakhir <= 4) {
         rekomendasi = "Tidak Disarankan";
-      } else if (scoreakhir > 4 && scoreakhir <= 6) {
+      } else if (scoreakhir > 4 && scoreakhir <= 6.75) {
         rekomendasi = "Beresiko";
-      } else if (scoreakhir > 6 && scoreakhir <= 8.5) {
+      } else if (scoreakhir > 6.75 && scoreakhir <= 8.5) {
         rekomendasi = "Layak Dengan Pertimbangan";
       } else if (scoreakhir > 8.5 && scoreakhir <= 10) {
         rekomendasi = "Layak";
