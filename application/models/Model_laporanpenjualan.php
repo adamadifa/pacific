@@ -727,6 +727,7 @@ GROUP BY
 
 
 	function kartupiutang($cabang = null, $salesman = null, $pelanggan = null, $dari, $sampai, $ljt)
+
 	{
 
 
@@ -740,6 +741,7 @@ GROUP BY
 		if ($salesman != "") {
 			$salesman = "AND salesbarunew = '" . $salesman . "' ";
 		}
+
 
 		if ($pelanggan != "") {
 			$pelanggan = "AND penjualan.kode_pelanggan = '" . $pelanggan . "' ";
@@ -759,6 +761,7 @@ GROUP BY
 			penjualan.kode_pelanggan AS kode_pelanggan,
 			pelanggan.nama_pelanggan AS nama_pelanggan,
 			pelanggan.alamat_pelanggan AS alamat_pelanggan,
+			pelanggan.jatuhtempo AS jatuhtempopel,
 			pelanggan.no_hp AS no_hp,
 			pelanggan.pasar AS pasar,
 			pelanggan.hari AS hari,

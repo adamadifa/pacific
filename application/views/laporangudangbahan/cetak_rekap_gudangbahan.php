@@ -40,21 +40,21 @@ tr:nth-child(even) {
     <tr >
       <th bgcolor="#024a75" style="color:white; font-size:14;">IN</th>
       <th bgcolor="#024a75" style="color:white; font-size:14;">OUT</th>
-      <th bgcolor="orange" style="color:white; font-size:14;">
+      <th bgcolor="red" style="color:white; font-size:14;">
         <?php if (!empty($saldoawal['qtyunitsa'])) {
           echo uang($saldoawal['qtyunitsa']);
         } ?>
       </th>
-      <th bgcolor="#024a75" style="color:white; font-size:14;">PEMBELIAN</th>
-      <th bgcolor="#024a75" style="color:white; font-size:14;">LAINNYA</th>
-      <th bgcolor="#024a75" style="color:white; font-size:14;">RETUR PENGGANTI</th>
-      <th bgcolor="#024a75" style="color:white; font-size:14;">PRODUKSI</th>
-      <th bgcolor="#024a75" style="color:white; font-size:14;">SEASONING</th>
-      <th bgcolor="#024a75" style="color:white; font-size:14;">PDQC</th>
-      <th bgcolor="#024a75" style="color:white; font-size:14;">SUSUT</th>
-      <th bgcolor="#024a75" style="color:white; font-size:14;">CABANG</th>
-      <th bgcolor="#024a75" style="color:white; font-size:14;">LAINNYA</th>
-      <th bgcolor="orange" style="color:white; font-size:14;">
+      <th bgcolor="green" style="color:white; font-size:14;">PEMBELIAN</th>
+      <th bgcolor="green" style="color:white; font-size:14;">LAINNYA</th>
+      <th bgcolor="green" style="color:white; font-size:14;">RETUR PENGGANTI</th>
+      <th bgcolor="green" style="color:white; font-size:14;">PRODUKSI</th>
+      <th bgcolor="green" style="color:white; font-size:14;">SEASONING</th>
+      <th bgcolor="green" style="color:white; font-size:14;">PDQC</th>
+      <th bgcolor="green" style="color:white; font-size:14;">SUSUT</th>
+      <th bgcolor="green" style="color:white; font-size:14;">CABANG</th>
+      <th bgcolor="green" style="color:white; font-size:14;">LAINNYA</th>
+      <th bgcolor="red" style="color:white; font-size:14;">
         <?php if (!empty($saldoawal['qtyberatsa'])) {
           echo uang($saldoawal['qtyberatsa']);
         } ?>
@@ -128,7 +128,7 @@ tr:nth-child(even) {
 
     ?>
       <tr style="color:black; font-size:14;">
-        <td bgcolor="red" style="color:white"><?php echo $dari; ?></td>
+        <td><?php echo $dari; ?></td>
         <td align="right">
           <?php
           if (isset($masuk['qty_unit']) and $masuk['qty_unit'] != "0") {

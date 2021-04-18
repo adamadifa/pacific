@@ -47,6 +47,7 @@
                       </div>
                     </div>
                   </div>
+
                   <div class="form-group mb-3">
                     <select name="ljt" id="ljt" class="form-select">
                       <option value="all">All</option>
@@ -54,6 +55,7 @@
                       <option value="2">Sudah Jatuh Tempo</option>
                     </select>
                   </div>
+
                   <div class="mb-3 form-group">
                     <div class="row">
                       <div class="col-md-6">

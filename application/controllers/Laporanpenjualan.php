@@ -439,6 +439,7 @@ class Laporanpenjualan extends CI_Controller
     $cabang       = $this->input->post('cabang');
     $salesman       = $this->input->post('salesman');
     $pelanggan      = $this->input->post('pelanggan');
+    $jatuhtempo      = $this->input->post('jatuhtempo');
     $dari         = $this->input->post('dari');
     $sampai         = $this->input->post('sampai');
     $ljt         = $this->input->post('ljt');
@@ -452,6 +453,7 @@ class Laporanpenjualan extends CI_Controller
     $data['dari']      = $dari;
     $data['sampai']      = $sampai;
     $data['kartupiutang']  = $this->Model_laporanpenjualan->kartupiutang($cabang, $salesman, $pelanggan, $dari, $sampai, $ljt)->result();
+
 
     if (isset($_POST['export'])) {
       // Fungsi header dengan mengirimkan raw data excel

@@ -36,18 +36,18 @@ tr:nth-child(even) {
       <th rowspan="2" style="color:white; font-size:14;">SELISIH</th>
     </tr>
     <tr bgcolor="#024a75">
-      <th style="color:white; font-size:14;">STOK</th>
-      <th style="color:white; font-size:14;">HARGA</th>
-      <th style="color:white; font-size:14;">JUMLAH</th>
-      <th style="color:white; font-size:14;">QTY</th>
-      <th style="color:white; font-size:14;">HARGA</th>
-      <th style="color:white; font-size:14;">JUMLAH</th>
-      <th style="color:white; font-size:14;">QTY</th>
-      <th style="color:white; font-size:14;">HARGA</th>
-      <th style="color:white; font-size:14;">JUMLAH</th>
-      <th style="color:white; font-size:14;">QTY</th>
-      <th style="color:white; font-size:14;">HARGA</th>
-      <th style="color:white; font-size:14;">JUMLAH</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">STOK</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">HARGA</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">JUMLAH</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">QTY</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">HARGA</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">JUMLAH</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">QTY</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">HARGA</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">JUMLAH</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">QTY</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">HARGA</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">JUMLAH</th>
     </tr>
   </thead>
   <tbody>
