@@ -187,7 +187,12 @@ error_reporting(0);
     <tr style="text-align: left;">
       <td bgcolor="#02bfd2" style="color:white;">Total Limit Kredit</td>
       <td align="right"><?php echo number_format($pengajuan['jumlah'], '0', '', '.'); ?></td>
-      <td rowspan="4" style="width: 400px;"></td>
+      <td rowspan="4" style="width: 400px;" valign="top">
+        <b>Uraian Analisa</b><br>
+        <?php foreach ($komentar as $k) { ?>
+          <p><?php echo $k->uraian_analisa; ?></p>
+        <?php } ?>
+      </td>
     </tr>
     <tr style="text-align: left;">
       <td bgcolor="#02bfd2" style="color:white;">Level Otorisasi</td>

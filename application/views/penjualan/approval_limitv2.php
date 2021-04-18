@@ -51,7 +51,8 @@ $level = $this->session->userdata('level_user');
                         <line x1="8" y1="3" x2="8" y2="7" />
                         <line x1="4" y1="11" x2="20" y2="11" />
                         <line x1="11" y1="15" x2="12" y2="15" />
-                        <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                        <line x1="12" y1="15" x2="12" y2="18" />
+                      </svg>
                     </span>
                   </div>
                 </div>
@@ -66,7 +67,8 @@ $level = $this->session->userdata('level_user');
                         <line x1="8" y1="3" x2="8" y2="7" />
                         <line x1="4" y1="11" x2="20" y2="11" />
                         <line x1="11" y1="15" x2="12" y2="15" />
-                        <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                        <line x1="12" y1="15" x2="12" y2="18" />
+                      </svg>
                     </span>
                   </div>
                 </div>
@@ -112,7 +114,7 @@ $level = $this->session->userdata('level_user');
             </ol>
           </div>
           <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover" id="mytable" style="font-size:13px !important">
+            <table class="table table-bordered table-striped table-hover" id="mytable" style="font-size:11px !important">
               <thead class="thead-dark">
                 <tr>
                   <th>No</th>
@@ -130,6 +132,8 @@ $level = $this->session->userdata('level_user');
                   </th>
                   <th>Total</th>
                   <th>JT FIX</th>
+                  <th>Skor</th>
+                  <th>Ket</th>
                   <!-- <th>Status</th>
                       <th>Ket</th> -->
                   <th>Kacab</th>
@@ -255,7 +259,35 @@ $level = $this->session->userdata('level_user');
                         echo $lama;
                       }
                       ?></td>
+                    <td>
+                      <?php
+                      $scoreakhir =  $d['skor'];
+                      if ($scoreakhir <= 2) {
+                        $rekomendasi = "Tidak Layak";
+                      } else if ($scoreakhir > 2 && $scoreakhir <= 4) {
+                        $rekomendasi = "Tidak Disarankan";
+                      } else if ($scoreakhir > 4 && $scoreakhir <= 6) {
+                        $rekomendasi = "Beresiko";
+                      } else if ($scoreakhir > 6 && $scoreakhir <= 8.5) {
+                        $rekomendasi = "Layak Dengan Pertimbangan";
+                      } else if ($scoreakhir > 8.5 && $scoreakhir <= 10) {
+                        $rekomendasi = "Layak";
+                      }
 
+                      if ($scoreakhir <= 4) {
+                        $bg = "red";
+                      } else if ($scoreakhir <= 6) {
+                        $bg = "orange";
+                      } else {
+                        $bg = "green";
+                      }
+                      //echo $scoreakhir;
+                      ?>
+                      <span class="badge bg-<?php echo $bg; ?>"><?php echo $scoreakhir; ?></span>
+                    </td>
+                    <td>
+                      <span class="badge bg-<?php echo $bg; ?>"><?php echo $rekomendasi; ?></span>
+                    </td>
                     <td>
                       <?php
                       if (empty($d['kacab'])) {
@@ -340,6 +372,8 @@ $level = $this->session->userdata('level_user');
                       ?>
                     </td>
                     <td>
+                      <a href="<?php echo base_url(); ?>penjualan/cetak_ajuankredit/<?php echo $d['no_pengajuan']; ?>" class="btn btn-primary btn-sm"><i class="fa fa-print"></i></a>
+                      <a href="#" data-nopengajuan="<?php echo $d['no_pengajuan']; ?>" id="inputkomentar" class="btn btn-primary btn-sm"><i class="fa fa-wechat "></i></a>
                       <?php
 
                       if (
@@ -438,7 +472,23 @@ $level = $this->session->userdata('level_user');
     </div>
   </div>
 </div>
+<div class="modal modal-blur fade" id="modal-komentar" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg  modal-dialog-centered" role="document">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <h5 class="modal-title">Uraian Analisa</h5>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="no_peng">
+        <textarea name="komentar" id="komentar" cols="30" rows="10" placeholder="Uraian Analisa" class="form-control"></textarea>
+        <div class="form-group mt-3">
+          <a href="#" class="btn btn-primary w-100" id="updatekomentar">Update Analisa</a>
+        </div>
+      </div>
 
+    </div>
+  </div>
+</div>
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     flatpickr(document.getElementById('dari'), {});
@@ -469,6 +519,42 @@ $level = $this->session->userdata('level_user');
     }
 
 
+
+    $("#updatekomentar").click(function(e) {
+      e.preventDefault();
+      var no_pengajuan = $("#no_peng").val();
+      var komentar = $("#komentar").val();
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>penjualan/updatekomentar',
+        data: {
+          no_pengajuan: no_pengajuan,
+          komentar: komentar
+        },
+        cache: false,
+        success: function(respond) {
+          $("#modal-komentar").modal("hide");
+        }
+      });
+    });
+    $("#inputkomentar").click(function(e) {
+      e.preventDefault();
+      var no_pengajuan = $(this).attr("data-nopengajuan");
+      var komentar = $("#komentar").val();
+      $("#no_peng").val(no_pengajuan);
+      $("#modal-komentar").modal("show");
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>penjualan/getkomentar',
+        data: {
+          no_pengajuan: no_pengajuan
+        },
+        cache: false,
+        success: function(respond) {
+          $("#komentar").val(respond);
+        }
+      });
+    });
     loadSalesman();
 
     $("#cabang").change(function() {

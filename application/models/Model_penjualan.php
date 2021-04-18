@@ -3766,6 +3766,7 @@ class Model_penjualan extends CI_Model
 		jumlah_rekomendasi,
 		pengajuan_limitkredit_v2.jatuhtempo,
 		jatuhtempo_rekomendasi,
+    skor,
 		status,
 		id_admin,
 		id_approval,
@@ -4321,6 +4322,7 @@ class Model_penjualan extends CI_Model
     $lamatopup      = $this->input->post('lamatopup');
     $jmlfaktur      = $this->input->post('jmlfaktur');
     $historitransaksi = $this->input->post('historitransaksi');
+    $komentar       = $this->input->post('komentar');
     $id_admin       = $this->session->userdata('id_user');
 
     $datapelanggan = [
@@ -4359,14 +4361,36 @@ class Model_penjualan extends CI_Model
     if ($updatepelanggan) {
       $simpan = $this->db->insert('pengajuan_limitkredit_v2', $data);
       if ($simpan) {
-        $this->session->set_flashdata(
-          'msg',
-          '<div class="alert bg-green alert-dismissible" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <i class="material-icons" style="float:left; margin-right:10px">check</i> Data Berhasil di Simpan !
-        </div>'
-        );
-        redirect('penjualan/limitkreditv2');
+        $datakomentar = [
+          'no_pengajuan' => $no_pengajuan,
+          'uraian_analisa' => $komentar,
+          'id_user' => $id_admin
+        ];
+        $cekkomentar = $this->db->get_where('pengajuan_limitkredit_analisa', array('no_pengajuan' => $no_pengajuan, 'id_user' => $id_admin))->num_rows();
+        if ($cekkomentar >= 1) {
+          $updatekomentar = $this->db->update('pengajuan_limitkredit_analisa', $datakomentar, array('no_pengajuan' => $no_pengajuan, 'id_user' => $id_admin));
+        } else {
+          $updatekomentar = $this->db->insert('pengajuan_limitkredit_analisa', $datakomentar);
+        }
+        if ($updatekomentar) {
+          $this->session->set_flashdata(
+            'msg',
+            '<div class="alert bg-green alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <i class="material-icons" style="float:left; margin-right:10px">check</i> Data Berhasil di Simpan !
+          </div>'
+          );
+          redirect('penjualan/limitkreditv2');
+        } else {
+          $this->session->set_flashdata(
+            'msg',
+            '<div class="alert bg-red alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <i class="material-icons" style="float:left; margin-right:10px">check</i> Data Gagal di Simpan !
+          </div>'
+          );
+          redirect('penjualan/limitkreditv2');
+        }
       } else {
         $this->session->set_flashdata(
           'msg',
@@ -6725,5 +6749,40 @@ class Model_penjualan extends CI_Model
     INNER JOIN pelanggan ON lk.kode_pelanggan = pelanggan.kode_pelanggan
     INNER JOIN karyawan ON pelanggan.id_sales = karyawan.id_karyawan
     WHERE no_pengajuan ='$no_pengajuan'");
+  }
+
+  function getKomentarajuankredit($no_pengajuan)
+  {
+    return $this->db->get_where('pengajuan_limitkredit_analisa', array('no_pengajuan' => $no_pengajuan));
+  }
+
+  function updatekomentar()
+  {
+    $id_user = $this->session->userdata('id_user');
+    $no_pengajuan = $this->input->post('no_pengajuan');
+    $komentar = $this->input->post('komentar');
+
+    $data = [
+      'no_pengajuan' => $no_pengajuan,
+      'uraian_analisa' => $komentar,
+      'id_user' => $id_user
+    ];
+
+    $cekkomentar = $this->db->get_where('pengajuan_limitkredit_analisa', array('no_pengajuan' => $no_pengajuan, 'id_user' => $id_user))->num_rows();
+    echo $cekkomentar;
+
+    if ($cekkomentar >= 1) {
+      $updatekomentar = $this->db->update('pengajuan_limitkredit_analisa', $data, array('no_pengajuan' => $no_pengajuan, 'id_user' => $id_user));
+    } else {
+      $updatekomentar = $this->db->insert('pengajuan_limitkredit_analisa', $data);
+    }
+  }
+
+  function getkomentar()
+  {
+    $no_pengajuan = $this->input->post('no_pengajuan');
+    $id_user = $this->session->userdata('id_user');
+
+    return $this->db->get_where('pengajuan_limitkredit_analisa', array('no_pengajuan' => $no_pengajuan, 'id_user' => $id_user));
   }
 }

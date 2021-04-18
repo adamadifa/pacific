@@ -3750,6 +3750,19 @@ class Penjualan extends CI_Controller
   {
     $no_pengajuan = $this->uri->segment(3);
     $data['pengajuan'] = $this->Model_penjualan->getPengajuankredit($no_pengajuan)->row_array();
+    $data['komentar'] = $this->Model_penjualan->getKomentarajuankredit($no_pengajuan)->result();
     $this->load->view('penjualan/laporan/cetak_ajuankredit', $data);
+  }
+
+  function updatekomentar()
+  {
+    $this->Model_penjualan->updatekomentar();
+  }
+
+  function getkomentar()
+  {
+    $komentar = $this->Model_penjualan->getkomentar()->row_array();
+
+    echo $komentar['uraian_analisa'];
   }
 }
