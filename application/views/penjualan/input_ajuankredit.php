@@ -215,6 +215,13 @@
                 </div>
               </div>
             </div>
+            <div class="row mb-3">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <textarea name="komentar" id="komentar" cols="30" rows="10" class="form-control" placeholder="Uraian Analisa"></textarea>
+                </div>
+              </div>
+            </div>
 
 
             <div class="row ">
@@ -725,7 +732,7 @@
         rekomendasi = "Tidak Disarankan";
       } else if (scoreakhir > 4 && scoreakhir <= 6) {
         rekomendasi = "Beresiko";
-      } else if (scoreakhir > 6 && scoreakhir <= 8.5) {
+      } else if (scoreakhir > 6.75 && scoreakhir <= 8.5) {
         rekomendasi = "Layak Dengan Pertimbangan";
       } else if (scoreakhir > 8.5 && scoreakhir <= 10) {
         rekomendasi = "Layak";
@@ -820,6 +827,7 @@
       var historitransaksi = $("#historitransaksi").val();
       var omsettoko = $("#omsettoko").val();
       var jumlah = $("#jumlah").val();
+      var komentar = $("#komentar").val();
       //alert(hari);
       if (tanggal == "") {
         swal("Oops!", "Tanggal Masih Kosong!", "warning");
@@ -881,6 +889,9 @@
         return false;
       } else if (omsettoko == "") {
         swal("Oops!", "Omset Toko Masih Kosong!", "warning");
+        return false;
+      } else if (komentar == "") {
+        swal("Oops!", "Uraian Analisa Masih Kosong!", "warning");
         return false;
       } else {
         return true;
