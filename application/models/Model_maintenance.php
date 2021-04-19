@@ -68,6 +68,23 @@ class Model_maintenance extends CI_Model
     $this->db->insert('maintenance', $data);
   }
 
+  function input_komentar()
+  {
+
+    $komentar             = $this->input->post('komentar');
+    $kode_maintenance     = $this->input->post('kode_maintenance');
+    $id_user              = $this->session->userdata('id_user');
+    $tanggal              = date('Y-m-d H:i:s');
+   
+    $data             = array(
+      'komentar'                => $komentar,
+      'kode_maintenance'        => $kode_maintenance,
+      'id_user'                 => $id_user,
+      'tanggal'                 => $tanggal
+    );
+    $this->db->insert('komentar', $data);
+  }
+
   function approvemanager()
   {
 
@@ -94,6 +111,14 @@ class Model_maintenance extends CI_Model
   {
 
     return $this->db->query("SELECT * FROM maintenance WHERE kode_pengajuan = '$kode_pengajuan' ");
+    
+  }
+
+  function viewChat()
+  {
+
+    $kode_maintenance     = $this->input->post('kode_maintenance');
+    return $this->db->query("SELECT * FROM komentar WHERE kode_maintenance = '$kode_maintenance' ");
     
   }
 

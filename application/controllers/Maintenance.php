@@ -51,11 +51,29 @@ class Maintenance extends CI_Controller
     $data['cabang']             = $this->session->userdata('cabang');
     $this->template->load('template/template', 'maintenance/input_maintenance',$data);
   }
+
+  function view_komentar(){
+      
+    $data['cabang']             = $this->session->userdata('cabang');
+    $this->template->load('template/template', 'maintenance/view_komentar',$data);
+  }
+
+  function viewChat(){
+      
+    $data['result']    = $this->Model_maintenance->viewChat();
+    $this->load->view('maintenance/view_chat',$data);
+  }
   
   function insert_maintnanace(){
 
     $this->Model_maintenance->insert_maintnanace();
     redirect('maintenance/view_maintenance');
+      
+  }
+  
+  function input_komentar(){
+
+    $this->Model_maintenance->input_komentar();
       
   }
   
