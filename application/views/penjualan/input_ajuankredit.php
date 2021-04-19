@@ -368,11 +368,11 @@
               <div class="form-group">
                 <div class="col-md-12">
                   <select name="historitransaksi" id="historitransaksi" class="form-select">
-                    <option value="">Histori Pembayaran Transaksi</option>
-                    <option value="< TOP">
-                      < TOP</option>
-                    <option value="= TOP">= TOP</option>
-                    <option value="> TOP">> TOP</option>
+                    <option value="">Histori Pembayaran Transaksi (6 Bulan Terakhir)</option>
+                    <option value="< 14 Hari">
+                      < 14 Hari</option>
+                    <option value="= 14 Hari">= 14 Hari</option>
+                    <option value="> 14 Hari">> 14 Hari</option>
                   </select>
                 </div>
               </div>
@@ -683,11 +683,11 @@
         score_kepemilikan = 0.00;
       }
 
-      if (historitransaksi == "< TOP") {
+      if (historitransaksi == "< 14 Hari") {
         score_ht = 1.00;
-      } else if (historitransaksi == "= TOP") {
+      } else if (historitransaksi == "= 14 Hari") {
         score_ht = 0.70;
-      } else if (historitransaksi == "> TOP") {
+      } else if (historitransaksi == "> 14 Hari") {
         score_ht = 0.40;
       } else {
         score_ht = 0.00;

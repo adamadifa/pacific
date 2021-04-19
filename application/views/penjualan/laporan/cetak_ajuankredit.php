@@ -121,7 +121,7 @@ error_reporting(0);
 
     </tr>
     <tr style="text-align: left;">
-      <td bgcolor="#1d9e27" style="color:white;">Histori Pembayaran Transaksi</td>
+      <td bgcolor="#1d9e27" style="color:white;">Histori Pembayaran Transaksi (6 Bulan Terakhir)</td>
       <td><?php echo $pengajuan['histori_transaksi']; ?></td>
       <td style="border:0px; width:50px"></td>
       <td bgcolor="#1d9e27" style="color:white">Omset Toko</td>
