@@ -73,7 +73,7 @@
             <a href="<?php echo base_url();?>maintenance/input_maintenance" class="btn btn-primary">TAMBAH DATA</a>
           </div>
           <div class="table-responsive">
-            <table class="table  table-striped table-hover">
+            <table class="table  table-striped table-hover" style="zoom:90%">
               <thead class="thead-dark">
                 <tr>
                   <th>No</th>
@@ -105,7 +105,7 @@
                     <td><?php echo $d['nama_lengkap']; ?></td>
                     <td><?php echo $d['departemen']; ?></td>
                     <!-- <td><?php echo $d['jenis_permohonan']; ?></td> -->
-                    <td><a href="#" data-kode_pengajuan="<?php echo $d['kode_pengajuan']; ?>" class="detail"><?php echo substr($d['keterangan'],0,50); ?> </a></td>
+                    <td><?php echo substr($d['keterangan'],0,50); ?></td>
                     <td>
                       <?php
                       if ($d['status'] == "1") {
@@ -125,7 +125,7 @@
                       <span class="badge bg-<?php echo $color; ?>"><?php echo $text; ?></span>
                     </td>  
                       <td>
-                        <a href="#" class="btn-sm btn btn-primary detail" data-kode_pengajuan="<?php echo $d['kode_pengajuan']; ?>"><i class="fa fa-list"></i></a>
+                        <!-- <a href="#" class="btn-sm btn btn-primary detail" data-kode_pengajuan="<?php echo $d['kode_pengajuan']; ?>"><i class="fa fa-list"></i></a> -->
                         <?php if ($d['status'] == "0") { ?>
                           <?php if ($d['id_user'] == $this->session->userdata('id_user')) { ?>
                             <a href="<?php echo base_url(); ?>maintenance/hapusmaintenance/<?php echo $d['kode_pengajuan'] ?>/1" class="btn-sm btn btn-danger"><i class="fa fa-trash"></i></a>
@@ -150,6 +150,7 @@
                             <a href="<?php echo base_url(); ?>maintenance/approvemanager/<?php echo $d['kode_pengajuan'] ?>/1" class="btn-sm btn btn-danger"><i class="fa fa-remove"></i></a>
                           <?php } ?>
                         <?php } ?>
+                        <a href="<?php echo base_url();?>maintenance/view_komentar/<?php echo $d['kode_pengajuan']; ?>" class="btn-sm btn btn-primary"><i class="fa fa-comment"></i></a>
                       </td>
                   </tr>
                 <?php

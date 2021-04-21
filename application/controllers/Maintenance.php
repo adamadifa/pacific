@@ -55,12 +55,14 @@ class Maintenance extends CI_Controller
   function view_komentar(){
       
     $data['cabang']             = $this->session->userdata('cabang');
+    $kode_pengajuan             = $this->uri->segment(3);
+    $data['detail']             = $this->Model_maintenance->getDetailMaintenance($kode_pengajuan)->row_array();
     $this->template->load('template/template', 'maintenance/view_komentar',$data);
   }
 
   function viewChat(){
       
-    $data['result']    = $this->Model_maintenance->viewChat();
+    $data['data']    = $this->Model_maintenance->viewChat()->result();
     $this->load->view('maintenance/view_chat',$data);
   }
   

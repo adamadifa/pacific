@@ -118,7 +118,7 @@ class Model_maintenance extends CI_Model
   {
 
     $kode_maintenance     = $this->input->post('kode_maintenance');
-    return $this->db->query("SELECT * FROM komentar WHERE kode_maintenance = '$kode_maintenance' ");
+    return $this->db->query("SELECT * FROM komentar INNER JOIN users ON users.id_user=komentar.id_user WHERE kode_maintenance = '$kode_maintenance'  ");
     
   }
 

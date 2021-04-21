@@ -64,13 +64,13 @@ img{ max-width:100%;}
 
 .incoming_msg_img {
   display: inline-block;
-  width: 6%;
+  width: 100%;
 }
 .received_msg {
   display: inline-block;
   padding: 0 0 0 10px;
   vertical-align: top;
-  width: 92%;
+  width: 100%;
  }
  .received_withd_msg p {
   background: #ebebeb none repeat scroll 0 0;
@@ -87,7 +87,7 @@ img{ max-width:100%;}
   font-size: 12px;
   margin: 8px 0 0;
 }
-.received_withd_msg { width: 57%;}
+.received_withd_msg { width: 100%;}
 .mesgs {
   float: left;
   padding: 30px 15px 0 25px;
@@ -104,8 +104,10 @@ img{ max-width:100%;}
 }
 .outgoing_msg{ overflow:hidden; margin:26px 0 26px;}
 .sent_msg {
-  float: right;
-  width: 46%;
+  display: inline-block;
+  padding: 0 0 0 10px;
+  vertical-align: top;
+  width: 100%;
 }
 .input_msg_write input {
   background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
@@ -132,7 +134,7 @@ img{ max-width:100%;}
 }
 .messaging { padding: 0 0 50px 0;}
 .msg_history {
-  height: 516px;
+  height: 400px;
   overflow-y: auto;
 }
 </style>
@@ -152,7 +154,11 @@ img{ max-width:100%;}
     <div class="col-md-4 col-xs-6">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title">Komentar</h4>
+          <h4 class="card-title">CHANTTING</h4>
+        </div>
+        <div class="card-body">
+          <h4 class="card-title"><?php echo $detail['nama_pemohon'];?> (<?php echo $detail['departemen'];?>)</h4>
+          <h4 align="justify"><?php echo $detail['keterangan'];?></h4>
         </div>
         <div class="card-body">
           <div class="messaging">
@@ -165,7 +171,6 @@ img{ max-width:100%;}
                   <div class="input_msg_write">
                     <input type="text" id="komentar" class="write_msg" placeholder="Type a message" />
                     <input type="hidden" id="kode_maintenance" value="<?php echo $this->uri->segment(3); ?>" class="write_msg" placeholder="Type a message" />
-                    <a href="#" id="simpan" class="msg_send_btn">Kirim</a>
                   </div>
                 </div>
               </div>
@@ -200,10 +205,12 @@ img{ max-width:100%;}
         });
     }
 
-    $("#simpan").click(function(e) {
-      e.preventDefault();
+    $(document).on('keyup', 'body', function(e){
+      var charCode = ( e.which ) ? e.which : event.keyCode;
 
-      var komentar          = $('#komentar').val();
+      if(charCode == 13) 
+      {
+        var komentar          = $('#komentar').val();
       var kode_maintenance  = $('#kode_maintenance').val();
 
       if (komentar == 0) {
@@ -231,7 +238,10 @@ img{ max-width:100%;}
         });
 
       }
-    });
+      }
+
+    }); 
+
 
   });
 </script>

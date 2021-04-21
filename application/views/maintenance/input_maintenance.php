@@ -49,7 +49,7 @@
                         <option value="Pembelian">Pembelian</option>
                         <option value="Keuangan">Keuangan</option>
                         <option value="Akuntansi">Akuntansi</option>
-                        <option value="Gudang Bahan / Kemasan">Gudang Bahan / Kemasan</option>
+                        <option value="Gudang Bahan Kemasan">Gudang Bahan / Kemasan</option>
                         <option value="Gudang Logisik">Gudang Logisik</option>
                         <option value="Gudang Jadi">Gudang Jadi</option>
                         <option value="Audit">Audit</option>
