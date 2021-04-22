@@ -4828,7 +4828,7 @@ class Model_penjualan extends CI_Model
     $jatuhtempo_rekomendasi = $pengajuan['jatuhtempo_rekomendasi'];
     $id_admin = $this->session->userdata('id_user');
     $level = $this->session->userdata('level_user');
-
+    $time = date("Y-m-d H:i");
     if (empty($jumlah_rekomendasi) && empty($jatuhtempo_rekomendasi)) {
       if (!empty($jatuhtempo)) {
         $data = [
@@ -4876,9 +4876,20 @@ class Model_penjualan extends CI_Model
       $lv = 'dirut';
       $status = 1;
     }
+
+    if ($level == "Administrator") {
+      $field_time = 'time_dirut';
+    } else if ($level == "manager marketing") {
+      $field_time = 'time_mm';
+    } else if ($level == "general manager") {
+      $field_time = 'time_gm';
+    } else if ($level == "kepala cabang") {
+      $field_time = 'time_kacab';
+    }
     $datastatus = [
       'status' => $status,
-      $lv => $id_admin
+      $lv => $id_admin,
+      $field_time => $time
     ];
     $updatestatus = $this->db->update('pengajuan_limitkredit_v2', $datastatus, array('no_pengajuan' => $id));
     if ($updatestatus) {
@@ -6744,7 +6755,8 @@ class Model_penjualan extends CI_Model
   {
     return $this->db->query("SELECT no_pengajuan,tgl_pengajuan,lk.kode_pelanggan,nama_pelanggan,latitude,longitude,pelanggan.kode_cabang,
     nik,type_outlet,nama_karyawan,hari,alamat_pelanggan,alamat_toko,pelanggan.no_hp,lk.jatuhtempo,cara_pembayaran,
-    kepemilikan,histori_transaksi,omset_toko,lama_topup,lama_usaha,lama_langganan,jaminan,jml_faktur,pelanggan.limitpel,lk.jumlah,skor
+    kepemilikan,histori_transaksi,omset_toko,lama_topup,lama_usaha,lama_langganan,jaminan,jml_faktur,pelanggan.limitpel,lk.jumlah,skor,
+    time_stamp,time_kacab,time_mm,time_gm,time_dirut
     FROM pengajuan_limitkredit_v2 lk
     INNER JOIN pelanggan ON lk.kode_pelanggan = pelanggan.kode_pelanggan
     INNER JOIN karyawan ON pelanggan.id_sales = karyawan.id_karyawan

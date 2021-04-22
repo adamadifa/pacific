@@ -124,6 +124,8 @@ class Dashboard extends CI_Controller
       $data['rekap']           = $this->Model_dashboard->persediaangudang()->result();
       $data['cabang']          = $this->Model_cabang->view_cabang()->result();
       $data['cb']              = $this->session->userdata('cabang');
+      $data['tahun']           = date("Y");
+      $data['bulan']            = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
       $this->template->load('template/template', 'dashboard_v2/dashboard_penjualan', $data);
     } elseif ($level_user == "kepala admin") {
       $data['rekap']           = $this->Model_dashboard->persediaangudang()->result();
