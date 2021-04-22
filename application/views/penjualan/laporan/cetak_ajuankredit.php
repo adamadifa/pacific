@@ -243,11 +243,11 @@ error_reporting(0);
     <tr>
       <td style="height: 30px;"></td>
       <td style="height: 30px;"></td>
-      <td style="height: 30px;"></td>
-      <td style="height: 30px;"></td>
-      <td style="height: 30px;"></td>
-      <td style="height: 30px;"></td>
-      <td style="height: 30px;"></td>
+      <td style="height: 30px;"><?php echo $pengajuan['time_kacab']; ?></td>
+      <td style="height: 30px;"><?php echo $pengajuan['time_stamp']; ?></td>
+      <td style="height: 30px;"><?php echo $pengajuan['time_mm']; ?></td>
+      <td style="height: 30px;"><?php echo $pengajuan['time_gm']; ?></td>
+      <td style="height: 30px;"><?php echo $pengajuan['time_dirut']; ?></td>
     </tr>
     <tr style="text-align: center;">
       <td>Salesman</td>
