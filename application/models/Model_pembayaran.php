@@ -1692,6 +1692,12 @@ class Model_pembayaran extends CI_Model
     return $this->db->get('master_bank');
   }
 
+  function listbanksetoran()
+  {
+    $this->db->where('show_on_cabang', '1');
+    return $this->db->get('master_bank');
+  }
+
   function detailpotlainlain($nofaktur)
   {
     return $this->db->get_where('potlainlain', array('no_fak_penj' => $nofaktur));

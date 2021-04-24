@@ -4113,6 +4113,7 @@ class Model_penjualan extends CI_Model
 		status,
 		id_admin,
 		id_approval,
+    skor,
 		kacab,
 		mm,
 		gm,
@@ -5225,11 +5226,13 @@ class Model_penjualan extends CI_Model
       $this->db->where('status', $status);
     }
     $this->db->order_by('tgltransaksi');
-    $this->db->select("no_fak_penj,tgltransaksi,penjualan.kode_pelanggan,nama_pelanggan,penjualan.id_karyawan,nama_karyawan,
+    $this->db->select("no_fak_penj,tgltransaksi,penjualan.kode_pelanggan,v_pengajuanlimit_pending.kode_pelanggan as cekpengajuan,nama_pelanggan,penjualan.id_karyawan,nama_karyawan,
 		total,jenistransaksi,status");
     $this->db->from('penjualan');
     $this->db->join('pelanggan', 'penjualan.kode_pelanggan = pelanggan.kode_pelanggan');
     $this->db->join('karyawan', 'penjualan.id_karyawan = karyawan.id_karyawan');
+    $this->db->join('v_pengajuanlimit_pending', 'penjualan.kode_pelanggan = v_pengajuanlimit_pending.kode_pelanggan','left');
+
     $this->db->limit($rowperpage, $rowno);
     $query = $this->db->get();
     return $query->result_array();
@@ -5272,6 +5275,7 @@ class Model_penjualan extends CI_Model
     $this->db->from('penjualan');
     $this->db->join('pelanggan', 'penjualan.kode_pelanggan = pelanggan.kode_pelanggan');
     $this->db->join('karyawan', 'penjualan.id_karyawan = karyawan.id_karyawan');
+    $this->db->join('v_pengajuanlimit_pending', 'penjualan.kode_pelanggan = v_pengajuanlimit_pending.kode_pelanggan');
     $query  = $this->db->get();
     $result = $query->result_array();
     return $result[0]['allcount'];

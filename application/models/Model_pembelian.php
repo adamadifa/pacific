@@ -148,6 +148,13 @@ class Model_pembelian extends CI_Model
     $this->db->delete('detailbpb_temp', array('kode_barang' => $kodebarang, 'id_admin' => $idadmin));
   }
 
+  function hapus_detailretur_temp()
+  {
+    $kode_barang  = $this->input->post('kode_barang');
+    $id_user = $this->session->userdata('id_user');
+    $this->db->delete('detail_retur_pembelian_temp', array('kode_barang' => $kode_barang, 'id_user' => $id_user));
+  }
+
   function hapus_detailpembelian_temp()
   {
     $kodebarang  = $this->input->post('kodebarang');
@@ -268,6 +275,47 @@ class Model_pembelian extends CI_Model
     return $query->result_array();
   }
 
+  public function getrecordReturCount($kode_retur = "", $tanggal = "")
+  {
+
+    $this->db->select('count(*) as allcount');
+    $this->db->from('retur_pembelian');
+    $this->db->order_by('tanggal', 'desc');
+
+    if ($kode_retur != '') {
+      $this->db->like('kode_retur', $kode_retur);
+    }
+
+    if ($tanggal != '') {
+      $this->db->where('tanggal', $tanggal);
+    }
+
+    $query  = $this->db->get();
+    $result = $query->result_array();
+    return $result[0]['allcount'];
+  }
+
+  public function getDataRetur($rowno, $rowperpage, $kode_retur = "", $tanggal = "")
+  {
+
+    $this->db->select('*');
+    $this->db->from('retur_pembelian');
+    $this->db->order_by('tanggal', 'desc');
+
+    if ($kode_retur != '') {
+      $this->db->like('kode_retur', $kode_retur);
+    }
+
+    if ($tanggal != '') {
+      $this->db->where('tanggal', $tanggal);
+    }
+
+
+    $this->db->limit($rowperpage, $rowno);
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+
   function jsonBarang()
   {
     $kodedept = $this->session->userdata('dept');
@@ -322,6 +370,14 @@ class Model_pembelian extends CI_Model
     $this->db->join('coa', 'set_coa_cabang.kode_akun = coa.kode_akun');
     $this->db->where('kategori', 'pembelian');
     return $this->db->get();
+  }
+
+  function getDetailTemp()
+  {
+    $id_user = $this->session->userdata('id_user');
+    return $this->db->query("SELECT * FROM detail_retur_pembelian_temp
+    LEFT JOIN master_barang_pembelian ON master_barang_pembelian.kode_barang=detail_retur_pembelian_temp.kode_barang 
+    WHERE detail_retur_pembelian_temp.id_user = '$id_user'");
   }
 
   function jsonPilihPembelian($supplier)
@@ -478,6 +534,31 @@ class Model_pembelian extends CI_Model
       );
       redirect('pembelian/permintaanbarang');
     }
+  }
+
+  function inputretur_temp()
+  {
+    $kode_barang       = $this->input->post('kode_barang');
+    $bruto            = $this->input->post('bruto');
+    $berat_roll       = $this->input->post('berat_roll');
+    $berat_pcs        = $this->input->post('berat_pcs');
+    $tinggi           = $this->input->post('tinggi');
+    $panjang          = $this->input->post('panjang');
+    $keterangan          = $this->input->post('keterangan');
+    $id_user          = $this->session->userdata('id_user');
+
+    $data = array(
+      'kode_barang'        => $kode_barang,
+      'bruto'             => $bruto,
+      'berat_roll'        => $berat_roll,
+      'berat_pcs'         => $berat_pcs,
+      'tinggi'            => $tinggi,
+      'panjang'           => $panjang,
+      'keterangan'        => $keterangan,
+      'id_user'           => $id_user
+    );
+
+    $this->db->insert('detail_retur_pembelian_temp', $data);
   }
 
   public function getDataBpb($rowno, $rowperpage, $no_bpb = "", $tgl_permintaan = "", $departemen = "", $statuspesanan = "")

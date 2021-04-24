@@ -1326,6 +1326,7 @@ class Penjualan extends CI_Controller
     } else {
       $data['sess_cab']   = $this->session->userdata('cabang');
       $data['cabang']     = $this->Model_cabang->view_cabang()->result();
+      $data['bank']       = $this->Model_pembayaran->listbanksetoran()->result();
       $this->load->view('penjualan/inputsetoranpusat', $data);
     }
   }
@@ -1340,6 +1341,7 @@ class Penjualan extends CI_Controller
       $data['sess_cab']     = $this->session->userdata('cabang');
       $data['cabang']       = $this->Model_cabang->view_cabang()->result();
       $data['setoranpusat'] = $this->Model_penjualan->get_setoranpusat($kodesetoranpusat)->row_array();
+      $data['bank']         = $this->Model_pembayaran->listbanksetoran()->result();
       $this->load->view('penjualan/editsetoranpusat', $data);
     }
   }

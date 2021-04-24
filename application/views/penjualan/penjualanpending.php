@@ -123,15 +123,18 @@ function uang($nilai)
                       <td><?php echo $d['nama_karyawan']; ?></td>
                       <td>
                         <?php
-                        if ($d['status'] == "2") {
-                        ?>
-                          <span class="badge bg-green"><i class="fa fa-check"></i></span>
-                        <?php
-                        } else {
-                        ?>
-                          <span class="badge bg-orange">Pending</span>
-                        <?php } ?>
+						if ($d['status'] == "2") {
+                          ?>
+                            <span class="badge bg-green"><i class="fa fa-check"></i></span>
+                          <?php
+                          } else {
+							  
+                          ?>
+                            <span class="badge bg-orange">Pending</span>
+                        <?php }
+						?>
                       </td>
+					  
                       <td>
                         <?php
                         if ($d['status'] == "1") {
@@ -149,7 +152,7 @@ function uang($nilai)
                         <?php
                                 }
                               } ?> -->
-                      <a href="<?php echo base_url(); ?>penjualan/input_ajuankredit/<?php echo $d['kode_pelanggan'] ?>" class="btn btn-sm btn-info">Ajukan Limit</a>
+                        <a href="<?php echo base_url(); ?>penjualan/input_ajuankredit/<?php echo $d['kode_pelanggan'] ?>" class="btn btn-sm btn-info">Ajukan Limit</a>
                       </td>
                     </tr>
                   <?php

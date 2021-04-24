@@ -17,8 +17,10 @@
 			<th>Salesman</th>
 			<th>Jumlah</th>
 			<th>Jatuh Tempo</th>
-			<!-- <th>Status</th>
-			<th>Ket</th> -->
+			<th>Skor</th>
+            <th>Ket</th>
+			<!-- <th>Status</th> -->
+			<!-- <th>Ket</th> -->
 			<th>Kacab</th>
 			<th>MM</th>
 			<th>GM</th>
@@ -61,7 +63,35 @@
 			echo $lama;
 			?>
 		</td>
+		<td>
+			<?php
+			$scoreakhir =  str_replace(".",",",$d['skor']);
+			if ($scoreakhir <= 2) {
+			$rekomendasi = "Tidak Layak";
+			} else if ($scoreakhir > 2 && $scoreakhir <= 4) {
+			$rekomendasi = "Tidak Disarankan";
+			} else if ($scoreakhir > 4 && $scoreakhir <= 6) {
+			$rekomendasi = "Beresiko";
+			} else if ($scoreakhir > 6 && $scoreakhir <= 8.5) {
+			$rekomendasi = "Layak Dengan Pertimbangan";
+			} else if ($scoreakhir > 8.5 && $scoreakhir <= 10) {
+			$rekomendasi = "Layak";
+			}
 
+			if ($scoreakhir <= 4) {
+			$bg = "red";
+			} else if ($scoreakhir <= 6) {
+			$bg = "orange";
+			} else {
+			$bg = "green";
+			}
+			//echo $scoreakhir;
+			?>
+			<span class="badge bg-<?php echo $bg; ?>"><?php echo $scoreakhir; ?></span>
+		</td>
+		<td>
+			<span class="badge bg-<?php echo $bg; ?>"><?php echo $rekomendasi; ?></span>
+		</td>
 		<?php
 		if (empty($d['kacab'])) {
 		?>

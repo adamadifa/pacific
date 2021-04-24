@@ -42,30 +42,11 @@
     <div class="form-line">
       <select class="form-select" id="via" name="via">
         <option value="">-- Pilih --</option>
-        <option <?php if ($setoranpusat['bank'] == "BCA") {
-                  echo "selected";
-                } ?> value="BCA">BCA</option>
-        <option <?php if ($setoranpusat['bank'] == "BCA NEW") {
-                  echo "selected";
-                } ?> value="BCA NEW">BCA 0548999700</option>
-        <option <?php if ($setoranpusat['bank'] == "BCA CV") {
-                  echo "selected";
-                } ?> value="BCA CV">BCA CV</option>
-        <option <?php if ($setoranpusat['bank'] == "BNI") {
-                  echo "selected";
-                } ?> value="BNI">BNI</option>
-        <option <?php if ($setoranpusat['bank'] == "BNI NEW") {
-                  echo "selected";
-                } ?> value="BNI NEW">BNI 1550000017</option>
-        <option <?php if ($setoranpusat['bank'] == "BNI CV") {
-                  echo "selected";
-                } ?> value="BNI CV">BNI CV</option>
-        <option <?php if ($setoranpusat['bank'] == "PERMATA") {
-                  echo "selected";
-                } ?> value="PERMATA">PERMATA</option>
-        <option <?php if ($setoranpusat['bank'] == "KAS") {
-                  echo "selected";
-                } ?> value="KAS">KAS</option>
+        <?php foreach ($bank as $b) { ?>
+          <option <?php if ($setoranpusat['bank'] == $b->kode_bank) {
+                    echo "selected";
+                  } ?> value="<?php echo $b->kode_bank; ?>"><?php echo $b->nama_bank; ?></option>
+        <?php } ?>
       </select>
     </div>
   </div>

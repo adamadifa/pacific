@@ -38,14 +38,9 @@
     <div class="form-line">
       <select class="form-select" id="via" name="via">
         <option value="">-- Pilih --</option>
-        <option value="BCA">BCA</option>
-        <option value="BCA NEW">BCA 0548999700</option>
-        <option value="BCA CV">BCA CV</option>
-        <option value="BNI">BNI</option>
-        <option value="BNI NEW">BNI 1550000017</option>
-        <option value="BNI CV">BNI CV</option>
-        <option value="PERMATA">PERMATA</option>
-        <option value="KAS">KAS</option>
+        <?php foreach ($bank as $b) { ?>
+          <option value="<?php echo $b->kode_bank; ?>"><?php echo $b->nama_bank; ?></option>
+        <?php } ?>
       </select>
     </div>
   </div>

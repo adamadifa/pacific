@@ -8,6 +8,77 @@ class Pembelian extends CI_Controller
     $this->load->model(array('Model_pembelian', 'Model_cabang', 'Model_gudangbahan'));
   }
 
+  function returpembelian($rowno = 0)
+  {
+
+    $kode_retur          = "";
+    $tanggal        = "";
+    $kode_supplier        = "";
+
+    if ($this->input->post('submit') != NULL) {
+
+      $kode_retur                  = $this->input->post('kode_retur');
+      $tanggal                = $this->input->post('tanggal');
+      $kode_supplier                = $this->input->post('kode_supplier');
+
+      $data   = array(
+        'kode_retur'               => $kode_retur,
+        'tanggal'             => $tanggal,
+        'kode_supplier'             => $kode_supplier
+      );
+      $this->session->set_userdata($data);
+    } else {
+
+      if ($this->session->userdata('kode_retur') != NULL) {
+        $kode_retur = $this->session->userdata('kode_retur');
+      }
+
+      if ($this->session->userdata('tanggal') != NULL) {
+        $tanggal = $this->session->userdata('tanggal');
+      }
+
+      if ($this->session->userdata('kode_supplier') != NULL) {
+        $kode_supplier = $this->session->userdata('kode_supplier');
+      }
+    }
+    $rowperpage = 10;
+    if ($rowno != 0) {
+      $rowno = ($rowno - 1) * $rowperpage;
+    }
+    $allcount                     = $this->Model_pembelian->getrecordReturCount($kode_retur, $tanggal, $kode_supplier);
+    $users_record                 = $this->Model_pembelian->getDataRetur($rowno, $rowperpage, $kode_retur, $tanggal, $kode_supplier);
+    $config['base_url']           = base_url() . 'pembelian/retur';
+    $config['use_page_numbers']   = TRUE;
+    $config['total_rows']         = $allcount;
+    $config['per_page']           = $rowperpage;
+    $config['first_link']         = 'First';
+    $config['last_link']          = 'Last';
+    $config['next_link']          = 'Next';
+    $config['prev_link']          = 'Prev';
+    $config['full_tag_open']      = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+    $config['full_tag_close']     = '</ul></nav></div>';
+    $config['num_tag_open']       = '<li class="page-item"><span class="page-link">';
+    $config['num_tag_close']      = '</span></li>';
+    $config['cur_tag_open']       = '<li class="page-item active"><span class="page-link">';
+    $config['cur_tag_close']      = '<span class="sr-only">(current)</span></span></li>';
+    $config['next_tag_open']      = '<li class="page-item"><span class="page-link">';
+    $config['next_tagl_close']    = '<span aria-hidden="true">&raquo;</span></span></li>';
+    $config['prev_tag_open']      = '<li class="page-item"><span class="page-link">';
+    $config['prev_tagl_close']    = '</span>Next</li>';
+    $config['first_tag_open']     = '<li class="page-item"><span class="page-link">';
+    $config['first_tagl_close']   = '</span></li>';
+    $config['last_tag_open']      = '<li class="page-item"><span class="page-link">';
+    $config['last_tagl_close']    = '</span></li>';
+    $this->pagination->initialize($config);
+    $data['pagination']           = $this->pagination->create_links();
+    $data['result']               = $users_record;
+    $data['row']                  = $rowno;
+    $data['kode_supplier']        = $kode_supplier;
+    $data['kode_retur']           = $kode_retur;
+    $data['tanggal']              = $tanggal;
+    $this->template->load('template/template', 'pembelian/retur', $data);
+  }
+
   function returproduksi($rowno = 0)
   {
 
@@ -199,6 +270,30 @@ class Pembelian extends CI_Controller
     $this->template->load('template/template', 'pembelian/permintaanbarang', $data);
   }
 
+  
+  function codeotomatisretur()
+  {
+
+    $tahun    = date('y');
+    $bulan    = date('m');
+    $this->db->select('right(retur_pembelian.kode_retur,3) as kode ', false);
+    $this->db->where('mid(kode_retur,5,2)', $bulan);
+    $this->db->where('mid(kode_retur,7,2)', $tahun);
+    $this->db->order_by('kode_retur', 'desc');
+    $this->db->limit('13');
+    $query    = $this->db->get('retur_pembelian');
+    if ($query->num_rows() <> 0) {
+      $data   = $query->row();
+      $kode   = intval($data->kode) + 1;
+    } else {
+      $kode   = 1;
+    }
+    $kodemax  = str_pad($kode, 3, "0", STR_PAD_LEFT);
+    $kodejadi   = "RPB/" . $bulan . "" . $tahun . "/" . $kodemax;
+    echo $kodejadi;
+  }
+
+
 
   function inputbpb()
   {
@@ -206,6 +301,12 @@ class Pembelian extends CI_Controller
     $data['pemohon']     = $this->Model_pembelian->getPemohon()->result();
     $data['departemen']  = $this->session->userdata('dept');
     $this->template->load('template/template', 'pembelian/inputbpb', $data);
+  }
+
+
+  function input_retur()
+  {
+    $this->template->load('template/template', 'pembelian/input_retur');
   }
 
   function insert_bpb()
@@ -233,10 +334,21 @@ class Pembelian extends CI_Controller
     $this->Model_pembelian->insertdetailbpb();
   }
 
+  function inputretur_temp()
+  {
+    $this->Model_pembelian->inputretur_temp();
+  }
+
   function view_detailbpb_temp()
   {
     $data['bpbtemp'] = $this->Model_pembelian->getBPBtemp()->result();
     $this->load->view('pembelian/view_detailbpb_temp', $data);
+  }
+
+  function view_detailretur_temp()
+  {
+    $data['data']   = $this->Model_pembelian->getDetailTemp();
+    $this->load->view('pembelian/view_detailretur_temp', $data);
   }
 
   function view_detailpembelian_temp()
@@ -257,6 +369,12 @@ class Pembelian extends CI_Controller
   function hapus_detailbpb_temp()
   {
     $this->Model_pembelian->hapus_detailbpb_temp();
+  }
+
+
+  function hapus_detailretur_temp()
+  {
+    $this->Model_pembelian->hapus_detailretur_temp();
   }
 
   function hapus_detailpembelian_temp()
@@ -1137,69 +1255,6 @@ class Pembelian extends CI_Controller
     $data['detail']   = $this->Model_pembelian->getDetailPembelian($nobukti)->result();
     $this->load->view('pembelian/cetak_bppb', $data);
   }
-
-
-  function retur($rowno = 0)
-  {
-
-    $nobukti          = "";
-    $tgl_retur        = "";
-
-    if ($this->input->post('submit') != NULL) {
-      $nobukti                 = $this->input->post('nobukti');
-      $tgl_retur               = $this->input->post('tgl_retur');
-      $data   = array(
-        'nobukti'               => $nobukti,
-        'tgl_retur'             => $tgl_retur,
-      );
-      $this->session->set_userdata($data);
-    } else {
-
-      if ($this->session->userdata('nobukti') != NULL) {
-        $nobukti = $this->session->userdata('nobukti');
-      }
-
-      if ($this->session->userdata('tgl_retur') != NULL) {
-        $tgl_retur = $this->session->userdata('tgl_retur');
-      }
-    }
-    $rowperpage = 10;
-    if ($rowno != 0) {
-      $rowno = ($rowno - 1) * $rowperpage;
-    }
-    $allcount                     = $this->Model_gudangbahan->getrecordreturCount($nobukti, $tgl_retur);
-    $users_record                 = $this->Model_gudangbahan->getDataretur($rowno, $rowperpage, $nobukti, $tgl_retur);
-    $config['base_url']           = base_url() . 'gudangbahan/retur';
-    $config['use_page_numbers']   = TRUE;
-    $config['total_rows']         = $allcount;
-    $config['per_page']           = $rowperpage;
-    $config['first_link']         = 'First';
-    $config['last_link']          = 'Last';
-    $config['next_link']          = 'Next';
-    $config['prev_link']          = 'Prev';
-    $config['full_tag_open']      = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
-    $config['full_tag_close']     = '</ul></nav></div>';
-    $config['num_tag_open']       = '<li class="page-item"><span class="page-link">';
-    $config['num_tag_close']      = '</span></li>';
-    $config['cur_tag_open']       = '<li class="page-item active"><span class="page-link">';
-    $config['cur_tag_close']      = '<span class="sr-only">(current)</span></span></li>';
-    $config['next_tag_open']      = '<li class="page-item"><span class="page-link">';
-    $config['next_tagl_close']    = '<span aria-hidden="true">&raquo;</span></span></li>';
-    $config['prev_tag_open']      = '<li class="page-item"><span class="page-link">';
-    $config['prev_tagl_close']    = '</span>Next</li>';
-    $config['first_tag_open']     = '<li class="page-item"><span class="page-link">';
-    $config['first_tagl_close']   = '</span></li>';
-    $config['last_tag_open']      = '<li class="page-item"><span class="page-link">';
-    $config['last_tagl_close']    = '</span></li>';
-    $this->pagination->initialize($config);
-    $data['pagination']           = $this->pagination->create_links();
-    $data['result']               = $users_record;
-    $data['row']                  = $rowno;
-    $data['nobukti']              = $nobukti;
-    $data['tgl_retur']            = $tgl_retur;
-    $this->template->load('template/template', 'gudangbahan/retur', $data);
-  }
-
 
   function dotoko($rowno = 0)
   {
