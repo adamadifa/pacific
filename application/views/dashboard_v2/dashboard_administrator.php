@@ -45,12 +45,11 @@
                       </select>
                     </div>
                     <div class="row">
-                      <div class="col-md-6 mb-2">
-                        <a href="#" id="tampilkanpenjualancashin" class="btn btn-primary btn-block">Tampilkan Rekap Penjualan & Cash IN</a>
+                      <div class="col-md-12">
+                        <a href="#" id="tampilkanpenjualancashin" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                        <a href="#" id="hidepenjualancashin" class="btn btn-danger"><i class="fa fa-eye-slash"></i></a>
                       </div>
-                      <div class="col-md-6">
-                        <a href="#" id="hidepenjualancashin" class="btn btn-danger btn-block">Sembunyikan Rekap Penjualan & Cash IN</a>
-                      </div>
+
                     </div>
                   </div>
                 </div>
@@ -109,11 +108,10 @@
                       </select>
                     </div>
                     <div class="row">
-                      <div class="col-md-6 mb-2">
-                        <a href="#" id="tampilkankendaraan" class="btn btn-primary btn-block">Tampilkan Rekap Kendaraan</a>
-                      </div>
-                      <div class="col-md-6">
-                        <a href="#" id="hidekendaraan" class="btn btn-danger btn-block">Sembunyikan Rekap Kendaraan</a>
+                      <div class="col-md-12">
+                        <a href="#" id="tampilkankendaraan" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                        <a href="#" id="hidekendaraan" class="btn btn-danger"><i class="fa fa-eye-slash"></i></a>
+
                       </div>
                     </div>
                   </div>
@@ -174,11 +172,9 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-6 mb-2">
-                  <a href="#" id="tampilkanaup" class="btn btn-primary btn-block">Tampilkan AUP</a>
-                </div>
-                <div class="col-md-6">
-                  <a href="#" id="hideaup" class="btn btn-danger btn-block">Sembunyikan AUP</a>
+                <div class="col-md-12 mb-2">
+                  <a href="#" id="tampilkanaup" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                  <a href="#" id="hideaup" class="btn btn-danger"><i class="fa fa-eye-slash"></i></a>
                 </div>
               </div>
               <div class="row">
@@ -189,6 +185,69 @@
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header bg-dark text-white">
+              <h4 class="card-title">Rekap DPPP</h4>
+            </div>
+            <div class="card-body">
+              <?php
+              $level_user = $this->session->userdata('level_user');
+              if ($level_user == "Administrator") {
+              ?>
+                <div class="row mb-4">
+                  <div class="col-md-12">
+                    <div class="row mb-3">
+                      <select name="cabangdppp" id="cabangdppp" class="form-select">
+                        <option value="">Semua Cabang</option>
+                        <?php foreach ($cabang as $c) { ?>
+                          <option value="<?php echo $c->kode_cabang; ?>"><?php echo strtoupper($c->nama_cabang); ?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                    <div class="row sm mb-3">
+                      <select name="bulandppp" id="bulandppp" class="form-select">
+                        <option value="">Bulan</option>
+                        <?php for ($a = 1; $a <= 12; $a++) { ?>
+                          <option <?php if (date("m") == $a) {
+                                    echo "selected";
+                                  } ?> value="<?php echo $a;  ?>"><?php echo $bulan[$a]; ?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                    <div class="row sm mb-3">
+                      <select name="tahundppp" id="tahundppp" class="form-select">
+                        <option value="">Tahun</option>
+                        <?php for ($t = 2019; $t <= $tahun; $t++) { ?>
+                          <option <?php if (date("Y") == $t) {
+                                    echo "selected";
+                                  } ?> value="<?php echo $t;  ?>"><?php echo $t; ?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <a href="#" id="tampilkandppp" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                        <a href="#" id="hidedppp" class="btn btn-danger"><i class="fa fa-eye-slash"></i></a>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="table-responsive mb-4">
+                      <div id="loaddppp">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <?php } ?>
             </div>
           </div>
         </div>
@@ -285,6 +344,29 @@
       });
     }
 
+    function loaddppp() {
+      var cabang = $("#cabangdppp").val();
+      var bulan = $("#bulandppp").val();
+      var tahun = $("#tahundppp").val();
+
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>dashboard/dppp',
+        data: {
+          bulan: bulan,
+          tahun: tahun,
+          cabang: cabang
+        },
+        cache: false,
+        success: function(respond) {
+          setTimeout(function() {
+            loading.modal("hide");
+          }, 1000);
+          $("#loaddppp").html(respond);
+        }
+      });
+    }
+
     function loadaup() {
       var cabang = $("#cabangaup").val();
       var tanggal_aup = $("#tanggal_aup").val();
@@ -304,6 +386,16 @@
       });
     }
 
+    $("#tampilkandppp").click(function(e) {
+      e.preventDefault();
+      loaddppp();
+      $("#loaddppp").show();
+    });
+
+    $("#hidedppp").click(function(e) {
+      e.preventDefault();
+      $("#loaddppp").hide();
+    });
     $("#tampilkanpenjualancashin").click(function(e) {
       e.preventDefault();
       loadrekappenjualan();
