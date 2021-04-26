@@ -20,14 +20,14 @@ function persentase($nilai)
       <th colspan="5">Sampai Dengan Bulan</th>
     </tr>
     <tr>
-      <th>Real</th>
+      <th>Real <?php echo $tahunlalu; ?></th>
       <th>Target</th>
-      <th>Real</th>
+      <th>Real <?php echo $tahunini; ?></th>
       <th>Ach %</th>
       <th>Grw %</th>
-      <th>Real</th>
+      <th>Real <?php echo $tahunlalu; ?></th>
       <th>Target</th>
-      <th>Real</th>
+      <th>Real <?php echo $tahunini; ?></th>
       <th>Ach %</th>
       <th>Grw %</th>
     </tr>
