@@ -1,8 +1,5 @@
 <?php
 
-/**
- *
- */
 class Model_pembelian extends CI_Model
 {
 
@@ -199,6 +196,25 @@ class Model_pembelian extends CI_Model
 
     $this->db->where('nobukti_retur', $nobukti);
     $this->db->update('retur_gb', $data);
+
+  }
+
+  function insert_retur()
+  {
+
+    $kode_retur             = $this->input->post('kode_retur');
+    $tanggal                = $this->input->post('tanggal');
+    $kode_supplier          = $this->input->post('kode_supplier');
+
+    $data = array(
+
+      'kode_retur'      => $kode_retur,
+      'tanggal'         => $tanggal,
+      'kode_supplier'   => $kode_supplier,
+    );
+
+    $this->db->where('kode_retur', $kode_retur);
+    $this->db->update('retur_pembelian', $data);
 
   }
 

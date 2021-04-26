@@ -166,6 +166,12 @@ class Pembelian extends CI_Controller
     $this->Model_pembelian->insert_returproduksi();
   }
 
+  function insert_retur()
+  {
+
+    $this->Model_pembelian->insert_retur();
+  }
+
   function batalapprove()
   {
 

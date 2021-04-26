@@ -1,4 +1,4 @@
-<form autocomplete="off" class="formValidate" id="" method="POST" action="<?php echo base_url(); ?>gudangbahan/insert_retur">
+<form autocomplete="off" class="formValidate" id="" method="POST" action="<?php echo base_url(); ?>pembelian/insert_retur">
   <div class="container-fluid">
     <!-- Page title -->
     <div class="page-header">
@@ -172,9 +172,11 @@
                             <th>Keterangan</th>
                             <th>Bruto</th>
                             <th>Berat Roll</th>
+                            <th>Netto</th>
                             <th>Berat PCS</th>
                             <th>Tinggi</th>
                             <th>Panjang</th>
+                            <th>Jml Meter</th>
                             <th>Aksi</th>
                           </tr>
                         </thead>
@@ -193,7 +195,7 @@
           </div>
         </div>
         <div class="col-md-2">
-          <?php $this->load->view('menu/menu_gudangbahan_administrator'); ?>
+          <?php $this->load->view('menu/menu_pembelian_administrator'); ?>
         </div>
       </div>
     </div>
