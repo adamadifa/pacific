@@ -282,4 +282,13 @@ class Dashboard extends CI_Controller
     $data['kendaraan'] = $this->Model_dashboard->rekapkendaraan($cabang, $bulan, $tahun)->result();
     $this->load->view('dashboard_v2/load_kendaraan', $data);
   }
+
+  function dppp()
+  {
+    $cabang = $this->input->post('cabang');
+    $bulan = $this->input->post('bulan');
+    $tahun = $this->input->post('tahun');
+    $data['dppp'] = $this->Model_dashboard->dppp($cabang, $bulan, $tahun)->result();
+    $this->load->view('dashboard_v2/load_dppp', $data);
+  }
 }
