@@ -202,17 +202,19 @@ class Model_pembelian extends CI_Model
   function insert_retur()
   {
 
-    $kode_retur              = $this->input->post('kode_retur');
-    $tgl_approve_pemb     = $this->input->post('tgl_approve_pemb');
+    $kode_retur             = $this->input->post('kode_retur');
+    $tanggal                = $this->input->post('tanggal');
+    $kode_supplier          = $this->input->post('kode_supplier');
 
     $data = array(
 
-      'kode_retur_retur'      => $kode_retur,
-      'tgl_approve_pemb'   => $tgl_approve_pemb,
+      'kode_retur'      => $kode_retur,
+      'tanggal'         => $tanggal,
+      'kode_supplier'   => $kode_supplier,
     );
 
     $this->db->where('kode_retur', $kode_retur);
-    $this->db->update('retur_gb', $data);
+    $this->db->update('retur_pembelian', $data);
 
   }
 
