@@ -542,4 +542,28 @@ class Model_dashboard extends CI_Model
 
 		return $this->db->query($query);
 	}
+
+	function cek_pengajuan()
+	{
+		$cabang = $this->session->userdata('cabang');
+		$level_user = $this->session->userdata('level_user');
+		if ($level_user == "Administrator") {
+			$query = "SELECT * FROM pengajuan_limitkredit_v2 WHERE
+			no_pengajuan IN (SELECT max(no_pengajuan) as no_pengajuan FROM pengajuan_limitkredit_v2 GROUP BY kode_pelanggan) AND gm IS NOT NULL AND dirut IS NULL AND status = 0";
+		} else if ($level_user == "kepala cabang") {
+			$query = "SELECT * FROM pengajuan_limitkredit_v2 
+			INNER JOIN pelanggan ON pengajuan_limitkredit_v2.kode_pelanggan = pelanggan.kode_pelanggan
+			WHERE
+			pelanggan.kode_cabang = '$cabang' AND
+			no_pengajuan IN (SELECT max(no_pengajuan) as no_pengajuan FROM pengajuan_limitkredit_v2 GROUP BY kode_pelanggan) AND kacab IS NULL AND status = 0";
+		} else if ($level_user == "manager marketing") {
+			$query = "SELECT * FROM pengajuan_limitkredit_v2 WHERE
+			no_pengajuan IN (SELECT max(no_pengajuan) as no_pengajuan FROM pengajuan_limitkredit_v2 GROUP BY kode_pelanggan) AND kacab IS NOT NULL AND mm IS NULL AND status = 0";
+		} else if ($level_user == "general manager") {
+			$query = "SELECT * FROM pengajuan_limitkredit_v2 WHERE
+			no_pengajuan IN (SELECT max(no_pengajuan) as no_pengajuan FROM pengajuan_limitkredit_v2 GROUP BY kode_pelanggan) AND mm IS NOT NULL AND gm IS NULL AND status = 0";
+		}
+
+		return $this->db->query($query);
+	}
 }

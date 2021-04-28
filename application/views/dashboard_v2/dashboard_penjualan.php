@@ -9,6 +9,31 @@
       </div>
     </div>
   </div>
+  <?php
+  $level_user = $this->session->userdata('level_user');
+  if ($level_user == "kepala cabang") {
+  ?>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card card-sm">
+          <div class="card-body d-flex align-items-center">
+            <span class="bg-red text-white stamp mr-3" style="height:6rem !important; min-width:6rem !important ">
+              <i class="fa f fa-file-text" style="font-size: 3rem;"></i>
+            </span>
+            <div>
+              <form id="form" action="<?php echo base_url(); ?>penjualan/approvallimitv2" method="post">
+                <input type="hidden" name="status" value="-">
+                <a href="javascript:;" onclick="parentNode.submit();">
+                  <b style="font-size: 25px;"><?php echo number_format($cekpengajuan, '0', '', '.'); ?> Ajuan Kredit</b><br>
+                  <font color="#a0a2a5">Menunggu Persetujuan Kepala Cabang</font>
+                </a>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <?php } ?>
   <div class="row">
     <div class="col-md-12">
       <div class="card">
@@ -21,6 +46,7 @@
       </div>
     </div>
   </div>
+
   <div class="row">
     <div class="col-md-4">
       <div class="card">

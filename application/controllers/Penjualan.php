@@ -2203,6 +2203,15 @@ class Penjualan extends CI_Controller
 
   function approvallimitv2($rowno = 0)
   {
+    if (isset($_POST['status'])) {
+      $status   = $this->input->post('status');
+      $data   = array(
+        'status'      => $status
+      );
+      $this->session->set_userdata($data);
+    } else {
+      $status   = "";
+    }
     // Search text
     $dari           = "";
     $sampai         = "";
@@ -2210,7 +2219,7 @@ class Penjualan extends CI_Controller
     $pelanggan      = "";
     $approval       = "";
     $cbg            = "";
-    $status         = "";
+
     if ($this->input->post('submit') != NULL) {
       $dari     = $this->input->post('dari');
       $sampai   = $this->input->post('sampai');
