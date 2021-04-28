@@ -26,7 +26,6 @@ class Model_maintenance extends CI_Model
       $this->db->where('maintenance.status', $status);
     }
 
-    $this->db->limit(20);
     $query = $this->db->get();
     return $query->result_array();
   }

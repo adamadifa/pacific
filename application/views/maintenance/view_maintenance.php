@@ -53,7 +53,7 @@
                 </div>
               </div>
             </div>
-            <div class="mb-3">
+            <!-- <div class="mb-3">
                 <div class="col-md-2">
                   <select name="cabang" id="cabang" class="form-select">
                     <option value="">-- Status --</option>
@@ -64,7 +64,7 @@
                     <option value="4">Selesai</option>
                   </select>
                 </div>
-              </div>
+              </div> -->
             <div class="mb-3 d-flex justify-content-start">
               <button type="submit" name="submit" class="btn btn-primary mr-2 btn-block" value="1"><i class="fa fa-search mr-2"></i>CARI</button>
             </div>
@@ -73,21 +73,21 @@
             <a href="<?php echo base_url();?>maintenance/input_maintenance" class="btn btn-primary">TAMBAH DATA</a>
           </div>
           <div class="table-responsive">
-            <table class="table  table-striped table-hover" style="zoom:90%">
+            <table style="zoom:90%" class="table table-bordered table-striped table-hover" id="mytable">
               <thead class="thead-dark">
                 <tr>
-                  <th>No</th>
-                  <th>No Bukti</th>
+                  <th style="width: 2%;">No</th>
+                  <th style="width: 7%;">No Bukti</th>
                   <th>Nama Pemohon</th>
-                  <th>Tanggal Pengajuan</th>
-                  <th>Tanggal Input</th>
-                  <th>Tanggal Selesai</th>
-                  <th>Dibuat</th>
-                  <th>Departemen</th>
+                  <th style="width: 11%;">Tgl Mengajukan</th>
+                  <th style="width: 10%;">Tgl Input</th>
+                  <th style="width: 10%;">Tgl Selesai</th>
+                  <th style="width: 10%;">Dibuat</th>
+                  <th style="width: 13%;">Departemen</th>
                   <!-- <th>Jenis Permohonan</th> -->
-                  <th>Keterangan</th>
-                  <th>Status</th>
-                  <th>Aksi</th>
+                  <!-- <th>Keterangan</th> -->
+                  <th style="width: 5%;">Status</th>
+                  <th style="width: 7%;">Aksi</th>
                 </tr>
               </thead>
               <tbody>
@@ -104,8 +104,6 @@
                     <td><?php echo $d['tanggal_selesai']; ?></td>
                     <td><?php echo $d['nama_lengkap']; ?></td>
                     <td><?php echo $d['departemen']; ?></td>
-                    <!-- <td><?php echo $d['jenis_permohonan']; ?></td> -->
-                    <td><?php echo substr($d['keterangan'],0,50); ?></td>
                     <td>
                       <?php
                       if ($d['status'] == "1") {
@@ -189,6 +187,9 @@
 </script>
 <script>
   $(document).ready(function() {
+    $('#mytable').DataTable({
+            responsive: true
+        });
     $('.detail').click(function(e) {
       e.preventDefault();
       var kode_pengajuan = $(this).attr('data-kode_pengajuan');

@@ -35,7 +35,7 @@
                       <span class="input-icon-addon">
                         <i class="fa fa-calendar-o"></i>
                       </span>
-                      <input type="text" id="tgl_retur" name="tgl_retur" class="form-control datepicker date" placeholder="Tanggal Retur" data-error=".errorTxt19" />
+                      <input type="text" id="tanggal" name="tanggal" class="form-control datepicker date" placeholder="Tanggal Retur" data-error=".errorTxt19" />
                     </div>
                   </div>
 
@@ -44,7 +44,7 @@
                       <span class="input-icon-addon">
                         <i class="fa fa-list"></i>
                       </span>
-                      <select class="form-control show-tick" id="supplier" name="supplier" data-error=".errorTxt1">
+                      <select class="form-control show-tick" id="kode_supplier" name="kode_supplier" data-error=".errorTxt1">
                         <option value="">--SUPPLIER--</option>
                         <option value="SP0186">SURYA BUANA CV</option>
                         <option value="SP0142">PT PURINUSA EKA PERSADA</option>
@@ -218,7 +218,7 @@
 </div>
 
 <script>
-  flatpickr(document.getElementById('tgl_retur'), {});
+  flatpickr(document.getElementById('tanggal'), {});
 </script>
 
 <script>

@@ -57,17 +57,32 @@ function uang($nilai)
               <thead class="thead-dark">
                 <tr>
                   <th width="10px">No</th>
-                  <th width="150px">No Bukti</th>
-                  <th>Tgl Masuk</th>
-                  <th>Tgl Approve GB</th>
-                  <th>Tgl Approve Pemb</th>
+                  <th width="200px">Kode Retur</th>
+                  <th width="150px">Tanggal Retur</th>
+                  <th width="200px">Kode Supplier</th>
                   <th>Supplier</th>
-                  <th>Jenis Retur</th>
-                  <th width="190px">Aksi</th>
+                  <th width="100px">Aksi</th>
                 </tr>
               </thead>
               <tbody>
-               
+                  <?php 
+                  $no = 1;
+                  foreach ($result as $key => $d) { 
+                    $kode_retur = str_replace("/", ".", $d['kode_retur']);
+                    
+                    ?>
+                    <tr>
+                      <td><?php echo $no++;?></td>
+                      <td><?php echo $d['kode_retur'];?></td>
+                      <td><?php echo $d['tanggal'];?></td>
+                      <td><?php echo $d['kode_supplier'];?></td>
+                      <td><?php echo $d['nama_supplier'];?></td>
+                      <td>
+                        <a href="#" data-kode="<?php echo $d['kode_retur'];?>" class="btn btn-primary btn-sm detail"><i class="fa fa-list"></i></a>
+                        <a href="#" data-href="<?php echo base_url();?>pembelian/hapus_retur_pembelian/<?php echo $kode_retur;?>" class="btn btn-danger btn-sm hapus"><i class="fa fa-trash"></i></a>
+                      </td>
+                    </tr>
+                  <?php } ?>
               </tbody>
             </table>
             <div style='margin-top: 10px;'>
@@ -78,7 +93,7 @@ function uang($nilai)
       </div>
     </div>
     <div class="col-md-2">
-      <?php $this->load->view('menu/menu_gudangbahan_administrator'); ?>
+      <?php $this->load->view('menu/menu_pembelian_administrator'); ?>
     </div>
   </div>
 </div>
@@ -110,12 +125,12 @@ function uang($nilai)
 
     $('.detail').click(function(e) {
       e.preventDefault();
-      var nobukti = $(this).attr('data-nobukti');
+      var kode_retur = $(this).attr('data-kode');
       $.ajax({
         type: 'POST',
-        url: '<?php echo base_url(); ?>gudangbahan/detail_retur',
+        url: '<?php echo base_url(); ?>pembelian/detail_retur',
         data: {
-          nobukti: nobukti
+          kode_retur: kode_retur
         },
         cache: false,
         success: function(respond) {

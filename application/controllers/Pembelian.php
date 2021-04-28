@@ -11,19 +11,19 @@ class Pembelian extends CI_Controller
   function returpembelian($rowno = 0)
   {
 
-    $kode_retur          = "";
-    $tanggal        = "";
+    $kode_retur           = "";
+    $tanggal              = "";
     $kode_supplier        = "";
 
     if ($this->input->post('submit') != NULL) {
 
-      $kode_retur                  = $this->input->post('kode_retur');
-      $tanggal                = $this->input->post('tanggal');
+      $kode_retur                   = $this->input->post('kode_retur');
+      $tanggal                      = $this->input->post('tanggal');
       $kode_supplier                = $this->input->post('kode_supplier');
 
       $data   = array(
-        'kode_retur'               => $kode_retur,
-        'tanggal'             => $tanggal,
+        'kode_retur'                => $kode_retur,
+        'tanggal'                   => $tanggal,
         'kode_supplier'             => $kode_supplier
       );
       $this->session->set_userdata($data);
@@ -47,7 +47,7 @@ class Pembelian extends CI_Controller
     }
     $allcount                     = $this->Model_pembelian->getrecordReturCount($kode_retur, $tanggal, $kode_supplier);
     $users_record                 = $this->Model_pembelian->getDataRetur($rowno, $rowperpage, $kode_retur, $tanggal, $kode_supplier);
-    $config['base_url']           = base_url() . 'pembelian/retur';
+    $config['base_url']           = base_url() . 'pembelian/returpembelian';
     $config['use_page_numbers']   = TRUE;
     $config['total_rows']         = $allcount;
     $config['per_page']           = $rowperpage;
@@ -83,13 +83,13 @@ class Pembelian extends CI_Controller
   {
 
     $nobukti          = "";
-    $tgl_retur  = "";
+    $tgl_retur        = "";
     $kode_dept        = "";
 
     if ($this->input->post('submit') != NULL) {
 
       $nobukti                  = $this->input->post('nobukti');
-      $tgl_retur          = $this->input->post('tgl_retur');
+      $tgl_retur                = $this->input->post('tgl_retur');
       $kode_dept                = $this->input->post('kode_dept');
 
       $data   = array(
@@ -160,6 +160,15 @@ class Pembelian extends CI_Controller
     $this->load->view('pembelian/detail_returproduksi', $data);
   }
 
+  
+  function detail_retur()
+  {
+
+    $data['data']       = $this->Model_pembelian->getRetur()->row_array();
+    $data['detail']     = $this->Model_pembelian->getDetailRetur()->result();
+    $this->load->view('pembelian/detail_retur', $data);
+  }
+
   function insert_returproduksi()
   {
 
@@ -170,6 +179,7 @@ class Pembelian extends CI_Controller
   {
 
     $this->Model_pembelian->insert_retur();
+    redirect('pembelian/returpembelian');
   }
 
   function batalapprove()
@@ -375,6 +385,12 @@ class Pembelian extends CI_Controller
   function hapus_detailbpb_temp()
   {
     $this->Model_pembelian->hapus_detailbpb_temp();
+  }
+
+  function hapus_retur_pembelian()
+  {
+    $this->Model_pembelian->hapus_retur_pembelian();
+    redirect('pembelian/returpembelian');
   }
 
 

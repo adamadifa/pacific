@@ -205,6 +205,7 @@ class Model_pembelian extends CI_Model
     $kode_retur             = $this->input->post('kode_retur');
     $tanggal                = $this->input->post('tanggal');
     $kode_supplier          = $this->input->post('kode_supplier');
+    $id_user                = $this->session->userdata('id_user');
 
     $data = array(
 
@@ -213,8 +214,24 @@ class Model_pembelian extends CI_Model
       'kode_supplier'   => $kode_supplier,
     );
 
-    $this->db->where('kode_retur', $kode_retur);
-    $this->db->update('retur_pembelian', $data);
+    $this->db->insert('retur_pembelian', $data);
+
+    $detail = $this->db->get_where('detail_retur_pembelian_temp', array('id_user' => $id_user))->result();
+      foreach ($detail as $d) {
+        $data = array(
+          'kode_retur'        => $kode_retur,
+          'kode_barang'       => $d->kode_barang,
+          'bruto'             => $d->bruto,
+          'berat_roll'        => $d->berat_roll,
+          'berat_pcs'         => $d->berat_pcs,
+          'tinggi'            => $d->tinggi,
+          'panjang'           => $d->panjang,
+          'keterangan'        => $d->keterangan
+        );
+
+        $this->db->insert('detail_retur_pembelian', $data);
+      }
+      $this->db->delete('detail_retur_pembelian_temp', array('id_user' => $id_user));
 
   }
 
@@ -232,6 +249,22 @@ class Model_pembelian extends CI_Model
     $nobukti            = $this->input->post('nobukti');
     $this->db->join('master_barang_pembelian', 'detail_retur_gb.kode_barang = master_barang_pembelian.kode_barang');
     return $this->db->get_where('detail_retur_gb', array('detail_retur_gb.nobukti_retur' => $nobukti));
+  }
+
+  function getRetur()
+  {
+
+    $nobukti            = $this->input->post('kode_retur');
+    $this->db->join('supplier', 'supplier.kode_supplier = retur_pembelian.kode_supplier');
+    return $this->db->get_where('retur_pembelian', array('retur_pembelian.kode_retur' => $nobukti));
+  }
+
+  function getDetailRetur()
+  {
+
+    $nobukti            = $this->input->post('kode_retur');
+    $this->db->join('master_barang_pembelian', 'detail_retur_pembelian.kode_barang = master_barang_pembelian.kode_barang');
+    return $this->db->get_where('detail_retur_pembelian', array('detail_retur_pembelian.kode_retur' => $nobukti));
   }
 
   function batalapprove()
@@ -296,6 +329,7 @@ class Model_pembelian extends CI_Model
 
     $this->db->select('count(*) as allcount');
     $this->db->from('retur_pembelian');
+    $this->db->join('supplier','retur_pembelian.kode_supplier=supplier.kode_supplier');
     $this->db->order_by('tanggal', 'desc');
 
     if ($kode_retur != '') {
@@ -316,6 +350,7 @@ class Model_pembelian extends CI_Model
 
     $this->db->select('*');
     $this->db->from('retur_pembelian');
+    $this->db->join('supplier','retur_pembelian.kode_supplier=supplier.kode_supplier');
     $this->db->order_by('tanggal', 'desc');
 
     if ($kode_retur != '') {
@@ -765,6 +800,22 @@ class Model_pembelian extends CI_Model
       </div>'
       );
       redirect('pembelian/permintaanbarang');
+    }
+  }
+
+  function hapus_retur_pembelian()
+  {
+    $kode_retur = str_replace(".", "/", $this->uri->segment(3));
+    $hapus = $this->db->delete('retur_pembelian', array('kode_retur' => $kode_retur));
+    if ($hapus) {
+      return $this->db->delete('detail_retur_pembelian', array('kode_retur' => $kode_retur));
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-green text-white alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <i class="fa fa-check"></i> Data Berhasil di Hapus !
+      </div>'
+      );
     }
   }
 
