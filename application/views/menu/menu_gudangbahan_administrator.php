@@ -30,7 +30,7 @@ if ($level == 'Administrator' || $level == 'admin gudang bahan') { ?>
         <i class="fa  fa-table mr-2"></i>SALDO AWAL RETUR
       </a>
       <a href="<?php echo base_url(); ?>gudangbahan/returproduksi" class="list-group-item list-group-item-action">
-        <i class="fa  fa-share mr-2"></i>RETUR PRODUKSI
+        <i class="fa  fa-share mr-2"></i>APPROVEL RETUR
       </a>
       <a href="<?php echo base_url(); ?>gudangbahan/retur" class="list-group-item list-group-item-action">
         <i class="fa  fa-share mr-2"></i>RETUR

@@ -29,15 +29,15 @@ font-family:Arial;}
 
 </style>
 	
-<table border="0" width="100%">
+<table border="0" width="100%" style="margin-top: 10px">
 <tr>
 	<td style="width:150px">
 		<table class="garis5">
 			<tr>
-				<td>SURAT JALAN</td>
+				<td>SURAT JALAN RETUR</td>
 			</tr>
 			<tr>
-				<td>NOMOR <?php echo $faktur['no_fak_penj'] ?></td>
+				<td>NOMOR <?php echo $faktur['kode_retur'] ?></td>
 			
 			</tr>
 		</table>
@@ -55,12 +55,12 @@ font-family:Arial;}
 
 <tr>
 	<td>&nbsp;</td>
-	<td width="15%">Tgl Faktur</td>
+	<td width="15%">Tgl Retur</td>
 	<td width="1%">:</td>
-	<td width="40%"><?php echo DatetoIndo2($faktur['tgltransaksi']); ?></td>
-	<td>Nama Customer</td>
+	<td width="40%"><?php echo DatetoIndo2($faktur['tanggal']); ?></td>
+	<td>Nama Supplier</td>
 	<td>:</td>
-	<td><?php echo $faktur['nama_pelanggan']; ?></td>
+	<td><?php echo $faktur['nama_supplier']; ?></td>
 </tr>
 <tr>
 	<td>&nbsp;</td>
@@ -69,67 +69,60 @@ font-family:Arial;}
 	<td></td>
 	<td>Alamat</td>
 	<td>:</td>
-	<td><?php echo $faktur['alamat_pelanggan']; ?></td>
+	<td><?php echo $faktur['alamat_supplier']; ?></td>
 </tr>
 
 <tr>
 	<td colspan="7">
 
-		<table class="garis5" width="100%">
-				<thead>
-					<tr>
-						<th rowspan="2">NO</th>
-						<th rowspan="2">KODE BARANG</th>
-						<th rowspan="2">NAMA BARANG</th>
-						
-						<th colspan="3">JUMLAH</th>
-						
-					</tr>
-					<tr>
-						<th>BOX</th>
-						<th>PACK</th>
-						<th>PCS</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php 
-						$no=1; foreach($barang as $b){ 
-						$jmldus     = floor($b->jumlah / $b->isipcsdus);
-                        $sisadus    = $b->jumlah % $b->isipcsdus;
-
-                        if($b->isipack == 0){
-                            $jmlpack    = 0;
-                            $sisapack   = $sisadus;   
-                        }else{
-
-                            $jmlpack    = floor($sisadus / $b->isipcs);  
-                            $sisapack   = $sisadus % $b->isipcs;  
-                        }
-
-                        $jmlpcs = $sisapack;
-
-
-					?>
-						<tr>
-							<td align="center"><?php echo $no; ?></td>
-							<td><?php echo $b->kode_barang; ?></td>
-							<td><?php echo $b->nama_barang; ?></td>
-							
-							<td align="center"><?php echo $jmldus; ?></td>
-							<td align="center"><?php echo $jmlpack; ?></td>
-							<td align="center"><?php echo $jmlpcs; ?></td>
-							
-						</tr>
-					<?php $no++; } ?>
-						
-				</tbody>
+		<table class="garis5" width="100%" style="margin-top: 50px;">
+			<thead class="thead-dark">
+				<tr>
+					<th>No</th>
+					<th>Kode Barang</th>
+					<th>Nama Barang</th>
+					<th>Keterangan</th>
+					<?php if($faktur['kode_supplier'] == "SP0185" || $faktur['kode_supplier'] == "SP0140"){ ?>
+						<th>Bruto</th>
+						<th>Berat Roll</th>
+						<th>Netto</th>
+						<th>Berat PCS</th>
+						<th>Tinggi</th>
+						<th>Panjang</th>
+					<?php } ?>
+					<th>Jumlah</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php 
+				$no = 1;
+				foreach ($barang as $key => $d) { 
+				$netto = $d->bruto-$d->berat_roll;
+			?>
+				<tr>
+					<td><?php echo $no; ?></td>
+					<td><?php echo $d->kode_barang; ?></td>
+					<td><?php echo $d->nama_barang; ?></td>
+					<td><?php echo $d->keterangan; ?></td>
+					<?php if($faktur['kode_supplier'] == "SP0185" || $faktur['kode_supplier'] == "SP0140"){ ?>
+						<td align="right"><?php echo number_format($d->bruto, 2); ?></td>
+						<td><?php echo number_format($d->berat_roll, 2); ?></td>
+						<td><?php echo number_format($netto, 2); ?></td>
+						<td><?php echo number_format($d->berat_pcs, 2); ?></td>
+						<td><?php echo number_format($d->tinggi, 2); ?></td>
+						<td><?php echo number_format($d->panjang, 2); ?></td>
+					<?php } ?>
+					<td><?php echo number_format($d->jumlah, 2); ?></td>
+				</tr>
+			<?php  } ?>
+			</tbody>
 
 		</table>
 		
 	</td>
 </tr>
 <tr>
-	<table class="garis5" width="100%">
+	<table class="garis5" width="100%"  style="margin-top: 50px;">
 		<tr style="font-weight:bold; text-align:center">
 			<td>Dibuat</td>
 			<td>Diserahkan</td>
@@ -151,9 +144,9 @@ font-family:Arial;}
 			<td style="font-weight:bold; text-align:center" >Jam Keluar</td>
 		</tr>
 		<tr style="font-weight:bold; text-align:center">
-			<td>Penjualan</td>
+			<td>Pembelian</td>
 			<td>Pengemudi</td>
-			<td>Pelanggan</td>
+			<td>Supplier</td>
 			<td>Security</td>
 			<td></td>
 		</tr>
@@ -162,4 +155,4 @@ font-family:Arial;}
 </table>
 <br>
 
-<p style="font-weight: bold; font-size: 18px"><i>Catatan : Mohon tidak untuk menulis Retur / Bs di surat Jalan !</i></p>
+<!-- <p style="font-weight: bold; font-size: 18px"><i>Catatan : Mohon tidak untuk menulis Retur / Bs di surat Jalan !</i></p> -->

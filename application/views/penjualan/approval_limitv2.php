@@ -373,7 +373,8 @@ $level = $this->session->userdata('level_user');
                     </td>
                     <td>
                       <a href="<?php echo base_url(); ?>penjualan/cetak_ajuankredit/<?php echo $d['no_pengajuan']; ?>" class="btn btn-primary btn-sm"><i class="fa fa-print"></i></a>
-                      <a href="#" data-nopengajuan="<?php echo $d['no_pengajuan']; ?>" id="" class="btn btn-primary btn-sm inputkomentar"><i class="fa fa-wechat "></i></a>
+
+                      <a href="#" data-nopengajuan="<?php echo $d['no_pengajuan']; ?>" id="inputkomentar" class="btn btn-primary btn-sm inputkomentar"><i class="fa fa-wechat "></i></a>
                       <?php
 
                       if (

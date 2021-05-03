@@ -64,7 +64,7 @@
                   </div>
                   <div class="form-group mb-3">
                     <select class="form-select show-tick" id="jenistransaksi" name="jenistransaksi" data-error=".errorTxt1">
-                      <option value="">--Jenis Transaksi--</option>
+                      <option value="">-- Jenis Transaksi --</option>
                       <option value="tunai">Tunai</option>
                       <option value="kredit">Kredit</option>
                     </select>

@@ -9,6 +9,73 @@
       </div>
     </div>
   </div>
+  <?php
+  $level_user = $this->session->userdata('level_user');
+  if ($level_user == "Administrator") {
+  ?>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card card-sm">
+          <div class="card-body d-flex align-items-center">
+            <span class="bg-red text-white stamp mr-3" style="height:6rem !important; min-width:6rem !important ">
+              <i class="fa f fa-file-text" style="font-size: 3rem;"></i>
+            </span>
+            <div>
+              <form id="form" action="<?php echo base_url(); ?>penjualan/approvallimitv2" method="post">
+                <input type="hidden" name="status" value="-">
+                <a href="javascript:;" onclick="parentNode.submit();">
+                  <b style="font-size: 25px;"><?php echo number_format($cekpengajuan, '0', '', '.'); ?> Ajuan Kredit</b><br>
+                  <font color="#a0a2a5">Menunggu Persetujuan Direktur</font>
+                </a>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <?php } else  if ($level_user == "manager marketing") { ?>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card card-sm">
+          <div class="card-body d-flex align-items-center">
+            <span class="bg-red text-white stamp mr-3" style="height:6rem !important; min-width:6rem !important ">
+              <i class="fa f fa-file-text" style="font-size: 3rem;"></i>
+            </span>
+            <div>
+              <form id="form" action="<?php echo base_url(); ?>penjualan/approvallimitv2" method="post">
+                <input type="hidden" name="status" value="-">
+                <a href="javascript:;" onclick="parentNode.submit();">
+                  <b style="font-size: 25px;"><?php echo number_format($cekpengajuan, '0', '', '.'); ?> Ajuan Kredit</b><br>
+                  <font color="#a0a2a5">Menunggu Persetujuan Marketing</font>
+                </a>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <?php } else  if ($level_user == "general manager") { ?>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card card-sm">
+          <div class="card-body d-flex align-items-center">
+            <span class="bg-red text-white stamp mr-3" style="height:6rem !important; min-width:6rem !important ">
+              <i class="fa f fa-file-text" style="font-size: 3rem;"></i>
+            </span>
+            <div>
+              <form id="form" action="<?php echo base_url(); ?>penjualan/approvallimitv2" method="post">
+                <input type="hidden" name="status" value="-">
+                <a href="javascript:;" onclick="parentNode.submit();">
+                  <b style="font-size: 25px;"><?php echo number_format($cekpengajuan, '0', '', '.'); ?> Ajuan Kredit</b><br>
+                  <font color="#a0a2a5">Menunggu Persetujuan General Manager</font>
+                </a>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <?php } ?>
   <div class="row">
     <div class="col-md-4">
       <div class="row">
@@ -18,50 +85,47 @@
               <h4 class="card-title">Penjualan</h4>
             </div>
             <div class="card-body">
-              <?php
-              $level_user = $this->session->userdata('level_user');
-              if ($level_user == "Administrator") {
-              ?>
-                <div class="row mb-4">
-                  <div class="col-md-12">
-                    <div class="row sm mb-3">
-                      <select name="bulan" id="bulan" class="form-select">
-                        <option value="">Bulan</option>
-                        <?php for ($a = 1; $a <= 12; $a++) { ?>
-                          <option <?php if (date("m") == $a) {
-                                    echo "selected";
-                                  } ?> value="<?php echo $a;  ?>"><?php echo $bulan[$a]; ?></option>
-                        <?php } ?>
-                      </select>
-                    </div>
-                    <div class="row sm mb-3">
-                      <select name="tahun" id="tahun" class="form-select">
-                        <option value="">Tahun</option>
-                        <?php for ($t = 2019; $t <= $tahun; $t++) { ?>
-                          <option <?php if (date("Y") == $t) {
-                                    echo "selected";
-                                  } ?> value="<?php echo $t;  ?>"><?php echo $t; ?></option>
-                        <?php } ?>
-                      </select>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <a href="#" id="tampilkanpenjualancashin" class="btn btn-primary"><i class="fa fa-eye"></i></a>
-                        <a href="#" id="hidepenjualancashin" class="btn btn-danger"><i class="fa fa-eye-slash"></i></a>
-                      </div>
 
+              <div class="row mb-4">
+                <div class="col-md-12">
+                  <div class="row sm mb-3">
+                    <select name="bulan" id="bulan" class="form-select">
+                      <option value="">Bulan</option>
+                      <?php for ($a = 1; $a <= 12; $a++) { ?>
+                        <option <?php if (date("m") == $a) {
+                                  echo "selected";
+                                } ?> value="<?php echo $a;  ?>"><?php echo $bulan[$a]; ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                  <div class="row sm mb-3">
+                    <select name="tahun" id="tahun" class="form-select">
+                      <option value="">Tahun</option>
+                      <?php for ($t = 2019; $t <= $tahun; $t++) { ?>
+                        <option <?php if (date("Y") == $t) {
+                                  echo "selected";
+                                } ?> value="<?php echo $t;  ?>"><?php echo $t; ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <a href="#" id="tampilkanpenjualancashin" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                      <a href="#" id="hidepenjualancashin" class="btn btn-danger"><i class="fa fa-eye-slash"></i></a>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="table-responsive mb-4">
+                    <div id="loadrekappenjualan">
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="table-responsive mb-4">
-                      <div id="loadrekappenjualan">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              <?php } ?>
+              </div>
+
             </div>
           </div>
         </div>
@@ -73,58 +137,54 @@
               <h4 class="card-title">Rekap Kendaraan</h4>
             </div>
             <div class="card-body">
-              <?php
-              $level_user = $this->session->userdata('level_user');
-              if ($level_user == "Administrator") {
-              ?>
-                <div class="row mb-4">
-                  <div class="col-md-12">
-                    <div class="row mb-3">
-                      <select name="cabangkendaraan" id="cabangkendaraan" class="form-select">
-                        <option value="">Semua Cabang</option>
-                        <?php foreach ($cabang as $c) { ?>
-                          <option value="<?php echo $c->kode_cabang; ?>"><?php echo strtoupper($c->nama_cabang); ?></option>
-                        <?php } ?>
-                      </select>
-                    </div>
-                    <div class="row sm mb-3">
-                      <select name="bulankendaraan" id="bulankendaraan" class="form-select">
-                        <option value="">Bulan</option>
-                        <?php for ($a = 1; $a <= 12; $a++) { ?>
-                          <option <?php if (date("m") == $a) {
-                                    echo "selected";
-                                  } ?> value="<?php echo $a;  ?>"><?php echo $bulan[$a]; ?></option>
-                        <?php } ?>
-                      </select>
-                    </div>
-                    <div class="row sm mb-3">
-                      <select name="tahunkendaraan" id="tahunkendaraan" class="form-select">
-                        <option value="">Tahun</option>
-                        <?php for ($t = 2019; $t <= $tahun; $t++) { ?>
-                          <option <?php if (date("Y") == $t) {
-                                    echo "selected";
-                                  } ?> value="<?php echo $t;  ?>"><?php echo $t; ?></option>
-                        <?php } ?>
-                      </select>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <a href="#" id="tampilkankendaraan" class="btn btn-primary"><i class="fa fa-eye"></i></a>
-                        <a href="#" id="hidekendaraan" class="btn btn-danger"><i class="fa fa-eye-slash"></i></a>
 
-                      </div>
+              <div class="row mb-4">
+                <div class="col-md-12">
+                  <div class="row mb-3">
+                    <select name="cabangkendaraan" id="cabangkendaraan" class="form-select">
+                      <option value="">Semua Cabang</option>
+                      <?php foreach ($cabang as $c) { ?>
+                        <option value="<?php echo $c->kode_cabang; ?>"><?php echo strtoupper($c->nama_cabang); ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                  <div class="row sm mb-3">
+                    <select name="bulankendaraan" id="bulankendaraan" class="form-select">
+                      <option value="">Bulan</option>
+                      <?php for ($a = 1; $a <= 12; $a++) { ?>
+                        <option <?php if (date("m") == $a) {
+                                  echo "selected";
+                                } ?> value="<?php echo $a;  ?>"><?php echo $bulan[$a]; ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                  <div class="row sm mb-3">
+                    <select name="tahunkendaraan" id="tahunkendaraan" class="form-select">
+                      <option value="">Tahun</option>
+                      <?php for ($t = 2019; $t <= $tahun; $t++) { ?>
+                        <option <?php if (date("Y") == $t) {
+                                  echo "selected";
+                                } ?> value="<?php echo $t;  ?>"><?php echo $t; ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <a href="#" id="tampilkankendaraan" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                      <a href="#" id="hidekendaraan" class="btn btn-danger"><i class="fa fa-eye-slash"></i></a>
+
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="table-responsive mb-4">
-                      <div id="loadrekapkendaraan">
-                      </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="table-responsive mb-4">
+                    <div id="loadrekapkendaraan">
                     </div>
                   </div>
                 </div>
-              <?php } ?>
+              </div>
             </div>
           </div>
         </div>
@@ -196,58 +256,55 @@
               <h4 class="card-title">Rekap DPPP</h4>
             </div>
             <div class="card-body">
-              <?php
-              $level_user = $this->session->userdata('level_user');
-              if ($level_user == "Administrator") {
-              ?>
-                <div class="row mb-4">
-                  <div class="col-md-12">
-                    <div class="row mb-3">
-                      <select name="cabangdppp" id="cabangdppp" class="form-select">
-                        <option value="">Semua Cabang</option>
-                        <?php foreach ($cabang as $c) { ?>
-                          <option value="<?php echo $c->kode_cabang; ?>"><?php echo strtoupper($c->nama_cabang); ?></option>
-                        <?php } ?>
-                      </select>
-                    </div>
-                    <div class="row sm mb-3">
-                      <select name="bulandppp" id="bulandppp" class="form-select">
-                        <option value="">Bulan</option>
-                        <?php for ($a = 1; $a <= 12; $a++) { ?>
-                          <option <?php if (date("m") == $a) {
-                                    echo "selected";
-                                  } ?> value="<?php echo $a;  ?>"><?php echo $bulan[$a]; ?></option>
-                        <?php } ?>
-                      </select>
-                    </div>
-                    <div class="row sm mb-3">
-                      <select name="tahundppp" id="tahundppp" class="form-select">
-                        <option value="">Tahun</option>
-                        <?php for ($t = 2019; $t <= $tahun; $t++) { ?>
-                          <option <?php if (date("Y") == $t) {
-                                    echo "selected";
-                                  } ?> value="<?php echo $t;  ?>"><?php echo $t; ?></option>
-                        <?php } ?>
-                      </select>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <a href="#" id="tampilkandppp" class="btn btn-primary"><i class="fa fa-eye"></i></a>
-                        <a href="#" id="hidedppp" class="btn btn-danger"><i class="fa fa-eye-slash"></i></a>
 
-                      </div>
+              <div class="row mb-4">
+                <div class="col-md-12">
+                  <div class="row mb-3">
+                    <select name="cabangdppp" id="cabangdppp" class="form-select">
+                      <option value="">Semua Cabang</option>
+                      <?php foreach ($cabang as $c) { ?>
+                        <option value="<?php echo $c->kode_cabang; ?>"><?php echo strtoupper($c->nama_cabang); ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                  <div class="row sm mb-3">
+                    <select name="bulandppp" id="bulandppp" class="form-select">
+                      <option value="">Bulan</option>
+                      <?php for ($a = 1; $a <= 12; $a++) { ?>
+                        <option <?php if (date("m") == $a) {
+                                  echo "selected";
+                                } ?> value="<?php echo $a;  ?>"><?php echo $bulan[$a]; ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                  <div class="row sm mb-3">
+                    <select name="tahundppp" id="tahundppp" class="form-select">
+                      <option value="">Tahun</option>
+                      <?php for ($t = 2019; $t <= $tahun; $t++) { ?>
+                        <option <?php if (date("Y") == $t) {
+                                  echo "selected";
+                                } ?> value="<?php echo $t;  ?>"><?php echo $t; ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <a href="#" id="tampilkandppp" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                      <a href="#" id="hidedppp" class="btn btn-danger"><i class="fa fa-eye-slash"></i></a>
+
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="table-responsive mb-4">
-                      <div id="loaddppp">
-                      </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="table-responsive mb-4">
+                    <div id="loaddppp">
                     </div>
                   </div>
                 </div>
-              <?php } ?>
+              </div>
+
             </div>
           </div>
         </div>

@@ -9,13 +9,17 @@ foreach ($data->result() as $d) {
     <td><?php echo $d->kode_barang; ?></td>
     <td><?php echo $d->nama_barang; ?></td>
     <td><?php echo $d->keterangan; ?></td>
-    <td align="right"><?php echo number_format($d->bruto, 2); ?></td>
-    <td><?php echo number_format($d->berat_roll, 2); ?></td>
-    <td><?php echo number_format($netto, 2); ?></td>
-    <td><?php echo number_format($d->berat_pcs, 2); ?></td>
-    <td><?php echo number_format($d->tinggi, 2); ?></td>
-    <td><?php echo number_format($d->panjang, 2); ?></td>
-    <td><?php echo number_format(($netto/$d->berat_pcs)*($d->tinggi/$d->panjang), 2); ?></td>
+    <?php if($netto != ""){ ?>
+      <td align="right"><?php echo number_format($d->bruto, 2); ?></td>
+      <td><?php echo number_format($d->berat_roll, 2); ?></td>
+      <td><?php echo number_format($netto, 2); ?></td>
+      <td><?php echo number_format($d->berat_pcs, 2); ?></td>
+      <td><?php echo number_format($d->tinggi, 2); ?></td>
+      <td><?php echo number_format($d->panjang, 2); ?></td>
+      <td><?php echo number_format($d->jumlah, 2); ?></td>
+    <?php }else{ ?>
+      <td><?php echo number_format($d->jumlah, 2); ?></td>
+    <?php } ?>
     <td align="left">
       <a href="#" data-kode="<?php echo $d->kode_barang; ?>" class="btn btn-danger btn-sm hapus">Hapus</a> 
     </td>

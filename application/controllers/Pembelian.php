@@ -1268,11 +1268,17 @@ class Pembelian extends CI_Controller
     $this->load->view('pembelian/cetak_kontrabon', $data);
   }
 
+  function cetak_retur()
+  {
+    $kode_retur = str_replace(".", "/", $this->uri->segment(3));
+    $data['faktur']     = $this->Model_pembelian->getCetakRetur($kode_retur)->row_array();
+    $data['barang']     = $this->Model_pembelian->getCetakDetailRetur($kode_retur)->result();
+    $this->load->view('pembelian/cetak_fakturretur', $data);
+  }
+
   function cetakbppb()
   {
     $nobukti = str_replace(".", "/", $this->uri->segment(3));
-    // echo $nokontrabon;
-    // die;
     $data['pmb']      = $this->Model_pembelian->getPembelian($nobukti)->row_array();
     $data['detail']   = $this->Model_pembelian->getDetailPembelian($nobukti)->result();
     $this->load->view('pembelian/cetak_bppb', $data);

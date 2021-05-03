@@ -61,7 +61,7 @@ function uang($nilai)
                   <th width="150px">Tanggal Retur</th>
                   <th width="200px">Kode Supplier</th>
                   <th>Supplier</th>
-                  <th width="100px">Aksi</th>
+                  <th width="115px">Aksi</th>
                 </tr>
               </thead>
               <tbody>
@@ -80,6 +80,7 @@ function uang($nilai)
                       <td>
                         <a href="#" data-kode="<?php echo $d['kode_retur'];?>" class="btn btn-primary btn-sm detail"><i class="fa fa-list"></i></a>
                         <a href="#" data-href="<?php echo base_url();?>pembelian/hapus_retur_pembelian/<?php echo $kode_retur;?>" class="btn btn-danger btn-sm hapus"><i class="fa fa-trash"></i></a>
+                        <a target="_blank" href="<?php echo base_url();?>pembelian/cetak_retur/<?php echo $kode_retur;?>" class="btn btn-primary btn-sm"><i class="fa fa-print"></i></a>
                       </td>
                     </tr>
                   <?php } ?>

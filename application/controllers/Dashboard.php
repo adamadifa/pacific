@@ -22,7 +22,7 @@ class Dashboard extends CI_Controller
       // $data['cb']              = $this->session->userdata('cabang');
       // $data['produk']          = $this->Model_laporangudangjadi->listproduk()->result();
       $data['tahun']           = date("Y");
-
+      $data['cekpengajuan']    = $this->Model_dashboard->cek_pengajuan()->num_rows();
       //$this->template->load('template/template', 'dashboard/dashboard_administrator', $data);
       $data['bulan']             = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
       $this->template->load('template/template', 'dashboard_v2/dashboard_administrator', $data);
@@ -56,14 +56,15 @@ class Dashboard extends CI_Controller
       // $data['jmlPelanggan']    = $this->Model_dashboard->jumlahPelanggan()->row_array();
       // $data['jmlSales']        = $this->Model_dashboard->jumlahSales()->row_array();
       // $data['jmlBrg']          = $this->Model_dashboard->jumlahBarang()->row_array();
-      $data['rekap']           = $this->Model_dashboard->persediaangudang()->result();
+      //$data['rekap']           = $this->Model_dashboard->persediaangudang()->result();
       $data['cabang']          = $this->Model_cabang->view_cabang()->result();
-      $data['grap']            = $this->Model_dashboard->grafikPenjualan()->result();
-      $data['cb']              = $this->session->userdata('cabang');
-      $data['produk']          = $this->Model_laporangudangjadi->listproduk()->result();
+      //$data['grap']            = $this->Model_dashboard->grafikPenjualan()->result();
+      //$data['cb']              = $this->session->userdata('cabang');
+      //$data['produk']          = $this->Model_laporangudangjadi->listproduk()->result();
+      $data['cekpengajuan']    = $this->Model_dashboard->cek_pengajuan()->num_rows();
       $data['tahun']           = date("Y");
       $data['bulan']           = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
-      $this->template->load('template/template', 'dashboard/dashboard_administrator', $data);
+      $this->template->load('template/template', 'dashboard_v2/dashboard_administrator', $data);
     } elseif ($level_user == "admin gudang pusat") {
       $data['rekap']           = $this->Model_dashboard->persediaangudang()->result();
       $data['cabang']          = $this->Model_cabang->view_cabang()->result();
@@ -100,14 +101,18 @@ class Dashboard extends CI_Controller
       $data['bulan']           = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
       $this->template->load('template/template', 'dashboard/dashboard_administrator', $data);
     } elseif ($level_user == "general manager") {
-      $data['rekap']           = $this->Model_dashboard->persediaangudang()->result();
+      // $data['jmlPelanggan']    = $this->Model_dashboard->jumlahPelanggan()->row_array();
+      // $data['jmlSales']        = $this->Model_dashboard->jumlahSales()->row_array();
+      // $data['jmlBrg']          = $this->Model_dashboard->jumlahBarang()->row_array();
+      //$data['rekap']           = $this->Model_dashboard->persediaangudang()->result();
       $data['cabang']          = $this->Model_cabang->view_cabang()->result();
-      $data['grap']            = $this->Model_dashboard->grafikPenjualan()->result();
-      $data['cb']              = $this->session->userdata('cabang');
-      $data['produk']          = $this->Model_laporangudangjadi->listproduk()->result();
+      //$data['grap']            = $this->Model_dashboard->grafikPenjualan()->result();
+      //$data['cb']              = $this->session->userdata('cabang');
+      //$data['produk']          = $this->Model_laporangudangjadi->listproduk()->result();
+      $data['cekpengajuan']    = $this->Model_dashboard->cek_pengajuan()->num_rows();
       $data['tahun']           = date("Y");
       $data['bulan']           = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
-      $this->template->load('template/template', 'dashboard/dashboard_administrator', $data);
+      $this->template->load('template/template', 'dashboard_v2/dashboard_administrator', $data);
     } elseif ($level_user == "assisten gm") {
       // $data['jmlPelanggan']    = $this->Model_dashboard->jumlahPelanggan()->row_array();
       // $data['jmlSales']        = $this->Model_dashboard->jumlahSales()->row_array();
@@ -124,6 +129,7 @@ class Dashboard extends CI_Controller
       $data['rekap']           = $this->Model_dashboard->persediaangudang()->result();
       $data['cabang']          = $this->Model_cabang->view_cabang()->result();
       $data['cb']              = $this->session->userdata('cabang');
+      $data['cekpengajuan']    = $this->Model_dashboard->cek_pengajuan()->num_rows();
       $data['tahun']           = date("Y");
       $data['bulan']            = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
       $this->template->load('template/template', 'dashboard_v2/dashboard_penjualan', $data);

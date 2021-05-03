@@ -21,13 +21,15 @@
       <th>Kode Barang</th>
       <th>Nama Barang</th>
       <th>Keterangan</th>
-      <th>Bruto</th>
-      <th>Berat Roll</th>
-      <th>Netto</th>
-      <th>Berat PCS</th>
-      <th>Tinggi</th>
-      <th>Panjang</th>
-      <th>Jml Meter</th>
+      <?php if($data['kode_supplier'] == "SP0185" || $data['kode_supplier'] == "SP0140"){ ?>
+        <th>Bruto</th>
+        <th>Berat Roll</th>
+        <th>Netto</th>
+        <th>Berat PCS</th>
+        <th>Tinggi</th>
+        <th>Panjang</th>
+      <?php } ?>
+      <th>Jumlah</th>
     </tr>
   </thead>
   <tbody>
@@ -41,13 +43,15 @@
           <td><?php echo $d->kode_barang; ?></td>
           <td><?php echo $d->nama_barang; ?></td>
           <td><?php echo $d->keterangan; ?></td>
-          <td align="right"><?php echo number_format($d->bruto, 2); ?></td>
-          <td><?php echo number_format($d->berat_roll, 2); ?></td>
-          <td><?php echo number_format($netto, 2); ?></td>
-          <td><?php echo number_format($d->berat_pcs, 2); ?></td>
-          <td><?php echo number_format($d->tinggi, 2); ?></td>
-          <td><?php echo number_format($d->panjang, 2); ?></td>
-          <td><?php echo number_format(($netto/$d->berat_pcs)*($d->tinggi/$d->panjang), 2); ?></td>
+          <?php if($data['kode_supplier'] == "SP0185" || $data['kode_supplier'] == "SP0140"){ ?>
+            <td align="right"><?php echo number_format($d->bruto, 2); ?></td>
+            <td><?php echo number_format($d->berat_roll, 2); ?></td>
+            <td><?php echo number_format($netto, 2); ?></td>
+            <td><?php echo number_format($d->berat_pcs, 2); ?></td>
+            <td><?php echo number_format($d->tinggi, 2); ?></td>
+            <td><?php echo number_format($d->panjang, 2); ?></td>
+          <?php } ?>
+          <td><?php echo number_format($d->jumlah, 2); ?></td>
         </tr>
     <?php  } ?>
   </tbody>

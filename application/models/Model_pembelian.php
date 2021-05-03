@@ -226,6 +226,7 @@ class Model_pembelian extends CI_Model
           'berat_pcs'         => $d->berat_pcs,
           'tinggi'            => $d->tinggi,
           'panjang'           => $d->panjang,
+          'jumlah'            => $d->jumlah,
           'keterangan'        => $d->keterangan
         );
 
@@ -257,6 +258,20 @@ class Model_pembelian extends CI_Model
     $nobukti            = $this->input->post('kode_retur');
     $this->db->join('supplier', 'supplier.kode_supplier = retur_pembelian.kode_supplier');
     return $this->db->get_where('retur_pembelian', array('retur_pembelian.kode_retur' => $nobukti));
+  }
+
+  function getCetakRetur($kode_retur)
+  {
+
+    $this->db->join('supplier', 'supplier.kode_supplier = retur_pembelian.kode_supplier');
+    return $this->db->get_where('retur_pembelian', array('retur_pembelian.kode_retur' => $kode_retur));
+  }
+
+  function getCetakDetailRetur($kode_retur)
+  {
+
+    $this->db->join('master_barang_pembelian', 'detail_retur_pembelian.kode_barang = master_barang_pembelian.kode_barang');
+    return $this->db->get_where('detail_retur_pembelian', array('detail_retur_pembelian.kode_retur' => $kode_retur));
   }
 
   function getDetailRetur()
@@ -595,16 +610,23 @@ class Model_pembelian extends CI_Model
     $berat_pcs        = $this->input->post('berat_pcs');
     $tinggi           = $this->input->post('tinggi');
     $panjang          = $this->input->post('panjang');
-    $keterangan          = $this->input->post('keterangan');
+    $keterangan       = $this->input->post('keterangan');
     $id_user          = $this->session->userdata('id_user');
+    if($bruto == ""){
+      $jumlah           = $this->input->post('jumlah');
+    }else{
+      $netto            = $bruto-$berat_roll;
+      $jumlah           = ($netto/$berat_pcs)*($tinggi/$panjang);
+    }
 
     $data = array(
-      'kode_barang'        => $kode_barang,
+      'kode_barang'       => $kode_barang,
       'bruto'             => $bruto,
       'berat_roll'        => $berat_roll,
       'berat_pcs'         => $berat_pcs,
       'tinggi'            => $tinggi,
       'panjang'           => $panjang,
+      'jumlah'            => $jumlah,
       'keterangan'        => $keterangan,
       'id_user'           => $id_user
     );
@@ -2283,6 +2305,7 @@ WHERE tgl_pembelian BETWEEN '$dari' AND '$sampai'"
   {
     return $this->db->get_where('pembelian', array('nobukti_pembelian', $nobukti));
   }
+
   function getjmldatapmb()
   {
     $id_admin  = $this->session->userdata('id_admin');

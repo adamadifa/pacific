@@ -32,6 +32,12 @@ if ($level == "Administrator" || $level == "admin pembelian 2" || $level == "adm
       <a href="<?php echo base_url(); ?>pembelian/jatuhtempo" class="list-group-item list-group-item-action">
         <i class="fa  fa-file-text-o mr-2"></i>Jatuh Tempo
       </a>
+      <a href="<?php echo base_url(); ?>pembelian/returpembelian" class="list-group-item list-group-item-action">
+        <i class="fa  fa-file-text-o mr-2"></i>Retur Pembelian
+      </a>
+      <a href="<?php echo base_url(); ?>pembelian/returproduksi" class="list-group-item list-group-item-action">
+        <i class="fa  fa-file-text-o mr-2"></i>Approvel Retur
+      </a>
     </div>
   </div>
   <div class="card">

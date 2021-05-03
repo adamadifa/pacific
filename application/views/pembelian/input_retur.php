@@ -48,9 +48,9 @@
                         <option value="">--SUPPLIER--</option>
                         <option value="SP0186">SURYA BUANA CV</option>
                         <option value="SP0142">PT PURINUSA EKA PERSADA</option>
+                        <option value="SP0032">PT EKADHARMA INTERNATIONAL</option>
                         <option value="SP0185">SAKU MAS JAYA, PT</option>
                         <option value="SP0140">PT MULIAPACK GRAVURINDO</option>
-                        <option value="SP0032">PT EKADHARMA INTERNATIONAL</option>
                       </select>
                     </div>
                   </div>
@@ -75,6 +75,7 @@
                               <i class="fa fa-barcode"></i>
                             </span>
                             <input type="hidden" id="kode_edit" name="kode_edit" class="form-control" data-error=".errorTxt19" />
+                            <input type="hidden" id="netto" name="netto" class="form-control" data-error=".errorTxt19" />
                             <input type="hidden" id="kodebarang" name="kodebarang" class="form-control" placeholder="Kode Barang" data-error=".errorTxt19" />
                             <input type="text" readonly id="barang" name="barang" class="form-control" placeholder="Nama Barang" data-error=".errorTxt19" />
                           </div>
@@ -82,7 +83,17 @@
                       </div>
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-md-2 nonrumus">
+                      <div class="form-group">
+                        <div class="input-icon">
+                          <span class="input-icon-addon">
+                            <i class="fa fa-money"></i>
+                          </span>
+                          <input type="text" style="text-align:right" id="jumlah" name="jumlah" class="form-control" placeholder="Jumlah" data-error=".errorTxt19" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-2 rumus">
                       <div class="form-group">
                         <div class="input-icon">
                           <span class="input-icon-addon">
@@ -92,7 +103,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 rumus">
                       <div class="form-group">
                         <div class="input-icon">
                           <span class="input-icon-addon">
@@ -102,7 +113,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 rumus">
                       <div class="form-group">
                         <div class="input-icon">
                           <span class="input-icon-addon">
@@ -112,7 +123,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 rumus">
                       <div class="form-group">
                         <div class="input-icon">
                           <span class="input-icon-addon">
@@ -122,7 +133,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 rumus">
                       <div class="form-group">
                         <div class="input-icon">
                           <span class="input-icon-addon">
@@ -142,7 +153,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-4">
                       <div class="form-group">
                         <div class="input-icon">
                           <span class="input-icon-addon">
@@ -170,13 +181,13 @@
                             <th>Kode Barang</th>
                             <th>Nama Barang</th>
                             <th>Keterangan</th>
-                            <th>Bruto</th>
-                            <th>Berat Roll</th>
-                            <th>Netto</th>
-                            <th>Berat PCS</th>
-                            <th>Tinggi</th>
-                            <th>Panjang</th>
-                            <th>Jml Meter</th>
+                            <th class="rumus">Bruto</th>
+                            <th class="rumus">Berat Roll</th>
+                            <th class="rumus">Netto</th>
+                            <th class="rumus">Berat PCS</th>
+                            <th class="rumus">Tinggi</th>
+                            <th class="rumus">Panjang</th>
+                            <th>Jumlah</th>
                             <th>Aksi</th>
                           </tr>
                         </thead>
@@ -241,6 +252,20 @@
 
     });
 
+    $(".nonrumus").hide();
+    
+    $("#kode_supplier").change(function() {
+      var kode_supplier = $("#kode_supplier").val();
+      if(kode_supplier == 'SP0185' || kode_supplier == 'SP0140'){
+        $(".nonrumus").hide();
+        $(".rumus").show();
+      }else{
+        $(".rumus").hide();
+        $(".nonrumus").show();
+      }
+
+    });
+
     $.ajax({
       type: 'POST',
       url: '<?php echo base_url(); ?>pembelian/codeotomatisretur',
@@ -270,7 +295,8 @@
           $('#bruto').val("");
           $('#berat_roll').val("");
           $('#berat_pcs').val("");
-          $('#tinggi').val("");
+          $('#berat_pcs').val("");
+          $('#jumlah').val("");
           $('#panjang').val("");
           $('#keterangan').val("");
           $('#jenisbarang').val("");
@@ -291,6 +317,7 @@
       var berat_pcs = $('#berat_pcs').val();
       var panjang = $('#panjang').val();
       var tinggi = $('#tinggi').val();
+      var jumlah = $('#jumlah').val();
       var kodeakun = $('#kodeakun').val();
       var keterangan = $('#keterangan').val();
       var kode_edit = $('#kode_edit').val();
@@ -298,10 +325,6 @@
       if (kode_barang == 0) {
 
         swal("Oops!", "Nama Barang Harus Diisi !", "warning");
-
-      } else if (berat_roll == "") {
-
-        swal("Oops!", "Qty Unit Harus Diisi!", "warning");
 
       } else if (kodeakun == 0) {
 
@@ -318,6 +341,7 @@
             bruto: bruto,
             berat_roll: berat_roll,
             berat_pcs: berat_pcs,
+            jumlah: jumlah,
             panjang: panjang,
             tinggi: tinggi,
             keterangan: keterangan
