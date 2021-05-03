@@ -11,7 +11,7 @@
   </div>
   <!-- Content here -->
   <div class="row">
-    <div class="col-12">
+    <div class="col-md-12">
       <div class="card">
         <div class="card-header bg-dark text-white">
           <h4 class="card-title">Dashboard</h4>
@@ -76,26 +76,38 @@
     </div>
   </div>
   <div class="row">
-    <!-- <div class="col-md-4">
+    <div class="col-md-4">
       <div class="card">
         <div class="card-header bg-dark text-white">
-          <h4 class="card-title">Data Persediaan Gudang</h4>
+          <h4 class="card-title">Last Input Data</h4>
         </div>
         <div class="card-body">
-          <?php
-          foreach ($rekap as $r) {
-            if ($r->saldoakhir <= 0) {
-              $color = "bg-red";
-            } else {
-              $color = "bg-green";
-            }
-          ?>
-            <li class="list-group-item"><b><?php echo $r->nama_barang; ?></b> <span class="badge <?php echo $color; ?>" style="float:right"><?php echo number_format($r->saldoakhir, '0', '', '.'); ?></span></li>
-          <?php } ?>
+          <table class="table table-bordered table-striped table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th>Cabang</th>
+                <th>Penjualan</th>
+                <th>Kas Besar</th>
+                <th>Kas Kecil</th>
+                <th>Persediaan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($lastupdate as $d) { ?>
+                <tr>
+                  <td><?php echo strtoupper($d->nama_cabang); ?></td>
+                  <td><?php echo strtoupper($d->penjualan); ?></td>
+                  <td><?php echo strtoupper($d->kasbesar); ?></td>
+                  <td><?php echo strtoupper($d->kaskecil); ?></td>
+                  <td><?php echo strtoupper($d->persediaan); ?></td>
+                </tr>
+              <?php } ?>
+            </tbody>
+          </table>
         </div>
       </div>
-    </div> -->
-    <div class="col-md-12">
+    </div>
+    <div class="col-md-8">
       <div class="card">
         <div class="card-header bg-dark text-white">
           <h4 class="card-title">Data Persediaan All Cabang (DPB)</h4>
@@ -106,170 +118,170 @@
       </div>
     </div>
   </div>
-</div>
 
 
-<div class="modal modal-blur fade" id="modal-large" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog  modal-dialog-centered" role="document">
-    <div class="modal-content ">
-      <div class="modal-body text-center">
-        <img src="<?php echo base_url(); ?>assets/images/loadingemot.gif" / width="200px" height="150px">
-        <div clas="loader-txt">
-          <p><b>Mohon Ditunggu Gaees.. ! <br> Sedang Proses Menampilkan Data....</b></p>
+
+  <div class="modal modal-blur fade" id="modal-large" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered" role="document">
+      <div class="modal-content ">
+        <div class="modal-body text-center">
+          <img src="<?php echo base_url(); ?>assets/images/loadingemot.gif" / width="200px" height="150px">
+          <div clas="loader-txt">
+            <p><b>Mohon Ditunggu Gaees.. ! <br> Sedang Proses Menampilkan Data....</b></p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<script src="<?php echo base_url(); ?>assets/plugins/bootstrap-select/js/bootstrap-select.js"></script>
-<script type="text/javascript">
-  $(function() {
-    $(document).ajaxStart(function() {
-      $("#modal-large").modal({
-        backdrop: "static", //remove ability to close modal with click
-        keyboard: false, //remove option to close with keyboard
-        show: true //Display loader!
+  <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      $(document).ajaxStart(function() {
+        $("#modal-large").modal({
+          backdrop: "static", //remove ability to close modal with click
+          keyboard: false, //remove option to close with keyboard
+          show: true //Display loader!
+        });
       });
-    });
-    $(document).ajaxComplete(function() {
-      $("#modal-large").modal("hide");
-    });
-    $("#test").click(function(e) {
-      $("#modal-large").modal("show");
-    })
-
-    function loadsaldo() {
-      var kodecabang = $("#cabang").val();
-      var status = 'GS';
-      $.ajax({
-        type: 'POST',
-        url: '<?php echo base_url(); ?>dashboard/loadsaldo',
-        data: {
-          kodecabang: kodecabang,
-          status: status
-        },
-        cache: false,
-        success: function(respond) {
-          $("#loadsaldo").html(respond);
-        }
+      $(document).ajaxComplete(function() {
+        $("#modal-large").modal("hide");
       });
-    }
+      $("#test").click(function(e) {
+        $("#modal-large").modal("show");
+      })
 
-    function loadrekappersediaan() {
+      function loadsaldo() {
+        var kodecabang = $("#cabang").val();
+        var status = 'GS';
+        $.ajax({
+          type: 'POST',
+          url: '<?php echo base_url(); ?>dashboard/loadsaldo',
+          data: {
+            kodecabang: kodecabang,
+            status: status
+          },
+          cache: false,
+          success: function(respond) {
+            $("#loadsaldo").html(respond);
+          }
+        });
+      }
 
-      $.ajax({
-        type: 'POST',
-        url: '<?php echo base_url(); ?>dashboard/loadrekappersediaandpb',
-        cache: false,
-        success: function(respond) {
-          $("#loadrekappersediaan").html(respond);
-        }
+      function loadrekappersediaan() {
+
+        $.ajax({
+          type: 'POST',
+          url: '<?php echo base_url(); ?>dashboard/loadrekappersediaandpb',
+          cache: false,
+          success: function(respond) {
+            $("#loadrekappersediaan").html(respond);
+          }
+        });
+      }
+
+      // function loadsaldoproduk()
+      // {
+      //   var produk = $("#produk").val();
+      //   var data = produk.split("|");
+      //   var kodeproduk = data[0];
+      //   var isipcsdus = data[1];
+
+      //   //alert(isipcsdus);
+      //   var status     = 'GS';
+      //   $.ajax({
+      //     type  : 'POST',
+      //     url   : '<?php echo base_url(); ?>dashboard/loadsaldoproduk',
+      //     data  : {kodeproduk:kodeproduk,status:status,isipcsdus:isipcsdus},
+      //     cache : false,
+      //     success: function(respond)
+      //     {
+      //       $("#loadsaldoproduk").html(respond);
+      //     }
+      //   });
+      // }
+
+      function hidekasbesar() {
+        $("#loadrekapkasbesar").hide();
+        $("#loadrekappenjualan").hide();
+      }
+
+      function loadrekappenjualan() {
+        var bulan = $("#bulan").val();
+        var tahun = $("#tahun").val();
+        $.ajax({
+          type: 'POST',
+          url: '<?php echo base_url(); ?>laporanpenjualan/loadrekappenjualan',
+          data: {
+            bulan: bulan,
+            tahun: tahun
+          },
+          cache: false,
+          success: function(respond) {
+            $("#loadrekappenjualan").html(respond);
+          }
+        });
+      }
+
+      function loadrekapkasbesar() {
+
+        var bulan = $("#bulan").val();
+        var tahun = $("#tahun").val();
+        $.ajax({
+          type: 'POST',
+          url: '<?php echo base_url(); ?>laporanpenjualan/loadrekapkasbesar',
+          data: {
+            bulan: bulan,
+            tahun: tahun
+          },
+          cache: false,
+          success: function(respond) {
+            $("#loadrekapkasbesar").html(respond);
+          }
+        });
+      }
+
+      $("#tampilkankasbesar").click(function(e) {
+        e.preventDefault();
+        $("#loadrekapkasbesar").show();
+        $("#loadrekappenjualan").show();
       });
-    }
 
-    // function loadsaldoproduk()
-    // {
-    //   var produk = $("#produk").val();
-    //   var data = produk.split("|");
-    //   var kodeproduk = data[0];
-    //   var isipcsdus = data[1];
-
-    //   //alert(isipcsdus);
-    //   var status     = 'GS';
-    //   $.ajax({
-    //     type  : 'POST',
-    //     url   : '<?php echo base_url(); ?>dashboard/loadsaldoproduk',
-    //     data  : {kodeproduk:kodeproduk,status:status,isipcsdus:isipcsdus},
-    //     cache : false,
-    //     success: function(respond)
-    //     {
-    //       $("#loadsaldoproduk").html(respond);
-    //     }
-    //   });
-    // }
-
-    function hidekasbesar() {
-      $("#loadrekapkasbesar").hide();
-      $("#loadrekappenjualan").hide();
-    }
-
-    function loadrekappenjualan() {
-      var bulan = $("#bulan").val();
-      var tahun = $("#tahun").val();
-      $.ajax({
-        type: 'POST',
-        url: '<?php echo base_url(); ?>laporanpenjualan/loadrekappenjualan',
-        data: {
-          bulan: bulan,
-          tahun: tahun
-        },
-        cache: false,
-        success: function(respond) {
-          $("#loadrekappenjualan").html(respond);
-        }
+      $("#hidekasbesar").click(function(e) {
+        e.preventDefault();
+        $("#loadrekapkasbesar").hide();
+        $("#loadrekappenjualan").hide();
       });
-    }
-
-    function loadrekapkasbesar() {
-
-      var bulan = $("#bulan").val();
-      var tahun = $("#tahun").val();
-      $.ajax({
-        type: 'POST',
-        url: '<?php echo base_url(); ?>laporanpenjualan/loadrekapkasbesar',
-        data: {
-          bulan: bulan,
-          tahun: tahun
-        },
-        cache: false,
-        success: function(respond) {
-          $("#loadrekapkasbesar").html(respond);
-        }
-      });
-    }
-
-    $("#tampilkankasbesar").click(function(e) {
-      e.preventDefault();
-      $("#loadrekapkasbesar").show();
-      $("#loadrekappenjualan").show();
-    });
-
-    $("#hidekasbesar").click(function(e) {
-      e.preventDefault();
-      $("#loadrekapkasbesar").hide();
-      $("#loadrekappenjualan").hide();
-    });
 
 
 
 
-    loadrekapkasbesar();
-    loadrekappenjualan();
-    loadsaldo();
-    //loadsaldoproduk();
-    loadrekappersediaan();
-    hidekasbesar();
-
-    $("#cabang").change(function() {
+      loadrekapkasbesar();
+      loadrekappenjualan();
       loadsaldo();
+      //loadsaldoproduk();
+      loadrekappersediaan();
+      hidekasbesar();
+
+      $("#cabang").change(function() {
+        loadsaldo();
+      });
+
+      // $("#produk").change(function(){
+      //   loadsaldoproduk();
+      // });
+
+      $("#bulan").change(function(e) {
+        loadrekappenjualan();
+        loadrekapkasbesar();
+      });
+
+      $("#tahun").change(function(e) {
+        loadrekappenjualan();
+        loadrekapkasbesar();
+      });
+
+
+
+
     });
-
-    // $("#produk").change(function(){
-    //   loadsaldoproduk();
-    // });
-
-    $("#bulan").change(function(e) {
-      loadrekappenjualan();
-      loadrekapkasbesar();
-    });
-
-    $("#tahun").change(function(e) {
-      loadrekappenjualan();
-      loadrekapkasbesar();
-    });
-
-
-
-
-  });
-</script>
+  </script>

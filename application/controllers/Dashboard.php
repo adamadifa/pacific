@@ -74,6 +74,7 @@ class Dashboard extends CI_Controller
       // $data['jmlPelanggan']    = $this->Model_dashboard->jumlahPelanggan()->row_array();
       // $data['jmlSales']        = $this->Model_dashboard->jumlahSales()->row_array();
       // $data['jmlBrg']          = $this->Model_dashboard->jumlahBarang()->row_array();
+      $data['lastupdate']      = $this->Model_dashboard->getLastupdate()->result();
       $data['rekap']           = $this->Model_dashboard->persediaangudang()->result();
       $data['cabang']          = $this->Model_cabang->view_cabang()->result();
       $data['grap']            = $this->Model_dashboard->grafikPenjualan()->result();

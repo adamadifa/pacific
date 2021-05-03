@@ -566,4 +566,56 @@ class Model_dashboard extends CI_Model
 
 		return $this->db->query($query);
 	}
+
+	function getLastupdate()
+	{
+		$hariini = date("Y-m-d");
+		$tgl = explode("-", $hariini);
+		$tahun = $tgl[0];
+		$bulan = $tgl[1];
+
+		if ($bulan == 1) {
+			$tahun = $tahun - 1;
+			$bln = 12;
+		} else {
+			$tahun = $tahun;
+			$bln = $bulan - 1;
+		}
+		$tgllast = $tahun . "-" . $bln . "-01";
+		$query = "SELECT cabang.kode_cabang,nama_cabang,penjualan,kasbesar,kaskecil,persediaan
+		FROM cabang
+		LEFT JOIN (
+		SELECT karyawan.kode_cabang,max(tgltransaksi) as penjualan 
+		FROM penjualan 
+		INNER JOIN karyawan ON penjualan.id_karyawan = karyawan.id_karyawan
+		WHERE tgltransaksi BETWEEN '$tgllast' AND '$hariini'
+		GROUP BY karyawan.kode_cabang
+		) pj ON (cabang.kode_cabang = pj.kode_cabang)
+		
+		LEFT JOIN (
+		SELECT karyawan.kode_cabang,max(tglbayar) as kasbesar 
+		FROM historibayar 
+		INNER JOIN karyawan ON historibayar.id_karyawan = karyawan.id_karyawan
+		WHERE tglbayar BETWEEN '$tgllast' AND '$hariini'
+		GROUP BY karyawan.kode_cabang
+		) hb ON (cabang.kode_cabang = hb.kode_cabang)
+		
+		
+		
+		LEFT JOIN (
+		SELECT kode_cabang,max(tgl_kaskecil) as kaskecil 
+		FROM kaskecil_detail 
+		WHERE tgl_kaskecil BETWEEN '$tgllast' AND '$hariini'
+		GROUP BY kode_cabang
+		) kk ON (cabang.kode_cabang = kk.kode_cabang)
+		
+		LEFT JOIN (
+		SELECT kode_cabang,max(tgl_mutasi_gudang_cabang) as persediaan 
+		FROM mutasi_gudang_cabang 
+		WHERE tgl_mutasi_gudang_cabang BETWEEN '$tgllast' AND '$hariini'
+		GROUP BY kode_cabang
+		) gudang ON (cabang.kode_cabang = gudang.kode_cabang)";
+
+		return $this->db->query($query);
+	}
 }
