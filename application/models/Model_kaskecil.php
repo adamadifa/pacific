@@ -274,7 +274,8 @@ class Model_kaskecil extends CI_Model
         }
         $thn = substr($tahun, 2, 2);
         $awal = $tahun . "-" . $bulan . "-01";
-        $akhir = $tahun . "-" . $bulan . "-31";
+        $akhir =  date('Y-m-t', strtotime($awal));
+
         $qcr = "SELECT kode_cr FROM costratio_biaya WHERE tgl_transaksi BETWEEN '$awal' AND '$akhir' ORDER BY kode_cr DESC LIMIT 1 ";
         $ceknolast = $this->db->query($qcr)->row_array();
         $nobuktilast = $ceknolast['kode_cr'];
@@ -1046,9 +1047,9 @@ class Model_kaskecil extends CI_Model
     $no_bukti       = buatkode($nobuktilast, 'LR' . $cabang . $tahun, 4);
     if ($cabang == "SMR") {
       $akun = "1-1117";
-    } else if($cabang =="KLT"){
-		$akun = "1-1118";
-	}else {
+    } else if ($cabang == "KLT") {
+      $akun = "1-1118";
+    } else {
       $akun = "1-1104";
     }
     $data = array(

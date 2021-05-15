@@ -77,15 +77,14 @@ function angka($nilai)
       pembelian.kode_akun AS kode_akun,
       SUM(
       IF
-      ( STATUS = 'PMB',( detail_pembelian.qty * detail_pembelian.harga )+ penyesuaian, 0 )) AS pmb,
+      ( STATUS = 'PMB',( detail_pembelian.qty * detail_pembelian.harga ) + penyesuaian, 0 )) AS pmb,
       SUM(
       IF
-      ( STATUS = 'PNJ',( detail_pembelian.qty * detail_pembelian.harga )+ penyesuaian, 0 )) AS pnj 
+      ( STATUS = 'PNJ',( detail_pembelian.qty * detail_pembelian.harga ) + penyesuaian, 0 )) AS pnj 
     FROM
       detail_pembelian
       INNER JOIN pembelian ON pembelian.nobukti_pembelian = detail_pembelian.nobukti_pembelian 
       WHERE pembelian.tgl_pembelian BETWEEN '$dari' AND '$sampai'
-      AND '2021-01-07' 
     GROUP BY
       pembelian.kode_akun 
     ORDER BY

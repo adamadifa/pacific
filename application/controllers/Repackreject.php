@@ -1209,7 +1209,7 @@ class Repackreject extends CI_Controller
     // Get records
     $users_record = $this->Model_repackreject->getDataKirimPusat($rowno, $rowperpage, $tanggal, $cabang);
     // Pagination Configuration
-    $config['base_url']           = base_url() . 'repackreject/repackcab';
+    $config['base_url']           = base_url() . 'repackreject/kirimpusat';
     $config['use_page_numbers']   = TRUE;
     $config['total_rows']         = $allcount;
     $config['per_page']           = $rowperpage;

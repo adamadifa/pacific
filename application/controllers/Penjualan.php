@@ -2396,7 +2396,7 @@ class Penjualan extends CI_Controller
       }
     }
     // Row per page
-    $rowperpage = 10;
+    $rowperpage = 50;
     // Row position
     if ($rowno != 0) {
       $rowno = ($rowno - 1) * $rowperpage;

@@ -197,6 +197,7 @@
                       } else if (
                         !empty($d['kacab']) && !empty($d['mm']) && $d['status'] == 2
                         or !empty($d['kacab']) && empty($d['mm']) && $d['status'] == 0
+                        or !empty($d['kacab']) && empty($d['mm']) && $d['status'] == 1
                         or !empty($d['kacab']) && !empty($d['mm']) && $d['status'] == 0
                         or !empty($d['kacab']) && !empty($d['mm']) && $d['status'] == 1
                       ) {
@@ -212,7 +213,7 @@
                     </td>
                     <td>
                       <?php
-                      if (empty($d['mm'])) {
+                      if (empty($d['mm']) and $d['jumlah'] > 2000000) {
                       ?>
                         <span class="badge bg-orange"><i class="fa fa-history"></i></span>
                       <?php
@@ -224,17 +225,19 @@
                       ) {
                       ?>
                         <span class="badge bg-green"><i class="fa fa-check"></i></span>
-                      <?php
+                        <?php
                       } else {
-                      ?>
-                        <span class="badge bg-red"><i class="fa fa-close"></i></span>
+                        if ($d['jumlah'] > 2000000) {
+                        ?>
+                          <span class="badge bg-red"><i class="fa fa-close"></i></span>
                       <?php
+                        }
                       }
                       ?>
                     </td>
                     <td>
                       <?php
-                      if (empty($d['gm'])) {
+                      if (empty($d['gm']) and $d['jumlah'] > 2000000) {
                       ?>
                         <span class="badge bg-orange"><i class="fa fa-history"></i></span>
                       <?php
@@ -246,28 +249,32 @@
                       ) {
                       ?>
                         <span class="badge bg-green"><i class="fa fa-check"></i></span>
-                      <?php
+                        <?php
                       } else {
-                      ?>
-                        <span class="badge bg-red"><i class="fa fa-close"></i></span>
+                        if ($d['jumlah'] > 2000000) {
+                        ?>
+                          <span class="badge bg-red"><i class="fa fa-close"></i></span>
                       <?php
+                        }
                       }
                       ?>
                     </td>
                     <td>
                       <?php
-                      if (empty($d['dirut'])) {
+                      if (empty($d['dirut']) and $d['jumlah'] > 2000000) {
                       ?>
                         <span class="badge bg-orange"><i class="fa fa-history"></i></span>
                       <?php
                       } else if (!empty($d['dirut']) && $d['status'] != 2) {
                       ?>
                         <span class="badge bg-green"><i class="fa fa-check"></i></span>
-                      <?php
+                        <?php
                       } else {
-                      ?>
-                        <span class="badge bg-red"><i class="fa fa-close"></i></span>
+                        if ($d['jumlah'] > 2000000) {
+                        ?>
+                          <span class="badge bg-red"><i class="fa fa-close"></i></span>
                       <?php
+                        }
                       }
                       ?>
                     </td>

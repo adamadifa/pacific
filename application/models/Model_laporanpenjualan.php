@@ -1967,6 +1967,8 @@ GROUP BY
 					SUM( IF ( kode_produk = 'DK',detailretur.subtotal, NULL ) ) AS DK,
 					SUM( IF ( kode_produk = 'DS',detailretur.jumlah/isipcsdus, NULL ) ) AS JML_DS,
 					SUM( IF ( kode_produk = 'DS',detailretur.subtotal, NULL ) ) AS DS,
+					SUM( IF ( kode_produk = 'SP',detailretur.jumlah/isipcsdus, NULL ) ) AS JML_SP,
+					SUM( IF ( kode_produk = 'SP',detailretur.subtotal, NULL ) ) AS SP,
 					SUM(detailretur.subtotal) as totalretur,
 					total_gb
 					FROM detailretur

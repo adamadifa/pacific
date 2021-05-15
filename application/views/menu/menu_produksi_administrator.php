@@ -1,6 +1,6 @@
 <?php
 $level = $this->session->userdata('level_user');
-if ($level == "Administrator" || $level == "admin produksi") {
+if ($level == "Administrator" || $level == "admin produksi" || $level == "audit" ) {
 ?>
   <div class="card">
     <div class="list-group">

@@ -244,7 +244,7 @@ error_reporting(0);
       <td style="height: 30px;"></td>
       <td style="height: 30px;"></td>
       <td style="height: 30px;"><?php echo $pengajuan['time_kacab']; ?></td>
-      <td style="height: 30px;"><?php echo $pengajuan['time_stamp']; ?></td>
+      <td style="height: 30px;"><?php echo $pengajuan['time_kacab']; ?></td>
       <td style="height: 30px;"><?php echo $pengajuan['time_mm']; ?></td>
       <td style="height: 30px;"><?php echo $pengajuan['time_gm']; ?></td>
       <td style="height: 30px;"><?php echo $pengajuan['time_dirut']; ?></td>

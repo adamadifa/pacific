@@ -394,8 +394,10 @@
                               echo "<span class='badge bg-green'>" . $y->status_bayar . " Diskon Program </span> ";
                             } else if ($y->ket_voucher == "3") {
                               echo "<span class='badge bg-green'>" . $y->status_bayar . " Penyelesaian Piutang Oleh Salesman </span> ";
+                            } else if ($y->ket_voucher == "3") {
+                              echo "<span class='badge bg-green'>" . $y->status_bayar . " Penyelesaian Piutang Oleh Salesman </span> ";
                             } else {
-                              echo "<span class='badge bg-green'>" . $y->status_bayar . " Pengalihan Piutang Dgng Jd Piutang Kary </span> ";
+                              echo "<span class='badge bg-green'>" . $y->status_bayar . " Lainnya </span> ";
                             }
                           }
                           ?>

@@ -5019,7 +5019,12 @@ class Model_penjualan extends CI_Model
 
     if ($level == 'kepala cabang') {
       $lv = 'kacab';
-      $status = 0;
+      if ($jumlah > 2000000) {
+
+        $status = 0;
+      } else {
+        $status = 1;
+      }
     } else if ($level == 'manager marketing') {
       $lv = 'mm';
       $status = 0;
