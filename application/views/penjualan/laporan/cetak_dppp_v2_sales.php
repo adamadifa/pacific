@@ -92,172 +92,142 @@ error_reporting(0);
       <thead bgcolor="#295ea9" style="color:white; font-size:14;">
         <tr>
           <td rowspan="4" style="background-color:#295ea9; color:white" class="fixed-side" scope="col">#</td>
-          <td rowspan="4" style="background-color:#295ea9; color:white" class="fixed-side" scope="col">Salesman</td>
+          <td rowspan="4" style="background-color:#295ea9; color:white" class="fixed-side" scope="col">Cabang</td>
           <td colspan="108">Produk</td>
         </tr>
         <tr style="text-align:center">
-          <td colspan="12">AB</td>
-          <td colspan="12">AR</td>
-          <td colspan="12">AS</td>
-          <td colspan="12">BB</td>
-          <td colspan="12">CG</td>
-          <td colspan="12">CGG</td>
-          <td colspan="12">DEP</td>
-          <td colspan="12">DS</td>
-          <td colspan="12">SP</td>
+          <td colspan="10">AB</td>
+          <td colspan="10">AR</td>
+          <td colspan="10">AS</td>
+          <td colspan="10">BB</td>
+          <td colspan="10">CG</td>
+          <td colspan="10">CGG</td>
+          <td colspan="10">DEP</td>
+          <td colspan="10">DS</td>
+          <td colspan="10">SP</td>
 
         </tr>
         <tr style="text-align: center;">
-          <td colspan="4"><?= $tahun ?></td>
-          <td colspan="4" style="background-color: #25b70a;"><?= $namabulan[$bulan] ?></td>
-          <td colspan="4">s/d <?= $namabulan[$bulan] ?></td>
-          <td colspan="4"><?= $tahun ?></td>
-          <td colspan="4" style="background-color: #25b70a;"><?= $namabulan[$bulan] ?></td>
-          <td colspan="4">s/d <?= $namabulan[$bulan] ?></td>
-          <td colspan="4"><?= $tahun ?></td>
-          <td colspan="4" style="background-color: #25b70a;"><?= $namabulan[$bulan] ?></td>
-          <td colspan="4">s/d <?= $namabulan[$bulan] ?></td>
-          <td colspan="4"><?= $tahun ?></td>
-          <td colspan="4" style="background-color: #25b70a;"><?= $namabulan[$bulan] ?></td>
-          <td colspan="4">s/d <?= $namabulan[$bulan] ?></td>
-          <td colspan="4"><?= $tahun ?></td>
-          <td colspan="4" style="background-color: #25b70a;"><?= $namabulan[$bulan] ?></td>
-          <td colspan="4">s/d <?= $namabulan[$bulan] ?></td>
-
-          <td colspan="4"><?= $tahun ?></td>
-          <td colspan="4" style="background-color: #25b70a;"><?= $namabulan[$bulan] ?></td>
-          <td colspan="4">s/d <?= $namabulan[$bulan] ?></td>
-
-          <td colspan="4"><?= $tahun ?></td>
-          <td colspan="4" style="background-color: #25b70a;"><?= $namabulan[$bulan] ?></td>
-          <td colspan="4">s/d <?= $namabulan[$bulan] ?></td>
-
-          <td colspan="4"><?= $tahun ?></td>
-          <td colspan="4" style="background-color: #25b70a;"><?= $namabulan[$bulan] ?></td>
-          <td colspan="4">s/d <?= $namabulan[$bulan] ?></td>
-
-          <td colspan="4"><?= $tahun ?></td>
-          <td colspan="4" style="background-color: #25b70a;"><?= $namabulan[$bulan] ?></td>
-          <td colspan="4">s/d <?= $namabulan[$bulan] ?></td>
+          <td colspan="5" style="background-color: #25b70a;"><?= $namabulan[$bulan] ?></td>
+          <td colspan="5">s/d <?= $namabulan[$bulan] ?></td>
+          <td colspan="5" style="background-color: #25b70a;"><?= $namabulan[$bulan] ?></td>
+          <td colspan="5">s/d <?= $namabulan[$bulan] ?></td>
+          <td colspan="5" style="background-color: #25b70a;"><?= $namabulan[$bulan] ?></td>
+          <td colspan="5">s/d <?= $namabulan[$bulan] ?></td>
+          <td colspan="5" style="background-color: #25b70a;"><?= $namabulan[$bulan] ?></td>
+          <td colspan="5">s/d <?= $namabulan[$bulan] ?></td>
+          <td colspan="5" style="background-color: #25b70a;"><?= $namabulan[$bulan] ?></td>
+          <td colspan="5">s/d <?= $namabulan[$bulan] ?></td>
+          <td colspan="5" style="background-color: #25b70a;"><?= $namabulan[$bulan] ?></td>
+          <td colspan="5">s/d <?= $namabulan[$bulan] ?></td>
+          <td colspan="5" style="background-color: #25b70a;"><?= $namabulan[$bulan] ?></td>
+          <td colspan="5">s/d <?= $namabulan[$bulan] ?></td>
+          <td colspan="5" style="background-color: #25b70a;"><?= $namabulan[$bulan] ?></td>
+          <td colspan="5">s/d <?= $namabulan[$bulan] ?></td>
+          <td colspan="5" style="background-color: #25b70a;"><?= $namabulan[$bulan] ?></td>
+          <td colspan="5">s/d <?= $namabulan[$bulan] ?></td>
         </tr>
 
-        <tr>
-          <td>Target</td>
-          <td>Realisasi</td>
-          <td>Ach(%)</td>
-          <td>Sisa</td>
+        <tr style="text-align: center;">
+          <td style="background-color: #25b70a;">Real <?php echo $tahun - 1; ?></td>
           <td style="background-color: #25b70a;">Target</td>
           <td style="background-color: #25b70a;">Realisasi</td>
           <td style="background-color: #25b70a;">Ach(%)</td>
-          <td style="background-color: #25b70a;">Sisa</td>
+          <td style="background-color: #25b70a;">Grw(%)</td>
+          <td>Real <?php echo $tahun - 1; ?></td>
           <td>Target</td>
           <td>Realisasi</td>
           <td>Ach(%)</td>
-          <td>Sisa</td>
+          <td>Grw(%)</td>
 
-          <td>Target</td>
-          <td>Realisasi</td>
-          <td>Ach(%)</td>
-          <td>Sisa</td>
+          <td style="background-color: #25b70a;">Real <?php echo $tahun - 1; ?></td>
           <td style="background-color: #25b70a;">Target</td>
           <td style="background-color: #25b70a;">Realisasi</td>
           <td style="background-color: #25b70a;">Ach(%)</td>
-          <td style="background-color: #25b70a;">Sisa</td>
+          <td style="background-color: #25b70a;">Grw(%)</td>
+          <td>Real <?php echo $tahun - 1; ?></td>
           <td>Target</td>
           <td>Realisasi</td>
           <td>Ach(%)</td>
-          <td>Sisa</td>
+          <td>Grw(%)</td>
 
-          <td>Target</td>
-          <td>Realisasi</td>
-          <td>Ach(%)</td>
-          <td>Sisa</td>
+          <td style="background-color: #25b70a;">Real <?php echo $tahun - 1; ?></td>
           <td style="background-color: #25b70a;">Target</td>
           <td style="background-color: #25b70a;">Realisasi</td>
           <td style="background-color: #25b70a;">Ach(%)</td>
-          <td style="background-color: #25b70a;">Sisa</td>
+          <td style="background-color: #25b70a;">Grw(%)</td>
+          <td>Real <?php echo $tahun - 1; ?></td>
           <td>Target</td>
           <td>Realisasi</td>
           <td>Ach(%)</td>
-          <td>Sisa</td>
+          <td>Grw(%)</td>
 
-          <td>Target</td>
-          <td>Realisasi</td>
-          <td>Ach(%)</td>
-          <td>Sisa</td>
+          <td style="background-color: #25b70a;">Real <?php echo $tahun - 1; ?></td>
           <td style="background-color: #25b70a;">Target</td>
           <td style="background-color: #25b70a;">Realisasi</td>
           <td style="background-color: #25b70a;">Ach(%)</td>
-          <td style="background-color: #25b70a;">Sisa</td>
+          <td style="background-color: #25b70a;">Grw(%)</td>
+          <td>Real <?php echo $tahun - 1; ?></td>
           <td>Target</td>
           <td>Realisasi</td>
           <td>Ach(%)</td>
-          <td>Sisa</td>
+          <td>Grw(%)</td>
 
-          <td>Target</td>
-          <td>Realisasi</td>
-          <td>Ach(%)</td>
-          <td>Sisa</td>
+          <td style="background-color: #25b70a;">Real <?php echo $tahun - 1; ?></td>
           <td style="background-color: #25b70a;">Target</td>
           <td style="background-color: #25b70a;">Realisasi</td>
           <td style="background-color: #25b70a;">Ach(%)</td>
-          <td style="background-color: #25b70a;">Sisa</td>
+          <td style="background-color: #25b70a;">Grw(%)</td>
+          <td>Real <?php echo $tahun - 1; ?></td>
           <td>Target</td>
           <td>Realisasi</td>
           <td>Ach(%)</td>
-          <td>Sisa</td>
+          <td>Grw(%)</td>
 
-          <td>Target</td>
-          <td>Realisasi</td>
-          <td>Ach(%)</td>
-          <td>Sisa</td>
+          <td style="background-color: #25b70a;">Real <?php echo $tahun - 1; ?></td>
           <td style="background-color: #25b70a;">Target</td>
           <td style="background-color: #25b70a;">Realisasi</td>
           <td style="background-color: #25b70a;">Ach(%)</td>
-          <td style="background-color: #25b70a;">Sisa</td>
+          <td style="background-color: #25b70a;">Grw(%)</td>
+          <td>Real <?php echo $tahun - 1; ?></td>
           <td>Target</td>
           <td>Realisasi</td>
           <td>Ach(%)</td>
-          <td>Sisa</td>
+          <td>Grw(%)</td>
 
-          <td>Target</td>
-          <td>Realisasi</td>
-          <td>Ach(%)</td>
-          <td>Sisa</td>
+          <td style="background-color: #25b70a;">Real <?php echo $tahun - 1; ?></td>
           <td style="background-color: #25b70a;">Target</td>
           <td style="background-color: #25b70a;">Realisasi</td>
           <td style="background-color: #25b70a;">Ach(%)</td>
-          <td style="background-color: #25b70a;">Sisa</td>
+          <td style="background-color: #25b70a;">Grw(%)</td>
+          <td>Real <?php echo $tahun - 1; ?></td>
           <td>Target</td>
           <td>Realisasi</td>
           <td>Ach(%)</td>
-          <td>Sisa</td>
+          <td>Grw(%)</td>
 
-          <td>Target</td>
-          <td>Realisasi</td>
-          <td>Ach(%)</td>
-          <td>Sisa</td>
+          <td style="background-color: #25b70a;">Real <?php echo $tahun - 1; ?></td>
           <td style="background-color: #25b70a;">Target</td>
           <td style="background-color: #25b70a;">Realisasi</td>
           <td style="background-color: #25b70a;">Ach(%)</td>
-          <td style="background-color: #25b70a;">Sisa</td>
+          <td style="background-color: #25b70a;">Grw(%)</td>
+          <td>Real <?php echo $tahun - 1; ?></td>
           <td>Target</td>
           <td>Realisasi</td>
           <td>Ach(%)</td>
-          <td>Sisa</td>
+          <td>Grw(%)</td>
 
-          <td>Target</td>
-          <td>Realisasi</td>
-          <td>Ach(%)</td>
-          <td>Sisa</td>
+          <td style="background-color: #25b70a;">Real <?php echo $tahun - 1; ?></td>
           <td style="background-color: #25b70a;">Target</td>
           <td style="background-color: #25b70a;">Realisasi</td>
           <td style="background-color: #25b70a;">Ach(%)</td>
-          <td style="background-color: #25b70a;">Sisa</td>
+          <td style="background-color: #25b70a;">Grw(%)</td>
+          <td>Real <?php echo $tahun - 1; ?></td>
           <td>Target</td>
           <td>Realisasi</td>
           <td>Ach(%)</td>
-          <td>Sisa</td>
+          <td>Grw(%)</td>
+
         </tr>
 
 
@@ -301,532 +271,1118 @@ error_reporting(0);
         }
 
 
+        $total_reallastbulanini_ab = 0;
+        $total_reallastsampaibulanini_ab = 0;
+        $total_realbulanini_ab = 0;
+        $total_realsampaibulanini_ab = 0;
+        $total_targetbulanini_ab = 0;
+        $total_targetsampaibulanini_ab = 0;
+
+        $total_reallastbulanini_ar = 0;
+        $total_reallastsampaibulanini_ar = 0;
+        $total_realbulanini_ar = 0;
+        $total_realsampaibulanini_ar = 0;
+        $total_targetbulanini_ar = 0;
+        $total_targetsampaibulanini_ar = 0;
+
+        $total_reallastbulanini_as = 0;
+        $total_reallastsampaibulanini_as = 0;
+        $total_realbulanini_as = 0;
+        $total_realsampaibulanini_as = 0;
+        $total_targetbulanini_as = 0;
+        $total_targetsampaibulanini_as = 0;
+
+        $total_reallastbulanini_bb = 0;
+        $total_reallastsampaibulanini_bb = 0;
+        $total_realbulanini_bb = 0;
+        $total_realsampaibulanini_bb = 0;
+        $total_targetbulanini_bb = 0;
+        $total_targetsampaibulanini_bb = 0;
+
+        $total_reallastbulanini_cg = 0;
+        $total_reallastsampaibulanini_cg = 0;
+        $total_realbulanini_cg = 0;
+        $total_realsampaibulanini_cg = 0;
+        $total_targetbulanini_cg = 0;
+        $total_targetsampaibulanini_cg = 0;
+
+        $total_reallastbulanini_cgg = 0;
+        $total_reallastsampaibulanini_cgg = 0;
+        $total_realbulanini_cgg = 0;
+        $total_realsampaibulanini_cgg = 0;
+        $total_targetbulanini_cgg = 0;
+        $total_targetsampaibulanini_cgg = 0;
+
+        $total_reallastbulanini_dep = 0;
+        $total_reallastsampaibulanini_dep = 0;
+        $total_realbulanini_dep = 0;
+        $total_realsampaibulanini_dep = 0;
+        $total_targetbulanini_dep = 0;
+        $total_targetsampaibulanini_dep = 0;
+
+        $total_reallastbulanini_ds = 0;
+        $total_reallastsampaibulanini_ds = 0;
+        $total_realbulanini_ds = 0;
+        $total_realsampaibulanini_ds = 0;
+        $total_targetbulanini_ds = 0;
+        $total_targetsampaibulanini_ds = 0;
+
+        $total_reallastbulanini_sp = 0;
+        $total_reallastsampaibulanini_sp = 0;
+        $total_realbulanini_sp = 0;
+        $total_realsampaibulanini_sp = 0;
+        $total_targetbulanini_sp = 0;
+        $total_targetsampaibulanini_sp = 0;
+
+
 
         $no = 1;
         foreach ($dppp as $d) {
+          $reallastbulanini_ab = floor($d->reallastbulanini_ab / $isipcs_ab);
+          $reallastsampaibulanini_ab = floor($d->reallastsampaibulanini_ab / $isipcs_ab);
+          $realbulanini_ab = floor($d->realbulanini_ab / $isipcs_ab);
+          $realsampaibulanini_ab = floor($d->realsampaibulanini_ab / $isipcs_ab);
+          $targetbulanini_ab = $d->ab_bulanini;
+          $targetsampaibulanini_ab = $d->ab_sampaibulanini;
 
-          $real_ab_tahun = floor($d->real_ab_tahun / $isipcs_ab);
-          $real_ab_bulanini = floor($d->real_ab_bulanini / $isipcs_ab);
-          $real_ab_sampaibulanini = floor($d->real_ab_sampaibulanini / $isipcs_ab);
-          if ($d->ab_tahun == 0) {
-            $ach_ab_tahun = 0;
-          } else {
-            $ach_ab_tahun   = ($real_ab_tahun / $d->ab_tahun) * 100;
-          }
-
-          if ($d->ab_bulanini == 0) {
+          if ($targetbulanini_ab == 0) {
             $ach_ab_bulanini = 0;
           } else {
-            $ach_ab_bulanini   = ($real_ab_bulanini / $d->ab_bulanini) * 100;
+            $ach_ab_bulanini   = ($realbulanini_ab / $targetbulanini_ab) * 100;
           }
 
-          if ($d->ab_sampaibulanini == 0) {
+          if ($reallastbulanini_ab == 0) {
+            $grw_ab_bulanini = 0;
+          } else {
+            $grw_ab_bulanini   = ($realbulanini_ab / $reallastbulanini_ab) * 100;
+          }
+
+          if ($targetsampaibulanini_ab == 0) {
             $ach_ab_sampaibulanini = 0;
           } else {
-            $ach_ab_sampaibulanini   = ($real_ab_sampaibulanini / $d->ab_sampaibulanini) * 100;
+            $ach_ab_sampaibulanini   = ($realsampaibulanini_ab / $targetsampaibulanini_ab) * 100;
           }
 
-          if ($real_ab_tahun > $d->ab_tahun) {
-            $sisa_ab = 0;
+          if ($reallastsampaibulanini_ab == 0) {
+            $grw_ab_sampaibulanini = 0;
           } else {
-            $sisa_ab = $d->ab_tahun - $real_ab_tahun;
+            $grw_ab_sampaibulanini   = ($realsampaibulanini_ab / $reallastsampaibulanini_ab) * 100;
           }
 
-          if ($real_ab_bulanini > $d->ab_bulanini) {
-            $sisabulanini_ab = 0;
-          } else {
-            $sisabulanini_ab = $d->ab_bulanini - $real_ab_bulanini;
-          }
 
-          if ($real_ab_sampaibulanini > $d->ab_sampaibulanini) {
-            $sisasampaibulanini_ab = 0;
-          } else {
-            $sisasampaibulanini_ab = $d->ab_sampaibulanini - $real_ab_sampaibulanini;
-          }
+          $reallastbulanini_ar = floor($d->reallastbulanini_ar / $isipcs_ar);
+          $reallastsampaibulanini_ar = floor($d->reallastsampaibulanini_ar / $isipcs_ar);
+          $realbulanini_ar = floor($d->realbulanini_ar / $isipcs_ar);
+          $realsampaibulanini_ar = floor($d->realsampaibulanini_ar / $isipcs_ar);
+          $targetbulanini_ar = $d->ar_bulanini;
+          $targetsampaibulanini_ar = $d->ar_sampaibulanini;
 
-          //AR
-          $real_ar_tahun = floor($d->real_ar_tahun / $isipcs_ar);
-          $real_ar_bulanini = floor($d->real_ar_bulanini / $isipcs_ar);
-          $real_ar_sampaibulanini = floor($d->real_ar_sampaibulanini / $isipcs_ar);
-          if ($d->ar_tahun == 0) {
-            $ach_ar_tahun = 0;
-          } else {
-            $ach_ar_tahun   = ($real_ar_tahun / $d->ar_tahun) * 100;
-          }
-
-          if ($d->ar_bulanini == 0) {
+          if ($targetbulanini_ar == 0) {
             $ach_ar_bulanini = 0;
           } else {
-            $ach_ar_bulanini   = ($real_ar_bulanini / $d->ar_bulanini) * 100;
+            $ach_ar_bulanini   = ($realbulanini_ar / $targetbulanini_ar) * 100;
           }
 
-          if ($d->ar_sampaibulanini == 0) {
+          if ($reallastbulanini_ar == 0) {
+            $grw_ar_bulanini = 0;
+          } else {
+            $grw_ar_bulanini   = ($realbulanini_ar / $reallastbulanini_ar) * 100;
+          }
+
+          if ($targetsampaibulanini_ar == 0) {
             $ach_ar_sampaibulanini = 0;
           } else {
-            $ach_ar_sampaibulanini   = ($real_ar_sampaibulanini / $d->ar_sampaibulanini) * 100;
+            $ach_ar_sampaibulanini   = ($realsampaibulanini_ar / $targetsampaibulanini_ar) * 100;
           }
 
-          if ($real_ar_tahun > $d->ar_tahun) {
-            $sisa_ar = 0;
+          if ($reallastsampaibulanini_ar == 0) {
+            $grw_ar_sampaibulanini = 0;
           } else {
-            $sisa_ar = $d->ar_tahun - $real_ar_tahun;
+            $grw_ar_sampaibulanini   = ($realsampaibulanini_ar / $reallastsampaibulanini_ar) * 100;
           }
 
-          if ($real_ar_bulanini > $d->ar_bulanini) {
-            $sisabulanini_ar = 0;
-          } else {
-            $sisabulanini_ar = $d->ar_bulanini - $real_ar_bulanini;
-          }
+          $reallastbulanini_as = floor($d->reallastbulanini_as / $isipcs_as);
+          $reallastsampaibulanini_as = floor($d->reallastsampaibulanini_as / $isipcs_as);
+          $realbulanini_as = floor($d->realbulanini_as / $isipcs_as);
+          $realsampaibulanini_as = floor($d->realsampaibulanini_as / $isipcs_as);
+          $targetbulanini_as = $d->as_bulanini;
+          $targetsampaibulanini_as = $d->as_sampaibulanini;
 
-          if ($real_ar_sampaibulanini > $d->ar_sampaibulanini) {
-            $sisasampaibulanini_ar = 0;
-          } else {
-            $sisasampaibulanini_ar = $d->ar_sampaibulanini - $real_ar_sampaibulanini;
-          }
-
-
-          //AS
-          $real_as_tahun = floor($d->real_as_tahun / $isipcs_as);
-          $real_as_bulanini = floor($d->real_as_bulanini / $isipcs_as);
-          $real_as_sampaibulanini = floor($d->real_as_sampaibulanini / $isipcs_as);
-          if ($d->as_tahun == 0) {
-            $ach_as_tahun = 0;
-          } else {
-            $ach_as_tahun   = ($real_as_tahun / $d->as_tahun) * 100;
-          }
-
-          if ($d->as_bulanini == 0) {
+          if ($targetbulanini_as == 0) {
             $ach_as_bulanini = 0;
           } else {
-            $ach_as_bulanini   = ($real_as_bulanini / $d->as_bulanini) * 100;
+            $ach_as_bulanini   = ($realbulanini_as / $targetbulanini_as) * 100;
           }
 
-          if ($d->as_sampaibulanini == 0) {
+          if ($reallastbulanini_as == 0) {
+            $grw_as_bulanini = 0;
+          } else {
+            $grw_as_bulanini   = ($realbulanini_as / $reallastbulanini_as) * 100;
+          }
+
+          if ($targetsampaibulanini_as == 0) {
             $ach_as_sampaibulanini = 0;
           } else {
-            $ach_as_sampaibulanini   = ($real_as_sampaibulanini / $d->as_sampaibulanini) * 100;
+            $ach_as_sampaibulanini   = ($realsampaibulanini_as / $targetsampaibulanini_as) * 100;
           }
 
-          if ($real_as_tahun > $d->as_tahun) {
-            $sisa_as = 0;
+          if ($reallastsampaibulanini_as == 0) {
+            $grw_as_sampaibulanini = 0;
           } else {
-            $sisa_as = $d->as_tahun - $real_as_tahun;
+            $grw_as_sampaibulanini   = ($realsampaibulanini_as / $reallastsampaibulanini_as) * 100;
           }
 
-          if ($real_as_bulanini > $d->as_bulanini) {
-            $sisabulanini_as = 0;
-          } else {
-            $sisabulanini_as = $d->as_bulanini - $real_as_bulanini;
-          }
+          $reallastbulanini_bb = floor($d->reallastbulanini_bb / $isipcs_bb);
+          $reallastsampaibulanini_bb = floor($d->reallastsampaibulanini_bb / $isipcs_bb);
+          $realbulanini_bb = floor($d->realbulanini_bb / $isipcs_bb);
+          $realsampaibulanini_bb = floor($d->realsampaibulanini_bb / $isipcs_bb);
+          $targetbulanini_bb = $d->bb_bulanini;
+          $targetsampaibulanini_bb = $d->bb_sampaibulanini;
 
-          if ($real_as_sampaibulanini > $d->as_sampaibulanini) {
-            $sisasampaibulanini_as = 0;
-          } else {
-            $sisasampaibulanini_as = $d->as_sampaibulanini - $real_as_sampaibulanini;
-          }
-
-          //BB
-          $real_bb_tahun = floor($d->real_bb_tahun / $isipcs_bb);
-          $real_bb_bulanini = floor($d->real_bb_bulanini / $isipcs_bb);
-          $real_bb_sampaibulanini = floor($d->real_bb_sampaibulanini / $isipcs_bb);
-          if ($d->bb_tahun == 0) {
-            $ach_bb_tahun = 0;
-          } else {
-            $ach_bb_tahun   = ($real_bb_tahun / $d->bb_tahun) * 100;
-          }
-
-          if ($d->bb_bulanini == 0) {
+          if ($targetbulanini_bb == 0) {
             $ach_bb_bulanini = 0;
           } else {
-            $ach_bb_bulanini   = ($real_bb_bulanini / $d->bb_bulanini) * 100;
+            $ach_bb_bulanini   = ($realbulanini_bb / $targetbulanini_bb) * 100;
           }
 
-          if ($d->bb_sampaibulanini == 0) {
+          if ($reallastbulanini_bb == 0) {
+            $grw_bb_bulanini = 0;
+          } else {
+            $grw_bb_bulanini   = ($realbulanini_bb / $reallastbulanini_bb) * 100;
+          }
+
+          if ($targetsampaibulanini_bb == 0) {
             $ach_bb_sampaibulanini = 0;
           } else {
-            $ach_bb_sampaibulanini   = ($real_bb_sampaibulanini / $d->bb_sampaibulanini) * 100;
+            $ach_bb_sampaibulanini   = ($realsampaibulanini_bb / $targetsampaibulanini_bb) * 100;
           }
 
-          if ($real_bb_tahun > $d->bb_tahun) {
-            $sisa_bb = 0;
+          if ($reallastsampaibulanini_bb == 0) {
+            $grw_bb_sampaibulanini = 0;
           } else {
-            $sisa_bb = $d->bb_tahun - $real_bb_tahun;
+            $grw_bb_sampaibulanini   = ($realsampaibulanini_bb / $reallastsampaibulanini_bb) * 100;
           }
 
-          if ($real_bb_bulanini > $d->bb_bulanini) {
-            $sisabulanini_bb = 0;
-          } else {
-            $sisabulanini_bb = $d->bb_bulanini - $real_bb_bulanini;
-          }
 
-          if ($real_bb_sampaibulanini > $d->bb_sampaibulanini) {
-            $sisasampaibulanini_bb = 0;
-          } else {
-            $sisasampaibulanini_bb = $d->bb_sampaibulanini - $real_bb_sampaibulanini;
-          }
+          $reallastbulanini_cg = floor($d->reallastbulanini_cg / $isipcs_cg);
+          $reallastsampaibulanini_cg = floor($d->reallastsampaibulanini_cg / $isipcs_cg);
+          $realbulanini_cg = floor($d->realbulanini_cg / $isipcs_cg);
+          $realsampaibulanini_cg = floor($d->realsampaibulanini_cg / $isipcs_cg);
+          $targetbulanini_cg = $d->cg_bulanini;
+          $targetsampaibulanini_cg = $d->cg_sampaibulanini;
 
-          //CG
-          $real_cg_tahun = floor($d->real_cg_tahun / $isipcs_cg);
-          $real_cg_bulanini = floor($d->real_cg_bulanini / $isipcs_cg);
-          $real_cg_sampaibulanini = floor($d->real_cg_sampaibulanini / $isipcs_cg);
-          if ($d->cg_tahun == 0) {
-            $ach_cg_tahun = 0;
-          } else {
-            $ach_cg_tahun   = ($real_cg_tahun / $d->cg_tahun) * 100;
-          }
-
-          if ($d->cg_bulanini == 0) {
+          if ($targetbulanini_cg == 0) {
             $ach_cg_bulanini = 0;
           } else {
-            $ach_cg_bulanini   = ($real_cg_bulanini / $d->cg_bulanini) * 100;
+            $ach_cg_bulanini   = ($realbulanini_cg / $targetbulanini_cg) * 100;
           }
 
-          if ($d->cg_sampaibulanini == 0) {
+          if ($reallastbulanini_cg == 0) {
+            $grw_cg_bulanini = 0;
+          } else {
+            $grw_cg_bulanini   = ($realbulanini_cg / $reallastbulanini_cg) * 100;
+          }
+
+          if ($targetsampaibulanini_cg == 0) {
             $ach_cg_sampaibulanini = 0;
           } else {
-            $ach_cg_sampaibulanini   = ($real_cg_sampaibulanini / $d->cg_sampaibulanini) * 100;
+            $ach_cg_sampaibulanini   = ($realsampaibulanini_cg / $targetsampaibulanini_cg) * 100;
           }
 
-          if ($real_cg_tahun > $d->cg_tahun) {
-            $sisa_cg = 0;
+          if ($reallastsampaibulanini_cg == 0) {
+            $grw_cg_sampaibulanini = 0;
           } else {
-            $sisa_cg = $d->cg_tahun - $real_cg_tahun;
+            $grw_cg_sampaibulanini   = ($realsampaibulanini_cg / $reallastsampaibulanini_cg) * 100;
           }
 
-          if ($real_cg_bulanini > $d->cg_bulanini) {
-            $sisabulanini_cg = 0;
-          } else {
-            $sisabulanini_cg = $d->cg_bulanini - $real_cg_bulanini;
-          }
+          $reallastbulanini_cgg = floor($d->reallastbulanini_cgg / $isipcs_cgg);
+          $reallastsampaibulanini_cgg = floor($d->reallastsampaibulanini_cgg / $isipcs_cgg);
+          $realbulanini_cgg = floor($d->realbulanini_cgg / $isipcs_cgg);
+          $realsampaibulanini_cgg = floor($d->realsampaibulanini_cgg / $isipcs_cgg);
+          $targetbulanini_cgg = $d->cgg_bulanini;
+          $targetsampaibulanini_cgg = $d->cgg_sampaibulanini;
 
-          if ($real_cg_sampaibulanini > $d->cg_sampaibulanini) {
-            $sisasampaibulanini_cg = 0;
-          } else {
-            $sisasampaibulanini_cg = $d->cg_sampaibulanini - $real_cg_sampaibulanini;
-          }
-
-          //CGG
-          $real_cgg_tahun = floor($d->real_cgg_tahun / $isipcs_cgg);
-          $real_cgg_bulanini = floor($d->real_cgg_bulanini / $isipcs_cgg);
-          $real_cgg_sampaibulanini = floor($d->real_cgg_sampaibulanini / $isipcs_cgg);
-          if ($d->cgg_tahun == 0) {
-            $ach_cgg_tahun = 0;
-          } else {
-            $ach_cgg_tahun   = ($real_cgg_tahun / $d->cgg_tahun) * 100;
-          }
-
-          if ($d->cgg_bulanini == 0) {
+          if ($targetbulanini_cgg == 0) {
             $ach_cgg_bulanini = 0;
           } else {
-            $ach_cgg_bulanini   = ($real_cgg_bulanini / $d->cgg_bulanini) * 100;
+            $ach_cgg_bulanini   = ($realbulanini_cgg / $targetbulanini_cgg) * 100;
           }
 
-          if ($d->cgg_sampaibulanini == 0) {
+          if ($reallastbulanini_cgg == 0) {
+            $grw_cgg_bulanini = 0;
+          } else {
+            $grw_cgg_bulanini   = ($realbulanini_cgg / $reallastbulanini_cgg) * 100;
+          }
+
+          if ($targetsampaibulanini_cgg == 0) {
             $ach_cgg_sampaibulanini = 0;
           } else {
-            $ach_cgg_sampaibulanini   = ($real_cgg_sampaibulanini / $d->cgg_sampaibulanini) * 100;
+            $ach_cgg_sampaibulanini   = ($realsampaibulanini_cgg / $targetsampaibulanini_cgg) * 100;
           }
 
-          if ($real_cgg_tahun > $d->cgg_tahun) {
-            $sisa_cgg = 0;
+          if ($reallastsampaibulanini_cgg == 0) {
+            $grw_cgg_sampaibulanini = 0;
           } else {
-            $sisa_cgg = $d->cgg_tahun - $real_cgg_tahun;
+            $grw_cgg_sampaibulanini   = ($realsampaibulanini_cgg / $reallastsampaibulanini_cgg) * 100;
           }
 
-          if ($real_cgg_bulanini > $d->cgg_bulanini) {
-            $sisabulanini_cgg = 0;
-          } else {
-            $sisabulanini_cgg = $d->cgg_bulanini - $real_cgg_bulanini;
-          }
+          $reallastbulanini_dep = floor($d->reallastbulanini_dep / $isipcs_dep);
+          $reallastsampaibulanini_dep = floor($d->reallastsampaibulanini_dep / $isipcs_dep);
+          $realbulanini_dep = floor($d->realbulanini_dep / $isipcs_dep);
+          $realsampaibulanini_dep = floor($d->realsampaibulanini_dep / $isipcs_dep);
+          $targetbulanini_dep = $d->dep_bulanini;
+          $targetsampaibulanini_dep = $d->dep_sampaibulanini;
 
-          if ($real_cgg_sampaibulanini > $d->cgg_sampaibulanini) {
-            $sisasampaibulanini_cgg = 0;
-          } else {
-            $sisasampaibulanini_cgg = $d->cgg_sampaibulanini - $real_cgg_sampaibulanini;
-          }
-
-          //CGG
-          $real_cgg_tahun = floor($d->real_cgg_tahun / $isipcs_cgg);
-          $real_cgg_bulanini = floor($d->real_cgg_bulanini / $isipcs_cgg);
-          $real_cgg_sampaibulanini = floor($d->real_cgg_sampaibulanini / $isipcs_cgg);
-          if ($d->cgg_tahun == 0) {
-            $ach_cgg_tahun = 0;
-          } else {
-            $ach_cgg_tahun   = ($real_cgg_tahun / $d->cgg_tahun) * 100;
-          }
-
-          if ($d->cgg_bulanini == 0) {
-            $ach_cgg_bulanini = 0;
-          } else {
-            $ach_cgg_bulanini   = ($real_cgg_bulanini / $d->cgg_bulanini) * 100;
-          }
-
-          if ($d->cgg_sampaibulanini == 0) {
-            $ach_cgg_sampaibulanini = 0;
-          } else {
-            $ach_cgg_sampaibulanini   = ($real_cgg_sampaibulanini / $d->cgg_sampaibulanini) * 100;
-          }
-
-          if ($real_cgg_tahun > $d->cgg_tahun) {
-            $sisa_cgg = 0;
-          } else {
-            $sisa_cgg = $d->cgg_tahun - $real_cgg_tahun;
-          }
-
-          if ($real_cgg_bulanini > $d->cgg_bulanini) {
-            $sisabulanini_cgg = 0;
-          } else {
-            $sisabulanini_cgg = $d->cgg_bulanini - $real_cgg_bulanini;
-          }
-
-          if ($real_cgg_sampaibulanini > $d->cgg_sampaibulanini) {
-            $sisasampaibulanini_cgg = 0;
-          } else {
-            $sisasampaibulanini_cgg = $d->cgg_sampaibulanini - $real_cgg_sampaibulanini;
-          }
-
-          //DEP
-          $real_dep_tahun = floor($d->real_dep_tahun / $isipcs_dep);
-          $real_dep_bulanini = floor($d->real_dep_bulanini / $isipcs_dep);
-          $real_dep_sampaibulanini = floor($d->real_dep_sampaibulanini / $isipcs_dep);
-          if ($d->dep_tahun == 0) {
-            $ach_dep_tahun = 0;
-          } else {
-            $ach_dep_tahun   = ($real_dep_tahun / $d->dep_tahun) * 100;
-          }
-
-          if ($d->dep_bulanini == 0) {
+          if ($targetbulanini_dep == 0) {
             $ach_dep_bulanini = 0;
           } else {
-            $ach_dep_bulanini   = ($real_dep_bulanini / $d->dep_bulanini) * 100;
+            $ach_dep_bulanini   = ($realbulanini_dep / $targetbulanini_dep) * 100;
           }
 
-          if ($d->dep_sampaibulanini == 0) {
+          if ($reallastbulanini_dep == 0) {
+            $grw_dep_bulanini = 0;
+          } else {
+            $grw_dep_bulanini   = ($realbulanini_dep / $reallastbulanini_dep) * 100;
+          }
+
+          if ($targetsampaibulanini_dep == 0) {
             $ach_dep_sampaibulanini = 0;
           } else {
-            $ach_dep_sampaibulanini   = ($real_dep_sampaibulanini / $d->dep_sampaibulanini) * 100;
+            $ach_dep_sampaibulanini   = ($realsampaibulanini_dep / $targetsampaibulanini_dep) * 100;
           }
 
-          if ($real_dep_tahun > $d->dep_tahun) {
-            $sisa_dep = 0;
+          if ($reallastsampaibulanini_dep == 0) {
+            $grw_dep_sampaibulanini = 0;
           } else {
-            $sisa_dep = $d->dep_tahun - $real_dep_tahun;
+            $grw_dep_sampaibulanini   = ($realsampaibulanini_dep / $reallastsampaibulanini_dep) * 100;
           }
 
-          if ($real_dep_bulanini > $d->dep_bulanini) {
-            $sisabulanini_dep = 0;
-          } else {
-            $sisabulanini_dep = $d->dep_bulanini - $real_dep_bulanini;
-          }
+          $reallastbulanini_ds = floor($d->reallastbulanini_ds / $isipcs_ds);
+          $reallastsampaibulanini_ds = floor($d->reallastsampaibulanini_ds / $isipcs_ds);
+          $realbulanini_ds = floor($d->realbulanini_ds / $isipcs_ds);
+          $realsampaibulanini_ds = floor($d->realsampaibulanini_ds / $isipcs_ds);
+          $targetbulanini_ds = $d->ds_bulanini;
+          $targetsampaibulanini_ds = $d->ds_sampaibulanini;
 
-          if ($real_dep_sampaibulanini > $d->dep_sampaibulanini) {
-            $sisasampaibulanini_dep = 0;
-          } else {
-            $sisasampaibulanini_dep = $d->dep_sampaibulanini - $real_dep_sampaibulanini;
-          }
-
-          //DS
-          $real_ds_tahun = floor($d->real_ds_tahun / $isipcs_ds);
-          $real_ds_bulanini = floor($d->real_ds_bulanini / $isipcs_ds);
-          $real_ds_sampaibulanini = floor($d->real_ds_sampaibulanini / $isipcs_ds);
-          if ($d->ds_tahun == 0) {
-            $ach_ds_tahun = 0;
-          } else {
-            $ach_ds_tahun   = ($real_ds_tahun / $d->ds_tahun) * 100;
-          }
-
-          if ($d->ds_bulanini == 0) {
+          if ($targetbulanini_ds == 0) {
             $ach_ds_bulanini = 0;
           } else {
-            $ach_ds_bulanini   = ($real_ds_bulanini / $d->ds_bulanini) * 100;
+            $ach_ds_bulanini   = ($realbulanini_ds / $targetbulanini_ds) * 100;
           }
 
-          if ($d->ds_sampaibulanini == 0) {
+          if ($reallastbulanini_ds == 0) {
+            $grw_ds_bulanini = 0;
+          } else {
+            $grw_ds_bulanini   = ($realbulanini_ds / $reallastbulanini_ds) * 100;
+          }
+
+          if ($targetsampaibulanini_ds == 0) {
             $ach_ds_sampaibulanini = 0;
           } else {
-            $ach_ds_sampaibulanini   = ($real_ds_sampaibulanini / $d->ds_sampaibulanini) * 100;
+            $ach_ds_sampaibulanini   = ($realsampaibulanini_ds / $targetsampaibulanini_ds) * 100;
           }
 
-          if ($real_ds_tahun > $d->ds_tahun) {
-            $sisa_ds = 0;
+          if ($reallastsampaibulanini_ds == 0) {
+            $grw_ds_sampaibulanini = 0;
           } else {
-            $sisa_ds = $d->ds_tahun - $real_ds_tahun;
+            $grw_ds_sampaibulanini   = ($realsampaibulanini_ds / $reallastsampaibulanini_ds) * 100;
           }
 
-          if ($real_ds_bulanini > $d->ds_bulanini) {
-            $sisabulanini_ds = 0;
-          } else {
-            $sisabulanini_ds = $d->ds_bulanini - $real_ds_bulanini;
-          }
+          $reallastbulanini_sp = floor($d->reallastbulanini_sp / $isipcs_sp);
+          $reallastsampaibulanini_sp = floor($d->reallastsampaibulanini_sp / $isipcs_sp);
+          $realbulanini_sp = floor($d->realbulanini_sp / $isipcs_sp);
+          $realsampaibulanini_sp = floor($d->realsampaibulanini_sp / $isipcs_sp);
+          $targetbulanini_sp = $d->sp_bulanini;
+          $targetsampaibulanini_sp = $d->sp_sampaibulanini;
 
-          if ($real_ds_sampaibulanini > $d->ds_sampaibulanini) {
-            $sisasampaibulanini_ds = 0;
-          } else {
-            $sisasampaibulanini_ds = $d->ds_sampaibulanini - $real_ds_sampaibulanini;
-          }
-
-          //SP
-
-          $real_sp_tahun = floor($d->real_sp_tahun / $isipcs_sp);
-          $real_sp_bulanini = floor($d->real_sp_bulanini / $isipcs_sp);
-          $real_sp_sampaibulanini = floor($d->real_sp_sampaibulanini / $isipcs_sp);
-          if ($d->sp_tahun == 0) {
-            $ach_sp_tahun = 0;
-          } else {
-            $ach_sp_tahun   = ($real_sp_tahun / $d->sp_tahun) * 100;
-          }
-
-          if ($d->sp_bulanini == 0) {
+          if ($targetbulanini_sp == 0) {
             $ach_sp_bulanini = 0;
           } else {
-            $ach_sp_bulanini   = ($real_sp_bulanini / $d->sp_bulanini) * 100;
+            $ach_sp_bulanini   = ($realbulanini_sp / $targetbulanini_sp) * 100;
           }
 
-          if ($d->sp_sampaibulanini == 0) {
+          if ($reallastbulanini_sp == 0) {
+            $grw_sp_bulanini = 0;
+          } else {
+            $grw_sp_bulanini   = ($realbulanini_sp / $reallastbulanini_sp) * 100;
+          }
+
+          if ($targetsampaibulanini_sp == 0) {
             $ach_sp_sampaibulanini = 0;
           } else {
-            $ach_sp_sampaibulanini   = ($real_sp_sampaibulanini / $d->sp_sampaibulanini) * 100;
+            $ach_sp_sampaibulanini   = ($realsampaibulanini_sp / $targetsampaibulanini_sp) * 100;
           }
 
-          if ($real_sp_tahun > $d->sp_tahun) {
-            $sisa_sp = 0;
+          if ($reallastsampaibulanini_sp == 0) {
+            $grw_sp_sampaibulanini = 0;
           } else {
-            $sisa_sp = $d->sp_tahun - $real_sp_tahun;
+            $grw_sp_sampaibulanini   = ($realsampaibulanini_sp / $reallastsampaibulanini_sp) * 100;
           }
 
-          if ($real_sp_bulanini > $d->sp_bulanini) {
-            $sisabulanini_sp = 0;
+          $total_reallastbulanini_ab += $reallastbulanini_ab;
+          $total_reallastsampaibulanini_ab += $reallastsampaibulanini_ab;
+          $total_realbulanini_ab += $realbulanini_ab;
+          $total_realsampaibulanini_ab += $realsampaibulanini_ab;
+          $total_targetbulanini_ab += $targetbulanini_ab;
+          $total_targetsampaibulanini_ab += $targetsampaibulanini_ab;
+
+          if ($total_targetbulanini_ab == 0) {
+            $total_ach_ab_bulanini = 0;
           } else {
-            $sisabulanini_sp = $d->sp_bulanini - $real_sp_bulanini;
+            $total_ach_ab_bulanini   = ($total_realbulanini_ab / $total_targetbulanini_ab) * 100;
           }
 
-          if ($real_sp_sampaibulanini > $d->sp_sampaibulanini) {
-            $sisasampaibulanini_sp = 0;
+          if ($total_reallastbulanini_ab == 0) {
+            $total_grw_ab_bulanini = 0;
           } else {
-            $sisasampaibulanini_sp = $d->sp_sampaibulanini - $real_sp_sampaibulanini;
+            $total_grw_ab_bulanini   = ($total_realbulanini_ab / $total_reallastbulanini_ab) * 100;
+          }
+
+          if ($total_targetsampaibulanini_ab == 0) {
+            $total_ach_ab_sampaibulanini = 0;
+          } else {
+            $total_ach_ab_sampaibulanini   = ($total_realsampaibulanini_ab / $total_targetsampaibulanini_ab) * 100;
+          }
+
+          if ($total_reallastsampaibulanini_ab == 0) {
+            $total_grw_ab_sampaibulanini = 0;
+          } else {
+            $total_grw_ab_sampaibulanini   = ($total_realsampaibulanini_ab / $total_reallastsampaibulanini_ab) * 100;
+          }
+
+
+          $total_reallastbulanini_ar += $reallastbulanini_ar;
+          $total_reallastsampaibulanini_ar += $reallastsampaibulanini_ar;
+          $total_realbulanini_ar += $realbulanini_ar;
+          $total_realsampaibulanini_ar += $realsampaibulanini_ar;
+          $total_targetbulanini_ar += $targetbulanini_ar;
+          $total_targetsampaibulanini_ar += $targetsampaibulanini_ar;
+
+          if ($total_targetbulanini_ar == 0) {
+            $total_ach_ar_bulanini = 0;
+          } else {
+            $total_ach_ar_bulanini   = ($total_realbulanini_ar / $total_targetbulanini_ar) * 100;
+          }
+
+          if ($total_reallastbulanini_ar == 0) {
+            $total_grw_ar_bulanini = 0;
+          } else {
+            $total_grw_ar_bulanini   = ($total_realbulanini_ar / $total_reallastbulanini_ar) * 100;
+          }
+
+          if ($total_targetsampaibulanini_ar == 0) {
+            $total_ach_ar_sampaibulanini = 0;
+          } else {
+            $total_ach_ar_sampaibulanini   = ($total_realsampaibulanini_ar / $total_targetsampaibulanini_ar) * 100;
+          }
+
+          if ($total_reallastsampaibulanini_ar == 0) {
+            $total_grw_ar_sampaibulanini = 0;
+          } else {
+            $total_grw_ar_sampaibulanini   = ($total_realsampaibulanini_ar / $total_reallastsampaibulanini_ar) * 100;
+          }
+
+
+          $total_reallastbulanini_as += $reallastbulanini_as;
+          $total_reallastsampaibulanini_as += $reallastsampaibulanini_as;
+          $total_realbulanini_as += $realbulanini_as;
+          $total_realsampaibulanini_as += $realsampaibulanini_as;
+          $total_targetbulanini_as += $targetbulanini_as;
+          $total_targetsampaibulanini_as += $targetsampaibulanini_as;
+
+          if ($total_targetbulanini_as == 0) {
+            $total_ach_as_bulanini = 0;
+          } else {
+            $total_ach_as_bulanini   = ($total_realbulanini_as / $total_targetbulanini_as) * 100;
+          }
+
+          if ($total_reallastbulanini_as == 0) {
+            $total_grw_as_bulanini = 0;
+          } else {
+            $total_grw_as_bulanini   = ($total_realbulanini_as / $total_reallastbulanini_as) * 100;
+          }
+
+          if ($total_targetsampaibulanini_as == 0) {
+            $total_ach_as_sampaibulanini = 0;
+          } else {
+            $total_ach_as_sampaibulanini   = ($total_realsampaibulanini_as / $total_targetsampaibulanini_as) * 100;
+          }
+
+          if ($total_reallastsampaibulanini_as == 0) {
+            $total_grw_as_sampaibulanini = 0;
+          } else {
+            $total_grw_as_sampaibulanini   = ($total_realsampaibulanini_as / $total_reallastsampaibulanini_as) * 100;
+          }
+
+          $total_reallastbulanini_bb += $reallastbulanini_bb;
+          $total_reallastsampaibulanini_bb += $reallastsampaibulanini_bb;
+          $total_realbulanini_bb += $realbulanini_bb;
+          $total_realsampaibulanini_bb += $realsampaibulanini_bb;
+          $total_targetbulanini_bb += $targetbulanini_bb;
+          $total_targetsampaibulanini_bb += $targetsampaibulanini_bb;
+
+          if ($total_targetbulanini_bb == 0) {
+            $total_ach_bb_bulanini = 0;
+          } else {
+            $total_ach_bb_bulanini   = ($total_realbulanini_bb / $total_targetbulanini_bb) * 100;
+          }
+
+          if ($total_reallastbulanini_bb == 0) {
+            $total_grw_bb_bulanini = 0;
+          } else {
+            $total_grw_bb_bulanini   = ($total_realbulanini_bb / $total_reallastbulanini_bb) * 100;
+          }
+
+          if ($total_targetsampaibulanini_bb == 0) {
+            $total_ach_bb_sampaibulanini = 0;
+          } else {
+            $total_ach_bb_sampaibulanini   = ($total_realsampaibulanini_bb / $total_targetsampaibulanini_bb) * 100;
+          }
+
+          if ($total_reallastsampaibulanini_bb == 0) {
+            $total_grw_bb_sampaibulanini = 0;
+          } else {
+            $total_grw_bb_sampaibulanini   = ($total_realsampaibulanini_bb / $total_reallastsampaibulanini_bb) * 100;
+          }
+
+          $total_reallastbulanini_cg += $reallastbulanini_cg;
+          $total_reallastsampaibulanini_cg += $reallastsampaibulanini_cg;
+          $total_realbulanini_cg += $realbulanini_cg;
+          $total_realsampaibulanini_cg += $realsampaibulanini_cg;
+          $total_targetbulanini_cg += $targetbulanini_cg;
+          $total_targetsampaibulanini_cg += $targetsampaibulanini_cg;
+
+          if ($total_targetbulanini_cg == 0) {
+            $total_ach_cg_bulanini = 0;
+          } else {
+            $total_ach_cg_bulanini   = ($total_realbulanini_cg / $total_targetbulanini_cg) * 100;
+          }
+
+          if ($total_reallastbulanini_cg == 0) {
+            $total_grw_cg_bulanini = 0;
+          } else {
+            $total_grw_cg_bulanini   = ($total_realbulanini_cg / $total_reallastbulanini_cg) * 100;
+          }
+
+          if ($total_targetsampaibulanini_cg == 0) {
+            $total_ach_cg_sampaibulanini = 0;
+          } else {
+            $total_ach_cg_sampaibulanini   = ($total_realsampaibulanini_cg / $total_targetsampaibulanini_cg) * 100;
+          }
+
+          if ($total_reallastsampaibulanini_cg == 0) {
+            $total_grw_cg_sampaibulanini = 0;
+          } else {
+            $total_grw_cg_sampaibulanini   = ($total_realsampaibulanini_cg / $total_reallastsampaibulanini_cg) * 100;
+          }
+
+          $total_reallastbulanini_cgg += $reallastbulanini_cgg;
+          $total_reallastsampaibulanini_cgg += $reallastsampaibulanini_cgg;
+          $total_realbulanini_cgg += $realbulanini_cgg;
+          $total_realsampaibulanini_cgg += $realsampaibulanini_cgg;
+          $total_targetbulanini_cgg += $targetbulanini_cgg;
+          $total_targetsampaibulanini_cgg += $targetsampaibulanini_cgg;
+
+          if ($total_targetbulanini_cgg == 0) {
+            $total_ach_cgg_bulanini = 0;
+          } else {
+            $total_ach_cgg_bulanini   = ($total_realbulanini_cgg / $total_targetbulanini_cgg) * 100;
+          }
+
+          if ($total_reallastbulanini_cgg == 0) {
+            $total_grw_cgg_bulanini = 0;
+          } else {
+            $total_grw_cgg_bulanini   = ($total_realbulanini_cgg / $total_reallastbulanini_cgg) * 100;
+          }
+
+          if ($total_targetsampaibulanini_cgg == 0) {
+            $total_ach_cgg_sampaibulanini = 0;
+          } else {
+            $total_ach_cgg_sampaibulanini   = ($total_realsampaibulanini_cgg / $total_targetsampaibulanini_cgg) * 100;
+          }
+
+          if ($total_reallastsampaibulanini_cgg == 0) {
+            $total_grw_cgg_sampaibulanini = 0;
+          } else {
+            $total_grw_cgg_sampaibulanini   = ($total_realsampaibulanini_cgg / $total_reallastsampaibulanini_cgg) * 100;
+          }
+
+
+          $total_reallastbulanini_dep += $reallastbulanini_dep;
+          $total_reallastsampaibulanini_dep += $reallastsampaibulanini_dep;
+          $total_realbulanini_dep += $realbulanini_dep;
+          $total_realsampaibulanini_dep += $realsampaibulanini_dep;
+          $total_targetbulanini_dep += $targetbulanini_dep;
+          $total_targetsampaibulanini_dep += $targetsampaibulanini_dep;
+
+          if ($total_targetbulanini_dep == 0) {
+            $total_ach_dep_bulanini = 0;
+          } else {
+            $total_ach_dep_bulanini   = ($total_realbulanini_dep / $total_targetbulanini_dep) * 100;
+          }
+
+          if ($total_reallastbulanini_dep == 0) {
+            $total_grw_dep_bulanini = 0;
+          } else {
+            $total_grw_dep_bulanini   = ($total_realbulanini_dep / $total_reallastbulanini_dep) * 100;
+          }
+
+          if ($total_targetsampaibulanini_dep == 0) {
+            $total_ach_dep_sampaibulanini = 0;
+          } else {
+            $total_ach_dep_sampaibulanini   = ($total_realsampaibulanini_dep / $total_targetsampaibulanini_dep) * 100;
+          }
+
+          if ($total_reallastsampaibulanini_dep == 0) {
+            $total_grw_dep_sampaibulanini = 0;
+          } else {
+            $total_grw_dep_sampaibulanini   = ($total_realsampaibulanini_dep / $total_reallastsampaibulanini_dep) * 100;
+          }
+
+          $total_reallastbulanini_ds += $reallastbulanini_ds;
+          $total_reallastsampaibulanini_ds += $reallastsampaibulanini_ds;
+          $total_realbulanini_ds += $realbulanini_ds;
+          $total_realsampaibulanini_ds += $realsampaibulanini_ds;
+          $total_targetbulanini_ds += $targetbulanini_ds;
+          $total_targetsampaibulanini_ds += $targetsampaibulanini_ds;
+
+          if ($total_targetbulanini_ds == 0) {
+            $total_ach_ds_bulanini = 0;
+          } else {
+            $total_ach_ds_bulanini   = ($total_realbulanini_ds / $total_targetbulanini_ds) * 100;
+          }
+
+          if ($total_reallastbulanini_ds == 0) {
+            $total_grw_ds_bulanini = 0;
+          } else {
+            $total_grw_ds_bulanini   = ($total_realbulanini_ds / $total_reallastbulanini_ds) * 100;
+          }
+
+          if ($total_targetsampaibulanini_ds == 0) {
+            $total_ach_ds_sampaibulanini = 0;
+          } else {
+            $total_ach_ds_sampaibulanini   = ($total_realsampaibulanini_ds / $total_targetsampaibulanini_ds) * 100;
+          }
+
+          if ($total_reallastsampaibulanini_ds == 0) {
+            $total_grw_ds_sampaibulanini = 0;
+          } else {
+            $total_grw_ds_sampaibulanini   = ($total_realsampaibulanini_ds / $total_reallastsampaibulanini_ds) * 100;
+          }
+
+          $total_reallastbulanini_sp += $reallastbulanini_sp;
+          $total_reallastsampaibulanini_sp += $reallastsampaibulanini_sp;
+          $total_realbulanini_sp += $realbulanini_sp;
+          $total_realsampaibulanini_sp += $realsampaibulanini_sp;
+          $total_targetbulanini_sp += $targetbulanini_sp;
+          $total_targetsampaibulanini_sp += $targetsampaibulanini_sp;
+
+          if ($total_targetbulanini_sp == 0) {
+            $total_ach_sp_bulanini = 0;
+          } else {
+            $total_ach_sp_bulanini   = ($total_realbulanini_sp / $total_targetbulanini_sp) * 100;
+          }
+
+          if ($total_reallastbulanini_sp == 0) {
+            $total_grw_sp_bulanini = 0;
+          } else {
+            $total_grw_sp_bulanini   = ($total_realbulanini_sp / $total_reallastbulanini_sp) * 100;
+          }
+
+          if ($total_targetsampaibulanini_sp == 0) {
+            $total_ach_sp_sampaibulanini = 0;
+          } else {
+            $total_ach_sp_sampaibulanini   = ($total_realsampaibulanini_sp / $total_targetsampaibulanini_sp) * 100;
+          }
+
+          if ($total_reallastsampaibulanini_sp == 0) {
+            $total_grw_sp_sampaibulanini = 0;
+          } else {
+            $total_grw_sp_sampaibulanini   = ($total_realsampaibulanini_sp / $total_reallastsampaibulanini_sp) * 100;
           }
 
         ?>
           <tr>
             <td class="fixed-side" scope="col"><?php echo $no; ?></td>
             <td class="fixed-side" scope="col"><?php echo strtoupper($d->nama_karyawan); ?></td>
-            <td align="right"><?php echo uang($d->ab_tahun); ?></td>
-            <td align="right"><?php echo uang($real_ab_tahun); ?></td>
-            <td align="right"><?php echo persentase($ach_ab_tahun); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisa_ab); ?></td>
-            <td align="right"><?php echo uang($d->ab_bulanini); ?></td>
-            <td align="right"><?php echo uang($real_ab_bulanini); ?></td>
-            <td align="right"><?php echo persentase($ach_ab_bulanini); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisabulanini_ab); ?></td>
-            <td align="right"><?php echo uang($d->ab_sampaibulanini); ?></td>
-            <td align="right"><?php echo uang($real_ab_sampaibulanini); ?></td>
-            <td align="right"><?php echo persentase($ach_ab_sampaibulanini); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisasampaibulanini_ab); ?></td>
+            <td align="right">
+              <?php if (!empty($reallastbulanini_ab)) {
+                echo uang($reallastbulanini_ab);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($targetbulanini_ab)) {
+                echo uang($targetbulanini_ab);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($realbulanini_ab)) {
+                echo uang($realbulanini_ab);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($ach_ab_bulanini)) {
+                echo persentase($ach_ab_bulanini);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($grw_ab_bulanini)) {
+                echo persentase($grw_ab_bulanini);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($reallastsampaibulanini_ab)) {
+                echo uang($reallastsampaibulanini_ab);
+              } ?>
+            </td>
+
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($targetsampaibulanini_ab)) {
+                echo uang($targetsampaibulanini_ab);
+              } ?>
+            </td>
+
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($realsampaibulanini_ab)) {
+                echo uang($realsampaibulanini_ab);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($ach_ab_sampaibulanini)) {
+                echo persentase($ach_ab_sampaibulanini);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($grw_ab_sampaibulanini)) {
+                echo persentase($grw_ab_sampaibulanini);
+              } ?>
+            </td>
 
 
-            <td align="right"><?php echo uang($d->ar_tahun); ?></td>
-            <td align="right"><?php echo uang($real_ar_tahun); ?></td>
-            <td align="right"><?php echo persentase($ach_ar_tahun); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisa_ar); ?></td>
-            <td align="right"><?php echo uang($d->ar_bulanini); ?></td>
-            <td align="right"><?php echo uang($real_ar_bulanini); ?></td>
-            <td align="right"><?php echo persentase($ach_ar_bulanini); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisabulanini_ar); ?></td>
-            <td align="right"><?php echo uang($d->ar_sampaibulanini); ?></td>
-            <td align="right"><?php echo uang($real_ar_sampaibulanini); ?></td>
-            <td align="right"><?php echo persentase($ach_ar_sampaibulanini); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisasampaibulanini_ar); ?></td>
+            <td align="right">
+              <?php if (!empty($reallastbulanini_ar)) {
+                echo uang($reallastbulanini_ar);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($targetbulanini_ar)) {
+                echo uang($targetbulanini_ar);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($realbulanini_ar)) {
+                echo uang($realbulanini_ar);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($ach_ar_bulanini)) {
+                echo persentase($ach_ar_bulanini);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($grw_ar_bulanini)) {
+                echo persentase($grw_ar_bulanini);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($reallastsampaibulanini_ar)) {
+                echo uang($reallastsampaibulanini_ar);
+              } ?>
+            </td>
 
-            <td align="right"><?php echo uang($d->as_tahun); ?></td>
-            <td align="right"><?php echo uang($real_as_tahun); ?></td>
-            <td align="right"><?php echo persentase($ach_as_tahun); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisa_as); ?></td>
-            <td align="right"><?php echo uang($d->as_bulanini); ?></td>
-            <td align="right"><?php echo uang($real_as_bulanini); ?></td>
-            <td align="right"><?php echo persentase($ach_as_bulanini); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisabulanini_as); ?></td>
-            <td align="right"><?php echo uang($d->as_sampaibulanini); ?></td>
-            <td align="right"><?php echo uang($real_as_sampaibulanini); ?></td>
-            <td align="right"><?php echo persentase($ach_as_sampaibulanini); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisasampaibulanini_as); ?></td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($targetsampaibulanini_ar)) {
+                echo uang($targetsampaibulanini_ar);
+              } ?>
+            </td>
 
-            <td align="right"><?php echo uang($d->bb_tahun); ?></td>
-            <td align="right"><?php echo uang($real_bb_tahun); ?></td>
-            <td align="right"><?php echo persentase($ach_bb_tahun); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisa_bb); ?></td>
-            <td align="right"><?php echo uang($d->bb_bulanini); ?></td>
-            <td align="right"><?php echo uang($real_bb_bulanini); ?></td>
-            <td align="right"><?php echo persentase($ach_bb_bulanini); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisabulanini_bb); ?></td>
-            <td align="right"><?php echo uang($d->bb_sampaibulanini); ?></td>
-            <td align="right"><?php echo uang($real_bb_sampaibulanini); ?></td>
-            <td align="right"><?php echo persentase($ach_bb_sampaibulanini); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisasampaibulanini_bb); ?></td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($realsampaibulanini_ar)) {
+                echo uang($realsampaibulanini_ar);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($ach_ar_sampaibulanini)) {
+                echo persentase($ach_ar_sampaibulanini);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($grw_ar_sampaibulanini)) {
+                echo persentase($grw_ar_sampaibulanini);
+              } ?>
+            </td>
 
-            <td align="right"><?php echo uang($d->cg_tahun); ?></td>
-            <td align="right"><?php echo uang($real_cg_tahun); ?></td>
-            <td align="right"><?php echo persentase($ach_cg_tahun); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisa_cg); ?></td>
-            <td align="right"><?php echo uang($d->cg_bulanini); ?></td>
-            <td align="right"><?php echo uang($real_cg_bulanini); ?></td>
-            <td align="right"><?php echo persentase($ach_cg_bulanini); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisabulanini_cg); ?></td>
-            <td align="right"><?php echo uang($d->cg_sampaibulanini); ?></td>
-            <td align="right"><?php echo uang($real_cg_sampaibulanini); ?></td>
-            <td align="right"><?php echo persentase($ach_cg_sampaibulanini); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisasampaibulanini_cg); ?></td>
 
-            <td align="right"><?php echo uang($d->cgg_tahun); ?></td>
-            <td align="right"><?php echo uang($real_cgg_tahun); ?></td>
-            <td align="right"><?php echo persentase($ach_cgg_tahun); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisa_cgg); ?></td>
-            <td align="right"><?php echo uang($d->cgg_bulanini); ?></td>
-            <td align="right"><?php echo uang($real_cgg_bulanini); ?></td>
-            <td align="right"><?php echo persentase($ach_cgg_bulanini); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisabulanini_cgg); ?></td>
-            <td align="right"><?php echo uang($d->cgg_sampaibulanini); ?></td>
-            <td align="right"><?php echo uang($real_cgg_sampaibulanini); ?></td>
-            <td align="right"><?php echo persentase($ach_cgg_sampaibulanini); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisasampaibulanini_cgg); ?></td>
+            <td align="right">
+              <?php if (!empty($reallastbulanini_as)) {
+                echo uang($reallastbulanini_as);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($targetbulanini_as)) {
+                echo uang($targetbulanini_as);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($realbulanini_as)) {
+                echo uang($realbulanini_as);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($ach_as_bulanini)) {
+                echo persentase($ach_as_bulanini);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($grw_as_bulanini)) {
+                echo persentase($grw_as_bulanini);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($reallastsampaibulanini_as)) {
+                echo uang($reallastsampaibulanini_as);
+              } ?>
+            </td>
 
-            <td align="right"><?php echo uang($d->dep_tahun); ?></td>
-            <td align="right"><?php echo uang($real_dep_tahun); ?></td>
-            <td align="right"><?php echo persentase($ach_dep_tahun); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisa_dep); ?></td>
-            <td align="right"><?php echo uang($d->dep_bulanini); ?></td>
-            <td align="right"><?php echo uang($real_dep_bulanini); ?></td>
-            <td align="right"><?php echo persentase($ach_dep_bulanini); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisabulanini_dep); ?></td>
-            <td align="right"><?php echo uang($d->dep_sampaibulanini); ?></td>
-            <td align="right"><?php echo uang($real_dep_sampaibulanini); ?></td>
-            <td align="right"><?php echo persentase($ach_dep_sampaibulanini); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisasampaibulanini_dep); ?></td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($targetsampaibulanini_as)) {
+                echo uang($targetsampaibulanini_as);
+              } ?>
+            </td>
 
-            <td align="right"><?php echo uang($d->ds_tahun); ?></td>
-            <td align="right"><?php echo uang($real_ds_tahun); ?></td>
-            <td align="right"><?php echo persentase($ach_ds_tahun); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisa_ds); ?></td>
-            <td align="right"><?php echo uang($d->ds_bulanini); ?></td>
-            <td align="right"><?php echo uang($real_ds_bulanini); ?></td>
-            <td align="right"><?php echo persentase($ach_ds_bulanini); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisabulanini_ds); ?></td>
-            <td align="right"><?php echo uang($d->ds_sampaibulanini); ?></td>
-            <td align="right"><?php echo uang($real_ds_sampaibulanini); ?></td>
-            <td align="right"><?php echo persentase($ach_ds_sampaibulanini); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisasampaibulanini_ds); ?></td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($realsampaibulanini_as)) {
+                echo uang($realsampaibulanini_as);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($ach_as_sampaibulanini)) {
+                echo persentase($ach_as_sampaibulanini);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($grw_as_sampaibulanini)) {
+                echo persentase($grw_as_sampaibulanini);
+              } ?>
+            </td>
 
-            <td align="right"><?php echo uang($d->sp_tahun); ?></td>
-            <td align="right"><?php echo uang($real_sp_tahun); ?></td>
-            <td align="right"><?php echo persentase($ach_sp_tahun); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisa_sp); ?></td>
-            <td align="right"><?php echo uang($d->sp_bulanini); ?></td>
-            <td align="right"><?php echo uang($real_sp_bulanini); ?></td>
-            <td align="right"><?php echo persentase($ach_sp_bulanini); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisabulanini_sp); ?></td>
-            <td align="right"><?php echo uang($d->sp_sampaibulanini); ?></td>
-            <td align="right"><?php echo uang($real_sp_sampaibulanini); ?></td>
-            <td align="right"><?php echo persentase($ach_sp_sampaibulanini); ?></td>
-            <td style="background-color: #ec8181;" align="right"><?php echo persentase($sisasampaibulanini_sp); ?></td>
+            <td align="right">
+              <?php if (!empty($reallastbulanini_bb)) {
+                echo uang($reallastbulanini_bb);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($targetbulanini_bb)) {
+                echo uang($targetbulanini_bb);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($realbulanini_bb)) {
+                echo uang($realbulanini_bb);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($ach_bb_bulanini)) {
+                echo persentase($ach_bb_bulanini);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($grw_bb_bulanini)) {
+                echo persentase($grw_bb_bulanini);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($reallastsampaibulanini_bb)) {
+                echo uang($reallastsampaibulanini_bb);
+              } ?>
+            </td>
+
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($targetsampaibulanini_bb)) {
+                echo uang($targetsampaibulanini_bb);
+              } ?>
+            </td>
+
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($realsampaibulanini_bb)) {
+                echo uang($realsampaibulanini_bb);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($ach_bb_sampaibulanini)) {
+                echo persentase($ach_bb_sampaibulanini);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($grw_bb_sampaibulanini)) {
+                echo persentase($grw_bb_sampaibulanini);
+              } ?>
+            </td>
+
+            <td align="right">
+              <?php if (!empty($reallastbulanini_cg)) {
+                echo uang($reallastbulanini_cg);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($targetbulanini_cg)) {
+                echo uang($targetbulanini_cg);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($realbulanini_cg)) {
+                echo uang($realbulanini_cg);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($ach_cg_bulanini)) {
+                echo persentase($ach_cg_bulanini);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($grw_cg_bulanini)) {
+                echo persentase($grw_cg_bulanini);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($reallastsampaibulanini_cg)) {
+                echo uang($reallastsampaibulanini_cg);
+              } ?>
+            </td>
+
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($targetsampaibulanini_cg)) {
+                echo uang($targetsampaibulanini_cg);
+              } ?>
+            </td>
+
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($realsampaibulanini_cg)) {
+                echo uang($realsampaibulanini_cg);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($ach_cg_sampaibulanini)) {
+                echo persentase($ach_cg_sampaibulanini);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($grw_cg_sampaibulanini)) {
+                echo persentase($grw_cg_sampaibulanini);
+              } ?>
+            </td>
+
+            <td align="right">
+              <?php if (!empty($reallastbulanini_cgg)) {
+                echo uang($reallastbulanini_cgg);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($targetbulanini_cgg)) {
+                echo uang($targetbulanini_cgg);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($realbulanini_cgg)) {
+                echo uang($realbulanini_cgg);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($ach_cgg_bulanini)) {
+                echo persentase($ach_cgg_bulanini);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($grw_cgg_bulanini)) {
+                echo persentase($grw_cgg_bulanini);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($reallastsampaibulanini_cgg)) {
+                echo uang($reallastsampaibulanini_cgg);
+              } ?>
+            </td>
+
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($targetsampaibulanini_cgg)) {
+                echo uang($targetsampaibulanini_cgg);
+              } ?>
+            </td>
+
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($realsampaibulanini_cgg)) {
+                echo uang($realsampaibulanini_cgg);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($ach_cgg_sampaibulanini)) {
+                echo persentase($ach_cgg_sampaibulanini);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($grw_cgg_sampaibulanini)) {
+                echo persentase($grw_cgg_sampaibulanini);
+              } ?>
+            </td>
+
+            <td align="right">
+              <?php if (!empty($reallastbulanini_dep)) {
+                echo uang($reallastbulanini_dep);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($targetbulanini_dep)) {
+                echo uang($targetbulanini_dep);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($realbulanini_dep)) {
+                echo uang($realbulanini_dep);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($ach_dep_bulanini)) {
+                echo persentase($ach_dep_bulanini);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($grw_dep_bulanini)) {
+                echo persentase($grw_dep_bulanini);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($reallastsampaibulanini_dep)) {
+                echo uang($reallastsampaibulanini_dep);
+              } ?>
+            </td>
+
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($targetsampaibulanini_dep)) {
+                echo uang($targetsampaibulanini_dep);
+              } ?>
+            </td>
+
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($realsampaibulanini_dep)) {
+                echo uang($realsampaibulanini_dep);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($ach_dep_sampaibulanini)) {
+                echo persentase($ach_dep_sampaibulanini);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($grw_dep_sampaibulanini)) {
+                echo persentase($grw_dep_sampaibulanini);
+              } ?>
+            </td>
+
+            <td align="right">
+              <?php if (!empty($reallastbulanini_ds)) {
+                echo uang($reallastbulanini_ds);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($targetbulanini_ds)) {
+                echo uang($targetbulanini_ds);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($realbulanini_ds)) {
+                echo uang($realbulanini_ds);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($ach_ds_bulanini)) {
+                echo persentase($ach_ds_bulanini);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($grw_ds_bulanini)) {
+                echo persentase($grw_ds_bulanini);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($reallastsampaibulanini_ds)) {
+                echo uang($reallastsampaibulanini_ds);
+              } ?>
+            </td>
+
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($targetsampaibulanini_ds)) {
+                echo uang($targetsampaibulanini_ds);
+              } ?>
+            </td>
+
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($realsampaibulanini_ds)) {
+                echo uang($realsampaibulanini_ds);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($ach_ds_sampaibulanini)) {
+                echo persentase($ach_ds_sampaibulanini);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($grw_ds_sampaibulanini)) {
+                echo persentase($grw_ds_sampaibulanini);
+              } ?>
+            </td>
+
+            <td align="right">
+              <?php if (!empty($reallastbulanini_sp)) {
+                echo uang($reallastbulanini_sp);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($targetbulanini_sp)) {
+                echo uang($targetbulanini_sp);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($realbulanini_sp)) {
+                echo uang($realbulanini_sp);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($ach_sp_bulanini)) {
+                echo persentase($ach_sp_bulanini);
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($grw_sp_bulanini)) {
+                echo persentase($grw_sp_bulanini);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($reallastsampaibulanini_sp)) {
+                echo uang($reallastsampaibulanini_sp);
+              } ?>
+            </td>
+
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($targetsampaibulanini_sp)) {
+                echo uang($targetsampaibulanini_sp);
+              } ?>
+            </td>
+
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($realsampaibulanini_sp)) {
+                echo uang($realsampaibulanini_sp);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($ach_sp_sampaibulanini)) {
+                echo persentase($ach_sp_sampaibulanini);
+              } ?>
+            </td>
+            <td align="right" style="background-color: #e2e2e2;">
+              <?php if (!empty($grw_sp_sampaibulanini)) {
+                echo persentase($grw_sp_sampaibulanini);
+              } ?>
+            </td>
           </tr>
 
         <?php
@@ -834,6 +1390,489 @@ error_reporting(0);
         }
         ?>
       </tbody>
+      <tfoot style="font-size:16px; font-weight:bold">
+        <tr>
+          <th colspan="2" class="fixed-side">TOTAL</th>
+          <td align="right">
+            <?php if (!empty($total_reallastbulanini_ab)) {
+              echo uang($total_reallastbulanini_ab);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_targetbulanini_ab)) {
+              echo uang($total_targetbulanini_ab);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_realbulanini_ab)) {
+              echo uang($total_realbulanini_ab);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_ach_ab_bulanini)) {
+              echo persentase($total_ach_ab_bulanini);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_grw_ab_bulanini)) {
+              echo persentase($total_grw_ab_bulanini);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_reallastsampaibulanini_ab)) {
+              echo uang($total_reallastsampaibulanini_ab);
+            } ?>
+          </td>
+
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_targetsampaibulanini_ab)) {
+              echo uang($total_targetsampaibulanini_ab);
+            } ?>
+          </td>
+
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_realsampaibulanini_ab)) {
+              echo uang($total_realsampaibulanini_ab);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_ach_ab_sampaibulanini)) {
+              echo persentase($total_ach_ab_sampaibulanini);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_grw_ab_sampaibulanini)) {
+              echo persentase($total_grw_ab_sampaibulanini);
+            } ?>
+          </td>
+
+
+          <td align="right">
+            <?php if (!empty($total_reallastbulanini_ar)) {
+              echo uang($total_reallastbulanini_ar);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_targetbulanini_ar)) {
+              echo uang($total_targetbulanini_ar);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_realbulanini_ar)) {
+              echo uang($total_realbulanini_ar);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_ach_ar_bulanini)) {
+              echo persentase($total_ach_ar_bulanini);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_grw_ar_bulanini)) {
+              echo persentase($total_grw_ar_bulanini);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_reallastsampaibulanini_ar)) {
+              echo uang($total_reallastsampaibulanini_ar);
+            } ?>
+          </td>
+
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_targetsampaibulanini_ar)) {
+              echo uang($total_targetsampaibulanini_ar);
+            } ?>
+          </td>
+
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_realsampaibulanini_ar)) {
+              echo uang($total_realsampaibulanini_ar);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_ach_ar_sampaibulanini)) {
+              echo persentase($total_ach_ar_sampaibulanini);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_grw_ar_sampaibulanini)) {
+              echo persentase($total_grw_ar_sampaibulanini);
+            } ?>
+          </td>
+
+
+          <td align="right">
+            <?php if (!empty($total_reallastbulanini_as)) {
+              echo uang($total_reallastbulanini_as);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_targetbulanini_as)) {
+              echo uang($total_targetbulanini_as);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_realbulanini_as)) {
+              echo uang($total_realbulanini_as);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_ach_as_bulanini)) {
+              echo persentase($total_ach_as_bulanini);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_grw_as_bulanini)) {
+              echo persentase($total_grw_as_bulanini);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_reallastsampaibulanini_as)) {
+              echo uang($total_reallastsampaibulanini_as);
+            } ?>
+          </td>
+
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_targetsampaibulanini_as)) {
+              echo uang($total_targetsampaibulanini_as);
+            } ?>
+          </td>
+
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_realsampaibulanini_as)) {
+              echo uang($total_realsampaibulanini_as);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_ach_as_sampaibulanini)) {
+              echo persentase($total_ach_as_sampaibulanini);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_grw_as_sampaibulanini)) {
+              echo persentase($total_grw_as_sampaibulanini);
+            } ?>
+          </td>
+
+          <td align="right">
+            <?php if (!empty($total_reallastbulanini_bb)) {
+              echo uang($total_reallastbulanini_bb);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_targetbulanini_bb)) {
+              echo uang($total_targetbulanini_bb);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_realbulanini_bb)) {
+              echo uang($total_realbulanini_bb);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_ach_bb_bulanini)) {
+              echo persentase($total_ach_bb_bulanini);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_grw_bb_bulanini)) {
+              echo persentase($total_grw_bb_bulanini);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_reallastsampaibulanini_bb)) {
+              echo uang($total_reallastsampaibulanini_bb);
+            } ?>
+          </td>
+
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_targetsampaibulanini_bb)) {
+              echo uang($total_targetsampaibulanini_bb);
+            } ?>
+          </td>
+
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_realsampaibulanini_bb)) {
+              echo uang($total_realsampaibulanini_bb);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_ach_bb_sampaibulanini)) {
+              echo persentase($total_ach_bb_sampaibulanini);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_grw_bb_sampaibulanini)) {
+              echo persentase($total_grw_bb_sampaibulanini);
+            } ?>
+          </td>
+
+          <td align="right">
+            <?php if (!empty($total_reallastbulanini_cg)) {
+              echo uang($total_reallastbulanini_cg);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_targetbulanini_cg)) {
+              echo uang($total_targetbulanini_cg);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_realbulanini_cg)) {
+              echo uang($total_realbulanini_cg);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_ach_cg_bulanini)) {
+              echo persentase($total_ach_cg_bulanini);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_grw_cg_bulanini)) {
+              echo persentase($total_grw_cg_bulanini);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_reallastsampaibulanini_cg)) {
+              echo uang($total_reallastsampaibulanini_cg);
+            } ?>
+          </td>
+
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_targetsampaibulanini_cg)) {
+              echo uang($total_targetsampaibulanini_cg);
+            } ?>
+          </td>
+
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_realsampaibulanini_cg)) {
+              echo uang($total_realsampaibulanini_cg);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_ach_cg_sampaibulanini)) {
+              echo persentase($total_ach_cg_sampaibulanini);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_grw_cg_sampaibulanini)) {
+              echo persentase($total_grw_cg_sampaibulanini);
+            } ?>
+          </td>
+
+          <td align="right">
+            <?php if (!empty($total_reallastbulanini_cgg)) {
+              echo uang($total_reallastbulanini_cgg);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_targetbulanini_cgg)) {
+              echo uang($total_targetbulanini_cgg);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_realbulanini_cgg)) {
+              echo uang($total_realbulanini_cgg);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_ach_cgg_bulanini)) {
+              echo persentase($total_ach_cgg_bulanini);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_grw_cgg_bulanini)) {
+              echo persentase($total_grw_cgg_bulanini);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_reallastsampaibulanini_cgg)) {
+              echo uang($total_reallastsampaibulanini_cgg);
+            } ?>
+          </td>
+
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_targetsampaibulanini_cgg)) {
+              echo uang($total_targetsampaibulanini_cgg);
+            } ?>
+          </td>
+
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_realsampaibulanini_cgg)) {
+              echo uang($total_realsampaibulanini_cgg);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_ach_cgg_sampaibulanini)) {
+              echo persentase($total_ach_cgg_sampaibulanini);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_grw_cgg_sampaibulanini)) {
+              echo persentase($total_grw_cgg_sampaibulanini);
+            } ?>
+          </td>
+
+          <td align="right">
+            <?php if (!empty($total_reallastbulanini_dep)) {
+              echo uang($total_reallastbulanini_dep);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_targetbulanini_dep)) {
+              echo uang($total_targetbulanini_dep);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_realbulanini_dep)) {
+              echo uang($total_realbulanini_dep);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_ach_dep_bulanini)) {
+              echo persentase($total_ach_dep_bulanini);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_grw_dep_bulanini)) {
+              echo persentase($total_grw_dep_bulanini);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_reallastsampaibulanini_dep)) {
+              echo uang($total_reallastsampaibulanini_dep);
+            } ?>
+          </td>
+
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_targetsampaibulanini_dep)) {
+              echo uang($total_targetsampaibulanini_dep);
+            } ?>
+          </td>
+
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_realsampaibulanini_dep)) {
+              echo uang($total_realsampaibulanini_dep);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_ach_dep_sampaibulanini)) {
+              echo persentase($total_ach_dep_sampaibulanini);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_grw_dep_sampaibulanini)) {
+              echo persentase($total_grw_dep_sampaibulanini);
+            } ?>
+          </td>
+
+          <td align="right">
+            <?php if (!empty($total_reallastbulanini_ds)) {
+              echo uang($total_reallastbulanini_ds);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_targetbulanini_ds)) {
+              echo uang($total_targetbulanini_ds);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_realbulanini_ds)) {
+              echo uang($total_realbulanini_ds);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_ach_ds_bulanini)) {
+              echo persentase($total_ach_ds_bulanini);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_grw_ds_bulanini)) {
+              echo persentase($total_grw_ds_bulanini);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_reallastsampaibulanini_ds)) {
+              echo uang($total_reallastsampaibulanini_ds);
+            } ?>
+          </td>
+
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_targetsampaibulanini_ds)) {
+              echo uang($total_targetsampaibulanini_ds);
+            } ?>
+          </td>
+
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_realsampaibulanini_ds)) {
+              echo uang($total_realsampaibulanini_ds);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_ach_ds_sampaibulanini)) {
+              echo persentase($total_ach_ds_sampaibulanini);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_grw_ds_sampaibulanini)) {
+              echo persentase($total_grw_ds_sampaibulanini);
+            } ?>
+          </td>
+
+          <td align="right">
+            <?php if (!empty($total_reallastbulanini_sp)) {
+              echo uang($total_reallastbulanini_sp);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_targetbulanini_sp)) {
+              echo uang($total_targetbulanini_sp);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_realbulanini_sp)) {
+              echo uang($total_realbulanini_sp);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_ach_sp_bulanini)) {
+              echo persentase($total_ach_sp_bulanini);
+            } ?>
+          </td>
+          <td align="right">
+            <?php if (!empty($total_grw_sp_bulanini)) {
+              echo persentase($total_grw_sp_bulanini);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_reallastsampaibulanini_sp)) {
+              echo uang($total_reallastsampaibulanini_sp);
+            } ?>
+          </td>
+
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_targetsampaibulanini_sp)) {
+              echo uang($total_targetsampaibulanini_sp);
+            } ?>
+          </td>
+
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_realsampaibulanini_sp)) {
+              echo uang($total_realsampaibulanini_sp);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_ach_sp_sampaibulanini)) {
+              echo persentase($total_ach_sp_sampaibulanini);
+            } ?>
+          </td>
+          <td align="right" style="background-color: #e2e2e2;">
+            <?php if (!empty($total_grw_sp_sampaibulanini)) {
+              echo persentase($total_grw_sp_sampaibulanini);
+            } ?>
+          </td>
+        </tr>
+      </tfoot>
     </table>
   </div>
 </div>
