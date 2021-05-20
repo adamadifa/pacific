@@ -172,8 +172,10 @@ class Model_komisi extends CI_Model
   //   return $this->db->query($query);
   // }
 
-  function cetak_komisi()
+  function cetak_komisi($cabang, $bulan, $tahun)
   {
+    $dari = $tahun . "-" . $bulan . "-01";
+    $sampai = date('Y-m-t', strtotime($dari));
     $query = "SELECT karyawan.id_karyawan,nama_karyawan,
     target_BB_DP,
     realisasi_BB_DP,
@@ -208,7 +210,7 @@ class Model_komisi extends CI_Model
           SELECT historibayar.id_karyawan, SUM(bayar) as realisasi_collection 
           FROM historibayar
           INNER JOIN penjualan ON historibayar.no_fak_penj	= penjualan.no_fak_penj
-          WHERE penjualan.jenistransaksi != 'tunai' AND tglbayar BETWEEN '2021-03-01' AND '2021-03-31'
+          WHERE penjualan.jenistransaksi != 'tunai' AND tglbayar BETWEEN '$dari' AND '$sampai'
           GROUP BY historibayar.id_karyawan
         ) collection ON (karyawan.id_karyawan = collection.id_karyawan)
 		
@@ -237,8 +239,8 @@ class Model_komisi extends CI_Model
         FROM
           historibayar
         WHERE
-          tglbayar BETWEEN '2021-03-01' 
-          AND '2021-03-31' AND status_bayar IS NULL
+          tglbayar BETWEEN '$dari' 
+          AND '$sampai' AND status_bayar IS NULL
         GROUP BY
           id_karyawan 
         ) hb ON ( karyawan.id_karyawan = hb.id_karyawan )
@@ -259,10 +261,10 @@ class Model_komisi extends CI_Model
           GROUP BY no_fak_penj
         ) hb ON (hb.no_fak_penj = penjualan.no_fak_penj) 
         INNER JOIN master_barang ON barang.kode_produk = master_barang.kode_produk
-        WHERE tgltransaksi BETWEEN '2021-03-01' AND '2021-03-31' AND status_lunas ='1' AND lastpayment < '2021-03-31'
+        WHERE tgltransaksi BETWEEN '$dari' AND '$sampai' AND status_lunas ='1' AND lastpayment < '$sampai'
         GROUP BY penjualan.id_karyawan
         ) realisasi ON (karyawan.id_karyawan = realisasi.id_karyawan)
-    WHERE kode_cabang ='SKB' AND nama_karyawan !='-'";
+    WHERE kode_cabang ='$cabang' AND nama_karyawan !='-'";
 
     return $this->db->query($query);
   }
