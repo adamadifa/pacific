@@ -98,7 +98,9 @@ class Model_laporanbahan extends CI_Model
     gk.qtypdqc4,
     gk.qtysus4,
     gk.qtycabang4,
-    gk.qtylain4
+    gk.qtylain4,
+    hrgsa.harga,
+    dp.totalharga
 
     FROM master_barang_pembelian
 
@@ -109,6 +111,17 @@ class Model_laporanbahan extends CI_Model
     LEFT JOIN (SELECT opname_gb_detail.kode_barang,SUM( qty_unit ) AS qtyunitop,SUM( qty_berat ) AS qtyberatop FROM opname_gb_detail 
     INNER JOIN opname_gb ON opname_gb.kode_opname_gb=opname_gb_detail.kode_opname_gb
     WHERE bulan = '$bulan' AND tahun = '$tahun' GROUP BY opname_gb_detail.kode_barang ) op ON (master_barang_pembelian.kode_barang = op.kode_barang)
+
+    LEFT JOIN (SELECT SUM((qty*harga)+penyesuaian) as totalharga,kode_barang
+      FROM detail_pembelian 
+      INNER JOIN pembelian ON detail_pembelian.nobukti_pembelian = pembelian.nobukti_pembelian
+      WHERE MONTH(tgl_pembelian) = '$bulan' AND YEAR(tgl_pembelian) = '$tahun' 
+      GROUP BY kode_barang) dp ON (master_barang_pembelian.kode_barang = dp.kode_barang)
+
+    LEFT JOIN (SELECT kode_barang,harga
+      FROM saldoawal_harga_gb 
+      WHERE bulan = '$bulan' AND tahun = '$tahun' 
+      GROUP BY kode_barang,harga) hrgsa ON (master_barang_pembelian.kode_barang = hrgsa.kode_barang)
 
     LEFT JOIN (SELECT 
     detail_pemasukan_gb.kode_barang,

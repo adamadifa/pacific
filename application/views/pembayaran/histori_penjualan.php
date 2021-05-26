@@ -38,6 +38,10 @@
                 <option value="">-- Semua Salesman --</option>
               </select>
             </div>
+
+            <div class="mb-3">
+              <input type="text" class="form-control" value="<?php echo $kodepel; ?>" name="kodepel" placeholder="Kode Pelanggan">
+            </div>
             <div class="mb-3">
               <input type="text" class="form-control" value="<?php echo $namapel; ?>" name="namapel" placeholder="Nama Pelanggan">
             </div>

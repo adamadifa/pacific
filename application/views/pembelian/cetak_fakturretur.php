@@ -43,8 +43,8 @@ font-family:Arial;}
 		</table>
 	</td>
 	<td colspan="6" align="left">
-		<b>CV PACIFIC<br>
-			Jln. Perintis Kemerdekaan No. 160 Tasikmalaya Telp. (0265) 7520864
+		<b>CV MAKMUR PERMATA<br>
+			Jln. Perintis Kemerdekaan No. 160 Tasikmalaya Telp. (0265) 337694 / (0265) 336794
 		</b>
 		
 	</td>
@@ -67,16 +67,22 @@ font-family:Arial;}
 	<td>No. Kendaraan</td>
 	<td>:</td>
 	<td></td>
-	<td>Alamat</td>
+	<td>Alamat Supplier</td>
 	<td>:</td>
 	<td><?php echo $faktur['alamat_supplier']; ?></td>
 </tr>
 
+<tr style="height:40px">
+	<td colspan="7"></td>
+</tr>
+<tr style="height:10px;font-size:14px">
+	<td colspan="7" align="center">Rekapitulasi Barang Yang Diretur</td>
+</tr>
 <tr>
 	<td colspan="7">
-
-		<table class="garis5" width="100%" style="margin-top: 50px;">
+		<table class="garis5" width="100%" style="margin-top: 10px;">
 			<thead class="thead-dark">
+			<tr>
 				<tr>
 					<th>No</th>
 					<th>Kode Barang</th>
@@ -127,32 +133,20 @@ font-family:Arial;}
 			<td>Dibuat</td>
 			<td>Diserahkan</td>
 			<td>Diterima</td>
-			<td>Mengetahui</td>
-			<td>Jam Masuk</td>
 		</tr>
 		<tr style="font-weight:bold;">
-			<td rowspan="3"></td>
-			<td rowspan="3"></td>
-			<td rowspan="3"></td>
-			<td rowspan="3"></td>
-			
-		</tr>
-		<tr>
-			<td style="height: 20px"></td>
-		</tr>
-		<tr>
-			<td style="font-weight:bold; text-align:center" >Jam Keluar</td>
+			<td style="height: 50px;"></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr style="font-weight:bold; text-align:center">
 			<td>Pembelian</td>
 			<td>Pengemudi</td>
 			<td>Supplier</td>
-			<td>Security</td>
-			<td></td>
 		</tr>
 	</table>
 </tr>
 </table>
 <br>
 
-<!-- <p style="font-weight: bold; font-size: 18px"><i>Catatan : Mohon tidak untuk menulis Retur / Bs di surat Jalan !</i></p> -->
+<p style="font-size: 18px"><i>Catatan : Setelah barang dan surat jalan diterima mohon untuk di tanda tangan dan di email melalui <b>pembelianmakmurpermata@gmail.com</b></i></p>

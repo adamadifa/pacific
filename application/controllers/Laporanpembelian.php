@@ -7,7 +7,7 @@ class laporanpembelian extends CI_Controller
 	{
 		parent::__construct();
 		check_login();
-		$this->load->model(array('Model_pembelian'));
+		$this->load->model(array('Model_pembelian','Model_gudangbahan'));
 	}
 
 	function pembelian()
@@ -27,6 +27,12 @@ class laporanpembelian extends CI_Controller
 	{
 		$data['supp']  = $this->Model_pembelian->listSupplier()->result();
 		$this->template->load('template/template', 'laporanpembelian/kartuhutang.php', $data);
+	}
+
+	function retur_keluar()
+	{
+    	$data['barang']    = $this->Model_gudangbahan->listproduk()->result();
+		$this->template->load('template/template', 'laporanpembelian/retur_keluar.php', $data);
 	}
 
 	function supplier()
@@ -119,6 +125,23 @@ class laporanpembelian extends CI_Controller
 			header("Content-Disposition: attachment; filename=Rekap Supplier.xls");
 		}
 		$this->load->view('laporanpembelian/cetak_supplier', $data);
+	}
+
+	
+	function cetak_retur_keluar()
+	{
+		$data['dari'] 		= $this->input->post('dari');
+		$data['sampai'] 	= $this->input->post('sampai');
+		$data['barang']		= $this->input->post('barang');
+		$data['supp']			= $this->Model_pembelian->cetak_retur_keluar($data['dari'], $data['sampai'], $data['barang'])->row_array();
+		$data['pmb']			= $this->Model_pembelian->cetak_retur_keluar($data['dari'], $data['sampai'], $data['barang'])->result();
+		if (isset($_POST['export'])) {
+			// Fungsi header dengan mengirimkan raw data excel
+			header("Content-type: application/vnd-ms-excel");
+			// Mendefinisikan nama file ekspor "hasil-export.xls"
+			header("Content-Disposition: attachment; filename=Laporan Retur Keluar.xls");
+		}
+		$this->load->view('laporanpembelian/cetak_retur_keluar', $data);
 	}
 
 	function cetak_rekappembelian()
