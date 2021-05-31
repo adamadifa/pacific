@@ -4444,8 +4444,8 @@ class Model_penjualan extends CI_Model
     $tgl             = explode("-", $tanggal);
     $tahun           = $tgl[0];
     $thn             = substr($tahun, 2, 2);
-    $ceknolast       = $this->db->query("SELECT no_pengajuan FROM pengajuan_limitkredit_v2
-		INNER JOIN pelanggan ON pengajuan_limitkredit_v2.kode_pelanggan = pelanggan.kode_pelanggan WHERE YEAR(tgl_pengajuan) ='$tahun' AND pelanggan.kode_cabang='$cabang' AND MID(no_pengajuan,4,3)='$cabang' ORDER BY no_pengajuan DESC LIMIT 1")->row_array();
+    $ceknolast       = $this->db->query("SELECT no_pengajuan FROM pengajuan_limitkredit_v3
+		INNER JOIN pelanggan ON pengajuan_limitkredit_v3.kode_pelanggan = pelanggan.kode_pelanggan WHERE YEAR(tgl_pengajuan) ='$tahun' AND pelanggan.kode_cabang='$cabang' AND MID(no_pengajuan,4,3)='$cabang' ORDER BY no_pengajuan DESC LIMIT 1")->row_array();
     $nobuktilast    = $ceknolast['no_pengajuan'];
     $no_pengajuan   = buatkode($nobuktilast, 'PLK' . $cabang . $thn, 5);
     echo $no_pengajuan;
@@ -4513,7 +4513,7 @@ class Model_penjualan extends CI_Model
     ];
     $updatepelanggan = $this->db->update('pelanggan', $datapelanggan, array('kode_pelanggan' => $pelanggan));
     if ($updatepelanggan) {
-      $simpan = $this->db->insert('pengajuan_limitkredit_v2', $data);
+      $simpan = $this->db->insert('pengajuan_limitkredit_v3', $data);
       if ($simpan) {
         $datakomentar = [
           'no_pengajuan' => $no_pengajuan,
@@ -4534,7 +4534,7 @@ class Model_penjualan extends CI_Model
             <i class="material-icons" style="float:left; margin-right:10px">check</i> Data Berhasil di Simpan !
           </div>'
           );
-          redirect('penjualan/limitkreditv2');
+          redirect('penjualan/limitkreditv3');
         } else {
           $this->session->set_flashdata(
             'msg',
@@ -4543,7 +4543,7 @@ class Model_penjualan extends CI_Model
             <i class="material-icons" style="float:left; margin-right:10px">check</i> Data Gagal di Simpan !
           </div>'
           );
-          redirect('penjualan/limitkreditv2');
+          redirect('penjualan/limitkreditv3');
         }
       } else {
         $this->session->set_flashdata(
@@ -4553,7 +4553,7 @@ class Model_penjualan extends CI_Model
           <i class="material-icons" style="float:left; margin-right:10px">check</i> Gagal di Simpan !
         </div>'
         );
-        redirect('penjualan/limitkreditv2');
+        redirect('penjualan/limitkreditv3');
       }
     }
   }
@@ -5051,6 +5051,163 @@ class Model_penjualan extends CI_Model
       $field_time => $time
     ];
     $updatestatus = $this->db->update('pengajuan_limitkredit_v2', $datastatus, array('no_pengajuan' => $id));
+    if ($updatestatus) {
+      if ($status == 1) {
+        $this->db->update('pelanggan', $data, array('kode_pelanggan' => $kode_pelanggan));
+      }
+      $ceklimit = $this->db->get_where('pelanggan', array('kode_pelanggan' => $kode_pelanggan))->row_array();
+      //$getpenjualanpending  = $this->db->join('karyawan','penjualan_pending.id_karyawan = karyawan.id_karyawan');
+      $querypenjualanpend = "SELECT * FROM penjualan  
+				INNER JOIN karyawan ON penjualan.id_karyawan = karyawan.id_karyawan
+				WHERE kode_pelanggan ='$kode_pelanggan' AND  penjualan.status ='1'
+				";
+      $getpenjualanpending  = $this->db->query($querypenjualanpend)->result();
+
+      foreach ($getpenjualanpending as $d) {
+        $query = " SELECT
+					penjualan.kode_pelanggan,
+					SUM(IFNULL( retur.total, 0 )) AS totalretur,
+					SUM(( ( IFNULL( penjualan.total, 0 ) ) - ( IFNULL( retur.total, 0 ) ) )) AS totalpiutang,
+					SUM((SELECT IFNULL(SUM(bayar),0) as jmlbayar
+						FROM historibayar
+						INNER JOIN penjualan pj
+						ON historibayar.no_fak_penj = pj.no_fak_penj
+						INNER JOIN pelanggan
+						ON pj.kode_pelanggan = pelanggan.kode_pelanggan
+						WHERE pj.no_fak_penj = penjualan.no_fak_penj )) as jmlbayar
+					FROM
+						penjualan
+						LEFT JOIN ( SELECT retur.no_fak_penj AS no_fak_penj, SUM( total ) AS total FROM retur GROUP BY retur.no_fak_penj ) retur ON ( penjualan.no_fak_penj = retur.no_fak_penj )
+					WHERE
+						penjualan.kode_pelanggan = '$kode_pelanggan'
+					GROUP BY
+						penjualan.kode_pelanggan";
+        $ceksisapiutang = $this->db->query($query)->row_array();
+        $piutang = $ceksisapiutang['totalpiutang'] - $ceksisapiutang['jmlbayar'];
+
+
+
+        $totalpiutang = $piutang + $d->total;
+
+        //echo $ceklimit['limitpel'];
+        if ($totalpiutang <= $ceklimit['limitpel']) {
+          $datapenjualan = [
+            'status' => 2
+          ];
+
+          $simpanpenjualan = $this->db->update('penjualan', $datapenjualan, array('no_fak_penj' => $d->no_fak_penj));
+          //echo $totalpiutang;
+        }
+      }
+
+      // die;
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-green text-white alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil Di Approve !
+					</div>'
+      );
+      redirectPreviousPage();
+    } else {
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-red text-white alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Gagal di Approve !
+					</div>'
+      );
+
+      redirectPreviousPage();
+    }
+  }
+
+  function approvelimitproses3($id)
+  {
+    $pengajuan = $this->db->get_where('pengajuan_limitkredit_v3', array('no_pengajuan' => $id))->row_array();
+    $kode_pelanggan = $pengajuan['kode_pelanggan'];
+    $jumlah = $pengajuan['jumlah'];
+    $jatuhtempo = $pengajuan['jatuhtempo'];
+    $jumlah_rekomendasi = $pengajuan['jumlah_rekomendasi'];
+    $jatuhtempo_rekomendasi = $pengajuan['jatuhtempo_rekomendasi'];
+    $id_admin = $this->session->userdata('id_user');
+    $level = $this->session->userdata('level_user');
+    $time = date("Y-m-d H:i");
+    if (empty($jumlah_rekomendasi) && empty($jatuhtempo_rekomendasi)) {
+      if (!empty($jatuhtempo)) {
+        $data = [
+          'limitpel' => $jumlah,
+          'jatuhtempo' => $jatuhtempo
+        ];
+      } else {
+        $data = [
+          'limitpel' => $jumlah
+        ];
+      }
+    } else if (!empty($jumlah_rekomendasi) && empty($jatuhtempo_rekomendasi)) {
+      if (!empty($jatuhtempo)) {
+        $data = [
+          'limitpel' => $jumlah_rekomendasi,
+          'jatuhtempo' => $jatuhtempo
+        ];
+      } else {
+        $data = [
+          'limitpel' => $jumlah_rekomendasi
+        ];
+      }
+    } else if (empty($jumlah_rekomendasi) && !empty($jatuhtempo_rekomendasi)) {
+      $data = [
+        'limitpel' => $jumlah,
+        'jatuhtempo' => $jatuhtempo_rekomendasi
+      ];
+    } else if (!empty($jumlah_rekomendasi) && !empty($jatuhtempo_rekomendasi)) {
+      $data = [
+        'limitpel' => $jumlah_rekomendasi,
+        'jatuhtempo' => $jatuhtempo_rekomendasi
+      ];
+    }
+
+    if ($level == 'kepala cabang') {
+      $lv = 'kacab';
+      if ($jumlah <= 5000000) {
+        $status = 1;
+      } else {
+        $status = 0;
+      }
+    } else if ($level == 'manager marketing') {
+      $lv = 'mm';
+      if ($jumlah <= 10000000) {
+        $status = 1;
+      } else {
+        $status = 0;
+      }
+    } else if ($level == 'general manager') {
+      $lv = 'gm';
+      if ($jumlah <= 15000000) {
+        $status = 1;
+      } else {
+        $status = 0;
+      }
+    } else if ($level == 'Administrator') {
+      $lv = 'dirut';
+      $status = 1;
+    }
+
+    if ($level == "Administrator") {
+      $field_time = 'time_dirut';
+    } else if ($level == "manager marketing") {
+      $field_time = 'time_mm';
+    } else if ($level == "general manager") {
+      $field_time = 'time_gm';
+    } else if ($level == "kepala cabang") {
+      $field_time = 'time_kacab';
+    }
+    $datastatus = [
+      'status' => $status,
+      $lv => $id_admin,
+      $field_time => $time
+    ];
+    $updatestatus = $this->db->update('pengajuan_limitkredit_v3', $datastatus, array('no_pengajuan' => $id));
     if ($updatestatus) {
       if ($status == 1) {
         $this->db->update('pelanggan', $data, array('kode_pelanggan' => $kode_pelanggan));
@@ -6958,5 +7115,465 @@ class Model_penjualan extends CI_Model
     $id_user = $this->session->userdata('id_user');
 
     return $this->db->get_where('pengajuan_limitkredit_analisa', array('no_pengajuan' => $no_pengajuan, 'id_user' => $id_user));
+  }
+
+  //Limit Kredit Versi 3
+  public function getrecordLimitkreditadminv3Count($cbg = "", $dari = "", $sampai = "", $salesman = "", $pelanggan = "", $approval = "")
+  {
+    $level   = $this->session->userdata('level_user');
+    $cabang = $this->session->userdata('cabang');
+    if ($cabang != "pusat") {
+      $this->db->where('pelanggan.kode_cabang', $cabang);
+    } else {
+      if ($cbg != "") {
+        $this->db->where('pelanggan.kode_cabang', $cbg);
+      }
+    }
+
+    // if($level=='kepala cabang')
+    // {
+    // 	$this->db->where('jumlah <=','10000000');
+    // }else if($level=='manager marketing')
+    // {
+    // 	$this->db->where('jumlah >','10000000');
+    // 	$this->db->where('jumlah <=','20000000');
+    // }else if($level=='manager marketing')
+    // {
+    // 	$this->db->where('jumlah >','10000000');
+    // 	$this->db->where('jumlah <=','20000000');
+    // }else if($level=='general manager')
+    // {
+    // 	$this->db->where('jumlah >','20000000');
+    // 	$this->db->where('jumlah <=','75000000');
+    // }else if($level=='administrator')
+    // {
+    // 	$this->db->where('jumlah >','75000000');
+    // }
+    if ($dari !=  '') {
+      $this->db->where('tgl_pengajuan >=', $dari);
+    }
+    if ($sampai !=  '') {
+      $this->db->where('tgl_pengajuan <=', $sampai);
+    }
+
+    if ($pelanggan !=  '') {
+      $this->db->like('nama_pelanggan', $pelanggan);
+    }
+
+    if ($salesman !=  '') {
+      $this->db->where('pelanggan.id_sales', $salesman);
+    }
+
+    $this->db->select('count(*) as allcount');
+    $this->db->from('pengajuan_limitkredit_v3');
+    $this->db->join('pelanggan', 'pengajuan_limitkredit_v3.kode_pelanggan = pelanggan.kode_pelanggan');
+    $this->db->join('karyawan', 'pelanggan.id_sales = karyawan.id_karyawan');
+    $this->db->join('users', 'pengajuan_limitkredit_v3.id_approval = users.id_user', 'left');
+    $this->db->order_by('tgl_pengajuan', 'DESC');
+
+    // $this->db->where('left(kontrabon.no_kontrabon,1) !=','T');
+
+    $query  = $this->db->get();
+    $result = $query->result_array();
+    return $result[0]['allcount'];
+  }
+
+  public function getDataLimitKreditadminv3($rowno, $rowperpage, $cbg = "", $dari = "", $sampai = "", $salesman = "", $pelanggan = "", $approval = "")
+  {
+    $cabang = $this->session->userdata('cabang');
+    $level   = $this->session->userdata('level_user');
+    if ($cabang != "pusat") {
+      $this->db->where('pelanggan.kode_cabang', $cabang);
+    } else {
+      if ($cbg != "") {
+        $this->db->where('pelanggan.kode_cabang', $cbg);
+      }
+    }
+
+    // if($level=='kepala cabang')
+    // {
+    // 	$this->db->where('jumlah <=','10000000');
+    // }else if($level=='manager marketing')
+    // {
+    // 	$this->db->where('jumlah >','10000000');
+    // 	$this->db->where('jumlah <=','20000000');
+    // }else if($level=='manager marketing')
+    // {
+    // 	$this->db->where('jumlah >','10000000');
+    // 	$this->db->where('jumlah <=','20000000');
+    // }else if($level=='general manager')
+    // {
+    // 	$this->db->where('jumlah >','20000000');
+    // 	$this->db->where('jumlah <=','75000000');
+    // }else if($level=='direktur')
+    // {
+    // 	$this->db->where('jumlah >','75000000');
+    // }
+
+    if ($dari !=  '') {
+      $this->db->where('tgl_pengajuan >=', $dari);
+    }
+    if ($sampai !=  '') {
+      $this->db->where('tgl_pengajuan <=', $sampai);
+    }
+
+    if ($pelanggan !=  '') {
+      $this->db->like('nama_pelanggan', $pelanggan);
+    }
+
+    if ($salesman !=  '') {
+      $this->db->where('pelanggan.id_sales', $salesman);
+    }
+
+    $this->db->select('no_pengajuan,
+		tgl_pengajuan,
+		pengajuan_limitkredit_v3.kode_pelanggan,
+		nama_pelanggan,
+		nama_karyawan,
+		jumlah,
+		jumlah_rekomendasi,
+		pengajuan_limitkredit_v3.jatuhtempo,
+		jatuhtempo_rekomendasi,
+		status,
+    skor,
+		id_admin,
+		id_approval,
+		kacab,
+		mm,
+		gm,
+		dirut');
+    $this->db->from('pengajuan_limitkredit_v3');
+    $this->db->join('pelanggan', 'pengajuan_limitkredit_v3.kode_pelanggan = pelanggan.kode_pelanggan');
+    $this->db->join('karyawan', 'pelanggan.id_sales = karyawan.id_karyawan');
+    $this->db->join('users', 'pengajuan_limitkredit_v3.id_approval = users.id_user', 'left');
+    $this->db->order_by('tgl_pengajuan', 'DESC');
+
+    // $this->db->where('left(kontrabon.no_kontrabon,1) !=','T');
+
+
+    $this->db->limit($rowperpage, $rowno);
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+
+  public function getDataLimitKreditv3($rowno, $rowperpage, $cbg = "", $dari = "", $sampai = "", $salesman = "", $pelanggan = "", $approval = "", $status = "")
+  {
+    $cabang = $this->session->userdata('cabang');
+    $level   = $this->session->userdata('level_user');
+    $id_admin = $this->session->userdata('id_user');
+    if ($cabang != "pusat") {
+      $c = "AND pelanggan.kode_cabang = '$cabang'";
+    } else {
+      if ($cbg != "") {
+        $c = "AND pelanggan.kode_cabang = '$cbg'";
+      } else {
+        $c = "";
+      }
+    }
+
+    if ($dari !=  '') {
+      $d = "AND tgl_pengajuan >= '$dari'";
+    } else {
+      $d = "";
+    }
+    if ($sampai !=  '') {
+      $s = "AND tgl_pengajuan <= '$sampai'";
+    } else {
+      $s = "";
+    }
+
+    if ($pelanggan !=  '') {
+      $p = "AND pelanggan.nama_pelanggan like '%$pelanggan%'";
+    } else {
+      $p = "";
+    }
+
+    if ($salesman !=  '') {
+      $k = "AND pelanggan.id_sales = '$salesman'";
+    } else {
+      $k = "";
+    }
+
+    if ($level == 'kepala cabang') {
+      if ($status == 1) {
+        $st = "AND kacab IS NOT NULL";
+      } else if ($status == 2) {
+        $st = "AND kacab IS NOT NULL AND status ='2'";
+      } else if ($status == "-") {
+        $st = "AND kacab IS NULL AND status = 0";
+      } else {
+        $st = "";
+      }
+
+      $limitjumlah = "AND jumlah > 2000000";
+    } else if ($level == 'manager marketing') {
+      if ($status == 1) {
+        $st = "AND mm IS NOT NULL";
+      } else if ($status == 2) {
+        $st = "AND mm IS NOT NULL AND status ='2'";
+      } else if ($status == "-") {
+        $st = "AND kacab IS NOT NULL AND mm IS NULL AND status = 0";
+      } else {
+        $st = "";
+      }
+      $limitjumlah = " AND jumlah > 5000000";
+    } else if ($level == 'general manager') {
+      if ($status == 1) {
+        $st = "AND gm IS NOT NULL";
+      } else if ($status == 2) {
+        $st = "AND gm IS NOT NULL AND status ='2'";
+      } else if ($status == "-") {
+        $st = "AND mm IS NOT NULL AND gm IS NULL AND status = 0";
+      } else {
+        $st = "";
+      }
+      $limitjumlah = " AND jumlah > 10000000";
+    } else if ($level == 'Administrator') {
+      if ($status == 1) {
+        $st = "AND dirut IS NOT NULL";
+      } else if ($status == 2) {
+        $st = "AND dirut IS NOT NULL AND status ='2'";
+      } else if ($status == "-") {
+        $st = "AND gm IS NOT NULL AND dirut IS NULL AND status = 0";
+      } else {
+        $st = "";
+      }
+      $limitjumlah = " AND jumlah > 15000000";
+    }
+
+    // $this->db->select('no_pengajuan,
+    // tgl_pengajuan,
+    // pengajuan_limitkredit_v3.kode_pelanggan,
+    // nama_pelanggan,
+    // nama_karyawan,
+    // jumlah,
+    // jumlah_rekomendasi,
+    // pengajuan_limitkredit_v3.jatuhtempo,
+    // jatuhtempo_rekomendasi,
+    // skor,
+    // status,
+    // id_admin,
+    // id_approval,
+    // kacab,
+    // mm,
+    // gm,
+    // dirut');
+    // $this->db->from('pengajuan_limitkredit_v3');
+    // $this->db->join('pelanggan', 'pengajuan_limitkredit_v3.kode_pelanggan = pelanggan.kode_pelanggan');
+    // $this->db->join('karyawan', 'pelanggan.id_sales = karyawan.id_karyawan');
+    // $this->db->join('users', 'pengajuan_limitkredit_v3.id_approval = users.id_user', 'left');
+    // $this->db->order_by('tgl_pengajuan', 'DESC');
+
+    // $this->db->where('left(kontrabon.no_kontrabon,1) !=','T');
+
+
+    //$this->db->limit($rowperpage, $rowno);
+
+    //$query = $this->db->get();
+    if ($status != "-") {
+      $q = "SELECT no_pengajuan,
+      tgl_pengajuan,p.kode_pelanggan,
+      nama_pelanggan,
+      nama_karyawan,
+      jumlah,
+      jumlah_rekomendasi,
+      p.jatuhtempo,
+      jatuhtempo_rekomendasi,
+      skor,
+      status,
+      id_admin,
+      id_approval,
+      kacab,
+      mm,
+      gm,
+      dirut
+      FROM pengajuan_limitkredit_v3 p
+      INNER JOIN pelanggan ON p.kode_pelanggan = pelanggan.kode_pelanggan
+      INNER JOIN karyawan ON pelanggan.id_sales = karyawan.id_karyawan
+      WHERE no_pengajuan !=''"
+        . $c
+        . $d
+        . $s
+        . $p
+        . $k
+        . $st
+        . $limitjumlah
+        . "
+      ORDER BY tgl_pengajuan DESC LIMIT $rowno,$rowperpage
+      ";
+    } else {
+      $q = "SELECT no_pengajuan,
+      tgl_pengajuan,p.kode_pelanggan,
+      nama_pelanggan,
+      nama_karyawan,
+      jumlah,
+      jumlah_rekomendasi,
+      p.jatuhtempo,
+      jatuhtempo_rekomendasi,
+      skor,
+      status,
+      id_admin,
+      id_approval,
+      kacab,
+      mm,
+      gm,
+      dirut
+      FROM pengajuan_limitkredit_v3 p
+      INNER JOIN pelanggan ON p.kode_pelanggan = pelanggan.kode_pelanggan
+      INNER JOIN karyawan ON pelanggan.id_sales = karyawan.id_karyawan
+      WHERE no_pengajuan IN (SELECT max(no_pengajuan) as no_pengajuan FROM pengajuan_limitkredit_v3 GROUP BY kode_pelanggan)"
+        . $c
+        . $d
+        . $s
+        . $p
+        . $k
+        . $st
+        . $limitjumlah
+        . "
+      ORDER BY tgl_pengajuan DESC LIMIT $rowno,$rowperpage
+      ";
+    }
+    $query = $this->db->query($q);
+    return $query->result_array();
+  }
+
+  // Select total records
+  public function getrecordLimitKreditv3Count($cbg = "", $dari = "", $sampai = "", $salesman = "", $pelanggan = "", $approval = "", $status = "")
+  {
+    $cabang = $this->session->userdata('cabang');
+    $level   = $this->session->userdata('level_user');
+    $id_admin = $this->session->userdata('id_user');
+    if ($cabang != "pusat") {
+      $c = "AND pelanggan.kode_cabang = '$cabang'";
+    } else {
+      if ($cbg != "") {
+        $c = "AND pelanggan.kode_cabang = '$cbg'";
+      } else {
+        $c = "";
+      }
+    }
+
+    if ($dari !=  '') {
+      $d = "AND tgl_pengajuan >= '$dari'";
+    } else {
+      $d = "";
+    }
+    if ($sampai !=  '') {
+      $s = "AND tgl_pengajuan <= '$sampai'";
+    } else {
+      $s = "";
+    }
+
+    if ($pelanggan !=  '') {
+      $p = "AND pelanggan.nama_pelanggan like '%$pelanggan%'";
+    } else {
+      $p = "";
+    }
+
+    if ($salesman !=  '') {
+      $k = "AND pelanggan.id_sales = '$salesman'";
+    } else {
+      $k = "";
+    }
+
+    if ($level == 'kepala cabang') {
+      if ($status == 1) {
+        $st = "AND kacab IS NOT NULL";
+      } else if ($status == 2) {
+        $st = "AND kacab IS NOT NULL AND status ='2'";
+      } else if ($status == "-") {
+        $st = "AND status = 0";
+      } else {
+        $st = "";
+      }
+    } else if ($level == 'manager marketing') {
+      if ($status == 1) {
+        $st = "AND mm IS NOT NULL";
+      } else if ($status == 2) {
+        $st = "AND mm IS NOT NULL AND status ='2'";
+      } else if ($status == "-") {
+        $st = "AND kacab IS NOT NULL AND mm IS NULL AND status = 0";
+      } else {
+        $st = "";
+      }
+    } else if ($level == 'general manager') {
+      if ($status == 1) {
+        $st = "AND gm IS NOT NULL";
+      } else if ($status == 2) {
+        $st = "AND gm IS NOT NULL AND status ='2'";
+      } else if ($status == "-") {
+        $st = "AND mm IS NOT NULL AND gm IS NULL AND status = 0";
+      } else {
+        $st = "";
+      }
+    } else if ($level == 'Administrator') {
+      if ($status == 1) {
+        $st = "AND dirut IS NOT NULL";
+      } else if ($status == 2) {
+        $st = "AND dirut IS NOT NULL AND status ='2'";
+      } else if ($status == "-") {
+        $st = "AND gm IS NOT NULL AND dirut IS NULL AND status = 0";
+      } else {
+        $st = "";
+      }
+    }
+
+    // $this->db->select('no_pengajuan,
+    // tgl_pengajuan,
+    // pengajuan_limitkredit_v3.kode_pelanggan,
+    // nama_pelanggan,
+    // nama_karyawan,
+    // jumlah,
+    // jumlah_rekomendasi,
+    // pengajuan_limitkredit_v3.jatuhtempo,
+    // jatuhtempo_rekomendasi,
+    // skor,
+    // status,
+    // id_admin,
+    // id_approval,
+    // kacab,
+    // mm,
+    // gm,
+    // dirut');
+    // $this->db->from('pengajuan_limitkredit_v3');
+    // $this->db->join('pelanggan', 'pengajuan_limitkredit_v3.kode_pelanggan = pelanggan.kode_pelanggan');
+    // $this->db->join('karyawan', 'pelanggan.id_sales = karyawan.id_karyawan');
+    // $this->db->join('users', 'pengajuan_limitkredit_v3.id_approval = users.id_user', 'left');
+    // $this->db->order_by('tgl_pengajuan', 'DESC');
+
+    // $this->db->where('left(kontrabon.no_kontrabon,1) !=','T');
+
+
+    //$this->db->limit($rowperpage, $rowno);
+
+    //$query = $this->db->get();
+    if ($status != "-") {
+      $q = "SELECT COUNT(*) as allcount
+      FROM pengajuan_limitkredit_v3 p
+      INNER JOIN pelanggan ON p.kode_pelanggan = pelanggan.kode_pelanggan
+      INNER JOIN karyawan ON pelanggan.id_sales = karyawan.id_karyawan
+      WHERE no_pengajuan !=''"
+        . $c
+        . $d
+        . $s
+        . $p
+        . $k
+        . $st;
+    } else {
+      $q = "SELECT COUNT(*) as allcount
+      FROM pengajuan_limitkredit_v3 p
+      INNER JOIN pelanggan ON p.kode_pelanggan = pelanggan.kode_pelanggan
+      INNER JOIN karyawan ON pelanggan.id_sales = karyawan.id_karyawan
+      WHERE no_pengajuan IN (SELECT max(no_pengajuan) as no_pengajuan FROM pengajuan_limitkredit_v3 GROUP BY kode_pelanggan)"
+        . $c
+        . $d
+        . $s
+        . $p
+        . $k
+        . $st;
+    }
+    $query = $this->db->query($q);
+    $result = $query->result_array();
+    return $result[0]['allcount'];
   }
 }
