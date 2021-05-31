@@ -296,7 +296,7 @@ class Model_pelanggan extends CI_Model
   }
 
 
-  function ExportPelanggan($cabang = "", $salesman = "", $pelanggan = "", $dari = "", $sampai = "")
+  function ExportPelanggan($cabang = "", $salesman = "", $pelanggan = "", $kodepel = "", $dari = "", $sampai = "")
   {
     if ($cabang != "") {
       $this->db->where('pelanggan.kode_cabang', $cabang);
@@ -308,6 +308,10 @@ class Model_pelanggan extends CI_Model
 
     if ($pelanggan != "") {
       $this->db->like('nama_pelanggan', $pelanggan);
+    }
+
+    if ($kodepel != "") {
+      $this->db->like('pelanggan.kode_pelanggan', $kodepel);
     }
 
     if ($dari !=  '') {
@@ -407,7 +411,7 @@ class Model_pelanggan extends CI_Model
     return $this->db->query($query);
   }
 
-  public function getrecordPelangganAll($cabang = "", $salesman = "", $namapel = "", $dari = "", $sampai = "", $kodepel = "", $status = "")
+  public function getrecordPelangganAll($cabang = "", $salesman = "", $namapel = "", $kodepel = "", $dari = "", $sampai = "", $status = "")
   {
     $this->db->select('count(*) as allcount');
     $this->db->from('pelanggan');
@@ -441,7 +445,7 @@ class Model_pelanggan extends CI_Model
     return $result[0]['allcount'];
   }
 
-  public function getdataPelangganAll($rowno, $rowperpage, $cabang = "", $salesman = "", $namapel = "", $dari = "", $sampai = "", $kodepel = "", $status = "")
+  public function getdataPelangganAll($rowno, $rowperpage, $cabang = "", $salesman = "", $namapel = "", $kodepel = "", $dari = "", $sampai = "", $status = "")
   {
     $this->db->select('kode_pelanggan,limitpel,nama_pelanggan,alamat_pelanggan,pelanggan.no_hp,pasar,hari,nama_cabang,nama_karyawan,latitude,longitude,time_stamps,jatuhtempo,foto,status_pelanggan');
     $this->db->from('pelanggan');

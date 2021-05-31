@@ -1697,6 +1697,18 @@ WHERE tgl_pembelian BETWEEN '$dari' AND '$sampai'"
     return $this->db->get();
   }
 
+  function cetak_retur_keluar($dari = "", $sampai = "", $barang = "")
+  {
+    $this->db->select('*');
+    $this->db->from('detail_retur_pembelian');
+    $this->db->join('master_barang_pembelian', 'master_barang_pembelian.kode_barang = detail_retur_pembelian.kode_barang');
+    $this->db->join('retur_pembelian', 'detail_retur_pembelian.kode_retur = retur_pembelian.kode_retur','left');
+    $this->db->where('tanggal >=', $dari);
+    $this->db->where('tanggal <=', $sampai);
+    $this->db->where('detail_retur_pembelian.kode_barang', $barang);
+    return $this->db->get();
+  }
+
   function cetak_rekappembelian($dari = "", $sampai = "", $jenis = "", $sortby)
   {
 

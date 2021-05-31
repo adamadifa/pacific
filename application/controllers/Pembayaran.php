@@ -22,11 +22,13 @@ class Pembayaran extends CI_Controller
 
 		$salesman = "";
 		$namapel = "";
+		$kodepel = "";
 		$dari = "";
 		$sampai = "";
 		if ($this->input->post('submit') != NULL) {
 			$cbg      = $this->input->post('cabang');
 			$salesman = $this->input->post('salesman');
+			$kodepel = $this->input->post('kodepel');
 			$namapel = $this->input->post('namapel');
 			$dari     = $this->input->post('dari');
 			$sampai   = $this->input->post('sampai');
@@ -35,6 +37,7 @@ class Pembayaran extends CI_Controller
 				'cbg'        => $cbg,
 				'salesman'   => $salesman,
 				'namapel'   => $namapel,
+				'kodepel'   => $kodepel,
 				'dari'       => $dari,
 				'sampai'     => $sampai
 			);
@@ -51,6 +54,10 @@ class Pembayaran extends CI_Controller
 				$namapel = $this->session->userdata('namapel');
 			}
 
+			if ($this->session->userdata('kodepel') != NULL) {
+				$kodepel = $this->session->userdata('kodepel');
+			}
+
 			if ($this->session->userdata('dari') != NULL) {
 				$dari = $this->session->userdata('dari');
 			}
@@ -63,7 +70,7 @@ class Pembayaran extends CI_Controller
 			header("Content-type: application/vnd-ms-excel");
 			// Mendefinisikan nama file ekspor "hasil-export.xls"
 			header("Content-Disposition: attachment; filename=Data Pelanggan.xls");
-			$data['pelanggan'] = $this->Model_pelanggan->Exportpelanggan($cbg, $salesman, $namapel, $dari, $sampai)->result();
+			$data['pelanggan'] = $this->Model_pelanggan->Exportpelanggan($cbg, $salesman, $namapel, $kodepel, $dari, $sampai)->result();
 			$this->load->view('pelanggan/pelanggan_export', $data);
 		} else {
 			// Row per page
@@ -75,9 +82,9 @@ class Pembayaran extends CI_Controller
 
 			$status = 1;
 			// All records count
-			$allcount     = $this->Model_pelanggan->getrecordPelangganAll($cbg, $salesman, $namapel, $dari, $sampai, $kodepel = "", $status);
+			$allcount     = $this->Model_pelanggan->getrecordPelangganAll($cbg, $salesman, $namapel, $kodepel, $dari, $sampai,  $status);
 			// Get records
-			$users_record = $this->Model_pelanggan->getdataPelangganAll($rowno, $rowperpage, $cbg, $salesman, $namapel, $dari, $sampai, $kodepel = "", $status);
+			$users_record = $this->Model_pelanggan->getdataPelangganAll($rowno, $rowperpage, $cbg, $salesman , $namapel,$kodepel, $dari, $sampai, $status);
 			// Pagination Configuration
 			$config['base_url']         = base_url() . 'pembayaran/index';
 			$config['use_page_numbers'] = TRUE;
@@ -111,8 +118,9 @@ class Pembayaran extends CI_Controller
 			$data['cbg']                = $cbg;
 			$data['salesman']           = $salesman;
 			$data['namapel']            = $namapel;
-			$data['dari']       				= $dari;
-			$data['sampai']     				= $sampai;
+			$data['kodepel']     		= $kodepel;
+			$data['dari']       		= $dari;
+			$data['sampai']     		= $sampai;
 			$data['cabang']             = $this->Model_cabang->view_cabang()->result();
 			$data['sess_cab']           = $this->session->userdata('cabang');
 			$this->template->load('template/template', 'pembayaran/histori_penjualan', $data);
