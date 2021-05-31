@@ -203,7 +203,7 @@ class Model_komisi extends CI_Model
         komisi_target_qty_detail k_detail
         INNER JOIN komisi_target ON k_detail.kode_target = komisi_target.kode_target
         INNER JOIN master_barang ON k_detail.kode_produk = master_barang.kode_produk
-        WHERE bulan ='3' AND tahun='2021'
+        WHERE bulan ='$bulan' AND tahun='$tahun'
         GROUP BY id_karyawan) komisi ON (karyawan.id_karyawan = komisi.id_karyawan)
         
         LEFT JOIN (
@@ -221,7 +221,7 @@ class Model_komisi extends CI_Model
         FROM
         komisi_collection_detail collection_detail
         INNER JOIN komisi_target ON collection_detail.kode_target = komisi_target.kode_target
-        WHERE bulan ='3' AND tahun='2021'
+        WHERE bulan ='$bulan' AND tahun='$tahun'
         GROUP BY id_karyawan) komisi_collection ON (karyawan.id_karyawan = komisi_collection.id_karyawan)
         
         LEFT JOIN (
@@ -230,7 +230,7 @@ class Model_komisi extends CI_Model
         FROM
         komisi_target_cashin_detail cashin_detail
         INNER JOIN komisi_target ON cashin_detail.kode_target = komisi_target.kode_target
-        WHERE bulan ='3' AND tahun='2021'
+        WHERE bulan ='$bulan' AND tahun='$tahun'
         GROUP BY id_karyawan) komisi_cashin ON (karyawan.id_karyawan = komisi_cashin.id_karyawan)
         
         LEFT JOIN (
@@ -261,7 +261,7 @@ class Model_komisi extends CI_Model
           GROUP BY no_fak_penj
         ) hb ON (hb.no_fak_penj = penjualan.no_fak_penj) 
         INNER JOIN master_barang ON barang.kode_produk = master_barang.kode_produk
-        WHERE tgltransaksi BETWEEN '$dari' AND '$sampai' AND status_lunas ='1' AND lastpayment < '$sampai'
+        WHERE  status_lunas ='1' AND lastpayment BETWEEN '$dari' AND '$sampai'
         GROUP BY penjualan.id_karyawan
         ) realisasi ON (karyawan.id_karyawan = realisasi.id_karyawan)
     WHERE kode_cabang ='$cabang' AND nama_karyawan !='-'";
