@@ -6,7 +6,113 @@ class Bahan_bakar extends CI_Controller
   {
     parent::__construct();
     check_login();
-    $this->load->model(array('Model_bahan_bakar', 'Model_pembelian','Model_cabang'));
+    $this->load->model(array('Model_bahan_bakar', 'Model_pembelian','Model_cabang','Model_gudanglogistik'));
+  }
+
+  function pembelian($rowno = 0)
+  {
+    // Search text
+    $nobukti           = "";
+    $tgl_pembelian    = "";
+    $departemen       = "";
+    $supplier         = "";
+    $role = $this->session->userdata('level_user');
+    if ($role == 'admin pajak') {
+      $ppn = "1";
+    } else {
+      $ppn = "";
+    }
+
+    // echo $ppn;
+    //
+    // die;
+    $ln               = "";
+    if ($this->input->post('submit') != NULL) {
+      $nobukti                = $this->input->post('nobukti');
+      $tgl_pembelian         = $this->input->post('tgl_pembelian');
+      $departemen            = $this->input->post('departemen');
+      $supplier              = $this->input->post('supplier');
+      $ppn                   = $this->input->post('ppn');
+      $ln                    = $this->input->post('ln');
+      $data   = array(
+        'nobukti'                => $nobukti,
+        'tgl_pembelian'         => $tgl_pembelian,
+        'departemen'           => $departemen,
+        'supplier'             => $supplier,
+        'ppn'                  => $ppn,
+        'ln'                   => $ln
+      );
+      $this->session->set_userdata($data);
+    } else {
+      if ($this->session->userdata('nobukti') != NULL) {
+        $nobukti = $this->session->userdata('nobukti');
+      }
+      if ($this->session->userdata('tgl_pembelian') != NULL) {
+        $tgl_pembelian = $this->session->userdata('tgl_pembelian');
+      }
+      if ($this->session->userdata('departemen') != NULL) {
+        $departemen = $this->session->userdata('departemen');
+      }
+
+      if ($this->session->userdata('supplier') != NULL) {
+        $supplier = $this->session->userdata('supplier');
+      }
+      if ($this->session->userdata('ppn') != NULL) {
+        $ppn = $this->session->userdata('ppn');
+      }
+
+      if ($this->session->userdata('ln') != NULL) {
+        $ln = $this->session->userdata('ln');
+      }
+    }
+    // Row per page
+    $rowperpage = 10;
+    // Row position
+    if ($rowno != 0) {
+      $rowno = ($rowno - 1) * $rowperpage;
+    }
+    // All records count
+    $allcount     = $this->Model_bahan_bakar->getrecordPembelianCount($nobukti, $tgl_pembelian, $departemen, $ppn, $ln, $supplier);
+    // Get records
+    $users_record = $this->Model_bahan_bakar->getDataPembelian($rowno, $rowperpage, $nobukti, $tgl_pembelian, $departemen, $ppn, $ln, $supplier);
+    // Pagination Configuration
+    $config['base_url']       = base_url() . 'bahan_bakar/pembelian';
+    $config['use_page_numbers']   = TRUE;
+    $config['total_rows']       = $allcount;
+    $config['per_page']       = $rowperpage;
+    $config['first_link']         = 'First';
+    $config['last_link']          = 'Last';
+    $config['next_link']          = 'Next';
+    $config['prev_link']          = 'Prev';
+    $config['full_tag_open']      = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+    $config['full_tag_close']     = '</ul></nav></div>';
+    $config['num_tag_open']       = '<li class="page-item"><span class="page-link">';
+    $config['num_tag_close']      = '</span></li>';
+    $config['cur_tag_open']       = '<li class="page-item active"><span class="page-link">';
+    $config['cur_tag_close']      = '<span class="sr-only">(current)</span></span></li>';
+    $config['next_tag_open']      = '<li class="page-item"><span class="page-link">';
+    $config['next_tagl_close']    = '<span aria-hidden="true">&raquo;</span></span></li>';
+    $config['prev_tag_open']      = '<li class="page-item"><span class="page-link">';
+    $config['prev_tagl_close']    = '</span>Next</li>';
+    $config['first_tag_open']     = '<li class="page-item"><span class="page-link">';
+    $config['first_tagl_close']   = '</span></li>';
+    $config['last_tag_open']      = '<li class="page-item"><span class="page-link">';
+    $config['last_tagl_close']    = '</span></li>';
+    // Initialize
+    $this->pagination->initialize($config);
+    $data['pagination']             = $this->pagination->create_links();
+    $data['result']             = $users_record;
+    $data['row']               = $rowno;
+    $data['nobukti']               = $nobukti;
+    $data['tgl_pembelian']          = $tgl_pembelian;
+    $data['departemen']              = $departemen;
+    $data['ppn']                    = $ppn;
+    $data['ln']                     = $ln;
+    // $data['dept']                   = $this->Model_bahan_bakar->getPemohon()->result();
+    $data['supp']                   = $this->Model_bahan_bakar->listSupplier()->result();
+    $data['supplier']               = $supplier;
+    //echo $data['cb'];
+    $this->template->load('template/template', 'bahan_bakar/pembelian', $data);
   }
 
   function pemasukan($rowno = 0)
@@ -187,6 +293,19 @@ class Bahan_bakar extends CI_Controller
     $this->load->view('bahan_bakar/detail_pemasukan', $data);
   }
 
+  function detail_pembelian()
+  {
+    $nobukti            = $this->input->post('nobukti');
+    $data['pmb']        = $this->Model_gudanglogistik->getPembelian($nobukti)->row_array();
+    $data['detail']     = $this->Model_gudanglogistik->getDetailPembelian($nobukti)->result();
+    $pmbpnj             = $this->Model_gudanglogistik->getDetailPnjPembelian($nobukti);
+    $data['cekpnj']     = $pmbpnj->num_rows();
+    $data['pmbpnj']     = $pmbpnj->result();
+    $data['kb']         = $this->Model_gudanglogistik->listKontraBonPMB($nobukti)->result();
+
+    $this->load->view('bahan_bakar/detail_pembelian', $data);
+  }
+
   function inputpemasukan_temp()
   {
 
@@ -237,6 +356,12 @@ class Bahan_bakar extends CI_Controller
 
     $this->Model_bahan_bakar->insert_pengeluaran();
   }
+
+  function insert_pembelian()
+  {
+
+    $this->Model_bahan_bakar->insert_pembelian();
+  }
   
   function hapuspengeluaran()
   {
@@ -263,6 +388,7 @@ class Bahan_bakar extends CI_Controller
 
   function cetak_bahan_bakar(){
 
+    $level                = $this->session->userdata('level_user');
     $kode_barang          = $this->input->post('kode_barang');
     $bulan                = $this->input->post('bulan');
     $tahun                = $this->input->post('tahun');
@@ -295,7 +421,11 @@ class Bahan_bakar extends CI_Controller
       // Mendefinisikan nama file ekspor "hasil-export.xls"
       header("Content-Disposition: attachment; filename=Laporan Rekap Bahan Bakar.xls");
     }
-    $this->load->view('bahan_bakar/cetak_bahan_bakar',$data);
+    if($level == 'manager accounting' ||  $level == 'spv accounting'||  $level == 'Administrator'){
+      $this->load->view('bahan_bakar/cetak_bahan_bakar_harga',$data);
+    }else{
+      $this->load->view('bahan_bakar/cetak_bahan_bakar',$data);
+    }
   }
   
 }

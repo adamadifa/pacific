@@ -315,7 +315,7 @@
                       <i class="fa fa-gears icon"></i>
                     </span>
                     <span class="nav-link-title">
-                      Pengajuan Maintenance
+                      Pengajuan Portal
                     </span>
                   </a>
                 </li>

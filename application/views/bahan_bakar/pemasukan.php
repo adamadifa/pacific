@@ -51,7 +51,7 @@ function uang($nilai)
               <button type="submit" name="submit" class="btn btn-primary btn-block mr-2" value="1"><i class="fa fa-search mr-2"></i>CARI</button>
             </div>
           </form>
-          <a href="<?php echo base_url(); ?>bahan_bakar/input_pemasukan" class="btn btn-danger mb-3">Tambah Data</a>
+          <!-- <a href="<?php echo base_url(); ?>bahan_bakar/input_pemasukan" class="btn btn-danger mb-3">Tambah Data</a> -->
           <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover" id="datatable">
               <thead class="thead-dark">
@@ -95,6 +95,7 @@ function uang($nilai)
       </div>
     </div>
     <div class="col-md-2">
+      <?php $this->load->view('menu/menu_maintenance_administrator.php'); ?>
     </div>
   </div>
 </div>

@@ -4,7 +4,7 @@
     <div class="row align-items-center">
       <div class="col-auto">
         <h2 class="page-title">
-          Laporan Rekap Barang Bahan
+          Laporan Rekap Bahan Bakar
         </h2>
       </div>
     </div>
@@ -17,7 +17,7 @@
           <div class="col-md-6">
             <div class="card">
               <div class="card-header bg-dark text-white">
-                <h4 class="card-title"> Laporan Rekap Barang Bahan</h4>
+                <h4 class="card-title"> Laporan Rekap Bahan Bakar</h4>
               </div>
               <div class="card-body">
                 <form class="formValidate" id="formValidate" method="POST" action="<?php echo base_url(); ?>bahan_bakar/cetak_bahan_bakar" target="_blank">
@@ -71,7 +71,7 @@
         </div>
       </div>
       <div class="col-md-2">
-        <?php $this->load->view('menu/menu_gudangbahan_administrator.php'); ?>
+        <?php $this->load->view('menu/menu_maintenance_administrator.php'); ?>
       </div>
     </div>
   </div>

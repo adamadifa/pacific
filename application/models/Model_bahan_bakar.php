@@ -2,6 +2,90 @@
 
 class Model_bahan_bakar extends CI_Model
 {
+  function listSupplier()
+  {
+
+    return $this->db->get('supplier');
+  }
+
+  public function getrecordPembelianCount($nobukti = "", $tgl_pembelian = "", $departemen = "", $ppn = "", $ln = "", $supplier = "")
+  {
+
+    $this->db->select('count(*) as allcount');
+    $this->db->from('pembelian');
+    $this->db->join('departemen', 'pembelian.kode_dept = departemen.kode_dept');
+    $this->db->join('supplier', 'pembelian.kode_supplier = supplier.kode_supplier');
+    $this->db->join('detail_pembelian', 'pembelian.nobukti_pembelian = detail_pembelian.nobukti_pembelian');
+    $this->db->where('pembelian.kode_dept', 'GAF');
+    $this->db->where('detail_pembelian.kode_akun', '1-1505');
+    $this->db->where('pembelian.nobukti_pembelian NOT IN (SELECT nobukti_pemasukan FROM pemasukan_bb)');
+    $this->db->where('tgl_pembelian>=', '2021-02-01');
+    if ($nobukti != '') {
+      $this->db->like('pembelian.nobukti_pembelian', $nobukti);
+    }
+    if ($tgl_pembelian != '') {
+      $this->db->where('tgl_pembelian', $tgl_pembelian);
+    }
+
+    if ($departemen != '') {
+      $this->db->where('pembelian.kode_dept', $departemen);
+    }
+
+    if ($ppn != '') {
+      $this->db->where('pembelian.ppn', $ppn);
+    }
+
+    if ($supplier != '') {
+      $this->db->where('pembelian.kode_supplier', $supplier);
+    }
+    $this->db->order_by('tgl_pembelian', 'desc');
+    $query  = $this->db->get();
+    $result = $query->result_array();
+    return $result[0]['allcount'];
+  }
+
+  public function getDataPembelian($rowno, $rowperpage, $nobukti = "", $tgl_pembelian = "", $departemen = "", $ppn = "", $ln = "", $supplier = "")
+  {
+
+    $this->db->select('pembelian.nobukti_pembelian,tgl_pembelian,tgl_jatuhtempo,ppn,no_fak_pajak,pembelian.kode_supplier,nama_supplier,pembelian.kode_dept,nama_dept,jenistransaksi,ref_tunai,
+
+      (SELECT SUM( IF ( STATUS = "PMB", (qty*harga), 0 ) ) - SUM( IF ( STATUS = "PNJ",(qty*harga), 0 ) ) FROM detail_pembelian dp WHERE dp.nobukti_pembelian = pembelian.nobukti_pembelian  ) as harga,
+      (SELECT COUNT(nobukti_pembelian) FROM detail_kontrabon k WHERE k.nobukti_pembelian = pembelian.nobukti_pembelian) as kontrabon,
+      (SELECT SUM(jmlbayar) FROM historibayar_pembelian hb
+      INNER JOIN detail_kontrabon on hb.no_kontrabon = detail_kontrabon.no_kontrabon
+      WHERE nobukti_pembelian = pembelian.nobukti_pembelian
+      GROUP BY pembelian.nobukti_pembelian) as jmlbayar');
+    $this->db->from('pembelian');
+    $this->db->join('departemen', 'pembelian.kode_dept = departemen.kode_dept');
+    $this->db->join('supplier', 'pembelian.kode_supplier = supplier.kode_supplier');
+    $this->db->join('detail_pembelian', 'pembelian.nobukti_pembelian = detail_pembelian.nobukti_pembelian');
+    $this->db->where('pembelian.kode_dept', 'GAF');
+    $this->db->where('detail_pembelian.kode_akun', '1-1505');
+    $this->db->where('pembelian.nobukti_pembelian NOT IN (SELECT nobukti_pemasukan FROM pemasukan_bb)');
+    $this->db->where('tgl_pembelian>=', '2021-02-01');
+    if ($nobukti != '') {
+      $this->db->like('pembelian.nobukti_pembelian', $nobukti);
+    }
+    if ($tgl_pembelian != '') {
+      $this->db->where('tgl_pembelian', $tgl_pembelian);
+    }
+    if ($departemen != '') {
+      $this->db->where('pembelian.kode_dept', $departemen);
+    }
+    if ($ppn != '') {
+      $this->db->where('pembelian.ppn', $ppn);
+    }
+
+    if ($supplier != '') {
+      $this->db->where('pembelian.kode_supplier', $supplier);
+    }
+    $this->db->order_by('tgl_pembelian,nobukti_pembelian', 'DESC');
+
+    $this->db->limit($rowperpage, $rowno);
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+
   public function getDataPemasukan($rowno, $rowperpage, $nobukti = "", $tgl_pemasukan = "")
   {
 
@@ -112,6 +196,43 @@ class Model_bahan_bakar extends CI_Model
     );
 
     $this->db->insert('detailpemasukan_temp_bb', $data);
+  }
+
+  function insert_pembelian()
+  {
+
+    $nobukti           = $this->input->post('nobukti');
+    $tgl_pemasukan     = $this->input->post('tgl_pemasukan');
+
+    $data = $this->db->query("SELECT * FROM pembelian WHERE nobukti_pembelian = '$nobukti' ");
+    foreach ($data->result() as $d) {
+
+      $data = array(
+
+        'nobukti_pemasukan'  => $nobukti,
+        'tgl_pemasukan'      => $d->tgl_pembelian,
+        'tgl_pembelian'      => $tgl_pemasukan,
+        'status'             => 1,
+        'kode_supplier'      => $d->kode_supplier,
+
+      );
+      $this->db->insert('pemasukan_bb', $data);
+    }
+
+
+    $data = $this->db->query("SELECT * FROM detail_pembelian WHERE nobukti_pembelian = '$nobukti' ");
+    foreach ($data->result() as $d) {
+
+      $data = array(
+
+        'nobukti_pemasukan' => $nobukti,
+        'kode_barang'       => $d->kode_barang,
+        'qty'               => $d->qty,
+        'keterangan'        => $d->keterangan
+
+      );
+      $this->db->insert('detail_pemasukan_bb', $data);
+    }
   }
 
   function getPemasukantemp()

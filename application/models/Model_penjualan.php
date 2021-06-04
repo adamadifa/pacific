@@ -7305,7 +7305,7 @@ class Model_penjualan extends CI_Model
         $st = "";
       }
 
-      $limitjumlah = "AND jumlah > 2000000";
+      $limitjumlah = " AND jumlah > 2000000";
     } else if ($level == 'manager marketing') {
       if ($status == 1) {
         $st = "AND mm IS NOT NULL";
@@ -7482,10 +7482,12 @@ class Model_penjualan extends CI_Model
       } else if ($status == 2) {
         $st = "AND kacab IS NOT NULL AND status ='2'";
       } else if ($status == "-") {
-        $st = "AND status = 0";
+        $st = "AND kacab IS NULL AND status = 0";
       } else {
         $st = "";
       }
+
+      $limitjumlah = " AND jumlah > 2000000";
     } else if ($level == 'manager marketing') {
       if ($status == 1) {
         $st = "AND mm IS NOT NULL";
@@ -7496,6 +7498,7 @@ class Model_penjualan extends CI_Model
       } else {
         $st = "";
       }
+      $limitjumlah = " AND jumlah > 5000000";
     } else if ($level == 'general manager') {
       if ($status == 1) {
         $st = "AND gm IS NOT NULL";
@@ -7506,6 +7509,7 @@ class Model_penjualan extends CI_Model
       } else {
         $st = "";
       }
+      $limitjumlah = " AND jumlah > 10000000";
     } else if ($level == 'Administrator') {
       if ($status == 1) {
         $st = "AND dirut IS NOT NULL";
@@ -7516,7 +7520,9 @@ class Model_penjualan extends CI_Model
       } else {
         $st = "";
       }
+      $limitjumlah = " AND jumlah > 15000000";
     }
+
 
     // $this->db->select('no_pengajuan,
     // tgl_pengajuan,
@@ -7558,7 +7564,8 @@ class Model_penjualan extends CI_Model
         . $s
         . $p
         . $k
-        . $st;
+        . $st
+		.$limitjumlah;
     } else {
       $q = "SELECT COUNT(*) as allcount
       FROM pengajuan_limitkredit_v3 p
@@ -7570,7 +7577,8 @@ class Model_penjualan extends CI_Model
         . $s
         . $p
         . $k
-        . $st;
+        . $st
+		.$limitjumlah;
     }
     $query = $this->db->query($q);
     $result = $query->result_array();

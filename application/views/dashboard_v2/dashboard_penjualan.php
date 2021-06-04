@@ -21,7 +21,7 @@
               <i class="fa f fa-file-text" style="font-size: 3rem;"></i>
             </span>
             <div>
-              <form id="form" action="<?php echo base_url(); ?>penjualan/approvallimitv2" method="post">
+              <form id="form" action="<?php echo base_url(); ?>penjualan/approvallimitv3" method="post">
                 <input type="hidden" name="status" value="-">
                 <a href="javascript:;" onclick="parentNode.submit();">
                   <b style="font-size: 25px;"><?php echo number_format($cekpengajuan, '0', '', '.'); ?> Ajuan Kredit</b><br>

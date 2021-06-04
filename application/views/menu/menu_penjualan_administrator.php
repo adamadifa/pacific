@@ -204,7 +204,7 @@ if ($level == "Administrator") {
       <a href="#" class="list-group-item list-group-item-action active">
         Data Pengajuan
       </a>
-      <a href="<?php echo base_url(); ?>penjualan/limitkreditv2" class="list-group-item list-group-item-action">
+      <a href="<?php echo base_url(); ?>penjualan/limitkreditv3" class="list-group-item list-group-item-action">
         <i class="fa fa-money mr-2"></i>Pengajuan Limit Kredit
       </a>
       <a href="<?php echo base_url(); ?>penjualan/jatuhtempo" class="list-group-item list-group-item-action">
@@ -264,7 +264,7 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>penjualan/penjualanpend" class="list-group-item list-group-item-action">
         <i class="fa fa-history mr-2"></i>Penjualan Pending
       </a>
-      <a href="<?php echo base_url(); ?>penjualan/limitkreditv2" class="list-group-item list-group-item-action">
+      <a href="<?php echo base_url(); ?>penjualan/limitkreditv3" class="list-group-item list-group-item-action">
         <i class="fa fa-money mr-2"></i>Pengajuan Limit Kredit
       </a>
       <a href="<?php echo base_url(); ?>penjualan/jatuhtempo" class="list-group-item list-group-item-action">

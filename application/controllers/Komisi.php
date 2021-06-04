@@ -15,6 +15,13 @@ class Komisi extends CI_Controller
     $this->template->load('template/template', 'komisi/komisi_target', $data);
   }
 
+  function approvle_targetkomisi()
+  {
+    $data['cabang'] = $this->Model_cabang->view_cabang()->result();
+    $data['bulan'] = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+    $this->template->load('template/template', 'komisi/approvle_targetkomisi', $data);
+  }
+
   function settarget()
   {
     $bulan = $this->input->post('bulan');
@@ -38,6 +45,15 @@ class Komisi extends CI_Controller
     $this->load->view('komisi/komisi_loadtarget', $data);
   }
 
+  function loadapprovletarget()
+  {
+    $bulan = $this->input->post('bulan');
+    $tahun = $this->input->post('tahun');
+    $data['bulan'] = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+    $data['target'] = $this->Model_komisi->loadapprovletarget($bulan, $tahun)->result();
+    $this->load->view('komisi/komisi_loadapprovletarget', $data);
+  }
+
   function inputsettarget()
   {
     $kodetarget = $this->input->post('kodetarget');
@@ -46,6 +62,16 @@ class Komisi extends CI_Controller
     $data['jmlproduk']  = $this->Model_barang->getMasterproduk()->num_rows();
     $data['cabang'] = $this->Model_cabang->view_cabang()->result();
     $this->load->view('komisi/komisi_inputsettarget', $data);
+  }
+
+  function detailsettarget()
+  {
+    $kodetarget = $this->input->post('kodetarget');
+    $data['kodetarget'] = $kodetarget;
+    $data['produk']  = $this->Model_barang->getMasterproduk()->result();
+    $data['jmlproduk']  = $this->Model_barang->getMasterproduk()->num_rows();
+    $data['cabang'] = $this->Model_cabang->view_cabang()->result();
+    $this->load->view('komisi/komisi_detailsettarget', $data);
   }
 
   function inputsettargetcashin()
@@ -58,6 +84,35 @@ class Komisi extends CI_Controller
     $this->load->view('komisi/komisi_inputsettargetcashin', $data);
   }
 
+  function detailsettargetcashin()
+  {
+    $kodetarget = $this->input->post('kodetarget');
+    $data['kodetarget'] = $kodetarget;
+    $data['produk']  = $this->Model_barang->getMasterproduk()->result();
+    $data['jmlproduk']  = $this->Model_barang->getMasterproduk()->num_rows();
+    $data['cabang'] = $this->Model_cabang->view_cabang()->result();
+    $this->load->view('komisi/komisi_detailsettargetcashin', $data);
+  }
+
+
+  function loaddetailtarget()
+  {
+    $kodetarget = $this->input->post('kodetarget');
+    $cabang = $this->input->post('cabang');
+    $data['kodetarget'] = $kodetarget;
+    $data['produk']  = $this->Model_barang->getMasterproduk()->result();
+    $data['salesman'] = $this->Model_laporanpenjualan->get_salesman($cabang)->result();
+    $this->load->view('komisi/komisi_loaddetailtarget', $data);
+  }
+
+  function loaddetailtargetcashin()
+  {
+    $kodetarget = $this->input->post('kodetarget');
+    $cabang = $this->input->post('cabang');
+    $data['kodetarget'] = $kodetarget;
+    $data['salesman'] = $this->Model_laporanpenjualan->get_salesman($cabang)->result();
+    $this->load->view('komisi/komisi_loaddetailtargetcashin', $data);
+  }
 
   function loadlisttarget()
   {

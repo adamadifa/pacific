@@ -61,7 +61,7 @@ class Laporangudangbahan extends CI_Controller{
     $data['tahun']      = $tahun;
     $data['bulan']      = $bulan;
     $data['kategori']   = $kode_kategori;
-    $data['data']       = $this->Model_laporanbahan->list_detailPersediaan($bulan,$tahun,$kode_kategori)->result();
+    $data['data']       = $this->Model_laporanbahan->list_detailPersediaangram($bulan,$tahun,$kode_kategori)->result();
     if(isset($_POST['export'])){
       // Fungsi header dengan mengirimkan raw data excel
       header("Content-type: application/vnd-ms-excel");

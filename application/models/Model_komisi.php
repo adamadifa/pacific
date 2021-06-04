@@ -22,6 +22,11 @@ class Model_komisi extends CI_Model
     return $this->db->get_where('komisi_target', array('bulan' => $bulan, 'tahun' => $tahun));
   }
 
+  function loadapprovletarget($bulan, $tahun)
+  {
+    return $this->db->get_where('komisi_target', array('tahun' => $tahun));
+  }
+
   function simpantarget($data)
   {
     $cek = $this->db->get_where('komisi_target_qty_detail', array('kode_target' => $data['kode_target'], 'id_karyawan' => $data['id_karyawan'], 'kode_produk' => $data['kode_produk']));

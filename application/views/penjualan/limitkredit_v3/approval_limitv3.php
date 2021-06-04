@@ -144,7 +144,7 @@ $level = $this->session->userdata('level_user');
                 foreach ($result as $d) {
                   $kodepelanggan = $d['kode_pelanggan'];
                   $nopengajuan = $d['no_pengajuan'];
-                  $cek = $this->db->query("SELECT * FROM pengajuan_limitkredit_v2 WHERE kode_pelanggan='$kodepelanggan' AND no_pengajuan > '$nopengajuan'")->num_rows();
+                  $cek = $this->db->query("SELECT * FROM pengajuan_limitkredit_v3 WHERE kode_pelanggan='$kodepelanggan' AND no_pengajuan > '$nopengajuan'")->num_rows();
                 ?>
                   <tr>
                     <td><?php echo $sno; ?></td>

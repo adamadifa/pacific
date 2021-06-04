@@ -151,7 +151,7 @@
           </div>
         </div>
         <div class="col-md-2">
-          <?php $this->load->view('menu/menu_gudangbahan_administrator'); ?>
+          <?php $this->load->view('menu/menu_maintenance_administrator.php'); ?>
         </div>
       </div>
     </div>

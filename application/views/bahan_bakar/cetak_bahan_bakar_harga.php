@@ -29,18 +29,37 @@ tr:nth-child(even) {
   background-color: #d6d6d6c2;
 }
 </style>
-<table class="datatable3" style="width:70%" border="1">
+<table class="datatable3" style="width:100%" border="1">
   <thead>
     <tr>
-      <th bgcolor="#024a75" style="color:white; font-size:14;">TANGGAL</th>
-      <th bgcolor="#024a75" style="color:white; font-size:14;">MASUK</th>
-      <th bgcolor="#024a75" style="color:white; font-size:14;">SUPPLIER</th>
-      <th bgcolor="#024a75" style="color:white; font-size:14;">PEMAKAIAN</th>
-      <th bgcolor="#024a75" style="color:white; font-size:14;">SALDO</th>
+      <th rowspan="3" bgcolor="#024a75" style="color:white; font-size:14;">TANGGAL</th>
+      <!-- <th rowspan="2" bgcolor="#024a75" style="color:white; font-size:14;">BTB</th> -->
+      <th rowspan="2" colspan="3" bgcolor="green" style="color:white; font-size:14;">SALDO AWAL</th>
+      <th colspan="6" bgcolor="#024a75" style="color:white; font-size:14;">MASUK</th>
+      <th colspan="3" bgcolor="#024a75" style="color:white; font-size:14;">KELUAR</th>
+      <th rowspan="2" colspan="3" bgcolor="green" style="color:white; font-size:14;">SALDO AKHIR</th>
     </tr>
-    <tr>
-      <th bgcolor="red" style="color:white; font-size:14;" colspan="4">SALDO AWAL</th>
-      <th bgcolor="" style="color:black; font-size:14;" ><?php echo uang($saldoawal['qty']);?></th>
+    <tr >
+      <th bgcolor="green" style="color:white; font-size:14;" colspan="3">PEMBELIAN</th>
+      <th bgcolor="green" style="color:white; font-size:14;" colspan="3">PENERIMAAN LAINNYA</th>
+      <th bgcolor="green" style="color:white; font-size:14;" colspan="3">PEMAKAIAN</th>
+    </tr>
+    <tr >
+      <th bgcolor="#024a75" style="color:white; font-size:14;">QTY</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">HARGA</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">JUMLAH</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">QTY</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">HARGA</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">JUMLAH</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">QTY</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">HARGA</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">JUMLAH</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">QTY</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">HARGA</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">JUMLAH</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">QTY</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">HARGA</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">JUMLAH</th>
     </tr>
   </thead>
   <tbody>
@@ -58,15 +77,12 @@ tr:nth-child(even) {
     while (strtotime($dari) <= strtotime($sampai)) {
 
       $qmasuk           = "SELECT 
-      SUM( qty ) AS qtypemb,
-      SUM( qty ) AS qtypemb,
-      db.harga AS harga,
-      nama_supplier
+      SUM( IF( pemasukan_bb.status = '1' , qty ,0 )) AS qtypemb,
+      SUM( IF( pemasukan_bb.status = '1' , qty ,0 )) AS qtypemb,
+      db.harga AS harga
       FROM pemasukan_bb 
       INNER JOIN detail_pemasukan_bb 
       ON detail_pemasukan_bb.nobukti_pemasukan=pemasukan_bb.nobukti_pemasukan 
-      INNER JOIN supplier 
-      ON supplier.kode_supplier=pemasukan_bb.kode_supplier 
       LEFT JOIN (
         SELECT pembelian.nobukti_pembelian,kode_barang,harga FROM detail_pembelian 
         INNER JOIN pembelian ON pembelian.nobukti_pembelian=detail_pembelian.nobukti_pembelian
@@ -74,7 +90,7 @@ tr:nth-child(even) {
         GROUP BY pembelian.nobukti_pembelian,kode_barang,harga
       ) db ON (db.nobukti_pembelian=pemasukan_bb.nobukti_pemasukan)
       WHERE tgl_pemasukan ='$dari' AND detail_pemasukan_bb.kode_barang = '$kode_barang'
-      GROUP BY tgl_pemasukan,harga,nama_supplier";
+      GROUP BY tgl_pemasukan,harga";
       $masuk            = $this->db->query($qmasuk)->row_array();
 
       $qkeluar           = "SELECT  qty,tgl_pengeluaran
@@ -122,25 +138,72 @@ tr:nth-child(even) {
     ?>
       <tr style="color:black; font-size:14;">
         <td><?php echo $dari; ?></td>
-        <td align="center">
+        <td align="right"><?php echo uang($qtysaldoawal); ?></td>
+        <td align="right"><?php echo uang($hargasaldoawal); ?></td>
+        <td align="right"><?php echo uang($jmlhsaldoawal); ?></td>
+        <td align="right">
           <?php
           if (isset($qtypembelian) and $qtypembelian != "0") {
             echo uang($qtypembelian);
           }
           ?>
         </td>
-        <td align="left"><?php echo $masuk['nama_supplier'];?></td>
-        <td align="center">
+        <td align="right">
+          <?php
+          if (isset($hargamasuk) and $hargamasuk != "0") {
+            echo uang($hargamasuk);
+          }
+          ?>
+        </td>
+        <td align="right">
+          <?php
+          if (isset($qtypembelian) and $qtypembelian != "0") {
+            echo uang($jmlpembelian);
+          }
+          ?>
+        </td>
+        <td align="right"></td>
+        <td align="right"></td>
+        <td align="right"></td>
+        <td align="right">
           <?php
            if (isset($qtypemakaian) and $qtypemakaian != "0") {
             echo uang($qtypemakaian);
           }
           ?>
         </td>
-        <td align="center">
+        <td align="right">
+          <?php
+           if (isset($qtypemakaian) and $qtypemakaian != "0") {
+            echo uang($hargakeluar);
+          }
+          ?>
+        </td>
+        <td align="right">
+          <?php
+           if (isset($qtypemakaian) and $qtypemakaian != "0") {
+            echo uang($jmlhpemakaian);
+          }
+          ?>
+        </td>
+        <td align="right">
           <?php
            if (isset($qtysaldoakhir) and $qtysaldoakhir != "0") {
             echo uang($qtysaldoakhir);
+          }
+          ?>
+        </td>
+        <td align="right">
+          <?php
+           if (isset($hargakeluar) and $hargakeluar != "0") {
+            echo uang($hargakeluar);
+          }
+          ?>
+        </td>
+        <td align="right">
+          <?php
+           if (isset($jmlhsaldoakhir) and $jmlhsaldoakhir != "0") {
+            echo uang($jmlhsaldoakhir);
           }
           ?>
         </td>
@@ -152,10 +215,22 @@ tr:nth-child(even) {
   <tfoot>
     <tr bgcolor="#31869b">
       <th colspan="" style="color:white; font-size:14;">TOTAL</th>
+      <th style="color:white; font-size:14;"></th>
+      <th style="color:white; font-size:14;"></th>
+      <th style="color:white; font-size:14;"></th>
       <th style="color:white; font-size:14;"><?php echo uang($totalqtypembelian); ?></th>
       <th style="color:white; font-size:14;"></th>
+      <th style="color:white; font-size:14;"><?php echo uang($totaljmlpembelian); ?></th>
+      <th style="color:white; font-size:14;"></th>
+      <th style="color:white; font-size:14;"></th>
+      <th style="color:white; font-size:14;"></th>
       <th style="color:white; font-size:14;"><?php echo uang($totalqtypemakaian); ?></th>
-      <th style="color:white; font-size:14;"><?php echo uang($qtysaldoakhir); ?></th>
+      <th style="color:white; font-size:14;"></th>
+      <th style="color:white; font-size:14;"><?php echo uang($totaljmlhpemakaian); ?></th>
+      <th style="color:white; font-size:14;"></th>
+      <th style="color:white; font-size:14;"></th>
+      <th style="color:white; font-size:14;"></th>
+      
     </tr>
   </tfoot>
 </table>

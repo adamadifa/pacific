@@ -111,9 +111,9 @@
                   <th>Ket</th>
                   <!-- <th>Status</th>
                     <th>Ket</th> -->
-                  <th>Kacab</th>
+                  <th>KP</th>
                   <th>MM</th>
-                  <th>GM</th>
+                  <th>EM</th>
                   <th>Dirut</th>
                   <th>Aksi</th>
                 </tr>
@@ -217,6 +217,7 @@
                         <?php
                         } else if (
                           !empty($d['mm']) && !empty($d['gm']) && $d['status'] == 2
+                          or !empty($d['mm']) && empty($d['gm']) && $d['status'] == 1
                           or !empty($d['mm']) && empty($d['gm']) && $d['status'] == 0
                           or !empty($d['mm']) && !empty($d['gm']) && $d['status'] == 0
                           or !empty($d['mm']) && !empty($d['gm']) && $d['status'] == 1
@@ -241,6 +242,7 @@
                         <?php
                         } else if (
                           !empty($d['gm']) && !empty($d['dirut']) && $d['status'] == 2
+                          or !empty($d['gm']) && empty($d['dirut']) && $d['status'] == 1
                           or !empty($d['gm']) && empty($d['dirut']) && $d['status'] == 0
                           or !empty($d['gm']) && !empty($d['dirut']) && $d['status'] == 0
                           or !empty($d['gm']) && !empty($d['dirut']) && $d['status'] == 1
