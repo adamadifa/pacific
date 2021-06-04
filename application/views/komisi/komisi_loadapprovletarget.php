@@ -10,30 +10,40 @@ foreach ($target as $t) { ?>
       <td><span class="badge bg-orange"><i class="fa fa-history"></i></span></td>
     <?php }else if($t->ka == '1' AND $t->status >= 1){ ?>
       <td><span class="badge bg-green"><i class="fa fa-check"></i></span></td>
+    <?php }else if($t->ka == '2' AND $t->status >= 1){ ?>
+      <td><span class="badge bg-red"><i class="fa fa-close"></i></span></td>
     <?php } ?>
 
     <?php if($t->kp == ''){ ?>
       <td><span class="badge bg-orange"><i class="fa fa-history"></i></span></td>
     <?php }else if($t->kp == '1' AND $t->status >= 2){ ?>
       <td><span class="badge bg-green"><i class="fa fa-check"></i></span></td>
+    <?php }else if($t->kp == '2' AND $t->status >= 2){ ?>
+      <td><span class="badge bg-red"><i class="fa fa-close"></i></span></td>
     <?php } ?>
 
     <?php if($t->mm == ''){ ?>
       <td><span class="badge bg-orange"><i class="fa fa-history"></i></span></td>
     <?php }else if($t->mm == '1' AND $t->status >= 3){ ?>
       <td><span class="badge bg-green"><i class="fa fa-check"></i></span></td>
+    <?php }else if($t->mm == '2' AND $t->status >= 3){ ?>
+      <td><span class="badge bg-red"><i class="fa fa-close"></i></span></td>
     <?php } ?>
 
     <?php if($t->em == ''){ ?>
       <td><span class="badge bg-orange"><i class="fa fa-history"></i></span></td>
     <?php }else if($t->em == '1' AND $t->status >= 4){ ?>
       <td><span class="badge bg-green"><i class="fa fa-check"></i></span></td>
+    <?php }else if($t->em == '2' AND $t->status >= 4){ ?>
+      <td><span class="badge bg-red"><i class="fa fa-close"></i></span></td>
     <?php } ?>
 
     <?php if($t->dr == ''){ ?>
       <td><span class="badge bg-orange"><i class="fa fa-history"></i></span></td>
     <?php }else if($t->dr == '1' AND $t->status >= 5){ ?>
       <td><span class="badge bg-green"><i class="fa fa-check"></i></span></td>
+    <?php }else if($t->dr == '2' AND $t->status >= 5){ ?>
+      <td><span class="badge bg-red"><i class="fa fa-close"></i></span></td>
     <?php } ?>
 
     <td>
