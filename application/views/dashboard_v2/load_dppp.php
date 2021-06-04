@@ -2,7 +2,7 @@
 function uang($nilai)
 {
 
-  return number_format($nilai, '0', '', '.');
+  return number_format($nilai, '2', ',', '.');
 }
 
 function persentase($nilai)
@@ -35,10 +35,12 @@ function persentase($nilai)
   <tbody>
     <?php $no = 1;
     foreach ($dppp as $d) {
-      $realisasi_bulanini_tahunlalu = floor($d->realisasi_bulanini_tahunlalu / $d->isipcsdus);
-      $realisasi_bulanini_tahunini = floor($d->realisasi_bulanini_tahunini / $d->isipcsdus);
-      $realisasi_sampaibulanini_tahunlalu = floor($d->realisasi_sampaibulanini_tahunlalu / $d->isipcsdus);
-      $realisasi_sampaibulanini_tahunini = floor($d->realisasi_sampaibulanini_tahunini / $d->isipcsdus);
+      $realisasi_bulanini_tahunlalu = ROUND($d->realisasi_bulanini_tahunlalu / $d->isipcsdus, 2);
+      $realisasi_bulanini_tahunini = ROUND($d->realisasi_bulanini_tahunini / $d->isipcsdus, 2);
+      $realisasi_sampaibulanini_tahunlalu = ROUND($d->realisasi_sampaibulanini_tahunlalu / $d->isipcsdus, 2);
+      $realisasi_sampaibulanini_tahunini = ROUND($d->realisasi_sampaibulanini_tahunini / $d->isipcsdus, 2);
+      $cek = ($d->realisasi_bulanini_tahunini /  $d->isipcsdus);
+      //echo $d->realisasi_bulanini_tahunini . "/" . $d->isipcsdus . "=" . $cek . "<br>";
       if (!empty($d->jmltarget)) {
         $ach_bulanini = ($realisasi_bulanini_tahunini / $d->jmltarget) * 100;
       } else {

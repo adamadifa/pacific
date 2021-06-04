@@ -440,6 +440,8 @@ class Model_dashboard extends CI_Model
 		$tglini1 = $tahunini . "-" . $bulan . "-01";
 		$tglini2 = date('Y-m-t', strtotime($tglini1));
 
+		$tglawaltahunlalu = $tahunlalu . "-01-01";
+		$tglawaltahunini = $tahunini . "-01-01";
 		if (!empty($cabang)) {
 			$cbg = "AND karyawan.kode_cabang = '$cabang'";
 		} else {
@@ -486,7 +488,7 @@ class Model_dashboard extends CI_Model
 				FROM historibayar 
 				GROUP BY no_fak_penj
 			) hb ON (hb.no_fak_penj = p.no_fak_penj)
-			WHERE tgltransaksi BETWEEN '$tgllalu1' AND '$tgllalu2'  AND status_lunas = '1' AND lastpayment <= '$tgllalu2'" . $cbg . "  
+			WHERE lastpayment BETWEEN '$tgllalu1' AND '$tgllalu2'  AND status_lunas = '1'" . $cbg . "  
 			GROUP BY b.kode_produk
 			
 		) dpen ON (dpen.kode_produk = mb.kode_produk)
@@ -502,7 +504,7 @@ class Model_dashboard extends CI_Model
 				FROM historibayar 
 				GROUP BY no_fak_penj
 			) hb ON (hb.no_fak_penj = p.no_fak_penj)
-			WHERE tgltransaksi BETWEEN '$tglini1' AND '$tglini2'  AND status_lunas = '1' AND lastpayment <= '$tglini2'" . $cbg . "  
+			WHERE lastpayment BETWEEN '$tglini1' AND '$tglini2'  AND status_lunas = '1'" . $cbg . "  
 			GROUP BY b.kode_produk
 			
 		) dpen2 ON (dpen2.kode_produk = mb.kode_produk) 
@@ -518,7 +520,7 @@ class Model_dashboard extends CI_Model
 				FROM historibayar 
 				GROUP BY no_fak_penj
 			) hb ON (hb.no_fak_penj = p.no_fak_penj)
-			WHERE tgltransaksi BETWEEN '$tgllalu1' AND '$tgllalu2'  AND status_lunas = '1' AND lastpayment <= '$tgllalu2'" . $cbg . "   
+			WHERE lastpayment BETWEEN '$tglawaltahunlalu' AND '$tgllalu2'  AND status_lunas = '1'" . $cbg . "     
 			GROUP BY b.kode_produk
 			
 		) dpen3 ON (dpen3.kode_produk = mb.kode_produk)
@@ -535,7 +537,7 @@ class Model_dashboard extends CI_Model
 				FROM historibayar 
 				GROUP BY no_fak_penj
 			) hb ON (hb.no_fak_penj = p.no_fak_penj)
-			WHERE tgltransaksi BETWEEN '$tglini1' AND '$tglini2'  AND status_lunas = '1' AND lastpayment <= '$tglini2'" . $cbg . "  
+			WHERE lastpayment BETWEEN '$tglawaltahunini' AND '$tglini2'  AND status_lunas = '1'" . $cbg . " 
 			GROUP BY b.kode_produk
 			
 		) dpen4 ON (dpen4.kode_produk = mb.kode_produk)";
