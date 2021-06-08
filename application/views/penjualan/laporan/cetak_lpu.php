@@ -362,15 +362,15 @@ function uang($nilai)
         $allsetoran  = $this->db->query($qallsetoran)->row_array();
 
         $qgmlast    = "SELECT giro.id_karyawan, SUM(jumlah) as jumlah
-          FROM giro
-          INNER JOIN penjualan ON giro.no_fak_penj = penjualan.no_fak_penj
-          LEFT JOIN (SELECT id_giro,tglbayar FROM historibayar GROUP BY id_giro,tglbayar) as hb
-          ON giro.id_giro = hb.id_giro
-          WHERE 
-		  giro.id_karyawan = '$s->id_karyawan' AND MONTH(tgl_giro) = '$bulanlast' AND YEAR(tgl_giro) ='$tahunlast'  AND omset_tahun='$tahunskrg' AND omset_bulan='$bulanskrg'
-		  OR 
-		  giro.id_karyawan = '$s->id_karyawan' AND MONTH(tgl_giro) = '$blnlast1' AND YEAR(tgl_giro) ='$thnlast1'  AND omset_tahun='$tahunskrg' AND omset_bulan='$bulanskrg'
-		  GROUP BY id_karyawan";
+                    FROM giro
+                    INNER JOIN penjualan ON giro.no_fak_penj = penjualan.no_fak_penj
+                    LEFT JOIN (SELECT id_giro FROM historibayar GROUP BY id_giro) as hb
+						      	ON giro.id_giro = hb.id_giro
+                    WHERE 
+		                giro.id_karyawan = '$s->id_karyawan' AND MONTH(tgl_giro) = '$bulanlast' AND YEAR(tgl_giro) ='$tahunlast'  AND omset_tahun='$tahunskrg' AND omset_bulan='$bulanskrg'
+		                OR 
+		                giro.id_karyawan = '$s->id_karyawan' AND MONTH(tgl_giro) = '$blnlast1' AND YEAR(tgl_giro) ='$thnlast1'  AND omset_tahun='$tahunskrg' AND omset_bulan='$bulanskrg'
+		                GROUP BY id_karyawan";
         $gmlast = $this->db->query($qgmlast)->row_array();
 
         $qgmnow = "SELECT

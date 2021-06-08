@@ -99,6 +99,9 @@
         <option <?php if ($bayar['ket_voucher'] == "4") {
                   echo "selected";
                 } ?> value="4">Pengalihan Piutang Dgng Jd Piutang Kary</option>
+				 <option <?php if ($bayar['ket_voucher'] == "5") {
+                  echo "selected";
+                } ?> value="6">Saus Premium TP 5-1</option>
       </select>
       <div class="errorTxt28"></div>
     </div>

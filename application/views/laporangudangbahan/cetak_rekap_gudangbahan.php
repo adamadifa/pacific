@@ -41,8 +41,15 @@ tr:nth-child(even) {
       <th bgcolor="#024a75" style="color:white; font-size:14;">IN</th>
       <th bgcolor="#024a75" style="color:white; font-size:14;">OUT</th>
       <th bgcolor="red" style="color:white; font-size:14;">
-        <?php if (!empty($saldoawal['qtyunitsa'])) {
-          echo uang($saldoawal['qtyunitsa']);
+        <?php 
+        if($barang['satuan'] != 'KG'){
+          if (!empty($saldoawal['qtyunitsa'])) {
+            echo uang($saldoawal['qtyunitsa']);
+          }
+        }else{
+          if (!empty($saldoawal['qtyberatsa'])) {
+            echo uang($saldoawal['qtyberatsa']);
+          } 
         } ?>
       </th>
       <th bgcolor="green" style="color:white; font-size:14;">PEMBELIAN</th>
@@ -55,16 +62,26 @@ tr:nth-child(even) {
       <th bgcolor="green" style="color:white; font-size:14;">CABANG</th>
       <th bgcolor="green" style="color:white; font-size:14;">LAINNYA</th>
       <th bgcolor="red" style="color:white; font-size:14;">
-        <?php if (!empty($saldoawal['qtyberatsa'])) {
-          echo uang($saldoawal['qtyberatsa']);
+        <?php 
+        if($barang['satuan'] != 'KG'){
+          if (!empty($saldoawal['qtyunitsa'])) {
+            echo uang($saldoawal['qtyunitsa']);
+          }
+        }else{
+          if (!empty($saldoawal['qtyberatsa'])) {
+            echo uang($saldoawal['qtyberatsa']);
+          } 
         } ?>
       </th>
     </tr>
   </thead>
   <tbody>
     <?php
-    $saldoakhirberat    = $saldoawal['qtyberatsa'];
-    $saldoakhirunit     = $saldoawal['qtyunitsa'];
+    if($barang['satuan'] == 'KG'){
+      $saldoakhir        = $saldoawal['qtyberatsa'];
+    }else{
+      $saldoakhir        = $saldoawal['qtyunitsa'];
+    }
     $totqtypemb         = 0;
     $totqtylainnya      = 0;
     $totqtylain         = 0;
@@ -78,10 +95,14 @@ tr:nth-child(even) {
     $totqtyunitkeluar   = 0;
     while (strtotime($dari) <= strtotime($sampai)) {
 
-      $qmasuk           = "SELECT SUM(qty_unit) as qty_unit, 
-      SUM( IF( departemen = 'Pembelian' , qty_berat ,0 )) AS qtypemb,
-      SUM( IF( departemen = 'Lainnya' , qty_berat ,0 )) AS qtylainnya,
-      SUM( IF( departemen = 'Retur Pengganti' , qty_berat ,0 )) AS qtyretur
+      $qmasuk           = "SELECT SUM(qty_unit) as qty_unit, SUM(qty_berat) as qty_berat, 
+      SUM( IF( departemen = 'Pembelian' , qty_berat ,0 )) AS qtypemb1,
+      SUM( IF( departemen = 'Lainnya' , qty_berat ,0 )) AS qtylainnya1,
+      SUM( IF( departemen = 'Retur Pengganti' , qty_berat ,0 )) AS qtyretur1,
+      
+      SUM( IF( departemen = 'Pembelian' , qty_unit ,0 )) AS qtypemb2,
+      SUM( IF( departemen = 'Lainnya' , qty_unit ,0 )) AS qtylainnya2,
+      SUM( IF( departemen = 'Retur Pengganti' , qty_unit ,0 )) AS qtyretur2
       FROM pemasukan_gb 
       INNER JOIN detail_pemasukan_gb 
       ON detail_pemasukan_gb.nobukti_pemasukan=pemasukan_gb.nobukti_pemasukan 
@@ -90,13 +111,20 @@ tr:nth-child(even) {
       $masuk            = $this->db->query($qmasuk)->row_array();
 
       $qkeluar           = "SELECT 
-      SUM(qty_unit) as qty_unit,
-      SUM( IF( pengeluaran_gb.kode_dept = 'Produksi' , qty_berat ,0 )) AS qtyprod,
-      SUM( IF( pengeluaran_gb.kode_dept = 'Seasoning' , qty_berat ,0 )) AS qtyseas,
-      SUM( IF( pengeluaran_gb.kode_dept = 'PDQC' , qty_berat ,0 )) AS qtypdqc,
-      SUM( IF( pengeluaran_gb.kode_dept = 'Susut' , qty_berat ,0 )) AS qtysus,
-      SUM( IF( pengeluaran_gb.kode_dept = 'Lainnya' , qty_berat ,0 )) AS qtylain,
-      SUM( IF( pengeluaran_gb.kode_dept = 'Cabang' , qty_berat ,0 )) AS qtycabang
+      SUM(qty_unit) as qty_unit, SUM(qty_berat) as qty_berat, 
+      SUM( IF( pengeluaran_gb.kode_dept = 'Produksi' , qty_berat ,0 )) AS qtyprod1,
+      SUM( IF( pengeluaran_gb.kode_dept = 'Seasoning' , qty_berat ,0 )) AS qtyseas1,
+      SUM( IF( pengeluaran_gb.kode_dept = 'PDQC' , qty_berat ,0 )) AS qtypdqc1,
+      SUM( IF( pengeluaran_gb.kode_dept = 'Susut' , qty_berat ,0 )) AS qtysus1,
+      SUM( IF( pengeluaran_gb.kode_dept = 'Lainnya' , qty_berat ,0 )) AS qtylain1,
+      SUM( IF( pengeluaran_gb.kode_dept = 'Cabang' , qty_berat ,0 )) AS qtycabang1,
+
+      SUM( IF( pengeluaran_gb.kode_dept = 'Produksi' , qty_unit ,0 )) AS qtyprod2,
+      SUM( IF( pengeluaran_gb.kode_dept = 'Seasoning' , qty_unit ,0 )) AS qtyseas2,
+      SUM( IF( pengeluaran_gb.kode_dept = 'PDQC' , qty_unit ,0 )) AS qtypdqc2,
+      SUM( IF( pengeluaran_gb.kode_dept = 'Susut' , qty_unit ,0 )) AS qtysus2,
+      SUM( IF( pengeluaran_gb.kode_dept = 'Lainnya' , qty_unit ,0 )) AS qtylain2,
+      SUM( IF( pengeluaran_gb.kode_dept = 'Cabang' , qty_unit ,0 )) AS qtycabang2
       FROM pengeluaran_gb 
       INNER JOIN detail_pengeluaran_gb 
       ON detail_pengeluaran_gb.nobukti_pengeluaran=pengeluaran_gb.nobukti_pengeluaran 
@@ -104,27 +132,64 @@ tr:nth-child(even) {
       GROUP BY tgl_pengeluaran";
       $keluar            = $this->db->query($qkeluar)->row_array();
 
-      $qtymasukberat    = $masuk['qtypemb'] + $masuk['qtylainnya'] + $masuk['qtyretur'];
-      $qtykeluarberat   = $keluar['qtyprod']  + $keluar['qtyseas']  + $keluar['qtypdqc']  + $keluar['qtylain']  + $keluar['qtysus']  + $keluar['qtycabang'];
-      $hasilqtyberat    = $qtymasukberat - $qtykeluarberat;
-      $saldoakhirberat  = $saldoakhirberat + $hasilqtyberat;
+    
 
-      $saldounit        = $masuk['qty_unit'] - $keluar['qty_unit'];
-      $saldoakhirunit   = $saldoakhirunit + $saldounit;
+      if($barang['satuan'] == 'KG'){
+        $qtymasuk         = $masuk['qty_berat'];
+        $qtykeluar        = $keluar['qty_berat'];
+        $qtypemb          = $masuk['qtypemb1'];
+        $qtylainnya       = $masuk['qtylainnya1'];
+        $qtyretur         = $masuk['qtyretur1'];
+        $qtyprod          = $keluar['qtyprod1'];
+        $qtyseas          = $keluar['qtyseas1'];
+        $qtypdqc          = $keluar['qtypdqc1'];
+        $qtylain          = $keluar['qtylain1'];
+        $qtysus           = $keluar['qtysus1'];
+        $qtycabang        = $keluar['qtycabang1'];
 
-      $totqtyunitmasuk  += $masuk['qty_unit'];
-      $totqtyunitkeluar += $keluar['qty_unit'];
+        $totqtypemb       += $masuk['qtypemb1'];
+        $totqtylainnya    += $masuk['qtylainnya1'];
+        $totqtyretur      += $masuk['qtyretur1'];
+        $totqtypro        += $keluar['qtyprod1'];
+        $totqtyseas       += $keluar['qtyseas1'];
+        $totqtypdqc       += $keluar['qtypdqc1'];
+        $totqtylain       += $keluar['qtylain1'];
+        $totqtysus        += $keluar['qtysus1'];
+        $totqtycabang     += $keluar['qtycabang1'];
+        $totqtyunitmasuk  += $masuk['qty_berat'];
+        $totqtyunitkeluar += $keluar['qty_berat'];
 
-      $totqtypemb       += $masuk['qtypemb'];
-      $totqtylainnya    += $masuk['qtylainnya'];
-      $totqtyretur      += $masuk['qtyretur'];
+        // $qtymasukberat    = $masuk['qtypemb1'] + $masuk['qtylainnya1'] + $masuk['qtyretur1'];
+        // $qtykeluarberat   = $keluar['qtyprod1']  + $keluar['qtyseas1']  + $keluar['qtypdqc1']  + $keluar['qtylain1']  + $keluar['qtysus1']  + $keluar['qtycabang1'];
+        // $hasilqtyberat    = $qtymasukberat - $qtykeluarberat;
+        // $saldoakhir2      = $saldoakhirberat + $hasilqtyberat;
+        // $saldoakhir1      = $saldoawal + $masuk['qty_berat'] - $keluar['qty_berat'];
+      }else{
+        $qtymasuk         = $masuk['qty_unit'];
+        $qtykeluar        = $keluar['qty_unit'];
+        $qtypemb          = $masuk['qtypemb2'];
+        $qtylainnya       = $masuk['qtylainnya2'];
+        $qtyretur         = $masuk['qtyretur2'];
+        $qtyprod          = $keluar['qtyprod2'];
+        $qtyseas          = $keluar['qtyseas2'];
+        $qtypdqc          = $keluar['qtypdqc2'];
+        $qtylain          = $keluar['qtylain2'];
+        $qtysus           = $keluar['qtysus2'];
+        $qtycabang        = $keluar['qtycabang2'];
+        $totqtypemb       += $masuk['qtypemb2'];
+        $totqtylainnya    += $masuk['qtylainnya2'];
+        $totqtyretur      += $masuk['qtyretur2'];
+        $totqtypro        += $keluar['qtyprod2'];
+        $totqtyseas       += $keluar['qtyseas2'];
+        $totqtypdqc       += $keluar['qtypdqc2'];
+        $totqtylain       += $keluar['qtylain2'];
+        $totqtysus        += $keluar['qtysus2'];
+        $totqtycabang     += $keluar['qtycabang2'];
+        $totqtyunitmasuk  += $masuk['qty_unit'];
+        $totqtyunitkeluar += $keluar['qty_unit'];
+      }
 
-      $totqtypro        += $keluar['qtyprod'];
-      $totqtyseas       += $keluar['qtyseas'];
-      $totqtypdqc       += $keluar['qtypdqc'];
-      $totqtylain       += $keluar['qtylain'];
-      $totqtysus        += $keluar['qtysus'];
-      $totqtycabang     += $keluar['qtycabang'];
+      $saldoakhir         = $saldoakhir + $qtymasuk - $qtykeluar;
 
     ?>
       <tr style="color:black; font-size:14;">
@@ -132,83 +197,83 @@ tr:nth-child(even) {
         <td align="right">
           <?php
           if (isset($masuk['qty_unit']) and $masuk['qty_unit'] != "0") {
-            echo uang($masuk['qty_unit']);
+            echo uang($qtymasuk);
           }
           ?>
         </td>
         <td align="right">
           <?php
           if (isset($keluar['qty_unit']) and $keluar['qty_unit'] != "0") {
-            echo uang($keluar['qty_unit']);
+            echo uang($qtykeluar);
           }
           ?>
         </td>
-        <td align="right"><?php echo uang(($saldoakhirunit)); ?></td>
+        <td align="right"><?php echo uang($saldoakhir); ?></td>
         <td align="right"></td>
         <td align="right">
           <?php
-          if (isset($masuk['qtypemb']) and $masuk['qtypemb'] != "0") {
-            echo uang($masuk['qtypemb']);
+          if (isset($qtypemb) and $qtypemb != "0") {
+            echo uang($qtypemb);
           }
           ?>
         </td>
         <td align="right">
           <?php
-          if (isset($masuk['qtylainnya']) and $masuk['qtylainnya'] != "0") {
-            echo uang($masuk['qtylainnya']);
+          if (isset($qtylainnya) and $qtylainnya != "0") {
+            echo uang($qtylainnya);
           }
           ?>
         </td>
         <td align="right">
           <?php
-          if (isset($masuk['qtypengganti2']) and $masuk['qtypengganti2'] != "0") {
-            echo uang($masuk['qtypengganti2']);
+          if (isset($qtyretur) and $qtyretur != "0") {
+            echo uang($qtyretur);
           }
           ?>
         </td>
         <td align="right">
           <?php
-          if (isset($keluar['qtyprod']) and $keluar['qtyprod'] != "0") {
-            echo uang($keluar['qtyprod']);
+          if (isset($qtyprod) and $qtyprod != "0") {
+            echo uang($qtyprod);
           }
           ?>
         </td>
         <td align="right">
           <?php
-          if (isset($keluar['qtyseas']) and $keluar['qtyseas'] != "0") {
-            echo uang($keluar['qtyseas']);
+          if (isset($qtyseas) and $qtyseas != "0") {
+            echo uang($qtyseas);
           }
           ?>
         </td>
         <td align="right">
           <?php
-          if (isset($keluar['qtypdqc']) and $keluar['qtypdqc'] != "0") {
-            echo uang($keluar['qtypdqc']);
+          if (isset($qtypdqc) and $qtypdqc != "0") {
+            echo uang($qtypdqc);
           }
           ?>
         </td>
         <td align="right">
           <?php
-          if (isset($keluar['qtysus']) and $keluar['qtysus'] != "0") {
-            echo uang($keluar['qtysus']);
+          if (isset($qtysus) and $qtysus != "0") {
+            echo uang($qtysus);
           }
           ?>
         </td>
         <td align="right">
           <?php
-          if (isset($keluar['qtycabang']) and $keluar['qtycabang'] != '0') {
-            echo uang($keluar['qtycabang']);
+          if (isset($qtycabang) and $qtycabang != '0') {
+            echo uang($qtycabang);
           }
           ?>
         </td>
         <td align="right">
           <?php
-          if (isset($keluar['qtylain']) and $keluar['qtylain'] != "0") {
-            echo uang($keluar['qtylain']);
+          if (isset($qtylain) and $qtylain != "0") {
+            echo uang($qtylain);
           }
           ?>
         </td>
-        <td align="right"><?php echo uang($saldoakhirberat); ?></td>
+        <td><?php echo uang($saldoakhir); ?></td>
       </tr>
     <?php
       $dari = date("Y-m-d", strtotime("+1 day", strtotime($dari))); //looping tambah 1 date
@@ -216,11 +281,7 @@ tr:nth-child(even) {
   </tbody>
   <tfoot>
     <tr bgcolor="#31869b">
-      <th colspan="" style="color:white; font-size:14;">TOTAL</th>
-      <th style="color:white; font-size:14;"><?php echo uang($totqtyunitmasuk); ?></th>
-      <th style="color:white; font-size:14;"><?php echo uang($totqtyunitkeluar); ?></th>
-      <th style="color:white; font-size:14;"><?php echo uang($saldoakhirunit); ?></th>
-      <th></th>
+      <th colspan="5" style="color:white; font-size:14;">TOTAL</th>
       <th style="color:white; font-size:14;"><?php echo uang($totqtypemb); ?></th>
       <th style="color:white; font-size:14;"><?php echo uang($totqtylainnya); ?></th>
       <th style="color:white; font-size:14;"><?php echo uang($totqtyretur); ?></th>
@@ -230,7 +291,7 @@ tr:nth-child(even) {
       <th style="color:white; font-size:14;"><?php echo uang($totqtysus); ?></th>
       <th style="color:white; font-size:14;"><?php echo uang($totqtycabang); ?></th>
       <th style="color:white; font-size:14;"><?php echo uang($totqtylain); ?></th>
-      <th style="color:white; font-size:14;"><?php echo uang($saldoakhirberat); ?></th>
+      <th style="color:white; font-size:14;"></th>
     </tr>
   </tfoot>
 </table>

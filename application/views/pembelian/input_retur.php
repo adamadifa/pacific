@@ -51,6 +51,8 @@
                         <option value="SP0032">PT EKADHARMA INTERNATIONAL</option>
                         <option value="SP0185">SAKU MAS JAYA, PT</option>
                         <option value="SP0140">PT MULIAPACK GRAVURINDO</option>
+                        <option value="SP0262">PURINUSA EKAPERSADA BANDUNG</option>
+                        <option value="SP0175">SUPER PLASTIN (CV. SANTOSO JAYA INDO)</option>
                       </select>
                     </div>
                   </div>

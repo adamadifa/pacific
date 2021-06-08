@@ -86,7 +86,7 @@ tr:nth-child(even) {
         $totalsaldoawal   += $d->totalsa;
         $totqtysaldoawal  += $d->qtysaldoawal;
         $totqtymasuk      += $d->qtypemasukan;
-        $totalpemasukan   += $d->totalpemasukan;
+        $totalpemasukan   += $d->totalpemasukan + $d->penyesuaian;
 
         $totqtykeluar     += $d->qtypengeluaran;
         $totalpengeluaran += $jmlhpengeluaran;
@@ -138,7 +138,7 @@ tr:nth-child(even) {
           </td>
           <td align="right">
             <?php if (!empty($d->totalpemasukan) and $d->totalpemasukan != "0" and $d->kode_kategori == "K001") {
-              echo uang($d->totalpemasukan, 2);
+              echo uang($d->totalpemasukan + $d->penyesuaian, 2);
             }
             ?>
           </td>

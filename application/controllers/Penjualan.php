@@ -2020,6 +2020,249 @@ class Penjualan extends CI_Controller
       $this->template->load('template/template', 'penjualan/limitkreditv2', $data);
     }
   }
+
+  function limitkreditv3($rowno = 0)
+  {
+    // Search text
+    $dari           = "";
+    $sampai         = "";
+    $salesman       = "";
+    $pelanggan      = "";
+    $approval       = "";
+    $cbg            = "";
+    if ($this->input->post('submit') != NULL) {
+      $export    = $this->input->post('export');
+      $dari     = $this->input->post('dari');
+      $sampai   = $this->input->post('sampai');
+      $salesman = $this->input->post('salesman');
+      $pelanggan = $this->input->post('pelanggan');
+      $approval = $this->input->post('approval');
+      $cbg      = $this->input->post('cabang');
+
+      $data   = array(
+        'dari'         => $dari,
+        'sampai'       => $sampai,
+        'salesman'    => $salesman,
+        'pelanggan'   => $pelanggan,
+        'approval'    => $approval,
+        'cbg'         => $cbg
+      );
+      $this->session->set_userdata($data);
+    } else {
+      if ($this->session->userdata('dari') != NULL) {
+        $dari = $this->session->userdata('dari');
+      }
+
+      if ($this->session->userdata('sampai') != NULL) {
+        $sampai = $this->session->userdata('sampai');
+      }
+
+      if ($this->session->userdata('salesman') != NULL) {
+        $salesman = $this->session->userdata('salesman');
+      }
+
+      if ($this->session->userdata('pelanggan') != NULL) {
+        $pelanggan = $this->session->userdata('pelanggan');
+      }
+
+      if ($this->session->userdata('approval') != NULL) {
+        $approval = $this->session->userdata('approval');
+      }
+
+      if ($this->session->userdata('cbg') != NULL) {
+        $cbg = $this->session->userdata('cbg');
+      }
+    }
+
+    if (isset($_POST['export'])) {
+      header("Content-type: application/vnd-ms-excel");
+      // Mendefinisikan nama file ekspor "hasil-export.xls"
+      header("Content-Disposition: attachment; filename=Data Limit Kredit.xls");
+      $data['result'] = $this->Model_penjualan->ExportLimit($cbg, $dari, $sampai, $salesman, $pelanggan)->result_array();
+      $this->load->view('penjualan/export_limit', $data);
+    } else {
+      // Row per page 
+      $rowperpage = 20;
+      // Row position
+      if ($rowno != 0) {
+        $rowno = ($rowno - 1) * $rowperpage;
+      }
+
+      // All records count
+      $allcount     = $this->Model_penjualan->getrecordLimitkreditadminv3Count($cbg, $dari, $sampai, $salesman, $pelanggan, $approval);
+      // Get records
+      $users_record = $this->Model_penjualan->getDataLimitKreditadminv3($rowno, $rowperpage, $cbg, $dari, $sampai, $salesman, $pelanggan, $approval);
+
+
+
+
+      // Pagination Configuration
+      $config['base_url']         = base_url() . 'penjualan/limitkreditv2';
+      $config['use_page_numbers'] = TRUE;
+      $config['total_rows']       = $allcount;
+      $config['per_page']         = $rowperpage;
+
+      $config['first_link']       = 'First';
+      $config['last_link']        = 'Last';
+      $config['next_link']        = 'Next';
+      $config['prev_link']        = 'Prev';
+      $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+      $config['full_tag_close']   = '</ul></nav></div>';
+      $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+      $config['num_tag_close']    = '</span></li>';
+      $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+      $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+      $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+      $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+      $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+      $config['prev_tagl_close']  = '</span>Next</li>';
+      $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+      $config['first_tagl_close'] = '</span></li>';
+      $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+      $config['last_tagl_close']  = '</span></li>';
+      // Initialize
+      $this->pagination->initialize($config);
+
+      $data['pagination']        = $this->pagination->create_links();
+      $data['result']            = $users_record;
+      $data['row']                = $rowno;
+      $data['dari']               = $dari;
+      $data['sampai']             = $sampai;
+      $data['salesman']          = $salesman;
+      $data['pelanggan']         = $pelanggan;
+      $data['approval']          = $approval;
+      $data['cb']                 = $this->session->userdata('cabang');
+      $data['cbg']               = $cbg;
+      $data['cabang']            = $this->Model_cabang->view_cabang()->result();
+      $data['sess_cab']           = $this->session->userdata('cabang');
+      $this->template->load('template/template', 'penjualan/limitkredit_v3/limitkreditv3', $data);
+    }
+  }
+
+  function approvallimitv3($rowno = 0)
+  {
+    if (isset($_POST['status'])) {
+      $status   = $this->input->post('status');
+      $data   = array(
+        'status'      => $status
+      );
+      $this->session->set_userdata($data);
+    } else {
+      $status   = "";
+    }
+    // Search text
+    $dari           = "";
+    $sampai         = "";
+    $salesman       = "";
+    $pelanggan      = "";
+    $approval       = "";
+    $cbg            = "";
+
+    if ($this->input->post('submit') != NULL) {
+      $dari     = $this->input->post('dari');
+      $sampai   = $this->input->post('sampai');
+      $salesman = $this->input->post('salesman');
+      $pelanggan = $this->input->post('pelanggan');
+      $approval = $this->input->post('approval');
+      $cbg      = $this->input->post('cabang');
+      $status   = $this->input->post('status');
+      $data   = array(
+        'dari'         => $dari,
+        'sampai'       => $sampai,
+        'salesman'    => $salesman,
+        'pelanggan'   => $pelanggan,
+        'approval'    => $approval,
+        'cbg'         => $cbg,
+        'status'      => $status
+      );
+      $this->session->set_userdata($data);
+    } else {
+      if ($this->session->userdata('dari') != NULL) {
+        $dari = $this->session->userdata('dari');
+      }
+
+      if ($this->session->userdata('sampai') != NULL) {
+        $sampai = $this->session->userdata('sampai');
+      }
+
+      if ($this->session->userdata('salesman') != NULL) {
+        $salesman = $this->session->userdata('salesman');
+      }
+
+      if ($this->session->userdata('pelanggan') != NULL) {
+        $pelanggan = $this->session->userdata('pelanggan');
+      }
+
+      if ($this->session->userdata('approval') != NULL) {
+        $approval = $this->session->userdata('approval');
+      }
+
+      if ($this->session->userdata('cbg') != NULL) {
+        $cbg = $this->session->userdata('cbg');
+      }
+
+      if ($this->session->userdata('status') != NULL) {
+        $status = $this->session->userdata('status');
+      }
+    }
+
+    // Row per page
+    $rowperpage = 20;
+    // Row position
+    if ($rowno != 0) {
+      $rowno = ($rowno - 1) * $rowperpage;
+    }
+
+    // All records count
+    $allcount     = $this->Model_penjualan->getrecordLimitkreditv3Count($cbg, $dari, $sampai, $salesman, $pelanggan, $approval, $status);
+    // Get records
+    $users_record = $this->Model_penjualan->getDataLimitKreditv3($rowno, $rowperpage, $cbg, $dari, $sampai, $salesman, $pelanggan, $approval, $status);
+
+
+
+
+    // Pagination Configuration
+    $config['base_url']         = base_url() . 'penjualan/approvallimitv3';
+    $config['use_page_numbers'] = TRUE;
+    $config['total_rows']       = $allcount;
+    $config['per_page']         = $rowperpage;
+
+    $config['first_link']       = 'First';
+    $config['last_link']        = 'Last';
+    $config['next_link']        = 'Next';
+    $config['prev_link']        = 'Prev';
+    $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+    $config['full_tag_close']   = '</ul></nav></div>';
+    $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+    $config['num_tag_close']    = '</span></li>';
+    $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+    $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+    $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+    $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+    $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+    $config['prev_tagl_close']  = '</span>Next</li>';
+    $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+    $config['first_tagl_close'] = '</span></li>';
+    $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+    $config['last_tagl_close']  = '</span></li>';
+    // Initialize
+    $this->pagination->initialize($config);
+
+    $data['pagination']        = $this->pagination->create_links();
+    $data['result']            = $users_record;
+    $data['row']                = $rowno;
+    $data['dari']               = $dari;
+    $data['sampai']             = $sampai;
+    $data['salesman']          = $salesman;
+    $data['pelanggan']         = $pelanggan;
+    $data['approval']          = $approval;
+    $data['cb']                 = $this->session->userdata('cabang');
+    $data['cbg']               = $cbg;
+    $data['status']            = $status;
+    $data['cabang']            = $this->Model_cabang->view_cabang()->result();
+    $this->template->load('template/template', 'penjualan/limitkredit_v3/approval_limitv3', $data);
+  }
+
   function input_pengajuanlimit()
   {
     $data['cb']      = $this->session->userdata('cabang');
@@ -2335,6 +2578,12 @@ class Penjualan extends CI_Controller
   {
     $id = $this->uri->segment(3);
     $this->Model_penjualan->approvelimitproses2($id);
+  }
+
+  function approvelimitproses3()
+  {
+    $id = $this->uri->segment(3);
+    $this->Model_penjualan->approvelimitproses3($id);
   }
 
   function declinelimitproses()
@@ -3765,9 +4014,22 @@ class Penjualan extends CI_Controller
     $this->load->view('penjualan/laporan/cetak_ajuankredit', $data);
   }
 
+  function cetak_ajuankredit_v3()
+  {
+    $no_pengajuan = $this->uri->segment(3);
+    $data['pengajuan'] = $this->Model_penjualan->getPengajuankreditV3($no_pengajuan)->row_array();
+    $data['komentar'] = $this->Model_penjualan->getKomentarajuankreditV3($no_pengajuan)->result();
+    $this->load->view('penjualan/laporan/cetak_ajuankredit', $data);
+  }
+
   function updatekomentar()
   {
     $this->Model_penjualan->updatekomentar();
+  }
+
+  function updatekomentarv3()
+  {
+    $this->Model_penjualan->updatekomentarv3();
   }
 
   function getkomentar()

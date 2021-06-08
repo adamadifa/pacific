@@ -78,7 +78,9 @@
         <option value="2">Diskon Program</option>
         <option value="3">Penyelesaian Piutang Oleh Salesman</option>
         <option value="4">Pengalihan Piutang Dgng Jd Piutang Kary</option>
+        <option value="6">Saus Premium TP 5-1</option>
         <option value="5">Lainnya</option>
+		
       </select>
       <div class="errorTxt28"></div>
     </div>

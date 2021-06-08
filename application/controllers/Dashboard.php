@@ -163,6 +163,10 @@ class Dashboard extends CI_Controller
       $this->template->load('template/template', 'dashboard/dashboard_kasir');
     } elseif ($level_user == "kasir") {
       $this->template->load('template/template', 'dashboard/dashboard_kasir');
+    } elseif ($level_user == "manager mtc") {
+      $this->template->load('template/template', 'bahan_bakar/rekap_bahan_bakar');
+    } elseif ($level_user == "admin mtc") {
+      $this->template->load('template/template', 'bahan_bakar/pembelian');
     } elseif ($level_user == "keuangan2") {
       $this->template->load('template/template', 'dashboard/dashboard_kasir');
     } elseif ($level_user == "emf1") {

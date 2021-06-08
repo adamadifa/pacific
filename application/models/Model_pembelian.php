@@ -196,7 +196,6 @@ class Model_pembelian extends CI_Model
 
     $this->db->where('nobukti_retur', $nobukti);
     $this->db->update('retur_gb', $data);
-
   }
 
   function insert_retur()
@@ -217,23 +216,22 @@ class Model_pembelian extends CI_Model
     $this->db->insert('retur_pembelian', $data);
 
     $detail = $this->db->get_where('detail_retur_pembelian_temp', array('id_user' => $id_user))->result();
-      foreach ($detail as $d) {
-        $data = array(
-          'kode_retur'        => $kode_retur,
-          'kode_barang'       => $d->kode_barang,
-          'bruto'             => $d->bruto,
-          'berat_roll'        => $d->berat_roll,
-          'berat_pcs'         => $d->berat_pcs,
-          'tinggi'            => $d->tinggi,
-          'panjang'           => $d->panjang,
-          'jumlah'            => $d->jumlah,
-          'keterangan'        => $d->keterangan
-        );
+    foreach ($detail as $d) {
+      $data = array(
+        'kode_retur'        => $kode_retur,
+        'kode_barang'       => $d->kode_barang,
+        'bruto'             => $d->bruto,
+        'berat_roll'        => $d->berat_roll,
+        'berat_pcs'         => $d->berat_pcs,
+        'tinggi'            => $d->tinggi,
+        'panjang'           => $d->panjang,
+        'jumlah'            => $d->jumlah,
+        'keterangan'        => $d->keterangan
+      );
 
-        $this->db->insert('detail_retur_pembelian', $data);
-      }
-      $this->db->delete('detail_retur_pembelian_temp', array('id_user' => $id_user));
-
+      $this->db->insert('detail_retur_pembelian', $data);
+    }
+    $this->db->delete('detail_retur_pembelian_temp', array('id_user' => $id_user));
   }
 
   function getPengeluaranGp()
@@ -285,7 +283,7 @@ class Model_pembelian extends CI_Model
   function batalapprove()
   {
 
-    $nobukti            = str_replace("." , "/" , $this->uri->segment(3));
+    $nobukti            = str_replace(".", "/", $this->uri->segment(3));
     $data = array(
       'tgl_approve_pemb' => NULL
     );
@@ -344,7 +342,7 @@ class Model_pembelian extends CI_Model
 
     $this->db->select('count(*) as allcount');
     $this->db->from('retur_pembelian');
-    $this->db->join('supplier','retur_pembelian.kode_supplier=supplier.kode_supplier');
+    $this->db->join('supplier', 'retur_pembelian.kode_supplier=supplier.kode_supplier');
     $this->db->order_by('tanggal', 'desc');
 
     if ($kode_retur != '') {
@@ -365,7 +363,7 @@ class Model_pembelian extends CI_Model
 
     $this->db->select('*');
     $this->db->from('retur_pembelian');
-    $this->db->join('supplier','retur_pembelian.kode_supplier=supplier.kode_supplier');
+    $this->db->join('supplier', 'retur_pembelian.kode_supplier=supplier.kode_supplier');
     $this->db->order_by('tanggal', 'desc');
 
     if ($kode_retur != '') {
@@ -612,11 +610,11 @@ class Model_pembelian extends CI_Model
     $panjang          = $this->input->post('panjang');
     $keterangan       = $this->input->post('keterangan');
     $id_user          = $this->session->userdata('id_user');
-    if($bruto == ""){
+    if ($bruto == "") {
       $jumlah           = $this->input->post('jumlah');
-    }else{
-      $netto            = $bruto-$berat_roll;
-      $jumlah           = ($netto/$berat_pcs)*($tinggi/$panjang);
+    } else {
+      $netto            = $bruto - $berat_roll;
+      $jumlah           = ($netto / $berat_pcs) * ($tinggi / $panjang);
     }
 
     $data = array(
@@ -1363,7 +1361,7 @@ class Model_pembelian extends CI_Model
   public function getDataKontraBon($rowno, $rowperpage, $nokontrabon = "", $tgl_kontrabon = "", $supplier = "", $status = "", $kategori = "")
   {
 
-    $this->db->select('kontrabon.no_kontrabon,no_dokumen,kontrabon.kode_supplier,nama_supplier,jenisbayar,via,status,
+    $this->db->select('kontrabon.no_kontrabon,no_dokumen,kontrabon.kode_supplier,nama_supplier,jenisbayar,via,status,historibayar_pembelian.kode_cabang,
     (SELECT SUM(jmlbayar) FROM detail_kontrabon d WHERE d.no_kontrabon = kontrabon.no_kontrabon) as totalbayar,
     (SELECT COUNT(no_ref) FROM kaskecil_detail k WHERE k.no_ref = kontrabon.no_kontrabon) as cekkk,
     (SELECT COUNT(p.nobukti_pembelian) FROM detail_pembelian  p
@@ -1449,6 +1447,7 @@ class Model_pembelian extends CI_Model
     $pelanggan   = $this->input->post('supplier');
     $keterangan  = $this->input->post('keterangan');
     $cabang      = "PST";
+    $cbg         = $this->input->post('cbg');
     //Nobukti Ledger
     $tanggal        = explode("-", $tglbayar);
     $tahun          = substr($tanggal[0], 2, 2);
@@ -1495,6 +1494,7 @@ class Model_pembelian extends CI_Model
       'bayar'        => $jmlbayar,
       'tglbayar'     => $tglbayar,
       'via'          => $via,
+      'kode_cabang'  => $cbg,
       'id_admin'     => $id_user
     );
 
@@ -1694,6 +1694,18 @@ WHERE tgl_pembelian BETWEEN '$dari' AND '$sampai'"
     $this->db->where('tgl_pembelian >=', $dari);
     $this->db->where('tgl_pembelian <=', $sampai);
     $this->db->group_by('pembelian.kode_supplier,nama_supplier');
+    return $this->db->get();
+  }
+
+  function cetak_retur_keluar($dari = "", $sampai = "", $barang = "")
+  {
+    $this->db->select('*');
+    $this->db->from('detail_retur_pembelian');
+    $this->db->join('master_barang_pembelian', 'master_barang_pembelian.kode_barang = detail_retur_pembelian.kode_barang');
+    $this->db->join('retur_pembelian', 'detail_retur_pembelian.kode_retur = retur_pembelian.kode_retur', 'left');
+    $this->db->where('tanggal >=', $dari);
+    $this->db->where('tanggal <=', $sampai);
+    $this->db->where('detail_retur_pembelian.kode_barang', $barang);
     return $this->db->get();
   }
 

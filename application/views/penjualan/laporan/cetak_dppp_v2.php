@@ -3,7 +3,7 @@
 function uang($nilai)
 {
 
-  return number_format($nilai, '0', '', '.');
+  return number_format($nilai, '2', ',', '.');
 }
 
 function persentase($nilai)
@@ -338,10 +338,10 @@ error_reporting(0);
 
         $no = 1;
         foreach ($dppp as $d) {
-          $reallastbulanini_ab = floor($d->reallastbulanini_ab / $isipcs_ab);
-          $reallastsampaibulanini_ab = floor($d->reallastsampaibulanini_ab / $isipcs_ab);
-          $realbulanini_ab = floor($d->realbulanini_ab / $isipcs_ab);
-          $realsampaibulanini_ab = floor($d->realsampaibulanini_ab / $isipcs_ab);
+          $reallastbulanini_ab = round($d->reallastbulanini_ab / $isipcs_ab, 2);
+          $reallastsampaibulanini_ab = round($d->reallastsampaibulanini_ab / $isipcs_ab, 2);
+          $realbulanini_ab = round($d->realbulanini_ab / $isipcs_ab, 2);
+          $realsampaibulanini_ab = round($d->realsampaibulanini_ab / $isipcs_ab, 2);
           $targetbulanini_ab = $d->ab_bulanini;
           $targetsampaibulanini_ab = $d->ab_sampaibulanini;
 
@@ -370,10 +370,10 @@ error_reporting(0);
           }
 
 
-          $reallastbulanini_ar = floor($d->reallastbulanini_ar / $isipcs_ar);
-          $reallastsampaibulanini_ar = floor($d->reallastsampaibulanini_ar / $isipcs_ar);
-          $realbulanini_ar = floor($d->realbulanini_ar / $isipcs_ar);
-          $realsampaibulanini_ar = floor($d->realsampaibulanini_ar / $isipcs_ar);
+          $reallastbulanini_ar = round($d->reallastbulanini_ar / $isipcs_ar, 2);
+          $reallastsampaibulanini_ar = round($d->reallastsampaibulanini_ar / $isipcs_ar, 2);
+          $realbulanini_ar = round($d->realbulanini_ar / $isipcs_ar, 2);
+          $realsampaibulanini_ar = round($d->realsampaibulanini_ar / $isipcs_ar, 2);
           $targetbulanini_ar = $d->ar_bulanini;
           $targetsampaibulanini_ar = $d->ar_sampaibulanini;
 
@@ -401,10 +401,10 @@ error_reporting(0);
             $grw_ar_sampaibulanini   = ($realsampaibulanini_ar / $reallastsampaibulanini_ar) * 100;
           }
 
-          $reallastbulanini_as = floor($d->reallastbulanini_as / $isipcs_as);
-          $reallastsampaibulanini_as = floor($d->reallastsampaibulanini_as / $isipcs_as);
-          $realbulanini_as = floor($d->realbulanini_as / $isipcs_as);
-          $realsampaibulanini_as = floor($d->realsampaibulanini_as / $isipcs_as);
+          $reallastbulanini_as = round($d->reallastbulanini_as / $isipcs_as, 2);
+          $reallastsampaibulanini_as = round($d->reallastsampaibulanini_as / $isipcs_as, 2);
+          $realbulanini_as = round($d->realbulanini_as / $isipcs_as, 2);
+          $realsampaibulanini_as = round($d->realsampaibulanini_as / $isipcs_as, 2);
           $targetbulanini_as = $d->as_bulanini;
           $targetsampaibulanini_as = $d->as_sampaibulanini;
 
@@ -432,10 +432,10 @@ error_reporting(0);
             $grw_as_sampaibulanini   = ($realsampaibulanini_as / $reallastsampaibulanini_as) * 100;
           }
 
-          $reallastbulanini_bb = floor($d->reallastbulanini_bb / $isipcs_bb);
-          $reallastsampaibulanini_bb = floor($d->reallastsampaibulanini_bb / $isipcs_bb);
-          $realbulanini_bb = floor($d->realbulanini_bb / $isipcs_bb);
-          $realsampaibulanini_bb = floor($d->realsampaibulanini_bb / $isipcs_bb);
+          $reallastbulanini_bb = round($d->reallastbulanini_bb / $isipcs_bb, 2);
+          $reallastsampaibulanini_bb = round($d->reallastsampaibulanini_bb / $isipcs_bb, 2);
+          $realbulanini_bb = round($d->realbulanini_bb / $isipcs_bb, 2);
+          $realsampaibulanini_bb = round($d->realsampaibulanini_bb / $isipcs_bb, 2);
           $targetbulanini_bb = $d->bb_bulanini;
           $targetsampaibulanini_bb = $d->bb_sampaibulanini;
 
@@ -464,10 +464,10 @@ error_reporting(0);
           }
 
 
-          $reallastbulanini_cg = floor($d->reallastbulanini_cg / $isipcs_cg);
-          $reallastsampaibulanini_cg = floor($d->reallastsampaibulanini_cg / $isipcs_cg);
-          $realbulanini_cg = floor($d->realbulanini_cg / $isipcs_cg);
-          $realsampaibulanini_cg = floor($d->realsampaibulanini_cg / $isipcs_cg);
+          $reallastbulanini_cg = round($d->reallastbulanini_cg / $isipcs_cg, 2);
+          $reallastsampaibulanini_cg = round($d->reallastsampaibulanini_cg / $isipcs_cg, 2);
+          $realbulanini_cg = round($d->realbulanini_cg / $isipcs_cg, 2);
+          $realsampaibulanini_cg = round($d->realsampaibulanini_cg / $isipcs_cg, 2);
           $targetbulanini_cg = $d->cg_bulanini;
           $targetsampaibulanini_cg = $d->cg_sampaibulanini;
 
@@ -495,10 +495,10 @@ error_reporting(0);
             $grw_cg_sampaibulanini   = ($realsampaibulanini_cg / $reallastsampaibulanini_cg) * 100;
           }
 
-          $reallastbulanini_cgg = floor($d->reallastbulanini_cgg / $isipcs_cgg);
-          $reallastsampaibulanini_cgg = floor($d->reallastsampaibulanini_cgg / $isipcs_cgg);
-          $realbulanini_cgg = floor($d->realbulanini_cgg / $isipcs_cgg);
-          $realsampaibulanini_cgg = floor($d->realsampaibulanini_cgg / $isipcs_cgg);
+          $reallastbulanini_cgg = round($d->reallastbulanini_cgg / $isipcs_cgg, 2);
+          $reallastsampaibulanini_cgg = round($d->reallastsampaibulanini_cgg / $isipcs_cgg, 2);
+          $realbulanini_cgg = round($d->realbulanini_cgg / $isipcs_cgg, 2);
+          $realsampaibulanini_cgg = round($d->realsampaibulanini_cgg / $isipcs_cgg, 2);
           $targetbulanini_cgg = $d->cgg_bulanini;
           $targetsampaibulanini_cgg = $d->cgg_sampaibulanini;
 
@@ -526,10 +526,10 @@ error_reporting(0);
             $grw_cgg_sampaibulanini   = ($realsampaibulanini_cgg / $reallastsampaibulanini_cgg) * 100;
           }
 
-          $reallastbulanini_dep = floor($d->reallastbulanini_dep / $isipcs_dep);
-          $reallastsampaibulanini_dep = floor($d->reallastsampaibulanini_dep / $isipcs_dep);
-          $realbulanini_dep = floor($d->realbulanini_dep / $isipcs_dep);
-          $realsampaibulanini_dep = floor($d->realsampaibulanini_dep / $isipcs_dep);
+          $reallastbulanini_dep = round($d->reallastbulanini_dep / $isipcs_dep, 2);
+          $reallastsampaibulanini_dep = round($d->reallastsampaibulanini_dep / $isipcs_dep, 2);
+          $realbulanini_dep = round($d->realbulanini_dep / $isipcs_dep, 2);
+          $realsampaibulanini_dep = round($d->realsampaibulanini_dep / $isipcs_dep, 2);
           $targetbulanini_dep = $d->dep_bulanini;
           $targetsampaibulanini_dep = $d->dep_sampaibulanini;
 
@@ -557,10 +557,10 @@ error_reporting(0);
             $grw_dep_sampaibulanini   = ($realsampaibulanini_dep / $reallastsampaibulanini_dep) * 100;
           }
 
-          $reallastbulanini_ds = floor($d->reallastbulanini_ds / $isipcs_ds);
-          $reallastsampaibulanini_ds = floor($d->reallastsampaibulanini_ds / $isipcs_ds);
-          $realbulanini_ds = floor($d->realbulanini_ds / $isipcs_ds);
-          $realsampaibulanini_ds = floor($d->realsampaibulanini_ds / $isipcs_ds);
+          $reallastbulanini_ds = round($d->reallastbulanini_ds / $isipcs_ds, 2);
+          $reallastsampaibulanini_ds = round($d->reallastsampaibulanini_ds / $isipcs_ds, 2);
+          $realbulanini_ds = round($d->realbulanini_ds / $isipcs_ds, 2);
+          $realsampaibulanini_ds = round($d->realsampaibulanini_ds / $isipcs_ds, 2);
           $targetbulanini_ds = $d->ds_bulanini;
           $targetsampaibulanini_ds = $d->ds_sampaibulanini;
 
@@ -588,10 +588,10 @@ error_reporting(0);
             $grw_ds_sampaibulanini   = ($realsampaibulanini_ds / $reallastsampaibulanini_ds) * 100;
           }
 
-          $reallastbulanini_sp = floor($d->reallastbulanini_sp / $isipcs_sp);
-          $reallastsampaibulanini_sp = floor($d->reallastsampaibulanini_sp / $isipcs_sp);
-          $realbulanini_sp = floor($d->realbulanini_sp / $isipcs_sp);
-          $realsampaibulanini_sp = floor($d->realsampaibulanini_sp / $isipcs_sp);
+          $reallastbulanini_sp = round($d->reallastbulanini_sp / $isipcs_sp, 2);
+          $reallastsampaibulanini_sp = round($d->reallastsampaibulanini_sp / $isipcs_sp, 2);
+          $realbulanini_sp = round($d->realbulanini_sp / $isipcs_sp, 2);
+          $realsampaibulanini_sp = round($d->realsampaibulanini_sp / $isipcs_sp, 2);
           $targetbulanini_sp = $d->sp_bulanini;
           $targetsampaibulanini_sp = $d->sp_sampaibulanini;
 

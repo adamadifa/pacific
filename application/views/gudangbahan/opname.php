@@ -1,51 +1,64 @@
-<div class="row clearfix">
-  <div class="col-md-12">
-    <div class="card">
-      <div class="header bg-cyan">
-        <h2>
-          DATA OPNAME STOK
-          <small>Data Opname Stok</small>
+<?php
+function uang($nilai)
+{
+  return number_format($nilai, '0', '', '.');
+}
+?>
+
+<div class="container-fluid">
+  <!-- Page title -->
+  <div class="page-header">
+    <div class="row align-items-center">
+      <div class="col-auto">
+        <h2 class="page-title">
+          DATA OPNAME
         </h2>
       </div>
-      <div class="body">
-        <div class="row">
-          <div class="col-md-12">
-            <form class="form-horizontal" method="post" action="" autocomplete="off">
-              <div class="input-group demo-masked-input"  >
-                <span class="input-group-addon">
-                  <i class="material-icons">chrome_reader_mode</i>
-                </span>
-                <div class="form-line">
-                  <input type="text" value="<?php echo $kode_opname_gb; ?>" id="kode_opname_gb" name="kode_opname_gb" class="form-control" placeholder="No Bukti opname" data-error=".errorTxt19" />
-                </div>
-              </div>
-              <div class="input-group demo-masked-input"  >
-                <span class="input-group-addon">
-                  <i class="material-icons">date_range</i>
-                </span>
-                <div class="form-line">
-                  <input type="text" value="<?php echo $tanggal; ?>" id="tanggal" name="tanggal" class="datepicker form-control date" placeholder="Tanggal" data-error=".errorTxt19" />
-                </div>
-              </div>
-              <br>
-              <div class="form-group" >
-                <div class="col-md-offset-10">
-                  <input type="submit" name="submit" class="btn bg-blue  waves-effect" value="CARI DATA">
-                </div>
-              </div>
-            </form>
-          </div>
+    </div>
+  </div>
+  <!-- Content here -->
+  <div class="row">
+    <div class="col-md-10 col-xs-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">DATA OPNAME</h4>
+
         </div>
-        <div class="row clearfix">
-          <div class="col-sm-12">
+        <div class="card-body">
+          <form class="form-horizontal" method="post" action="<?php echo base_url(); ?>gudangbahan/opname" autocomplete="off">
+            <div class="mb-3">
+              <input type="text" value="<?php echo $kode_opname_gb; ?>" id="kode_opname_gb" name="kode_opname_gb" class="form-control" placeholder="No Bukti Opname" data-error=".errorTxt19" />
+            </div>
+            <div class="mb-3">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="input-icon">
+                    <input type="text" value="<?php echo $tanggal; ?>" id="tanggal" name="tanggal" class="datepicker form-control date" placeholder="Tanggal" data-error=".errorTxt19" />
+                    <span class="input-icon-addon"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" />
+                        <rect x="4" y="5" width="16" height="16" rx="2" />
+                        <line x1="16" y1="3" x2="16" y2="7" />
+                        <line x1="8" y1="3" x2="8" y2="7" />
+                        <line x1="4" y1="11" x2="20" y2="11" />
+                        <line x1="11" y1="15" x2="12" y2="15" />
+                        <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3 d-flex justify-content-end">
+              <button type="submit" name="submit" class="btn btn-primary btn-block mr-2" value="1"><i class="fa fa-search mr-2"></i>CARI</button>
+            </div>
+          </form>
             <a href="<?php echo base_url(); ?>gudangbahan/inputopname" class="btn btn-danger">Tambah Data</a>
             <hr>
             <div class="table-responsive">
               <table class="table table-bordered table-striped table-hover" style="width:100%" id="mytable">
-                <thead>
+                <thead style="background-color: skyblue;">
                   <tr>
                     <th width="10px">No</th>
-                    <th width="150px">Kode</th>
+                    <th width="150px">Nobukti</th>
                     <th>Tanggal Input</th>
                     <th>Bulan</th>
                     <th>Tahun</th>
@@ -65,8 +78,8 @@
                       <td><?php echo $d['bulan']; ?></td>
                       <td><?php echo $d['tahun']; ?></td>
                       <td width="10px">
-                        <a href="#" data-kode_opname_gb="<?php echo $d['kode_opname_gb']; ?>" class="btn btn-xs btn-primary detail">Detail</a>
-                        <a href="#" data-href="<?php echo base_url(); ?>gudangbahan/hapusopname/<?php echo $kode_opname_gb; ?>" class="btn btn-xs btn-danger hapus">Hapus</a>
+                        <a href="#" data-kode_opname_gb="<?php echo $d['kode_opname_gb']; ?>" class="btn btn-sm btn-primary detail">Detail</a>
+                        <a href="#" data-href="<?php echo base_url(); ?>gudangbahan/hapusopname/<?php echo $kode_opname_gb; ?>" class="btn btn-sm btn-danger hapus">Hapus</a>
                       </td>
                     </tr>
                     <?php
@@ -86,27 +99,18 @@
   </div>
 </div>
 
-<div class="modal fade" id="detailopname" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="card">
-        <div class="header bg-cyan">
-          <h2>
-            Detail Saldo Awal
-            <small>Detail Saldo Awal</small>
-          </h2>
-        </div>
-        <div class="body">
-          <div class="row clearfix">
-            <div class="col-sm-12">
-              <div class="table-responsive">
-                <div id="loaddetailopname">
 
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+<div class="modal modal-blur fade" id="detailopname" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <h5 class="modal-title">Detail Opname</h5>
+      </div>
+      <div class="modal-body">
+        <div id="loaddetailopname"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white mr-auto" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

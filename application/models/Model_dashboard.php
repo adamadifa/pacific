@@ -440,6 +440,8 @@ class Model_dashboard extends CI_Model
 		$tglini1 = $tahunini . "-" . $bulan . "-01";
 		$tglini2 = date('Y-m-t', strtotime($tglini1));
 
+		$tglawaltahunlalu = $tahunlalu . "-01-01";
+		$tglawaltahunini = $tahunini . "-01-01";
 		if (!empty($cabang)) {
 			$cbg = "AND karyawan.kode_cabang = '$cabang'";
 		} else {
@@ -486,7 +488,7 @@ class Model_dashboard extends CI_Model
 				FROM historibayar 
 				GROUP BY no_fak_penj
 			) hb ON (hb.no_fak_penj = p.no_fak_penj)
-			WHERE tgltransaksi BETWEEN '$tgllalu1' AND '$tgllalu2'  AND status_lunas = '1' AND lastpayment <= '$tgllalu2'" . $cbg . "  
+			WHERE lastpayment BETWEEN '$tgllalu1' AND '$tgllalu2'  AND status_lunas = '1'" . $cbg . "  
 			GROUP BY b.kode_produk
 			
 		) dpen ON (dpen.kode_produk = mb.kode_produk)
@@ -502,7 +504,7 @@ class Model_dashboard extends CI_Model
 				FROM historibayar 
 				GROUP BY no_fak_penj
 			) hb ON (hb.no_fak_penj = p.no_fak_penj)
-			WHERE tgltransaksi BETWEEN '$tglini1' AND '$tglini2'  AND status_lunas = '1' AND lastpayment <= '$tglini2'" . $cbg . "  
+			WHERE lastpayment BETWEEN '$tglini1' AND '$tglini2'  AND status_lunas = '1'" . $cbg . "  
 			GROUP BY b.kode_produk
 			
 		) dpen2 ON (dpen2.kode_produk = mb.kode_produk) 
@@ -518,7 +520,7 @@ class Model_dashboard extends CI_Model
 				FROM historibayar 
 				GROUP BY no_fak_penj
 			) hb ON (hb.no_fak_penj = p.no_fak_penj)
-			WHERE tgltransaksi BETWEEN '$tgllalu1' AND '$tgllalu2'  AND status_lunas = '1' AND lastpayment <= '$tgllalu2'" . $cbg . "   
+			WHERE lastpayment BETWEEN '$tglawaltahunlalu' AND '$tgllalu2'  AND status_lunas = '1'" . $cbg . "     
 			GROUP BY b.kode_produk
 			
 		) dpen3 ON (dpen3.kode_produk = mb.kode_produk)
@@ -535,7 +537,7 @@ class Model_dashboard extends CI_Model
 				FROM historibayar 
 				GROUP BY no_fak_penj
 			) hb ON (hb.no_fak_penj = p.no_fak_penj)
-			WHERE tgltransaksi BETWEEN '$tglini1' AND '$tglini2'  AND status_lunas = '1' AND lastpayment <= '$tglini2'" . $cbg . "  
+			WHERE lastpayment BETWEEN '$tglawaltahunini' AND '$tglini2'  AND status_lunas = '1'" . $cbg . " 
 			GROUP BY b.kode_produk
 			
 		) dpen4 ON (dpen4.kode_produk = mb.kode_produk)";
@@ -548,20 +550,20 @@ class Model_dashboard extends CI_Model
 		$cabang = $this->session->userdata('cabang');
 		$level_user = $this->session->userdata('level_user');
 		if ($level_user == "Administrator") {
-			$query = "SELECT * FROM pengajuan_limitkredit_v2 WHERE
-			no_pengajuan IN (SELECT max(no_pengajuan) as no_pengajuan FROM pengajuan_limitkredit_v2 GROUP BY kode_pelanggan) AND gm IS NOT NULL AND dirut IS NULL AND status = 0";
+			$query = "SELECT * FROM pengajuan_limitkredit_v3 WHERE
+			no_pengajuan IN (SELECT max(no_pengajuan) as no_pengajuan FROM pengajuan_limitkredit_v3 GROUP BY kode_pelanggan) AND gm IS NOT NULL AND dirut IS NULL AND status = 0";
 		} else if ($level_user == "kepala cabang") {
-			$query = "SELECT * FROM pengajuan_limitkredit_v2 
-			INNER JOIN pelanggan ON pengajuan_limitkredit_v2.kode_pelanggan = pelanggan.kode_pelanggan
+			$query = "SELECT * FROM pengajuan_limitkredit_v3 
+			INNER JOIN pelanggan ON pengajuan_limitkredit_v3.kode_pelanggan = pelanggan.kode_pelanggan
 			WHERE
 			pelanggan.kode_cabang = '$cabang' AND
-			no_pengajuan IN (SELECT max(no_pengajuan) as no_pengajuan FROM pengajuan_limitkredit_v2 GROUP BY kode_pelanggan) AND kacab IS NULL AND status = 0";
+			no_pengajuan IN (SELECT max(no_pengajuan) as no_pengajuan FROM pengajuan_limitkredit_v3 GROUP BY kode_pelanggan) AND kacab IS NULL AND status = 0";
 		} else if ($level_user == "manager marketing") {
-			$query = "SELECT * FROM pengajuan_limitkredit_v2 WHERE
-			no_pengajuan IN (SELECT max(no_pengajuan) as no_pengajuan FROM pengajuan_limitkredit_v2 GROUP BY kode_pelanggan) AND kacab IS NOT NULL AND mm IS NULL AND status = 0";
+			$query = "SELECT * FROM pengajuan_limitkredit_v3 WHERE
+			no_pengajuan IN (SELECT max(no_pengajuan) as no_pengajuan FROM pengajuan_limitkredit_v3 GROUP BY kode_pelanggan) AND kacab IS NOT NULL AND mm IS NULL AND status = 0";
 		} else if ($level_user == "general manager") {
-			$query = "SELECT * FROM pengajuan_limitkredit_v2 WHERE
-			no_pengajuan IN (SELECT max(no_pengajuan) as no_pengajuan FROM pengajuan_limitkredit_v2 GROUP BY kode_pelanggan) AND mm IS NOT NULL AND gm IS NULL AND status = 0";
+			$query = "SELECT * FROM pengajuan_limitkredit_v3 WHERE
+			no_pengajuan IN (SELECT max(no_pengajuan) as no_pengajuan FROM pengajuan_limitkredit_v3 GROUP BY kode_pelanggan) AND mm IS NOT NULL AND gm IS NULL AND status = 0";
 		}
 
 		return $this->db->query($query);

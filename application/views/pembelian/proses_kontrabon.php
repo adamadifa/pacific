@@ -86,7 +86,8 @@
             <line x1="8" y1="3" x2="8" y2="7" />
             <line x1="4" y1="11" x2="20" y2="11" />
             <line x1="11" y1="15" x2="12" y2="15" />
-            <line x1="12" y1="15" x2="12" y2="18" /></svg>
+            <line x1="12" y1="15" x2="12" y2="18" />
+          </svg>
         </span>
       </div>
     </div>
@@ -108,6 +109,24 @@
       <option value="2-1300">Hutang Lainnya</option>
       <option value="2-1200">Hutang Dagang</option>
     </select>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <label class="form-check form-switch">
+        <input class="form-check-input cabang" type="checkbox" name="girotocash" value="1">
+        <span class="form-check-label"><b> Dibayarkan Oleh Cabang ?</b></span>
+      </label>
+    </div>
+  </div>
+  <div class="row mt-2 mb-3">
+    <div class="form-group">
+      <select name="cbg" id="cbg" class="form-select">
+        <option value="">-- Pilih Cabang --</option>
+        <?php foreach ($cabang as $c) { ?>
+          <option value="<?php echo $c->kode_cabang; ?>"><?php echo strtoupper($c->nama_cabang); ?></option>
+        <?php } ?>
+      </select>
+    </div>
   </div>
   <div class="form-group nobkk mb-3">
     <input type="text" value="" id="nobkk" name="nobkk" class="form-control" placeholder="No BKK" data-error=".errorTxt19" />
@@ -153,6 +172,18 @@
     cektutuplaporan();
     $("#tglbayar").change(function() {
       cektutuplaporan();
+    });
+    $("#cbg").hide();
+    $('.cabang').change(function() {
+      //alert('test');
+      if (this.checked) {
+        // var returnVal = confirm("Apakah Benar Barang Ini Merupakan Kebutuhan Cabang ?");
+        // $(this).prop("checked", returnVal);
+        $("#cbg").show();
+      } else {
+        $("#cbg").hide();
+      }
+
     });
 
     function hidenobkk() {

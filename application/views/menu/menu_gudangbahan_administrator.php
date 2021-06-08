@@ -119,3 +119,16 @@ if ($level == 'Administrator' || $level == 'admin gudang bahan') { ?>
     </div>
   <?php } ?>
 <?php } ?>
+
+<?php if ($level == 'Administrator' || $level == 'manager accounting' ||  $level == 'spv accounting') { ?>
+    <div class="card">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+          GUDANG BAHAN & KEMASAN 
+        </a>
+        <a href="<?php echo base_url(); ?>laporangudangbahan/persediaan_gram" class="list-group-item list-group-item-action">
+          <i class="fa  fa-copy mr-2"></i>LAPORAN PERSEDIAAN BARANG
+        </a>
+      </div>
+    </div>
+  <?php } ?>

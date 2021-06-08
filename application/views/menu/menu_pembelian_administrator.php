@@ -87,6 +87,9 @@ if ($level == "Administrator" || $level == "admin pembelian 2" || $level == "adm
       <a href="<?php echo base_url(); ?>laporangudangbahan/pengeluaran" class="list-group-item list-group-item-action">
         <i class="fa  fa-copy mr-2"></i>Pengeluaran Bahan & Kemasan
       </a>
+      <a href="<?php echo base_url(); ?>laporangudangbahan/retur_keluar" class="list-group-item list-group-item-action">
+        <i class="fa  fa-copy mr-2"></i>Retur Keluar
+      </a>
     </div>
   </div>
 <?php } else if ($level == "emf1" || $level == "manager accounting" || $level == "spv accounting") { ?>

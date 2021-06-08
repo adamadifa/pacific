@@ -16,6 +16,14 @@ class Laporangudangbahan extends CI_Controller{
     $this->template->load('template/template','laporangudangbahan/persediaan.php',$data);
   }
 
+  function persediaan_gram(){
+
+    $data['tahun']     = date("Y");
+    $data['bulan']     = array("","Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
+    $data['kategori']  = $this->Model_laporanbahan->getKategori()->result();
+    $this->template->load('template/template','laporangudangbahan/persediaan_gram.php',$data);
+  }
+
   function rekapgudangbahan(){
 
     $data['tahun']     = date("Y");
@@ -43,6 +51,25 @@ class Laporangudangbahan extends CI_Controller{
       header("Content-Disposition: attachment; filename=Laporan Persediaan Barang Gudang Bahan & Kemasan.xls");
     }
     $this->load->view('laporangudangbahan/cetak_persediaan',$data);
+  }
+
+  function cetak_persediaan_gram(){
+
+    $bulan              = $this->input->post('bulan');
+    $tahun              = $this->input->post('tahun');
+    $kode_kategori      = $this->input->post('kode_kategori');
+    $data['tahun']      = $tahun;
+    $data['bulan']      = $bulan;
+    $data['kategori']   = $kode_kategori;
+    $data['data']       = $this->Model_laporanbahan->list_detailPersediaangram($bulan,$tahun,$kode_kategori)->result();
+    if(isset($_POST['export'])){
+      // Fungsi header dengan mengirimkan raw data excel
+      header("Content-type: application/vnd-ms-excel");
+
+      // Mendefinisikan nama file ekspor "hasil-export.xls"
+      header("Content-Disposition: attachment; filename=Laporan Persediaan Barang Gudang Bahan & Kemasan.xls");
+    }
+    $this->load->view('laporangudangbahan/cetak_persediaan_gram',$data);
   }
 
   function cetak_rekapgudangbahan(){

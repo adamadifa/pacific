@@ -22,6 +22,11 @@ class Model_komisi extends CI_Model
     return $this->db->get_where('komisi_target', array('bulan' => $bulan, 'tahun' => $tahun));
   }
 
+  function loadapprovletarget($bulan, $tahun)
+  {
+    return $this->db->get_where('komisi_target', array('tahun' => $tahun));
+  }
+
   function simpantarget($data)
   {
     $cek = $this->db->get_where('komisi_target_qty_detail', array('kode_target' => $data['kode_target'], 'id_karyawan' => $data['id_karyawan'], 'kode_produk' => $data['kode_produk']));
@@ -39,6 +44,16 @@ class Model_komisi extends CI_Model
       $this->db->update('komisi_target_cashin_detail', $data, array('kode_target' => $data['kode_target'], 'id_karyawan' => $data['id_karyawan']));
     } else {
       $this->db->insert('komisi_target_cashin_detail', $data);
+    }
+  }
+
+  function simpantargetcollection($data)
+  {
+    $cek = $this->db->get_where('komisi_collection_detail', array('kode_target' => $data['kode_target'], 'id_karyawan' => $data['id_karyawan']));
+    if ($cek->num_rows() > 0) {
+      $this->db->update('komisi_collection_detail', $data, array('kode_target' => $data['kode_target'], 'id_karyawan' => $data['id_karyawan']));
+    } else {
+      $this->db->insert('komisi_collection_detail', $data);
     }
   }
 
@@ -203,7 +218,7 @@ class Model_komisi extends CI_Model
         komisi_target_qty_detail k_detail
         INNER JOIN komisi_target ON k_detail.kode_target = komisi_target.kode_target
         INNER JOIN master_barang ON k_detail.kode_produk = master_barang.kode_produk
-        WHERE bulan ='3' AND tahun='2021'
+        WHERE bulan ='$bulan' AND tahun='$tahun' AND dr = '1'
         GROUP BY id_karyawan) komisi ON (karyawan.id_karyawan = komisi.id_karyawan)
         
         LEFT JOIN (
@@ -221,7 +236,7 @@ class Model_komisi extends CI_Model
         FROM
         komisi_collection_detail collection_detail
         INNER JOIN komisi_target ON collection_detail.kode_target = komisi_target.kode_target
-        WHERE bulan ='3' AND tahun='2021'
+        WHERE bulan ='$bulan' AND tahun='$tahun' AND dr = '1'
         GROUP BY id_karyawan) komisi_collection ON (karyawan.id_karyawan = komisi_collection.id_karyawan)
         
         LEFT JOIN (
@@ -230,7 +245,7 @@ class Model_komisi extends CI_Model
         FROM
         komisi_target_cashin_detail cashin_detail
         INNER JOIN komisi_target ON cashin_detail.kode_target = komisi_target.kode_target
-        WHERE bulan ='3' AND tahun='2021'
+        WHERE bulan ='$bulan' AND tahun='$tahun' AND dr = '1'
         GROUP BY id_karyawan) komisi_cashin ON (karyawan.id_karyawan = komisi_cashin.id_karyawan)
         
         LEFT JOIN (
@@ -261,7 +276,7 @@ class Model_komisi extends CI_Model
           GROUP BY no_fak_penj
         ) hb ON (hb.no_fak_penj = penjualan.no_fak_penj) 
         INNER JOIN master_barang ON barang.kode_produk = master_barang.kode_produk
-        WHERE tgltransaksi BETWEEN '$dari' AND '$sampai' AND status_lunas ='1' AND lastpayment < '$sampai'
+        WHERE  status_lunas ='1' AND lastpayment BETWEEN '$dari' AND '$sampai'
         GROUP BY penjualan.id_karyawan
         ) realisasi ON (karyawan.id_karyawan = realisasi.id_karyawan)
     WHERE kode_cabang ='$cabang' AND nama_karyawan !='-'";
@@ -288,7 +303,7 @@ class Model_komisi extends CI_Model
     komisi_target_qty_detail k_detail
     INNER JOIN komisi_target ON k_detail.kode_target = komisi_target.kode_target
     INNER JOIN master_barang ON k_detail.kode_produk = master_barang.kode_produk
-    WHERE bulan ='$bulan' AND tahun='$tahun'
+    WHERE bulan ='$bulan' AND tahun='$tahun' AND dr = '1'
     GROUP BY id_karyawan) komisi ON (karyawan.id_karyawan = komisi.id_karyawan)
 
     LEFT JOIN
@@ -312,7 +327,7 @@ class Model_komisi extends CI_Model
       komisi_target_cashin_detail k_cashin
       INNER JOIN komisi_target ON k_cashin.kode_target = komisi_target.kode_target
     WHERE
-      bulan = '$bulan' AND tahun = '$tahun' 
+      bulan = '$bulan' AND tahun = '$tahun' AND dr = '1'
     GROUP BY
       id_karyawan,jumlah_target_cashin 
     ) komisicashin ON ( karyawan.id_karyawan = komisicashin.id_karyawan )
@@ -336,7 +351,7 @@ class Model_komisi extends CI_Model
       komisi_collection_detail k_collection
       INNER JOIN komisi_target ON k_collection.kode_target = komisi_target.kode_target
     WHERE
-      bulan = '$bulan' AND tahun = '$tahun' 
+      bulan = '$bulan' AND tahun = '$tahun' AND dr = '1'
     GROUP BY
       id_karyawan,jumlah_target_collection 
     ) komisicollection ON ( karyawan.id_karyawan = komisicollection.id_karyawan )

@@ -1,96 +1,107 @@
-
-<div class="row clearfix">
-  <div class="col-md-8">
-    <div class="card">
-      <div class="header bg-cyan">
-        <h2>
-         INPUT OPNAME GUDANG BAHAN
-         <small>Form Input Opname</small>
-       </h2>
-     </div>
-     <div class="body">
-      <div class="row">
-        <div class="col-md-12">
-          <form name="autoSumForm" autocomplete="off" class="formValidate" id="formValidate"  method="POST" action="<?php echo base_url(); ?>gudangbahan/input_opname">
-            <div class="input-group demo-masked-input"  >
-              <span class="input-group-addon">
-                <i class="material-icons">chrome_reader_mode</i>
-              </span>
-              <div class="form-line">
-                <input type="text" readonly value="" id="kode_opname_gb" name="kode_opname_gb" class="form-control" placeholder="Kode opname Awal" data-error=".errorTxt19" />
-                <input type="hidden" readonly  id="getsa" name="getsa" value="0" class="form-control" />
-                <input type="hidden" name="jumlahproduk" id="jumlahproduk">
-              </div>
-            </div>
-            <div class="form-group" >
-              <div class="form-line">
-                <select class="form-control" id="bulan" name="bulan">
-                  <option value="">Bulan</option>
-                  <?php for($a=1; $a<=12; $a++){ ?>
-                    <option value="<?php echo $a;?>"><?php echo $bulan[$a]; ?></option>
-                  <?php } ?>
-                </select>
-              </div>
-            </div>
-            <div class="form-group" >
-              <div class="form-line">
-                <select class="form-control" id="tahun" name="tahun">
-                  <option value="">Tahun</option>
-                  <?php for($t=2019; $t<=$tahun; $t++){ ?>
-                    <option value="<?php echo $t;  ?>"><?php echo $t; ?></option>
-                  <?php } ?>
-                </select>
-              </div>
-            </div>
-            <div class="input-group demo-masked-input"  >
-              <span class="input-group-addon">
-                <i class="material-icons">date_range</i>
-              </span>
-              <div class="form-line">
-                <input type="text" readonly value="" id="tanggal" name="tanggal" class="form-control datepicker" placeholder="Tanggal" data-error=".errorTxt19" />
-              </div>
-            </div>
-            <div class="row clearfix">
-              <div class="col-md-offset-10">
-                <a href="#" id="getopname" class="btn btn-sm bg-green  waves-effect">GET opname</a>
-              </div>
-            </div>
-            <hr>
-            <table class="table table-bordered">
-              <thead class = "" >
-                <tr>
-                  <th rowspan="3" align="">No</th>
-                  <th rowspan="3" style="text-align:center">Nama Barang</th>
-                </tr>
-                <tr>
-                  <th colspan="6" style="text-align:center">Kuantitas</th>
-                </tr>
-                <tr>
-                  <th style="text-align:center">QTY Unit</th>
-                  <th style="text-align:center">QTY Berat</th>
-                </tr>
-              </thead>
-              <tbody id="loaddetailopname">
-
-              </tbody>
-            </table>
-
-            <div class="row clearfix">
-              <div class="col-md-offset-10">
-                <input type="submit" name="submit" class="btn btn-sm bg-blue  waves-effect" value="SIMPAN">
-              </div>
-            </div>
-          </form>
+<form autocomplete="off" class="formValidate" id="formValidate" method="POST" action="<?php echo base_url(); ?>gudangbahan/input_opname">
+  <div class="container-fluid">
+    <!-- Page title -->
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <h2 class="page-title">
+            Input Data Saldo Awal
+          </h2>
         </div>
       </div>
-      <div class="row clearfix">
-        <div class="col-sm-12">
+    </div>
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-10">
+          <!-- Content here -->
+          <div class="row">
+            <div class="col-md-8 col-xs-12">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">Input Data Saldo Awal</h4>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <form name="autoSumForm" autocomplete="off" class="formValidate" id="formValidate"  method="POST" action="<?php echo base_url(); ?>gudangbahan/input_opname">
+                        <div class="form-group mb-3">
+                          <div class="form-line">
+                            <input type="text" readonly value="" id="kode_opname_gb" name="kode_opname_gb" class="form-control" placeholder="Kode Opname" data-error=".errorTxt19" />
+                            <input type="hidden" readonly  id="getsa" name="getsa" value="0" class="form-control" />
+                            <input type="hidden" name="jumlahproduk" id="jumlahproduk">
+                          </div>
+                        </div>
+                        <div class="form-group mb-3">
+                          <div class="form-line">
+                            <select class="form-control" id="bulan" name="bulan">
+                              <option value="">Bulan</option>
+                              <?php for($a=1; $a<=12; $a++){ ?>
+                                <option value="<?php echo $a;?>"><?php echo $bulan[$a]; ?></option>
+                              <?php } ?>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-group mb-3">
+                          <div class="form-line">
+                            <select class="form-control" id="tahun" name="tahun">
+                              <option value="">Tahun</option>
+                              <?php for($t=2019; $t<=$tahun; $t++){ ?>
+                                <option value="<?php echo $t;  ?>"><?php echo $t; ?></option>
+                              <?php } ?>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-group" >
+                          <div class="form-line">
+                            <input type="text" readonly value="" id="tanggal" name="tanggal" class="form-control datepicker" placeholder="Tanggal" data-error=".errorTxt19" />
+                          </div>
+                        </div>
+                        <br>
+                        <div class="form-group mb-3">
+                          <div class="form-line">
+                            <a href="#" id="getopname" class="form-control btn btn-xs btn-primary">GET OPNAME</a>
+                          </div>
+                        </div>
+                        <hr>
+                        <table class="table table-bordered">
+                          <thead class = "" >
+                            <tr>
+                              <th rowspan="3" align="">No</th>
+                              <th rowspan="3" style="text-align:center">Nama Barang</th>
+                            </tr>
+                            <tr>
+                              <th colspan="6" style="text-align:center">Kuantitas</th>
+                            </tr>
+                            <tr>
+                              <th style="text-align:center">QTY Unit</th>
+                              <th style="text-align:center">QTY Berat</th>
+                            </tr>
+                          </thead>
+                          <tbody id="loaddetailopname">
 
+                          </tbody>
+                        </table>
+
+                        <div class="row clearfix">
+                          <div class="col-md-offset-10">
+                            <input type="submit" name="submit" class="btn btn-xs btn-success form-control" value="SIMPAN">
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                <div class="row clearfix">
+                  <div class="col-sm-12">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 
 <script src="<?php echo base_url(); ?>assets/plugins/bootstrap-select/js/bootstrap-select.js"></script>
@@ -196,12 +207,10 @@
      loadNoMutasi();
    });
 
-    $('.datepicker').bootstrapMaterialDatePicker({
-      format      : 'YYYY-MM-DD',
-      clearButton : true,
-      weekStart   : 1,
-      time        : false
-    });
-
+    
   });
+</script>
+
+<script>
+  flatpickr(document.getElementById('tanggal'), {});
 </script>
