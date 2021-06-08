@@ -171,6 +171,25 @@
 </head>
 
 <body class="antialiased">
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var s, t;
+      s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.src = 'https://s3-ap-southeast-1.amazonaws.com/qiscus-sdk/public/qismo/qismo-v4.js';
+      s.async = true;
+      s.onload = s.onreadystatechange = function() {
+        new Qismo('pooma-pqa4gnjnpzpwwqj', {
+          options: {
+            channel_id: 119819,
+            extra_fields: [],
+          }
+        });
+      }
+      t = document.getElementsByTagName('script')[0];
+      t.parentNode.insertBefore(s, t);
+    });
+  </script>
   <div class="page">
     <header class="navbar navbar-expand-md navbar-dark navbar-fixed-top">
       <div class="container-fluid">
@@ -181,49 +200,49 @@
           <img src="<?php echo base_url(); ?>assets/images/pac.png" alt="Tabler" class="navbar-brand-image">
         </a>
         <div class="navbar-nav flex-row order-md-last">
-        <?php
-        $level = $this->session->userdata('level_user');
-        if ($level == "manager accounting") {
-        ?>
-          <div class="nav-item dropdown d-none d-md-flex mr-3">
-            <a href="#" class="nav-link px-0" data-toggle="dropdown" tabindex="-1">
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" />
-                <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
-                <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
-              </svg>
-              <?php 
-              $menu = $this->db->query("SELECT * FROM maintenance WHERE status='0'")->num_rows();
-              ?>
-              <span class="badge bg-red"><?php echo $menu;?></span>
-            </a>
-          </div>
-        <?php }else if ($level == "Administrator") { ?>
-          <div class="nav-item dropdown d-none d-md-flex mr-3">
-            <a href="#" class="nav-link px-0" data-toggle="dropdown" tabindex="-1">
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" />
-                <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
-                <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
-              </svg>
-              <?php 
-              $menu = $this->db->query("SELECT * FROM maintenance WHERE status='1'")->num_rows();
-              ?>
-              <span class="badge bg-red"><?php echo $menu;?></span>
-            </a>
-          </div>
-        <?php }else{ ?>
-          <div class="nav-item dropdown d-none d-md-flex mr-3">
-            <a href="#" class="nav-link px-0" data-toggle="dropdown" tabindex="-1">
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" />
-                <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
-                <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
-              </svg>
-              <span class="badge bg-red"></span>
-            </a>
-          </div>
-        <?php } ?>
+          <?php
+          $level = $this->session->userdata('level_user');
+          if ($level == "manager accounting") {
+          ?>
+            <div class="nav-item dropdown d-none d-md-flex mr-3">
+              <a href="#" class="nav-link px-0" data-toggle="dropdown" tabindex="-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" />
+                  <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
+                  <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
+                </svg>
+                <?php
+                $menu = $this->db->query("SELECT * FROM maintenance WHERE status='0'")->num_rows();
+                ?>
+                <span class="badge bg-red"><?php echo $menu; ?></span>
+              </a>
+            </div>
+          <?php } else if ($level == "Administrator") { ?>
+            <div class="nav-item dropdown d-none d-md-flex mr-3">
+              <a href="#" class="nav-link px-0" data-toggle="dropdown" tabindex="-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" />
+                  <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
+                  <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
+                </svg>
+                <?php
+                $menu = $this->db->query("SELECT * FROM maintenance WHERE status='1'")->num_rows();
+                ?>
+                <span class="badge bg-red"><?php echo $menu; ?></span>
+              </a>
+            </div>
+          <?php } else { ?>
+            <div class="nav-item dropdown d-none d-md-flex mr-3">
+              <a href="#" class="nav-link px-0" data-toggle="dropdown" tabindex="-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" />
+                  <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
+                  <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
+                </svg>
+                <span class="badge bg-red"></span>
+              </a>
+            </div>
+          <?php } ?>
           <div class="nav-item dropdown">
             <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-toggle="dropdown">
               <span class="avatar" style="background-image: url(<?php echo base_url(); ?>assets/images/user.png)"></span>
