@@ -151,7 +151,7 @@ class Pembelian extends CI_Controller
     $this->template->load('template/template', 'pembelian/returproduksi', $data);
   }
 
-  
+
   function detail_returproduksi()
   {
 
@@ -160,7 +160,7 @@ class Pembelian extends CI_Controller
     $this->load->view('pembelian/detail_returproduksi', $data);
   }
 
-  
+
   function detail_retur()
   {
 
@@ -187,7 +187,6 @@ class Pembelian extends CI_Controller
 
     $this->Model_pembelian->batalapprove();
     redirect('pembelian/returproduksi');
-
   }
 
   function permintaanbarang($rowno = 0)
@@ -286,7 +285,7 @@ class Pembelian extends CI_Controller
     $this->template->load('template/template', 'pembelian/permintaanbarang', $data);
   }
 
-  
+
   function codeotomatisretur()
   {
 
@@ -1050,6 +1049,7 @@ class Pembelian extends CI_Controller
   function proseskontrabon()
   {
     $nokontrabon            = $this->input->post('nokontrabon');
+    $data['cabang']         = $this->Model_cabang->view_cabang()->result();
     $data['kb']             = $this->Model_pembelian->getKontrabon($nokontrabon)->row_array();
     $data['detail']         = $this->Model_pembelian->getDetailKontrabon($nokontrabon)->result();
     $data['bank']           = $this->Model_pembelian->getBank()->result();

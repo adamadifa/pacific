@@ -4014,9 +4014,22 @@ class Penjualan extends CI_Controller
     $this->load->view('penjualan/laporan/cetak_ajuankredit', $data);
   }
 
+  function cetak_ajuankredit_v3()
+  {
+    $no_pengajuan = $this->uri->segment(3);
+    $data['pengajuan'] = $this->Model_penjualan->getPengajuankreditV3($no_pengajuan)->row_array();
+    $data['komentar'] = $this->Model_penjualan->getKomentarajuankreditV3($no_pengajuan)->result();
+    $this->load->view('penjualan/laporan/cetak_ajuankredit', $data);
+  }
+
   function updatekomentar()
   {
     $this->Model_penjualan->updatekomentar();
+  }
+
+  function updatekomentarv3()
+  {
+    $this->Model_penjualan->updatekomentarv3();
   }
 
   function getkomentar()

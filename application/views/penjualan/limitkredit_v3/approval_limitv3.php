@@ -380,7 +380,7 @@ $level = $this->session->userdata('level_user');
                       ?>
                     </td>
                     <td>
-                      <a href="<?php echo base_url(); ?>penjualan/cetak_ajuankredit/<?php echo $d['no_pengajuan']; ?>" class="btn btn-primary btn-sm"><i class="fa fa-print"></i></a>
+                      <a href="<?php echo base_url(); ?>penjualan/cetak_ajuankredit_v3/<?php echo $d['no_pengajuan']; ?>" class="btn btn-primary btn-sm"><i class="fa fa-print"></i></a>
 
                       <a href="#" data-nopengajuan="<?php echo $d['no_pengajuan']; ?>" id="inputkomentar" class="btn btn-primary btn-sm inputkomentar"><i class="fa fa-wechat "></i></a>
                       <?php
@@ -535,7 +535,7 @@ $level = $this->session->userdata('level_user');
       var komentar = $("#komentar").val();
       $.ajax({
         type: 'POST',
-        url: '<?php echo base_url(); ?>penjualan/updatekomentar',
+        url: '<?php echo base_url(); ?>penjualan/updatekomentarv3',
         data: {
           no_pengajuan: no_pengajuan,
           komentar: komentar

@@ -161,7 +161,7 @@ class Model_laporanbahan extends CI_Model
     GROUP BY detail_pengeluaran_gb.kode_barang) gk ON (master_barang_pembelian.kode_barang = gk.kode_barang)
 
     WHERE master_barang_pembelian.kode_dept = 'GDB' AND master_barang_pembelian.kode_kategori = '$kode_kategori' 
-    ORDER BY master_barang_pembelian.nama_barang,jenis_barang,urutan ASC
+    ORDER BY master_barang_pembelian.jenis_barang,kode_barang,urutan ASC
     ";
     return $this->db->query($query);
   }

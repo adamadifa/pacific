@@ -10,7 +10,7 @@
   </div>
   <!-- Content here -->
   <div class="row">
-    <div class="col-md-8 col-xs-12">
+    <div class="col-md-10 col-xs-12">
       <div class="card">
         <div class="card-header">
           <h4 class="card-title">Data Approvle Target</h4>
@@ -61,7 +61,7 @@
                     <th>MM</th>
                     <th>EM</th>
                     <th>DIRUT</th>
-                    <th>Aksi</th>
+                    <th colspan="2" style="text-align: center;">Aksi</th>
                   </tr>
                 </thead>
                 <tbody id="loadapprovletarget">
@@ -73,7 +73,6 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4"></div>
     <div class="col-md-2">
       <?php $this->load->view('menu/menu_marketing_administrator'); ?>
     </div>
@@ -83,7 +82,7 @@
   <div class="modal-dialog  modal-dialog-centered" style="max-width:1300px !important" role="document">
     <div class="modal-content ">
       <div class="modal-header">
-        <h5 class="modal-title">Detail Target Quantity</h5>
+        <h5 class="modal-title">Input Target Quantity</h5>
       </div>
       <div class="modal-body">
         <div id="loadformsettarget"></div>
@@ -98,10 +97,25 @@
   <div class="modal-dialog modal-lg  modal-dialog-centered" role="document">
     <div class="modal-content ">
       <div class="modal-header">
-        <h5 class="modal-title">Detail Target Cash IN</h5>
+        <h5 class="modal-title">Input Target Cash IN</h5>
       </div>
       <div class="modal-body">
         <div id="loadformsettargetcashin"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white mr-auto" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal modal-blur fade" id="modalsettargetcollection" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg  modal-dialog-centered" role="document">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <h5 class="modal-title">Input Target Collection</h5>
+      </div>
+      <div class="modal-body">
+        <div id="loadformsettargetcollection"></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-white mr-auto" data-dismiss="modal">Close</button>

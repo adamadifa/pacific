@@ -84,6 +84,16 @@ class Komisi extends CI_Controller
     $this->load->view('komisi/komisi_inputsettargetcashin', $data);
   }
 
+  function inputsettargetcollection()
+  {
+    $kodetarget = $this->input->post('kodetarget');
+    $data['kodetarget'] = $kodetarget;
+    $data['produk']  = $this->Model_barang->getMasterproduk()->result();
+    $data['jmlproduk']  = $this->Model_barang->getMasterproduk()->num_rows();
+    $data['cabang'] = $this->Model_cabang->view_cabang()->result();
+    $this->load->view('komisi/komisi_inputsettargetcollection', $data);
+  }
+
   function detailsettargetcashin()
   {
     $kodetarget = $this->input->post('kodetarget');
@@ -133,17 +143,74 @@ class Komisi extends CI_Controller
     $this->load->view('komisi/komisi_loadlisttargetcashin', $data);
   }
 
+  function loadlisttargetcollection()
+  {
+    $kodetarget = $this->input->post('kodetarget');
+    $cabang = $this->input->post('cabang');
+    $data['kodetarget'] = $kodetarget;
+    $data['salesman'] = $this->Model_laporanpenjualan->get_salesman($cabang)->result();
+    $this->load->view('komisi/komisi_loadlisttargetcollection', $data);
+  }
+
+  function insertapprovlekomisi()
+  {
+    $kode_target = $this->input->post('kode_target');
+    $approve     = $this->input->post('approve');
+    $status     = $this->input->post('status');
+    $level      = $this->input->post('level');
+    if($level == 'kepala admin'){
+      $data = array(
+        'status'  => $status,
+        'ka'      => $approve
+      );
+    }else if($level == 'kepala cabang'){
+      $data = array(
+        'status'  => $status,
+        'kp'      => $approve
+      );
+    }else if($level == 'manager marketing'){
+      $data = array(
+        'status'  => $status,
+        'mm'      => $approve
+      );
+    }else if($level == 'general manager'){
+      $data = array(
+        'status'  => $status,
+        'em'      => $approve
+      );
+    }else if($level == 'Administrator'){
+      $data = array(
+        'status'  => $status,
+        'dr'      => $approve
+      );
+    }else if($approve == '2'){
+      $data = array(
+        'status'  => $status,
+        'ka'      => '2',
+        'kp'      => '',
+        'mm'      => '',
+        'em'      => '',
+        'dr'      => '',
+      );
+    }
+ 
+    $this->db->where('kode_target', $kode_target);
+    $this->db->update('komisi_target', $data);
+  }
+
   function simpantarget()
   {
     $kodetarget = $this->input->post('kodetarget');
     $salesman = $this->input->post('salesman');
     $produk = $this->input->post('produk');
     $jmltarget = $this->input->post('jmltarget');
+    $id_user = $this->session->userdata('id_user');
     $data = [
       'kode_target' => $kodetarget,
       'id_karyawan' => $salesman,
       'kode_produk' => $produk,
-      'jumlah_target' => $jmltarget
+      'jumlah_target' => $jmltarget,
+      'id_user' => $id_user
     ];
 
     $simpan = $this->Model_komisi->simpantarget($data);
@@ -154,13 +221,31 @@ class Komisi extends CI_Controller
     $kodetarget = $this->input->post('kodetarget');
     $salesman = $this->input->post('salesman');
     $jmltarget = $this->input->post('jmltarget');
+    $id_user = $this->session->userdata('id_user');
     $data = [
       'kode_target' => $kodetarget,
       'id_karyawan' => $salesman,
-      'jumlah_target_cashin' => $jmltarget
+      'jumlah_target_cashin' => $jmltarget,
+      'id_user' => $id_user
     ];
 
     $simpan = $this->Model_komisi->simpantargetcashin($data);
+  }
+
+  function simpantargetcollection()
+  {
+    $kodetarget = $this->input->post('kodetarget');
+    $salesman = $this->input->post('salesman');
+    $jmltarget = $this->input->post('jmltarget');
+    $id_user = $this->session->userdata('id_user');
+    $data = [
+      'kode_target' => $kodetarget,
+      'id_karyawan' => $salesman,
+      'jumlah_target_collection' => $jmltarget,
+      'id_user' => $id_user
+    ];
+
+    $simpan = $this->Model_komisi->simpantargetcollection($data);
   }
 
   function targetcashin()

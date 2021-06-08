@@ -148,28 +148,19 @@ class Model_gudangbahan extends CI_Model
     return $result[0]['allcount'];
   }
 
-
   function getDetailopname($bulan, $tahun)
   {
-
-    if ($bulan == 1) {
-      $bulan = 12;
-      $tahun = $tahun - 1;
-    } else {
-      $bulan = $bulan - 1;
-      $tahun = $tahun;
-    }
 
     $query = "SELECT 
     master_barang_pembelian.kode_barang,
     master_barang_pembelian.nama_barang,
     master_barang_pembelian.satuan,
-    op.qtyunitop,
     sa.qtyunitsa,
     sa.qtyberatsa,
-    op.qtyberatop,
     gm.qtypemb1,
     gm.qtylainnya1,
+    gm.qtypengganti1,
+    gm.qtypengganti2,
     gm.qtypemb2,
     gm.qtylainnya2,
     gk.qtyprod3,
@@ -177,11 +168,13 @@ class Model_gudangbahan extends CI_Model
     gk.qtypdqc3,
     gk.qtysus3,
     gk.qtylain3,
+    gk.qtycabang3,
     gk.qtyprod4,
     gk.qtyseas4,
     gk.qtypdqc4,
     gk.qtysus4,
-    gk.qtylain4
+    gk.qtylain4,
+    gk.qtycabang4
 
     FROM master_barang_pembelian
 
@@ -189,17 +182,15 @@ class Model_gudangbahan extends CI_Model
     INNER JOIN saldoawal_gb ON saldoawal_gb.kode_saldoawal_gb=saldoawal_gb_detail.kode_saldoawal_gb
     WHERE bulan = '$bulan' AND tahun = '$tahun' GROUP BY saldoawal_gb_detail.kode_barang ) sa ON (master_barang_pembelian.kode_barang = sa.kode_barang)
 
-    LEFT JOIN (SELECT opname_gb_detail.kode_barang,SUM( qty_unit ) AS qtyunitop,SUM( qty_berat ) AS qtyberatop FROM opname_gb_detail 
-    INNER JOIN opname_gb ON opname_gb.kode_opname_gb=opname_gb_detail.kode_opname_gb
-    WHERE bulan = '$bulan' AND tahun = '$tahun' GROUP BY opname_gb_detail.kode_barang ) op ON (master_barang_pembelian.kode_barang = op.kode_barang)
-
     LEFT JOIN (SELECT 
     detail_pemasukan_gb.kode_barang,
     SUM( IF( departemen = 'Pembelian' , qty_unit ,0 )) AS qtypemb1,
     SUM( IF( departemen = 'Lainnya' , qty_unit ,0 )) AS qtylainnya1,
+    SUM( IF( departemen = 'Retur Pengganti' , qty_unit ,0 )) AS qtypengganti1,
 
     SUM( IF( departemen = 'Pembelian' , qty_berat ,0 )) AS qtypemb2,
     SUM( IF( departemen = 'Lainnya' , qty_berat ,0 )) AS qtylainnya2,
+    SUM( IF( departemen = 'Retur Pengganti' , qty_berat ,0 )) AS qtypengganti2,
     SUM( (IF( departemen = 'Pembelian' , qty_berat ,0 )) + (IF( departemen = 'Lainnya' , qty_berat ,0 ))) AS pemasukanqtyberat
     FROM 
     detail_pemasukan_gb 
@@ -214,18 +205,20 @@ class Model_gudangbahan extends CI_Model
     SUM( IF( kode_dept = 'PDQC' , qty_unit ,0 )) AS qtypdqc3,
     SUM( IF( kode_dept = 'Susut' , qty_unit ,0 )) AS qtysus3,
     SUM( IF( kode_dept = 'Lainnya' , qty_unit ,0 )) AS qtylain3,
+    SUM( IF( kode_dept = 'Cabang' , qty_unit ,0 )) AS qtycabang3,
 
     SUM( IF( kode_dept = 'Produksi' , qty_berat ,0 )) AS qtyprod4,
     SUM( IF( kode_dept = 'Seasoning' , qty_berat ,0 )) AS qtyseas4,
     SUM( IF( kode_dept = 'PDQC' , qty_berat ,0 )) AS qtypdqc4,
     SUM( IF( kode_dept = 'Susut' , qty_berat ,0 )) AS qtysus4,
-    SUM( IF( kode_dept = 'Lainnya' , qty_berat ,0 )) AS qtylain4
+    SUM( IF( kode_dept = 'Lainnya' , qty_berat ,0 )) AS qtylain4,
+    SUM( IF( kode_dept = 'Cabang' , qty_berat ,0 )) AS qtycabang4
     FROM detail_pengeluaran_gb 
     INNER JOIN pengeluaran_gb ON detail_pengeluaran_gb.nobukti_pengeluaran = pengeluaran_gb.nobukti_pengeluaran 
     WHERE MONTH(tgl_pengeluaran) = '$bulan' AND YEAR(tgl_pengeluaran) = '$tahun' 
     GROUP BY detail_pengeluaran_gb.kode_barang) gk ON (master_barang_pembelian.kode_barang = gk.kode_barang)
 
-    WHERE kode_dept = 'GDB'  AND master_barang_pembelian.kode_kategori != 'K002' 
+    WHERE kode_dept = 'GDB' AND master_barang_pembelian.kode_kategori != 'K002' 
     ORDER BY master_barang_pembelian.kode_barang ASC
     ";
     return $this->db->query($query);

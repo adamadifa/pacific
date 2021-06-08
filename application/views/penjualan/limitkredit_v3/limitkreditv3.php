@@ -280,7 +280,7 @@
                       ?>
                     </td>
                     <td>
-                      <a href="<?php echo base_url(); ?>penjualan/cetak_ajuankredit/<?php echo $d['no_pengajuan']; ?>" class="btn btn-primary btn-sm"><i class="fa fa-print"></i></a>
+                      <a href="<?php echo base_url(); ?>penjualan/cetak_ajuankredit_v3/<?php echo $d['no_pengajuan']; ?>" class="btn btn-primary btn-sm"><i class="fa fa-print"></i></a>
                       <?php if ($d['status'] == 0) { ?>
                         <a href="#" data-href="<?php echo base_url(); ?>penjualan/hapuspengajuanlimitv2/<?php echo $d['no_pengajuan']; ?>" class="btn btn-red btn-sm hapus"><i class="fa fa-trash-o"></i></a>
                       <?php } ?>

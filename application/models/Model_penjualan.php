@@ -7082,9 +7082,26 @@ class Model_penjualan extends CI_Model
     WHERE no_pengajuan ='$no_pengajuan'");
   }
 
+  function getPengajuankreditV3($no_pengajuan)
+  {
+    return $this->db->query("SELECT no_pengajuan,tgl_pengajuan,lk.kode_pelanggan,nama_pelanggan,latitude,longitude,pelanggan.kode_cabang,
+    nik,type_outlet,nama_karyawan,hari,alamat_pelanggan,alamat_toko,pelanggan.no_hp,lk.jatuhtempo,cara_pembayaran,
+    kepemilikan,histori_transaksi,omset_toko,lama_topup,lama_usaha,lama_langganan,jaminan,jml_faktur,pelanggan.limitpel,lk.jumlah,skor,
+    time_stamp,time_kacab,time_mm,time_gm,time_dirut
+    FROM pengajuan_limitkredit_v3 lk
+    INNER JOIN pelanggan ON lk.kode_pelanggan = pelanggan.kode_pelanggan
+    INNER JOIN karyawan ON pelanggan.id_sales = karyawan.id_karyawan
+    WHERE no_pengajuan ='$no_pengajuan'");
+  }
+
   function getKomentarajuankredit($no_pengajuan)
   {
     return $this->db->get_where('pengajuan_limitkredit_analisa', array('no_pengajuan' => $no_pengajuan));
+  }
+
+  function getKomentarajuankreditV3($no_pengajuan)
+  {
+    return $this->db->get_where('pengajuan_limitkredit_analisa_v3', array('no_pengajuan' => $no_pengajuan));
   }
 
   function updatekomentar()
@@ -7106,6 +7123,28 @@ class Model_penjualan extends CI_Model
       $updatekomentar = $this->db->update('pengajuan_limitkredit_analisa', $data, array('no_pengajuan' => $no_pengajuan, 'id_user' => $id_user));
     } else {
       $updatekomentar = $this->db->insert('pengajuan_limitkredit_analisa', $data);
+    }
+  }
+
+  function updatekomentarv3()
+  {
+    $id_user = $this->session->userdata('id_user');
+    $no_pengajuan = $this->input->post('no_pengajuan');
+    $komentar = $this->input->post('komentar');
+
+    $data = [
+      'no_pengajuan' => $no_pengajuan,
+      'uraian_analisa' => $komentar,
+      'id_user' => $id_user
+    ];
+
+    $cekkomentar = $this->db->get_where('pengajuan_limitkredit_analisa_v3', array('no_pengajuan' => $no_pengajuan, 'id_user' => $id_user))->num_rows();
+    echo $cekkomentar;
+
+    if ($cekkomentar >= 1) {
+      $updatekomentar = $this->db->update('pengajuan_limitkredit_analisa_v3', $data, array('no_pengajuan' => $no_pengajuan, 'id_user' => $id_user));
+    } else {
+      $updatekomentar = $this->db->insert('pengajuan_limitkredit_analisa_v3', $data);
     }
   }
 
@@ -7565,7 +7604,7 @@ class Model_penjualan extends CI_Model
         . $p
         . $k
         . $st
-		.$limitjumlah;
+        . $limitjumlah;
     } else {
       $q = "SELECT COUNT(*) as allcount
       FROM pengajuan_limitkredit_v3 p
@@ -7578,7 +7617,7 @@ class Model_penjualan extends CI_Model
         . $p
         . $k
         . $st
-		.$limitjumlah;
+        . $limitjumlah;
     }
     $query = $this->db->query($q);
     $result = $query->result_array();

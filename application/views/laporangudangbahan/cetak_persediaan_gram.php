@@ -40,6 +40,8 @@ tr:nth-child(even) {
       <th colspan="9" bgcolor="#28a745" style="color:white; font-size:14;">PEMASUKAN</th>
       <th colspan="18" bgcolor="#28a745" style="color:white; font-size:14;">PENGELUARAN</th>
       <th colspan="3" rowspan="2" bgcolor="#28a745" style="color:white; font-size:14;">SALDO AKHIR</th>
+      <th colspan="3" rowspan="2" bgcolor="#28a745" style="color:white; font-size:14;">OPNAME STOK</th>
+      <th colspan="1" rowspan="2" bgcolor="#28a745" style="color:white; font-size:14;">SELISIH</th>
     </tr>
     <tr bgcolor="red">
       <th style="color:white; font-size:14;" colspan="3">PEMBELIAN</th>
@@ -86,6 +88,10 @@ tr:nth-child(even) {
       <th bgcolor="#024a75"  style="color:white; font-size:14;">QTY</th>
       <th bgcolor="#024a75"  style="color:white; font-size:14;">HARGA</th>
       <th bgcolor="#024a75"  style="color:white; font-size:14;">JUMLAH</th>
+      <th bgcolor="#024a75"  style="color:white; font-size:14;">QTY</th>
+      <th bgcolor="#024a75"  style="color:white; font-size:14;">HARGA</th>
+      <th bgcolor="#024a75"  style="color:white; font-size:14;">JUMLAH</th>
+      <th bgcolor="#024a75"  style="color:white; font-size:14;">QTY</th>
     </tr>
   </thead>
   <tbody>
@@ -138,7 +144,11 @@ tr:nth-child(even) {
     $subjmlhretur  = 0;
     $subtotjmlhlainnyapeng = 0;
     $subtotjmlhcabang      = 0;
+    $subtotjmlhopname       = 0;
+    $totalopname       = 0;
+    $totjmlhopname       = 0;
     $subtotjmlhsusut       = 0;
+    $subtotalopname      = 0;
     $subtotsaldoakhir      = 0;
     $subtotjmlhsaldoakhir  = 0;
     
@@ -163,6 +173,7 @@ tr:nth-child(even) {
         $subtotalsusut       += $d->qtysus3;
         $subtotalretur       += $d->qtypengganti1;
         
+        $totalopname        += $d->qtyunitop;
         $totalqtysa         += $d->qtyunitsa;
         $totalpembelian     += $d->qtypemb1;
         $totallainnya       += $d->qtylainnya1;
@@ -210,9 +221,10 @@ tr:nth-child(even) {
 
       }else{
 
-        $hargasa          = $d->harga / ($d->qtyberatsa * 1000 + 0.0000000000000000000000000000000000000001);
-        $hargapemb        = $d->totalharga / ($d->qtypemb2 * 1000 + 0.00000000000000000000000000000000001);
+        $hargasa            = $d->harga / ($d->qtyberatsa * 1000 + 0.0000000000000000000000000000000000000001);
+        $hargapemb          = $d->totalharga / ($d->qtypemb2 * 1000 + 0.00000000000000000000000000000000001);
 
+        $subtotalopname        += $d->qtyberatop * 1000;
         $subtotalqtysa       += $d->qtyberatsa * 1000;
         $subtotalpembelian   += $d->qtypemb2 * 1000;
         $subtotallainnya     += $d->qtylainnya2 * 1000;
@@ -224,16 +236,17 @@ tr:nth-child(even) {
         $subtotalsusut       += $d->qtysus4 * 1000;
         $subtotalretur       += $d->qtypengganti2 * 1000;
 
-        $totalqtysa       += $d->qtyberatsa * 1000;
-        $totalpembelian   += $d->qtypemb2 * 1000;
-        $totallainnya     += $d->qtylainnya2 * 1000;
-        $totalproduksi    += $d->qtyprod4 * 1000;
-        $totalseasoning   += $d->qtyseas4 * 1000;
-        $totalpdqc        += $d->qtypdqc4 * 1000;
-        $totallainnyapeng += $d->qtylain4 * 1000;
-        $totalcabangpeng  += $d->qtycabang4 * 1000;
-        $totalsusut       += $d->qtysus4 * 1000;
-        $totalretur       += $d->qtypengganti2 * 1000;
+        $totalopname        += $d->qtyberatop * 1000;
+        $totalqtysa         += $d->qtyberatsa * 1000;
+        $totalpembelian     += $d->qtypemb2 * 1000;
+        $totallainnya       += $d->qtylainnya2 * 1000;
+        $totalproduksi      += $d->qtyprod4 * 1000;
+        $totalseasoning     += $d->qtyseas4 * 1000;
+        $totalpdqc          += $d->qtypdqc4 * 1000;
+        $totallainnyapeng   += $d->qtylain4 * 1000;
+        $totalcabangpeng    += $d->qtycabang4 * 1000;
+        $totalsusut         += $d->qtysus4 * 1000;
+        $totalretur         += $d->qtypengganti2 * 1000;
 
         
         $qtypemb2         = $d->qtypemb2 * 1000;
@@ -262,6 +275,7 @@ tr:nth-child(even) {
         $totaljmlhsa            += $jmlhsaldo;
         $totjmlhpemb            += $jmlhpemb;
         $totsaldoakhir          += $saldoakhirberat;
+        $totalopname            += $d->qtyberatop;
 
 
       }
@@ -478,7 +492,6 @@ tr:nth-child(even) {
             ?>
           </td>
         <?php } ?>
-
 
         <?php if ($d->satuan != 'KG') { ?>
           <td align="center">
@@ -981,9 +994,96 @@ tr:nth-child(even) {
             }
             ?>
           </td>
-        </tr>
-     <?php } ?>
-    <?php if ($jenis_barang != $d->jenis_barang && $d->satuan == "KG") { ?>
+        <?php } ?>
+        
+        <?php if ($d->satuan != 'KG') { ?>
+          <td align="center">
+            <?php if (!empty($d->qtyunitop)) {
+              echo uang($d->qtyunitop);
+            }
+            ?>
+          </td>
+          <td align="center">
+            <?php if (!empty($saldoakhirunit)) {
+              if ($d->qtypemb1 == '') {
+                $jmlhhargakeluarunit = ($d->harga/$qtysaldoawal);
+                echo uang($jmlhhargakeluarunit);
+              }else{
+                $jmlhhargakeluarunit =  ($jmlhpemb+$jmlhlainnya+$jmlhretur+($d->qtyunitsa * $hargasa)) / ($d->qtypemb1+$d->qtyunitsa+$d->qtypengganti1+$d->qtylainnya1);
+                echo uang($jmlhhargakeluarunit);
+              }
+            }else{
+              echo "";
+            }
+            ?>
+          </td>
+          <td align="center">
+            <?php if (!empty($saldoakhirunit)) {
+              echo uang($d->qtyunitop * $jmlhhargakeluarunit);
+            }
+            ?>
+          </td>
+        <?php } else { ?>
+          <td align="center">
+            <?php if (!empty($d->qtyberatop)) {
+              echo uang($d->qtyberatop * 1000);
+            }
+            ?>
+          </td>
+          <td align="center">
+            <?php if (!empty($saldoakhirberat)) {
+            if ($d->qtypemb2 == '') {
+                if($d->qtyberatsa != '' && !empty($d->qtyberatsa) && $d->qtyberatsa != '0'){
+                  $hargakeluarberat = ($hargasa);
+                  echo uang($hargakeluarberat);
+                }else{
+                  $hargakeluarberat = $hargapemb;
+                  echo uang($hargakeluarberat);
+                }
+              }else{
+                if($d->qtyberatsa != '' && !empty($d->qtyberatsa) && $d->qtyberatsa != '0'){
+                  $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
+                  echo uang($hargakeluarberat);
+                }else{
+                  $hargakeluarberat = $hargapemb;
+                  echo uang($hargakeluarberat);
+                }
+              }
+            }else{
+              echo "";
+            }
+            ?>
+          </td>
+          <td align="center">
+            <?php if (!empty($d->qtyberatop * 1000)) {
+              $jmlhopname             = ($d->qtyberatop * 1000) * $hargakeluarberat;
+              $subtotsaldoakhir       += $d->qtyberatop;
+              $subtotjmlhopname       += $jmlhopname;
+              $totjmlhopname          += $jmlhopname;
+              echo uang($jmlhopname);
+            }else{
+              echo "";
+            }
+            ?>
+          </td>
+        <?php } ?>
+        <?php if ($d->satuan != 'KG') { ?>
+          <td align="center">
+            <?php if (!empty($d->qtyunitop)) {
+              echo uang($saldoakhirunit-$d->qtyunitop);
+            }
+            ?>
+          </td>
+        <?php } else { ?>
+          <td align="center">
+            <?php if (!empty($d->qtyberatop)) {
+              echo uang(($d->qtyberatop * 1000)-($saldoakhirberat));
+            }
+            ?>
+          </td>
+        <?php } ?>
+      </tr>
+      <?php if ($jenis_barang != $d->jenis_barang && $d->satuan == "KG") { ?>
       <tr bgcolor="#024a75">
         <th colspan="4" style="color:white; font-size:14;">SUBTOTAL <?php echo $d->jenis_barang;?></th>
 
@@ -1174,11 +1274,31 @@ tr:nth-child(even) {
           }
           ?>
         </th>
+        <th align="center" style="color:white; font-size:14;">
+          <?php if (!empty($subtotalopname)) {
+            echo uang($subtotalopname);
+          } else {
+            echo "0";
+          }
+          ?>
+        </th>
+        <th></th>
+        <th align="center" style="color:white; font-size:14;">
+          <?php if (!empty($subtotjmlhopname)) {
+            echo uang($subtotjmlhopname);
+          } else {
+            echo "0";
+          }
+          ?>
+        </th>
+        <th></th>
       </tr>
     <?php 
+      $subtotalopname  = 0;
       $subtotaljmlhsa  = 0;
       $subtotalqtysa  = 0;
       $subtotalpembelian  = 0;
+      $subtotjmlhopname  = 0;
       $subtotallainnya  = 0;
       $subtotjmlhlainnya  = 0;
       $subtotalproduksi  = 0;
@@ -1389,6 +1509,24 @@ tr:nth-child(even) {
         }
         ?>
       </th>
+      <th align="center" style="background:red; color:white; font-size:14;">
+        <?php if (!empty($totalopname)) {
+          echo uang($totalopname);
+        } else {
+          echo "0";
+        }
+        ?>
+      </th>
+      <th style="background:red;"></th>
+      <th align="center" style="background:red; color:white; font-size:14;">
+        <?php if (!empty($totjmlhopname)) {
+          echo uang($totjmlhopname);
+        } else {
+          echo "0";
+        }
+        ?>
+      </th>
+      <th style="background:red;"></th>
     </tr>
   </tbody>
 </table>

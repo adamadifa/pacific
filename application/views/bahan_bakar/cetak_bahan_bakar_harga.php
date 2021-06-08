@@ -3,7 +3,7 @@
 function uang($nilai)
 {
 
-  return number_format($nilai, 0, ',', '.');
+  return number_format($nilai,2, ',', '.');
 }
 // error_reporting(0);
 ?>
