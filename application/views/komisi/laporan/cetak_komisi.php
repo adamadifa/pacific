@@ -20,45 +20,47 @@ function formatnumber($nilai)
       <th rowspan="3">NO</th>
       <th rowspan="3">ID KARYAWAN</th>
       <th rowspan="3">NAMA KARYAWAN</th>
-      <th colspan="3">TARGET & REALISASI BB & DEP</th>
-      <th colspan="3">TARGET & REALISASI DS </th>
-      <th colspan="3">TARGET & REALISASI SP </th>
-      <th colspan="3">TARGET & REALISASI AR </th>
-      <th colspan="3">TARGET & REALISASI AS,AB,CG5</th>
-      <th rowspan="3">TOTAL POIN</th>
-      <th rowspan="2" colspan="2">COLLECTION</th>
-      <th rowspan="3">PENALTY</th>
+      <th colspan="3" style="background-color: #35ce35;">TARGET & REALISASI BB & DEP</th>
+      <th colspan="3" style="background-color: #ffcb00;">TARGET & REALISASI DS </th>
+      <th colspan="3" style="background-color: #058cbe;">TARGET & REALISASI SP </th>
+      <th colspan="3" style="background-color: #ce3ae4;">TARGET & REALISASI AR </th>
+      <th colspan="3" style="background-color: #ff9b0d;">TARGET & REALISASI AS,AB,CG5</th>
+      <th rowspan="3" style="background-color: #ff570d;">TOTAL POIN</th>
+      <th rowspan="2" colspan="2" style="background-color: #9e9895;">CASH IN</th>
+      <th rowspan="2" colspan="2" style="background-color: #ffd83e;">COLLECTION</th>
+      <th rowspan="3" style="background-color: #ffd83e;">OVER DUE</th>
+      <th rowspan="3" style="background-color: #ff570d;">PENALTY</th>
       <th rowspan="3">POIN AKHIR</th>
-      <th rowspan="2" colspan="2">CASH IN</th>
+
 
     </tr>
     <tr style="text-align: center;">
-      <th colspan="3">40</th>
-      <th colspan="3">7.5</th>
-      <th colspan="3">15</th>
-      <th colspan="3">22.5</th>
-      <th colspan="3">15</th>
+      <th colspan="3" style="background-color: #35ce35;">40</th>
+      <th colspan="3" style="background-color: #ffcb00;">7.5</th>
+      <th colspan="3" style="background-color: #058cbe;">15</th>
+      <th colspan="3" style="background-color: #ce3ae4;">22.5</th>
+      <th colspan="3" style="background-color: #ff9b0d;">15</th>
     </tr>
     <tr>
-      <th>TARGET</th>
-      <th>REALISASI</th>
-      <th>POIN</th>
-      <th>TARGET</th>
-      <th>REALISASI</th>
-      <th>POIN</th>
-      <th>TARGET</th>
-      <th>REALISASI</th>
-      <th>POIN</th>
-      <th>TARGET</th>
-      <th>REALISASI</th>
-      <th>POIN</th>
-      <th>TARGET</th>
-      <th>REALISASI</th>
-      <th>POIN</th>
-      <th>TARGET</th>
-      <th>REALISASI</th>
-      <th>TARGET</th>
-      <th>REALISASI</th>
+      <th style="background-color: #35ce35;">TARGET</th>
+      <th style="background-color: #35ce35;">REALISASI</th>
+      <th style="background-color: #35ce35;">POIN</th>
+      <th style="background-color: #ffcb00;">TARGET</th>
+      <th style="background-color: #ffcb00;">REALISASI</th>
+      <th style="background-color: #ffcb00;">POIN</th>
+      <th style="background-color: #058cbe;">TARGET</th>
+      <th style="background-color: #058cbe;">REALISASI</th>
+      <th style="background-color: #058cbe;">POIN</th>
+      <th style="background-color: #ce3ae4;">TARGET</th>
+      <th style="background-color: #ce3ae4;">REALISASI</th>
+      <th style="background-color: #ce3ae4;">POIN</th>
+      <th style="background-color: #ff9b0d;">TARGET</th>
+      <th style="background-color: #ff9b0d;">REALISASI</th>
+      <th style="background-color: #ff9b0d;">POIN</th>
+      <th style="background-color: #9e9895;">TARGET</th>
+      <th style="background-color: #9e9895;">REALISASI</th>
+      <th style="background-color: #ffd83e;">TARGET</th>
+      <th style="background-color: #ffd83e;">REALISASI</th>
     </tr>
   </thead>
   <tbody style="font-size:14px !important">
@@ -119,28 +121,30 @@ function formatnumber($nilai)
         <td><?php echo $no; ?></td>
         <td><?php echo $d->id_karyawan; ?></td>
         <td><?php echo $d->nama_karyawan; ?></td>
-        <td align="right"><?php echo formatnumber($d->target_BB_DP); ?></td>
-        <td align="right"><?php echo formatnumber($d->realisasi_BB_DP); ?></td>
-        <td align="right"><?php echo formatnumber($hasilpoinBBDP); ?></td>
-        <td align="right"><?php echo formatnumber($d->target_DS); ?></td>
-        <td align="right"><?php echo formatnumber($d->realisasi_DS); ?></td>
-        <td align="right"><?php echo formatnumber($hasilpoinDS); ?></td>
-        <td align="right"><?php echo formatnumber($d->target_SP); ?></td>
-        <td align="right"><?php echo formatnumber($d->realisasi_SP); ?></td>
-        <td align="right"><?php echo formatnumber($hasilpoinSP); ?></td>
-        <td align="right"><?php echo formatnumber($d->target_AR); ?></td>
-        <td align="right"><?php echo formatnumber($d->realisasi_AR); ?></td>
-        <td align="right"><?php echo formatnumber($hasilpoinAR); ?></td>
-        <td align="right"><?php echo formatnumber($d->target_AB_AS_CG5); ?></td>
-        <td align="right"><?php echo formatnumber($d->realisasi_AB_AS_CG5); ?></td>
-        <td align="right"><?php echo formatnumber($hasilpoinAB_AS_CG5); ?></td>
-        <td align="right"><?php echo formatnumber($totalpoin); ?></td>
-        <td align="right"><?php echo formatnumber($d->target_collection); ?></td>
-        <td align="right"><?php echo formatnumber($d->realisasi_collection); ?></td>
-        <td align="right"><?php echo formatnumber($penalty); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($d->target_BB_DP); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($d->realisasi_BB_DP); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($hasilpoinBBDP); ?></td>
+        <td align="right" style="background-color: #ffcb00;"><?php echo formatnumber($d->target_DS); ?></td>
+        <td align="right" style="background-color: #ffcb00;"><?php echo formatnumber($d->realisasi_DS); ?></td>
+        <td align="right" style="background-color: #ffcb00;"><?php echo formatnumber($hasilpoinDS); ?></td>
+        <td align="right" style="background-color: #058cbe;"><?php echo formatnumber($d->target_SP); ?></td>
+        <td align="right" style="background-color: #058cbe;"><?php echo formatnumber($d->realisasi_SP); ?></td>
+        <td align="right" style="background-color: #058cbe;"><?php echo formatnumber($hasilpoinSP); ?></td>
+        <td align="right" style="background-color: #ce3ae4;"><?php echo formatnumber($d->target_AR); ?></td>
+        <td align="right" style="background-color: #ce3ae4;"><?php echo formatnumber($d->realisasi_AR); ?></td>
+        <td align="right" style="background-color: #ce3ae4;"><?php echo formatnumber($hasilpoinAR); ?></td>
+        <td align="right" style="background-color: #ff9b0d;"><?php echo formatnumber($d->target_AB_AS_CG5); ?></td>
+        <td align="right" style="background-color: #ff9b0d;"><?php echo formatnumber($d->realisasi_AB_AS_CG5); ?></td>
+        <td align="right" style="background-color: #ff9b0d;"><?php echo formatnumber($hasilpoinAB_AS_CG5); ?></td>
+        <td align="right" style="background-color: #ff570d;"><?php echo formatnumber($totalpoin); ?></td>
+        <td align="right" style="background-color: #9e9895;"><?php echo formatnumber($d->target_cashin); ?></td>
+        <td align="right" style="background-color: #9e9895;"><?php echo formatnumber($d->realisasi_cashin); ?></td>
+        <td align="right" style="background-color: #ffd83e;"><?php echo formatnumber($d->target_collection); ?></td>
+        <td align="right" style="background-color: #ffd83e;"><?php echo formatnumber($d->realisasi_collection); ?></td>
+        <td align="right" style="background-color: #ffd83e;"><?php echo formatnumber($d->sisapiutang); ?></td>
+        <td align="right" style="background-color: #ff570d;"><?php echo formatnumber($penalty); ?></td>
         <td align="right"><?php echo formatnumber($poinakhir); ?></td>
-        <td align="right"><?php echo formatnumber($d->target_cashin); ?></td>
-        <td align="right"><?php echo formatnumber($d->realisasi_cashin); ?></td>
+
       </tr>
     <?php
       $no++;

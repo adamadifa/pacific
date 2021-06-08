@@ -171,25 +171,7 @@
 </head>
 
 <body class="antialiased">
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var s, t;
-      s = document.createElement('script');
-      s.type = 'text/javascript';
-      s.src = 'https://s3-ap-southeast-1.amazonaws.com/qiscus-sdk/public/qismo/qismo-v4.js';
-      s.async = true;
-      s.onload = s.onreadystatechange = function() {
-        new Qismo('pooma-pqa4gnjnpzpwwqj', {
-          options: {
-            channel_id: 119819,
-            extra_fields: [],
-          }
-        });
-      }
-      t = document.getElementsByTagName('script')[0];
-      t.parentNode.insertBefore(s, t);
-    });
-  </script>
+
   <div class="page">
     <header class="navbar navbar-expand-md navbar-dark navbar-fixed-top">
       <div class="container-fluid">
