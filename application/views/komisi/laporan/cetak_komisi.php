@@ -73,13 +73,24 @@ function formatnumber($nilai)
       $poinAR = 22.5;
       $poinASABCG5 = 15;
 
-      $ratioBBDP = $d->realisasi_BB_DP / $d->target_BB_DP;
+      if (empty($d->target_BB_DP)) {
+        $ratioBBDP = 0;
+      } else {
+        $ratioBBDP = $d->realisasi_BB_DP / $d->target_BB_DP;
+      }
+
+
       if ($ratioBBDP > 1) {
         $hasilpoinBBDP =  $poinBBDP;
       } else {
         $hasilpoinBBDP = $ratioBBDP * $poinBBDP;
       }
 
+      if (empty($d->target_DS)) {
+        $ratioDS = 0;
+      } else {
+        $ratioDS = $d->realisasi_DS / $d->target_DS;
+      }
       $ratioDS = $d->realisasi_DS / $d->target_DS;
       if ($ratioDS > 1) {
         $hasilpoinDS =  $poinDS;
@@ -87,19 +98,38 @@ function formatnumber($nilai)
         $hasilpoinDS = $ratioDS * $poinDS;
       }
 
-      $ratioSP = $d->realisasi_SP / $d->target_SP;
+      if (empty($d->target_SP)) {
+        $ratioSP = 0;
+      } else {
+        $ratioSP = $d->realisasi_SP / $d->target_SP;
+      }
+
       if ($ratioSP > 1) {
         $hasilpoinSP =  $poinSP;
       } else {
         $hasilpoinSP = $ratioSP * $poinSP;
       }
 
-      $ratioAR = $d->realisasi_AR / $d->target_AR;
+      if (empty($d->target_AR)) {
+        $ratioAR = 0;
+      } else {
+        $ratioAR = $d->realisasi_AR / $d->target_AR;
+      }
+
+
+
       if ($ratioAR > 1) {
         $hasilpoinAR =  $poinAR;
       } else {
         $hasilpoinAR = $ratioAR * $poinAR;
       }
+
+      if (empty($d->target_AB_AS_CG5)) {
+        $ratioAB_AS_CG5 = 0;
+      } else {
+        $ratioAB_AS_CG5 = $d->realisasi_AB_AS_CG5 / $d->target_AB_AS_CG5;
+      }
+
 
       $ratioAB_AS_CG5 = $d->realisasi_AB_AS_CG5 / $d->target_AB_AS_CG5;
       if ($ratioAB_AS_CG5 > 1) {
@@ -115,7 +145,7 @@ function formatnumber($nilai)
         $penalty = 0;
       }
 
-      $poinakhir = $totalpoin - $penalty;
+      $poinakhir = $totalpoin + $penalty;
     ?>
       <tr>
         <td><?php echo $no; ?></td>

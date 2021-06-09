@@ -115,7 +115,7 @@ if ($pelanggan['kode_pelanggan'] != "") {
 
 
 			$total = $total + $r->jumlah;
-			$jatuhtempo = date('Y-m-d', strtotime('+' . $r->jt . 'day', strtotime($r->tgltransaksi)));
+			$jatuhtempo = date('Y-m-d', strtotime('+' . $r->jt + 1 . 'day', strtotime($r->tgltransaksi)));
 			$hariini = date('Y-m-d');
 			if ($hariini >= $jatuhtempo or empty($r->jt)) {
 				$color = "white";
