@@ -194,6 +194,9 @@ class Laporanpenjualan extends CI_Controller
       if ($jl == "rekap") {
         $data['penjualan']  = $this->Model_laporanpenjualan->list_penjualanpelanggan($dari, $sampai, $cabang, $salesman, $pelanggan, $jt)->result();
         $this->load->view('penjualan/laporan/cetak_penjualanpelanggan', $data);
+      } else if ($jl == "satubaris") {
+        $data['penjualan']  = $this->Model_laporanpenjualan->list_penjualansatubaris($dari, $sampai, $cabang, $salesman, $pelanggan, $jt, $status)->result();
+        $this->load->view('penjualan/laporan/cetak_penjualansatubaris', $data);
       } else {
         $data['penjualan']  = $this->Model_laporanpenjualan->list_penjualan($dari, $sampai, $cabang, $salesman, $pelanggan, $jt, $status)->result();
         $this->load->view('penjualan/laporan/cetak_penjualan', $data);

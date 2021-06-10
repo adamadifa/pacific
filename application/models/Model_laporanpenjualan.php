@@ -3441,4 +3441,78 @@ GROUP BY
 	{
 		return $this->db->get('master_barang');
 	}
+
+	function list_penjualansatubaris($dari, $sampai, $cabang = null, $salesman = null, $pelanggan = null, $jt = null, $status = null)
+	{
+		if ($cabang  != "") {
+			$cabang = "AND karyawan.kode_cabang = '" . $cabang . "' ";
+		}
+
+		if ($salesman != "") {
+			$salesman = "AND penjualan.id_karyawan = '" . $salesman . "' ";
+		}
+
+		if ($pelanggan != "") {
+			$pelanggan = "AND penjualan.kode_pelanggan = '" . $pelanggan . "' ";
+		}
+
+		if ($jt != "") {
+			$jt = "AND penjualan.jenistransaksi = '" . $jt . "'";
+		}
+
+		if ($status != "") {
+			if ($status == "pending") {
+				$sts = 1;
+				$st = "AND penjualan.status = '" . $sts . "'";
+			} else {
+				$st = "";
+			}
+		} else {
+			$st = "";
+		}
+
+		$query = "SELECT 
+		dp.no_fak_penj,tgltransaksi,p.kode_pelanggan,pl.nama_pelanggan,k.nama_karyawan,
+		pl.pasar,pl.hari,
+			SUM(IF(kode_produk = 'AB',ROUND((jumlah/b.isipcsdus),2),0)) as AB,
+			SUM(IF(kode_produk = 'AR',ROUND((jumlah/b.isipcsdus),2),0)) as AR,
+			SUM(IF(kode_produk = 'AS',ROUND((jumlah/b.isipcsdus),2),0)) as `AS`,
+			SUM(IF(kode_produk = 'BB',ROUND((jumlah/b.isipcsdus),2),0)) as BB,
+			SUM(IF(kode_produk = 'CG',ROUND((jumlah/b.isipcsdus),2),0)) as CG,
+			SUM(IF(kode_produk = 'CGG',ROUND((jumlah/b.isipcsdus),2),0)) as CGG,
+			SUM(IF(kode_produk = 'DEP',ROUND((jumlah/b.isipcsdus),2),0)) as DEP,
+			SUM(IF(kode_produk = 'DK',ROUND((jumlah/b.isipcsdus),2),0)) as DK,
+			SUM(IF(kode_produk = 'DS',ROUND((jumlah/b.isipcsdus),2),0)) as DS,
+			SUM(IF(kode_produk = 'SP',ROUND((jumlah/b.isipcsdus),2),0)) as SP,
+			SUM(IF(kode_produk = 'BBP',ROUND((jumlah/b.isipcsdus),2),0)) as BBP,
+			SUM(IF(kode_produk = 'SPP',ROUND((jumlah/b.isipcsdus),2),0)) as SPP,
+			SUM(IF(kode_produk = 'CG5',ROUND((jumlah/b.isipcsdus),2),0)) as CG5,
+		SUM(p.total) as totalpenjualan,
+		SUM((ifnull( r.totalpf, 0 ) - ifnull( r.totalgb, 0 ) )) AS totalretur
+		
+		FROM detailpenjualan dp
+		INNER JOIN penjualan p ON dp.no_fak_penj = p.no_fak_penj
+		INNER JOIN karyawan k ON p.id_karyawan = k.id_karyawan
+		INNER JOIN pelanggan pl ON p.kode_pelanggan = pl.kode_pelanggan
+		INNER JOIN barang b ON dp.kode_barang = b.kode_barang
+		LEFT JOIN
+		(
+				SELECT
+					retur.no_fak_penj AS no_fak_penj,
+					sum(retur.subtotal_gb) AS totalgb,
+					sum(retur.subtotal_pf) AS totalpf
+				from
+					retur
+				WHERE
+					tglretur BETWEEN '2021-04-01' AND '2021-04-30'
+				group by
+					retur.no_fak_penj
+		) r ON ( dp.no_fak_penj = r.no_fak_penj )
+		WHERE tgltransaksi BETWEEN '2021-04-01' AND '2021-04-30'
+		AND k.kode_cabang = 'BDG'
+		GROUP BY dp.no_fak_penj
+		ORDER BY p.tgltransaksi,dp.no_fak_penj";
+
+		return $this->db->query($query);
+	}
 }

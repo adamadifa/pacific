@@ -65,6 +65,7 @@
                         <select id="jenislaporan" name="jenislaporan" class="form-select">
                           <option value="">Biasa</option>
                           <option value="rekap">Rekap</option>
+                          <option value="satubaris">Format Satu Baris</option>
                         </select>
                       </div>
                     </div>
