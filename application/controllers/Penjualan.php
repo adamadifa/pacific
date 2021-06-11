@@ -2328,6 +2328,12 @@ class Penjualan extends CI_Controller
     $this->Model_penjualan->hapuspengajuanlimitv2($id);
   }
 
+  function hapuspengajuanlimitv3()
+  {
+    $id = $this->uri->segment(3);
+    $this->Model_penjualan->hapuspengajuanlimitv3($id);
+  }
+
 
   function approvallimit($rowno = 0)
   {

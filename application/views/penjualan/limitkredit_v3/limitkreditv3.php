@@ -17,7 +17,7 @@
           <h4 class="card-title">Data Pengajuan Limit Kredit Pelanggan</h4>
         </div>
         <div class="card-body">
-          <form method="POST" action="<?php echo base_url(); ?>penjualan/limitkreditv2" autocomplete="off">
+          <form method="POST" action="<?php echo base_url(); ?>penjualan/limitkreditv3" autocomplete="off">
             <?php if ($sess_cab == 'pusat') { ?>
               <div class="mb-3">
                 <select name="cabang" id="cabang" class="form-select">
@@ -282,7 +282,7 @@
                     <td>
                       <a href="<?php echo base_url(); ?>penjualan/cetak_ajuankredit_v3/<?php echo $d['no_pengajuan']; ?>" class="btn btn-primary btn-sm"><i class="fa fa-print"></i></a>
                       <?php if ($d['status'] == 0) { ?>
-                        <a href="#" data-href="<?php echo base_url(); ?>penjualan/hapuspengajuanlimitv2/<?php echo $d['no_pengajuan']; ?>" class="btn btn-red btn-sm hapus"><i class="fa fa-trash-o"></i></a>
+                        <a href="#" data-href="<?php echo base_url(); ?>penjualan/hapuspengajuanlimitv3/<?php echo $d['no_pengajuan']; ?>" class="btn btn-red btn-sm hapus"><i class="fa fa-trash-o"></i></a>
                       <?php } ?>
                     </td>
                   </tr>
