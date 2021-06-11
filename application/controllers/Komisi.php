@@ -285,6 +285,7 @@ class Komisi extends CI_Controller
     $data['cabang'] = $cabang;
     $data['bln'] = $bulan;
     $data['tahun'] = $tahun;
+    $data['barang'] = $this->Model_barang->getMasterproduk()->result();
     $data['bulan'] = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
     $data['komisi'] = $this->Model_komisi->cetak_komisi($cabang, $bulan, $tahun)->result();
     //var_dump($data['komisi']);
