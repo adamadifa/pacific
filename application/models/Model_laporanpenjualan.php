@@ -3445,25 +3445,25 @@ GROUP BY
 	function list_penjualansatubaris($dari, $sampai, $cabang = null, $salesman = null, $pelanggan = null, $jt = null, $status = null)
 	{
 		if ($cabang  != "") {
-			$cabang = "AND karyawan.kode_cabang = '" . $cabang . "' ";
+			$cabang = "AND k.kode_cabang = '" . $cabang . "' ";
 		}
 
 		if ($salesman != "") {
-			$salesman = "AND penjualan.id_karyawan = '" . $salesman . "' ";
+			$salesman = "AND p.id_karyawan = '" . $salesman . "' ";
 		}
 
 		if ($pelanggan != "") {
-			$pelanggan = "AND penjualan.kode_pelanggan = '" . $pelanggan . "' ";
+			$pelanggan = "AND p.kode_pelanggan = '" . $pelanggan . "' ";
 		}
 
 		if ($jt != "") {
-			$jt = "AND penjualan.jenistransaksi = '" . $jt . "'";
+			$jt = "AND p.jenistransaksi = '" . $jt . "'";
 		}
 
 		if ($status != "") {
 			if ($status == "pending") {
 				$sts = 1;
-				$st = "AND penjualan.status = '" . $sts . "'";
+				$st = "AND p.status = '" . $sts . "'";
 			} else {
 				$st = "";
 			}
@@ -3472,46 +3472,191 @@ GROUP BY
 		}
 
 		$query = "SELECT 
-		dp.no_fak_penj,tgltransaksi,p.kode_pelanggan,pl.nama_pelanggan,k.nama_karyawan,
+		p.no_fak_penj,
+		tgltransaksi,
+		p.kode_pelanggan,pl.nama_pelanggan,
+		p.id_karyawan,k.nama_karyawan,
 		pl.pasar,pl.hari,
-			SUM(IF(kode_produk = 'AB',ROUND((jumlah/b.isipcsdus),2),0)) as AB,
-			SUM(IF(kode_produk = 'AR',ROUND((jumlah/b.isipcsdus),2),0)) as AR,
-			SUM(IF(kode_produk = 'AS',ROUND((jumlah/b.isipcsdus),2),0)) as `AS`,
-			SUM(IF(kode_produk = 'BB',ROUND((jumlah/b.isipcsdus),2),0)) as BB,
-			SUM(IF(kode_produk = 'CG',ROUND((jumlah/b.isipcsdus),2),0)) as CG,
-			SUM(IF(kode_produk = 'CGG',ROUND((jumlah/b.isipcsdus),2),0)) as CGG,
-			SUM(IF(kode_produk = 'DEP',ROUND((jumlah/b.isipcsdus),2),0)) as DEP,
-			SUM(IF(kode_produk = 'DK',ROUND((jumlah/b.isipcsdus),2),0)) as DK,
-			SUM(IF(kode_produk = 'DS',ROUND((jumlah/b.isipcsdus),2),0)) as DS,
-			SUM(IF(kode_produk = 'SP',ROUND((jumlah/b.isipcsdus),2),0)) as SP,
-			SUM(IF(kode_produk = 'BBP',ROUND((jumlah/b.isipcsdus),2),0)) as BBP,
-			SUM(IF(kode_produk = 'SPP',ROUND((jumlah/b.isipcsdus),2),0)) as SPP,
-			SUM(IF(kode_produk = 'CG5',ROUND((jumlah/b.isipcsdus),2),0)) as CG5,
-		SUM(p.total) as totalpenjualan,
-		SUM((ifnull( r.totalpf, 0 ) - ifnull( r.totalgb, 0 ) )) AS totalretur
+		AB,AR,`AS`,BB,CG,CGG,DEP,DK,DS,SP,BBP,SPP,CG5,
+	
+		p.subtotal as totalbruto,
+		(ifnull( r.totalpf, 0 ) - ifnull( r.totalgb, 0 ) ) AS totalretur,
+		p.penyharga AS penyharga,
+		p.potaida as potaida,
+		p.potswan as potswan,
+		p.potstick as potstick,
+		p.potsp as potsp,
+		p.potongan as potongan,
+		p.potistimewa,
+		p.subtotal,
+		 (ifnull( p.total, 0 ) - ( ifnull( r.totalpf, 0 ) - ifnull( r.totalgb, 0))) as totalnetto,
+		totalbayar,
+		p.jenistransaksi,
+		p.status_lunas,
+		lastpayment
 		
-		FROM detailpenjualan dp
-		INNER JOIN penjualan p ON dp.no_fak_penj = p.no_fak_penj
-		INNER JOIN karyawan k ON p.id_karyawan = k.id_karyawan
-		INNER JOIN pelanggan pl ON p.kode_pelanggan = pl.kode_pelanggan
-		INNER JOIN barang b ON dp.kode_barang = b.kode_barang
+		FROM penjualan p
+		LEFT JOIN (
+			SELECT dp.no_fak_penj,
+			SUM(IF(kode_produk = 'AB',jumlah,0)) as AB,
+			SUM(IF(kode_produk = 'AR',jumlah,0)) as AR,
+			SUM(IF(kode_produk = 'AS',jumlah,0)) as `AS`,
+			SUM(IF(kode_produk = 'BB',jumlah,0)) as BB,
+			SUM(IF(kode_produk = 'CG',jumlah,0)) as CG,
+			SUM(IF(kode_produk = 'CGG',jumlah,0)) as CGG,
+			SUM(IF(kode_produk = 'DEP',jumlah,0)) as DEP,
+			SUM(IF(kode_produk = 'DK',jumlah,0)) as DK,
+			SUM(IF(kode_produk = 'DS',jumlah,0)) as DS,
+			SUM(IF(kode_produk = 'SP',jumlah,0)) as SP,
+			SUM(IF(kode_produk = 'BBP',jumlah,0)) as BBP,
+			SUM(IF(kode_produk = 'SPP',jumlah,0)) as SPP,
+			SUM(IF(kode_produk = 'CG5',jumlah,0)) as CG5
+		
+			FROM detailpenjualan dp 
+			INNER JOIN barang b ON dp.kode_barang = b.kode_barang
+			GROUP BY dp.no_fak_penj
+		) dp ON (p.no_fak_penj = dp.no_fak_penj)
+		
+		LEFT JOIN (
+			SELECT hb.no_fak_penj,
+			MAX(tglbayar) as lastpayment,
+			SUM(bayar) as totalbayar
+			FROM historibayar hb
+			GROUP BY hb.no_fak_penj
+		) hb ON (p.no_fak_penj = hb.no_fak_penj)
+		
 		LEFT JOIN
 		(
 				SELECT
 					retur.no_fak_penj AS no_fak_penj,
 					sum(retur.subtotal_gb) AS totalgb,
 					sum(retur.subtotal_pf) AS totalpf
-				from
+				FROM
 					retur
 				WHERE
-					tglretur BETWEEN '2021-04-01' AND '2021-04-30'
-				group by
+					tglretur
+				GROUP BY
 					retur.no_fak_penj
-		) r ON ( dp.no_fak_penj = r.no_fak_penj )
-		WHERE tgltransaksi BETWEEN '2021-04-01' AND '2021-04-30'
-		AND k.kode_cabang = 'BDG'
-		GROUP BY dp.no_fak_penj
-		ORDER BY p.tgltransaksi,dp.no_fak_penj";
+		) r ON ( p.no_fak_penj = r.no_fak_penj )
+		INNER JOIN karyawan k ON p.id_karyawan = k.id_karyawan
+		INNER JOIN pelanggan pl ON p.kode_pelanggan = pl.kode_pelanggan
+		WHERE tgltransaksi BETWEEN '$dari' AND '$sampai'"
+			. $cabang
+			. $salesman
+			. $pelanggan
+			. $jt
+			. $st . "
+		ORDER BY tgltransaksi,p.no_fak_penj ASC";
+
+		return $this->db->query($query);
+	}
+
+
+	function list_penjualankomisi($dari, $sampai, $cabang = null, $salesman = null, $pelanggan = null, $jt = null, $status = null)
+	{
+		if ($cabang  != "") {
+			$cabang = "AND k.kode_cabang = '" . $cabang . "' ";
+		}
+
+		if ($salesman != "") {
+			$salesman = "AND p.id_karyawan = '" . $salesman . "' ";
+		}
+
+		if ($pelanggan != "") {
+			$pelanggan = "AND p.kode_pelanggan = '" . $pelanggan . "' ";
+		}
+
+		if ($jt != "") {
+			$jt = "AND p.jenistransaksi = '" . $jt . "'";
+		}
+
+		if ($status != "") {
+			if ($status == "pending") {
+				$sts = 1;
+				$st = "AND p.status = '" . $sts . "'";
+			} else {
+				$st = "";
+			}
+		} else {
+			$st = "";
+		}
+
+		$query = "SELECT 
+		p.no_fak_penj,
+		tgltransaksi,
+		p.kode_pelanggan,pl.nama_pelanggan,
+		p.id_karyawan,k.nama_karyawan,
+		pl.pasar,pl.hari,
+		AB,AR,`AS`,BB,CG,CGG,DEP,DK,DS,SP,BBP,SPP,CG5,
+	
+		p.subtotal as totalbruto,
+		(ifnull( r.totalpf, 0 ) - ifnull( r.totalgb, 0 ) ) AS totalretur,
+		p.penyharga AS penyharga,
+		p.potaida as potaida,
+		p.potswan as potswan,
+		p.potstick as potstick,
+		p.potsp as potsp,
+		p.potongan as potongan,
+		p.potistimewa,
+		p.subtotal,
+		 (ifnull( p.total, 0 ) - ( ifnull( r.totalpf, 0 ) - ifnull( r.totalgb, 0))) as totalnetto,
+		totalbayar,
+		p.jenistransaksi,
+		p.status_lunas,
+		lastpayment
+		
+		FROM penjualan p
+		LEFT JOIN (
+			SELECT dp.no_fak_penj,
+			SUM(IF(kode_produk = 'AB',jumlah,0)) as AB,
+			SUM(IF(kode_produk = 'AR',jumlah,0)) as AR,
+			SUM(IF(kode_produk = 'AS',jumlah,0)) as `AS`,
+			SUM(IF(kode_produk = 'BB',jumlah,0)) as BB,
+			SUM(IF(kode_produk = 'CG',jumlah,0)) as CG,
+			SUM(IF(kode_produk = 'CGG',jumlah,0)) as CGG,
+			SUM(IF(kode_produk = 'DEP',jumlah,0)) as DEP,
+			SUM(IF(kode_produk = 'DK',jumlah,0)) as DK,
+			SUM(IF(kode_produk = 'DS',jumlah,0)) as DS,
+			SUM(IF(kode_produk = 'SP',jumlah,0)) as SP,
+			SUM(IF(kode_produk = 'BBP',jumlah,0)) as BBP,
+			SUM(IF(kode_produk = 'SPP',jumlah,0)) as SPP,
+			SUM(IF(kode_produk = 'CG5',jumlah,0)) as CG5
+		
+			FROM detailpenjualan dp 
+			INNER JOIN barang b ON dp.kode_barang = b.kode_barang
+			GROUP BY dp.no_fak_penj
+		) dp ON (p.no_fak_penj = dp.no_fak_penj)
+		
+		LEFT JOIN (
+			SELECT hb.no_fak_penj,
+			MAX(tglbayar) as lastpayment,
+			SUM(bayar) as totalbayar
+			FROM historibayar hb
+			GROUP BY hb.no_fak_penj
+		) hb ON (p.no_fak_penj = hb.no_fak_penj)
+		
+		LEFT JOIN
+		(
+				SELECT
+					retur.no_fak_penj AS no_fak_penj,
+					sum(retur.subtotal_gb) AS totalgb,
+					sum(retur.subtotal_pf) AS totalpf
+				FROM
+					retur
+				WHERE
+					tglretur
+				GROUP BY
+					retur.no_fak_penj
+		) r ON ( p.no_fak_penj = r.no_fak_penj )
+		INNER JOIN karyawan k ON p.id_karyawan = k.id_karyawan
+		INNER JOIN pelanggan pl ON p.kode_pelanggan = pl.kode_pelanggan
+		WHERE  p.no_fak_penj IN (SELECT no_fak_penj FROM hb_komisi WHERE tglbayar BETWEEN '$dari' AND '$sampai') AND p.status_lunas='1'"
+			. $cabang
+			. $salesman
+			. $pelanggan
+			. $jt
+			. $st . "
+		ORDER BY tgltransaksi,p.no_fak_penj ASC";
 
 		return $this->db->query($query);
 	}

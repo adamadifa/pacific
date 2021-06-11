@@ -66,6 +66,7 @@
                           <option value="">Biasa</option>
                           <option value="rekap">Rekap</option>
                           <option value="satubaris">Format Satu Baris</option>
+                          <option value="komisi">Format Komisi</option>
                         </select>
                       </div>
                     </div>

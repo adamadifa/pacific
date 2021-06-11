@@ -158,32 +158,32 @@ class Komisi extends CI_Controller
     $approve     = $this->input->post('approve');
     $status     = $this->input->post('status');
     $level      = $this->input->post('level');
-    if($level == 'kepala admin'){
+    if ($level == 'kepala admin') {
       $data = array(
         'status'  => $status,
         'ka'      => $approve
       );
-    }else if($level == 'kepala cabang'){
+    } else if ($level == 'kepala cabang') {
       $data = array(
         'status'  => $status,
         'kp'      => $approve
       );
-    }else if($level == 'manager marketing'){
+    } else if ($level == 'manager marketing') {
       $data = array(
         'status'  => $status,
         'mm'      => $approve
       );
-    }else if($level == 'general manager'){
+    } else if ($level == 'general manager') {
       $data = array(
         'status'  => $status,
         'em'      => $approve
       );
-    }else if($level == 'Administrator'){
+    } else if ($level == 'Administrator') {
       $data = array(
         'status'  => $status,
         'dr'      => $approve
       );
-    }else if($approve == '2'){
+    } else if ($approve == '2') {
       $data = array(
         'status'  => $status,
         'ka'      => '2',
@@ -193,7 +193,7 @@ class Komisi extends CI_Controller
         'dr'      => '',
       );
     }
- 
+
     $this->db->where('kode_target', $kode_target);
     $this->db->update('komisi_target', $data);
   }
@@ -285,6 +285,7 @@ class Komisi extends CI_Controller
     $data['cabang'] = $cabang;
     $data['bln'] = $bulan;
     $data['tahun'] = $tahun;
+    $data['barang'] = $this->Model_barang->getMasterproduk()->result();
     $data['bulan'] = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
     $data['komisi'] = $this->Model_komisi->cetak_komisi($cabang, $bulan, $tahun)->result();
     //var_dump($data['komisi']);

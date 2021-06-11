@@ -7,7 +7,7 @@ class Laporanpenjualan extends CI_Controller
   {
     parent::__construct();
     check_login();
-    $this->load->model(array('Model_cabang', 'Model_laporanpenjualan', 'Model_sales', 'Model_cabang', 'Model_pelanggan', 'Model_pembayaran'));
+    $this->load->model(array('Model_cabang', 'Model_laporanpenjualan', 'Model_sales', 'Model_cabang', 'Model_pelanggan', 'Model_pembayaran', 'Model_barang'));
   }
 
   function penjualan()
@@ -188,6 +188,7 @@ class Laporanpenjualan extends CI_Controller
     if (!empty($cabang)) {
       $data['salesman']  = $this->Model_sales->get_sales($salesman)->row_array();
       $data['cb']      = $this->Model_cabang->get_cabang($cabang)->row_array();
+      $data['barang'] = $this->Model_barang->getMasterproduk()->result();
       //print_r($data['cabang']);
       //die;
       $data['pelanggan']  = $this->Model_pelanggan->get_pelanggan($pelanggan)->row_array();
@@ -197,6 +198,9 @@ class Laporanpenjualan extends CI_Controller
       } else if ($jl == "satubaris") {
         $data['penjualan']  = $this->Model_laporanpenjualan->list_penjualansatubaris($dari, $sampai, $cabang, $salesman, $pelanggan, $jt, $status)->result();
         $this->load->view('penjualan/laporan/cetak_penjualansatubaris', $data);
+      } else if ($jl == "komisi") {
+        $data['penjualan']  = $this->Model_laporanpenjualan->list_penjualankomisi($dari, $sampai, $cabang, $salesman, $pelanggan, $jt, $status)->result();
+        $this->load->view('penjualan/laporan/cetak_penjualankomisi', $data);
       } else {
         $data['penjualan']  = $this->Model_laporanpenjualan->list_penjualan($dari, $sampai, $cabang, $salesman, $pelanggan, $jt, $status)->result();
         $this->load->view('penjualan/laporan/cetak_penjualan', $data);

@@ -42,7 +42,7 @@ if ($dari < '2018-09-01') {
 
     ?>
     <br>
-    LAPORAN PENJUALAN<br>
+    DATA FAKTUR LUNAS<br>
     PERIODE <?php echo DateToIndo2($dari) . " s/d " . DateToIndo2($sampai); ?><br>
 
     <?php
@@ -76,13 +76,11 @@ if ($dari < '2018-09-01') {
         <th rowspan="2" style="width: 3%;">Pasar</th>
         <th rowspan="2" style="width: 3%;">Hari</th>
         <th colspan="13" style="background-color: #19c116;">Produk</th>
-        <th rowspan="2" style="width: 3%; background-color: #ef6a0b;">Total Bruto</th>
-        <th rowspan="2" style="width: 3%; background-color: #ef6a0b;">Total Retur</th>
-        <th colspan="5" style="background-color: #a71033;">Potongan</th>
-        <th rowspan="2" style="width: 3%; background-color: #f353c1;">Pot. Istimewa</th>
+
         <th rowspan="2" style="width: 3%; background-color: #024a75;">Total Netto</th>
         <th rowspan="2" style="width: 5%; background-color: #024a75;">Tunai / Kredit</th>
         <th rowspan="2" style="width: 3%; background-color: #024a75;">Total Bayar</th>
+        <th rowspan="2" style="width: 3%; background-color: #024a75;">Sisa Bayar</th>
         <th rowspan="2" style="width: 3%; background-color: #024a75;">Last Payment</th>
         <th rowspan="2" style="width: 5%; background-color: #024a75;">Lunas / Belum Lunas</th>
 
@@ -101,11 +99,7 @@ if ($dari < '2018-09-01') {
         <th style="width: 1%;">BBP</th>
         <th style="width: 1%;">SPP</th>
         <th style="width: 1%;">CG5</th>
-        <th style="width: 1%; background-color: #a71033;">AIDA</th>
-        <th style="width: 1%; background-color: #a71033;">SWAN</th>
-        <th style="width: 1%; background-color: #a71033;">STICK</th>
-        <th style="width: 1%; background-color: #a71033;">SP</th>
-        <th style="width: 1%; background-color: #a71033;">TOTAL POTONGAN</th>
+
 
       </tr>
     </thead>
@@ -168,7 +162,7 @@ if ($dari < '2018-09-01') {
         }
       }
 
-      echo $isipcsdusDS;
+      //echo $isipcsdusDS;
       $no = 1;
       $totalbruto = 0;
       $totalretur = 0;
@@ -345,6 +339,8 @@ if ($dari < '2018-09-01') {
             if (!empty($BB)) {
               echo formatqty($BB);
             }
+
+            //echo $d->BB;
             ?>
 
           </td>
@@ -369,6 +365,8 @@ if ($dari < '2018-09-01') {
             if (!empty($DEP)) {
               echo formatqty($DEP);
             }
+
+            //echo $d->DEP;
             ?>
 
           </td>
@@ -420,29 +418,7 @@ if ($dari < '2018-09-01') {
             ?>
 
           </td>
-          <td align="right"><b><?php echo uang($d->totalbruto); ?></b></td>
-          <td align="right"><b><?php if (!empty($d->totalretur)) {
-                                  echo uang($d->totalretur);
-                                } ?></b></td>
-          <td align="right"><b><?php if (!empty($d->potaida)) {
-                                  echo uang($d->potaida);
-                                } ?></b></td>
 
-          <td align="right"><b><?php if (!empty($d->potswan)) {
-                                  echo uang($d->potswan);
-                                } ?></b></td>
-          <td align="right"><b><?php if (!empty($d->potstick)) {
-                                  echo uang($d->potstick);
-                                } ?></b></td>
-          <td align="right"><b><?php if (!empty($d->potsp)) {
-                                  echo uang($d->potsp);
-                                } ?></b></td>
-          <td align="right"><b><?php if (!empty($d->potongan)) {
-                                  echo uang($d->potongan);
-                                } ?></b></td>
-          <td align="right"><b><?php if (!empty($d->potistimewa)) {
-                                  echo uang($d->potistimewa);
-                                } ?></b></td>
           <td align="right"><b><?php if (!empty($d->totalnetto)) {
                                   echo uang($d->totalnetto);
                                 } ?></b></td>
@@ -450,6 +426,9 @@ if ($dari < '2018-09-01') {
           <td align="center"><?php echo strtoupper($d->jenistransaksi); ?></td>
           <td align="right"><b><?php if (!empty($d->totalbayar)) {
                                   echo uang($d->totalbayar);
+                                } ?></b></td>
+          <td align="right"><b><?php if (!empty($d->totalnetto - $d->totalbayar)) {
+                                  echo uang($d->totalnetto - $d->totalbayar);
                                 } ?></b></td>
           <td align="center"><?php echo DateToIndo2($d->lastpayment); ?></td>
           <td align="center" style="color: <?php echo $colortext; ?>;">
@@ -478,15 +457,40 @@ if ($dari < '2018-09-01') {
         <th align="right"><b><?php echo formatqty($totalBBP); ?></b></th>
         <th align="right"><b><?php echo formatqty($totalSPP); ?></b></th>
         <th align="right"><b><?php echo formatqty($totalCG5); ?></b></th>
-        <th align="right"><b><?php echo formatqty($totalbruto); ?></b></th>
-        <th align="right"><b><?php echo formatqty($totalretur); ?></b></th>
-        <th align="right"><b><?php echo formatqty($totalpotaida); ?></b></th>
-        <th align="right"><b><?php echo formatqty($totalpotswan); ?></b></th>
-        <th align="right"><b><?php echo formatqty($totalpotstick); ?></b></th>
-        <th align="right"><b><?php echo formatqty($totalpotsp); ?></b></th>
-        <th align="right"><b><?php echo formatqty($totalpotongan); ?></b></th>
-        <th align="right"><b><?php echo formatqty($totalpotis); ?></b></th>
         <th align="right"><b><?php echo formatqty($totalnetto); ?></b></th>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <br>
+
+  <table class="datatable3" style="width:40%" border="1">
+    <thead bgcolor="#024a75" style="color:white; font-size:12;">
+      <tr bgcolor="#024a75" style="color:white; font-size:12;">
+        <th colspan="5">SELLING OUT KOMISI</th>
+      </tr>
+      <tr>
+        <th style="background-color: #35ce35;">BB & DP</th>
+        <th style="background-color: #ffcb00;">DS</th>
+        <th style="background-color: #058cbe;">SP</th>
+        <th style="background-color: #ce3ae4;">AR</th>
+        <th style="background-color: #ff9b0d;">AB,AS,CG5</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <?php
+        $BBDP = $totalBB + $totalDEP;
+        $DS = $totalDS;
+        $SP = $totalSP;
+        $AR = $totalAR;
+        $ABASCG5 = $totalAB + $totalAS + $totalCG5;
+        ?>
+        <th align="right"><b><?php echo formatqty($BBDP); ?></b></th>
+        <th align="right"><b><?php echo formatqty($DS); ?></b></th>
+        <th align="right"><b><?php echo formatqty($SP); ?></b></th>
+        <th align="right"><b><?php echo formatqty($AR); ?></b></th>
+        <th align="right"><b><?php echo formatqty($ABASCG5); ?></b></th>
       </tr>
     </tbody>
   </table>

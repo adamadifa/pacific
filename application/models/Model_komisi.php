@@ -193,20 +193,22 @@ class Model_komisi extends CI_Model
     $sampai = date('Y-m-t', strtotime($dari));
     $query = "SELECT karyawan.id_karyawan,nama_karyawan,
     target_BB_DP,
-    realisasi_BB_DP,
+    BB,
+    DEP,
     target_DS,
-    realisasi_DS,
+    DS,
     target_SP,
-    realisasi_SP,
+    SP,
     target_AR,
-    realisasi_AR,
+    AR,
     target_AB_AS_CG5,
-    realisasi_AB_AS_CG5,
+    AB,
+    `AS`,
+    CG5,
     target_collection,
     realisasi_collection,
     target_cashin,
-    realisasi_cashin,
-    sisapiutang
+    realisasi_cashin
     FROM karyawan
         INNER JOIN (
         SELECT  id_karyawan,
@@ -263,11 +265,19 @@ class Model_komisi extends CI_Model
         
         LEFT JOIN(
         SELECT penjualan.id_karyawan, 
-        SUM(IF(kategori_komisi='KKQ01',ROUND((jumlah/barang.isipcsdus),2),0)) as realisasi_BB_DP,
-        SUM(IF(kategori_komisi='KKQ02',ROUND((jumlah/barang.isipcsdus),2),0)) as realisasi_DS,
-        SUM(IF(kategori_komisi='KKQ03',ROUND((jumlah/barang.isipcsdus),2),0)) as realisasi_SP,
-        SUM(IF(kategori_komisi='KKQ04',ROUND((jumlah/barang.isipcsdus),2),0)) as realisasi_AR,
-        SUM(IF(kategori_komisi='KKQ05',ROUND((jumlah/barang.isipcsdus),2),0)) as realisasi_AB_AS_CG5
+        SUM(IF(kode_produk = 'AB',jumlah,0)) as AB,
+        SUM(IF(kode_produk = 'AR',jumlah,0)) as AR,
+        SUM(IF(kode_produk = 'AS',jumlah,0)) as `AS`,
+        SUM(IF(kode_produk = 'BB',jumlah,0)) as BB,
+        SUM(IF(kode_produk = 'CG',jumlah,0)) as CG,
+        SUM(IF(kode_produk = 'CGG',jumlah,0)) as CGG,
+        SUM(IF(kode_produk = 'DEP',jumlah,0)) as DEP,
+        SUM(IF(kode_produk = 'DK',jumlah,0)) as DK,
+        SUM(IF(kode_produk = 'DS',jumlah,0)) as DS,
+        SUM(IF(kode_produk = 'SP',jumlah,0)) as SP,
+        SUM(IF(kode_produk = 'BBP',jumlah,0)) as BBP,
+        SUM(IF(kode_produk = 'SPP',jumlah,0)) as SPP,
+        SUM(IF(kode_produk = 'CG5',jumlah,0)) as CG5
         FROM detailpenjualan
         INNER JOIN penjualan ON detailpenjualan.no_fak_penj = penjualan.no_fak_penj
         INNER JOIN barang ON detailpenjualan.kode_barang = barang.kode_barang
@@ -276,68 +286,12 @@ class Model_komisi extends CI_Model
           FROM historibayar 
           GROUP BY no_fak_penj
         ) hb ON (hb.no_fak_penj = penjualan.no_fak_penj) 
-        INNER JOIN master_barang ON barang.kode_produk = master_barang.kode_produk
         WHERE  status_lunas ='1' AND lastpayment BETWEEN '$dari' AND '$sampai'
         GROUP BY penjualan.id_karyawan
         ) realisasi ON (karyawan.id_karyawan = realisasi.id_karyawan)
         
 
-        LEFT JOIN (
-        SELECT 
-        salesbarunew,
-        SUM((IFNULL( penjualan.total, 0 )- (IFNULL(totalpf_last,0)- IFNULL(totalgb_last,0))) - IFNULL(jmlbayar,0)) as sisapiutang
-        FROM penjualan
-        LEFT JOIN (
-          SELECT
-            retur.no_fak_penj AS no_fak_penj,
-            sum( retur.subtotal_gb ) AS totalgb_last,
-            sum( retur.subtotal_pf ) AS totalpf_last 
-          FROM
-            retur 
-          WHERE
-            tglretur <= '$sampai' 
-          GROUP BY
-            retur.no_fak_penj 
-          ) r ON ( penjualan.no_fak_penj = r.no_fak_penj )
-
-        LEFT JOIN (
-          SELECT
-            pj.no_fak_penj,
-          IF
-            ( salesbaru IS NULL, pj.id_karyawan, salesbaru ) AS salesbarunew,
-            karyawan.nama_karyawan AS nama_sales,
-          IF
-            ( cabangbaru IS NULL, karyawan.kode_cabang, cabangbaru ) AS cabangbarunew 
-          FROM
-            penjualan pj
-            INNER JOIN karyawan ON pj.id_karyawan = karyawan.id_karyawan
-            LEFT JOIN (
-            SELECT
-              MAX( id_move ) AS id_move,
-              no_fak_penj,
-              move_faktur.id_karyawan AS salesbaru,
-              karyawan.kode_cabang AS cabangbaru 
-            FROM
-              move_faktur
-              INNER JOIN karyawan ON move_faktur.id_karyawan = karyawan.id_karyawan 
-            WHERE
-              tgl_move <= '$dari' 
-            GROUP BY
-              no_fak_penj,
-              move_faktur.id_karyawan,
-              karyawan.kode_cabang 
-            ) move_fak ON ( pj.no_fak_penj = move_fak.no_fak_penj ) 
-          ) pjmove ON ( penjualan.no_fak_penj = pjmove.no_fak_penj )
-          LEFT JOIN ( 
-            SELECT no_fak_penj, sum( historibayar.bayar ) AS jmlbayar 
-            FROM historibayar 
-            WHERE tglbayar <= '$sampai' 
-            GROUP BY no_fak_penj ) hb ON ( penjualan.no_fak_penj = hb.no_fak_penj )
-          INNER JOIN pelanggan ON penjualan.kode_pelanggan = pelanggan.kode_pelanggan
-          WHERE cabangbarunew = '$cabang'  AND penjualan.jenistransaksi != 'tunai'
-          AND tgltransaksi <= '$sampai' AND (IFNULL( penjualan.total, 0 )- (IFNULL(totalpf_last,0)- IFNULL(totalgb_last,0))) - IFNULL(jmlbayar,0) !=0 AND datediff('$sampai', tgltransaksi) > (pelanggan.jatuhtempo+1)
-          GROUP BY salesbarunew
-      ) ljt ON (karyawan.id_karyawan = ljt.salesbarunew)
+       
 
     WHERE kode_cabang ='$cabang' AND nama_karyawan !='-'";
 

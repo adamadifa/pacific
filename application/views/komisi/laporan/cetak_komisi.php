@@ -28,7 +28,7 @@ function formatnumber($nilai)
       <th rowspan="3" style="background-color: #ff570d;">TOTAL POIN</th>
       <th rowspan="2" colspan="2" style="background-color: #9e9895;">CASH IN</th>
       <th rowspan="2" colspan="2" style="background-color: #ffd83e;">COLLECTION</th>
-      <th rowspan="3" style="background-color: #ffd83e;">OVER DUE</th>
+
       <th rowspan="3" style="background-color: #ff570d;">PENALTY</th>
       <th rowspan="3">POIN AKHIR</th>
 
@@ -65,6 +65,63 @@ function formatnumber($nilai)
   </thead>
   <tbody style="font-size:14px !important">
     <?php
+
+    foreach ($barang as $b) {
+
+
+      if ($b->kode_produk == "AB") {
+        $isipcsdusAB = $b->isipcsdus;
+      }
+
+      if ($b->kode_produk == "AR") {
+        $isipcsdusAR = $b->isipcsdus;
+      }
+
+      if ($b->kode_produk == "AS") {
+        $isipcsdusAS = $b->isipcsdus;
+      }
+
+      if ($b->kode_produk == "BB") {
+        $isipcsdusBB = $b->isipcsdus;
+      }
+
+      if ($b->kode_produk == "CG") {
+        $isipcsdusCG = $b->isipcsdus;
+      }
+
+      if ($b->kode_produk == "CGG") {
+        $isipcsdusCGG = $b->isipcsdus;
+      }
+
+      if ($b->kode_produk == "DEP") {
+        $isipcsdusDEP = $b->isipcsdus;
+      }
+
+      if ($b->kode_produk == "DK") {
+        $isipcsdusDK = $b->isipcsdus;
+      }
+
+      if ($b->kode_produk == "DS") {
+        $isipcsdusDS = $b->isipcsdus;
+      }
+
+      if ($b->kode_produk == "SP") {
+        $isipcsdusSP = $b->isipcsdus;
+      }
+
+      if ($b->kode_produk == "BBP") {
+        $isipcsdusBBP = $b->isipcsdus;
+      }
+
+      if ($b->kode_produk == "SPP") {
+        $isipcsdusSPP = $b->isipcsdus;
+      }
+
+      if ($b->kode_produk == "CG5") {
+        $isipcsdusCG5 = $b->isipcsdus;
+      }
+    }
+
     $no = 1;
     foreach ($komisi as $d) {
       $poinBBDP = 40;
@@ -73,12 +130,14 @@ function formatnumber($nilai)
       $poinAR = 22.5;
       $poinASABCG5 = 15;
 
+      $BB = $d->BB / $isipcsdusBB;
+      $DEP = $d->DEP / $isipcsdusDEP;
+      $realisasi_BB_DEP = $BB + $DEP;
       if (empty($d->target_BB_DP)) {
         $ratioBBDP = 0;
       } else {
-        $ratioBBDP = $d->realisasi_BB_DP / $d->target_BB_DP;
+        $ratioBBDP = $realisasi_BB_DEP / $d->target_BB_DP;
       }
-
 
       if ($ratioBBDP > 1) {
         $hasilpoinBBDP =  $poinBBDP;
@@ -86,22 +145,26 @@ function formatnumber($nilai)
         $hasilpoinBBDP = $ratioBBDP * $poinBBDP;
       }
 
+      $DS = $d->DS / $isipcsdusDS;
+      $realisasi_DS = $DS;
       if (empty($d->target_DS)) {
         $ratioDS = 0;
       } else {
-        $ratioDS = $d->realisasi_DS / $d->target_DS;
+        $ratioDS = $realisasi_DS / $d->target_DS;
       }
-      $ratioDS = $d->realisasi_DS / $d->target_DS;
+
       if ($ratioDS > 1) {
         $hasilpoinDS =  $poinDS;
       } else {
         $hasilpoinDS = $ratioDS * $poinDS;
       }
 
+      $SP = $d->SP / $isipcsdusSP;
+      $realisasi_SP = $SP;
       if (empty($d->target_SP)) {
         $ratioSP = 0;
       } else {
-        $ratioSP = $d->realisasi_SP / $d->target_SP;
+        $ratioSP = $realisasi_SP / $d->target_SP;
       }
 
       if ($ratioSP > 1) {
@@ -110,13 +173,13 @@ function formatnumber($nilai)
         $hasilpoinSP = $ratioSP * $poinSP;
       }
 
+      $AR = $d->AR / $isipcsdusAR;
+      $realisasi_AR = $AR;
       if (empty($d->target_AR)) {
         $ratioAR = 0;
       } else {
-        $ratioAR = $d->realisasi_AR / $d->target_AR;
+        $ratioAR = $realisasi_AR / $d->target_AR;
       }
-
-
 
       if ($ratioAR > 1) {
         $hasilpoinAR =  $poinAR;
@@ -124,14 +187,20 @@ function formatnumber($nilai)
         $hasilpoinAR = $ratioAR * $poinAR;
       }
 
+
+
+      $AB = $d->AB / $isipcsdusAB;
+      $AS = $d->AS / $isipcsdusAS;
+      $CG5 = $d->CG5 / $isipcsdusCG5;
+      $realisasi_AB_AS_CG5 = $AB + $AS + $CG5;
       if (empty($d->target_AB_AS_CG5)) {
         $ratioAB_AS_CG5 = 0;
       } else {
-        $ratioAB_AS_CG5 = $d->realisasi_AB_AS_CG5 / $d->target_AB_AS_CG5;
+        $ratioAB_AS_CG5 = $realisasi_AB_AS_CG5 / $d->target_AB_AS_CG5;
       }
 
 
-      $ratioAB_AS_CG5 = $d->realisasi_AB_AS_CG5 / $d->target_AB_AS_CG5;
+      //$ratioAB_AS_CG5 = $d->realisasi_AB_AS_CG5 / $d->target_AB_AS_CG5;
       if ($ratioAB_AS_CG5 > 1) {
         $hasilpoinAB_AS_CG5 =  $poinASABCG5;
       } else {
@@ -152,28 +221,28 @@ function formatnumber($nilai)
         <td><?php echo $d->id_karyawan; ?></td>
         <td><?php echo $d->nama_karyawan; ?></td>
         <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($d->target_BB_DP); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($d->realisasi_BB_DP); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($realisasi_BB_DEP); ?></td>
         <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($hasilpoinBBDP); ?></td>
         <td align="right" style="background-color: #ffcb00;"><?php echo formatnumber($d->target_DS); ?></td>
-        <td align="right" style="background-color: #ffcb00;"><?php echo formatnumber($d->realisasi_DS); ?></td>
+        <td align="right" style="background-color: #ffcb00;"><?php echo formatnumber($realisasi_DS); ?></td>
         <td align="right" style="background-color: #ffcb00;"><?php echo formatnumber($hasilpoinDS); ?></td>
         <td align="right" style="background-color: #058cbe;"><?php echo formatnumber($d->target_SP); ?></td>
-        <td align="right" style="background-color: #058cbe;"><?php echo formatnumber($d->realisasi_SP); ?></td>
+        <td align="right" style="background-color: #058cbe;"><?php echo formatnumber($realisasi_SP); ?></td>
         <td align="right" style="background-color: #058cbe;"><?php echo formatnumber($hasilpoinSP); ?></td>
         <td align="right" style="background-color: #ce3ae4;"><?php echo formatnumber($d->target_AR); ?></td>
-        <td align="right" style="background-color: #ce3ae4;"><?php echo formatnumber($d->realisasi_AR); ?></td>
+        <td align="right" style="background-color: #ce3ae4;"><?php echo formatnumber($realisasi_AR); ?></td>
         <td align="right" style="background-color: #ce3ae4;"><?php echo formatnumber($hasilpoinAR); ?></td>
         <td align="right" style="background-color: #ff9b0d;"><?php echo formatnumber($d->target_AB_AS_CG5); ?></td>
-        <td align="right" style="background-color: #ff9b0d;"><?php echo formatnumber($d->realisasi_AB_AS_CG5); ?></td>
+        <td align="right" style="background-color: #ff9b0d;"><?php echo formatnumber($realisasi_AB_AS_CG5); ?></td>
         <td align="right" style="background-color: #ff9b0d;"><?php echo formatnumber($hasilpoinAB_AS_CG5); ?></td>
         <td align="right" style="background-color: #ff570d;"><?php echo formatnumber($totalpoin); ?></td>
         <td align="right" style="background-color: #9e9895;"><?php echo formatnumber($d->target_cashin); ?></td>
         <td align="right" style="background-color: #9e9895;"><?php echo formatnumber($d->realisasi_cashin); ?></td>
         <td align="right" style="background-color: #ffd83e;"><?php echo formatnumber($d->target_collection); ?></td>
         <td align="right" style="background-color: #ffd83e;"><?php echo formatnumber($d->realisasi_collection); ?></td>
-        <td align="right" style="background-color: #ffd83e;"><?php echo formatnumber($d->sisapiutang); ?></td>
         <td align="right" style="background-color: #ff570d;"><?php echo formatnumber($penalty); ?></td>
         <td align="right"><?php echo formatnumber($poinakhir); ?></td>
+
 
       </tr>
     <?php
