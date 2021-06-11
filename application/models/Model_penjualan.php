@@ -268,7 +268,7 @@ class Model_penjualan extends CI_Model
       $jt = $jatuhtempo;
     }
 
-    if (empty($limitpelanggan) and $jenistransaksi == 'kredit' or $totalpiutang >= $limitpelanggan and $jenistransaksi == 'kredit') {
+    if (empty($limitpelanggan) and $jenistransaksi == 'kredit' and $totalbayar > 2000000 or !empty($limitpelanggan) and $totalpiutang >= $limitpelanggan and $jenistransaksi == 'kredit') {
 
       // echo $jenistransaksi;
       // die;
@@ -4731,6 +4731,30 @@ class Model_penjualan extends CI_Model
 				</div>'
       );
       redirect('penjualan/limitkreditv2');
+    }
+  }
+
+  function hapuspengajuanlimitv3($id)
+  {
+    $hapus = $this->db->delete('pengajuan_limitkredit_v3', array('no_pengajuan' => $id));
+    if ($hapus) {
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-green text-white alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil Dihapus !
+				</div>'
+      );
+      redirect('penjualan/limitkreditv2');
+    } else {
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-red text-white alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Gagal Dihapus !
+				</div>'
+      );
+      redirect('penjualan/limitkreditv3');
     }
   }
 
