@@ -72,6 +72,12 @@ class Model_laporanbahan extends CI_Model
 
   function list_detailPersediaan($bulan, $tahun, $kode_kategori = "")
   {
+    $role = $this->session->userdata('level_user');
+    if ($role == 'admin pembelian 2') {
+      $orderby = "master_barang_pembelian.nama_barang,";
+    } else {
+      $orderby = "";
+    }
 
     $query = "SELECT 
     master_barang_pembelian.kode_barang,
@@ -161,7 +167,9 @@ class Model_laporanbahan extends CI_Model
     GROUP BY detail_pengeluaran_gb.kode_barang) gk ON (master_barang_pembelian.kode_barang = gk.kode_barang)
 
     WHERE master_barang_pembelian.kode_dept = 'GDB' AND master_barang_pembelian.kode_kategori = '$kode_kategori' 
-    ORDER BY master_barang_pembelian.jenis_barang,kode_barang,urutan ASC
+    ORDER BY 
+    $orderby
+    master_barang_pembelian.jenis_barang,MID(4,3,master_barang_pembelian.kode_barang),urutan ASC
     ";
     return $this->db->query($query);
   }

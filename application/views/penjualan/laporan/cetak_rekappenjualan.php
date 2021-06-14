@@ -62,7 +62,7 @@ if ($dari < '2018-09-01') {
 			<tr bgcolor="#024a75" style="color:white; font-size:12;">
 				<td rowspan="2">No</td>
 				<td rowspan="2">Nama Sales</td>
-				<td colspan="11">Produk</td>
+				<td colspan="12" align="center">PRODUK</td>
 				<td rowspan="2" bgcolor="#f5ae15">Penjualan Bruto</td>
 				<td rowspan="2" bgcolor="#f5ae15">Retur</td>
 				<td rowspan="2" bgcolor="#f5ae15">Potongan</td>
@@ -78,6 +78,7 @@ if ($dari < '2018-09-01') {
 				<td>AIDA KECIL SACHET</td>
 				<td>AIDA BESAR 250 GR</td>
 				<td>SAOS BAWANG BALL</td>
+				<td>SAOS BAWANG BALL PROMO</td>
 				<td>CABE GILING KG</td>
 				<td>CABE GILING MURAH</td>
 				<td>SAOS BAWANG DUS</td>
@@ -94,6 +95,7 @@ if ($dari < '2018-09-01') {
 			$totalAR 					= 0;
 			$totalASE 				= 0;
 			$totalBB 					= 0;
+			$totalBBP 					= 0;
 			$totalCG 					= 0;
 			$totalCGG 				= 0;
 			$totalDB 					= 0;
@@ -114,6 +116,7 @@ if ($dari < '2018-09-01') {
 			$grandtotalAR 					= 0;
 			$grandtotalASE 					= 0;
 			$grandtotalBB 					= 0;
+			$grandtotalBBP 					= 0;
 			$grandtotalCG 					= 0;
 			$grandtotalCGG 					= 0;
 			$grandtotalDB 					= 0;
@@ -136,6 +139,7 @@ if ($dari < '2018-09-01') {
 				$totalAR 								= $totalAR + $p->AR;
 				$totalASE 							= $totalASE + $p->ASE;
 				$totalBB 								= $totalBB + $p->BB;
+				$totalBBP 								= $totalBBP + $p->BBP;
 				$totalCG 								= $totalCG + $p->CG;
 				$totalCGG								= $totalCGG + $p->CGG;
 				$totalDB 								= $totalDB + $p->DB;
@@ -157,6 +161,7 @@ if ($dari < '2018-09-01') {
 				$grandtotalAR 					= $grandtotalAR + $p->AR;
 				$grandtotalASE 					= $grandtotalASE + $p->ASE;
 				$grandtotalBB 					= $grandtotalBB + $p->BB;
+				$grandtotalBBP 					= $grandtotalBBP + $p->BBP;
 				$grandtotalCG 					= $grandtotalCG + $p->CG;
 				$grandtotalCGG					= $grandtotalCGG + $p->CGG;
 				$grandtotalDB 					= $grandtotalDB + $p->DB;
@@ -188,6 +193,9 @@ if ($dari < '2018-09-01') {
 																													} ?></td>
 					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->BB)) {
 																														echo uang($p->BB);
+																													} ?></td>
+					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->BBP)) {
+																														echo uang($p->BBP);
 																													} ?></td>
 					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->CG)) {
 																														echo uang($p->CG);
@@ -250,6 +258,7 @@ if ($dari < '2018-09-01') {
 					<td align="right" >' . uang($totalAR) . '</td>
 					<td align="right" >' . uang($totalASE) . '</td>
 					<td align="right" >' . uang($totalBB) . '</td>
+					<td align="right" >' . uang($totalBBP) . '</td>
 					<td align="right" >' . uang($totalCG) . '</td>
 					<td align="right" >' . uang($totalCGG) . '</td>
 					<td align="right" >' . uang($totalDB) . '</td>
@@ -271,6 +280,7 @@ if ($dari < '2018-09-01') {
 					$totalAR 						= 0;
 					$totalASE 					= 0;
 					$totalBB 						= 0;
+					$totalBBP 						= 0;
 					$totalCG 						= 0;
 					$totalCGG 					= 0;
 					$totalDB 						= 0;
@@ -301,6 +311,7 @@ if ($dari < '2018-09-01') {
 					<td align="right" >' . uang($grandtotalAR) . '</td>
 					<td align="right" >' . uang($grandtotalASE) . '</td>
 					<td align="right" >' . uang($grandtotalBB) . '</td>
+					<td align="right" >' . uang($grandtotalBBP) . '</td>
 					<td align="right" >' . uang($grandtotalCG) . '</td>
 					<td align="right" >' . uang($grandtotalCGG) . '</td>
 					<td align="right" >' . uang($grandtotalDB) . '</td>
@@ -385,6 +396,11 @@ if ($dari < '2018-09-01') {
 				<td style="border:0px"></td>
 				<td colspan="2" style="border:0px">PENJUALAN SAOS BAWANG BALL</td>
 				<td style="border:0px" align="right"><b><?php echo uang($grandtotalBB); ?></b></td>
+			</tr>
+			<tr>
+				<td style="border:0px"></td>
+				<td colspan="2" style="border:0px">PENJUALAN SAOS BAWANG BALL PROMO</td>
+				<td style="border:0px" align="right"><b><?php echo uang($grandtotalBBP); ?></b></td>
 			</tr>
 			<tr>
 				<td style="border:0px"></td>

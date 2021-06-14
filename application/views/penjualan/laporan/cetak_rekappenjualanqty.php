@@ -52,7 +52,7 @@
 		<tr bgcolor="#024a75" style="color:white; font-size:12;">
 			<th rowspan="2">No</th>
 			<th rowspan="2">Nama Produk</th>
-			<th colspan="9">Cabang</th>
+			<th colspan="10">Cabang</th>
 			<th rowspan="2">Total</th>
 		</tr>
 		<tr bgcolor="#024a75" style="color:white; font-size:12;">
@@ -64,6 +64,7 @@
 			<th>Tasik</th>
 			<th>Semarang</th>
 			<th>Surabaya</th>
+			<th>Klaten</th>
 			<th>Pusat</th>
 			
 		</tr>
@@ -81,6 +82,7 @@
 				$semarang 	= $r->SMR / $r->isipcsdus;
 				$surabaya 	= $r->SBY / $r->isipcsdus;
 				$pusat 		= $r->PST / $r->isipcsdus;
+				$klaten 	= $r->KLT / $r->isipcsdus;
 				$totalqty 	= $r->totalqty / $r->isipcsdus;
 				
 		?>
@@ -95,6 +97,7 @@
 				<td style="text-align:right; font-weight:bold"><?php if (!empty($tasik)){echo uang($tasik);} ?></td>
 				<td style="text-align:right; font-weight:bold"><?php if (!empty($semarang)){echo uang($semarang);} ?></td>
 				<td style="text-align:right; font-weight:bold"><?php if (!empty($surabaya)){echo uang($surabaya);} ?></td>
+				<td style="text-align:right; font-weight:bold"><?php if (!empty($klaten)){echo uang($klaten);} ?></td>
 				<td style="text-align:right; font-weight:bold"><?php if (!empty($pusat)){echo uang($pusat);} ?></td>
 				<td style="text-align:right; font-weight:bold"><?php if (!empty($totalqty)){echo uang($totalqty);} ?></td>
 			</tr>
@@ -108,7 +111,7 @@
 		<tr bgcolor="#024a75" style="color:white; font-size:12;">
 			<th rowspan="2">No</th>
 			<th rowspan="2">Nama Produk</th>
-			<th colspan="9">Cabang</th>
+			<th colspan="10">Cabang</th>
 			<th rowspan="2">Total</th>
 		</tr>
 		<tr bgcolor="#024a75" style="color:white; font-size:12;">
@@ -120,6 +123,7 @@
 			<th>Tasik</th>
 			<th>Semarang</th>
 			<th>Surabaya</th>
+			<th>Klaten</th>
 			<th>Pusat</th>
 			
 		</tr>
@@ -184,6 +188,13 @@
 				}else{
 					$surabaya 		= 0;
 				}
+
+				if(!empty($r->KLT)){
+					
+					$klaten 		= $r->JML_KLT/($r->KLT / $r->isipcsdus);
+				}else{
+					$klaten 		= 0;
+				}
 				
 				if(!empty($r->PST)){
 					
@@ -207,6 +218,7 @@
 				<td style="text-align:right; font-weight:bold"><?php if (!empty($r->TSM)){echo uangs($tasik);} ?></td>
 				<td style="text-align:right; font-weight:bold"><?php if (!empty($r->TSM)){echo uangs($semarang);} ?></td>
 				<td style="text-align:right; font-weight:bold"><?php if (!empty($r->TSM)){echo uangs($surabaya);} ?></td>
+				<td style="text-align:right; font-weight:bold"><?php if (!empty($r->KLT)){echo uangs($klaten);} ?></td>
 				<td style="text-align:right; font-weight:bold"><?php if (!empty($r->PST)){echo uangs($pusat);} ?></td>
 				<td style="text-align:right; font-weight:bold"><?php if (!empty($totalqty)){echo uangs($totalqty);} ?></td>
 			</tr>

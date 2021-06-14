@@ -41,7 +41,7 @@ tr:nth-child(even) {
       <th colspan="18" bgcolor="#28a745" style="color:white; font-size:14;">PENGELUARAN</th>
       <th colspan="3" rowspan="2" bgcolor="#28a745" style="color:white; font-size:14;">SALDO AKHIR</th>
       <th colspan="3" rowspan="2" bgcolor="#28a745" style="color:white; font-size:14;">OPNAME STOK</th>
-      <th colspan="1" rowspan="2" bgcolor="#28a745" style="color:white; font-size:14;">SELISIH</th>
+      <th colspan="2" rowspan="2" bgcolor="#28a745" style="color:white; font-size:14;">SELISIH</th>
     </tr>
     <tr bgcolor="red">
       <th style="color:white; font-size:14;" colspan="3">PEMBELIAN</th>
@@ -92,6 +92,7 @@ tr:nth-child(even) {
       <th bgcolor="#024a75"  style="color:white; font-size:14;">HARGA</th>
       <th bgcolor="#024a75"  style="color:white; font-size:14;">JUMLAH</th>
       <th bgcolor="#024a75"  style="color:white; font-size:14;">QTY</th>
+      <th bgcolor="#024a75"  style="color:white; font-size:14;">JUMLAH</th>
     </tr>
   </thead>
   <tbody>
@@ -160,6 +161,7 @@ tr:nth-child(even) {
         $hargasa          = $d->harga / ($d->qtyunitsa + 0.00000000000000000000000000000000000000000000000000001);
         $hargapemb        = $d->totalharga / ($d->qtypemb1 + 0.00000000000000000000000000000000000000000000000000001);
         
+
         $qtysaldoawal         = $d->qtyunitsa;
 
         $subtotalqtysa       += $d->qtyunitsa;
@@ -194,29 +196,29 @@ tr:nth-child(even) {
         $jmlhlainnya      = $d->qtylainnya1 * $hargapemb;
         $jmlhretur       = $d->qtypengganti1 * $hargapemb;
 
-        if ($d->qtypemb1 == '') {
-          $jmlhhargakeluarunit  = $hargasa;
+        if ($d->qtypemb1 == '' || $d->qtypemb1 == '0' || $d->qtypemb1 == NULL) {
+          $hargakeluarunit  = $hargasa;
         }else{
-          $jmlhhargakeluarunit  = ($jmlhpemb + $jmlhlainnya + $jmlhretur + $jmlhsaldoawal) / (($d->qtypemb1 + $d->qtyunitsa + $d->qtypengganti1 + $d->qtylainnya1)+0.0000000001);
+          $hargakeluarunit  = ($jmlhpemb + $jmlhlainnya + $jmlhretur + $jmlhsaldoawal) / (($d->qtypemb1 + $d->qtyunitsa + $d->qtypengganti1 + $d->qtylainnya1)+0.0000000001);
         }
 
-        $subtotjmlhproduksi    += $d->qtyprod3 * $jmlhhargakeluarunit;
-        $subtotjmlhseasoning   += $d->qtyseas3 * $jmlhhargakeluarunit;
-        $subtotjmlhpdqc        += $d->qtypdqc3 * $jmlhhargakeluarunit;
-        $subtotjmlhlainnyapeng += $d->qtylain3 * $jmlhhargakeluarunit;
-        $subtotjmlhcabang      += $d->qtycabang3 * $jmlhhargakeluarunit;
-        $subtotjmlhsusut       += $d->qtysus3 * $jmlhhargakeluarunit;
+        $subtotjmlhproduksi    += $d->qtyprod3 * $hargakeluarunit;
+        $subtotjmlhseasoning   += $d->qtyseas3 * $hargakeluarunit;
+        $subtotjmlhpdqc        += $d->qtypdqc3 * $hargakeluarunit;
+        $subtotjmlhlainnyapeng += $d->qtylain3 * $hargakeluarunit;
+        $subtotjmlhcabang      += $d->qtycabang3 * $hargakeluarunit;
+        $subtotjmlhsusut       += $d->qtysus3 * $hargakeluarunit;
         $subtotsaldoakhir      += $saldoakhirunit;
-        $subtotjmlhsaldoakhir  += $saldoakhirunit * $jmlhhargakeluarunit;
+        $subtotjmlhsaldoakhir  += $saldoakhirunit * $hargakeluarunit;
 
-        $totjmlhproduksi    += $d->qtyprod3 * $jmlhhargakeluarunit;
-        $totjmlhseasoning   += $d->qtyseas3 * $jmlhhargakeluarunit;
-        $totjmlhpdqc        += $d->qtypdqc3 * $jmlhhargakeluarunit;
-        $totjmlhlainnyapeng += $d->qtylain3 * $jmlhhargakeluarunit;
-        $totjmlhcabang      += $d->qtycabang3 * $jmlhhargakeluarunit;
-        $totjmlhsusut       += $d->qtysus3 * $jmlhhargakeluarunit;
+        $totjmlhproduksi    += $d->qtyprod3 * $hargakeluarunit;
+        $totjmlhseasoning   += $d->qtyseas3 * $hargakeluarunit;
+        $totjmlhpdqc        += $d->qtypdqc3 * $hargakeluarunit;
+        $totjmlhlainnyapeng += $d->qtylain3 * $hargakeluarunit;
+        $totjmlhcabang      += $d->qtycabang3 * $hargakeluarunit;
+        $totjmlhsusut       += $d->qtysus3 * $hargakeluarunit;
         $totsaldoakhir      += $saldoakhirunit;
-        $totjmlhsaldoakhir  += $saldoakhirunit * $jmlhhargakeluarunit;
+        $totjmlhsaldoakhir  += $saldoakhirunit * $hargakeluarunit;
 
       }else{
 
@@ -397,7 +399,11 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtylainnya1)) {
-              echo uang($hargapemb);
+              if (!empty($d->qtypemb1)) {
+                echo uang($hargasa);
+              }else{
+                echo uang($hargapemb);
+              }
             }else{
               echo "";
             }
@@ -405,7 +411,11 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtylainnya1)) {
-              echo uang($d->qtylainnya1 * $hargapemb);
+              if (!empty($d->qtypemb1)) {
+                echo uang($d->qtylainnya1 * $hargasa);
+              }else{
+                echo uang($d->qtylainnya1 * $hargapemb);
+              }
             }else{
               echo "";
             }
@@ -448,7 +458,11 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtypengganti1)) {
-              echo uang($hargapemb);
+              if (!empty($d->qtypemb1)) {
+                echo uang($hargasa);
+              }else{
+                echo uang($hargapemb);
+              }
             }else{
               echo "";
             }
@@ -456,8 +470,14 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtypengganti1)) {
-              $jmlhretur = $d->qtypengganti1 * ($hargapemb);
-              echo uang($d->qtypengganti1 * ($hargapemb));
+              if (!empty($d->qtypemb1)) {
+                $jmlhretur = $d->qtypengganti1 * $hargasa;
+                echo uang($d->qtypengganti1 * $hargasa);
+              }else{
+                $jmlhretur = $d->qtypengganti1 * $hargapemb;
+                echo uang($d->qtypengganti1 * $hargapemb);
+              }
+              
             }else{
               echo "";
             }
@@ -499,13 +519,7 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtyprod3)) {
-              if ($d->qtypemb1 == '') {
-              $jmlhhargakeluarunit = ($d->harga/$qtysaldoawal);
-              echo uang($jmlhhargakeluarunit);
-            }else{
-              $jmlhhargakeluarunit =  ($jmlhpemb+$jmlhlainnya+$jmlhretur+($d->qtyunitsa * $hargasa)) / ($d->qtypemb1+$d->qtyunitsa+$d->qtypengganti1+$d->qtylainnya1);
-              echo uang($jmlhhargakeluarunit);
-            }
+                echo uang($hargakeluarunit);
             }else{
               echo "";
             }
@@ -513,7 +527,7 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtyprod3)) {
-              echo uang($d->qtyprod3*$jmlhhargakeluarunit);
+              echo uang($d->qtyprod3 * $hargakeluarunit);
             }
             ?>
           </td>
@@ -526,11 +540,11 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtyprod4)) {
-               if ($d->qtyberatop != 0) {
-                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
+              if ($d->qtypemb2 == '' || $d->qtypemb2 == '0' || $d->qtypemb2 == NULL) {
+                $hargakeluarberat = $hargasa;
                 echo uang($hargakeluarberat);
               }else{
-                $hargakeluarberat = $hargapemb;
+                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
                 echo uang($hargakeluarberat);
               }
             }else{
@@ -560,13 +574,7 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtyseas3)) {
-            if ($d->qtypemb1 == '') {
-              $jmlhhargakeluarunit = ($d->harga/$qtysaldoawal);
-              echo uang($jmlhhargakeluarunit);
-            }else{
-              $jmlhhargakeluarunit =  ($jmlhpemb+$jmlhlainnya+$jmlhretur+($d->qtyunitsa * $hargasa)) / ($d->qtypemb1+$d->qtyunitsa+$d->qtypengganti1+$d->qtylainnya1);
-              echo uang($jmlhhargakeluarunit);
-            }
+              echo uang($hargakeluarunit);
             }else{
               echo "";
             }
@@ -574,7 +582,7 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtyseas3)) {
-              echo uang($d->qtyseas3*$jmlhhargakeluarunit);
+              echo uang($d->qtyseas3*$hargakeluarunit);
             }
             ?>
           </td>
@@ -587,11 +595,11 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtyseas4)) {
-               if ($d->qtyberatop != 0) {
-                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
+              if ($d->qtypemb2 == '' || $d->qtypemb2 == '0' || $d->qtypemb2 == NULL) {
+                $hargakeluarberat = $hargasa;
                 echo uang($hargakeluarberat);
               }else{
-                $hargakeluarberat = $hargapemb;
+                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
                 echo uang($hargakeluarberat);
               }
             }else{
@@ -621,13 +629,8 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtypdqc3)) {
-              if ($d->qtypemb1 == '') {
-              $jmlhhargakeluarunit = ($d->harga/$qtysaldoawal);
-              echo uang($jmlhhargakeluarunit);
-            }else{
-              $jmlhhargakeluarunit =  ($jmlhpemb+$jmlhlainnya+$jmlhretur+($d->qtyunitsa * $hargasa)) / ($d->qtypemb1+$d->qtyunitsa+$d->qtypengganti1+$d->qtylainnya1);
-              echo uang($jmlhhargakeluarunit);
-            }
+              echo uang($hargakeluarunit);
+
             }else{
               echo "";
             }
@@ -635,7 +638,7 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtypdqc3)) {
-              echo uang($d->qtypdqc3*$jmlhhargakeluarunit);
+              echo uang($d->qtypdqc3*$hargakeluarunit);
             }
             ?>
           </td>
@@ -649,11 +652,11 @@ tr:nth-child(even) {
           
           <td align="center">
             <?php if (!empty($d->qtypdqc4)) {
-               if ($d->qtyberatop != 0) {
-                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
+              if ($d->qtypemb2 == '' || $d->qtypemb2 == '0' || $d->qtypemb2 == NULL) {
+                $hargakeluarberat = $hargasa;
                 echo uang($hargakeluarberat);
               }else{
-                $hargakeluarberat = $hargapemb;
+                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
                 echo uang($hargakeluarberat);
               }
             }else{
@@ -683,13 +686,7 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtysus3)) {
-              if ($d->qtypemb1 == '') {
-              $jmlhhargakeluarunit = ($d->harga/$qtysaldoawal);
-              echo uang($jmlhhargakeluarunit);
-            }else{
-              $jmlhhargakeluarunit =  ($jmlhpemb+$jmlhlainnya+$jmlhretur+($d->qtyunitsa * $hargasa)) / ($d->qtypemb1+$d->qtyunitsa+$d->qtypengganti1+$d->qtylainnya1);
-              echo uang($jmlhhargakeluarunit);
-            }
+              echo uang($hargakeluarunit);
             }else{
               echo "";
             }
@@ -697,7 +694,7 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtysus3)) {
-              echo uang($d->qtysus3*$jmlhhargakeluarunit);
+              echo uang($d->qtysus3*$hargakeluarunit);
             }
             ?>
           </td>
@@ -711,11 +708,11 @@ tr:nth-child(even) {
           
           <td align="center">
             <?php if (!empty($d->qtysus4)) {
-               if ($d->qtyberatop != 0) {
-                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
+              if ($d->qtypemb2 == '' || $d->qtypemb2 == '0' || $d->qtypemb2 == NULL) {
+                $hargakeluarberat = $hargasa;
                 echo uang($hargakeluarberat);
               }else{
-                $hargakeluarberat = $hargapemb;
+                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
                 echo uang($hargakeluarberat);
               }
             }else{
@@ -746,13 +743,7 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtycabang3)) {
-              if ($d->qtypemb1 == '') {
-              $jmlhhargakeluarunit = ($d->harga/$qtysaldoawal);
-              echo uang($jmlhhargakeluarunit);
-            }else{
-              $jmlhhargakeluarunit =  ($jmlhpemb+$jmlhlainnya+$jmlhretur+($d->qtyunitsa * $hargasa)) / ($d->qtypemb1+$d->qtyunitsa+$d->qtypengganti1+$d->qtylainnya1);
-              echo uang($jmlhhargakeluarunit);
-            }
+              echo uang($hargakeluarunit);
             }else{
               echo "";
             }
@@ -760,7 +751,7 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtycabang3)) {
-              echo uang($d->qtycabang3*$jmlhhargakeluarunit);
+              echo uang($d->qtycabang3*$hargakeluarunit);
             }
             ?>
           </td>
@@ -773,11 +764,11 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtycabang4)) {
-             if ($d->qtyberatop != 0) {
-                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
+              if ($d->qtypemb2 == '' || $d->qtypemb2 == '0' || $d->qtypemb2 == NULL) {
+                $hargakeluarberat = $hargasa;
                 echo uang($hargakeluarberat);
               }else{
-                $hargakeluarberat = $hargapemb;
+                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
                 echo uang($hargakeluarberat);
               }
             }else{
@@ -808,13 +799,7 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtylain3)) {
-              if ($d->qtypemb1 == '') {
-                $jmlhhargakeluarunit = ($d->harga/$qtysaldoawal);
-                echo uang($jmlhhargakeluarunit);
-              }else{
-                $jmlhhargakeluarunit =  ($jmlhpemb+$jmlhlainnya+$jmlhretur+($d->qtyunitsa * $hargasa)) / ($d->qtypemb1+$d->qtyunitsa+$d->qtypengganti1+$d->qtylainnya1);
-                echo uang($jmlhhargakeluarunit);
-              }
+                echo uang($hargakeluarunit);
             }else{
               echo "";
             }
@@ -822,7 +807,7 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtylain3)) {
-              echo uang($d->qtylain3*$jmlhhargakeluarunit);
+              echo uang($d->qtylain3*$hargakeluarunit);
             }
             ?>
           </td>
@@ -836,11 +821,11 @@ tr:nth-child(even) {
           
           <td align="center">
             <?php if (!empty($d->qtylain4)) {
-           if ($d->qtyberatop != 0) {
-                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
+              if ($d->qtypemb2 == '' || $d->qtypemb2 == '0' || $d->qtypemb2 == NULL) {
+                $hargakeluarberat = $hargasa;
                 echo uang($hargakeluarberat);
               }else{
-                $hargakeluarberat = $hargapemb;
+                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
                 echo uang($hargakeluarberat);
               }
             }else{
@@ -870,13 +855,7 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($saldoakhirunit)) {
-              if ($d->qtypemb1 == '') {
-                $jmlhhargakeluarunit = ($d->harga/$qtysaldoawal);
-                echo uang($jmlhhargakeluarunit);
-              }else{
-                $jmlhhargakeluarunit =  ($jmlhpemb+$jmlhlainnya+$jmlhretur+($d->qtyunitsa * $hargasa)) / ($d->qtypemb1+$d->qtyunitsa+$d->qtypengganti1+$d->qtylainnya1);
-                echo uang($jmlhhargakeluarunit);
-              }
+                echo uang($hargakeluarunit);
             }else{
               echo "";
             }
@@ -884,7 +863,8 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($saldoakhirunit)) {
-              echo uang($saldoakhirunit*$jmlhhargakeluarunit);
+              $jmlhsaldoakhir         = $saldoakhirunit * $hargakeluarunit;
+              echo uang($jmlhsaldoakhir);
             }
             ?>
           </td>
@@ -897,8 +877,13 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($saldoakhirberat)) {
-              $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
-              echo uang($hargakeluarberat);
+              if ($d->qtypemb2 == '' || $d->qtypemb2 == '0' || $d->qtypemb2 == NULL) {
+                $hargakeluarberat = $hargasa;
+                echo uang($hargakeluarberat);
+              }else{
+                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
+                echo uang($hargakeluarberat);
+              }
             }else{
               echo "";
             }
@@ -927,13 +912,7 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($saldoakhirunit)) {
-              if ($d->qtypemb1 == '') {
-                $jmlhhargakeluarunit = ($d->harga/$qtysaldoawal);
-                echo uang($jmlhhargakeluarunit);
-              }else{
-                $jmlhhargakeluarunit =  ($jmlhpemb+$jmlhlainnya+$jmlhretur+($d->qtyunitsa * $hargasa)) / ($d->qtypemb1+$d->qtyunitsa+$d->qtypengganti1+$d->qtylainnya1);
-                echo uang($jmlhhargakeluarunit);
-              }
+                echo uang($hargakeluarunit);
             }else{
               echo "";
             }
@@ -941,9 +920,10 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($saldoakhirunit)) {
+              $jmlhopname             = $d->qtyunitop* $hargakeluarunit;
               $totalopname            += $d->qtyunitop;
-              $totjmlhopname          += $d->qtyunitop * $jmlhhargakeluarunit;
-              echo uang($d->qtyunitop * $jmlhhargakeluarunit);
+              $totjmlhopname          += $d->qtyunitop * $hargakeluarunit;
+              echo uang($jmlhopname);
             }
             ?>
           </td>
@@ -956,11 +936,11 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($saldoakhirberat)) {
-              if ($d->qtyberatop != 0) {
-                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
+             if ($d->qtypemb2 == '' || $d->qtypemb2 == '0' || $d->qtypemb2 == NULL) {
+                $hargakeluarberat = $hargasa;
                 echo uang($hargakeluarberat);
               }else{
-                $hargakeluarberat = $hargapemb;
+                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
                 echo uang($hargakeluarberat);
               }
             }else{
@@ -983,15 +963,39 @@ tr:nth-child(even) {
         <?php } ?>
         <?php if ($d->satuan != 'KG') { ?>
           <td align="center">
-            <?php if (!empty($d->qtyunitop)) {
+            <?php if (!empty($saldoakhirunit)) {
               echo uang( $d->qtyunitop - $saldoakhirunit);
+            }else{
+              echo "";
             }
             ?>
           </td>
         <?php } else { ?>
           <td align="center">
-            <?php if (!empty($d->qtyberatop)) {
+            <?php if (!empty($saldoakhirberat)) {
               echo uang(($d->qtyberatop * 1000) - ($saldoakhirberat));
+            }else{
+              echo "";
+            }
+            ?>
+          </td>
+        <?php } ?>
+        
+        <?php if ($d->satuan != 'KG') { ?>
+          <td align="center">
+            <?php if (!empty($saldoakhirunit)) {
+              echo uang($jmlhsaldoakhir - $jmlhopname);
+            }else{
+              echo "";
+            }
+            ?>
+          </td>
+        <?php } else { ?>
+          <td align="center">
+            <?php if (!empty($saldoakhirberat)) {
+              echo uang($jmlhsaldoakhir - $jmlhopname);
+            }else{
+              echo "";
             }
             ?>
           </td>
@@ -1205,6 +1209,7 @@ tr:nth-child(even) {
           }
           ?>
         </th>
+        <th></th>
         <th></th>
       </tr>
     <?php 
@@ -1441,6 +1446,7 @@ tr:nth-child(even) {
         }
         ?>
       </th>
+      <th style="background:red;"></th>
       <th style="background:red;"></th>
     </tr>
   </tbody>

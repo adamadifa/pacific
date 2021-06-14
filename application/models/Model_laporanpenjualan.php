@@ -1793,6 +1793,7 @@ GROUP BY
 							AR,
 							ASE,
 							BB,
+							BBP,
 							CG,
 							CGG,
 							DB,
@@ -1825,6 +1826,7 @@ GROUP BY
 							SUM( IF ( kode_produk = 'AR', detailpenjualan.subtotal, NULL ) ) AS AR,
 							SUM( IF ( kode_produk = 'AS', detailpenjualan.subtotal, NULL ) ) AS ASE,
 							SUM( IF ( kode_produk = 'BB', detailpenjualan.subtotal, NULL ) ) AS BB,
+							SUM( IF ( kode_produk = 'BBP', detailpenjualan.subtotal, NULL ) ) AS BBP,
 							SUM( IF ( kode_produk = 'CG', detailpenjualan.subtotal, NULL ) ) AS CG,
 							SUM( IF ( kode_produk = 'CGG', detailpenjualan.subtotal, NULL ) ) AS CGG,
 							SUM( IF ( kode_produk = 'DB', detailpenjualan.subtotal, NULL ) ) AS DB,
@@ -1926,6 +1928,8 @@ GROUP BY
 					SUM(IF(karyawan.kode_cabang = 'SMR',detailpenjualan.subtotal,0)) as JML_SMR,
 					SUM(IF(karyawan.kode_cabang = 'PST',jumlah,0)) as PST,
 					SUM(IF(karyawan.kode_cabang = 'PST',detailpenjualan.subtotal,0)) as JML_PST,
+					SUM(IF(karyawan.kode_cabang = 'KLT',jumlah,0)) as KLT,
+					SUM(IF(karyawan.kode_cabang = 'KLT',detailpenjualan.subtotal,0)) as JML_KLT,
 					SUM(jumlah) as totalqty,
 					SUM(detailpenjualan.subtotal) as JML
 					FROM detailpenjualan
@@ -1969,6 +1973,8 @@ GROUP BY
 					SUM( IF ( kode_produk = 'DS',detailretur.subtotal, NULL ) ) AS DS,
 					SUM( IF ( kode_produk = 'SP',detailretur.jumlah/isipcsdus, NULL ) ) AS JML_SP,
 					SUM( IF ( kode_produk = 'SP',detailretur.subtotal, NULL ) ) AS SP,
+					SUM( IF ( kode_produk = 'SPP',detailretur.jumlah/isipcsdus, NULL ) ) AS JML_SPP,
+					SUM( IF ( kode_produk = 'SPP',detailretur.subtotal, NULL ) ) AS SPP,
 					SUM(detailretur.subtotal) as totalretur,
 					total_gb
 					FROM detailretur

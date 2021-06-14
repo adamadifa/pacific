@@ -66,7 +66,7 @@ if($dari < '2018-09-01'){
     <tr bgcolor="#024a75" style="color:white; font-size:12;">
      <td rowspan="3">No</td>
      <td rowspan="3">Nama Sales</td>
-     <td colspan="22">Produk</td>
+     <td colspan="24">Produk</td>
      <td rowspan="3" bgcolor="#f5ae15" >Total Retur</td>
      <td rowspan="3" bgcolor="#f5ae15" >Penyeseuaian</td>
      <td rowspan="3" bgcolor="#f5ae15" >Total Retur Netto</td>
@@ -83,6 +83,7 @@ if($dari < '2018-09-01'){
      <td colspan="2">KECAP DUS</td>
      <td colspan="2">SAUS STICK</td>
      <td colspan="2">SAUS PREMIUM</td>
+     <td colspan="2">SAUS PREMIUM PRORMO</td>
    </tr>
    <tr  bgcolor="#024a75" style="color:white; font-size:12;">
      <td>Qty</td>
@@ -105,7 +106,9 @@ if($dari < '2018-09-01'){
      <td>Rp</td>
      <td>Qty</td>
      <td>Rp</td>
-	 <td>Qty</td>
+	   <td>Qty</td>
+     <td>Rp</td>
+	   <td>Qty</td>
      <td>Rp</td>
    </tr>
  </thead>
@@ -123,6 +126,7 @@ if($dari < '2018-09-01'){
   $qtytotalDK 			= 0;
   $qtytotalDS 			= 0;
   $qtytotalSP 			= 0;
+  $qtytotalSPP 			= 0;
   
   $grandtytotalAB 		= 0;
   $grandtytotalAR 		= 0;
@@ -135,6 +139,7 @@ if($dari < '2018-09-01'){
   $grandtytotalDK 		= 0;
   $grandtytotalDS 		= 0;
   $grandtytotalSP 		= 0;
+  $grandtytotalSPP 		= 0;
   
   
   
@@ -149,6 +154,7 @@ if($dari < '2018-09-01'){
   $totalDK 				= 0;
   $totalDS 				= 0;
   $totalSP 				= 0;
+  $totalSPP				= 0;
   
   $grandtotalAB 			= 0;
   $grandtotalAR 			= 0;
@@ -161,6 +167,7 @@ if($dari < '2018-09-01'){
   $grandtotalDK 			= 0;
   $grandtotalDS 			= 0;
   $grandtotalSP 			= 0;
+  $grandtotalSPP 			= 0;
   
   
   $totalretur 			= 0;
@@ -170,6 +177,7 @@ if($dari < '2018-09-01'){
   $grandtotalretur		= 0;
   $grandtotalpenyesuaian  = 0;
   $grandtotalallreturnetto=0;
+
   foreach ($rekap as $key => $p){ 
    
     $rek  = @$rekap[$key+1]->kode_cabang;
@@ -184,6 +192,7 @@ if($dari < '2018-09-01'){
     $qtytotalDK 			= $qtytotalDK + $p->JML_DK;
     $qtytotalDS 			= $qtytotalDS + $p->JML_DS;
     $qtytotalSP 			= $qtytotalSP + $p->JML_SP;
+    $qtytotalSPP 			= $qtytotalSPP + $p->JML_SPP;
     
     $grandtytotalAB 		= $grandtytotalAB + $p->JML_AB;
     $grandtytotalAR 		= $grandtytotalAR + $p->JML_AR;
@@ -196,6 +205,7 @@ if($dari < '2018-09-01'){
     $grandtytotalDK 		= $grandtytotalDK + $p->JML_DK;
     $grandtytotalDS 		= $grandtytotalDS + $p->JML_DS;
     $grandtytotalSP 		= $grandtytotalSP + $p->JML_SP;
+    $grandtytotalSPP 		= $grandtytotalSPP + $p->JML_SPP;
     
     
     $totalAB 				= $totalAB + $p->AB;
@@ -209,6 +219,7 @@ if($dari < '2018-09-01'){
     $totalDK 				= $totalDK + $p->DK;
     $totalDS 				= $totalDS + $p->DS;
     $totalSP 				= $totalSP + $p->SP;
+    $totalSPP 				= $totalSPP + $p->SPP;
     
     $grandtotalAB 			= $grandtotalAB + $p->AB;
     $grandtotalAR 			= $grandtotalAR + $p->AR;
@@ -221,6 +232,7 @@ if($dari < '2018-09-01'){
     $grandtotalDK 			= $grandtotalDK + $p->DK;
     $grandtotalDS 			= $grandtotalDS + $p->DS;
     $grandtotalSP 			= $grandtotalSP + $p->SP;
+    $grandtotalSPP 			= $grandtotalSPP + $p->SPP;
     
     $totalretur				= $totalretur + $p->totalretur;
     $grandtotalretur 		= $grandtotalretur + $p->totalretur;
@@ -253,8 +265,10 @@ if($dari < '2018-09-01'){
      <td style="text-align:right; font-weight:bold"><?php if (!empty($p->DK)){echo uang($p->DK);} ?></td>
      <td style="text-align:right; font-weight:bold"><?php if (!empty($p->JML_DS)){echo qty($p->JML_DS);} ?></td>
      <td style="text-align:right; font-weight:bold"><?php if (!empty($p->DS)){echo uang($p->DS);} ?></td>
-	 <td style="text-align:right; font-weight:bold"><?php if (!empty($p->JML_SP)){echo qty($p->JML_SP);} ?></td>
+	   <td style="text-align:right; font-weight:bold"><?php if (!empty($p->JML_SP)){echo qty($p->JML_SP);} ?></td>
      <td style="text-align:right; font-weight:bold"><?php if (!empty($p->SP)){echo uang($p->SP);} ?></td>
+	   <td style="text-align:right; font-weight:bold"><?php if (!empty($p->JML_SPP)){echo qty($p->JML_SPP);} ?></td>
+     <td style="text-align:right; font-weight:bold"><?php if (!empty($p->SPP)){echo uang($p->SPP);} ?></td>
      <td style="text-align:right; font-weight:bold"><?php if (!empty($p->totalretur)){echo uang($p->totalretur);} ?></td>
      <td style="text-align:right; font-weight:bold"><?php if (!empty($p->total_gb)){echo uang($p->total_gb);} ?></td>
      <td style="text-align:right; font-weight:bold"><?php if (!empty($totalreturnetto)){echo uang($totalreturnetto);} ?></td>
@@ -286,7 +300,9 @@ if($dari < '2018-09-01'){
      <td align="right" >'. qty($qtytotalDS).'</td>
      <td align="right" >'. uang($totalDS).'</td>
      <td align="right" >'. qty($qtytotalSP).'</td>
-	 <td align="right" >'. uang($totalSP).'</td>
+	   <td align="right" >'. uang($totalSP).'</td>
+     <td align="right" >'. qty($qtytotalSPP).'</td>
+     <td align="right" >'. uang($totalSPP).'</td>
      <td align="right" >'. uang($totalretur).'</td>
      <td align="right" >'. uang($totalpenyesuaian).'</td>
      <td align="right" >'. uang($grandtotalreturnetto).'</td>
@@ -301,6 +317,9 @@ if($dari < '2018-09-01'){
      $qtytotalDEP 			= 0;
      $qtytotalDK 			= 0;
      $qtytotalDS 			= 0;
+     $qtytotalDS 			= 0;
+     $qtytotalSP 			= 0;
+     $qtytotalSPP 			= 0;
      
      
      $totalAB 				= 0;
@@ -314,6 +333,7 @@ if($dari < '2018-09-01'){
      $totalDK 				= 0;
      $totalDS 				= 0;
      $totalSP 				= 0;
+     $totalSPP 				= 0;
      
      $totalretur 			= 0;
      $totalpenyesuaian 		= 0;
@@ -349,6 +369,8 @@ if($dari < '2018-09-01'){
    <td align="right"><?php echo uang($grandtotalDS); ?></td>
    <td align="right"><?php echo qty($grandtytotalSP); ?></td>
    <td align="right"><?php echo uang($grandtotalSP); ?></td>
+   <td align="right"><?php echo qty($grandtytotalSPP); ?></td>
+   <td align="right"><?php echo uang($grandtotalSPP); ?></td>
    <td align="right"><?php echo uang($grandtotalretur); ?></td>
    <td align="right"><?php echo uang($grandtotalpenyesuaian); ?></td>
    <td align="right"><?php echo uang($grandtotalallreturnetto); ?></td>
@@ -358,7 +380,7 @@ if($dari < '2018-09-01'){
 <br>
 <br>
 <?php 
-$totalqtyretur  = $grandtytotalAB + $grandtytotalAR  + $grandtytotalASE  + $grandtytotalBB  + $grandtytotalCG + $grandtytotalCGG  + $grandtytotalDB + $grandtytotalDEP + $grandtytotalDK + $grandtytotalDS   ;
+$totalqtyretur  = $grandtytotalAB + $grandtytotalAR  + $grandtytotalASE  + $grandtytotalBB  + $grandtytotalCG + $grandtytotalCGG  + $grandtytotalDB + $grandtytotalDEP + $grandtytotalDK + $grandtytotalDS + $grandtytotalSP + $grandtytotalSPP ;
 $average 		= $grandtotalpenyesuaian / $totalqtyretur;
 $avgAB 			= $grandtytotalAB * $average;
 $avgAR 			= $grandtytotalAR * $average;
@@ -371,6 +393,7 @@ $avgDEP 		= $grandtytotalDEP * $average;
 $avgDK 			= $grandtytotalDK * $average;
 $avgDS 			= $grandtytotalDS * $average;
 $avgSP 			= $grandtytotalSP * $average;
+$avgSPP    	= $grandtytotalSPP * $average;
 
 ?>
 <table class="datatable3" style="width:120%">
@@ -387,7 +410,8 @@ $avgSP 			= $grandtytotalSP * $average;
 			<th >SAUS EXTRA PEDAS</th>
 			<th >KECAP DUS</th>
 			<th >SAUS STICK</th>
-			<th >SP</th>
+			<th >SAUS PREMIUM</th>
+			<th >SAUS PREMIUM PROMO</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -405,6 +429,7 @@ $avgSP 			= $grandtytotalSP * $average;
 			<td style="text-align:right; font-weight:bold" rowspan="3"><?php if (!empty($avgDK)){echo  uang($avgDK);} ?></td>
 			<td style="text-align:right; font-weight:bold" rowspan="3"><?php if (!empty($avgDS)){echo  uang($avgDS);} ?></td>
 			<td style="text-align:right; font-weight:bold" rowspan="3"><?php if (!empty($avgSP)){echo  uang($avgSP);} ?></td>
+			<td style="text-align:right; font-weight:bold" rowspan="3"><?php if (!empty($avgSPP)){echo  uang($avgSPP);} ?></td>
 			
 		</tr>
 		<tr>
