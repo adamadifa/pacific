@@ -12,7 +12,8 @@
             <line x1="8" y1="3" x2="8" y2="7" />
             <line x1="4" y1="11" x2="20" y2="11" />
             <line x1="11" y1="15" x2="12" y2="15" />
-            <line x1="12" y1="15" x2="12" y2="18" /></svg>
+            <line x1="12" y1="15" x2="12" y2="18" />
+          </svg>
         </span>
       </div>
     </div>
@@ -161,6 +162,13 @@
       <td>
         <input type="hidden" id="girotocash" name="girotocash" class="form-control" placeholder="Ganti Giro Ke Cash">
         <div id="terbilanggirotocash" style="float:right; color:#f8ac59"></div>
+      </td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold;">Ganti Giro Ke Transfer</td>
+      <td>
+        <input type="hidden" id="girototransfer" name="girototransfer" class="form-control" placeholder="Ganti Giro Ke Transfer">
+        <div id="terbilanggirototransfer" style="float:right; color:#f8ac59"></div>
       </td>
     </tr>
   </table>
@@ -349,6 +357,7 @@
           $("#bgcek").val(datasetoran[2]);
           $("#totalsetoran").val(datasetoran[5]);
           $("#girotocash").val(datasetoran[3]);
+          $("#girototransfer").val(datasetoran[6]);
           $("#transfer").val(datasetoran[4]);
           $("#totallhp").val(totallhp);
           terbilang(datasetoran[0], 'tunai');
@@ -358,6 +367,7 @@
           terbilang(datasetoran[4], 'transfer');
           terbilang(datasetoran[5], 'totalsetoran');
           terbilang(datasetoran[3], 'girotocash');
+          terbilang(datasetoran[6], 'girototransfer');
           $("#detaillhp").attr('href', '<?php echo base_url(); ?>laporanpenjualan/cekkasbesar/' + cabang + '/' + tanggallhp + '/' + salesman);
           ceksetoran();
         }
@@ -397,6 +407,8 @@
             $("#terbilangtotalsetoran").html(respond);
           } else if (jenis == 'girotocash') {
             $("#terbilanggirotocash").html(respond);
+          } else if (jenis == 'girototransfer') {
+            $("#terbilanggirototransfer").html(respond);
           }
         }
       });

@@ -984,14 +984,17 @@ class Penjualan extends CI_Controller
     $setorantagihan     = $this->Model_penjualan->get_setoran($tanggallhp, $salesman, 'kredit')->row_array();
     $girotocashtunai    = $this->Model_penjualan->get_girotocash($tanggallhp, $salesman, 'tunai')->row_array();
     $girotocashkredit   = $this->Model_penjualan->get_girotocash($tanggallhp, $salesman, 'kredit')->row_array();
+    $girototransfertunai = $this->Model_penjualan->get_girototransfer($tanggallhp, $salesman, 'tunai')->row_array();
+    $girototransferkredit   = $this->Model_penjualan->get_girototransfer($tanggallhp, $salesman, 'kredit')->row_array();
     $girotocash         = $girotocashtunai['totalsetoran'] + $girotocashkredit['totalsetoran'];
+    $girototransfer     = $girototransfertunai['totalsetoran'] + $girototransferkredit['totalsetoran'];
     $setorangiro        = $this->Model_penjualan->get_setorangiro($tanggallhp, $salesman)->row_array();
     $setorantransfer    = $this->Model_penjualan->get_setorantransfer($tanggallhp, $salesman)->row_array();
     $totalsetoran       = ($setorangiro['totalsetorangiro'] + 0) + ($setorantransfer['totalsetorantransfer'] + 0);
     $totalsetorantunai  = $setorantunai['totalsetoran'] + 0;
     //echo $setorantunai['totalsetoran']."|".$setorantagihan['totalsetoran'];
     $setoranalltagihan  = $setorantagihan['totalsetoran'] + $setorangiro['totalsetorangiro'] + $setorantransfer['totalsetorantransfer'];
-    echo $totalsetorantunai . "|" . $setoranalltagihan . "|" . ($setorangiro['totalsetorangiro'] + 0) . "|" . $girotocash . "|" . ($setorantransfer['totalsetorantransfer'] + 0) . "|" . ($totalsetoran + 0);
+    echo $totalsetorantunai . "|" . $setoranalltagihan . "|" . ($setorangiro['totalsetorangiro'] + 0) . "|" . $girotocash . "|" . ($setorantransfer['totalsetorantransfer'] + 0) . "|" . ($totalsetoran + 0) . "|" . $girototransfer;
   }
 
 
@@ -1040,7 +1043,10 @@ class Penjualan extends CI_Controller
       $setorantagihan     = $this->Model_penjualan->get_setoran($tanggallhp, $salesman, 'kredit')->row_array();
       $girotocashtunai    = $this->Model_penjualan->get_girotocash($tanggallhp, $salesman, 'tunai')->row_array();
       $girotocashkredit   = $this->Model_penjualan->get_girotocash($tanggallhp, $salesman, 'kredit')->row_array();
+      $girototransfertunai = $this->Model_penjualan->get_girototransfer($tanggallhp, $salesman, 'tunai')->row_array();
+      $girototransferkredit = $this->Model_penjualan->get_girototransfer($tanggallhp, $salesman, 'kredit')->row_array();
       $girotocash         = $girotocashtunai['totalsetoran'] + $girotocashkredit['totalsetoran'];
+      $girototransfer     = $girototransfertunai['totalsetoran'] + $girototransferkredit['totalsetoran'];
       $setorangiro        = $this->Model_penjualan->get_setorangiro($tanggallhp, $salesman)->row_array();
       $setorantransfer    = $this->Model_penjualan->get_setorantransfer($tanggallhp, $salesman)->row_array();
       //echo $setorantunai['totalsetoran']."|".$setorantagihan['totalsetoran'];
@@ -1050,6 +1056,7 @@ class Penjualan extends CI_Controller
         'lhp_tunai'     => $setorantunai['totalsetoran'],
         'lhp_tagihan'   => $setoranalltagihan,
         'girotocash'    => $girotocash,
+        'girototransfer'    => $girototransfer,
         'setoran_bg'    => $setorangiro['totalsetorangiro'],
         'setoran_transfer' => $setorantransfer['totalsetorantransfer']
       );

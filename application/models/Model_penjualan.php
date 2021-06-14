@@ -2017,8 +2017,9 @@ class Model_penjualan extends CI_Model
   {
     $query = "SELECT transfer.id_karyawan,SUM(jumlah) as totalsetorantransfer
 				  		FROM transfer
+              LEFT JOIN historibayar ON transfer.id_transfer = historibayar.id_transfer
 				  		INNER JOIN penjualan ON transfer.no_fak_penj = penjualan.no_fak_penj
-				  		WHERE transfer.id_karyawan ='$salesman' AND tgl_transfer ='$tanggallhp'
+				  		WHERE transfer.id_karyawan ='$salesman' AND tgl_transfer ='$tanggallhp' AND girotocash IS NULL
 				  		GROUP BY transfer.id_karyawan";
     return $this->db->query($query);
   }
@@ -2030,7 +2031,18 @@ class Model_penjualan extends CI_Model
 				  		FROM historibayar
 				  		INNER JOIN penjualan ON historibayar.no_fak_penj = penjualan.no_fak_penj
 				  		WHERE tglbayar ='$tanggallhp' AND historibayar.id_karyawan = '$salesman'
-				  		AND historibayar.jenistransaksi='$jenistransaksi'   AND girotocash IS NOT NULL
+				  		AND historibayar.jenistransaksi='$jenistransaksi'   AND girotocash IS NOT NULL AND id_transfer IS NULL
+				  		GROUP BY historibayar.id_karyawan";
+    return $this->db->query($query);
+  }
+
+  function get_girototransfer($tanggallhp, $salesman, $jenistransaksi)
+  {
+    $query = "SELECT historibayar.id_karyawan,SUM(bayar) as totalsetoran
+				  		FROM historibayar
+				  		INNER JOIN penjualan ON historibayar.no_fak_penj = penjualan.no_fak_penj
+				  		WHERE tglbayar ='$tanggallhp' AND historibayar.id_karyawan = '$salesman'
+				  		AND historibayar.jenistransaksi='$jenistransaksi'   AND girotocash IS NOT NULL AND id_transfer IS NOT NULL
 				  		GROUP BY historibayar.id_karyawan";
     return $this->db->query($query);
   }
@@ -2052,6 +2064,7 @@ class Model_penjualan extends CI_Model
     $bgcek           =  $this->input->post('bgcek');
     $transfer       =  $this->input->post('transfer');
     $girotocash     =  $this->input->post('girotocash');
+    $girototransfer =  $this->input->post('girototransfer');
     $keterangan     =  $this->input->post('keterangan');
     $tanggal         = explode("-", $tgllhp);
     $hari           = $tanggal[2];
@@ -2067,18 +2080,19 @@ class Model_penjualan extends CI_Model
     $kode_setoran   = buatkode($nomor_terakhir, 'SP' . $tahunini, 5);
 
     $data = array(
-      'kode_setoran'     => $kode_setoran,
+      'kode_setoran'    => $kode_setoran,
       'tgl_lhp'         => $tgllhp,
-      'kode_cabang'      => $cabang,
+      'kode_cabang'     => $cabang,
       'id_karyawan'     => $salesman,
-      'lhp_tunai'        => $tunai,
-      'lhp_tagihan'      => $tagihan,
+      'lhp_tunai'       => $tunai,
+      'lhp_tagihan'     => $tagihan,
       'setoran_kertas'  => $uangkertas,
       'setoran_logam'   => $uanglogam,
-      'setoran_lainnya'  => $lainnya,
+      'setoran_lainnya' => $lainnya,
       'setoran_bg'      => $bgcek,
       'setoran_transfer' => $transfer,
       'girotocash'      => $girotocash,
+      'girototransfer'  => $girototransfer,
       'keterangan'      => $keterangan
     );
     if ($bulan == 12) {

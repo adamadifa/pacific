@@ -174,8 +174,9 @@
                     $setorangiro       = $d['ceksetorangiro'];
                     $setorantransfer   = $d['ceksetorantransfer'];
                     $setoranalltagihan = $d['cekkredit'] + $d['ceksetorangiro'] + $d['ceksetorantransfer'];
-
                     $girotocash        = $d['cekgirotocash'];
+                    $convertgiro       = $d['girotocash'] + $d['girototransfer'];
+                    //echo $girotocash;
                     //Penyelesaian Kurang lebih Setor
                     $uk = $d['kurangsetorkertas'] - $d['lebihsetorkertas'];
                     $ul = $d['kurangsetorlogam'] - $d['lebihsetorlogam'];
@@ -212,7 +213,7 @@
                       $colorsetorantagihan =  "background-color:#dc3545; color:white";
                     }
 
-                    if ($d['cektunai'] == $d['lhp_tunai'] && $setoranalltagihan == $d['lhp_tagihan'] && $girotocash == $d['girotocash']) {
+                    if ($d['cektunai'] == $d['lhp_tunai'] && $setoranalltagihan == $d['lhp_tagihan'] && $girotocash == $convertgiro) {
                       $colortotallhp = "background-color:#1ab394; color:white !important";
                     } else {
                       $colortotallhp = "background-color:#dc3545; color:white !important";
@@ -239,7 +240,7 @@
                       <td align="right"><b><?php echo number_format($totalsetoran, '0', '', '.'); ?></b></td>
                       <td>
                         <a href="#" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="left" title="Keterangan" data-content="<?php echo $d['keterangan']; ?>" class="btn btn-info btn-sm keterangan"><i class="fa fa-info"></i></a>
-                        <!-- <a href="<?php echo base_url(); ?>penjualan/synclhp/<?php echo $d['kode_setoran']; ?>" class="btn btn-success btn-sm"><i class="fa fa-refresh"></i></a> -->
+                        <a href="<?php echo base_url(); ?>penjualan/synclhp/<?php echo $d['kode_setoran']; ?>" class="btn btn-success btn-sm"><i class="fa fa-refresh"></i></a>
                         <a href="#" data-kodesetoran="<?php echo $d['kode_setoran'] ?>" class="btn btn-primary btn-sm edit"><i class="fa fa-pencil"></i></a>
                         <a href="#" data-href="<?php echo base_url(); ?>penjualan/hapus_setoran/<?php echo $d['kode_setoran']; ?>" class="btn btn-danger btn-sm hapus"><i class="fa fa-trash-o"></i></a>
                       </td>
