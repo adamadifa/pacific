@@ -196,10 +196,10 @@ tr:nth-child(even) {
         $jmlhlainnya      = $d->qtylainnya1 * $hargapemb;
         $jmlhretur       = $d->qtypengganti1 * $hargapemb;
 
-        if ($d->qtypemb1 == '' || $d->qtypemb1 == '0' || $d->qtypemb1 == NULL) {
-          $hargakeluarunit  = $hargasa;
-        }else{
+        if ($d->qtypemb1 != '' && $d->qtypemb1 != 0 && !empty($d->qtypemb1) ) {
           $hargakeluarunit  = ($jmlhpemb + $jmlhlainnya + $jmlhretur + $jmlhsaldoawal) / (($d->qtypemb1 + $d->qtyunitsa + $d->qtypengganti1 + $d->qtylainnya1)+0.0000000001);
+        }else{
+          $hargakeluarunit  = $hargasa;
         }
 
         $subtotjmlhproduksi    += $d->qtyprod3 * $hargakeluarunit;
@@ -399,10 +399,10 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtylainnya1)) {
-              if (!empty($d->qtypemb1)) {
-                echo uang($hargasa);
-              }else{
+              if ($d->qtypemb1 != '' && $d->qtypemb1 != 0 && !empty($d->qtypemb1) ) {
                 echo uang($hargapemb);
+              }else{
+                echo uang($hargasa);
               }
             }else{
               echo "";
@@ -411,10 +411,10 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtylainnya1)) {
-              if (!empty($d->qtypemb1)) {
-                echo uang($d->qtylainnya1 * $hargasa);
-              }else{
+              if ($d->qtypemb1 != '' && $d->qtypemb1 != 0 && !empty($d->qtypemb1) ) {
                 echo uang($d->qtylainnya1 * $hargapemb);
+              }else{
+                echo uang($d->qtylainnya1 * $hargasa);
               }
             }else{
               echo "";
@@ -458,10 +458,10 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtypengganti1)) {
-              if (!empty($d->qtypemb1)) {
-                echo uang($hargasa);
-              }else{
+              if ($d->qtypemb1 != '' && $d->qtypemb1 != 0 && !empty($d->qtypemb1) ) {
                 echo uang($hargapemb);
+              }else{
+                echo uang($hargasa);
               }
             }else{
               echo "";
@@ -470,7 +470,7 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtypengganti1)) {
-              if (!empty($d->qtypemb1)) {
+              if ($d->qtypemb1 != '' && $d->qtypemb1 != 0 && !empty($d->qtypemb1) ) {
                 $jmlhretur = $d->qtypengganti1 * $hargasa;
                 echo uang($d->qtypengganti1 * $hargasa);
               }else{
