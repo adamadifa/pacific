@@ -24,6 +24,9 @@ function uang($nilai)
         </div>
         <div class="card-body">
           <form method="POST" action="<?php echo base_url(); ?>penjualan/penjualanpend" autocomplete="off" class="mb-4">
+            <div class="mb-3">
+              <input id="nofaktur" value="<?php echo $nofaktur; ?>" name="nofaktur" class="form-control" placeholder="No Faktur">
+            </div>
             <?php if ($sess_cab == 'pusat') { ?>
               <div class="mb-3">
                 <select name="cabang" id="cabang" class="form-select">
@@ -93,6 +96,12 @@ function uang($nilai)
             <div class="mb-3 d-flex justify-content-end">
               <button type="submit" name="submit" class="btn btn-primary btn-block mr-2" value="1"><i class="fa fa-search mr-2"></i>CARI</button>
             </div>
+            <div class="alert alert-icon alert-success" style="font-size:18px !important" role="alert">
+              <i class="fa fa-bell mr-2" aria-hidden="true"></i> <b>Update Penjualan Pending Faktur Yang Sudah Lunas</b> <br>
+              Untuk merubah Status pending penjualan faktur yang sudah lunas cukup tekan refresh <i class="fa fa-refresh"></i>
+              <br>
+              maka status pendingnya akan hilang
+            </div>
             <div class="table-responsive">
               <table class="table table-bordered table-striped table-hover" id="datatable">
                 <thead class="thead-dark">
@@ -105,6 +114,7 @@ function uang($nilai)
                     <th>Total</th>
                     <th>Salesman</th>
                     <th>Status</th>
+                    <th>Lunas/Belum</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -123,18 +133,31 @@ function uang($nilai)
                       <td><?php echo $d['nama_karyawan']; ?></td>
                       <td>
                         <?php
-						if ($d['status'] == "2") {
-                          ?>
-                            <span class="badge bg-green"><i class="fa fa-check"></i></span>
-                          <?php
-                          } else {
-							  
-                          ?>
-                            <span class="badge bg-orange">Pending</span>
+                        if ($d['status'] == "2") {
+                        ?>
+                          <span class="badge bg-green"><i class="fa fa-check"></i></span>
+                        <?php
+                        } else {
+
+                        ?>
+                          <span class="badge bg-orange">Pending</span>
                         <?php }
-						?>
+                        ?>
                       </td>
-					  
+                      <td>
+                        <?php
+                        if ($d['status_lunas'] == "1") {
+                        ?>
+                          <span class="badge bg-green">Lunas</span>
+                        <?php
+                        } else {
+
+                        ?>
+                          <span class="badge bg-orange">Belum Lunas</span>
+                        <?php }
+                        ?>
+                      </td>
+
                       <td>
                         <?php
                         if ($d['status'] == "1") {

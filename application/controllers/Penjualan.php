@@ -2613,12 +2613,14 @@ class Penjualan extends CI_Controller
     } else {
       $cbg   = $sess_cab;
     }
+    $nofaktur = "";
     $salesman = "";
     $dari     = "";
     $sampai   = "";
     $statuspenjpending   = "";
     if ($this->input->post('submit') != NULL) {
       $cbg      = $this->input->post('cabang');
+      $nofaktur = $this->input->post('nofaktur');
       $salesman = $this->input->post('salesman');
       $dari     = $this->input->post('dari');
       $sampai   = $this->input->post('sampai');
@@ -2626,6 +2628,7 @@ class Penjualan extends CI_Controller
 
       $data     = array(
         'cbg'        => $cbg,
+        'nofaktur'   => $nofaktur,
         'salesman'   => $salesman,
         'dari'       => $dari,
         'sampai'     => $sampai,
@@ -2635,6 +2638,9 @@ class Penjualan extends CI_Controller
     } else {
       if ($this->session->userdata('cbg') != NULL) {
         $cbg = $this->session->userdata('cbg');
+      }
+      if ($this->session->userdata('nofaktur') != NULL) {
+        $nofaktur = $this->session->userdata('nofaktur');
       }
       if ($this->session->userdata('salesman') != NULL) {
         $salesman = $this->session->userdata('salesman');
@@ -2658,9 +2664,9 @@ class Penjualan extends CI_Controller
     }
 
     // All records count
-    $allcount     = $this->Model_penjualan->getrecordPenjualanpendCount($cbg, $salesman, $dari, $sampai, $statuspenjpending);
+    $allcount     = $this->Model_penjualan->getrecordPenjualanpendCount($cbg, $salesman, $dari, $sampai, $statuspenjpending, $nofaktur);
     // Get records
-    $users_record = $this->Model_penjualan->getDataPenjualanpend($rowno, $rowperpage, $cbg, $salesman, $dari, $sampai, $statuspenjpending);
+    $users_record = $this->Model_penjualan->getDataPenjualanpend($rowno, $rowperpage, $cbg, $salesman, $dari, $sampai, $statuspenjpending, $nofaktur);
 
     // Pagination Configuration
     $config['base_url']         = base_url() . 'penjualan/penjualanpend';
@@ -2691,6 +2697,7 @@ class Penjualan extends CI_Controller
     $data['result']     = $users_record;
     $data['row']         = $rowno;
     $data['cbg']        = $cbg;
+    $data['nofaktur']   = $nofaktur;
     $data['salesman']   = $salesman;
     $data['cabang']     = $this->Model_cabang->view_cabang()->result();
     $data['sess_cab']   = $this->session->userdata('cabang');
