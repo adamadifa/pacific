@@ -188,18 +188,25 @@ tr:nth-child(even) {
 
         $totaljmlhsa      += $d->qtyunitsa * $hargasa;
         $totjmlhpemb      += $d->qtypemb1 * $hargapemb;
-        $totjmlhlainnya   += $d->qtylainnya1 * $hargapemb;
-        $totjmlhretur     += $d->qtypengganti1 * $hargapemb;
+       
         
         $jmlhsaldoawal    = $d->qtyunitsa * $hargasa;
         $jmlhpemb         = $d->qtypemb1 * $hargapemb;
+        $jmlhretur        = $d->qtypengganti1 * $hargapemb;
         $jmlhlainnya      = $d->qtylainnya1 * $hargapemb;
-        $jmlhretur       = $d->qtypengganti1 * $hargapemb;
 
         if ($d->qtypemb1 != '' && $d->qtypemb1 != 0 && !empty($d->qtypemb1) ) {
-          $hargakeluarunit  = ($jmlhpemb + $jmlhlainnya + $jmlhretur + $jmlhsaldoawal) / (($d->qtypemb1 + $d->qtyunitsa + $d->qtypengganti1 + $d->qtylainnya1)+0.0000000001);
+          $hargakeluarunit    = ($jmlhpemb + $jmlhlainnya + $jmlhretur + $jmlhsaldoawal) / (($d->qtypemb1 + $d->qtyunitsa + $d->qtypengganti1 + $d->qtylainnya1)+0.0000000001);
+          $totjmlhlainnya     += $d->qtylainnya1 * $hargapemb;
+          $totjmlhretur       += $d->qtypengganti1 * $hargapemb;
+          $jmlhlainnya        = $d->qtylainnya1 * $hargapemb;
+          $jmlhretur          = $d->qtypengganti1 * $hargapemb;
         }else{
-          $hargakeluarunit  = $hargasa;
+          $hargakeluarunit    = $hargasa;
+          $totjmlhlainnya     += $d->qtylainnya1 * $hargasa;
+          $totjmlhretur       += $d->qtypengganti1 * $hargasa;
+          $jmlhlainnya        = $d->qtylainnya1 * $hargasa;
+          $jmlhretur          = $d->qtypengganti1 * $hargasa;
         }
 
         $subtotjmlhproduksi    += $d->qtyprod3 * $hargakeluarunit;
@@ -920,7 +927,7 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($saldoakhirunit)) {
-              $jmlhopname             = $d->qtyunitop* $hargakeluarunit;
+              $jmlhopname             = $d->qtyunitop * $hargakeluarunit;
               $totalopname            += $d->qtyunitop;
               $totjmlhopname          += $d->qtyunitop * $hargakeluarunit;
               echo uang($jmlhopname);

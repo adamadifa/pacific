@@ -29,6 +29,12 @@ class laporanpembelian extends CI_Controller
 		$this->template->load('template/template', 'laporanpembelian/kartuhutang.php', $data);
 	}
 
+	function rekap_kartuhutang()
+	{
+		$data['supp']  = $this->Model_pembelian->listSupplier()->result();
+		$this->template->load('template/template', 'laporanpembelian/rekap_kartuhutang.php', $data);
+	}
+
 	function retur_keluar()
 	{
     	$data['barang']    = $this->Model_gudangbahan->listproduk()->result();
@@ -209,14 +215,27 @@ class laporanpembelian extends CI_Controller
 		$data['supplier']	= $this->input->post('supplier');
 		$data['jenis']		= $this->input->post('jenishutang');
 		$data['supp']			= $this->Model_pembelian->getSupplier($data['supplier'])->row_array();
-		$data['pmb']			= $this->Model_pembelian->cetak_kartuhutang($data['dari'], $data['sampai'], $data['supplier'], $data['jenis'])->result();
-		if (isset($_POST['export'])) {
-			// Fungsi header dengan mengirimkan raw data excel
-			header("Content-type: application/vnd-ms-excel");
-			// Mendefinisikan nama file ekspor "hasil-export.xls"
-			header("Content-Disposition: attachment; filename=Kartu Hutang.xls");
+		$jenislaporan		= $this->input->post('jenislaporan');
+		if($jenislaporan == '1'){
+			$data['pmb']			= $this->Model_pembelian->cetak_kartuhutang($data['dari'], $data['sampai'], $data['supplier'], $data['jenis'])->result();
+			if (isset($_POST['export'])) {
+				// Fungsi header dengan mengirimkan raw data excel
+				header("Content-type: application/vnd-ms-excel");
+				// Mendefinisikan nama file ekspor "hasil-export.xls"
+				header("Content-Disposition: attachment; filename=Kartu Hutang.xls");
+			}
+			$this->load->view('laporanpembelian/cetak_kartuhutang', $data);
+		} else if($jenislaporan == '2'){
+			$data['pmb']			= $this->Model_pembelian->cetak_rekapkartuhutang($data['dari'], $data['sampai'], $data['supplier'], $data['jenis'])->result();
+			if (isset($_POST['export'])) {
+				// Fungsi header dengan mengirimkan raw data excel
+				header("Content-type: application/vnd-ms-excel");
+				// Mendefinisikan nama file ekspor "hasil-export.xls"
+				header("Content-Disposition: attachment; filename=Rekap Kartu Hutang.xls");
+			}
+			$this->load->view('laporanpembelian/cetak_rekapkartuhutang', $data);
 		}
-		$this->load->view('laporanpembelian/cetak_kartuhutang', $data);
+	
 	}
 
 	function cetak_auh()

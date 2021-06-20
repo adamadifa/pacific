@@ -20,7 +20,7 @@
                 <h4 class="card-title"> Laporan Kartu Hutang</h4>
               </div>
               <div class="card-body">
-                <form class="formValidate" id="formValidate" method="POST" action="<?php echo base_url(); ?>laporanpembelian/cetak_kartuhutang" target="_blank">
+                <form class="formValidate" id="formValidate" method="POST" action="<?php echo base_url(); ?>laporanpembelian/cetak_rekapkartuhutang" target="_blank">
                   <div class="form-group">
                     <div class="row">
                       <div class="col-md-6">
@@ -55,25 +55,10 @@
                     </div>
                   </div>
                   <div class="form-grou mb-3">
-                    <select class="form-select show-tick" id="supplier" name="supplier" data-error=".errorTxt1" data-live-search="true">
-                      <option value="">--Semua Supplier--</option>
-                      <?php foreach ($supp as $d) { ?>
-                        <option value="<?php echo $d->kode_supplier; ?>"><?php echo $d->nama_supplier; ?></option>
-                      <?php }  ?>
-                    </select>
-                  </div>
-                  <div class="form-grou mb-3">
                     <select class="form-select show-tick" id="jenishutang" name="jenishutang" data-error=".errorTxt1" data-live-search="true">
                       <option value="">--Jenis Hutang--</option>
                       <option value="2-1200">Hutang Dagang</option>
                       <option value="2-1300">Hutang Lainnya</option>
-                    </select>
-                  </div>
-                  <div class="form-grou mb-3">
-                    <select class="form-select show-tick" id="jenislaporan" name="jenislaporan" data-error=".errorTxt1" data-live-search="true">
-                      <option value="">--Jenis Laporan--</option>
-                      <option value="1">Detail Kartu Hutang</option>
-                      <option value="2">Rekap Kartu Hutang</option>
                     </select>
                   </div>
                   <div class="form-group">

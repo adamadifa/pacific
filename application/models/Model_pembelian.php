@@ -1837,6 +1837,61 @@ WHERE tgl_pembelian BETWEEN '$dari' AND '$sampai'"
     return $this->db->query($query);
   }
 
+  function cetak_rekapkartuhutang($dari = "", $sampai = "", $supplier = "", $jenis = "")
+  {
+    if ($jenis != "") {
+      $jenis = "AND pembelian.kode_akun = '" . $jenis . "' ";
+    }
+
+    if ($supplier != "") {
+      $supplier = "AND pembelian.kode_supplier = '" . $supplier . "' ";
+    }
+
+    $query = "SELECT pembelian.nobukti_pembelian,tgl_pembelian,nama_supplier,supplier.kode_supplier,pembelian.kode_akun,nama_akun,(IFNULL(IFNULL(totalhutang,0) + IFNULL(penyesuaianbulanlalu,0)+ IFNULL(penyesuaianbulanini,0),0))   as totalhutang,
+    (IFNULL(IFNULL(totalhutang,0) + IFNULL(penyesuaianbulanlalu,0) - IFNULL(jmlbayarbulanlalu,0) ,0))   as sisapiutang,
+    IFNULL(jmlbayarbulanlalu,0) as jmlbayarbulanlalu, IFNULL(jmlbayarbulanini,0) as jmlbayarbulanini,IFNULL(penyesuaianbulanlalu,0) as penyesuaianbulanlalu,IFNULL(penyesuaianbulanini,0) as penyesuaianbulanini ,pmbbulanini
+    FROM pembelian
+    INNER JOIN supplier ON pembelian.kode_supplier = supplier.kode_supplier
+    INNER JOIN coa ON pembelian.kode_akun = coa.kode_akun
+    LEFT JOIN (
+      SELECT detail_pembelian.nobukti_pembelian, (SUM( IF ( STATUS = 'PMB', ((qty*harga)+penyesuaian), 0 ) ) - SUM( IF ( STATUS = 'PNJ',(qty*harga), 0 ) ) ) as totalhutang
+      ,IF(tgl_pembelian BETWEEN '$dari' AND '$sampai',(SUM( IF ( STATUS = 'PMB', ((qty*harga)+penyesuaian), 0 ) ) - SUM( IF ( STATUS = 'PNJ',(qty*harga), 0 ) ) ),0) as pmbbulanini
+      FROM detail_pembelian
+      INNER JOIN pembelian ON detail_pembelian.nobukti_pembelian = pembelian.nobukti_pembelian
+      GROUP BY nobukti_pembelian
+    ) detail_pembelian ON (pembelian.nobukti_pembelian  = detail_pembelian.nobukti_pembelian)
+
+    LEFT JOIN (
+      SELECT nobukti_pembelian,SUM(IF(tglbayar<'$dari',jmlbayar,0)) as jmlbayarbulanlalu,
+      SUM(IF(tglbayar BETWEEN '$dari' AND '$sampai',jmlbayar,0)) as jmlbayarbulanini
+      FROM historibayar_pembelian hb
+      INNER JOIN detail_kontrabon on hb.no_kontrabon = detail_kontrabon.no_kontrabon
+      GROUP BY nobukti_pembelian
+    ) hb ON hb.nobukti_pembelian = pembelian.nobukti_pembelian
+
+    LEFT JOIN (
+    SELECT nobukti_pembelian,(SUM(IF(tgl_jurnalkoreksi<'$dari' AND status_dk='K' AND kode_akun='2-1200'
+    OR tgl_jurnalkoreksi<'$dari' AND status_dk='K' AND kode_akun='2-1300' ,(qty*harga),0)) - SUM(IF(tgl_jurnalkoreksi<'$dari' AND status_dk='D' AND kode_akun='2-1200'
+    OR tgl_jurnalkoreksi<'$dari' AND status_dk='D' AND kode_akun='2-1300' ,(qty*harga),0))) as penyesuaianbulanlalu,
+    (SUM(IF(tgl_jurnalkoreksi BETWEEN '$dari' AND '$sampai'  AND status_dk='K' AND kode_akun='2-1200'
+    OR tgl_jurnalkoreksi BETWEEN '$dari' AND '$sampai'  AND status_dk='K' AND kode_akun='2-1300'  ,(qty*harga),0))-SUM(IF(tgl_jurnalkoreksi BETWEEN '$dari' AND '$sampai'  AND status_dk='D' AND kode_akun='2-1200'
+    OR tgl_jurnalkoreksi BETWEEN '$dari' AND '$sampai'  AND status_dk='D' AND kode_akun='2-1300'  ,(qty*harga),0))) as penyesuaianbulanini
+    FROM jurnal_koreksi jk
+    GROUP BY nobukti_pembelian
+    ) jk ON (jk.nobukti_pembelian = pembelian.nobukti_pembelian)
+    WHERE tgl_pembelian <= '$sampai' AND (IFNULL(IFNULL(totalhutang,0) + IFNULL(penyesuaianbulanlalu,0) - IFNULL(jmlbayarbulanlalu,0) ,0))  != 0 "
+      . $supplier
+      . $jenis
+      . "  OR tgl_pembelian <= '$sampai' AND jmlbayarbulanini != 0 "
+      . $supplier
+      . $jenis
+      . "
+    ORDER BY nama_supplier,pembelian.kode_supplier ASC
+
+    ";
+    return $this->db->query($query);
+  }
+
   function cetak_auh($sampai = "")
   {
     $query = "SELECT * FROM
