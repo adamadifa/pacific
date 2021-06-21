@@ -174,11 +174,11 @@ function uang($nilai)
       <td align="right"><?php if (!empty($netskb)) {
                           echo uang($netskb);
                         } ?></td>
-      <td align="right"><?php if (!empty($netbgr)) {
-                          echo uang($netbgr);
-                        } ?></td>
       <td align="right"><?php if (!empty($nettgl)) {
                           echo uang($nettgl);
+                        } ?></td>
+      <td align="right"><?php if (!empty($netbgr)) {
+                          echo uang($netbgr);
                         } ?></td>
       <td align="right"><?php if (!empty($netpwt)) {
                           echo uang($netpwt);
@@ -291,11 +291,11 @@ function uang($nilai)
       <td align="right"><?php if (!empty($netaidaskb)) {
                           echo uang($netaidaskb);
                         } ?></td>
-      <td align="right"><?php if (!empty($netaidabgr)) {
-                          echo uang($netaidabgr);
-                        } ?></td>
       <td align="right"><?php if (!empty($netaidatgl)) {
                           echo uang($netaidatgl);
+                        } ?></td>
+      <td align="right"><?php if (!empty($netaidabgr)) {
+                          echo uang($netaidabgr);
                         } ?></td>
       <td align="right"><?php if (!empty($netaidapwt)) {
                           echo uang($netaidapwt);
