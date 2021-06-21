@@ -41,12 +41,14 @@ class Model_keuangan extends CI_Model
     $this->db->delete('ledger_temp', array('id' => $id));
   }
 
-  function ledger($bank = "", $dari, $sampai)
+  function ledger($bank = "", $dari, $sampai, $kodeakun = "")
   {
     if ($bank != '') {
       $this->db->where('bank', $bank);
     }
-
+    if ($kodeakun != '') {
+      $this->db->where('ledger_bank.kode_akun', $kodeakun);
+    }
 
     $this->db->where('tgl_ledger >=', $dari);
     $this->db->where('tgl_ledger <=', $sampai);
@@ -372,10 +374,13 @@ class Model_keuangan extends CI_Model
     }
   }
 
-  function rekapledger($bank, $dari, $sampai)
+  function rekapledger($bank, $dari, $sampai, $kodeakun)
   {
     if ($bank != '') {
       $this->db->where('bank', $bank);
+    }
+    if ($kodeakun != '') {
+      $this->db->where('ledger_bank.kode_akun', $kodeakun);
     }
     $this->db->where('tgl_ledger >=', $dari);
     $this->db->where('tgl_ledger <=', $sampai);

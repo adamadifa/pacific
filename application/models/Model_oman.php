@@ -692,12 +692,14 @@ class Model_oman extends CI_Model
 	{
 
 		$no_sj 						= $this->input->post('no_sj');
+		$no_dok 					= $this->input->post('no_dok');
 		$tgl_sj 					= $this->input->post('tgl_sj');
 		$no_permintaan 		= $this->input->post('nopermintaan');
 		$id_admin 				= $this->session->userdata('id_user');
 		$detail 					= $this->db->get_where('detail_mutasi_gudang_temp', array('no_permintaan_pengiriman' => $no_permintaan))->result();
 		$data_sj 					= array(
 			'no_mutasi_gudang' 						=> $no_sj,
+			'no_dok' 											=> $no_dok,
 			'tgl_mutasi_gudang'						=> $tgl_sj,
 			'no_permintaan_pengiriman'		=> $no_permintaan,
 			'inout'												=> 'OUT',

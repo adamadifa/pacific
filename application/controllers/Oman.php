@@ -670,7 +670,8 @@ class Oman extends CI_Controller
 
   function cek_detailsuratjalan()
   {
-    $cek = $this->db->get('detail_mutasi_gudang_temp')->num_rows();
+    $no_permintaan = $this->input->post('no_permintaan');
+    $cek = $this->db->get_where('detail_mutasi_gudang_temp', array('no_permintaan_pengiriman' => $no_permintaan))->num_rows();
     if ($cek != 0) {
       echo "1";
     }

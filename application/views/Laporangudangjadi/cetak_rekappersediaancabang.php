@@ -45,7 +45,7 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 			<th rowspan="3" bgcolor="#024a75" style="color:white; font-size:12;">TANGGAL UPDATE</th>
 		</tr>
 		<tr>
-			<th bgcolor="#024a75" style="color:white; font-size:12;">SURAT JALAN</th>
+			<th bgcolor="#024a75" style="color:white; font-size:12;">SURAT JALAN / NO FAKTUR</th>
 			<th bgcolor="#024a75" style="color:white; font-size:12;">TGL KIRIM</th>
 			<th bgcolor="#024a75" style="color:white; font-size:12;">NO BUKTI</th>
 			<th bgcolor="#28a745" style="color:white; font-size:12;">PUSAT</th>
@@ -462,7 +462,7 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 				$color_hk 	   	= "e59a04";
 				$color_lain    	= "";
 			} else if ($m->jenis_mutasi == "REJECT GUDANG") {
-				$no_suratjalan 	= "";
+				$no_suratjalan 	= $m->no_suratjalan;
 				$no_bukti     	= $m->no_mutasi_gudang_cabang;
 				$no_lainlain   	= "";
 				$no_penyesuaian	= "";
@@ -650,7 +650,17 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 				$color_lain    	= "";
 			}
 
-
+			if ($m->jenis_mutasi == "SURAT JALAN") {
+				$qgudangjadipusat = "SELECT no_dok FROM mutasi_gudang_jadi WHERE no_mutasi_gudang = '$no_suratjalan'";
+				$gjpusat = $this->db->query($qgudangjadipusat)->row_array();
+				$no_dok = $gjpusat['no_dok'];
+			} else if ($m->jenis_mutasi == "REJECT GUDANG" or $m->jenis_mutasi == "TRANSIT IN" or $m->jenis_mutasi == "TRANSIT OUT") {
+				$qgudangjadipusat = "SELECT no_dok FROM mutasi_gudang_jadi WHERE no_mutasi_gudang = '$m->no_suratjalan'";
+				$gjpusat = $this->db->query($qgudangjadipusat)->row_array();
+				$no_dok = $gjpusat['no_dok'];
+			} else {
+				$no_dok = "";
+			}
 
 			if ($m->inout_good == 'IN') {
 				$jumlah  	= ($m->jumlah / $m->isipcsdus);
@@ -678,7 +688,13 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 		?>
 			<tr style="font-weight: bold; font-size:11px">
 				<td><?php echo DateToIndo2($m->tgl_mutasi_gudang_cabang); ?></td>
-				<td><?php echo $no_suratjalan; ?></td>
+				<?php if ($m->jenis_mutasi == "SURAT JALAN" or $m->jenis_mutasi == "REJECT GUDANG" or $m->jenis_mutasi == "TRANSIT IN" or  $m->jenis_mutasi == "TRANSIT OUT") { ?>
+					<td><?php echo $no_suratjalan . "/" . $no_dok; ?></td>
+				<?php
+				} else { ?>
+					<td><?php echo $no_suratjalan ?></td>
+				<?php } ?>
+
 				<td><?php if (!empty($tgl_kirimsj) or $tgl_kirimsj != '0000-00-00') {
 							echo DateToIndo2($tgl_kirimsj);
 						} ?></td>

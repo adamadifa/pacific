@@ -11,6 +11,14 @@
   <div class="mb-3">
     <div class="input-icon">
       <span class="input-icon-addon">
+        <i class="fa fa-barcode"></i>
+      </span>
+      <input type="text" id="no_dok" name="no_dok" class="form-control" placeholder="No Dok. / No. Faktur" data-error=".errorTxt1" />
+    </div>
+  </div>
+  <div class="mb-3">
+    <div class="input-icon">
+      <span class="input-icon-addon">
         <i class="fa fa-calendar-o"></i>
       </span>
       <input type="text" value="" id="tgl_sj" name="tgl_sj" class="datepicker form-control date" placeholder="Tanggal" data-error=".errorTxt19" />
@@ -134,9 +142,13 @@
     }
 
     function cek_detailsuratjalan() {
+      var no_permintaan = $("#nopermintaan").val();
       $.ajax({
         type: 'POST',
         url: '<?php echo base_url(); ?>oman/cek_detailsuratjalan',
+        data: {
+          no_permintaan: no_permintaan
+        },
         cache: false,
         success: function(respond) {
           $("#cekdetailsuratjalan").val(respond);
@@ -162,6 +174,7 @@
     $("#tambahbarang").click(function(e) {
       e.preventDefault();
       var no_permintaan = $("#nopermintaan").val();
+
       var kode_produk = $("#kode_produk").val();
       var jumlah = $("#jml").val();
       var stok = $("#stok").val();
@@ -219,10 +232,14 @@
     });
     $(".formValidate").submit(function() {
       var no_sj = $("#no_sj").val();
+      var no_dok = $("#no_dok").val();
       var tgl_sj = $("#tgl_sj").val();
       var cek = $("#cekdetailsuratjalan").val();
       if (no_sj == "") {
         swal("Oops!", "No Surat Jalan Masih Kosong!", "warning");
+        return false;
+      } else if (no_dok == "") {
+        swal("Oops!", "No. Dokumen / No Faktur Harus Diisi !", "warning");
         return false;
       } else if (tgl_sj == "") {
         swal("Oops!", "Tanggal Surat Jalan Masih Kosong!", "warning");

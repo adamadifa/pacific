@@ -37,6 +37,11 @@
                     </select>
 
                   </div>
+                  <div class="mb-3">
+                    <select name="kodeakun" id="kodeakun" class="form-select">
+                      <option value="">Kode Akun</option>
+                    </select>
+                  </div>
                   <div class="mb-3 form-group">
                     <div class="row">
                       <div class="col-md-6">
@@ -49,7 +54,8 @@
                               <line x1="8" y1="3" x2="8" y2="7" />
                               <line x1="4" y1="11" x2="20" y2="11" />
                               <line x1="11" y1="15" x2="12" y2="15" />
-                              <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                              <line x1="12" y1="15" x2="12" y2="18" />
+                            </svg>
                           </span>
                         </div>
                       </div>
@@ -64,7 +70,8 @@
                               <line x1="8" y1="3" x2="8" y2="7" />
                               <line x1="4" y1="11" x2="20" y2="11" />
                               <line x1="11" y1="15" x2="12" y2="15" />
-                              <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                              <line x1="12" y1="15" x2="12" y2="18" />
+                            </svg>
                           </span>
                         </div>
                       </div>
@@ -106,8 +113,19 @@
 </script>
 <script>
   $(function() {
-    $('#pelanggan').selectize({});
-
+    function loadkodeakun() {
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>laporankeuangan/get_coa',
+        cache: false,
+        success: function(respond) {
+          $('#kodeakun').selectize()[0].selectize.destroy();
+          $("#kodeakun").html(respond);
+          $('#kodeakun').selectize({});
+        }
+      });
+    }
+    loadkodeakun();
     $('.formValidate').bootstrapValidator({
       message: 'This value is not valid',
       feedbackIcons: {

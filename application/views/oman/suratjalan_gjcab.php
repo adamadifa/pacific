@@ -45,6 +45,7 @@
                   <tr>
                     <th width="10px">No</th>
                     <th>No. Surat Jalan</th>
+                    <th>No. Dok / No.Faktur</th>
                     <th>Tanggal</th>
                     <th>Status SJ</th>
                     <th>Tgl Diterima / Transit Out</th>
@@ -97,6 +98,11 @@
                       <td>
                         <a href="#" data-sj="<?php echo $d['no_mutasi_gudang']; ?>" class="detailsj">
                           <?php echo $d['no_mutasi_gudang']; ?>
+                        </a>
+                      </td>
+                      <td>
+                        <a href="#" data-sj="<?php echo $d['no_mutasi_gudang']; ?>" class="detailsj">
+                          <?php echo $d['no_dok']; ?>
                         </a>
                       </td>
                       <td><?php echo $tgl; ?></td>

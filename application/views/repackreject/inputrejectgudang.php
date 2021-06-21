@@ -37,6 +37,14 @@
                     <input type="text" readonly value="" id="no_sj" name="no_sj" class="form-control" placeholder="No Surat Jalan" data-error=".errorTxt19" />
                   </div>
                 </div>
+                <div class="form-group mb-3">
+                  <div class="input-icon">
+                    <span class="input-icon-addon">
+                      <i class="fa fa-barcode"></i>
+                    </span>
+                    <input type="text" readonly value="" id="no_dok" name="no_dok" class="form-control" placeholder="No Dok. / No. Faktur" data-error=".errorTxt19" />
+                  </div>
+                </div>
                 <?php if ($cb == 'pusat') { ?>
                   <div class="form-group mb-3">
                     <select class="form-select" id="cabang" name="cabang">
@@ -154,6 +162,7 @@
             <tr>
               <th width="10px">No</th>
               <th>No SJ</th>
+              <th>No Dok./No.Faktur</th>
               <th>Tanggal SJ</th>
               <th>Cabang</th>
               <th>Aksi</th>
@@ -253,6 +262,9 @@
           "data": "no_mutasi_gudang_cabang"
         },
         {
+          "data": "no_dok"
+        },
+        {
           "data": "tgl_mutasi_gudang_cabang"
         },
         {
@@ -275,6 +287,7 @@
     });
     $('#mytable tbody').on('click', 'a', function() {
       $("#no_sj").val($(this).attr("data-nosj"));
+      $("#no_dok").val($(this).attr("data-nodok"));
       $("#datasj").modal("hide");
       loadNoMutasi();
     });

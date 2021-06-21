@@ -54,6 +54,7 @@ error_reporting(0);
                     <th>Cabang</th>
                     <th>Status Order</th>
                     <th>No. Surat Jalan</th>
+                    <th>No. Dok / No. Faktur</th>
                     <th>Tgl Surat Jalan</th>
                     <th>Status SJ</th>
                     <th>Aksi</th>
@@ -126,6 +127,11 @@ error_reporting(0);
                       <td>
                         <a href="#" data-sj="<?php echo $sj['no_mutasi_gudang']; ?>" class="detailsj">
                           <?php echo $sj['no_mutasi_gudang']; ?>
+                        </a>
+                      </td>
+                      <td>
+                        <a href="#" data-sj="<?php echo $sj['no_mutasi_gudang']; ?>" class="detailsj">
+                          <?php echo $sj['no_dok']; ?>
                         </a>
                       </td>
                       <td><?php echo $tglsj; ?></td>

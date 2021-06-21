@@ -55,6 +55,7 @@
                   <tr>
                     <th>No</th>
                     <th>No. SJ</th>
+                    <th>No. Dok</th>
                     <th>Cabang</th>
                     <th>Tanggal</th>
                     <th>No Permintaan</th>
@@ -103,6 +104,11 @@
                       <td>
                         <a href="#" data-sj="<?php echo $d['no_mutasi_gudang']; ?>" class="detailsj">
                           <?php echo $d['no_mutasi_gudang']; ?>
+                        </a>
+                      </td>
+                      <td>
+                        <a href="#" data-sj="<?php echo $d['no_mutasi_gudang']; ?>" class="detailsj">
+                          <?php echo $d['no_dok']; ?>
                         </a>
                       </td>
                       <td><?php echo $d['kode_cabang']; ?></td>

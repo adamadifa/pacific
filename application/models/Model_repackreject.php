@@ -1117,10 +1117,11 @@ class Model_repackreject extends CI_Model
     if ($cabang != "pusat") {
       $this->datatables->where('mutasi_gudang_cabang.kode_cabang', $cabang);
     }
-    $this->datatables->where('jenis_mutasi', 'SURAT JALAN');
-    $this->datatables->select('no_mutasi_gudang_cabang,tgl_mutasi_gudang_cabang,kode_cabang');
+    $this->datatables->where('mutasi_gudang_cabang.jenis_mutasi', 'SURAT JALAN');
+    $this->datatables->select('no_mutasi_gudang_cabang,no_dok,tgl_mutasi_gudang_cabang,kode_cabang');
     $this->datatables->from('mutasi_gudang_cabang');
-    $this->datatables->add_column('view', '<a href="#" data-nosj="$1"  class="btn btn-red btn-sm pilihpel">Pilih</a>', 'no_mutasi_gudang_cabang');
+    $this->datatables->join('mutasi_gudang_jadi', 'mutasi_gudang_cabang.no_mutasi_gudang_cabang = mutasi_gudang_jadi.no_mutasi_gudang');
+    $this->datatables->add_column('view', '<a href="#" data-nosj="$1" data-nodok="$2"  class="btn btn-red btn-sm pilihpel">Pilih</a>', 'no_mutasi_gudang_cabang,no_dok');
     return $this->datatables->generate();
   }
 
