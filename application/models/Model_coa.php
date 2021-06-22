@@ -39,6 +39,31 @@ Class Model_coa extends CI_Model{
     }
   }
 
+  function update_coa(){
+
+    $kode_akun  = $this->input->post('kode_akun');
+    $nama_akun  = $this->input->post('nama_akun');
+
+    $data = array(
+      'nama_akun' => $nama_akun,
+
+    );
+
+    $this->db->where('kode_akun',$kode_akun);
+    $this->db->update('coa',$data);
+    $this->session->set_flashdata('msg',
+
+        '<div class="alert bg-green alert-dismissible" role="alert">
+
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                  <i class="material-icons" style="float:left; margin-right:10px">check</i> Data Akun Berhasil Disimpan !
+
+          </div>');
+
+      redirect('coa');
+  }
+
   function hapus($id){
     $hapus = $this->db->delete('coa',array('kode_akun'=>$id));
     if($hapus){

@@ -21,16 +21,20 @@ class Coa extends CI_Controller{
     }
   }
 
+  function edit_coa(){
+    if(isset($_POST['submit'])){
+      $this->Model_coa->update_coa();
+    }else{
+      $kode_akun    = $this->uri->segment(3);
+      $data['coa'] = $this->Model_coa->view_coa()->result();
+      $data['data'] = $this->Model_coa->get_coa($kode_akun)->row_array();
+    $this->template->load('template/template','coa/edit_coa',$data);
+    }
+  }
+
   function hapus(){
     $id = $this->uri->segment(3);
     $this->Model_coa->hapus($id);
-  }
-
-  function edit_coa(){
-    $kode_akun    = $this->input->post('kode_akun');
-    $data['coa']  = $this->Model_coa->view_coa()->result();
-    $data['akun'] = $this->Model_coa->get_coa($kode_akun)->row_array();
-    $this->load->view('coa/edit_coa',$data);
   }
 
   function setcoacabang(){

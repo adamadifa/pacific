@@ -77,6 +77,7 @@
 																									<td><?php echo $shh->nama_akun; ?></td>
 																									<td>
 																										<a href="#" class="btn btn-xs btn-danger" data-target="#konfirmasi_hapus" data-toggle="modal" data-href="<?php echo base_url(); ?>coa/hapus/<?php echo $shh->kode_akun; ?>"><i class="fa fa-trash"> </i></a>
+																										<a class="btn btn-xs btn-warning"  href="<?php echo base_url(); ?>coa/edit_coa/<?php echo $shh->kode_akun; ?>"><i class="fa fa-pencil"> </i></a>
 																									</td>
 																								</tr>
 																							<?php } ?>
@@ -84,8 +85,8 @@
 																					<?php } ?>
 																				</td>
 																				<td>
-
 																					<a href="#" class="btn btn-xs btn-danger" data-target="#konfirmasi_hapus" data-toggle="modal" data-href="<?php echo base_url(); ?>coa/hapus/<?php echo $sh->kode_akun; ?>"><i class="fa fa-trash"> </i></a>
+																					<a class="btn btn-xs btn-warning"  href="<?php echo base_url(); ?>coa/edit_coa/<?php echo $sh->kode_akun; ?>"><i class="fa fa-pencil"> </i></a>
 																				</td>
 																			</tr>
 																		<?php } ?>
@@ -93,8 +94,8 @@
 																<?php } ?>
 															</td>
 															<td>
-
 																<a href="#" class="btn btn-xs btn-danger" data-target="#konfirmasi_hapus" data-toggle="modal" data-href="<?php echo base_url(); ?>coa/hapus/<?php echo $s->kode_akun; ?>"><i class="fa fa-trash"> </i></a>
+																<a class="btn btn-xs btn-warning"  href="<?php echo base_url(); ?>coa/edit_coa/<?php echo $s->kode_akun; ?>"><i class="fa fa-pencil"> </i></a>
 															</td>
 														</tr>
 													<?php } ?>
@@ -104,8 +105,8 @@
 											?>
 										</td>
 										<td>
-
 											<a href="#" class="btn btn-xs btn-danger" data-target="#konfirmasi_hapus" data-toggle="modal" data-href="<?php echo base_url(); ?>coa/hapus/<?php echo $r->kode_akun; ?>"><i class="fa fa-trash"> </i></a>
+											<a class="btn btn-xs btn-warning"  href="<?php echo base_url(); ?>coa/edit_coa/<?php echo $r->kode_akun; ?>"><i class="fa fa-pencil"> </i></a>
 										</td>
 									</tr>
 								<?php } ?>
