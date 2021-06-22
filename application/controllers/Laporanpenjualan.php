@@ -1245,20 +1245,16 @@ class Laporanpenjualan extends CI_Controller
     }
     if (empty($cabang)) {
       $data['biaya'] = $this->Model_laporanpenjualan->costratiobiaya($bulan, $tahun)->result();
-      $data['swan'] = $this->Model_laporanpenjualan->netpenjualan($bulan, $tahun, 'SWAN')->row_array();
-      $data['aida'] = $this->Model_laporanpenjualan->netpenjualan($bulan, $tahun, 'AIDA')->row_array();
-      $data['returswan'] = $this->Model_laporanpenjualan->netretur($bulan, $tahun, 'SWAN')->row_array();
-      $data['returaida'] = $this->Model_laporanpenjualan->netretur($bulan, $tahun, 'AIDA')->row_array();
+      $data['penj'] = $this->Model_laporanpenjualan->netpenjualan($bulan, $tahun)->row_array();
+      $data['ret'] = $this->Model_laporanpenjualan->netretur($bulan, $tahun)->row_array();
       $data['piutang'] = $this->Model_laporanpenjualan->piutanglebihsatubulan($bulan, $tahun)->row_array();
       $data['cabang'] = $this->Model_cabang->view_cabang()->result();
       $this->load->view('penjualan/laporan/cetak_costratio', $data);
     } else {
       $data['cabang'] = $cabang;
       $data['biaya'] = $this->Model_laporanpenjualan->costratiobiayaCabang($bulan, $tahun, $cabang)->result();
-      $data['swan'] = $this->Model_laporanpenjualan->netpenjualanCabang($bulan, $tahun, 'SWAN', $cabang)->row_array();
-      $data['aida'] = $this->Model_laporanpenjualan->netpenjualanCabang($bulan, $tahun, 'AIDA', $cabang)->row_array();
-      $data['returswan'] = $this->Model_laporanpenjualan->netreturCabang($bulan, $tahun, 'SWAN', $cabang)->row_array();
-      $data['returaida'] = $this->Model_laporanpenjualan->netreturCabang($bulan, $tahun, 'AIDA', $cabang)->row_array();
+      $data['penj'] = $this->Model_laporanpenjualan->netpenjualanCabang($bulan, $tahun, $cabang)->row_array();
+      $data['ret'] = $this->Model_laporanpenjualan->netreturCabang($bulan, $tahun, $cabang)->row_array();
       $data['piutang'] = $this->Model_laporanpenjualan->piutanglebihsatubulanCabang($bulan, $tahun, $cabang)->row_array();
       $this->load->view('penjualan/laporan/cetak_costratiocabang', $data);
     }

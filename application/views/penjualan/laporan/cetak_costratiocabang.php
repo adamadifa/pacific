@@ -40,8 +40,8 @@ function uang($nilai)
     } ?>
     <tr>
       <?php
-      $penjswan = $swan['netpenjualan'] - $returswan['netretur'];
-      $penjaida = $aida['netpenjualan'] - $returaida['netretur'];
+      $penjswan = $penj['netswan'] - $ret['returswan'];
+      $penjaida = $penj['netaida'] - $ret['returaida'];
       $crswan = ($totalbiaya / $penjswan) * 100;
       $craida = ($totalbiaya / $penjaida) * 100;
       $totalpenjualan = $penjswan + $penjaida;

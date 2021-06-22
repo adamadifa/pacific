@@ -140,25 +140,25 @@ function uang($nilai)
     </tr>
     <tr style="font-weight: bold;">
       <?php
-      $nettsm = $swan['TSM'] - $returswan['TSM'];
-      $netbdg = $swan['BDG'] - $returswan['BDG'];
-      $netskb = $swan['SKB'] - $returswan['SKB'];
-      $netbgr = $swan['BGR'] - $returswan['BGR'];
-      $nettgl = $swan['TGL'] - $returswan['TGL'];
-      $netpwt = $swan['PWT'] - $returswan['PWT'];
-      $netpst = $swan['PST'] - $returswan['PST'];
-      $netsby = $swan['SBY'] - $returswan['SBY'];
-      $netsmr = $swan['SMR'] - $returswan['SMR'];
+      $nettsm = $penj['netswanTSM'] - $ret['returswanTSM'];
+      $netbdg = $penj['netswanBDG'] - $ret['returswanBDG'];
+      $netskb = $penj['netswanSKB'] - $ret['returswanSKB'];
+      $netbgr = $penj['netswanBGR'] - $ret['returswanBGR'];
+      $nettgl = $penj['netswanTGL'] - $ret['returswanTGL'];
+      $netpwt = $penj['netswanPWT'] - $ret['returswanPWT'];
+      $netpst = $penj['netswanPST'] - $ret['returswanPST'];
+      $netsby = $penj['netswanSBY'] - $ret['returswanSBY'];
+      $netsmr = $penj['netswanSMR'] - $ret['returswanSMR'];
 
-      $netaidatsm = $aida['TSM'] - $returaida['TSM'];
-      $netaidabdg = $aida['BDG'] - $returaida['BDG'];
-      $netaidaskb = $aida['SKB'] - $returaida['SKB'];
-      $netaidabgr = $aida['BGR'] - $returaida['BGR'];
-      $netaidatgl = $aida['TGL'] - $returaida['TGL'];
-      $netaidapwt = $aida['PWT'] - $returaida['PWT'];
-      $netaidapst = $aida['PST'] - $returaida['PST'];
-      $netaidasby = $aida['SBY'] - $returaida['SBY'];
-      $netaidasmr = $aida['SMR'] - $returaida['SMR'];
+      $netaidatsm = $penj['netaidaTSM'] - $ret['returaidaTSM'];
+      $netaidabdg = $penj['netaidaBDG'] - $ret['returaidaBDG'];
+      $netaidaskb = $penj['netaidaSKB'] - $ret['returaidaSKB'];
+      $netaidabgr = $penj['netaidaBGR'] - $ret['returaidaBGR'];
+      $netaidatgl = $penj['netaidaTGL'] - $ret['returaidaTGL'];
+      $netaidapwt = $penj['netaidaPWT'] - $ret['returaidaPWT'];
+      $netaidapst = $penj['netaidaPST'] - $ret['returaidaPST'];
+      $netaidasby = $penj['netaidaSBY'] - $ret['returaidaSBY'];
+      $netaidasmr = $penj['netaidaSMR'] - $ret['returaidaSMR'];
 
       $totalswan = $nettsm + $netbdg + $netskb + $netbgr + $nettgl + $netpwt + $netpst + $netsby + $netsmr;
       $totalaida = $netaidatsm + $netaidabdg + $netaidaskb + $netaidabgr + $netaidatgl + $netaidapwt + $netaidapst + $netaidasby + $netaidasmr;

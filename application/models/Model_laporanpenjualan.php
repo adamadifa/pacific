@@ -2517,247 +2517,87 @@ GROUP BY
 		return $this->db->get();
 	}
 
-	function netpenjualan($bulan, $tahun, $jenisproduk)
+	function netpenjualan($bulan, $tahun)
 	{
 		$awal = $tahun . "-" . $bulan . "-01";
-		$akhir = $tahun . "-" . $bulan . "-31";
+		$akhir = date('Y-m-t', strtotime($awal));
 
-		$query = "SELECT master_barang.jenis_produk AS jenis_produk,
-						Sum(CASE
-									WHEN ( karyawan.kode_cabang = 'TSM'
-													AND master_barang.jenis_produk = 'AIDA' ) THEN
-									detailpenjualan.subtotal - penjualan.potaida - penjualan.potisaida
-									-
-									penjualan.penyaida
-									WHEN ( karyawan.kode_cabang = 'TSM'
-													AND master_barang.jenis_produk = 'SWAN' ) THEN
-									detailpenjualan.subtotal - penjualan.potswan - penjualan.potisswan
-									-
-									penjualan.penyswan
-								END) AS TSM,
-						Sum(CASE
-									WHEN ( karyawan.kode_cabang = 'BDG'
-													AND master_barang.jenis_produk = 'AIDA' ) THEN
-									detailpenjualan.subtotal - penjualan.potaida - penjualan.potisaida
-									-
-									penjualan.penyaida
-									WHEN ( karyawan.kode_cabang = 'BDG'
-													AND master_barang.jenis_produk = 'SWAN' ) THEN
-									detailpenjualan.subtotal - penjualan.potswan - penjualan.potisswan
-									-
-									penjualan.penyswan
-								END) AS BDG,
-						Sum(CASE
-									WHEN ( karyawan.kode_cabang = 'SKB'
-													AND master_barang.jenis_produk = 'AIDA' ) THEN
-									detailpenjualan.subtotal - penjualan.potaida - penjualan.potisaida
-									-
-									penjualan.penyaida
-									WHEN ( karyawan.kode_cabang = 'SKB'
-													AND master_barang.jenis_produk = 'SWAN' ) THEN
-									detailpenjualan.subtotal - penjualan.potswan - penjualan.potisswan
-									-
-									penjualan.penyswan
-								END)  AS SKB,
-						Sum(CASE
-									WHEN ( karyawan.kode_cabang = 'TGL'
-													AND master_barang.jenis_produk = 'AIDA' ) THEN
-									detailpenjualan.subtotal - penjualan.potaida - penjualan.potisaida
-									-
-									penjualan.penyaida
-									WHEN ( karyawan.kode_cabang = 'TGL'
-													AND master_barang.jenis_produk = 'SWAN' ) THEN
-									detailpenjualan.subtotal - penjualan.potswan - penjualan.potisswan
-									-
-									penjualan.penyswan
-								END) AS TGL,
-						Sum(CASE
-									WHEN ( karyawan.kode_cabang = 'BGR'
-													AND master_barang.jenis_produk = 'AIDA' ) THEN
-									detailpenjualan.subtotal - penjualan.potaida - penjualan.potisaida
-									-
-									penjualan.penyaida
-									WHEN ( karyawan.kode_cabang = 'BGR'
-													AND master_barang.jenis_produk = 'SWAN' ) THEN
-									detailpenjualan.subtotal - penjualan.potswan - penjualan.potisswan
-									-
-									penjualan.penyswan
-								END) AS BGR,
-						Sum(CASE
-									WHEN ( karyawan.kode_cabang = 'PWT'
-													AND master_barang.jenis_produk = 'AIDA' ) THEN
-									detailpenjualan.subtotal - penjualan.potaida - penjualan.potisaida
-									-
-									penjualan.penyaida
-									WHEN ( karyawan.kode_cabang = 'PWT'
-													AND master_barang.jenis_produk = 'SWAN' ) THEN
-									detailpenjualan.subtotal - penjualan.potswan - penjualan.potisswan
-									-
-									penjualan.penyswan
-								END) AS PWT,
-						Sum(CASE
-									WHEN ( karyawan.kode_cabang = 'PST'
-													AND master_barang.jenis_produk = 'AIDA' ) THEN
-									detailpenjualan.subtotal - penjualan.potaida - penjualan.potisaida
-									-
-									penjualan.penyaida
-									WHEN ( karyawan.kode_cabang = 'PST'
-													AND master_barang.jenis_produk = 'SWAN' ) THEN
-									detailpenjualan.subtotal - penjualan.potswan - penjualan.potisswan
-									-
-									penjualan.penyswan
-								END) AS PST,
-						Sum(CASE
-									WHEN ( karyawan.kode_cabang = 'GRT'
-													AND master_barang.jenis_produk = 'AIDA' ) THEN
-									detailpenjualan.subtotal - penjualan.potaida - penjualan.potisaida
-									-
-									penjualan.penyaida
-									WHEN ( karyawan.kode_cabang = 'GRT'
-													AND master_barang.jenis_produk = 'SWAN' ) THEN
-									detailpenjualan.subtotal - penjualan.potswan - penjualan.potisswan
-									-
-									penjualan.penyswan
-								END) AS GRT,
-						Sum(CASE
-									WHEN ( karyawan.kode_cabang = 'SBY'
-													AND master_barang.jenis_produk = 'AIDA' ) THEN
-									detailpenjualan.subtotal - penjualan.potaida - penjualan.potisaida
-									-
-									penjualan.penyaida
-									WHEN ( karyawan.kode_cabang = 'SBY'
-													AND master_barang.jenis_produk = 'SWAN' ) THEN
-									detailpenjualan.subtotal - penjualan.potswan - penjualan.potisswan
-									-
-									penjualan.penyswan
-								END) AS SBY,
-						Sum(CASE
-									WHEN ( karyawan.kode_cabang = 'SMR'
-													AND master_barang.jenis_produk = 'AIDA' ) THEN
-									detailpenjualan.subtotal - penjualan.potaida - penjualan.potisaida
-									-
-									penjualan.penyaida
-									WHEN ( karyawan.kode_cabang = 'SMR'
-													AND master_barang.jenis_produk = 'SWAN' ) THEN
-									detailpenjualan.subtotal - penjualan.potswan - penjualan.potisswan
-									-
-									penjualan.penyswan
-								END) AS SMR
-			FROM   detailpenjualan
-						JOIN penjualan
-							ON ( detailpenjualan.no_fak_penj = penjualan.no_fak_penj )
-						JOIN karyawan
-							ON ( penjualan.id_karyawan = karyawan.id_karyawan )
-						JOIN barang
-							ON ( detailpenjualan.kode_barang = barang.kode_barang )
-						JOIN master_barang
-							ON ( barang.kode_produk = master_barang.kode_produk )
-			WHERE  penjualan.tgltransaksi BETWEEN '$awal' AND '$akhir' AND jenis_produk ='$jenisproduk'
-			GROUP  BY master_barang.jenis_produk ";
+		$query = "SELECT 
+		SUM(IF(karyawan.kode_cabang ='TSM',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanTSM,
+		SUM(IF(karyawan.kode_cabang ='TSM',brutoaida-potaida - potisaida-penyaida,0)) as netaidaTSM,
+		SUM(IF(karyawan.kode_cabang ='BDG',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanBDG,
+		SUM(IF(karyawan.kode_cabang ='BDG',brutoaida-potaida - potisaida-penyaida,0)) as netaidaBDG,
+		SUM(IF(karyawan.kode_cabang ='SKB',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanSKB,
+		SUM(IF(karyawan.kode_cabang ='SKB',brutoaida-potaida - potisaida-penyaida,0)) as netaidaSKB,
+		SUM(IF(karyawan.kode_cabang ='TGL',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanTGL,
+		SUM(IF(karyawan.kode_cabang ='TGL',brutoaida-potaida - potisaida-penyaida,0)) as netaidaTGL,
+		SUM(IF(karyawan.kode_cabang ='BGR',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanBGR,
+		SUM(IF(karyawan.kode_cabang ='BGR',brutoaida-potaida - potisaida-penyaida,0)) as netaidaBGR,
+		SUM(IF(karyawan.kode_cabang ='PWT',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanPWT,
+		SUM(IF(karyawan.kode_cabang ='PWT',brutoaida-potaida - potisaida-penyaida,0)) as netaidaPWT,
+		SUM(IF(karyawan.kode_cabang ='PCF',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanPCF,
+		SUM(IF(karyawan.kode_cabang ='PCF',brutoaida-potaida - potisaida-penyaida,0)) as netaidaPCF,
+		SUM(IF(karyawan.kode_cabang ='GRT',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanGRT,
+		SUM(IF(karyawan.kode_cabang ='GRT',brutoaida-potaida - potisaida-penyaida,0)) as netaidaGRT,
+		SUM(IF(karyawan.kode_cabang ='SBY',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanSBY,
+		SUM(IF(karyawan.kode_cabang ='SBY',brutoaida-potaida - potisaida-penyaida,0)) as netaidaSBY,
+		SUM(IF(karyawan.kode_cabang ='SMR',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanSMR,
+		SUM(IF(karyawan.kode_cabang ='SMR',brutoaida-potaida - potisaida-penyaida,0)) as netaidaSMR,
+		SUM(IF(karyawan.kode_cabang ='KLT',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanKLT,
+		SUM(IF(karyawan.kode_cabang ='KLT',brutoaida-potaida - potisaida-penyaida,0)) as netaidaKLT
+		
+		FROM penjualan
+		LEFT JOIN (
+		SELECT no_fak_penj,	
+		SUM(IF(master_barang.jenis_produk = 'SWAN',detailpenjualan.subtotal,0)) as brutoswan,
+		SUM(IF(master_barang.jenis_produk = 'AIDA',detailpenjualan.subtotal,0)) as brutoaida
+		FROM detailpenjualan
+		INNER JOIN barang ON detailpenjualan.kode_barang = barang.kode_barang 
+		INNER JOIN master_barang ON barang.kode_produk = master_barang.kode_produk 
+		GROUP BY no_fak_penj) dp ON (dp.no_fak_penj = penjualan.no_fak_penj)
+		
+		
+		INNER JOIN karyawan ON penjualan.id_karyawan = karyawan.id_karyawan
+		WHERE tgltransaksi BETWEEN '$awal' AND '$akhir'";
 
 		return $this->db->query($query);
 	}
 
 
-	function netretur($bulan, $tahun, $jenisproduk)
+	function netretur($bulan, $tahun)
 	{
 		$awal = $tahun . "-" . $bulan . "-01";
-		$akhir = $tahun . "-" . $bulan . "-31";
-		$query = "SELECT master_barang.jenis_produk AS jenis_produk,
-		Sum(CASE
-					WHEN ( karyawan.kode_cabang = 'TSM'
-								AND master_barang.jenis_produk = 'AIDA' ) THEN
-					detailretur.subtotal
-					WHEN ( karyawan.kode_cabang = 'TSM'
-								AND master_barang.jenis_produk = 'SWAN' ) THEN
-					detailretur.subtotal
-				END)  AS TSM,
-		Sum(CASE
-					WHEN ( karyawan.kode_cabang = 'BDG'
-								AND master_barang.jenis_produk = 'AIDA' ) THEN
-					detailretur.subtotal
-					WHEN ( karyawan.kode_cabang = 'BDG'
-								AND master_barang.jenis_produk = 'SWAN' ) THEN
-					detailretur.subtotal
-				END) AS BDG,
-		Sum(CASE
-					WHEN ( karyawan.kode_cabang = 'SKB'
-								AND master_barang.jenis_produk = 'AIDA' ) THEN
-					detailretur.subtotal
-					WHEN ( karyawan.kode_cabang = 'SKB'
-								AND master_barang.jenis_produk = 'SWAN' ) THEN
-					detailretur.subtotal
-				END)  AS SKB,
-		Sum(CASE
-					WHEN ( karyawan.kode_cabang = 'TGL'
-								AND master_barang.jenis_produk = 'AIDA' ) THEN
-					detailretur.subtotal
-					WHEN ( karyawan.kode_cabang = 'TGL'
-								AND master_barang.jenis_produk = 'SWAN' ) THEN
-					detailretur.subtotal
-				END) AS TGL,
-		Sum(CASE
-					WHEN ( karyawan.kode_cabang = 'BGR'
-								AND master_barang.jenis_produk = 'AIDA' ) THEN
-					detailretur.subtotal
-					WHEN ( karyawan.kode_cabang = 'BGR'
-								AND master_barang.jenis_produk = 'SWAN' ) THEN
-					detailretur.subtotal
-				END) AS BGR,
-		Sum(CASE
-					WHEN ( karyawan.kode_cabang = 'PWT'
-								AND master_barang.jenis_produk = 'AIDA' ) THEN
-					detailretur.subtotal
-					WHEN ( karyawan.kode_cabang = 'PWT'
-								AND master_barang.jenis_produk = 'SWAN' ) THEN
-					detailretur.subtotal
-				END)                   AS PWT,
-		Sum(CASE
-					WHEN ( karyawan.kode_cabang = 'PST'
-								AND master_barang.jenis_produk = 'AIDA' ) THEN
-					detailretur.subtotal
-					WHEN ( karyawan.kode_cabang = 'PST'
-								AND master_barang.jenis_produk = 'SWAN' ) THEN
-					detailretur.subtotal
-				END)  AS PST,
-		Sum(CASE
-					WHEN ( karyawan.kode_cabang = 'GRT'
-								AND master_barang.jenis_produk = 'AIDA' ) THEN
-					detailretur.subtotal
-					WHEN ( karyawan.kode_cabang = 'GRT'
-								AND master_barang.jenis_produk = 'SWAN' ) THEN
-					detailretur.subtotal
-				END)  AS GRT,
-		Sum(CASE
-					WHEN ( karyawan.kode_cabang = 'SBY'
-								AND master_barang.jenis_produk = 'AIDA' ) THEN
-					detailretur.subtotal
-					WHEN ( karyawan.kode_cabang = 'SBY'
-								AND master_barang.jenis_produk = 'SWAN' ) THEN
-					detailretur.subtotal
-				END) AS SBY,
-		Sum(CASE
-					WHEN ( karyawan.kode_cabang = 'SMR'
-								AND master_barang.jenis_produk = 'AIDA' ) THEN
-					detailretur.subtotal
-					WHEN ( karyawan.kode_cabang = 'SMR'
-								AND master_barang.jenis_produk = 'SWAN' ) THEN
-					detailretur.subtotal
-				END)  AS SMR
-		FROM   detailretur
-					JOIN retur
-						ON ( detailretur.no_retur_penj = retur.no_retur_penj )
-					JOIN penjualan
-						ON ( retur.no_fak_penj = penjualan.no_fak_penj )
-					JOIN karyawan
-						ON ( penjualan.id_karyawan = karyawan.id_karyawan )
-					JOIN barang
-						ON ( detailretur.kode_barang = barang.kode_barang )
-					JOIN master_barang
-						ON ( barang.kode_produk = master_barang.kode_produk )
-		WHERE  retur.tglretur  BETWEEN '$awal' AND '$akhir' AND jenis_produk ='$jenisproduk'
-					AND retur.jenis_retur = 'pf'
-		GROUP  BY master_barang.jenis_produk ";
+		$akhir = date("Y-m-t", strtotime($awal));
+		$query = "SELECT
+		SUM(IF(master_barang.jenis_produk = 'SWAN' AND karyawan.kode_cabang ='TSM',detailretur.subtotal,0)) as returswanTSM,
+		SUM(IF(master_barang.jenis_produk = 'AIDA' AND karyawan.kode_cabang ='TSM',detailretur.subtotal,0)) as returaidaTSM,
+		SUM(IF(master_barang.jenis_produk = 'SWAN' AND karyawan.kode_cabang ='BDG',detailretur.subtotal,0)) as returswanBDG,
+		SUM(IF(master_barang.jenis_produk = 'AIDA' AND karyawan.kode_cabang ='BDG',detailretur.subtotal,0)) as returaidaBDG,
+		SUM(IF(master_barang.jenis_produk = 'SWAN' AND karyawan.kode_cabang ='SKB',detailretur.subtotal,0)) as returswanSKB,
+		SUM(IF(master_barang.jenis_produk = 'AIDA' AND karyawan.kode_cabang ='SKB',detailretur.subtotal,0)) as returaidaSKB,
+		SUM(IF(master_barang.jenis_produk = 'SWAN' AND karyawan.kode_cabang ='TGL',detailretur.subtotal,0)) as returswanTGL,
+		SUM(IF(master_barang.jenis_produk = 'AIDA' AND karyawan.kode_cabang ='TGL',detailretur.subtotal,0)) as returaidaTGL,
+		SUM(IF(master_barang.jenis_produk = 'SWAN' AND karyawan.kode_cabang ='BGR',detailretur.subtotal,0)) as returswanBGR,
+		SUM(IF(master_barang.jenis_produk = 'AIDA' AND karyawan.kode_cabang ='BGR',detailretur.subtotal,0)) as returaidaBGR,
+		SUM(IF(master_barang.jenis_produk = 'SWAN' AND karyawan.kode_cabang ='PCF',detailretur.subtotal,0)) as returswanPCF,
+		SUM(IF(master_barang.jenis_produk = 'AIDA' AND karyawan.kode_cabang ='PCF',detailretur.subtotal,0)) as returaidaPCF,
+		SUM(IF(master_barang.jenis_produk = 'SWAN' AND karyawan.kode_cabang ='GRT',detailretur.subtotal,0)) as returswanGRT,
+		SUM(IF(master_barang.jenis_produk = 'AIDA' AND karyawan.kode_cabang ='GRT',detailretur.subtotal,0)) as returaidaGRT,
+		SUM(IF(master_barang.jenis_produk = 'SWAN' AND karyawan.kode_cabang ='SBY',detailretur.subtotal,0)) as returswanSBY,
+		SUM(IF(master_barang.jenis_produk = 'AIDA' AND karyawan.kode_cabang ='SBY',detailretur.subtotal,0)) as returaidaSBY,
+		SUM(IF(master_barang.jenis_produk = 'SWAN' AND karyawan.kode_cabang ='SMR',detailretur.subtotal,0)) as returswanSMR,
+		SUM(IF(master_barang.jenis_produk = 'AIDA' AND karyawan.kode_cabang ='SMR',detailretur.subtotal,0)) as returaidaSMR,
+		SUM(IF(master_barang.jenis_produk = 'SWAN' AND karyawan.kode_cabang ='PWT',detailretur.subtotal,0)) as returswanPWT,
+		SUM(IF(master_barang.jenis_produk = 'AIDA' AND karyawan.kode_cabang ='PWT',detailretur.subtotal,0)) as returaidaPWT,
+		SUM(IF(master_barang.jenis_produk = 'SWAN' AND karyawan.kode_cabang ='KLT',detailretur.subtotal,0)) as returswanKLT,
+		SUM(IF(master_barang.jenis_produk = 'AIDA' AND karyawan.kode_cabang ='KLT',detailretur.subtotal,0)) as returaidaKLT
+		FROM detailretur
+		INNER JOIN barang ON detailretur.kode_barang = barang.kode_barang 
+		INNER JOIN master_barang ON barang.kode_produk = master_barang.kode_produk 
+		INNER JOIN retur ON detailretur.no_retur_penj = retur.no_retur_penj
+		INNER JOIN penjualan ON retur.no_fak_penj  = penjualan.no_fak_penj
+		INNER JOIN karyawan ON penjualan.id_karyawan = karyawan.id_karyawan
+		WHERE tglretur BETWEEN '$awal' AND '$akhir' AND retur.jenis_retur ='pf'";
 		return $this->db->query($query);
 	}
 
@@ -2904,63 +2744,52 @@ GROUP BY
 		return $this->db->query($query);
 	}
 
-	function netpenjualanCabang($bulan, $tahun, $jenisproduk, $cabang)
+	function netpenjualanCabang($bulan, $tahun, $cabang)
 	{
 		$awal = $tahun . "-" . $bulan . "-01";
-		$akhir = $tahun . "-" . $bulan . "-31";
+		$akhir = date('Y-m-t', strtotime($awal));
 
-		$query = "SELECT master_barang.jenis_produk AS jenis_produk,
-						Sum(CASE
-									WHEN ( master_barang.jenis_produk = 'AIDA' ) THEN
-									detailpenjualan.subtotal - penjualan.potaida - penjualan.potisaida
-									-
-									penjualan.penyaida
-									WHEN (  master_barang.jenis_produk = 'SWAN' ) THEN
-									detailpenjualan.subtotal - penjualan.potswan - penjualan.potisswan
-									-
-									penjualan.penyswan
-								END) AS netpenjualan
-
-			FROM   detailpenjualan
-						JOIN penjualan
-							ON ( detailpenjualan.no_fak_penj = penjualan.no_fak_penj )
-						JOIN karyawan
-							ON ( penjualan.id_karyawan = karyawan.id_karyawan )
-						JOIN barang
-							ON ( detailpenjualan.kode_barang = barang.kode_barang )
-						JOIN master_barang
-							ON ( barang.kode_produk = master_barang.kode_produk )
-			WHERE  penjualan.tgltransaksi BETWEEN '$awal' AND '$akhir' AND jenis_produk ='$jenisproduk' AND karyawan.kode_cabang ='$cabang'
-			GROUP  BY master_barang.jenis_produk ";
+		$query = "SELECT 
+		SUM(potswan + potisswan  + potstick + potisstick ) as potonganswan,
+		SUM(potaida + potisaida) as potonganaida,
+		SUM(penyswan+penystick) as penyesuaianswan,
+		SUM(penyaida) as penyesuaianaida,
+		SUM(brutoswan) as brutoswan,
+		SUM(brutoaida) as brutoaida,
+		SUM(brutoswan) - SUM(potswan + potisswan  + potstick + potisstick ) -SUM(penyswan+penystick) as netswan,
+		SUM(brutoaida) - SUM(potaida + potisaida) - SUM(penyaida)  as netaida,
+		(SUM(brutoswan) - SUM(potswan + potisswan  + potstick + potisstick ) -SUM(penyswan+penystick)) + (SUM(brutoaida) - SUM(potaida + potisaida) - SUM(penyaida) ) as netpenjualan
+		FROM penjualan
+		LEFT JOIN (
+		SELECT no_fak_penj,	
+		SUM(IF(master_barang.jenis_produk = 'SWAN',detailpenjualan.subtotal,0)) as brutoswan,
+		SUM(IF(master_barang.jenis_produk = 'AIDA',detailpenjualan.subtotal,0)) as brutoaida
+		FROM detailpenjualan
+		INNER JOIN barang ON detailpenjualan.kode_barang = barang.kode_barang 
+		INNER JOIN master_barang ON barang.kode_produk = master_barang.kode_produk 
+		GROUP BY no_fak_penj) dp ON (dp.no_fak_penj = penjualan.no_fak_penj)
+		
+		
+		INNER JOIN karyawan ON penjualan.id_karyawan = karyawan.id_karyawan
+		WHERE tgltransaksi BETWEEN '$awal' AND '$akhir' AND karyawan.kode_cabang ='$cabang' ";
 
 		return $this->db->query($query);
 	}
 
-	function netreturCabang($bulan, $tahun, $jenisproduk, $cabang)
+	function netreturCabang($bulan, $tahun, $cabang)
 	{
 		$awal = $tahun . "-" . $bulan . "-01";
-		$akhir = $tahun . "-" . $bulan . "-31";
-		$query = "SELECT master_barang.jenis_produk AS jenis_produk,
-		Sum(CASE
-					WHEN (master_barang.jenis_produk = 'AIDA' ) THEN
-					detailretur.subtotal
-					WHEN (  master_barang.jenis_produk = 'SWAN' ) THEN
-					detailretur.subtotal
-				END)  AS netretur
-		FROM   detailretur
-					JOIN retur
-						ON ( detailretur.no_retur_penj = retur.no_retur_penj )
-					JOIN penjualan
-						ON ( retur.no_fak_penj = penjualan.no_fak_penj )
-					JOIN karyawan
-						ON ( penjualan.id_karyawan = karyawan.id_karyawan )
-					JOIN barang
-						ON ( detailretur.kode_barang = barang.kode_barang )
-					JOIN master_barang
-						ON ( barang.kode_produk = master_barang.kode_produk )
-		WHERE  retur.tglretur  BETWEEN '$awal' AND '$akhir' AND jenis_produk ='$jenisproduk'
-					AND retur.jenis_retur = 'pf'  AND karyawan.kode_cabang = '$cabang'
-		GROUP  BY master_barang.jenis_produk ";
+		$akhir = date('Y-m-t', strtotime($awal));
+		$query = "SELECT
+		SUM(IF(master_barang.jenis_produk = 'SWAN',detailretur.subtotal,0)) as returswan,
+		SUM(IF(master_barang.jenis_produk = 'AIDA',detailretur.subtotal,0)) as returaida
+		FROM detailretur
+		INNER JOIN barang ON detailretur.kode_barang = barang.kode_barang 
+		INNER JOIN master_barang ON barang.kode_produk = master_barang.kode_produk 
+		INNER JOIN retur ON detailretur.no_retur_penj = retur.no_retur_penj
+		INNER JOIN penjualan ON retur.no_fak_penj  = penjualan.no_fak_penj
+		INNER JOIN karyawan ON penjualan.id_karyawan = karyawan.id_karyawan
+		WHERE tglretur BETWEEN '$awal' AND '$akhir' AND retur.jenis_retur ='pf' AND karyawan.kode_cabang ='$cabang'";
 		return $this->db->query($query);
 	}
 
