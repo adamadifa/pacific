@@ -23,7 +23,7 @@
                 <form class="formValidate FormPenjualan" id="formValidate" method="POST" action="<?php echo base_url(); ?>laporankeuangan/cetak_ledger" target="_blank">
                   <div class="form-group mb-3">
                     <select class="form-control show-tick" id="bank" name="bank" data-error=".errorTxt1">
-                      <option value="">Semua Bank</option>
+                      <option value="">Semua Ledger</option>
                       <?php foreach ($bank as $b) { ?>
                         <option value="<?php echo $b->kode_bank; ?>"><?php echo $b->nama_bank; ?></option>
                       <?php } ?>

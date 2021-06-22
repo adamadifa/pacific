@@ -26,7 +26,7 @@ function uang($nilai)
           <form class="form-horizontal" method="post" action="<?php echo base_url(); ?>keuangan/ledger" autocomplete="off">
             <div class="form-group mb-3">
               <select class="form-control show-tick" id="bank" name="bank" data-error=".errorTxt1">
-                <option value="">Semua Bank</option>
+                <option value="">Pilih Ledger</option>
                 <?php foreach ($lbank as $b) { ?>
                   <option <?php if ($bank == $b->kode_bank) {
                             echo "selected";
@@ -46,7 +46,8 @@ function uang($nilai)
                         <line x1="8" y1="3" x2="8" y2="7" />
                         <line x1="4" y1="11" x2="20" y2="11" />
                         <line x1="11" y1="15" x2="12" y2="15" />
-                        <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                        <line x1="12" y1="15" x2="12" y2="18" />
+                      </svg>
                     </span>
                   </div>
                 </div>
@@ -61,7 +62,8 @@ function uang($nilai)
                         <line x1="8" y1="3" x2="8" y2="7" />
                         <line x1="4" y1="11" x2="20" y2="11" />
                         <line x1="11" y1="15" x2="12" y2="15" />
-                        <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                        <line x1="12" y1="15" x2="12" y2="18" />
+                      </svg>
                     </span>
                   </div>
                 </div>

@@ -364,7 +364,31 @@ if ($level == "Administrator") {
       </a>
     </div>
   </div>
-<?php } else if ($level == "manager accounting" || $level == "manager marketing" || $level == "spv accounting") { ?>
+<?php } else if ($level == "manager marketing") { ?>
+  <div class="card">
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action active">
+        Laporan
+      </a>
+      <a href="<?php echo base_url(); ?>laporankaskecil/kaskecil" class="list-group-item list-group-item-action">
+        <i class="fa fa-file-o mr-2"></i>Kas Kecil
+      </a>
+      <a href="<?php echo base_url(); ?>laporankeuangan/ledger" class="list-group-item list-group-item-action">
+        <i class="fa fa-file-o mr-2"></i>Ledger / Mutasi Bank
+      </a>
+    </div>
+  </div>
+<?php } else if ($level == "manager accounting"  || $level == "spv accounting") { ?>
+  <div class="card">
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action active">
+        Ledger
+      </a>
+      <a href="<?php echo base_url(); ?>keuangan/ledger" class="list-group-item list-group-item-action">
+        <i class="fa fa-book mr-2"></i>Ledger
+      </a>
+    </div>
+  </div>
   <div class="card">
     <div class="list-group">
       <a href="#" class="list-group-item list-group-item-action active">

@@ -164,12 +164,7 @@ if ($dari < '2018-09-01') {
 
         $jmlpcs = $sisapack;
 
-        if ($barang1['isipcsdus'] == 1) {
 
-          $jmldus = 0;
-          $jmlpack = 0;
-          $jmlpcs = $barang1['jumlah'];
-        }
 
         $totaldus       = $totaldus + $jmldus;
         $totalpack       = $totalpack + $jmlpack;

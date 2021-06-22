@@ -13,7 +13,7 @@
   <div class="row">
     <div class="col-md-10 col-xs-12">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-10">
           <div class="card">
             <div class="card-header">
               <h4 class="card-title">DATA REKAP REJECT GUDANG</h4>
@@ -56,6 +56,7 @@
                       <th>No. Mutasi</th>
                       <th>Tanggal</th>
                       <th>No SJ</th>
+                      <th>No dok. / No Faktur</th>
                       <th>Cabang</th>
                       <th>Aksi</th>
                     </tr>
@@ -64,12 +65,16 @@
                     <?php
                     $sno  = $row + 1;
                     foreach ($result as $d) {
+                      $qgudangjadipusat = "SELECT no_dok FROM mutasi_gudang_jadi WHERE no_mutasi_gudang = '$d[no_suratjalan]'";
+                      $gjpusat = $this->db->query($qgudangjadipusat)->row_array();
+                      $no_dok = $gjpusat['no_dok'];
                     ?>
                       <tr>
                         <td><?php echo $sno; ?></td>
                         <td><?php echo $d['no_mutasi_gudang_cabang']; ?></td>
                         <td><?php echo $d['tgl_mutasi_gudang_cabang']; ?></td>
                         <td><?php echo $d['no_suratjalan']; ?></td>
+                        <td><?php echo $no_dok; ?></td>
                         <td><?php echo $d['kode_cabang']; ?></td>
                         <td>
                           <a href="#" class="btn btn-sm btn-info detail" data-nomutasi="<?php echo $d['no_mutasi_gudang_cabang']; ?>">Detail</a>
