@@ -12,7 +12,7 @@
   <!-- Content here -->
   <div class="row">
     <div class="col-md-10 col-xs-12">
-      <a href="#" class="btn bg-red waves-effect" id="tambahbarang"> Tambah Data </a>
+
       <div class="card">
         <div class="card-header">
           <h4 class="card-title">Data Barang</h4>

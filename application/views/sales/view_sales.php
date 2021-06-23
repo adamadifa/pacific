@@ -26,6 +26,7 @@
                                     <th>Salesman</th>
                                     <th>No HP</th>
                                     <th>Cabang</th>
+                                    <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -37,8 +38,18 @@
                                         <td><?php echo $s->no_hp; ?></td>
                                         <td><?php echo strtoupper($s->nama_cabang); ?></td>
                                         <td>
+                                            <?php if ($s->status_aktif_sales == '1') { ?>
+                                                <span class="badge bg-red">Non Aktif</span>
+                                            <?php } else { ?>
+                                                <span class="badge bg-green">Aktif</span>
+                                            <?php } ?>
+
+                                        </td>
+                                        <td>
                                             <a href="#" data-id="<?php echo $s->id_karyawan; ?>" class="btn btn-primary btn-sm edit"><i class="fa fa-pencil"></i></a>
-                                            <a href="#" class="btn btn-danger btn-sm hapus" data-href="<?php echo base_url("sales/hapus/" . $s->id_karyawan); ?>"><i class="fa fa-trash-o"></i></a>
+                                            <?php if ($this->session->userdata('level_user') == 'Administrator') { ?>
+                                                <a href="#" class="btn btn-danger btn-sm hapus" data-href="<?php echo base_url("sales/hapus/" . $s->id_karyawan); ?>"><i class="fa fa-trash-o"></i></a>
+                                            <?php } ?>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -57,7 +68,9 @@
     <div class="modal-dialog modal-lg  modal-dialog-centered" role="document">
         <div class="modal-content ">
             <div class="modal-header">
-                <h5 class="modal-title"><div class="title"></div></h5>
+                <h5 class="modal-title">
+                    <div class="title"></div>
+                </h5>
             </div>
             <div class="modal-body">
                 <div class="body"></div>
@@ -73,7 +86,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="modal-title">
-                   Yakin Untuk Di Hapus ?
+                    Yakin Untuk Di Hapus ?
                 </div>
                 <div>Jika Di Hapus, Kamu Akan Kehilangan Data Ini !</div>
             </div>

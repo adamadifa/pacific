@@ -1,39 +1,42 @@
 <?php
 
-class Model_sales extends CI_Model{
+class Model_sales extends CI_Model
+{
 
 
-	function view_sales(){
+	function view_sales()
+	{
 
 		$cabang = $this->session->userdata('cabang');
-    if($cabang != "pusat"){
-      $this->db->where('karyawan.kode_cabang',$cabang);
-    }
-		$this->db->select('id_karyawan,nama_karyawan,alamat_karyawan,no_hp,nama_cabang');
+		if ($cabang != "pusat") {
+			$this->db->where('karyawan.kode_cabang', $cabang);
+		}
+		$this->db->select('id_karyawan,nama_karyawan,alamat_karyawan,no_hp,nama_cabang,status_aktif_sales');
 		$this->db->from('karyawan');
-		$this->db->join('cabang','karyawan.kode_cabang = cabang.kode_cabang');
-		$this->db->where('nama_karyawan !=','-');
+		$this->db->join('cabang', 'karyawan.kode_cabang = cabang.kode_cabang');
+		$this->db->where('nama_karyawan !=', '-');
 		return $this->db->get();
-
 	}
 
 
-	function get_salescab($kode_cabang){
+	function get_salescab($kode_cabang)
+	{
 
-		$this->db->where('kode_cabang',$kode_cabang);
-		return $this->db->get('karyawan');
-
-	}
-
-	function get_sales($id_karyawan){
-
-		$this->db->where('id_karyawan',$id_karyawan);
+		$this->db->where('kode_cabang', $kode_cabang);
 		return $this->db->get('karyawan');
 	}
 
+	function get_sales($id_karyawan)
+	{
+
+		$this->db->where('id_karyawan', $id_karyawan);
+		return $this->db->get('karyawan');
+	}
 
 
-	function insert_sales(){
+
+	function insert_sales()
+	{
 
 
 		$kodesales 		= $this->input->post('kodesales');
@@ -56,25 +59,18 @@ class Model_sales extends CI_Model{
 
 		);
 
-		$cek_data = $this->db->get_where('karyawan',array('id_karyawan'=>$kodesales));
-		if($cek_data->num_rows() != 0){
-			$this->db->update('karyawan',$data,array('id_karyawan'=>$kodesales));
-		}else{
+		$cek_data = $this->db->get_where('karyawan', array('id_karyawan' => $kodesales));
+		if ($cek_data->num_rows() != 0) {
+			$this->db->update('karyawan', $data, array('id_karyawan' => $kodesales));
+		} else {
 
-			$this->db->insert('karyawan',$data);
-
+			$this->db->insert('karyawan', $data);
 		}
-
-
-
 	}
 
-	function hapus($id){
+	function hapus($id)
+	{
 
-		$this->db->delete('karyawan',array('id_karyawan'=>$id));
-
-
+		$this->db->delete('karyawan', array('id_karyawan' => $id));
 	}
-
-
 }

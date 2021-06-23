@@ -18,7 +18,7 @@
         </div>
         <div class="card-body">
           <div class="table-responsive">
-            <a href="<?php echo base_url(); ?>kendaraan/input_kendaraan" class="btn btn-danger waves-effect"> Tambah Data </a>
+            <!-- <a href="<?php echo base_url(); ?>kendaraan/input_kendaraan" class="btn btn-danger waves-effect"> Tambah Data </a> -->
             <table class="table table-bordered table-striped table-hover dataTable js-exportable" id="mytable" style="font-size:12px">
               <thead class="thead-dark">
                 <tr>
@@ -76,7 +76,7 @@
                     <?php if ($leveluser == "Administrator") { ?>
                       <td>
                         <a href="#" data-id="<?php echo $b->id; ?>" class="btn btn-primary  btn-sm waves-effect detail">Detail</a>
-                        <a href="<?php echo base_url(); ?>kendaraan/edit_kendaraan/<?php echo $b->id;?>" class="btn btn-warning  btn-sm waves-effect edit">Edit</a>
+                        <a href="<?php echo base_url(); ?>kendaraan/edit_kendaraan/<?php echo $b->id; ?>" class="btn btn-warning  btn-sm waves-effect edit">Edit</a>
                         <a href="#" class="btn btn-danger btn-sm waves-effect hapus" data-href="<?php echo base_url("kendaraan/hapus/" . $b->id); ?>">Hapus</a>
                       </td>
                     <?php } ?>
@@ -102,7 +102,7 @@
       </div>
       <div class="modal-body">
         <div class="modal-content">
-          
+
         </div>
       </div>
       <div class="modal-footer">

@@ -64,6 +64,14 @@
                       ?>
                     </select>
                   </div>
+                  <div class="row mb-3">
+                    <div class="col-md-12">
+                      <label class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="salesnonaktif" value="1">
+                        <span class="form-check-label"><b>Tampilkan Sales Non Aktif ?</b></span>
+                      </label>
+                    </div>
+                  </div>
                   <div class="form-group">
                     <div class="row">
                       <div class="col-md-6">

@@ -6,7 +6,9 @@
     <a href="<?php echo base_url(); ?>pelanggan/view_pelanggan" class="list-group-item list-group-item-action">Data Pelanggan</a>
     <a href="<?php echo base_url(); ?>sales/view_sales" class="list-group-item list-group-item-action">Data Sales</a>
     <a href="<?php echo base_url(); ?>barang/view_barang" class="list-group-item list-group-item-action">Data Barang</a>
-    <a href="<?php echo base_url(); ?>users/view_users" class="list-group-item list-group-item-action">Data Users</a>
+    <?php if ($this->session->userdata('level_user') == 'Administrator' || $this->session->userdata('level_user') == 'Manager Accounting') { ?>
+      <a href="<?php echo base_url(); ?>users/view_users" class="list-group-item list-group-item-action">Data Users</a>
+    <?php } ?>
     <a href="<?php echo base_url(); ?>kendaraan" class="list-group-item list-group-item-action">Data Kendaraan</a>
     <?php
     if ($this->session->userdata('level_user') == "Administrator") {

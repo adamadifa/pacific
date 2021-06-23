@@ -24,10 +24,13 @@ class Model_laporanpenjualan extends CI_Model
 	");
 	}
 
-	function get_salesman($cabang)
+	function get_salesman($cabang, $salesnonaktif = "")
 	{
 		$this->db->order_by('id_karyawan', 'asc');
 		$this->db->where('nama_karyawan !=', '-');
+		if (empty($salesnonaktif)) {
+			$this->db->where('status_aktif_sales =', '1');
+		}
 		$this->db->where('kode_cabang', $cabang);
 		//$this->db->where('nama_karyawan !=','-');
 		return $this->db->get('karyawan');

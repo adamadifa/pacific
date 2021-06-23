@@ -985,9 +985,10 @@ class Laporanpenjualan extends CI_Controller
 
   function cetak_lpu()
   {
-    $cabang           = $this->input->post('cabang');
+    $cabang            = $this->input->post('cabang');
     $bulan             = $this->input->post('bulan');
     $tahun             = $this->input->post('tahun');
+    $salesnonaktif     = $this->input->post('salesnonaktif');
     // $data['dari']			= $dari;
     // $data['sampai']		= $sampai;
     $dari             = $tahun . "-" . $bulan . "-" . "01";
@@ -1007,7 +1008,7 @@ class Laporanpenjualan extends CI_Controller
     } else {
       $data['fromlast'] = $cekbeforebulan['tgl_diterimapusat'];
     }
-    $salesman          = $this->Model_laporanpenjualan->get_salesman($cabang);
+    $salesman          = $this->Model_laporanpenjualan->get_salesman($cabang, $salesnonaktif);
     $listbank         = $this->Model_laporanpenjualan->get_listbank($cbg = "PST");
     $data['listbank']  = $listbank->result();
     $data['salesman']  = $salesman->result();
