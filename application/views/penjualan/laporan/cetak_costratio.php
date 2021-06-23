@@ -42,6 +42,7 @@ function uang($nilai)
     $totalgrt = 0;
     $totalsby = 0;
     $totalsmr = 0;
+    $totalklt = 0;
     $totalbiayaall = 0;
     $no = 1;
     foreach ($biaya as $d) {
@@ -55,7 +56,8 @@ function uang($nilai)
       $totalgrt = $totalgrt + $d->GRT;
       $totalsby = $totalsby + $d->SBY;
       $totalsmr = $totalsmr + $d->SMR;
-      $totalbiaya = $d->TSM + $d->BDG + $d->SKB + $d->TGL + $d->BGR + $d->PWT + $d->PST + $d->GRT + $d->SBY + $d->SMR;
+      $totalklt = $totalklt + $d->KLT;
+      $totalbiaya = $d->TSM + $d->BDG + $d->SKB + $d->TGL + $d->BGR + $d->PWT + $d->PST + $d->GRT + $d->SBY + $d->SMR +$d->KLT;
       $totalbiayaall = $totalbiayaall + $totalbiaya;
     ?>
       <tr>
@@ -92,7 +94,9 @@ function uang($nilai)
         <td align="right"><?php if (!empty($d->SMR)) {
                             echo uang($d->SMR);
                           } ?></td>
-        <td></td>
+        <td align="right"><?php if (!empty($d->KLT)) {
+                            echo uang($d->KLT);
+                          } ?></td>
         <td align="right"><?php if (!empty($totalbiaya)) {
                             echo uang($totalbiaya);
                           } ?></td>
@@ -133,7 +137,10 @@ function uang($nilai)
       <td align="right"><?php if (!empty($totalsmr)) {
                           echo uang($totalsmr);
                         } ?></td>
-      <td></td>
+      <td align="right"><?php if (!empty($totalklt)) {
+        echo uang($totalklt);
+      } ?></td>
+      
       <td align="right"><?php if (!empty($totalbiayaall)) {
                           echo uang($totalbiayaall);
                         } ?></td>
@@ -149,6 +156,7 @@ function uang($nilai)
       $netpst = $penj['netswanPST'] - $ret['returswanPST'];
       $netsby = $penj['netswanSBY'] - $ret['returswanSBY'];
       $netsmr = $penj['netswanSMR'] - $ret['returswanSMR'];
+      $netklt = $penj['netswanKLT'] - $ret['returswanKLT'];
 
       $netaidatsm = $penj['netaidaTSM'] - $ret['returaidaTSM'];
       $netaidabdg = $penj['netaidaBDG'] - $ret['returaidaBDG'];
@@ -159,9 +167,10 @@ function uang($nilai)
       $netaidapst = $penj['netaidaPST'] - $ret['returaidaPST'];
       $netaidasby = $penj['netaidaSBY'] - $ret['returaidaSBY'];
       $netaidasmr = $penj['netaidaSMR'] - $ret['returaidaSMR'];
+      $netaidaklt = $penj['netaidaKLT'] - $ret['returaidaKLT'];
 
-      $totalswan = $nettsm + $netbdg + $netskb + $netbgr + $nettgl + $netpwt + $netpst + $netsby + $netsmr;
-      $totalaida = $netaidatsm + $netaidabdg + $netaidaskb + $netaidabgr + $netaidatgl + $netaidapwt + $netaidapst + $netaidasby + $netaidasmr;
+      $totalswan = $nettsm + $netbdg + $netskb + $netbgr + $nettgl + $netpwt + $netpst + $netsby + $netsmr+$netklt;
+      $totalaida = $netaidatsm + $netaidabdg + $netaidaskb + $netaidabgr + $netaidatgl + $netaidapwt + $netaidapst + $netaidasby + $netaidasmr + $netaidaklt;
       ?>
       <td colspan="2" rowspan="4" align="center" bgcolor="#024a75" style="color:white; font-size:12px;">PENJUALAN</td>
       <td bgcolor="#024a75" style="color:white; font-size:12px;">SWAN</td>
@@ -186,14 +195,17 @@ function uang($nilai)
       <td align="right"><?php if (!empty($netpst)) {
                           echo uang($netpst);
                         } ?></td>
-      <td></td>
+       <td></td>
       <td align="right"><?php if (!empty($netsby)) {
                           echo uang($netsby);
                         } ?></td>
       <td align="right"><?php if (!empty($netsmr)) {
                           echo uang($netsmr);
                         } ?></td>
-      <td></td>
+     
+     <td align="right"><?php if (!empty($netklt)) {
+        echo uang($netklt);
+      } ?></td>
       <td align="right"><?php if (!empty($totalswan)) {
                           echo uang($totalswan);
                         } ?></td>
@@ -254,6 +266,12 @@ function uang($nilai)
         $crswansmr = 0;
       }
 
+      if ($netklt != 0) {
+        $crswanklt = ($totalklt / $netklt) * 100;
+      } else {
+        $crswanklt = 0;
+      }
+
       if ($totalswan != 0) {
         $crtotalswan = ($totalbiayaall / $totalswan) * 100;
       } else {
@@ -277,7 +295,7 @@ function uang($nilai)
       <td align="right"></td>
       <td align="right"><?php echo ROUND($crswansby) . " %"; ?></td>
       <td align="right"><?php echo ROUND($crswansmr) . " %"; ?></td>
-      <td></td>
+      <td align="right"><?php echo ROUND($crswanklt) . " %"; ?></td>
       <td align="right"><?php echo ROUND($crtotalswan) . " %"; ?></td>
     </tr>
     <tr style="font-weight: bold;">
@@ -310,7 +328,10 @@ function uang($nilai)
       <td align="right"><?php if (!empty($netaidasmr)) {
                           echo uang($netaidasmr);
                         } ?></td>
-      <td></td>
+      <td align="right"><?php if (!empty($netaidaklt)) {
+                          echo uang($netaidaklt);
+                        } ?></td>
+     
       <td align="right"><?php if (!empty($totalaida)) {
                           echo uang($totalaida);
                         } ?></td>
@@ -374,6 +395,12 @@ function uang($nilai)
         $craidasmr = 0;
       }
 
+      if ($netaidaklt != 0) {
+        $craidaklt = ($totalklt / $netaidaklt) * 100;
+      } else {
+        $craidaklt = 0;
+      }
+
       if ($totalaida != 0) {
         $crtotalaida = ($totalbiayaall / $totalaida) * 100;
       } else {
@@ -390,7 +417,7 @@ function uang($nilai)
       <td align="right"></td>
       <td align="right"><?php echo ROUND($craidasby) . " %"; ?></td>
       <td align="right"><?php echo ROUND($craidasmr) . " %"; ?></td>
-      <td></td>
+      <td align="right"><?php echo ROUND($craidaklt) . " %"; ?></td>
       <td align="right"><?php echo ROUND($crtotalaida) . " %"; ?></td>
     </tr>
     <tr style="font-weight: bold;">
@@ -404,8 +431,9 @@ function uang($nilai)
       $totalpenjpst   = $netpst + $netaidapst;
       $totalpenjsby   = $netsby + $netaidasby;
       $totalpenjsmr   = $netsmr + $netaidasmr;
+      $totalpenjklt   = $netklt + $netaidaklt;
 
-      $totalpenjualanall = $totalpenjtsm + $totalpenjbdg + $totalpenjskb + $totalpenjtgl + $totalpenjbgr + $totalpenjpwt + $totalpenjpst + $totalpenjsby + $totalpenjsmr;
+      $totalpenjualanall = $totalpenjtsm + $totalpenjbdg + $totalpenjskb + $totalpenjtgl + $totalpenjbgr + $totalpenjpwt + $totalpenjpst + $totalpenjsby + $totalpenjsmr + $totalpenjklt;
 
 
       ?>
@@ -438,7 +466,10 @@ function uang($nilai)
       <td align="right"><?php if (!empty($totalpenjsmr)) {
                           echo uang($totalpenjsmr);
                         } ?></td>
-      <td></td>
+      <td align="right"><?php if (!empty($totalpenjklt)) {
+                          echo uang($totalpenjklt);
+                        } ?></td>
+      
       <td align="right"><?php if (!empty($totalpenjualanall)) {
                           echo uang($totalpenjualanall);
                         } ?></td>
@@ -500,6 +531,12 @@ function uang($nilai)
         $crtotalpenjsmr = 0;
       }
 
+      if ($totalpenjklt != 0) {
+        $crtotalpenjklt = ($totalklt / $totalpenjklt) * 100;
+      } else {
+        $crtotalpenjklt = 0;
+      }
+
       if ($totalpenjualanall != 0) {
         $crtotalpenjualanall = ($totalbiayaall / $totalpenjualanall) * 100;
       } else {
@@ -516,12 +553,12 @@ function uang($nilai)
       <td align="right"></td>
       <td align="right"><?php echo ROUND($crtotalpenjsby) . " %"; ?></td>
       <td align="right"><?php echo ROUND($crtotalpenjsmr) . " %"; ?></td>
-      <td></td>
+      <td align="right"><?php echo ROUND($crtotalpenjklt) . " %"; ?></td>
       <td align="right"><?php echo ROUND($crtotalpenjualanall) . " %"; ?></td>
     </tr>
     <tr style="font-weight: bold;">
       <?php
-      $totalpiutang = $piutang['TSM'] + $piutang['BDG'] + $piutang['SKB'] + $piutang['TGL'] + $piutang['BGR'] + $piutang['PWT'] + $piutang['PST'] + $piutang['SBY'] + $piutang['SMR'];
+      $totalpiutang = $piutang['TSM'] + $piutang['BDG'] + $piutang['SKB'] + $piutang['TGL'] + $piutang['BGR'] + $piutang['PWT'] + $piutang['PST'] + $piutang['SBY'] + $piutang['SMR'] + $piutang['KLT'];
 
       ?>
       <td bgcolor="#e47a2e" style="color:white; font-size:12px;" colspan="3">PITUANG > 1 BULAN</td>
@@ -553,7 +590,9 @@ function uang($nilai)
       <td align="right"><?php if (!empty($piutang['SMR'])) {
                           echo uang($piutang['SMR']);
                         } ?></td>
-      <td></td>
+       <td align="right"><?php if (!empty($piutang['KLT'])) {
+                          echo uang($piutang['KLT']);
+                        } ?></td>
       <td align="right"><?php if (!empty($totalpiutang)) {
                           echo uang($totalpiutang);
                         } ?></td>
@@ -614,6 +653,12 @@ function uang($nilai)
         $crswanpiutangsmr = 0;
       }
 
+      if ($netklt != 0) {
+        $crswanpiutangklt = ($piutang['KLT'] / $netklt) * 100;
+      } else {
+        $crswanpiutangklt = 0;
+      }
+
       if ($totalswan != 0) {
         $crtotalpiutangswan = ($totalpiutang / $totalswan) * 100;
       } else {
@@ -631,7 +676,7 @@ function uang($nilai)
       <td align="right"></td>
       <td align="right"><?php echo ROUND($crswanpiutangsby) . " %"; ?></td>
       <td align="right"><?php echo ROUND($crswanpiutangsmr) . " %"; ?></td>
-      <td></td>
+      <td align="right"><?php echo ROUND($crswanpiutangklt) . " %"; ?></td>
       <td align="right"><?php echo ROUND($crtotalpiutangswan) . " %"; ?></td>
     </tr>
     <tr style="font-weight: bold;">
@@ -691,6 +736,12 @@ function uang($nilai)
         $craidapiutangsmr = 0;
       }
 
+      if ($netaidaklt != 0) {
+        $craidapiutangklt = ($piutang['SMR'] / $netaidaklt) * 100;
+      } else {
+        $craidapiutangklt = 0;
+      }
+
       if ($totalaida != 0) {
         $crtotalpiutangaida = ($totalpiutang / $totalaida) * 100;
       } else {
@@ -708,7 +759,7 @@ function uang($nilai)
       <td align="right"></td>
       <td align="right"><?php echo ROUND($craidapiutangsby) . " %"; ?></td>
       <td align="right"><?php echo ROUND($craidapiutangsmr) . " %"; ?></td>
-      <td></td>
+      <td align="right"><?php echo ROUND($craidapiutangklt) . " %"; ?></td>
       <td align="right"><?php echo ROUND($crtotalpiutangaida) . " %"; ?></td>
     </tr>
     <tr style="font-weight:bold">
@@ -768,6 +819,12 @@ function uang($nilai)
         $crtotalpenjpiutangsmr = 0;
       }
 
+      if ($totalpenjklt != 0) {
+        $crtotalpenjpiutangklt = ($piutang['KLT'] / $totalpenjklt) * 100;
+      } else {
+        $crtotalpenjpiutangklt = 0;
+      }
+
       if ($totalpenjualanall != 0) {
         $crtotalpenjualanpiutangall = ($totalpiutang / $totalpenjualanall) * 100;
       } else {
@@ -784,7 +841,7 @@ function uang($nilai)
       <td align="right"></td>
       <td align="right"><?php echo ROUND($crtotalpenjpiutangsby) . " %"; ?></td>
       <td align="right"><?php echo ROUND($crtotalpenjpiutangsmr) . " %"; ?></td>
-      <td></td>
+      <td align="right"><?php echo ROUND($crtotalpenjpiutangklt) . " %"; ?></td>
       <td align="right"><?php echo ROUND($crtotalpenjualanpiutangall) . " %"; ?></td>
     </tr>
     <tr style="font-weight:bold">
@@ -799,8 +856,9 @@ function uang($nilai)
       $biayapiutangpst = $totalpst + $piutang['PST'];
       $biayapiutangsby = $totasby + $piutang['SBY'];
       $biayapiutangsmr = $totalsmr + $piutang['SMR'];
+      $biayapiutangklt = $totalklt + $piutang['KLT'];
       $totalbiayapiutang = $biayapiutangtsm + $biayapiutangbdg + $biayapiutangskb + $biayapiutangtgl + $biayapiutangbgr + $biayapiutangpwt + $biayapiutangpst +
-        $biayapituangsby + $biayapiutangsmr;
+        $biayapituangsby + $biayapiutangsmr + $biayapiutangklt ;
       ?>
       <td align="right"><?php if (!empty($biayapiutangtsm)) {
                           echo uang($biayapiutangtsm);
@@ -830,7 +888,9 @@ function uang($nilai)
       <td align="right"><?php if (!empty($biayapiutangsmr)) {
                           echo uang($biayapiutangsmr);
                         } ?></td>
-      <td></td>
+      <td align="right"><?php if (!empty($biayapiutangklt)) {
+                          echo uang($biayapiutangklt);
+                        } ?></td>
       <td align="right"><?php if (!empty($totalbiayapiutang)) {
                           echo uang($totalbiayapiutang);
                         } ?></td>
@@ -892,6 +952,12 @@ function uang($nilai)
         $crswanbiayapiutangsmr = 0;
       }
 
+      if ($netklt != 0) {
+        $crswanbiayapiutangklt = ($biayapiutangklt / $netklt) * 100;
+      } else {
+        $crswanbiayapiutangklt = 0;
+      }
+
       if ($totalswan != 0) {
         $crswanbiayapiutang = ($totalbiayapiutang / $totalswan) * 100;
       } else {
@@ -914,7 +980,7 @@ function uang($nilai)
       <td align="right"></td>
       <td align="right"><?php echo ROUND($crswanbiayapiutangsby) . " %"; ?></td>
       <td align="right"><?php echo ROUND($crswanbiayapiutangsmr) . " %"; ?></td>
-      <td></td>
+      <td align="right"><?php echo ROUND($crswanbiayapiutangklt) . " %"; ?></td>
       <td align="right"><?php echo ROUND($crswanbiayapiutang) . " %"; ?></td>
     </tr>
     <tr style="font-weight:bold">
@@ -974,6 +1040,12 @@ function uang($nilai)
         $craidabiayapiutangsmr = 0;
       }
 
+      if ($netaidaklt != 0) {
+        $craidabiayapiutangklt = ($biayapiutangklt / $netaidaklt) * 100;
+      } else {
+        $craidabiayapiutangklt = 0;
+      }
+
       if ($totalaida != 0) {
         $craidabiayapiutang = ($totalbiayapiutang / $totalaida) * 100;
       } else {
@@ -990,7 +1062,7 @@ function uang($nilai)
       <td align="right"></td>
       <td align="right"><?php echo ROUND($craidabiayapiutangsby) . " %"; ?></td>
       <td align="right"><?php echo ROUND($craidabiayapiutangsmr) . " %"; ?></td>
-      <td></td>
+      <td align="right"><?php echo ROUND($craidabiayapiutangklt) . " %"; ?></td>
       <td align="right"><?php echo ROUND($craidabiayapiutang) . " %"; ?></td>
     </tr>
     <tr style="font-weight: bold;">
@@ -1050,6 +1122,12 @@ function uang($nilai)
         $crtotalpenjbiayapiutangsmr = 0;
       }
 
+      if ($totalpenjklt != 0) {
+        $crtotalpenjbiayapiutangklt = ($biayapiutangklt / $totalpenjklt) * 100;
+      } else {
+        $crtotalpenjbiayapiutangklt = 0;
+      }
+
       if ($totalpenjualanall != 0) {
         $crtotalpenjualanbiayapiutang = ($totalbiayapiutang / $totalpenjualanall) * 100;
       } else {
@@ -1066,7 +1144,7 @@ function uang($nilai)
       <td align="right"></td>
       <td align="right"><?php echo ROUND($crtotalpenjbiayapiutangsby) . " %"; ?></td>
       <td align="right"><?php echo ROUND($crtotalpenjbiayapiutangsmr) . " %"; ?></td>
-      <td></td>
+      <td align="right"><?php echo ROUND($crtotalpenjbiayapiutangklt) . " %"; ?></td>
       <td align="right"><?php echo ROUND($crtotalpenjualanbiayapiutang) . " %"; ?></td>
     </tr>
   </tfoot>

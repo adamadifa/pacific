@@ -2523,27 +2523,27 @@ GROUP BY
 		$akhir = date('Y-m-t', strtotime($awal));
 
 		$query = "SELECT 
-		SUM(IF(karyawan.kode_cabang ='TSM',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanTSM,
+		SUM(IF(karyawan.kode_cabang ='TSM',brutoswan-IFNULL(potswan,0)-IFNULL(potisswan,0) - IFNULL(potisstick,0) - IFNULL(potstick,0) - IFNULL(penyswan,0) - IFNULL(penystick,0) - IFNULL(potsp,0) ,0)) as netswanTSM,
 		SUM(IF(karyawan.kode_cabang ='TSM',brutoaida-potaida - potisaida-penyaida,0)) as netaidaTSM,
-		SUM(IF(karyawan.kode_cabang ='BDG',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanBDG,
+		SUM(IF(karyawan.kode_cabang ='BDG',brutoswan-IFNULL(potswan,0)-IFNULL(potisswan,0) - IFNULL(potisstick,0) - IFNULL(potstick,0) - IFNULL(penyswan,0) - IFNULL(penystick,0) - IFNULL(potsp,0),0)) as netswanBDG,
 		SUM(IF(karyawan.kode_cabang ='BDG',brutoaida-potaida - potisaida-penyaida,0)) as netaidaBDG,
-		SUM(IF(karyawan.kode_cabang ='SKB',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanSKB,
+		SUM(IF(karyawan.kode_cabang ='SKB',brutoswan-IFNULL(potswan,0)-IFNULL(potisswan,0) - IFNULL(potisstick,0) - IFNULL(potstick,0) - IFNULL(penyswan,0) - IFNULL(penystick,0) - IFNULL(potsp,0),0)) as netswanSKB,
 		SUM(IF(karyawan.kode_cabang ='SKB',brutoaida-potaida - potisaida-penyaida,0)) as netaidaSKB,
-		SUM(IF(karyawan.kode_cabang ='TGL',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanTGL,
+		SUM(IF(karyawan.kode_cabang ='TGL',brutoswan-IFNULL(potswan,0)-IFNULL(potisswan,0) - IFNULL(potisstick,0) - IFNULL(potstick,0) - IFNULL(penyswan,0) - IFNULL(penystick,0) - IFNULL(potsp,0),0)) as netswanTGL,
 		SUM(IF(karyawan.kode_cabang ='TGL',brutoaida-potaida - potisaida-penyaida,0)) as netaidaTGL,
-		SUM(IF(karyawan.kode_cabang ='BGR',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanBGR,
+		SUM(IF(karyawan.kode_cabang ='BGR',brutoswan-IFNULL(potswan,0)-IFNULL(potisswan,0) - IFNULL(potisstick,0) - IFNULL(potstick,0) - IFNULL(penyswan,0) - IFNULL(penystick,0) - IFNULL(potsp,0),0)) as netswanBGR,
 		SUM(IF(karyawan.kode_cabang ='BGR',brutoaida-potaida - potisaida-penyaida,0)) as netaidaBGR,
-		SUM(IF(karyawan.kode_cabang ='PWT',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanPWT,
+		SUM(IF(karyawan.kode_cabang ='PWT',brutoswan-IFNULL(potswan,0)-IFNULL(potisswan,0) - IFNULL(potisstick,0) - IFNULL(potstick,0) - IFNULL(penyswan,0) - IFNULL(penystick,0) - IFNULL(potsp,0),0)) as netswanPWT,
 		SUM(IF(karyawan.kode_cabang ='PWT',brutoaida-potaida - potisaida-penyaida,0)) as netaidaPWT,
-		SUM(IF(karyawan.kode_cabang ='PCF',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanPCF,
-		SUM(IF(karyawan.kode_cabang ='PCF',brutoaida-potaida - potisaida-penyaida,0)) as netaidaPCF,
-		SUM(IF(karyawan.kode_cabang ='GRT',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanGRT,
+		SUM(IF(karyawan.kode_cabang ='PST',brutoswan-IFNULL(potswan,0)-IFNULL(potisswan,0) - IFNULL(potisstick,0) - IFNULL(potstick,0) - IFNULL(penyswan,0) - IFNULL(penystick,0) - IFNULL(potsp,0),0)) as netswanPST,
+		SUM(IF(karyawan.kode_cabang ='PST',brutoaida-potaida - potisaida-penyaida,0)) as netaidaPST,
+		SUM(IF(karyawan.kode_cabang ='GRT',brutoswan-IFNULL(potswan,0)-IFNULL(potisswan,0) - IFNULL(potisstick,0) - IFNULL(potstick,0) - IFNULL(penyswan,0) - IFNULL(penystick,0) - IFNULL(potsp,0),0)) as netswanGRT,
 		SUM(IF(karyawan.kode_cabang ='GRT',brutoaida-potaida - potisaida-penyaida,0)) as netaidaGRT,
-		SUM(IF(karyawan.kode_cabang ='SBY',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanSBY,
+		SUM(IF(karyawan.kode_cabang ='SBY',brutoswan-IFNULL(potswan,0)-IFNULL(potisswan,0) - IFNULL(potisstick,0) - IFNULL(potstick,0) - IFNULL(penyswan,0) - IFNULL(penystick,0) - IFNULL(potsp,0),0)) as netswanSBY,
 		SUM(IF(karyawan.kode_cabang ='SBY',brutoaida-potaida - potisaida-penyaida,0)) as netaidaSBY,
-		SUM(IF(karyawan.kode_cabang ='SMR',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanSMR,
+		SUM(IF(karyawan.kode_cabang ='SMR',brutoswan-IFNULL(potswan,0)-IFNULL(potisswan,0) - IFNULL(potisstick,0) - IFNULL(potstick,0) - IFNULL(penyswan,0) - IFNULL(penystick,0) - IFNULL(potsp,0),0)) as netswanSMR,
 		SUM(IF(karyawan.kode_cabang ='SMR',brutoaida-potaida - potisaida-penyaida,0)) as netaidaSMR,
-		SUM(IF(karyawan.kode_cabang ='KLT',brutoswan-potswan-potisswan - potisstick - potstick - penyswan - penystick,0)) as netswanKLT,
+		SUM(IF(karyawan.kode_cabang ='KLT',brutoswan-IFNULL(potswan,0)-IFNULL(potisswan,0) - IFNULL(potisstick,0) - IFNULL(potstick,0) - IFNULL(penyswan,0) - IFNULL(penystick,0) - IFNULL(potsp,0),0)) as netswanKLT,
 		SUM(IF(karyawan.kode_cabang ='KLT',brutoaida-potaida - potisaida-penyaida,0)) as netaidaKLT
 		
 		FROM penjualan
@@ -2579,8 +2579,8 @@ GROUP BY
 		SUM(IF(master_barang.jenis_produk = 'AIDA' AND karyawan.kode_cabang ='TGL',detailretur.subtotal,0)) as returaidaTGL,
 		SUM(IF(master_barang.jenis_produk = 'SWAN' AND karyawan.kode_cabang ='BGR',detailretur.subtotal,0)) as returswanBGR,
 		SUM(IF(master_barang.jenis_produk = 'AIDA' AND karyawan.kode_cabang ='BGR',detailretur.subtotal,0)) as returaidaBGR,
-		SUM(IF(master_barang.jenis_produk = 'SWAN' AND karyawan.kode_cabang ='PCF',detailretur.subtotal,0)) as returswanPCF,
-		SUM(IF(master_barang.jenis_produk = 'AIDA' AND karyawan.kode_cabang ='PCF',detailretur.subtotal,0)) as returaidaPCF,
+		SUM(IF(master_barang.jenis_produk = 'SWAN' AND karyawan.kode_cabang ='PST',detailretur.subtotal,0)) as returswanPST,
+		SUM(IF(master_barang.jenis_produk = 'AIDA' AND karyawan.kode_cabang ='PST',detailretur.subtotal,0)) as returaidaPST,
 		SUM(IF(master_barang.jenis_produk = 'SWAN' AND karyawan.kode_cabang ='GRT',detailretur.subtotal,0)) as returswanGRT,
 		SUM(IF(master_barang.jenis_produk = 'AIDA' AND karyawan.kode_cabang ='GRT',detailretur.subtotal,0)) as returaidaGRT,
 		SUM(IF(master_barang.jenis_produk = 'SWAN' AND karyawan.kode_cabang ='SBY',detailretur.subtotal,0)) as returswanSBY,
@@ -2638,7 +2638,10 @@ GROUP BY
 			) AS SBY,
 			sum(
 				CASE WHEN cabangbarunew = 'SMR' THEN ifnull(penjualan.total, 0) - ifnull(retur.total, 0) - ifnull(hblalu.jmlbayar, 0) END
-			) AS SMR
+			) AS SMR,
+			sum(
+				CASE WHEN cabangbarunew = 'KLT' THEN ifnull(penjualan.total, 0) - ifnull(retur.total, 0) - ifnull(hblalu.jmlbayar, 0) END
+			) AS KLT
 		FROM
 			(
 				(
@@ -2722,7 +2725,8 @@ GROUP BY
 		SUM(IF(kode_cabang='PST',jumlah,0)) as PST,
 		SUM(IF(kode_cabang='GRT',jumlah,0)) as GRT,
 		SUM(IF(kode_cabang='SBY',jumlah,0)) as SBY,
-		SUM(IF(kode_cabang='SMR',jumlah,0)) as SMR
+		SUM(IF(kode_cabang='SMR',jumlah,0)) as SMR,
+		SUM(IF(kode_cabang='KLT',jumlah,0)) as KLT
 		FROM costratio_biaya
 		LEFT JOIN coa ON costratio_biaya.kode_akun = coa.kode_akun
 		WHERE tgl_transaksi BETWEEN '$awal' AND '$akhir' AND LEFT(costratio_biaya.kode_akun,3)='6-1'
@@ -2750,15 +2754,15 @@ GROUP BY
 		$akhir = date('Y-m-t', strtotime($awal));
 
 		$query = "SELECT 
-		SUM(potswan + potisswan  + potstick + potisstick ) as potonganswan,
+		SUM(potswan + potisswan  + potstick + potisstick ) + SUM(potsp) as potonganswan,
 		SUM(potaida + potisaida) as potonganaida,
 		SUM(penyswan+penystick) as penyesuaianswan,
 		SUM(penyaida) as penyesuaianaida,
 		SUM(brutoswan) as brutoswan,
 		SUM(brutoaida) as brutoaida,
-		SUM(brutoswan) - SUM(potswan + potisswan  + potstick + potisstick ) -SUM(penyswan+penystick) as netswan,
+		SUM(brutoswan) - SUM(potswan + potisswan  + potstick + potisstick ) -SUM(penyswan+penystick) - SUM(potsp) as netswan,
 		SUM(brutoaida) - SUM(potaida + potisaida) - SUM(penyaida)  as netaida,
-		(SUM(brutoswan) - SUM(potswan + potisswan  + potstick + potisstick ) -SUM(penyswan+penystick)) + (SUM(brutoaida) - SUM(potaida + potisaida) - SUM(penyaida) ) as netpenjualan
+		(SUM(brutoswan) - SUM(potswan + potisswan  + potstick + potisstick ) -SUM(penyswan+penystick) - SUM(potsp)) + (SUM(brutoaida) - SUM(potaida + potisaida) - SUM(penyaida) ) as netpenjualan
 		FROM penjualan
 		LEFT JOIN (
 		SELECT no_fak_penj,	
