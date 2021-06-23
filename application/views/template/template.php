@@ -49,7 +49,7 @@
   <link href="<?php echo base_url(); ?>assets/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
   <style>
     body {
-      display: none;
+      zoom: 0.85;
       font-family: Roboto, HelveticaNeue, Arial, sans-serif;
     }
 
@@ -356,10 +356,7 @@
   <script>
     function toggleZoomScreen() {
       var width = window.screen.width;
-      $("body").css({
-        "display": "block",
-        "zoom": "80%"
-      });
+
     }
     toggleZoomScreen();
   </script>
