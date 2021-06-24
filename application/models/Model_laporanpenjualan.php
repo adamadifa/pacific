@@ -1122,7 +1122,7 @@ GROUP BY
 			$salesman = "";
 		}
 
-		$query = "SELECT master_barang.kode_produk,nama_barang,isipcsdus,isipack,isipcs,jumlah_tunai,totaljual_tunai,jumlah_kredit,totaljual_kredit,jumlah_tunai + jumlah_kredit as jumlah,totaljual_tunai + totaljual_kredit as totaljual
+		$query = "SELECT master_barang.kode_produk,nama_barang,isipcsdus,satuan,isipack,isipcs,jumlah_tunai,totaljual_tunai,jumlah_kredit,totaljual_kredit,jumlah_tunai + jumlah_kredit as jumlah,totaljual_tunai + totaljual_kredit as totaljual
 					FROM master_barang
 					LEFT JOIN (
 					 SELECT kode_produk,

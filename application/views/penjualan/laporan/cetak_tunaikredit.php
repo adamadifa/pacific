@@ -151,7 +151,7 @@ if (!empty($cabang)) {
 				$jmlpcst = $sisapack;
 				$subtotalt = $t->totaljual_tunai;
 
-				if ($t->isipcsdus == 1) {
+				if ($t->satuan == 'PCS') {
 
 					$jmldust = 0;
 					$jmlpackt = 0;
@@ -180,11 +180,11 @@ if (!empty($cabang)) {
 				$jmlpcsk = $sisapack;
 				$subtotalk = $t->totaljual_kredit;
 
-				if ($t->isipcsdus == 1) {
+				if ($t->satuan == 'PCS') {
 
 					$jmldusk = 0;
 					$jmlpackk = 0;
-					$jmlpcsk = $t->jumlah_tunai;
+					$jmlpcsk = $t->jumlah_kredit;
 				}
 			} else {
 
@@ -208,7 +208,7 @@ if (!empty($cabang)) {
 				$jmlpcsall 	= $sisapack;
 				$subtotalall = $t->totaljual;
 
-				if ($t->isipcsdus == 1) {
+				if ($t->satuan == 'PCS') {
 
 					$jmldusall = 0;
 					$jmlpackall = 0;

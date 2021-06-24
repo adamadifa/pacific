@@ -63,13 +63,10 @@
                     <tr>
                       <th rowspan="4" align="">No</th>
                       <th rowspan="4" style="text-align:center">Nama Barang</th>
-                      <th colspan="2" style="text-align:center">Pengambilan</th>
-                      <th colspan="2" style="text-align:center">Pengembalian</th>
-                      <th rowspan="4" style="text-align:center">Barang Keluar</th>
-
+                      <th colspan="6" style="text-align:center">Pengambilan</th>
                     </tr>
                     <tr>
-                      <td colspan="2" style="text-align:center">
+                      <td colspan="6" style="text-align:center; background-color:#354052">
                         <div class="form-group mb-3">
                           <div class="input-icon">
                             <span class="input-icon-addon">
@@ -79,33 +76,30 @@
                           </div>
                         </div>
                       </td>
-                      <td colspan="2" style="text-align:center">
-                        <div class="form-group mb-3">
-                          <div class="input-icon">
-                            <span class="input-icon-addon">
-                              <i class="fa fa-calendar-o"></i>
-                            </span>
-                            <input type="text" value="" disabled id="tglkembali" name="tglkembali" class="form-control datepicker" placeholder="Tgl Pengembalian" data-error=".errorTxt19" />
-                          </div>
-                        </div>
-                      </td>
+
                     </tr>
                     <tr>
-                      <th colspan="2" style="text-align:center">Kuantitas</th>
-                      <th colspan="2" style="text-align:center">Kuantitas</th>
+                      <th colspan="6" style="text-align:center;">Kuantitas</th>
+
                     </tr>
                     <tr>
                       <th style="text-align:center">Jumlah</th>
                       <th style="text-align:center">Satuan</th>
                       <th style="text-align:center">Jumlah</th>
                       <th style="text-align:center">Satuan</th>
+                      <th style="text-align:center">Jumlah</th>
+                      <th style="text-align:center">Satuan</th>
+
                     </tr>
                   </thead>
                   <tbody>
                     <?php
                     $no = 1;
                     foreach ($barang as $b) {
+
                     ?>
+                      <input type="hidden" name="isipcsdus<?php echo $no; ?>" value="<?php echo $b->isipcsdus; ?>">
+                      <input type="hidden" name="isipcs<?php echo $no; ?>" value="<?php echo $b->isipcs; ?>">
                       <tr>
                         <td style="width:10px"><?php echo $no; ?></td>
                         <td style="width:200px">
@@ -115,27 +109,30 @@
                         <td style="width:100px">
                           <div class="input-group demo-masked-input" style="margin-bottom:0px !important; ">
                             <div class="form-line">
-                              <input type="text" style="text-align:right" value="" id="jmlpengambilan" name="jmlpengambilan<?php echo $no; ?>" class="form-control" data-error=".errorTxt19" />
-                            </div>
-                          </div>
-                        </td>
-                        <td style="width:50px"><?php echo $b->satuan; ?></td>
-                        <td style="width:100px">
-                          <div class="input-group demo-masked-input" style="margin-bottom:0px !important; ">
-                            <div class="form-line">
-                              <input type="text" readonly value="" id="jmlpengembalian" name="jmlpengembalian<?php echo $no; ?>" class="form-control" data-error=".errorTxt19" />
-                            </div>
-                          </div>
-                        </td>
-                        <td style="width:50px"><?php echo $b->satuan; ?></td>
-                        <td style="width:100px">
-                          <div class="input-group demo-masked-input" style="margin-bottom:0px !important; ">
-                            <div class="form-line">
-                              <input type="text" readonly value="" id="jmlbrgkeluar" name="jmlbrgkeluar<?php echo $no; ?>" class="form-control" data-error=".errorTxt19" />
+                              <input type="text" style="text-align:right" value="" id="jmlduspengambilan" name="jmlduspengambilan<?php echo $no; ?>" class="form-control" data-error=".errorTxt19" />
                             </div>
                           </div>
                         </td>
 
+                        <td style="width:50px"><?php echo $b->satuan; ?></td>
+                        <td style="width:100px">
+                          <?php if (!empty($b->isipack)) { ?>
+                            <div class="input-group demo-masked-input" style="margin-bottom:0px !important; ">
+                              <div class="form-line">
+                                <input type="text" style="text-align:right" value="" id="jmlpackpengambilan" name="jmlpackpengambilan<?php echo $no; ?>" class="form-control" data-error=".errorTxt19" />
+                              </div>
+                            </div>
+                          <?php } ?>
+                        </td>
+                        <td style="width:50px"> Pack </td>
+                        <td style="width:100px">
+                          <div class="input-group demo-masked-input" style="margin-bottom:0px !important; ">
+                            <div class="form-line">
+                              <input type="text" style="text-align:right" value="" id="jmlpcspengambilan" name="jmlpcspengambilan<?php echo $no; ?>" class="form-control" data-error=".errorTxt19" />
+                            </div>
+                          </div>
+                        </td>
+                        <td style="width:50px">Pcs</td>
                       </tr>
                     <?php
                       $no++;
