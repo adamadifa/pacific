@@ -11,6 +11,7 @@ class Model_sales extends CI_Model
 		if ($cabang != "pusat") {
 			$this->db->where('karyawan.kode_cabang', $cabang);
 		}
+		$this->db->where('status_aktif_sales', '1');
 		$this->db->select('id_karyawan,nama_karyawan,alamat_karyawan,no_hp,nama_cabang,status_aktif_sales');
 		$this->db->from('karyawan');
 		$this->db->join('cabang', 'karyawan.kode_cabang = cabang.kode_cabang');
