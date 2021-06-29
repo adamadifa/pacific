@@ -45,15 +45,43 @@
 		<?php
 		$no = 1;
 		foreach ($detaildpb as $d) {
+			$jmlambil = number_format($d->jml_pengambilan, '3', ',', '.');
+			$jmlpengambilan = explode(",", $jmlambil);
+
+			$jmlkembali = number_format($d->jml_pengembalian, '3', ',', '.');
+			$jmlpengembalian = explode(",", $jmlkembali);
+			// if (empty(floatval($d->jml_pengembalian))) {
+			// 	echo "Kosong";
+			// } else {
+			// 	echo "ada";
+			// }
 		?>
 			<tr>
 				<td><?php echo $no; ?></td>
 				<td><?php echo $d->nama_barang; ?></td>
-				<td align="right"><?php echo number_format($d->jml_pengambilan, '2', ',', '.'); ?></td>
+				<td align="right">
+					<?php if (!empty(floatval($jmlambil))) { ?>
+						<b>
+							<font color="black"><?php echo $jmlpengambilan[0]; ?></font>
+						</b>
+						<?php if (!empty($jmlpengambilan[1])) { ?>
+							,<font color="red"><?php echo $jmlpengambilan[1]; ?></font>
+						<?php } ?>
+					<?php } ?>
+				</td>
 				<td align="center"><?php echo $d->satuan; ?></td>
-				<td align="right"><?php echo number_format($d->jml_pengembalian, '2', ',', '.'); ?></td>
+				<td align="right">
+					<?php if (!empty(floatval($jmlkembali))) { ?>
+						<b>
+							<font color="black"><?php echo $jmlpengembalian[0]; ?></font>
+						</b>
+						<?php if (!empty($jmlpengembalian[1])) { ?>
+							,<font color="red"><?php echo $jmlpengembalian[1]; ?></font>
+						<?php } ?>
+					<?php } ?>
+				</td>
 				<td align="center"><?php echo $d->satuan; ?></td>
-				<td align="right"><?php echo number_format($d->jml_penjualan, '2', ',', '.'); ?></td>
+				<td align="right"><?php echo number_format($d->jml_penjualan, '3', ',', '.'); ?></td>
 			</tr>
 		<?php
 			$no++;
@@ -99,14 +127,14 @@
 		?>
 			<tr>
 				<td><?php echo $m->nama_barang; ?></td>
-				<td align="right"><span class="badge bg-green"><?php echo number_format($retur, '2', ',', '.'); ?></span></td>
-				<td align="right"><span class="badge bg-green"><?php echo number_format($plttr, '2', ',', '.'); ?></span></td>
-				<td align="right"><span class="badge bg-green"><?php echo number_format($hk, '2', ',', '.'); ?></span></td>
-				<td align="right"><span class="badge bg-red"><?php echo number_format($pnj, '2', ',', '.'); ?></span></td>
-				<td align="right"><span class="badge bg-red"><?php echo number_format($plhk, '2', ',', '.'); ?></span></td>
-				<td align="right"><span class="badge bg-red"><?php echo number_format($promo, '2', ',', '.'); ?></span></td>
-				<td align="right"><span class="badge bg-red"><?php echo number_format($ttr, '2', ',', '.'); ?></span></td>
-				<td align="right"><span class="badge bg-red"><?php echo number_format($gb, '2', ',', '.'); ?></span></td>
+				<td align="right"><span class="badge bg-green"><?php echo number_format($retur, '3', ',', '.'); ?></span></td>
+				<td align="right"><span class="badge bg-green"><?php echo number_format($plttr, '3', ',', '.'); ?></span></td>
+				<td align="right"><span class="badge bg-green"><?php echo number_format($hk, '3', ',', '.'); ?></span></td>
+				<td align="right"><span class="badge bg-red"><?php echo number_format($pnj, '3', ',', '.'); ?></span></td>
+				<td align="right"><span class="badge bg-red"><?php echo number_format($plhk, '3', ',', '.'); ?></span></td>
+				<td align="right"><span class="badge bg-red"><?php echo number_format($promo, '3', ',', '.'); ?></span></td>
+				<td align="right"><span class="badge bg-red"><?php echo number_format($ttr, '3', ',', '.'); ?></span></td>
+				<td align="right"><span class="badge bg-red"><?php echo number_format($gb, '3', ',', '.'); ?></span></td>
 			</tr>
 		<?php } ?>
 	</tbody>

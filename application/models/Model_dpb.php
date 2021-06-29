@@ -24,7 +24,21 @@ class Model_dpb extends CI_Model
     if ($simpandbp) {
       for ($i = 1; $i <= $jumproduk; $i++) {
         $kode_produk    = $this->input->post('kode_produk' . $i);
-        $jmlpengambilan = $this->input->post('jmlpengambilan' . $i);
+        $jmlduspengambilan = $this->input->post('jmlduspengambilan' . $i);
+        $jmlpackpengambilan = $this->input->post('jmlpackpengambilan' . $i);
+        $jmlpcspengambilan = $this->input->post('jmlpcspengambilan' . $i);
+        $isipcsdus = $this->input->post('isipcsdus' . $i);
+        $isipcs = $this->input->post('isipcs' . $i);
+        $jmlpcsambil = ($jmlduspengambilan * $isipcsdus) + ($jmlpackpengambilan * $isipcs) + $jmlpcspengambilan;
+
+        if (!empty($jmlpcsambil)) {
+          $jmlpengambilan = $jmlpcsambil / $isipcsdus;
+        } else {
+          $jmlpengambilan = 0;
+        }
+
+        $jmlpengambilan = round($jmlpengambilan, 3);
+
         $data_detail   = array(
           'no_dpb'             => $nodpb,
           'kode_produk'        => $kode_produk,
@@ -55,7 +69,7 @@ class Model_dpb extends CI_Model
     $tgl_pengambilan  = $this->input->post('tglambil');
     $tgl_pengembalian = $this->input->post('tglkembali');
     $jumproduk        = $this->input->post('jumproduk');
-    if (empty($tgl_pengambilan)) {
+    if (empty($tgl_pengembalian)) {
       $data = array(
         'kode_cabang'        => $kode_cabang,
         'id_karyawan'        => $salesman,
@@ -77,10 +91,54 @@ class Model_dpb extends CI_Model
     $simpandbp        = $this->db->update('dpb', $data, array('no_dpb' => $nodpb));
     if ($simpandbp) {
       for ($i = 1; $i <= $jumproduk; $i++) {
+        $isipcsdus = $this->input->post('isipcsdus' . $i);
+        $isipcs = $this->input->post('isipcs' . $i);
+
         $kode_produk     = $this->input->post('kode_produk' . $i);
-        $jmlpengambilan  = $this->input->post('jmlpengambilan' . $i);
-        $jmlpengembalian = $this->input->post('jmlpengembalian' . $i);
-        $jmlbrgkeluar    = $this->input->post('jmlbrgkeluar' . $i);
+        $jmlduspengambilan = $this->input->post('jmlduspengambilan' . $i);
+        $jmlpackpengambilan = $this->input->post('jmlpackpengambilan' . $i);
+        $jmlpcspengambilan = $this->input->post('jmlpcspengambilan' . $i);
+
+        $jmlpcsambil = ($jmlduspengambilan * $isipcsdus) + ($jmlpackpengambilan * $isipcs) + $jmlpcspengambilan;
+
+        if (!empty($jmlpcsambil)) {
+          $jmlpengambilan = $jmlpcsambil / $isipcsdus;
+        } else {
+          $jmlpengambilan = 0;
+        }
+
+        $jmlpengambilan = round($jmlpengambilan, 3);
+
+
+        $jmlduspengembalian = $this->input->post('jmlduspengembalian' . $i);
+        $jmlpackpengembalian = $this->input->post('jmlpackpengembalian' . $i);
+        $jmlpcspengembalian = $this->input->post('jmlpcspengembalian' . $i);
+
+        $jmlpcskembali = ($jmlduspengembalian * $isipcsdus) + ($jmlpackpengembalian * $isipcs) + $jmlpcspengembalian;
+
+        if (!empty($jmlpcskembali)) {
+          $jmlpengembalian = $jmlpcskembali / $isipcsdus;
+        } else {
+          $jmlpengembalian = 0;
+        }
+
+        $jmlpengembalian = round($jmlpengembalian, 3);
+
+
+        $jmlbarangkeluardus = $this->input->post('jmlbrgkeluardus' . $i);
+        $jmlbarangkeluarpack = $this->input->post('jmlbrgkeluarpack' . $i);
+        $jmlbarangkeluarpcs = $this->input->post('jmlbrgkeluarpcs' . $i);
+
+        $jmlpcskeluar = ($jmlbarangkeluardus * $isipcsdus) + ($jmlbarangkeluarpack * $isipcs) + $jmlbarangkeluarpcs;
+
+        if (!empty($jmlpcskeluar)) {
+          $jmlbrgkeluar = $jmlpcskeluar / $isipcsdus;
+        } else {
+          $jmlbrgkeluar = 0;
+        }
+
+        $jmlbrgkeluar = round($jmlbrgkeluar, 3);
+
         $cek_detail      = $this->db->get_where('detail_dpb', array('no_dpb' => $nodpb, 'kode_produk' => $kode_produk))->num_rows();
         if (empty($tgl_pengembalian)) {
           if (empty($cek_detail) && !empty($jmlpengambilan)) {

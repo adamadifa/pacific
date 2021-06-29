@@ -125,6 +125,9 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>laporanpenjualan/dpp" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>DPP
       </a>
+	  <a href="<?php echo base_url(); ?>laporanpenjualan/rekapomset" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i>Rekap Omset Pelanggan
+      </a>
       <a href="<?php echo base_url(); ?>laporanpenjualan/rekappelanggan" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>Rekap Pelanggan
       </a>
@@ -244,6 +247,9 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>laporanpenjualan/dpp" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>DPP
       </a>
+	  <a href="<?php echo base_url(); ?>laporanpenjualan/rekapomset" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i>Rekap Omset Pelanggan
+      </a>
       <a href="<?php echo base_url(); ?>laporanpenjualan/rekappelanggan" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>Rekap Pelanggan
       </a>
@@ -317,6 +323,9 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>laporanpenjualan/dpp" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>DPP
       </a>
+	  <a href="<?php echo base_url(); ?>laporanpenjualan/rekapomset" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i>Rekap Omset Pelanggan
+      </a>
       <a href="<?php echo base_url(); ?>laporanpenjualan/rekappelanggan" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>Rekap Pelanggan
       </a>
@@ -377,6 +386,9 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>laporanpenjualan/dpp" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>DPP
       </a>
+	  <a href="<?php echo base_url(); ?>laporanpenjualan/rekapomset" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i>Rekap Omset Pelanggan
+      </a>
       <a href="<?php echo base_url(); ?>laporanpenjualan/rekappelanggan" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>Rekap Pelanggan
       </a>
@@ -424,6 +436,9 @@ if ($level == "Administrator") {
       </a>
       <a href="<?php echo base_url(); ?>laporanpenjualan/dpp" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>DPP
+      </a>
+	  <a href="<?php echo base_url(); ?>laporanpenjualan/rekapomset" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i>Rekap Omset Pelanggan
       </a>
       <a href="<?php echo base_url(); ?>laporanpenjualan/rekappelanggan" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>Rekap Pelanggan
