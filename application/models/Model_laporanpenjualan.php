@@ -3502,4 +3502,40 @@ GROUP BY
 
 		return $this->db->query($query);
 	}
+	
+	function rekapomsetpelanggan($cabang="",$bulan1,$bulan2, $tahun)
+	{
+		$bulan1 = $tahun . "-" . $bulan1 . "-01";
+		$bulan2 = $tahun . "-" . $bulan2 . "-01";
+		$akhirbulan = date('Y-m-t', strtotime($bulan2));
+		if ($cabang  != "") {
+			$cabang = "AND k.kode_cabang = '" . $cabang . "' ";
+		}
+		$query = "SELECT p.kode_pelanggan,nama_pelanggan, nama_karyawan,pasar,
+				SUM(bruto) as bruto, 
+				SUM(brutoswan) as brutoswan, 
+				SUM(brutoaida) as brutoaida,
+				SUM(brutoswan) - SUM(potswan + potisswan  + potstick + potisstick ) -SUM(penyswan+penystick) - SUM(potsp) as netswan,
+				SUM(brutoaida) - SUM(potaida + potisaida) - SUM(penyaida)  as netaida,
+				(SUM(brutoswan) - SUM(potswan + potisswan  + potstick + potisstick ) -SUM(penyswan+penystick) - SUM(potsp)) + (SUM(brutoaida) - SUM(potaida + potisaida) - SUM(penyaida) ) as netpenjualan
+				FROM penjualan p 
+				INNER JOIN pelanggan pl ON p.kode_pelanggan = pl.kode_pelanggan
+				INNER JOIN karyawan k ON p.id_karyawan = k.id_karyawan
+				LEFT JOIN (
+						SELECT no_fak_penj,	
+						SUM(IF(master_barang.jenis_produk = 'SWAN',detailpenjualan.subtotal,0)) as brutoswan,
+						SUM(IF(master_barang.jenis_produk = 'AIDA',detailpenjualan.subtotal,0)) as brutoaida,
+						SUM(detailpenjualan.subtotal) as bruto
+						FROM detailpenjualan
+						INNER JOIN barang ON detailpenjualan.kode_barang = barang.kode_barang 
+						INNER JOIN master_barang ON barang.kode_produk = master_barang.kode_produk 
+						GROUP BY no_fak_penj) dp ON (dp.no_fak_penj = p.no_fak_penj)
+				WHERE tgltransaksi BETWEEN '$bulan1' AND '$akhirbulan'".$cabang."
+				GROUP BY p.kode_pelanggan,nama_pelanggan,nama_karyawan
+				ORDER BY nama_pelanggan asc 
+				";
+		return $this->db->query($query);
+	}
+	
+	
 }

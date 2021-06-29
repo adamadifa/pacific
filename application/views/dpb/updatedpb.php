@@ -13,7 +13,7 @@
   <div class="row">
     <div class="col-md-10 col-xs-12">
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
           <div class="card">
             <div class="card-header">
               <h4 class="card-title"> UPDATE DATA PERINCIAN BARANG (DPB)</h4>
@@ -71,9 +71,9 @@
                     <tr>
                       <th rowspan="4" align="">No</th>
                       <th rowspan="4" style="text-align:center">Nama Barang</th>
-                      <th colspan="3" style="text-align:center; background-color:#274a82; width:20%">Pengambilan</th>
-                      <th colspan="3" style="text-align:center; background-color:#116946; width:20%">Pengembalian</th>
-                      <th colspan="3" rowspan="2" style="text-align:center; background-color:#802c2c; width:20%">Barang Keluar</th>
+                      <th colspan="3" style="text-align:center; background-color:#274a82; ">Pengambilan</th>
+                      <th colspan="3" style="text-align:center; background-color:#116946; ">Pengembalian</th>
+                      <th colspan="3" rowspan="2" style="text-align:center; background-color:#802c2c;">Barang Keluar</th>
 
                     </tr>
                     <tr>
@@ -234,9 +234,9 @@
                           <?php if (!empty($b->isipack)) { ?>
                             <div class="input-group demo-masked-input" style="margin-bottom:0px !important; ">
                               <div class="form-line">
-                                <input type="text" value=<?php if (!empty($jmlpack_pengembalian)) {
+                                <input type="text" value="<?php if (!empty($jmlpack_pengembalian)) {
                                                             echo $jmlpack_pengembalian;
-                                                          } ?>"" style="text-align:right" id="jmlpackpengembalian" name="jmlpackpengembalian<?php echo $no; ?>" class="form-control" data-error=".errorTxt19" />
+                                                          } ?>" style=" text-align:right" id="jmlpackpengembalian" name="jmlpackpengembalian<?php echo $no; ?>" class="form-control" data-error=".errorTxt19" />
                               </div>
                             </div>
                           <?php } ?>

@@ -8,7 +8,7 @@ function uang($nilai)
 ?>
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/table.css">
 <b style="font-size:14px; font-family:Calibri">
-  COST RATIO <br>
+  REKAP OMSET PELANGGAN <br>
   CABANG <?php echo $cabang; ?>
 </b>
 
