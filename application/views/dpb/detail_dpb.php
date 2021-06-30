@@ -55,6 +55,9 @@
 			// } else {
 			// 	echo "ada";
 			// }
+			$jmlkembali = str_replace(",", ".", $jmlkembali);
+			$jmlambil = str_replace(",", ".", $jmlambil);
+
 		?>
 			<tr>
 				<td><?php echo $no; ?></td>
