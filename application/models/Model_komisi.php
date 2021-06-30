@@ -373,4 +373,26 @@ class Model_komisi extends CI_Model
 
     return $this->db->query($query);
   }
+
+  function komisicabang($tahun, $bulan)
+  {
+    if (empty($tahun)) {
+      $tahun = date("Y");
+    } else {
+      $tahun = $tahun;
+    }
+
+    if (empty($bulan)) {
+      $bulan = date("m");
+    } else {
+      $bulan = $bulan;
+    }
+    $query = "SELECT k.kode_cabang,bulan,tahun
+    FROM komisi_target_qty_detail targetqty 
+    INNER JOIN karyawan k ON targetqty.id_karyawan = k.id_karyawan
+    INNER JOIN komisi_target target ON target.kode_target = targetqty.kode_target
+    WHERE tahun ='$tahun' AND bulan ='$bulan'
+    GROUP BY k.kode_cabang,bulan,tahun";
+    return $this->db->query($query);
+  }
 }

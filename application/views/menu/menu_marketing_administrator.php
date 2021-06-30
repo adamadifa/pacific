@@ -28,8 +28,8 @@ if ($level == "Administrator" || $level == "manager marketing") {
       <a href="<?php echo base_url(); ?>komisi/approvle_targetkomisi" class="list-group-item list-group-item-action">
         <i class="fa  fa-file-text mr-2"></i>Target Komisi
       </a>
-      <a href="<?php echo base_url(); ?>komisi/kategoripoinqty" class="list-group-item list-group-item-action">
-        <i class="fa  fa-file-text mr-2"></i>Kategori Poin Qty
+      <a href="<?php echo base_url(); ?>komisi/approvetargetkomisi" class="list-group-item list-group-item-action">
+        <i class="fa  fa-file-text mr-2"></i>Approve Target Komisi
       </a>
     </div>
   </div>
@@ -53,9 +53,9 @@ if ($level == "Administrator" || $level == "manager marketing") {
   $this->load->view('menu/menu_gudangpusat_administrator');
 } else if ($level == "admin gudang") {
   $this->load->view('menu/menu_gudangcabang_administrator');
-} else if($level == "kepala admin" || $level == "kepala cabang" || $level == "general manager"){ ?>
+} else if ($level == "kepala admin" || $level == "kepala cabang" || $level == "general manager") { ?>
 
-<div class="card">
+  <div class="card">
     <div class="list-group">
       <a href="#" class="list-group-item list-group-item-action active">
         Data Komisi

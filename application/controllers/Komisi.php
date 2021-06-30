@@ -314,4 +314,36 @@ class Komisi extends CI_Controller
     //die;
     $this->load->view('komisi/laporan/cetak_komisi2', $data);
   }
+
+  function approvetargetkomisi()
+  {
+    $tahun = "";
+    $bulan = "";
+    if (isset($_POST['submit'])) {
+      $tahun = $this->input->post('tahun');
+      $bulan = $this->input->post('bulan');
+      $data   = array(
+        'bulan' => $bulan,
+        'tahun' => $tahun
+
+      );
+      $this->session->set_userdata($data);
+    } else {
+      if ($this->session->userdata('bulan') != NULL) {
+        $bulan = $this->session->userdata('bulan');
+      }
+
+      if ($this->session->userdata('tahun') != NULL) {
+        $tahun = $this->session->userdata('tahun');
+      }
+    }
+    $data['tahun'] = $tahun;
+    $data['bl'] = $bulan;
+
+
+    $data['cabang'] = $this->Model_cabang->view_cabang()->result();
+    $data['bln'] = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+    $data['komisicabang'] = $this->Model_komisi->komisicabang($tahun, $bulan)->result();
+    $this->template->load('template/template', 'komisi/approve_targetkomisi', $data);
+  }
 }

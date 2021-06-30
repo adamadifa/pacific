@@ -15,41 +15,75 @@
         <div class="col-md-6 col-xs-12">
           <div class="card">
             <div class="card-header">
-              <h4 class="card-title">Data Target</h4>
+              <h4 class="card-title">Data Approval Target</h4>
             </div>
             <div class="card-body">
 
-              <form action="<?php echo base_url(); ?>komisi/targetkomisi" method="POST">
-
+              <form action="<?php echo base_url(); ?>komisi/approvetargetkomisi" method="POST">
                 <div class="form-group mb-3">
-                  <select name="tahun" class="form-select" id="tahun" name="tahun">
+                  <select name="bulan" id="bulan" class="form-select">
+                    <option value="">Bulan</option>
                     <?php
-                    $tahunmulai = 2020;
 
-                    for ($thn = $tahunmulai; $thn <= date('Y'); $thn++) {
+                    for ($i = 1; $i < count($bln); $i++) {
                     ?>
-                      <option <?php if (date('Y') == $thn) {
-                                echo "Selected";
-                              } ?> value="<?php echo $thn; ?>"><?php echo $thn; ?></option>
+                      <option <?php if ($bl == $i) {
+                                echo "selected";
+                              } ?> value="<?php echo $i; ?>"><?php echo $bln[$i]; ?></option>
                     <?php
                     }
                     ?>
                   </select>
                 </div>
+                <div class="form-group mb-3">
+
+                  <select name="tahun" class="form-select" id="tahun" name="tahun">
+                    <option value="">Tahun</option>
+                    <?php
+                    $tahunmulai = 2020;
+                    for ($thn = $tahunmulai; $thn <= date('Y'); $thn++) {
+                    ?>
+                      <option <?php if ($tahun == $thn) {
+                                echo "selected";
+                              } ?> value="<?php echo $thn; ?>"><?php echo $thn; ?>
+                      </option>
+                    <?php
+                    }
+                    ?>
+                  </select>
+                </div>
+                <button class="btn btn-primary" name="submit" type="submit">Search</button>
+                <br>
+                <br>
               </form>
               <div class="row clearfix">
                 <div class="col-sm-12">
                   <table class="table table-bordered table-striped">
                     <thead class="thead-dark">
                       <tr>
-                        <th>Kode Target</th>
+                        <th>Cabang</th>
                         <th>Bulan</th>
                         <th>Tahun</th>
-                        <th colspan="2" style="text-align: center;">Aksi</th>
+                        <th>KP</th>
+                        <th>MM</th>
+                        <th>EM</th>
+                        <th>Direktur</th>
+                        <th>Aksi</th>
                       </tr>
                     </thead>
-                    <tbody id="loadapprovletarget">
-
+                    <tbody>
+                      <?php foreach ($komisicabang as $k) { ?>
+                        <tr>
+                          <td><?php echo $k->kode_cabang; ?></td>
+                          <td><?php echo $bln[$k->bulan]; ?></td>
+                          <td><?php echo $k->tahun; ?></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                      <?php } ?>
                     </tbody>
                   </table>
                 </div>
@@ -111,23 +145,7 @@
 </div>
 <script>
   $(function() {
-    function loadapprovletarget() {
-      var bulan = $("#bulan").val();
-      var tahun = $("#tahun").val();
-      $.ajax({
-        type: 'POST',
-        url: '<?php echo base_url(); ?>komisi/loadapprovletarget',
-        data: {
-          bulan: bulan,
-          tahun: tahun
-        },
-        cache: false,
-        success: function(respond) {
-          $("#loadapprovletarget").html(respond);
-        }
-      });
-    }
-    loadapprovletarget();
+
     $("#showtarget").click(function(e) {
       e.preventDefault();
       var bulan = $("#bulan").val();
@@ -152,15 +170,6 @@
       });
     });
 
-    $("#bulan").click(function(e) {
-      e.preventDefault();
-      loadapprovletarget();
-    });
-
-    $("#tahun").click(function(e) {
-      e.preventDefault();
-      loadapprovletarget();
-    });
 
   });
 </script>
