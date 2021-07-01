@@ -346,4 +346,55 @@ class Komisi extends CI_Controller
     $data['komisicabang'] = $this->Model_komisi->komisicabang($tahun, $bulan)->result();
     $this->template->load('template/template', 'komisi/approve_targetkomisi', $data);
   }
+
+  function approvetarget()
+  {
+    $kode_target = $this->uri->segment(3);
+    $kode_cabang = $this->uri->segment(4);
+    $update = $this->Model_komisi->approvetarget($kode_target, $kode_cabang);
+    if ($update) {
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-green text-white alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil di Approve !
+        </div>'
+      );
+
+      redirect('komisi/approvetargetkomisi');
+    } else {
+      echo "Gagal";
+    }
+  }
+
+  function canceltarget()
+  {
+    $kode_target = $this->uri->segment(3);
+    $kode_cabang = $this->uri->segment(4);
+    $update = $this->Model_komisi->canceltarget($kode_target, $kode_cabang);
+    if ($update) {
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-green text-white alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil di Batalkan !
+        </div>'
+      );
+
+      redirect('komisi/approvetargetkomisi');
+    } else {
+      echo "Gagal";
+    }
+  }
+
+  function detailtarget()
+  {
+    $kodetarget = $this->input->post('kodetarget');
+    $cabang = $this->input->post('cabang');
+    $data['kodetarget'] = $kodetarget;
+    $data['jmlproduk']  = $this->Model_barang->getMasterproduk()->num_rows();
+    $data['produk']  = $this->Model_barang->getMasterproduk()->result();
+    $data['salesman'] = $this->Model_laporanpenjualan->get_salesman($cabang)->result();
+    $this->load->view('komisi/komisi_detailtarget', $data);
+  }
 }

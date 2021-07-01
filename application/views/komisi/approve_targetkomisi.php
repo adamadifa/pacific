@@ -77,11 +77,75 @@
                           <td><?php echo $k->kode_cabang; ?></td>
                           <td><?php echo $bln[$k->bulan]; ?></td>
                           <td><?php echo $k->tahun; ?></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
+                          <td>
+                            <?php if ($k->kp == 1) { ?>
+                              <span class="badge bg-green"><i class="fa fa-check"></i></span>
+                            <?php } else if ($k->kp == 2) { ?>
+                              <span class="badge bg-red"><i class="fa fa-check"></i></span>
+                            <?php } else { ?>
+                              <span class="badge bg-yellow"><i class="fa fa-history"></i></span>
+                            <?php } ?>
+
+                          </td>
+                          <td>
+                            <?php if ($k->mm == 1) { ?>
+                              <span class="badge bg-green"><i class="fa fa-check"></i></span>
+                            <?php } else if ($k->mm == 2) { ?>
+                              <span class="badge bg-red"><i class="fa fa-check"></i></span>
+                            <?php } else { ?>
+                              <span class="badge bg-yellow"><i class="fa fa-history"></i></span>
+                            <?php } ?>
+                          </td>
+                          <td>
+                            <?php if ($k->em == 1) { ?>
+                              <span class="badge bg-green"><i class="fa fa-check"></i></span>
+                            <?php } else if ($k->em == 2) { ?>
+                              <span class="badge bg-red"><i class="fa fa-check"></i></span>
+                            <?php } else { ?>
+                              <span class="badge bg-yellow"><i class="fa fa-history"></i></span>
+                            <?php } ?>
+                          </td>
+                          <td>
+                            <?php if ($k->direktur == 1) { ?>
+                              <span class="badge bg-green"><i class="fa fa-check"></i></span>
+                            <?php } else if ($k->direktur == 2) { ?>
+                              <span class="badge bg-red"><i class="fa fa-check"></i></span>
+                            <?php } else { ?>
+                              <span class="badge bg-yellow"><i class="fa fa-history"></i></span>
+                            <?php } ?>
+                          </td>
+                          <td>
+                            <?php
+
+                            $leveluser = $this->session->userdata('level_user');
+                            if ($leveluser == "kepala cabang" && empty($k->mm)) {
+                              if (empty($k->kp)) {
+                                echo '<a href="' . base_url() . 'komisi/approvetarget/' . $k->kode_target . '/' . $k->kode_cabang . '" class="btn btn-success btn-sm"><i class="fa fa-check"></i></a>';
+                              } else {
+                                echo '<a href="' . base_url() . 'komisi/canceltarget/' . $k->kode_target . '/' . $k->kode_cabang . '" class="btn btn-danger btn-sm"><i class="fa fa-close"></i></a>';
+                              }
+                            } else if ($leveluser == "manager marketing" && empty($k->em) && !empty($k->kp)) {
+                              if (empty($k->mm)) {
+                                echo '<a href="' . base_url() . 'komisi/approvetarget/' . $k->kode_target . '/' . $k->kode_cabang . '" class="btn btn-success btn-sm"><i class="fa fa-check"></i></a>';
+                              } else {
+                                echo '<a href="' . base_url() . 'komisi/canceltarget/' . $k->kode_target . '/' . $k->kode_cabang . '" class="btn btn-danger btn-sm"><i class="fa fa-close"></i></a>';
+                              }
+                            } else if ($leveluser == "general manager" && empty($k->direktur) && !empty($k->mm)) {
+                              if (empty($k->em)) {
+                                echo '<a href="' . base_url() . 'komisi/approvetarget/' . $k->kode_target . '/' . $k->kode_cabang . '" class="btn btn-success btn-sm"><i class="fa fa-check"></i></a>';
+                              } else {
+                                echo '<a href="' . base_url() . 'komisi/canceltarget/' . $k->kode_target . '/' . $k->kode_cabang . '" class="btn btn-danger btn-sm"><i class="fa fa-close"></i></a>';
+                              }
+                            } else if ($leveluser == "Administrator" && !empty($k->em)) {
+                              if (empty($k->direktur)) {
+                                echo '<a href="' . base_url() . 'komisi/approvetarget/' . $k->kode_target . '/' . $k->kode_cabang . '" class="btn btn-success btn-sm"><i class="fa fa-check"></i></a>';
+                              } else {
+                                echo '<a href="' . base_url() . 'komisi/canceltarget/' . $k->kode_target . '/' . $k->kode_cabang . '" class="btn btn-danger btn-sm"><i class="fa fa-close"></i></a>';
+                              }
+                            }
+                            ?>
+                            <a href="#" data-kodetarget="<?php echo $k->kode_target; ?>" data-cabang="<?php echo $k->kode_cabang; ?>" class="btn btn-primary btn-sm detail"><i class="fa fa-list"></i></a>
+                          </td>
                         </tr>
                       <?php } ?>
                     </tbody>
@@ -143,32 +207,43 @@
     </div>
   </div>
 </div>
+
+<div class="modal modal-blur fade" id="modaldetailtarget" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <h5 class="modal-title">Detail Target</h5>
+      </div>
+      <div class="modal-body">
+        <div id="loaddetailtarget"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white mr-auto" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
   $(function() {
-
-    $("#showtarget").click(function(e) {
+    $(".detail").click(function(e) {
+      var kodetarget = $(this).attr("data-kodetarget");
+      var cabang = $(this).attr("data-cabang");
       e.preventDefault();
-      var bulan = $("#bulan").val();
-      var tahun = $("#tahun").val();
       $.ajax({
         type: 'POST',
-        url: '<?php echo base_url(); ?>komisi/settarget',
+        url: '<?php echo base_url(); ?>komisi/detailtarget',
         data: {
-          bulan: bulan,
-          tahun: tahun
+          kodetarget: kodetarget,
+          cabang: cabang
         },
         cache: false,
         success: function(respond) {
-          if (respond == 2) {
-            swal("Success", "Target Berhasil Di Buat !", "success");
-            loadapprovletarget();
-          } else {
-            swal("Opps", "Target Sudah Ada !", "warning");
-          }
-          console.log(respond);
+          $("#modaldetailtarget").modal("show");
+          $("#loaddetailtarget").html(respond);
         }
       });
     });
+
 
 
   });
