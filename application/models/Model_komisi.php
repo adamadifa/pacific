@@ -373,4 +373,82 @@ class Model_komisi extends CI_Model
 
     return $this->db->query($query);
   }
+
+  function komisicabang($tahun, $bulan)
+  {
+    if (empty($tahun)) {
+      $tahun = date("Y");
+    } else {
+      $tahun = $tahun;
+    }
+
+    if (empty($bulan)) {
+      $bulan = date("m");
+    } else {
+      $bulan = $bulan;
+    }
+    $cbg = "";
+    $cabang = $this->session->userdata('cabang');
+
+    if ($cabang != 'pusat') {
+      $cbg .= " AND k.kode_cabang = '$cabang'";
+    }
+    $query = "SELECT targetqty.kode_target, k.kode_cabang,bulan,tahun,kp,mm,em,direktur
+    FROM komisi_target_qty_detail targetqty 
+    INNER JOIN karyawan k ON targetqty.id_karyawan = k.id_karyawan
+    INNER JOIN komisi_target target ON target.kode_target = targetqty.kode_target
+    WHERE tahun ='$tahun' AND bulan ='$bulan'" . $cbg . "
+    GROUP BY targetqty.kode_target,k.kode_cabang,bulan,tahun,kp,mm,em,direktur";
+    return $this->db->query($query);
+  }
+
+  function approvetarget($kode_target, $kode_cabang)
+  {
+    $time = date("Y-m-d H:i:s");
+    $level_user = $this->session->userdata('level_user');
+    if ($level_user == "kepala cabang") {
+      $field1 = "kp";
+      $field2 = "time_kp";
+    } else if ($level_user == "manager marketing") {
+      $field1 = "mm";
+      $field2 = "time_mm";
+    } else if ($level_user == "general manager") {
+      $field1 = "em";
+      $field2 = "time_mm";
+    } else if ($level_user == "Administrator") {
+      $field1 = "direktur";
+      $field2 = "time_direktur";
+    }
+    $query = "UPDATE komisi_target_qty_detail 
+    INNER JOIN karyawan k ON komisi_target_qty_detail.id_karyawan = k.id_karyawan
+    INNER JOIN komisi_target target ON target.kode_target = komisi_target_qty_detail.kode_target
+    SET $field1 = '1', $field2 = '$time'
+    WHERE komisi_target_qty_detail.kode_target='$kode_target' AND k.kode_cabang = '$kode_cabang'";
+    return $this->db->query($query);
+  }
+
+  function canceltarget($kode_target, $kode_cabang)
+  {
+    $time = date("Y-m-d H:i:s");
+    $level_user = $this->session->userdata('level_user');
+    if ($level_user == "kepala cabang") {
+      $field1 = "kp";
+      $field2 = "time_kp";
+    } else if ($level_user == "manager marketing") {
+      $field1 = "mm";
+      $field2 = "time_mm";
+    } else if ($level_user == "general manager") {
+      $field1 = "em";
+      $field2 = "time_mm";
+    } else if ($level_user == "Administrator") {
+      $field1 = "direktur";
+      $field2 = "time_direktur";
+    }
+    $query = "UPDATE komisi_target_qty_detail 
+    INNER JOIN karyawan k ON komisi_target_qty_detail.id_karyawan = k.id_karyawan
+    INNER JOIN komisi_target target ON target.kode_target = komisi_target_qty_detail.kode_target
+    SET $field1 = NULL, $field2 = '$time'
+    WHERE komisi_target_qty_detail.kode_target='$kode_target' AND k.kode_cabang = '$kode_cabang'";
+    return $this->db->query($query);
+  }
 }

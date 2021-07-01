@@ -10,64 +10,50 @@
   </div>
   <!-- Content here -->
   <div class="row">
-    <div class="col-md-10 col-xs-12">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">Data Approvle Target</h4>
-        </div>
-        <div class="card-body">
-
-          <form action="<?php echo base_url(); ?>komisi/targetkomisi" method="POST">
-            <div class="form-group mb-3">
-              <select name="bulan" id="bulan" class="form-select">
-                <?php
-                $bulanini = date("m");
-                for ($i = 1; $i < count($bulan); $i++) {
-                ?>
-                  <option <?php if ($bulanini == $i) {
-                            echo "selected";
-                          } ?> value="<?php echo $i; ?>"><?php echo $bulan[$i]; ?></option>
-                <?php
-                }
-                ?>
-              </select>
+    <div class="col-md-10">
+      <div class="row">
+        <div class="col-md-6 col-xs-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Data Target</h4>
             </div>
-            <div class="form-group mb-3">
-              <select name="tahun" class="form-select" id="tahun" name="tahun">
-                <?php
-                $tahunmulai = 2020;
+            <div class="card-body">
 
-                for ($thn = $tahunmulai; $thn <= date('Y'); $thn++) {
-                ?>
-                  <option <?php if (date('Y') == $thn) {
-                            echo "Selected";
-                          } ?> value="<?php echo $thn; ?>"><?php echo $thn; ?></option>
-                <?php
-                }
-                ?>
-              </select>
-            </div>
-          </form>
-          <div class="row clearfix">
-            <div class="col-sm-12">
-              <table class="table table-bordered table-striped">
-                <thead class="thead-dark">
-                  <tr>
-                    <th>Kode Target</th>
-                    <th>Bulan</th>
-                    <th>Tahun</th>
-                    <th>KA</th>
-                    <th>KP</th>
-                    <th>MM</th>
-                    <th>EM</th>
-                    <th>DIRUT</th>
-                    <th colspan="2" style="text-align: center;">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody id="loadapprovletarget">
+              <form action="<?php echo base_url(); ?>komisi/targetkomisi" method="POST">
 
-                </tbody>
-              </table>
+                <div class="form-group mb-3">
+                  <select name="tahun" class="form-select" id="tahun" name="tahun">
+                    <?php
+                    $tahunmulai = 2020;
+
+                    for ($thn = $tahunmulai; $thn <= date('Y'); $thn++) {
+                    ?>
+                      <option <?php if (date('Y') == $thn) {
+                                echo "Selected";
+                              } ?> value="<?php echo $thn; ?>"><?php echo $thn; ?></option>
+                    <?php
+                    }
+                    ?>
+                  </select>
+                </div>
+              </form>
+              <div class="row clearfix">
+                <div class="col-sm-12">
+                  <table class="table table-bordered table-striped">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th>Kode Target</th>
+                        <th>Bulan</th>
+                        <th>Tahun</th>
+                        <th colspan="2" style="text-align: center;">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody id="loadapprovletarget">
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         </div>

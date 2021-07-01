@@ -38,7 +38,7 @@
                                         <td><?php echo $s->no_hp; ?></td>
                                         <td><?php echo strtoupper($s->nama_cabang); ?></td>
                                         <td>
-                                            <?php if ($s->status_aktif_sales == '1') { ?>
+                                            <?php if ($s->status_aktif_sales == '0') { ?>
                                                 <span class="badge bg-red">Non Aktif</span>
                                             <?php } else { ?>
                                                 <span class="badge bg-green">Aktif</span>
