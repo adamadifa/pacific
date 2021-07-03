@@ -3502,8 +3502,8 @@ GROUP BY
 
 		return $this->db->query($query);
 	}
-	
-	function rekapomsetpelanggan($cabang="",$bulan1,$bulan2, $tahun)
+
+	function rekapomsetpelanggan($cabang = "", $bulan1, $bulan2, $tahun)
 	{
 		$bulan1 = $tahun . "-" . $bulan1 . "-01";
 		$bulan2 = $tahun . "-" . $bulan2 . "-01";
@@ -3511,7 +3511,7 @@ GROUP BY
 		if ($cabang  != "") {
 			$cabang = "AND k.kode_cabang = '" . $cabang . "' ";
 		}
-		$query = "SELECT p.kode_pelanggan,nama_pelanggan, nama_karyawan,pasar,
+		$query = "SELECT p.kode_pelanggan,nama_pelanggan,pasar,
 				SUM(bruto) as bruto, 
 				SUM(brutoswan) as brutoswan, 
 				SUM(brutoaida) as brutoaida,
@@ -3530,12 +3530,10 @@ GROUP BY
 						INNER JOIN barang ON detailpenjualan.kode_barang = barang.kode_barang 
 						INNER JOIN master_barang ON barang.kode_produk = master_barang.kode_produk 
 						GROUP BY no_fak_penj) dp ON (dp.no_fak_penj = p.no_fak_penj)
-				WHERE tgltransaksi BETWEEN '$bulan1' AND '$akhirbulan'".$cabang."
-				GROUP BY p.kode_pelanggan,nama_pelanggan,nama_karyawan
+				WHERE tgltransaksi BETWEEN '$bulan1' AND '$akhirbulan'" . $cabang . "
+				GROUP BY p.kode_pelanggan,nama_pelanggan
 				ORDER BY nama_pelanggan asc 
 				";
 		return $this->db->query($query);
 	}
-	
-	
 }

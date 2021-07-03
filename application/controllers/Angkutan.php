@@ -70,4 +70,28 @@ class Angkutan extends CI_Controller
     $this->template->load('template/template', 'angkutan/view_angkutan', $data);
   }
 
+  public function simpan(){
+
+    $this->Model_angkutan->insert_angkutan();
+  }
+
+  public function hapusangkutan(){
+
+    $this->Model_angkutan->hapusangkutan();
+  }
+
+  public function kontrabon(){
+
+    $this->Model_angkutan->kontrabon();
+  }
+
+  public function bayar(){
+
+    $this->Model_angkutan->bayar();
+  }
+
+  public function batalKontrabon(){
+
+    $this->Model_angkutan->batalKontrabon();
+  }
 }

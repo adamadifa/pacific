@@ -182,6 +182,21 @@ if ($level == "Administrator") {
       </a>
     </div>
   </div>
+    
+  <?php
+  if ($this->session->userdata('username') == "siskapusat") {
+  ?>
+    <div class="card">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+          Angkutan
+        </a>
+        <a href="<?php echo base_url(); ?>angkutan" class="list-group-item list-group-item-action">
+          <i class="fa fa-book mr-2"></i>Angkutan
+        </a>
+      </div>
+    </div>
+  <?php } ?>
   <?php
   if ($this->session->userdata('username') != "siskapusat" && $this->session->userdata('username') != "nurman") {
   ?>

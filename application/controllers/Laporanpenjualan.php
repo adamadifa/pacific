@@ -1229,9 +1229,9 @@ class Laporanpenjualan extends CI_Controller
     $data['cabang'] = $this->Model_cabang->view_cabang()->result();
     $this->template->load('template/template', 'penjualan/laporan/costratio', $data);
   }
-  
-  
-   function rekapomset()
+
+
+  function rekapomset()
   {
     $data['cb']    = $this->session->userdata('cabang');
     $data['bulan'] = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
@@ -1269,19 +1269,19 @@ class Laporanpenjualan extends CI_Controller
       $this->load->view('penjualan/laporan/cetak_costratiocabang', $data);
     }
   }
-  
+
   function cetak_rekapomsetpelanggan()
   {
     $cabang = $this->input->post('cabang');
     $bulan1 = $this->input->post('bulan1');
     $bulan2 = $this->input->post('bulan2');
-	$data['periode'] = $bulan2 - $bulan1 + 1;
+    $data['periode'] = $bulan2 - $bulan1 + 1;
     $tahun = $this->input->post('tahun');
     $bln = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
     $data['bln1'] = $bln[$bulan1];
     $data['bln2'] = $bln[$bulan2];
     $data['tahun'] = $tahun;
-	$data['cabang'] = $cabang;
+    $data['cabang'] = $cabang;
     if (isset($_POST['export'])) {
       // Fungsi header dengan mengirimkan raw data excel
       header("Content-type: application/vnd-ms-excel");
@@ -1289,8 +1289,8 @@ class Laporanpenjualan extends CI_Controller
       // Mendefinisikan nama file ekspor "hasil-export.xls"
       header("Content-Disposition: attachment; filename=CostRatio.xls");
     }
-	  $data['rekapomsetpelanggan'] = $this->Model_laporanpenjualan->rekapomsetpelanggan($cabang,$bulan1,$bulan2, $tahun)->result();
-	  $this->load->view('penjualan/laporan/cetak_rekapomsetpelanggan', $data);
+    $data['rekapomsetpelanggan'] = $this->Model_laporanpenjualan->rekapomsetpelanggan($cabang, $bulan1, $bulan2, $tahun)->result();
+    $this->load->view('penjualan/laporan/cetak_rekapomsetpelanggan', $data);
   }
 
   function detail_costratio()
@@ -1300,7 +1300,7 @@ class Laporanpenjualan extends CI_Controller
     $data['cabang'] = $this->Model_cabang->view_cabang()->result();
     $this->template->load('template/template', 'penjualan/laporan/detail_costratio', $data);
   }
-  
+
 
 
   function cetak_detail_costratio()

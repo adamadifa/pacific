@@ -20,6 +20,12 @@ class Model_keuangan extends CI_Model
       . " ");
   }
 
+  function getWhereBankLedger($bank)
+  {
+
+    return $this->db->query("SELECT * FROM master_bank WHERE kode_bank ='$bank'");
+  }
+
   function view_templedger()
   {
     $noref    = $this->input->post('noref');
@@ -316,9 +322,9 @@ class Model_keuangan extends CI_Model
       $update = $this->db->update('ledger_bank', $dataledger, array('no_bukti' => $nobukti));
       if ($update) {
         if (empty($kodecr)) {
-          $this->db->insert('costratio_biaya', $datacr);
-        } else {
           $this->db->update('costratio_biaya', $datacr, array('kode_cr' => $kodecr));
+        } else {
+          $this->db->insert('costratio_biaya', $datacr);
         }
       }
     } else {
