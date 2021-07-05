@@ -17,26 +17,7 @@
       <td style="width:10%"><?php echo $s->nama_karyawan; ?></td>
       <?php foreach ($produk as $p) {
         $cekvaluetarget = $this->db->get_where('komisi_target_qty_detail', array('kode_target' => $kodetarget, 'id_karyawan' => $s->id_karyawan, 'kode_produk' => $p->kode_produk))->row_array();
-        $cekcabang = $this->db->get_where('karyawan', array('id_karyawan' => $s->id_karyawan))->row_array();
-        $cekapproval = $this->db->query("SELECT targetqty.kode_target, k.kode_cabang,bulan,tahun,kp,mm,em,direktur
-      FROM komisi_target_qty_detail targetqty 
-      INNER JOIN karyawan k ON targetqty.id_karyawan = k.id_karyawan
-      INNER JOIN komisi_target target ON target.kode_target = targetqty.kode_target
-      WHERE targetqty.kode_target = '$kodetarget' AND k.kode_cabang = '$cekcabang[kode_cabang]' 
-      GROUP BY targetqty.kode_target,k.kode_cabang,bulan,tahun,kp,mm,em,direktur")->row_array();
-        if ($cekvaluetarget['jumlah_target'] > 0) {
-          $bgcolor = "#d1ff7a";
-        } else {
-          $bgcolor = "";
-        }
 
-        if (!empty($cekapproval['kp'])) {
-          $readonly = "readonly";
-          $cek = 1;
-        } else {
-          $readonly = "";
-          $cek = 0;
-        }
       ?>
         <td style="text-align: right;">
           <?php if (!empty($cekvaluetarget['jumlah_target'])) {
@@ -44,6 +25,30 @@
           } ?>
         </td>
       <?php } ?>
+    </tr>
+  <?php } ?>
+</table>
+
+<table class="table table-bordered table-striped" style="font-size:11px; width:60%">
+  <thead class="thead-dark" style="text-align:center;">
+    <tr>
+      <th>ID Sales</th>
+      <th>Nama Sales</th>
+      <th>Target Cashin</th>
+    </tr>
+
+  </thead>
+  <?php foreach ($salesman as $s) {
+    $cekvaluetarget = $this->db->get_where('komisi_target_cashin_detail', array('kode_target' => $kodetarget, 'id_karyawan' => $s->id_karyawan))->row_array(); ?>
+    <tr>
+      <td><?php echo $s->id_karyawan; ?></td>
+      <td><?php echo $s->nama_karyawan; ?></td>
+      <td style="text-align: right;">
+        <?php if (!empty($cekvaluetarget['jumlah_target_cashin'])) {
+          echo number_format($cekvaluetarget['jumlah_target_cashin'], '0', '', '.');
+        } ?>
+      </td>
+
     </tr>
   <?php } ?>
 </table>
