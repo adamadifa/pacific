@@ -7,6 +7,13 @@ foreach ($target as $t) { ?>
     <td><?php echo $t->tahun; ?></td>
     <td>
       <a href="#" data-kodetarget="<?php echo $t->kode_target; ?>" class="btn btn-primary btn-sm settarget"><i class="fa fa-gear mr-2"></i>input Target Quantity</a>
+      <?php
+      $level_user = $this->session->userdata('level_user');
+      //echo $level_user;
+      if ($level_user == "Administrator") {
+      ?>
+        <a href="<?php echo base_url(); ?>komisi/generatetargetcashin/<?php echo $t->kode_target; ?>" class="btn btn-warning btn-sm"><i class="fa fa-gear mr-2"></i>Generate Target Cashin</a>
+      <?php } ?>
       <!-- <a href="#" data-kodetarget="<?php echo $t->kode_target; ?>" class="btn btn-success btn-sm settargetcollection"><i class="fa fa-gear mr-2"></i>Input Target Collection</a>
       <a href="#" data-kodetarget="<?php echo $t->kode_target; ?>" class="btn btn-info btn-sm settargetcashin"><i class="fa fa-gear mr-2"></i>input Target Cash IN</a> -->
     </td>

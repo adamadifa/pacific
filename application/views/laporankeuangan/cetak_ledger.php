@@ -8,9 +8,13 @@ function uang($nilai)
 <br>
 <b style="font-size:16px; font-family:Calibri">
   PACIFIC<br>
-  REKAP AKUN <?php if (!empty($bank['nama_bank'])) {
-                echo "BANK $bank[nama_bank]";
-              } ?><br>
+  REKAP AKUN
+  <?php if (!empty($akun)) {
+    echo $kodeakun . "-" . $akun['nama_akun'];
+  } ?>
+  <?php if (!empty($bank['nama_bank'])) {
+    echo "BANK $bank[nama_bank]";
+  } ?><br>
   PERIODE <?php echo DateToIndo2($dari) . " s/d " . DateToIndo2($sampai); ?><br><br>
 </b>
 <br>

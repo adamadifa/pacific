@@ -451,4 +451,22 @@ class Model_komisi extends CI_Model
     WHERE komisi_target_qty_detail.kode_target='$kode_target' AND k.kode_cabang = '$kode_cabang'";
     return $this->db->query($query);
   }
+
+  function generatetargetcashin($kode_target)
+  {
+    $query = "SELECT targetdetail.kode_target,targetdetail.id_karyawan,ROUND(SUM((jumlah_target*harga_dus) - ((jumlah_target*harga_dus) * 0.025))) as targetcashin
+    FROM komisi_target_qty_detail targetdetail
+    INNER JOIN karyawan k ON targetdetail.id_karyawan = k.id_karyawan
+    INNER JOIN barang ON targetdetail.kode_produk = barang.kode_produk AND k.kode_cabang = barang.kode_cabang
+    WHERE targetdetail.kode_target ='$kode_target'
+    GROUP  BY targetdetail.id_karyawan
+    
+    ";
+    return $this->db->query($query);
+  }
+
+  function cekTarget($kode, $id_karyawan)
+  {
+    return $this->db->get_where('komisi_target_cashin_detail', array('kode_target' => $kode, 'id_karyawan' => $id_karyawan));
+  }
 }

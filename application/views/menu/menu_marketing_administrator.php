@@ -22,6 +22,16 @@ if ($level == "Administrator") {
   <div class="card">
     <div class="list-group">
       <a href="#" class="list-group-item list-group-item-action active">
+        Saldo Awal Piutang
+      </a>
+      <a href="<?php echo base_url(); ?>komisi/saldoawalpiutang" class="list-group-item list-group-item-action">
+        <i class="fa  fa-file-text mr-2"></i>Saldo Awal Piutang
+      </a>
+    </div>
+  </div>
+  <div class="card">
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action active">
         Data Komisi
       </a>
 

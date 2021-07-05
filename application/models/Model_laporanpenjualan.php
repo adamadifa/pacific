@@ -3026,25 +3026,25 @@ GROUP BY
 			SUM(IF( kode_produk = 'CGG' AND lastpayment >= '$awalbulanini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_cgg,
 			SUM(IF( kode_produk = 'CGG' AND lastpayment >= '$awaltahunini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_cgg,
 			
-			SUM(IF( kode_produk = 'DEP' AND tgltransaksi >= '$awalbulaninilast' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_dep,
-			SUM(IF( kode_produk = 'DEP' AND tgltransaksi >= '$awaltahunlalu' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_dep,
-			SUM(IF( kode_produk = 'DEP' AND tgltransaksi >= '$awalbulanini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_dep,
-			SUM(IF( kode_produk = 'DEP' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_dep,
+			SUM(IF( kode_produk = 'DEP' AND lastpayment >= '$awalbulaninilast' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_dep,
+			SUM(IF( kode_produk = 'DEP' AND lastpayment >= '$awaltahunlalu' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_dep,
+			SUM(IF( kode_produk = 'DEP' AND lastpayment >= '$awalbulanini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_dep,
+			SUM(IF( kode_produk = 'DEP' AND lastpayment >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_dep,
 			
-			SUM(IF( kode_produk = 'DS' AND tgltransaksi >= '$awalbulaninilast' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_ds,
-			SUM(IF( kode_produk = 'DS' AND tgltransaksi >= '$awaltahunlalu' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_ds,
-			SUM(IF( kode_produk = 'DS' AND tgltransaksi >= '$awalbulanini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_ds,
-			SUM(IF( kode_produk = 'DS' AND tgltransaksi >= '$awaltahunini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_ds,
+			SUM(IF( kode_produk = 'DS' AND lastpayment >= '$awalbulaninilast' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_ds,
+			SUM(IF( kode_produk = 'DS' AND lastpayment >= '$awaltahunlalu' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_ds,
+			SUM(IF( kode_produk = 'DS' AND lastpayment >= '$awalbulanini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_ds,
+			SUM(IF( kode_produk = 'DS' AND lastpayment >= '$awaltahunini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_ds,
 			
-			SUM(IF( kode_produk = 'SP' AND tgltransaksi >= '$awalbulaninilast' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_sp,
-			SUM(IF( kode_produk = 'SP' AND tgltransaksi >= '$awaltahunlalu' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_sp,
-			SUM(IF( kode_produk = 'SP' AND tgltransaksi >= '$awalbulanini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_sp,
-			SUM(IF( kode_produk = 'SP' AND tgltransaksi >= '$awaltahunini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_sp,
+			SUM(IF( kode_produk = 'SP' AND lastpayment >= '$awalbulaninilast' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_sp,
+			SUM(IF( kode_produk = 'SP' AND lastpayment >= '$awaltahunlalu' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_sp,
+			SUM(IF( kode_produk = 'SP' AND lastpayment >= '$awalbulanini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_sp,
+			SUM(IF( kode_produk = 'SP' AND lastpayment >= '$awaltahunini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_sp,
 			
-			SUM(IF( kode_produk = 'CG5' AND tgltransaksi >= '$awalbulaninilast' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_cg5,
-			SUM(IF( kode_produk = 'CG5' AND tgltransaksi >= '$awaltahunlalu' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_cg5,
-			SUM(IF( kode_produk = 'CG5' AND tgltransaksi >= '$awalbulanini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_cg5,
-			SUM(IF( kode_produk = 'CG5' AND tgltransaksi >= '$awaltahunini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_cg5
+			SUM(IF( kode_produk = 'CG5' AND lastpayment >= '$awalbulaninilast' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_cg5,
+			SUM(IF( kode_produk = 'CG5' AND lastpayment >= '$awaltahunlalu' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_cg5,
+			SUM(IF( kode_produk = 'CG5' AND lastpayment >= '$awalbulanini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_cg5,
+			SUM(IF( kode_produk = 'CG5' AND lastpayment >= '$awaltahunini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_cg5
 			
 		FROM
 			detailpenjualan
@@ -3188,25 +3188,25 @@ GROUP BY
 			SUM(IF( kode_produk = 'CGG' AND lastpayment >= '$awalbulanini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_cgg,
 			SUM(IF( kode_produk = 'CGG' AND lastpayment >= '$awaltahunini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_cgg,
 			
-			SUM(IF( kode_produk = 'DEP' AND tgltransaksi >= '$awalbulaninilast' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_dep,
-			SUM(IF( kode_produk = 'DEP' AND tgltransaksi >= '$awaltahunlalu' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_dep,
-			SUM(IF( kode_produk = 'DEP' AND tgltransaksi >= '$awalbulanini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_dep,
-			SUM(IF( kode_produk = 'DEP' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_dep,
+			SUM(IF( kode_produk = 'DEP' AND lastpayment >= '$awalbulaninilast' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_dep,
+			SUM(IF( kode_produk = 'DEP' AND lastpayment >= '$awaltahunlalu' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_dep,
+			SUM(IF( kode_produk = 'DEP' AND lastpayment >= '$awalbulanini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_dep,
+			SUM(IF( kode_produk = 'DEP' AND lastpayment >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_dep,
 			
 			SUM(IF( kode_produk = 'DS' AND tgltransaksi >= '$awalbulaninilast' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_ds,
 			SUM(IF( kode_produk = 'DS' AND tgltransaksi >= '$awaltahunlalu' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_ds,
 			SUM(IF( kode_produk = 'DS' AND tgltransaksi >= '$awalbulanini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_ds,
 			SUM(IF( kode_produk = 'DS' AND tgltransaksi >= '$awaltahunini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_ds,
 			
-			SUM(IF( kode_produk = 'SP' AND tgltransaksi >= '$awalbulaninilast' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_sp,
-			SUM(IF( kode_produk = 'SP' AND tgltransaksi >= '$awaltahunlalu' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_sp,
-			SUM(IF( kode_produk = 'SP' AND tgltransaksi >= '$awalbulanini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_sp,
-			SUM(IF( kode_produk = 'SP' AND tgltransaksi >= '$awaltahunini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_sp,
+			SUM(IF( kode_produk = 'SP' AND lastpayment >= '$awalbulaninilast' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_sp,
+			SUM(IF( kode_produk = 'SP' AND lastpayment >= '$awaltahunlalu' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_sp,
+			SUM(IF( kode_produk = 'SP' AND lastpayment >= '$awalbulanini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_sp,
+			SUM(IF( kode_produk = 'SP' AND lastpayment >= '$awaltahunini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_sp,
 			
-			SUM(IF( kode_produk = 'CG5' AND tgltransaksi >= '$awalbulaninilast' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_cg5,
-			SUM(IF( kode_produk = 'CG5' AND tgltransaksi >= '$awaltahunlalu' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_cg5,
-			SUM(IF( kode_produk = 'CG5' AND tgltransaksi >= '$awalbulanini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_cg5,
-			SUM(IF( kode_produk = 'CG5' AND tgltransaksi >= '$awaltahunini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_cg5
+			SUM(IF( kode_produk = 'CG5' AND lastpayment >= '$awalbulaninilast' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_cg5,
+			SUM(IF( kode_produk = 'CG5' AND lastpayment >= '$awaltahunlalu' AND lastpayment <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_cg5,
+			SUM(IF( kode_produk = 'CG5' AND lastpayment >= '$awalbulanini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_cg5,
+			SUM(IF( kode_produk = 'CG5' AND lastpayment >= '$awaltahunini' AND lastpayment <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_cg5
 			
 		FROM
 			detailpenjualan

@@ -43,7 +43,9 @@ class Laporankeuangan extends CI_Controller
     $kodeakun         = $this->input->post('kodeakun');
     $data['dari']     = $dari;
     $data['sampai']   = $sampai;
-    $data['saldo']     = $this->Model_keuangan->getSaldoAwalledger($bank, $dari)->row_array();
+    $data['kodeakun'] = $kodeakun;
+    $data['akun']     = $this->db->get_where('coa', array('kode_akun' => $kodeakun))->row_array();
+    $data['saldo']    = $this->Model_keuangan->getSaldoAwalledger($bank, $dari)->row_array();
     $data['bank']     = $this->Model_keuangan->getWhereBankLedger($bank)->row_array();
     if ($jl == 'detail') {
       $data['ledger'] = $this->Model_keuangan->ledger($bank, $dari, $sampai, $kodeakun)->result();

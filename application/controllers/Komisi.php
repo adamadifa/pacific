@@ -5,7 +5,7 @@ class Komisi extends CI_Controller
   {
     parent::__construct();
     check_login();
-    $this->load->Model(array('Model_cabang', 'Model_komisi', 'Model_sales', 'Model_barang', 'Model_laporanpenjualan'));
+    $this->load->Model(array('Model_cabang', 'Model_komisi', 'Model_sales', 'Model_barang', 'Model_laporanpenjualan', 'Model_penjualan'));
   }
 
   function targetkomisi()
@@ -396,5 +396,121 @@ class Komisi extends CI_Controller
     $data['produk']  = $this->Model_barang->getMasterproduk()->result();
     $data['salesman'] = $this->Model_laporanpenjualan->get_salesman($cabang)->result();
     $this->load->view('komisi/komisi_detailtarget', $data);
+  }
+
+  function generatetargetcashin()
+  {
+    $berhasil = 0;
+    $gagal = 0;
+    $berhasilupdate = 0;
+    $gagalupdate = 0;
+    $kodetarget = $this->uri->segment(3);
+    $generate = $this->Model_komisi->generatetargetcashin($kodetarget);
+    foreach ($generate->result() as $g) {
+
+      $kode = $g->kode_target;
+      $id_karyawan = $g->id_karyawan;
+      $cek = $this->Model_komisi->cekTarget($kode, $id_karyawan)->num_rows();
+      $jumlah_cashin = $g->targetcashin;
+      if (empty($cek)) {
+        $data = [
+          'kode_target' => $kode,
+          'id_karyawan' => $id_karyawan,
+          'jumlah_target_cashin' => $jumlah_cashin
+        ];
+
+        $simpantarget = $this->db->insert('komisi_target_cashin_detail', $data);
+        if ($simpantarget) {
+          $berhasil += 1;
+          $gagal += 0;
+        } else {
+          $berhasil += 0;
+          $gagal += 1;
+        }
+      } else {
+        $data = [
+          'jumlah_target_cashin' => $jumlah_cashin
+        ];
+
+        $updatetarget = $this->db->update('komisi_target_cashin_detail', $data, array('kode_target' => $kode, 'id_karyawan' => $id_karyawan));
+        if ($updatetarget) {
+          $berhasilupdate += 1;
+          $gagalupdate += 0;
+        } else {
+          $berhasilupdate += 0;
+          $gagalupdate += 1;
+        }
+      }
+    }
+    $this->session->set_flashdata(
+      'msg',
+      '<div class="alert bg-green text-white alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <i class="fa fa-info" style="float:left; margin-right:10px"></i> 
+          Berhasil Disimpan :' . $berhasil . '<br>
+          Berhasil Update :' . $berhasilupdate . '<br>
+          Gagal Simpan :' . $gagal . '<br>
+          Gagal Update : ' . $gagalupdate . '
+      </div>'
+    );
+
+    redirect('komisi/approvle_targetkomisi');
+  }
+
+  function saldoawalpiutang()
+  {
+    // Search text
+    $tanggal  = "";
+    $cab      = $this->session->userdata('cabang');
+    if ($cab != 'pusat') {
+      $cabang = $cab;
+    } else {
+      $cabang = "";
+    }
+    $bulan            = "";
+    $tahun            = "";
+    if ($this->input->post('submit') != NULL) {
+      $tanggal   = $this->input->post('tanggal');
+      $cabang    = $this->input->post('cabang');
+      $bulan     = $this->input->post('bulan');
+      $tahun     = $this->input->post('tahun');
+      $data   = array(
+        'tanggal'  => $tanggal,
+        'cbg'     => $cabang,
+        'bulan'   => $bulan,
+        'tahun'   => $tahun
+      );
+      $this->session->set_userdata($data);
+    } else {
+
+      if ($this->session->userdata('tanggal') != NULL) {
+        $tanggal = $this->session->userdata('tanggal');
+      }
+      if ($this->session->userdata('cbg') != NULL) {
+        $cabang = $this->session->userdata('cbg');
+      }
+      if ($this->session->userdata('bulan') != NULL) {
+        $bulan = $this->session->userdata('bulan');
+      }
+      if ($this->session->userdata('tahun') != NULL) {
+        $tahun = $this->session->userdata('tahun');
+      }
+    }
+
+    // Get records
+    $users_record = $this->Model_penjualan->getDataSaldoawal($tanggal, $cabang, $bulan, $tahun);
+
+    $data['result']               = $users_record;
+
+    $data['tanggal']              = $tanggal;
+    $data['cbg']                  = $cabang;
+    // Load view
+    $data['cabang']               = $this->Model_cabang->view_cabang()->result();
+    $data['cb']                   = $this->session->userdata('cabang');
+    $data['tahun']                = date("Y");
+    $data['bulan']                = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+    $data['bln']                  = $bulan;
+    $data['thn']                  = $tahun;
+    $this->template->load('template/template', 'komisi/saldoawalpiutang', $data);
   }
 }
