@@ -32,14 +32,19 @@ tr:nth-child(even) {
 <table class="datatable3" style="width:70%" border="1">
   <thead>
     <tr>
-      <th bgcolor="#024a75" style="color:white; font-size:14;">TANGGAL</th>
-      <th bgcolor="#024a75" style="color:white; font-size:14;">MASUK</th>
-      <th bgcolor="#024a75" style="color:white; font-size:14;">SUPPLIER</th>
-      <th bgcolor="#024a75" style="color:white; font-size:14;">PEMAKAIAN</th>
-      <th bgcolor="#024a75" style="color:white; font-size:14;">SALDO</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;" rowspan="2">TANGGAL</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;" colspan="2">PEMASUKAN</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;" rowspan="2">SUPPLIER</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;" rowspan="2">PEMAKAIAN</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;" rowspan="2">PEMAKAIAN LAINYA</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;" rowspan="2" >SALDO</th>
     </tr>
     <tr>
-      <th bgcolor="red" style="color:white; font-size:14;" colspan="4">SALDO AWAL</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">PEMBELIAN</th>
+      <th bgcolor="#024a75" style="color:white; font-size:14;">LAINNYA</th>
+    </tr>
+    <tr>
+      <th bgcolor="red" style="color:white; font-size:14;" colspan="6">SALDO AWAL</th>
       <th bgcolor="" style="color:black; font-size:14;" ><?php echo uang($saldoawal['qty']);?></th>
     </tr>
   </thead>
@@ -52,14 +57,16 @@ tr:nth-child(even) {
     $totalqtypemakaian    = 0;
     $totaljmlpembelian    = 0;
     $totalqtypembelian    = 0;
+    $totalqtylainnya      = 0;
+    $totaljmllainnya      = 0;
     $totaljmlhpemakaian   = 0;
     $totalqtysaldoakhir   = 0;
     $totaljmlhsaldoakhir  = 0;
     while (strtotime($dari) <= strtotime($sampai)) {
 
       $qmasuk           = "SELECT 
-      SUM( qty ) AS qtypemb,
-      SUM( qty ) AS qtypemb,
+      SUM( IF( pemasukan_bb.status = '1' , qty ,0 )) AS qtypemb,
+      SUM( IF( pemasukan_bb.status = '2' , qty ,0 )) AS qtylainya,
       db.harga AS harga,
       nama_supplier
       FROM pemasukan_bb 
@@ -67,12 +74,14 @@ tr:nth-child(even) {
       ON detail_pemasukan_bb.nobukti_pemasukan=pemasukan_bb.nobukti_pemasukan 
       INNER JOIN supplier 
       ON supplier.kode_supplier=pemasukan_bb.kode_supplier 
+
       LEFT JOIN (
         SELECT pembelian.nobukti_pembelian,kode_barang,harga FROM detail_pembelian 
         INNER JOIN pembelian ON pembelian.nobukti_pembelian=detail_pembelian.nobukti_pembelian
         WHERE  tgl_pembelian = '$dari' AND kode_barang = '$kode_barang'
         GROUP BY pembelian.nobukti_pembelian,kode_barang,harga
       ) db ON (db.nobukti_pembelian=pemasukan_bb.nobukti_pemasukan)
+
       WHERE tgl_pemasukan ='$dari' AND detail_pemasukan_bb.kode_barang = '$kode_barang'
       GROUP BY tgl_pemasukan,harga,nama_supplier";
       $masuk            = $this->db->query($qmasuk)->row_array();
@@ -87,8 +96,10 @@ tr:nth-child(even) {
 
 
       $qtypembelian = $masuk['qtypemb'];
+      $qtylaninya   = $masuk['qtylainya'];
       $hargamasuk   = $masuk['harga'];
       $jmlpembelian = $hargamasuk * $qtypembelian;
+      $jmllainnya   = $hargamasuk * $qtylaninya;
       
       
       if(substr($dari,8,2) == '01'){
@@ -96,18 +107,18 @@ tr:nth-child(even) {
         $hargasaldoawal = $saldoawalharga / $qtysaldoawal;
         $jmlhsaldoawal  = $qtysaldoawal * $hargasaldoawal;
         $qtypemakaian   = $keluar['qty'];
-        $hargakeluar    = ($jmlhsaldoawal+$jmlpembelian)/($qtysaldoawal+$qtypembelian);
+        $hargakeluar    = ($jmlhsaldoawal+$jmlpembelian+$jmllainnya)/($qtysaldoawal+$qtypembelian+$qtylaninya);
         $jmlhpemakaian  = $hargakeluar * $qtypemakaian;
       }else{
         $qtysaldoawal   = $qtysaldoakhir;
         $hargasaldoawal = $hargakeluar;
         $jmlhsaldoawal  = $qtysaldoawal * $hargasaldoawal;
         $qtypemakaian   = $keluar['qty'];
-        $hargakeluar    = ($jmlhsaldoawal+$jmlpembelian)/($qtysaldoawal+$qtypembelian);
+        $hargakeluar    = ($jmlhsaldoawal+$jmlpembelian+$jmllainnya)/($qtysaldoawal+$qtypembelian+$qtylaninya);
         $jmlhpemakaian  = $hargakeluar * $qtypemakaian;
       }
 
-      $qtysaldoakhir    = $qtysaldoawal+$qtypembelian-$qtypemakaian;
+      $qtysaldoakhir    = $qtysaldoawal+$qtypembelian+$qtylaninya-$qtypemakaian;
       $jmlhsaldoakhir   = $qtysaldoakhir*$hargakeluar;
 
       $totalqtysaldoawal    += $qtysaldoawal;
@@ -115,7 +126,9 @@ tr:nth-child(even) {
       $totalqtypemakaian    += $qtypemakaian;
       $totaljmlhpemakaian   += $jmlhpemakaian;
       $totalqtypembelian    += $qtypembelian;
+      $totalqtylainnya      += $qtylaninya;
       $totaljmlpembelian    += $jmlpembelian;
+      $totaljmllainnya      += $jmllainnya;
       $totalqtysaldoakhir   += $qtysaldoakhir;
       $totaljmlhsaldoakhir  += $jmlhsaldoakhir;
 
@@ -129,6 +142,13 @@ tr:nth-child(even) {
           }
           ?>
         </td>
+        <td align="center">
+          <?php
+          if (isset($qtylaninya) and $qtylaninya != "0") {
+            echo uang($qtylaninya);
+          }
+          ?>
+        </td>
         <td align="left"><?php echo $masuk['nama_supplier'];?></td>
         <td align="center">
           <?php
@@ -137,6 +157,7 @@ tr:nth-child(even) {
           }
           ?>
         </td>
+        <td align="left"></td>
         <td align="center">
           <?php
            if (isset($qtysaldoakhir) and $qtysaldoakhir != "0") {
@@ -153,8 +174,10 @@ tr:nth-child(even) {
     <tr bgcolor="#31869b">
       <th colspan="" style="color:white; font-size:14;">TOTAL</th>
       <th style="color:white; font-size:14;"><?php echo uang($totalqtypembelian); ?></th>
+      <th style="color:white; font-size:14;"><?php echo uang($totalqtylainnya); ?></th>
       <th style="color:white; font-size:14;"></th>
       <th style="color:white; font-size:14;"><?php echo uang($totalqtypemakaian); ?></th>
+      <th style="color:white; font-size:14;"></th>
       <th style="color:white; font-size:14;"><?php echo uang($qtysaldoakhir); ?></th>
     </tr>
   </tfoot>

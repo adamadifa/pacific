@@ -341,6 +341,7 @@ class Model_bahan_bakar extends CI_Model
       'nobukti_pemasukan'  => $nobukti,
       'tgl_pemasukan'      => $tgl_pemasukan,
       'kode_supplier'      => $kode_supplier,
+      'status'             => 2,
 
     );
 

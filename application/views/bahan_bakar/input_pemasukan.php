@@ -18,7 +18,7 @@
             <div class="col-md-5 col-xs-12">
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title">Input Data Pemasukan</h4>
+                  <h4 class="card-title">Input Data Pemasukan Lainnya</h4>
                 </div>
                 <div class="card-body">
                   <div class="form-group mb-3">

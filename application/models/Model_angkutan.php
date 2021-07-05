@@ -90,14 +90,6 @@ class Model_angkutan extends CI_Model
     $this->db->query("UPDATE angkutan SET tgl_kontrabon = '$tgl' WHERE no_surat_jalan = '$no_surat_jalan' ");
     redirect('angkutan');
   }
-
-  public function bayar(){
-
-    $no_surat_jalan = $this->uri->segment(3);
-    $tgl            = Date('Y-m-d');
-    $this->db->query("UPDATE angkutan SET tgl_bayar = '$tgl' WHERE no_surat_jalan = '$no_surat_jalan' ");
-    redirect('angkutan');
-  }
   
   public function batalKontrabon(){
 
@@ -106,5 +98,7 @@ class Model_angkutan extends CI_Model
     $this->db->query("UPDATE angkutan SET tgl_kontrabon = NULL WHERE no_surat_jalan = '$no_surat_jalan' ");
     redirect('angkutan');
   }
+
+  
 
 }
