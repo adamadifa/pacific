@@ -62,13 +62,12 @@
                <thead class="thead-dark">
                  <tr>
                    <th width="10px">No</th>
-                   <th>Bulan</th>
                    <th>ID Sales</th>
                    <th>Nama Sales</th>
                    <th>Saldo Piutang</th>
                  </tr>
                </thead>
-               <tbody>
+               <tbody id="loadsaldoawalpiutang">
                </tbody>
              </table>
            </div>
@@ -77,15 +76,68 @@
      </div>
      <div class="col-md-2">
        <?php
-        $this->load->view('menu/menu_kasbesar_administrator');
+        $this->load->view('menu/menu_marketing_administrator');
         ?>
      </div>
    </div>
  </div>
  <script>
    $(function() {
+     function loadsaldoawalpiutang() {
+       var cabang = $("#cabang").val();
+       var bulan = $("#bulan").val();
+       var tahun = $("#tahun").val();
+       $.ajax({
+         type: 'POST',
+         url: '<?php echo base_url(); ?>komisi/loadsaldoawalpiutang',
+         data: {
+           cabang: cabang,
+           bulan: bulan,
+           tahun: tahun
+         },
+         cache: false,
+         success: function(respond) {
+           console.log(respond);
+           $("#loadsaldoawalpiutang").html(respond);
+         }
+       });
+     }
+     $("#cabang").change(function() {
+       loadsaldoawalpiutang();
+     });
+     $("#bulan").change(function() {
+       loadsaldoawalpiutang();
+     });
+     $("#tahun").change(function() {
+       loadsaldoawalpiutang();
+     });
      $("#generatesaldopiutang").click(function(e) {
        e.preventDefault();
+       var cabang = $("#cabang").val();
+       var bulan = $("#bulan").val();
+       var tahun = $("#tahun").val();
+       if (cabang == "") {
+         swal("Oops", "Cabang Harus Dipilih", "warning");
+       } else if (bulan == "") {
+         swal("Oops", "Bulan Harus Dipilih", "warning");
+       } else if (tahun == "") {
+         swal("Oops", "Tahun Harus Dipilih", "warning");
+       } else {
+         $.ajax({
+           type: 'POST',
+           url: '<?php echo base_url(); ?>komisi/generatesaldopiutang',
+           data: {
+             cabang: cabang,
+             bulan: bulan,
+             tahun: tahun
+           },
+           cache: false,
+           success: function(respond) {
+             console.log(respond);
+             loadsaldoawalpiutang();
+           }
+         });
+       }
 
      });
    });

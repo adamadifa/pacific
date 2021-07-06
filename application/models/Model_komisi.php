@@ -205,6 +205,7 @@ class Model_komisi extends CI_Model
     AB,
     `AS`,
     CG5,
+    saldo_piutang + penjualankredit as targetawal,
     target_collection,
     realisasi_collection,
     target_cashin,
@@ -232,7 +233,28 @@ class Model_komisi extends CI_Model
           GROUP BY historibayar.id_karyawan
         ) collection ON (karyawan.id_karyawan = collection.id_karyawan)
 		
-
+        LEFT JOIN (
+          SELECT id_karyawan,saldo_piutang
+          FROM saldoawal_piutang
+          WHERE bulan ='$bulan' AND tahun='$tahun'
+        ) saldoawal_piutang ON (saldoawal_piutang.id_karyawan = karyawan.id_karyawan)
+        
+        LEFT JOIN (
+          SELECT id_karyawan,SUM(IFNULL(penjualan.total,0) - IFNULL(retur.total,0)) as penjualankredit
+          FROM penjualan
+          INNER JOIN pelanggan ON penjualan.kode_pelanggan  = pelanggan.kode_pelanggan
+          LEFT JOIN (
+				    SELECT retur.no_fak_penj AS no_fak_penj,
+				    SUM(total) AS total
+				    FROM
+					  retur
+				    WHERE tglretur BETWEEN '$dari' AND '$sampai'
+				    GROUP BY
+				  	retur.no_fak_penj
+			) retur ON (penjualan.no_fak_penj = retur.no_fak_penj) 
+          WHERE tgltransaksi BETWEEN '$dari' AND '$sampai' AND jenistransaksi != 'tunai' AND datediff('$sampai', tgltransaksi) > (pelanggan.jatuhtempo+1)
+          GROUP BY id_karyawan
+        ) pj ON (pj.id_karyawan = karyawan.id_karyawan)
         LEFT JOIN (
         SELECT  id_karyawan,
         SUM(jumlah_target_collection) target_collection
@@ -468,5 +490,70 @@ class Model_komisi extends CI_Model
   function cekTarget($kode, $id_karyawan)
   {
     return $this->db->get_where('komisi_target_cashin_detail', array('kode_target' => $kode, 'id_karyawan' => $id_karyawan));
+  }
+
+  function generatesaldopiutang($cabang, $bulan, $tahun)
+  {
+    $bulan = $bulan - 1;
+    $tanggal = $tahun . "-" . $bulan . "-01";
+    $akhirtanggal  = date('Y-m-t', strtotime($tanggal));
+    $query = "SELECT salesbarunew,SUM((IFNULL(penjualan.total,0))-(IFNULL(retur.total,0))-IFNULL(jmlbayar,0))  as saldopiutang
+    FROM penjualan
+    LEFT JOIN (
+      SELECT no_fak_penj,sum( historibayar.bayar ) AS jmlbayar
+      FROM historibayar
+      WHERE tglbayar <= '$akhirtanggal'
+      GROUP BY no_fak_penj
+    ) hblalu ON (penjualan.no_fak_penj = hblalu.no_fak_penj)
+    
+    
+    LEFT JOIN (
+      SELECT retur.no_fak_penj AS no_fak_penj,
+      SUM(total) AS total
+      FROM
+        retur
+      WHERE tglretur <= '$akhirtanggal'
+      GROUP BY
+        retur.no_fak_penj
+    ) retur ON (penjualan.no_fak_penj = retur.no_fak_penj)
+    LEFT JOIN (
+        SELECT pj.no_fak_penj,
+        IF(salesbaru IS NULL,pj.id_karyawan,salesbaru) as salesbarunew, karyawan.nama_karyawan as nama_sales,
+        IF(cabangbaru IS NULL,karyawan.kode_cabang,cabangbaru) as cabangbarunew
+        FROM penjualan pj
+        INNER JOIN karyawan ON pj.id_karyawan = karyawan.id_karyawan
+        LEFT JOIN (
+          SELECT MAX(id_move) as id_move,no_fak_penj,move_faktur.id_karyawan as salesbaru,karyawan.kode_cabang as cabangbaru
+          FROM move_faktur
+          INNER JOIN karyawan ON move_faktur.id_karyawan = karyawan.id_karyawan
+          WHERE tgl_move <= '$akhirtanggal'
+          GROUP BY no_fak_penj,move_faktur.id_karyawan,karyawan.kode_cabang
+        ) move_fak ON (pj.no_fak_penj = move_fak.no_fak_penj)
+    
+    ) pjmove ON (penjualan.no_fak_penj = pjmove.no_fak_penj)
+    WHERE cabangbarunew ='$cabang' 
+    AND penjualan.jenistransaksi != 'tunai'
+    AND tgltransaksi <= '$akhirtanggal'
+    AND (ifnull(penjualan.total,0) - (ifnull(retur.total,0))) != IFNULL(jmlbayar,0)
+    GROUP BY salesbarunew
+    ";
+
+    return $this->db->query($query);
+  }
+
+  function cekSaldopiutang($kodesaldoawalpiutang)
+  {
+    return $this->db->get_where('saldoawal_piutang', array('kode_saldoawalpiutang' => $kodesaldoawalpiutang));
+  }
+
+  function loadsaldoawalpiutang($cabang, $bulan, $tahun)
+  {
+    $this->db->join('karyawan', 'saldoawal_piutang.id_karyawan = karyawan.id_karyawan');
+    $this->db->where('karyawan.kode_cabang', $cabang);
+    $this->db->where('bulan', $bulan);
+    $this->db->where('tahun', $tahun);
+    $this->db->from('saldoawal_piutang');
+    $this->db->select('saldoawal_piutang.id_karyawan,nama_karyawan,bulan,tahun,saldo_piutang');
+    return $this->db->get();
   }
 }

@@ -238,7 +238,11 @@ function formatnumber($nilai)
         <td align="right" style="background-color: #ff570d;"><?php echo formatnumber($totalpoin); ?></td>
         <td align="right" style="background-color: #9e9895;"><?php echo formatnumber($d->target_cashin); ?></td>
         <td align="right" style="background-color: #9e9895;"><?php echo formatnumber($d->realisasi_cashin); ?></td>
-        <td align="right" style="background-color: #ffd83e;"><?php echo formatnumber($d->target_collection); ?></td>
+        <?php if (empty($d->target_collection)) { ?>
+          <td align="right" style="background-color: #ffd83e;"><?php echo formatnumber($d->targetawal); ?></td>
+        <?php } else { ?>
+          <td align="right" style="background-color: #ffd83e;"><?php echo formatnumber($d->target_collection); ?></td>
+        <?php } ?>
         <td align="right" style="background-color: #ffd83e;"><?php echo formatnumber($d->realisasi_collection); ?></td>
         <td align="right" style="background-color: #ff570d;"><?php echo formatnumber($penalty); ?></td>
         <td align="right"><?php echo formatnumber($poinakhir); ?></td>

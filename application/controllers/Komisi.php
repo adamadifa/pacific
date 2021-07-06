@@ -513,4 +513,56 @@ class Komisi extends CI_Controller
     $data['thn']                  = $tahun;
     $this->template->load('template/template', 'komisi/saldoawalpiutang', $data);
   }
+
+  function generatesaldopiutang()
+  {
+    $cabang = $this->input->post('cabang');
+    $bulan = $this->input->post('bulan');
+    $tahun = $this->input->post('tahun');
+    $piutang = $this->Model_komisi->generatesaldopiutang($cabang, $bulan, $tahun)->result();
+    foreach ($piutang as $p) {
+      $kodesales = substr($p->salesbarunew, 4, 2);
+      if (Strlen($bulan) == 2) {
+        $bln = $bulan;
+      } else {
+        $bln = "0" . $bulan;
+      }
+      $thn = substr($tahun, 2, 2);
+      $kodesaldoawalpiutang = "SP" . $cabang . $bln . $thn . $kodesales;
+
+      $cek = $this->Model_komisi->cekSaldopiutang($kodesaldoawalpiutang)->num_rows();
+      if (empty($cek)) {
+        $data = [
+          'kode_saldoawalpiutang' => $kodesaldoawalpiutang,
+          'bulan' => $bulan,
+          'tahun' => $tahun,
+          'id_karyawan' => $p->salesbarunew,
+          'saldo_piutang' => $p->saldopiutang
+        ];
+
+        $simpan = $this->db->insert('saldoawal_piutang', $data);
+        if ($simpan) {
+          echo "1";
+        }
+      } else {
+        $data = [
+          'saldo_piutang' => $p->saldopiutang
+        ];
+
+        $update = $this->db->update('saldoawal_piutang', array('kode_saldoawalpiutang' => $kodesaldoawalpiutang));
+        if ($update) {
+          echo "2";
+        }
+      }
+    }
+  }
+
+  function loadsaldoawalpiutang()
+  {
+    $cabang = $this->input->post('cabang');
+    $bulan = $this->input->post('bulan');
+    $tahun = $this->input->post('tahun');
+    $data['piutang'] = $this->Model_komisi->loadsaldoawalpiutang($cabang, $bulan, $tahun)->result();
+    $this->load->view('komisi/loadsaldoawalpiutang', $data);
+  }
 }
