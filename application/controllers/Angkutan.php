@@ -70,9 +70,52 @@ class Angkutan extends CI_Controller
     $this->template->load('template/template', 'angkutan/view_angkutan', $data);
   }
 
+  function codeotomatis()
+  {
+
+    $tahun    = date('y');
+    $bulan    = date('m');
+    $this->db->select('right(kontrabon_angkutan.no_kontrabon,3) as kode ', false);
+    $this->db->where('mid(no_kontrabon,4,2)', $bulan);
+    $this->db->where('mid(no_kontrabon,6,2)', $tahun);
+    $this->db->order_by('no_kontrabon', 'desc');
+    $this->db->limit('13');
+    $query    = $this->db->get('kontrabon_angkutan');
+    if ($query->num_rows() <> 0) {
+      $data   = $query->row();
+      $kode   = intval($data->kode) + 1;
+    } else {
+      $kode   = 1;
+    }
+    $kodemax  = str_pad($kode, 3, "0", STR_PAD_LEFT);
+    $kodejadi   = "KA/" . $bulan . "" . $tahun . "/" . $kodemax;
+    echo $kodejadi;
+  }
+
+  function input_kontrabon()
+  {
+    $this->template->load('template/template', 'angkutan/input_kontrabon');
+  }
+
+  function getDetailAngkutan()
+  {
+    $data['detail']       = $this->Model_angkutan->getDetailAngkutan()->result();
+    $this->load->view('angkutan/view_detail_kontrabon',$data);
+  }
+
+  function getDetailAngkutanCount()
+  {
+    $this->Model_angkutan->getDetailAngkutanCount()->num_rows();
+  }
+
   public function simpan(){
 
     $this->Model_angkutan->insert_angkutan();
+  }
+
+  public function input_detail(){
+
+    $this->Model_angkutan->insert_detail();
   }
 
   public function hapusangkutan(){
@@ -94,4 +137,24 @@ class Angkutan extends CI_Controller
 
     $this->Model_angkutan->batalKontrabon();
   }
+
+  
+  public function hapus_detailkontrabon(){
+
+    $this->Model_angkutan->hapus_detailkontrabon();
+  }
+
+
+  function tabelsuratjalan()
+  {
+
+    $this->load->view('angkutan/tabelsuratjalan');
+  }
+  
+  function jsonPilihSuratJalan()
+  {
+    header('Content-Type: application/json');
+    echo $this->Model_angkutan->jsonPilihSuratJalan();
+  }
+
 }

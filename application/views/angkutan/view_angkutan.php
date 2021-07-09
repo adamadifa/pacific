@@ -178,6 +178,7 @@
                               <?php }else{ ?>
                                 <a href="<?php echo base_url(); ?>angkutan/batalKontrabon/<?php echo $no_surat_jalan; ?>" class="btn btn-sm btn-danger">Batal</a>
                               <?php } ?>
+                                <a href="#" data-sj="<?php echo $no_surat_jalan; ?>" class="btn btn-sm btn-primary detail">Pembayaran</a>
                             <?php } ?>
                           </td>
                         </tr>
@@ -210,15 +211,33 @@
   </div>
 </div>
 
+
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     flatpickr(document.getElementById('tgl_mutasi_gudang'), {});
   });
 </script>
 
-<script>
+<script type="text/javascript">
+  $(function() {
 
-     
+    $('.detail').click(function(e) {
+      e.preventDefault();
+      var sj = $(this).attr('data-sj');
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>angkutan/bayar_angkutan',
+        data: {
+          sj: sj
+        },
+        cache: false,
+        success: function(respond) {
+          $("#loadpembayaran").html(respond);
+          $("#pembayaran").modal("show");
+        }
+      });
+    });
+
     function formatAngka(angka) {
       if (typeof(angka) != 'string') angka = angka.toString();
       var reg = new RegExp('([0-9]+)([0-9]{3})');
@@ -305,5 +324,7 @@
 
       }
     }));
+
+  });
     
 </script>

@@ -54,13 +54,14 @@ if (!empty($cekpnj)) {
       <?php $totalharga = 0;
       $no = 1;
       foreach ($pmbpnj as $d) {
-        $totalharga = $totalharga + ($d->qty * $d->harga); ?>
+        $jumlah = $d->qty * $d->harga;
+        $totalharga = $totalharga + $jumlah; ?>
         <tr>
           <td><?php echo $no; ?></td>
           <td><?php echo $d->ket_penjualan; ?></td>
           <td><?php echo $d->qty; ?></td>
           <td align="right"><?php echo number_format($d->harga, '0', '', '.'); ?></td>
-          <td align="right"><?php echo number_format($d->qty * $d->harga, '0', '', '.'); ?></td>
+          <td align="right"><?php echo number_format($jumlah, '0', '', '.'); ?></td>
         </tr>
       <?php $no++;
       } ?>
@@ -68,11 +69,11 @@ if (!empty($cekpnj)) {
     <tfoot>
       <tr>
         <th colspan="4">TOTAL PENJUALAN</th>
-        <th style="text-align:right"><?php echo number_format($d->qty * $d->harga, '0', '', '.'); ?></th>
+        <th style="text-align:right"><?php echo number_format($totalharga, '0', '', '.'); ?></th>
       </tr>
       <tr>
         <th colspan="4">GRAND TOTAL</th>
-        <th style="text-align:right"><?php echo number_format($total - ($d->qty * $d->harga), '0', '', '.'); ?></th>
+        <th style="text-align:right"><?php echo number_format($total - $totalharga , '0', '', '.'); ?></th>
       </tr>
     </tfoot>
   </table>
