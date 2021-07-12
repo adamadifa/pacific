@@ -1381,4 +1381,25 @@ class Laporanpenjualan extends CI_Controller
       $this->load->view('penjualan/laporan/cetak_dppp_v2', $data);
     }
   }
+
+  function harganet()
+  {
+    $data['cb']    = $this->session->userdata('cabang');
+    $data['bulan'] = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+    $data['cabang'] = $this->Model_cabang->view_cabang()->result();
+    $this->template->load('template/template', 'penjualan/laporan/harganet', $data);
+  }
+
+  function cetak_harganet()
+  {
+    $bulan = $this->input->post('bulan');
+    $tahun = $this->input->post('tahun');
+    $dari = $tahun . "-" . $bulan . "-01";
+    $sampai = date("Y-m-t", strtotime($dari));
+    $data['dari'] = $dari;
+    $data['sampai'] = $sampai;
+    $data['harganet'] = $this->Model_laporanpenjualan->harganet($dari, $sampai)->row_array();
+    $data['produk'] = $this->Model_laporanpenjualan->getProduct()->result();
+    $this->load->view('penjualan/laporan/cetak_harganet', $data);
+  }
 }
