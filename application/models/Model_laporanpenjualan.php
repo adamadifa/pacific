@@ -3536,4 +3536,77 @@ GROUP BY
 				";
 		return $this->db->query($query);
 	}
+
+	function harganet($dari, $sampai)
+	{
+		$query = "SELECT p.no_fak_penj,
+		SUM(bruto_AB) as bruto_AB,SUM(bruto_AR) as bruto_AR,SUM(bruto_AS) as bruto_AS,SUM(bruto_BB) as bruto_BB,SUM(bruto_BBP) as bruto_BBP,SUM(bruto_CG) as bruto_CG,SUM(bruto_CGG) as bruto_CGG,SUM(bruto_CG5) as bruto_CG5,SUM(bruto_DEP) as bruto_DEP,SUM(bruto_DS) as bruto_DS,SUM(bruto_SP) as bruto_SP,
+		
+		SUM(qty_AB) as qty_AB,SUM(qty_AR) as qty_AR,SUM(qty_AS) as qty_AS,SUM(qty_BB) as qty_BB,SUM(qty_BBP) as qty_BBP,SUM(qty_CG) as qty_CG,SUM(qty_CGG) as qty_CGG,SUM(qty_CG5) as qty_CG5,SUM(qty_DEP) as qty_DEP,SUM(qty_DS) as qty_DS,SUM(qty_SP) as qty_SP,
+		SUM(qtydus_AB) as qtydus_AB,SUM(qtydus_AR) as qtydus_AR,SUM(qtydus_AS) as qtydus_AS,SUM(qtydus_BB) as qtydus_BB,SUM(qtydus_BBP) as qtydus_BBP,SUM(qtydus_CG) as qtydus_CG,SUM(qtydus_CGG) as qtydus_CGG,SUM(qtydus_CG5) as qtydus_CG5,SUM(qtydus_DEP) as qtydus_DEP,SUM(qtydus_DS) as qtydus_DS,SUM(qtydus_SP) as qtydus_SP,
+		SUM(potaida) as  potonganAIDA,
+		SUM(IFNULL(potswan,0) + IFNULL(potstick,0) + IFNULL(potsp,0)) as potonganSWAN,
+		SUM(IFNULL(qtydus_AB,0) + IFNULL(qtydus_AR,0) + IFNULL(qtydus_AS,0) + IFNULL(qtydus_CG,0) + IFNULL(qtydus_CGG,0) + IFNULL(qtydus_CG5,0)) as qtyAIDA,
+		SUM(IFNULL(qtydus_BB,0) + IFNULL(qtydus_BBP,0) + IFNULL(qtydus_DEP,0) + IFNULL(qtydus_DS,0) + IFNULL(qtydus_SP,0)) as qtySWAN,
+		SUM(IFNULL(ROUND((IFNULL(potaida,0) / (IFNULL(qtydus_AB,0) + IFNULL(qtydus_AR,0) + IFNULL(qtydus_AS,0) + IFNULL(qtydus_CG,0) + IFNULL(qtydus_CGG,0) + IFNULL(qtydus_CG5,0)))),0)) as diskonaida,
+		SUM(IFNULL(ROUND((IFNULL(potswan,0) + IFNULL(potstick,0) + IFNULL(potsp,0)) / (IFNULL(qtydus_BB,0) + IFNULL(qtydus_BBP,0) + IFNULL(qtydus_DEP,0) + IFNULL(qtydus_DS,0) + IFNULL(qtydus_SP,0))),0)) as diskonswan,
+		SUM(IFNULL(ROUND((IFNULL(potaida,0) / (IFNULL(qtydus_AB,0) + IFNULL(qtydus_AR,0) + IFNULL(qtydus_AS,0) + IFNULL(qtydus_CG,0) + IFNULL(qtydus_CGG,0) + IFNULL(qtydus_CG5,0)))) * qtydus_AB,0)) as diskon_AB,
+		SUM(IFNULL(ROUND((IFNULL(potaida,0) / (IFNULL(qtydus_AB,0) + IFNULL(qtydus_AR,0) + IFNULL(qtydus_AS,0) + IFNULL(qtydus_CG,0) + IFNULL(qtydus_CGG,0) + IFNULL(qtydus_CG5,0)))) * qtydus_AR,0)) as diskon_AR,
+		SUM(IFNULL(ROUND((IFNULL(potaida,0) / (IFNULL(qtydus_AB,0) + IFNULL(qtydus_AR,0) + IFNULL(qtydus_AS,0) + IFNULL(qtydus_CG,0) + IFNULL(qtydus_CGG,0) + IFNULL(qtydus_CG5,0)))) * qtydus_AS,0)) as diskon_AS,
+		SUM(IFNULL(ROUND((IFNULL(potaida,0) / (IFNULL(qtydus_AB,0) + IFNULL(qtydus_AR,0) + IFNULL(qtydus_AS,0) + IFNULL(qtydus_CG,0) + IFNULL(qtydus_CGG,0) + IFNULL(qtydus_CG5,0)))) * qtydus_CG,0)) as diskon_CG,
+		SUM(IFNULL(ROUND((IFNULL(potaida,0) / (IFNULL(qtydus_AB,0) + IFNULL(qtydus_AR,0) + IFNULL(qtydus_AS,0) + IFNULL(qtydus_CG,0) + IFNULL(qtydus_CGG,0) + IFNULL(qtydus_CG5,0)))) * qtydus_CGG,0)) as diskon_CGG,
+		SUM(IFNULL(ROUND((IFNULL(potaida,0) / (IFNULL(qtydus_AB,0) + IFNULL(qtydus_AR,0) + IFNULL(qtydus_AS,0) + IFNULL(qtydus_CG,0) + IFNULL(qtydus_CGG,0) + IFNULL(qtydus_CG5,0)))) * qtydus_CG5,0)) as diskon_CG5,
+		SUM(IFNULL(ROUND((IFNULL(potswan,0) + IFNULL(potstick,0) + IFNULL(potsp,0)) / (IFNULL(qtydus_BB,0) + IFNULL(qtydus_BBP,0) + IFNULL(qtydus_DEP,0) + IFNULL(qtydus_DS,0) + IFNULL(qtydus_SP,0))) * qtydus_BB,0)) as diskon_BB,
+		SUM(IFNULL(ROUND((IFNULL(potswan,0) + IFNULL(potstick,0) + IFNULL(potsp,0)) / (IFNULL(qtydus_BB,0) + IFNULL(qtydus_BBP,0) + IFNULL(qtydus_DEP,0) + IFNULL(qtydus_DS,0) + IFNULL(qtydus_SP,0))) * qtydus_BBP,0)) as diskon_BBP,
+		SUM(IFNULL(ROUND((IFNULL(potswan,0) + IFNULL(potstick,0) + IFNULL(potsp,0)) / (IFNULL(qtydus_BB,0) + IFNULL(qtydus_BBP,0) + IFNULL(qtydus_DEP,0) + IFNULL(qtydus_DS,0) + IFNULL(qtydus_SP,0))) * qtydus_DEP,0)) as diskon_DEP,
+		SUM(IFNULL(ROUND((IFNULL(potswan,0) + IFNULL(potstick,0) + IFNULL(potsp,0)) / (IFNULL(qtydus_BB,0) + IFNULL(qtydus_BBP,0) + IFNULL(qtydus_DEP,0) + IFNULL(qtydus_DS,0) + IFNULL(qtydus_SP,0))) * qtydus_DS,0)) as diskon_DS,
+		SUM(IFNULL(ROUND((IFNULL(potswan,0) + IFNULL(potstick,0) + IFNULL(potsp,0)) / (IFNULL(qtydus_BB,0) + IFNULL(qtydus_BBP,0) + IFNULL(qtydus_DEP,0) + IFNULL(qtydus_DS,0) + IFNULL(qtydus_SP,0))) * qtydus_SP,0)) as diskon_SP
+		FROM 
+		penjualan p
+		LEFT JOIN (
+		SELECT 
+		dp.no_fak_penj,
+		SUM(IF(b.kode_produk = 'AB',dp.subtotal,0)) as bruto_AB,
+		SUM(IF(b.kode_produk = 'AR',dp.subtotal,0)) as bruto_AR,
+		SUM(IF(b.kode_produk = 'AS',dp.subtotal,0)) as bruto_AS,
+		SUM(IF(b.kode_produk = 'BB',dp.subtotal,0)) as bruto_BB,
+		SUM(IF(b.kode_produk = 'BBP',dp.subtotal,0)) as bruto_BBP,
+		SUM(IF(b.kode_produk = 'CG',dp.subtotal,0)) as bruto_CG,
+		SUM(IF(b.kode_produk = 'CGG',dp.subtotal,0)) as bruto_CGG,
+		SUM(IF(b.kode_produk = 'CG5',dp.subtotal,0)) as bruto_CG5,
+		SUM(IF(b.kode_produk = 'DEP',dp.subtotal,0)) as bruto_DEP,
+		SUM(IF(b.kode_produk = 'DS',dp.subtotal,0)) as bruto_DS,
+		SUM(IF(b.kode_produk = 'SP',dp.subtotal,0)) as bruto_SP,
+		
+		SUM(IF(b.kode_produk = 'AB' AND promo !=1,dp.jumlah,0)) as   qty_AB,
+		SUM(IF(b.kode_produk = 'AR' AND promo !=1,dp.jumlah,0)) as   qty_AR,
+		SUM(IF(b.kode_produk = 'AS' AND promo !=1,dp.jumlah,0)) as   qty_AS,
+		SUM(IF(b.kode_produk = 'BB' AND promo !=1,dp.jumlah,0)) as   qty_BB,
+		SUM(IF(b.kode_produk = 'BBP' AND promo !=1,dp.jumlah,0)) as   qty_BBP,
+		SUM(IF(b.kode_produk = 'CG' AND promo !=1,dp.jumlah,0)) as  qty_CG,
+		SUM(IF(b.kode_produk = 'CGG' AND promo !=1,dp.jumlah,0)) as   qty_CGG,
+		SUM(IF(b.kode_produk = 'CG5' AND promo !=1,dp.jumlah,0)) as   qty_CG5,
+		SUM(IF(b.kode_produk = 'DEP' AND promo !=1,dp.jumlah,0)) as   qty_DEP,
+		SUM(IF(b.kode_produk = 'DS' AND promo !=1,dp.jumlah,0)) as   qty_DS,
+		SUM(IF(b.kode_produk = 'SP' AND promo !=1,dp.jumlah,0)) as   qty_SP,
+		
+		SUM(IF(b.kode_produk = 'AB' AND promo !=1,floor(dp.jumlah/mb.isipcsdus),0)) as   qtydus_AB,
+		SUM(IF(b.kode_produk = 'AR' AND promo !=1,floor(dp.jumlah/mb.isipcsdus),0)) as   qtydus_AR,
+		SUM(IF(b.kode_produk = 'AS' AND promo !=1,floor(dp.jumlah/mb.isipcsdus),0)) as   qtydus_AS,
+		SUM(IF(b.kode_produk = 'BB' AND promo !=1,floor(dp.jumlah/mb.isipcsdus),0)) as   qtydus_BB,
+		SUM(IF(b.kode_produk = 'BBP' AND promo !=1,floor(dp.jumlah/mb.isipcsdus),0)) as   qtydus_BBP,
+		SUM(IF(b.kode_produk = 'CG' AND promo !=1,floor(dp.jumlah/mb.isipcsdus),0)) as  qtydus_CG,
+		SUM(IF(b.kode_produk = 'CGG' AND promo !=1,floor(dp.jumlah/mb.isipcsdus),0)) as   qtydus_CGG,
+		SUM(IF(b.kode_produk = 'CG5' AND promo !=1,floor(dp.jumlah/mb.isipcsdus),0)) as   qtydus_CG5,
+		SUM(IF(b.kode_produk = 'DEP' AND promo !=1,floor(dp.jumlah/mb.isipcsdus),0)) as   qtydus_DEP,
+		SUM(IF(b.kode_produk = 'DS' AND promo !=1,floor(dp.jumlah/mb.isipcsdus),0)) as   qtydus_DS,
+		SUM(IF(b.kode_produk = 'SP' AND promo !=1,floor(dp.jumlah/mb.isipcsdus),0)) as   qtydus_SP
+		FROM detailpenjualan dp
+		INNER JOIN barang b ON dp.kode_barang = b.kode_barang 
+		INNER JOIN master_barang mb ON b.kode_produk = mb.kode_produk 
+		GROUP BY dp.no_fak_penj
+		) detail ON (p.no_fak_penj = detail.no_fak_penj)
+		WHERE tgltransaksi BETWEEN '$dari' AND '$sampai' ";
+		return $this->db->query($query);
+	}
 }
