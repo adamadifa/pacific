@@ -1,11 +1,11 @@
-<form autocomplete="off" class="formValidate" id="formValidate" method="POST" action="<?php echo base_url(); ?>angkutan/insert_kontrabon">
+<form autocomplete="off" class="formValidate" id="formValidate" method="POST" action="<?php echo base_url(); ?>angkutan/insert_ledger">
   <div class="container-fluid">
     <!-- Page title -->
     <div class="page-header">
       <div class="row align-items-center">
         <div class="col-auto">
           <h2 class="page-title">
-            Input Kontrabon
+            Detail Kontrabon
           </h2>
         </div>
       </div>
@@ -18,7 +18,7 @@
             <div class="col-md-5 col-xs-12">
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title">Input Kontrabon</h4>
+                  <h4 class="card-title">Detail Kontrabon</h4>
                 </div>
                 <div class="card-body">
                   <div class="form-group mb-3">
@@ -26,8 +26,7 @@
                       <span class="input-icon-addon">
                         <i class="fa fa-barcode"></i>
                       </span>
-                      <input type="hidden" value="" id="cekdata" name="cekdata" />
-                      <input type="text" value="" id="no_kontrabon" name="no_kontrabon" class="form-control" placeholder="No Kontrabon" data-error=".errorTxt19" />
+                      <input type="text" readonly value="<?php echo $data['no_kontrabon']?>" class="form-control" placeholder="No Kontrabon" data-error=".errorTxt19" />
                     </div>
                   </div>
                   <div class="form-group mb-3">
@@ -35,7 +34,7 @@
                       <span class="input-icon-addon">
                         <i class="fa fa-calendar-o"></i>
                       </span>
-                      <input type="text" value="" id="tgl_kontrabon" name="tgl_kontrabon" class="form-control datepicker date" placeholder="Tanggal" data-error=".errorTxt19" />
+                      <input type="text" readonly value="<?php echo $data['tgl_kontrabon']?>" class="form-control datepicker date" placeholder="Tanggal" data-error=".errorTxt19" />
                     </div>
                   </div>
                   <div class="form-group mb-3">
@@ -43,7 +42,7 @@
                       <span class="input-icon-addon">
                         <i class="fa fa-calendar-o"></i>
                       </span>
-                      <input type="text" value="" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" data-error=".errorTxt19" />
+                      <input type="text" readonly value="<?php echo $data['keterangan']?>" class="form-control" placeholder="Keterangan" data-error=".errorTxt19" />
                     </div>
                   </div>
                 </div>
@@ -57,7 +56,7 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-body">
-                  <div class="row">
+                  <!-- <div class="row">
                     <div class="col-md-3">
                       <div class="row mb-2">
                         <div class="form-group">
@@ -119,7 +118,7 @@
                         </a>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="row">
                     <div class="col-md-12">
                       <table class="table table-bordered table-striped">
@@ -131,20 +130,69 @@
                             <th>BS</th>
                             <th>Tepung</th>
                             <th>Total</th>
-                            <th>Aksi</th>
                           </tr>
                         </thead>
-                        <tbody id="loaddetailangkutan">
-
+                        <tbody>
+                          <?php 
+                          foreach ($detail as $key => $d) { 
+                            $tgl
+                            ?>
+                            <tr>
+                              <td><?php echo $d->no_surat_jalan;?></td>
+                              <td><?php echo $d->tgl_mutasi_gudang;?></td>
+                              <td align="right"><?php echo number_format($d->tarif);?></td>
+                              <td align="right"><?php echo number_format($d->bs);?></td>
+                              <td align="right"><?php echo number_format($d->tepung);?></td>
+                              <td align="right"><?php echo number_format($d->tarif+$d->bs+$d->tepung);?></td>
+                            </tr>
+                          <?php } ?>
                         </tbody>
                       </table>
                     </div>
                   </div>
-                  <div class="mt-3 d-flex justify-content-end">
-                    <button type="submit" name="submit" class="btn btn-primary btn-block mr-2" value="1"><i class="fa fa-send mr-2"></i>Simpan</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-5 col-xs-12">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">Input Pembayaran</h4>
+                </div>
+                <div class="card-body">
+                  <div class="form-group mb-3">
+                    <div class="input-icon">
+                      <span class="input-icon-addon">
+                        <i class="fa fa-calendar-o"></i>
+                      </span>
+                      <input type="text" id="tgl_bayar" name="tgl_bayar" class="form-control datepicker date" placeholder="Tanggal" data-error=".errorTxt19" />
+                    </div>
+                  </div>
+                  <div class="form-group mb-3">
+                    <div class="input-icon">
+                      <select class="form-select" id="via" name="via" data-error=".errorTxt1">
+                        <option value="">--VIA--</option>
+                        <?php foreach ($bank as $d) { ?>
+                          <option value="<?php echo $d->kode_bank; ?>"><?php echo $d->nama_bank; ?></option>
+                        <?php }  ?>
+                        <option value="CASH">CASH</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group mb-3">
+                    <div class="input-icon">
+                      <span class="input-icon-addon">
+                        <i class="fa fa-book"></i>
+                      </span>
+                      <input type="text" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" data-error=".errorTxt19" />
+                    </div>
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="col-md-7 col-xs-12">
+             
             </div>
           </div>
         </div>
@@ -172,7 +220,7 @@
 </div>
 
 <script>
-  flatpickr(document.getElementById('tgl_kontrabon'), {});
+  flatpickr(document.getElementById('tgl_bayar'), {});
 </script>
 
 <script type="text/javascript">
@@ -199,8 +247,6 @@
     $('#tepung').val(formatAngka(tepung));
     $('#tarif').val(formatAngka(tarif));
     $('#bs').val(formatAngka(bs));
-    
-    codeotomatis();
     
     
     $("#tgl_kontrabon").click(function() {
@@ -231,22 +277,6 @@
       }
 
     });
-
-    function codeotomatis() {
-
-      $.ajax({
-        type: 'POST',
-        url: '<?php echo base_url(); ?>angkutan/codeotomatis',
-        data: '',
-        cache: false,
-        success: function(html) {
-          $('#no_kontrabon').val(html);
-
-        }
-
-      });       
-
-    }
 
     function tampiltemp() {
        
@@ -307,7 +337,6 @@
           }
 
         });
-
       }
     });
 

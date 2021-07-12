@@ -221,7 +221,7 @@
 				} else if ($v->ket_voucher == "3") {
 					$voucher = "Voucher Penyelesaian Piutang Oleh Salesman";
 				} else if ($v->ket_voucher == "4") {
-					$voucher = "Voucher Penyelesaian Piutang Oleh Salesman";
+					$voucher = "Voucher Pengalihan Piutang Dgng Jd Piutang Kary";
 				} else {
 					$voucher = "Lainnya";
 				}
