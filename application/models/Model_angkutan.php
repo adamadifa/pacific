@@ -45,6 +45,59 @@ class Model_angkutan extends CI_Model
     return $result[0]['allcount'];
   }
 
+  
+  public function getDataKontrabon($rowno, $rowperpage, $no_kontrabon = "", $tgl_kontrabon = "",$keterangan = "")
+  {
+
+    $this->db->select('*');
+    $this->db->from('kontrabon_angkutan');
+
+    $this->db->order_by('kontrabon_angkutan.tgl_kontrabon', 'DESC');
+
+    if ($no_kontrabon != '') {
+      $this->db->like('no_kontrabon', $no_kontrabon);
+    }
+
+    if ($tgl_kontrabon != '') {
+      $this->db->where('kontrabon_angkutan.tgl_kontrabon', $tgl_kontrabon);
+    }
+
+    if ($keterangan != '') {
+      $this->db->like('keterangan', $keterangan);
+    }
+
+
+    $this->db->limit($rowperpage, $rowno);
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+
+  public function getrecordKontrabonCount($no_kontrabon = "", $tgl_kontrabon = "", $keterangan = "")
+  {
+
+    $this->db->select('count(*) as allcount');
+    $this->db->from('kontrabon_angkutan');
+
+    $this->db->order_by('kontrabon_angkutan.tgl_kontrabon', 'DESC');
+
+    if ($no_kontrabon != '') {
+      $this->db->like('no_kontrabon', $no_kontrabon);
+    }
+
+    if ($keterangan != '') {
+      $this->db->like('keterangan', $keterangan);
+    }
+
+
+    if ($tgl_kontrabon != '') {
+      $this->db->where('kontrabon_angkutan.tgl_kontrabon', $tgl_kontrabon);
+    }
+
+    $query  = $this->db->get();
+    $result = $query->result_array();
+    return $result[0]['allcount'];
+  }
+
   public function insert_angkutan(){
 
     $no_surat_jalan = $this->input->post('no_surat_jalan');
@@ -81,12 +134,115 @@ class Model_angkutan extends CI_Model
     $no_kontrabon       = $this->input->post('no_kontrabon');
 
     $data = array(
-      'no_surat_jalan'      => $no_surat_jalan,
-      'no_kontrabon'        => $no_kontrabon,
+      'no_surat_jalan'    => $no_surat_jalan,
+      'no_kontrabon'      => $no_kontrabon,
     );
 
     $this->db->insert('detail_kontrabon_angkutan',$data);
   }
+
+ 
+  public function insert_ledger(){
+
+    $tgl_ledger         = $this->input->post('tgl_ledger');
+    $cabang             = "PST";
+    $tanggal            = explode("-", $tgl_ledger);
+    $tahun              = substr($tanggal[0], 2, 2);
+    $qledger            = "SELECT no_bukti FROM ledger_bank WHERE LEFT(no_bukti,7) = 'LR$cabang$tahun' ORDER BY no_bukti DESC LIMIT 1 ";
+    $ceknolast          = $this->db->query($qledger)->row_array();
+    $nobuktilast        = $ceknolast['no_bukti'];
+    $nobukti            = buatkode($nobuktilast, 'LR' . $cabang . $tahun, 4);
+    $pelanggan          = $this->input->post('pelanggan');
+    $no_ref             = $this->input->post('no_ref');
+    $keterangan         = $this->input->post('keterangan');
+    $bank               = $this->input->post('via');
+    $no_kontrabon       = $this->input->post('no_kontrabon');
+
+    $jmlhangkutan = $this->db->query("SELECT SUM(tarif+bs+tepung) as jumlah FROM detail_kontrabon_angkutan
+    INNER JOIN angkutan ON angkutan.no_surat_jalan=detail_kontrabon_angkutan.no_surat_jalan
+    INNER JOIN mutasi_gudang_jadi ON mutasi_gudang_jadi.no_dok=angkutan.no_surat_jalan
+    WHERE MONTH(tgl_mutasi_gudang) = MONTH('$tgl_ledger') AND no_kontrabon = '$no_kontrabon'
+     ")->row_array();
+
+    $jmlhhutang = $this->db->query("SELECT SUM(tarif+bs+tepung) as jumlah FROM detail_kontrabon_angkutan
+    INNER JOIN angkutan ON angkutan.no_surat_jalan=detail_kontrabon_angkutan.no_surat_jalan
+    INNER JOIN mutasi_gudang_jadi ON mutasi_gudang_jadi.no_dok=angkutan.no_surat_jalan
+    WHERE MONTH(tgl_mutasi_gudang) != MONTH('$tgl_ledger') AND no_kontrabon = '$no_kontrabon' ")->row_array();
+
+    if($jmlhangkutan['jumlah'] != ''){
+      $data = array(
+        'no_bukti'            => $nobukti,
+        'tgl_ledger'          => $tgl_ledger,
+        'bank'                => $bank,
+        'no_ref'              => $no_ref,
+        'pelanggan'           => $pelanggan,
+        'keterangan'          => $keterangan,
+        'kode_akun'           => '6-1114',
+        'jumlah'              => $jmlhangkutan['jumlah'],
+        'status_validasi'     => 1,
+        'status_dk'           => 'D',
+        'peruntukan'          => 'MP',
+        'ket_peruntukan'      => 'PST',
+      );
+      $this->db->insert('ledger_bank',$data);
+    }else if($jmlhhutang['jumlah'] != ''){
+      $data = array(
+        'no_bukti'            => 'TEST',
+        'tgl_ledger'          => $tgl_ledger,
+        'no_ref'              => $no_ref,
+        'bank'                => $bank,
+        'pelanggan'           => $pelanggan,
+        'keterangan'          => $keterangan,
+        'kode_akun'           => '2-1800',
+        'jumlah'              => $jmlhhutang['jumlah'],
+        'status_validasi'     => 1,
+        'status_dk'           => 'D',
+        'peruntukan'          => 'MP',
+        'ket_peruntukan'      => 'PST',
+
+      );
+      $this->db->insert('ledger_bank',$data);
+    }
+
+    $updated = $this->db->query("SELECT * FROM detail_kontrabon_angkutan WHERE no_kontrabon = '$no_kontrabon' ")->result();
+    foreach ($updated as $d) {
+      $data2 = array(
+        'tgl_bayar'       => $tgl_ledger,
+      );
+      $this->db->where('no_surat_jalan',$d->no_surat_jalan);
+      $this->db->update('angkutan',$data2);
+    }
+    $this->db->query("UPDATE kontrabon_angkutan SET status = '1' WHERE no_kontrabon = '$no_kontrabon' ");
+    redirect('angkutan/kontrabon');
+  }
+  
+  
+  public function insert_kontrabon(){
+
+    $no_kontrabon       = $this->input->post('no_kontrabon');
+    $tgl_kontrabon      = $this->input->post('tgl_kontrabon');
+    $keterangan         = $this->input->post('keterangan');
+
+    $data = array(
+      'tgl_kontrabon'       => $tgl_kontrabon,
+      'no_kontrabon'        => $no_kontrabon,
+      'keterangan'          => $keterangan,
+    );
+
+    $this->db->insert('kontrabon_angkutan',$data);
+
+    $updated = $this->db->query("SELECT * FROM detail_kontrabon_angkutan WHERE no_kontrabon = '$no_kontrabon' ")->result();
+    foreach ($updated as $d) {
+      $data2 = array(
+        'tgl_kontrabon'       => $tgl_kontrabon,
+      );
+      $this->db->where('no_surat_jalan',$d->no_surat_jalan);
+      $this->db->update('angkutan',$data2);
+    }
+
+    redirect('angkutan/kontrabon');
+  }
+
 
   public function hapusangkutan(){
 
@@ -95,12 +251,40 @@ class Model_angkutan extends CI_Model
     $this->db->query("DELETE FROM angkutan WHERE no_surat_jalan = '$no_surat_jalan' ");
     redirect('angkutan');
   }
+  
+  public function hapuskontrabon(){
+
+
+    $no_kontrabon = str_replace(".","/",$this->uri->segment(3));
+    $this->db->query("DELETE FROM kontrabon_angkutan WHERE no_kontrabon = '$no_kontrabon' ");
+    $updated = $this->db->query("SELECT * FROM detail_kontrabon_angkutan WHERE no_kontrabon = '$no_kontrabon' ")->result();
+    foreach ($updated as $d) {
+      $data2 = array(
+        'tgl_kontrabon'       => NULL,
+      );
+      $this->db->where('no_surat_jalan',$d->no_surat_jalan);
+      $this->db->update('angkutan',$data2);
+    }
+    $this->db->query("DELETE FROM detail_kontrabon_angkutan WHERE no_kontrabon = '$no_kontrabon' ");
+    redirect('angkutan/kontrabon');
+  }
 
   public function getDetailAngkutan(){
     
-    $no_kontrabon       = $this->input->post('no_kontrabon');
+    $kontrabon       = $this->input->post('no_kontrabon');
+    if($kontrabon != ""){
+      $no_kontrabon       = $this->input->post('no_kontrabon');
+    }else{
+      $no_kontrabon = str_replace(".","/",$this->uri->segment(3));
+    }
     return $this->db->query("SELECT * FROM detail_kontrabon_angkutan INNER JOIN angkutan ON angkutan.no_surat_jalan=detail_kontrabon_angkutan.no_surat_jalan
     INNER JOIN mutasi_gudang_jadi ON detail_kontrabon_angkutan.no_surat_jalan = mutasi_gudang_jadi.no_dok  WHERE no_kontrabon = '$no_kontrabon' ");
+  }
+
+  public function getAngkutan(){
+  
+    $no_kontrabon = str_replace(".","/",$this->uri->segment(3));
+    return $this->db->query("SELECT * FROM  kontrabon_angkutan WHERE no_kontrabon = '$no_kontrabon' ");
   }
   
   public function getDetailAngkutanCount(){
@@ -118,36 +302,19 @@ class Model_angkutan extends CI_Model
   }
 
 
-  public function kontrabon(){
-
-    $no_surat_jalan = $this->uri->segment(3);
-    $tgl            = Date('Y-m-d');
-    $this->db->query("UPDATE angkutan SET tgl_kontrabon = '$tgl' WHERE no_surat_jalan = '$no_surat_jalan' ");
-    redirect('angkutan');
-  }
-  
-  public function batalKontrabon(){
-
-    $no_surat_jalan = $this->uri->segment(3);
-    $tgl            = Date('Y-m-d');
-    $this->db->query("UPDATE angkutan SET tgl_kontrabon = NULL WHERE no_surat_jalan = '$no_surat_jalan' ");
-    redirect('angkutan');
-  }
-
   function jsonPilihSuratJalan()
   {
+    $no_surat_jalan = '';
     $data =  $this->db->query("SELECT no_surat_jalan FROM detail_kontrabon_angkutan")->result();
-    foreach ($data as $d) {
-      $data = array(
-        $no_surat_jalan = $d->no_surat_jalan
-      );
-    }
+  
     $this->datatables->select('no_surat_jalan,tgl_mutasi_gudang,FORMAT(tarif,"c") AS tarif,FORMAT(bs,"c") AS bs,FORMAT(tepung,"c") AS tepung');
     $this->datatables->from('angkutan');
     $this->datatables->join('mutasi_gudang_jadi', 'angkutan.no_surat_jalan = mutasi_gudang_jadi.no_dok','left');
     $this->datatables->where('angkutan.tgl_kontrabon', NULL);
-    if($no_surat_jalan != NULL){
-      $this->db->where_not_in('angkutan.no_surat_jalan',$no_surat_jalan);
+    foreach ($data as $d) {
+      $data = array(
+        $this->db->where_not_in('angkutan.no_surat_jalan',$d->no_surat_jalan)
+      );
     }
     $this->datatables->add_column('view', '<a href="#"  data-toggle="modal" data-sj="$1" data-tgl="$2"  data-tarif="$3"  data-bs="$4"  data-tepung="$5" class="btn btn-danger btn-sm waves-effect pilih">Pilih</a>', 'no_surat_jalan,tgl_mutasi_gudang,tarif,bs,tepung');
     return $this->datatables->generate();

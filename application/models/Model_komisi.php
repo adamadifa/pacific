@@ -24,6 +24,7 @@ class Model_komisi extends CI_Model
 
   function loadapprovletarget($bulan, $tahun)
   {
+    $this->db->order_by('bulan','asc');
     return $this->db->get_where('komisi_target', array('tahun' => $tahun));
   }
 

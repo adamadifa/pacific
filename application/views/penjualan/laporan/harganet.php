@@ -17,7 +17,7 @@
           <div class="col-md-6">
             <div class="card">
               <div class="card-header bg-dark text-white">
-                <h4 class="card-title">Laporan Komisi</h4>
+                <h4 class="card-title">Laporan Harga NET</h4>
               </div>
               <div class="card-body">
                 <form class="formValidate" id="formValidate" method="POST" action="<?php echo base_url(); ?>laporanpenjualan/cetak_harganet" target="_blank">
@@ -76,7 +76,7 @@
         </div>
       </div>
       <div class="col-md-2">
-        <?php $this->load->view('menu/menu_marketing_administrator'); ?>
+        <?php $this->load->view('menu/menu_penjualan_administrator'); ?>
       </div>
     </div>
   </div>

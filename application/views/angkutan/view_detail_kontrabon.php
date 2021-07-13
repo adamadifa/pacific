@@ -42,8 +42,6 @@ foreach ($detail as $key => $d) { ?>
  
        });
      }
- 
- 
 
       $(".hapus").click(function(e){
         var no_surat_jalan  = $(this).attr("data-kode");
