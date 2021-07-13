@@ -238,6 +238,7 @@ class Model_dpb extends CI_Model
       'id_admin'                 => $id_admin
     );
     $ceksa = $this->db->get_where('saldoawal_bj', array('bulan' => $bulan, 'tahun' => $tahun, 'kode_cabang' => $cabang))->num_rows();
+
     if (empty($ceksa)) {
       $updatepenjualan  = $this->db->update('mutasi_gudang_cabang', $data, array('no_mutasi_gudang_cabang' => $no_mutasi));
       if ($updatepenjualan) {
