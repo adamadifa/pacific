@@ -133,8 +133,10 @@
                     <button type="submit" name="submit" class="btn btn-primary btn-block mr-2" value="1"><i class="fa fa-search mr-2"></i>CARI</button>
                   </div>
                 </form>
-                <a href="#" class="btn btn-danger mb-3 tambahdata">Tambah Data</a>
-                <div class="table-responsive" style="zoom:80%">
+                <?php if ($level == "Administrator" || $level == "admin gudang pusat") { ?>
+                  <a href="#" class="btn btn-danger mb-3 tambahdata">Tambah Data</a>
+                <?php } ?>
+                <div class="table-responsive" style="zoom:90%">
                   <table class="table table-bordered table-striped table-hover" id="datatable">
                     <thead class="thead-dark">
                       <tr>
@@ -169,16 +171,9 @@
                           <td><?php if($d['tgl_kontrabon'] != ''){ echo '<button class="btn btn-success btn-sm">'.DateToIndo2($d['tgl_kontrabon']).'</button>'; }else{ echo ""; } ?></td>
                           <td><?php if($d['tgl_bayar'] != ''){ echo '<button class="btn btn-success btn-sm">'.DateToIndo2($d['tgl_bayar']).'</button>'; }else{ echo ""; } ?></td>
                           <td width="170px">
-                            <?php if ($level == "Administrator" || $level == "admin gudang pusat") { ?>
+                            <?php if ($level == "Administrator" || $level == "admin gudang pusat" && $d['tgl_kontrabon'] == '') { ?>
                               <a href="<?php echo base_url(); ?>angkutan/hapusangkutan/<?php echo $no_surat_jalan; ?>" class="btn btn-sm btn-danger">Hapus</a>
                               <a href="#" data-sj="<?php echo $no_surat_jalan; ?>" data-bs="<?php echo $d['bs']; ?>" data-tepung="<?php echo $d['tepung']; ?>" data-tarif="<?php echo $d['tarif']; ?>" data-nopol="<?php echo $d['nopol']; ?>"  data-tujuan="<?php echo $d['tujuan']; ?>"  data-angkutan="<?php echo $d['angkutan']; ?>" class="btn btn-sm btn-warning edit tambahdata">Edit</a>
-                            <?php } else if ($level == "Administrator" || $level == "keuangan") { ?>
-                              <?php if($d['tgl_kontrabon'] == ''){ ?>
-                                <a href="<?php echo base_url(); ?>angkutan/kontrabon/<?php echo $no_surat_jalan; ?>" class="btn btn-sm btn-success">Kontrabon</a>
-                              <?php }else{ ?>
-                                <a href="<?php echo base_url(); ?>angkutan/batalKontrabon/<?php echo $no_surat_jalan; ?>" class="btn btn-sm btn-danger">Batal</a>
-                              <?php } ?>
-                                <a href="#" data-sj="<?php echo $no_surat_jalan; ?>" class="btn btn-sm btn-primary detail">Pembayaran</a>
                             <?php } ?>
                           </td>
                         </tr>

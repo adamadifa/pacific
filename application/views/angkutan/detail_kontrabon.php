@@ -1,3 +1,7 @@
+<?php 
+  $level = $this->session->userdata('level_user');
+  $username = $this->session->userdata('username');
+?>
 <form autocomplete="off" class="formValidate" id="formValidate" method="POST" action="<?php echo base_url(); ?>angkutan/insert_ledger">
   <div class="container-fluid">
     <!-- Page title -->
@@ -26,7 +30,7 @@
                       <span class="input-icon-addon">
                         <i class="fa fa-barcode"></i>
                       </span>
-                      <input type="text" readonly value="<?php echo $data['no_kontrabon']?>" class="form-control" placeholder="No Kontrabon" data-error=".errorTxt19" />
+                      <input type="text" readonly value="<?php echo $data['no_kontrabon']?>" name="no_kontrabon" class="form-control" placeholder="No Kontrabon" data-error=".errorTxt19" />
                     </div>
                   </div>
                   <div class="form-group mb-3">
@@ -40,7 +44,7 @@
                   <div class="form-group mb-3">
                     <div class="input-icon">
                       <span class="input-icon-addon">
-                        <i class="fa fa-calendar-o"></i>
+                        <i class="fa fa-book"></i>
                       </span>
                       <input type="text" readonly value="<?php echo $data['keterangan']?>" class="form-control" placeholder="Keterangan" data-error=".errorTxt19" />
                     </div>
@@ -154,6 +158,7 @@
               </div>
             </div>
           </div>
+          <?php if ($level == "Administrator" || $username == "ika") { ?>
           <div class="row">
             <div class="col-md-5 col-xs-12">
               <div class="card">
@@ -166,7 +171,23 @@
                       <span class="input-icon-addon">
                         <i class="fa fa-calendar-o"></i>
                       </span>
-                      <input type="text" id="tgl_bayar" name="tgl_bayar" class="form-control datepicker date" placeholder="Tanggal" data-error=".errorTxt19" />
+                      <input type="text" id="tgl_ledger" name="tgl_ledger" class="form-control datepicker date" placeholder="Tanggal" data-error=".errorTxt19" />
+                    </div>
+                  </div>
+                  <div class="form-group mb-3">
+                    <div class="input-icon">
+                      <span class="input-icon-addon">
+                        <i class="fa fa-book"></i>
+                      </span>
+                      <input type="text" id="no_ref" name="no_ref" class="form-control" placeholder="No Ref" data-error=".errorTxt19" />
+                    </div>
+                  </div>
+                  <div class="form-group mb-3">
+                    <div class="input-icon">
+                      <span class="input-icon-addon">
+                        <i class="fa fa-user"></i>
+                      </span>
+                      <input type="text" id="pelanggan" name="pelanggan" class="form-control" placeholder="Pelanggan" data-error=".errorTxt19" />
                     </div>
                   </div>
                   <div class="form-group mb-3">
@@ -185,8 +206,11 @@
                       <span class="input-icon-addon">
                         <i class="fa fa-book"></i>
                       </span>
-                      <input type="text" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" data-error=".errorTxt19" />
+                      <input type="text" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan Legder" data-error=".errorTxt19" />
                     </div>
+                  </div>
+                  <div class="mt-3 d-flex justify-content-end">
+                    <button type="submit" name="submit" class="btn btn-primary btn-block mr-2" value="1"><i class="fa fa-send mr-2"></i>Bayar</button>
                   </div>
                 </div>
               </div>
@@ -195,9 +219,10 @@
              
             </div>
           </div>
+        <?php } ?>
         </div>
         <div class="col-md-2">
-          <?php $this->load->view('menu/menu_maintenance_administrator.php'); ?>
+          <?php $this->load->view('menu/menu_keuangan_administrator.php'); ?>
         </div>
       </div>
     </div>
@@ -220,7 +245,7 @@
 </div>
 
 <script>
-  flatpickr(document.getElementById('tgl_bayar'), {});
+  flatpickr(document.getElementById('tgl_ledger'), {});
 </script>
 
 <script type="text/javascript">

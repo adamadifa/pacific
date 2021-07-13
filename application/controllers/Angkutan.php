@@ -75,18 +75,20 @@ class Angkutan extends CI_Controller
   {
 
     $no_kontrabon           = "";
-    $tgl_kontrabon        = "";
+    $keterangan             = "";
+    $tgl_kontrabon          = "";
 
     if ($this->input->post('submit') != NULL) {
+      $keterangan                     = $this->input->post('keterangan');
       $no_kontrabon                   = $this->input->post('no_kontrabon');
-      $tgl_kontrabon                = $this->input->post('tgl_kontrabon');
+      $tgl_kontrabon                  = $this->input->post('tgl_kontrabon');
       $data   = array(
+        'keterangan'                  => $keterangan,
         'no_kontrabon'                => $no_kontrabon,
-        'tgl_kontrabon'             => $tgl_kontrabon,
+        'tgl_kontrabon'               => $tgl_kontrabon,
       );
       $this->session->set_userdata($data);
     } else {
-
       if ($this->session->userdata('no_kontrabon') != NULL) {
         $no_kontrabon = $this->session->userdata('no_kontrabon');
       }
@@ -94,13 +96,16 @@ class Angkutan extends CI_Controller
       if ($this->session->userdata('tgl_kontrabon') != NULL) {
         $tgl_kontrabon = $this->session->userdata('tgl_kontrabon');
       }
+      if ($this->session->userdata('keterangan') != NULL) {
+        $keterangan = $this->session->userdata('keterangan');
+      }
     }
     $rowperpage = 10;
     if ($rowno != 0) {
       $rowno = ($rowno - 1) * $rowperpage;
     }
-    $allcount                     = $this->Model_angkutan->getrecordKontrabonCount($no_kontrabon, $tgl_kontrabon);
-    $users_record                 = $this->Model_angkutan->getDataKontrabon($rowno, $rowperpage, $no_kontrabon, $tgl_kontrabon);
+    $allcount                     = $this->Model_angkutan->getrecordKontrabonCount($no_kontrabon, $tgl_kontrabon,$keterangan);
+    $users_record                 = $this->Model_angkutan->getDataKontrabon($rowno, $rowperpage, $no_kontrabon, $tgl_kontrabon,$keterangan);
     $config['base_url']           = base_url() . 'angkutan/kontrabon';
     $config['use_page_numbers']   = TRUE;
     $config['total_rows']         = $allcount;
@@ -129,6 +134,7 @@ class Angkutan extends CI_Controller
     $data['row']                  = $rowno;
     $data['no_kontrabon']         = $no_kontrabon;
     $data['tgl_kontrabon']        = $tgl_kontrabon;
+    $data['keterangan']           = $keterangan;
     $this->template->load('template/template', 'angkutan/view_kontrabon', $data);
   }
 

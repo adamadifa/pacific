@@ -1,5 +1,6 @@
 <?php 
   $level = $this->session->userdata('level_user');
+  $username = $this->session->userdata('username');
 ?>
 <div class="container-fluid">
   <!-- Page title -->
@@ -23,11 +24,12 @@
 
               </div>
               <div class="card-body">
-                <?php if ($level == "Administrator" || $level == "admin gudang pusat") { ?>
-                  <form class="form-horizontal" method="post" action="<?php echo base_url(); ?>angkutan/index" autocomplete="off">
-                <?php } ?>
+                  <form class="form-horizontal" method="post" action="<?php echo base_url(); ?>angkutan/kontrabon" autocomplete="off">
                   <div class="mb-3">
                     <input type="text" value="<?php echo $no_kontrabon; ?>" id="no_kontrabon" name="no_kontrabon" class="form-control" placeholder="No Kontrabon" data-error=".errorTxt19" />
+                  </div>
+                  <div class="mb-3">
+                    <input type="text" value="<?php echo $keterangan; ?>" id="keterangan" name="keterangan" class="form-control" placeholder="Angkutan" data-error=".errorTxt19" />
                   </div>
                   <div class="mb-3">
                     <div class="row">
@@ -51,14 +53,17 @@
                     <button type="submit" name="submit" class="btn btn-primary btn-block mr-2" value="1"><i class="fa fa-search mr-2"></i>CARI</button>
                   </div>
                 </form>
-                <a href="<?php echo base_url();?>angkutan/input_kontrabon" class="btn btn-danger mb-3">Tambah Data</a>
-                <div class="table-responsive" style="zoom:80%">
+                <?php if ($level == "Administrator" || $level == "keuangan" && $username != 'ika') { ?>
+                  <a href="<?php echo base_url();?>angkutan/input_kontrabon" class="btn btn-danger mb-3">Tambah Data</a>
+                <?php } ?>
+                <div class="table-responsive" style="zoom:90%">
                   <table class="table table-bordered table-striped table-hover" id="datatable">
                     <thead class="thead-dark">
                       <tr>
-                        <th>No SJ</th>
-                        <th>Tgl SJ</th>
-                        <th>Keterangan</th>
+                        <th>No Surat Jalan</th>
+                        <th>Angkutan</th>
+                        <th>Tgl Surat Jalan</th>
+                        <th>Status</th>
                         <th>Aksi</th>
                       </tr>
                     </thead>
@@ -70,12 +75,27 @@
                       ?>
                         <tr>
                           <td><?php echo $d['no_kontrabon']; ?></td>
-                          <td><?php echo DateToIndo2($d['tgl_kontrabon']); ?></td>
                           <td><?php echo $d['keterangan']; ?></td>
-                          <td width="200px">
-                            <a href="#" data-href="<?php echo base_url(); ?>angkutan/hapuskontrabon/<?php echo $no_kontrabon; ?>" class="btn btn-sm btn-danger hapus">Hapus</a>
-                            <a href="<?php echo base_url(); ?>angkutan/detailkontrabon/<?php echo $no_kontrabon; ?>" class="btn btn-sm btn-primary">Detail</a>
-                            <a href="<?php echo base_url(); ?>angkutan/detailkontrabon/<?php echo $no_kontrabon; ?>" class="btn btn-sm btn-success">Proses</a>
+                          <td><?php echo DateToIndo2($d['tgl_kontrabon']); ?></td>
+                          <td>
+                            <?php if($d['status'] != NULL){ ?>
+                              <a href="#" class="btn btn-sm btn-success">Sudah Diproses</a>
+                            <?php }else{ ?>
+                              <a href="#" class="btn btn-sm btn-warning">Belum Diproses</a>
+                            <?php } ?>
+                          </td>
+                          <td width="150px">
+                            <?php if ($level == "Administrator" || $level == "keuangan" && $username != 'ika') { ?>
+                              <?php if ($d['status'] == NULL) { ?>
+                                <a href="#" data-href="<?php echo base_url(); ?>angkutan/hapuskontrabon/<?php echo $no_kontrabon; ?>" class="btn btn-sm btn-danger hapus">Hapus</a>
+                              <?php } ?>
+                              <a href="<?php echo base_url(); ?>angkutan/detailkontrabon/<?php echo $no_kontrabon; ?>" class="btn btn-sm btn-primary">Detail</a>
+                            <?php } ?>
+                            <?php if ($level == "Administrator" || $username == "ika") { ?>
+                              <?php if ($d['status'] == NULL) { ?>
+                                <a href="<?php echo base_url(); ?>angkutan/detailkontrabon/<?php echo $no_kontrabon; ?>" class="btn btn-sm btn-success">Proses</a>
+                              <?php } ?>
+                            <?php } ?>
                           </td>
                         </tr>
                       <?php
@@ -93,16 +113,9 @@
           </div>
         </div>
       </div>
-      <?php if ($level == "Administrator" || $level == "admin gudang pusat") { ?>
-        <div class="col-md-2">
-          <?php $this->load->view('menu/menu_gudangpusat_administrator.php'); ?>
-        </div>
-      <?php } else if ($level == "Administrator" || $level == "keuangan") { ?>
-        <div class="col-md-2">
-          <?php $this->load->view('menu/menu_keuangan_administrator.php'); ?>
-        </div>
-      <?php } ?>
-      
+      <div class="col-md-2">
+        <?php $this->load->view('menu/menu_keuangan_administrator.php'); ?>
+      </div>
     </div>
   </div>
 </div>

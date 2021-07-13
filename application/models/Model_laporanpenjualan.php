@@ -3539,7 +3539,7 @@ GROUP BY
 
 	function harganet($dari, $sampai)
 	{
-		$query = "SELECT p.no_fak_penj,
+		$query = "SELECT
 		SUM(bruto_AB) as bruto_AB,SUM(bruto_AR) as bruto_AR,SUM(bruto_AS) as bruto_AS,SUM(bruto_BB) as bruto_BB,SUM(bruto_BBP) as bruto_BBP,SUM(bruto_CG) as bruto_CG,SUM(bruto_CGG) as bruto_CGG,SUM(bruto_CG5) as bruto_CG5,SUM(bruto_DEP) as bruto_DEP,SUM(bruto_DS) as bruto_DS,SUM(bruto_SP) as bruto_SP,
 		
 		SUM(qty_AB) as qty_AB,SUM(qty_AR) as qty_AR,SUM(qty_AS) as qty_AS,SUM(qty_BB) as qty_BB,SUM(qty_BBP) as qty_BBP,SUM(qty_CG) as qty_CG,SUM(qty_CGG) as qty_CGG,SUM(qty_CG5) as qty_CG5,SUM(qty_DEP) as qty_DEP,SUM(qty_DS) as qty_DS,SUM(qty_SP) as qty_SP,

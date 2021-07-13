@@ -191,8 +191,22 @@ if ($level == "Administrator") {
         <a href="#" class="list-group-item list-group-item-action active">
           Angkutan
         </a>
-        <a href="<?php echo base_url(); ?>angkutan" class="list-group-item list-group-item-action">
-          <i class="fa fa-book mr-2"></i>Angkutan
+        <a href="<?php echo base_url(); ?>angkutan/kontrabon" class="list-group-item list-group-item-action">
+          <i class="fa fa-book mr-2"></i>Kontrabon Angkutan
+        </a>
+      </div>
+    </div>
+  <?php } ?>
+  <?php
+  if ($this->session->userdata('username') == "ika") {
+  ?>
+    <div class="card">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+          Angkutan
+        </a>
+        <a href="<?php echo base_url(); ?>angkutan/kontrabon" class="list-group-item list-group-item-action">
+          <i class="fa fa-book mr-2"></i>Kontrabon Angkutan
         </a>
       </div>
     </div>

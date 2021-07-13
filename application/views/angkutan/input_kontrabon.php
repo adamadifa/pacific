@@ -43,7 +43,7 @@
                       <span class="input-icon-addon">
                         <i class="fa fa-calendar-o"></i>
                       </span>
-                      <input type="text" value="" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" data-error=".errorTxt19" />
+                      <input type="text" value="" id="keterangan" name="keterangan" class="form-control" placeholder="Angkutan" data-error=".errorTxt19" />
                     </div>
                   </div>
                 </div>
@@ -149,7 +149,7 @@
           </div>
         </div>
         <div class="col-md-2">
-          <?php $this->load->view('menu/menu_maintenance_administrator.php'); ?>
+          <?php $this->load->view('menu/menu_keuangan_administrator.php'); ?>
         </div>
       </div>
     </div>
