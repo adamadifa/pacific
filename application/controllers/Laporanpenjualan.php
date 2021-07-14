@@ -1399,6 +1399,7 @@ class Laporanpenjualan extends CI_Controller
     $data['dari'] = $dari;
     $data['sampai'] = $sampai;
     $data['harganet'] = $this->Model_laporanpenjualan->harganet($dari, $sampai)->row_array();
+    $data['retur'] = $this->Model_laporanpenjualan->netreturproduk($dari, $sampai)->row_array();
     $data['produk'] = $this->Model_laporanpenjualan->getProduct()->result();
     $this->load->view('penjualan/laporan/cetak_harganet', $data);
   }
