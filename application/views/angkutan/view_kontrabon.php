@@ -20,7 +20,7 @@
           <div class="col-md-12 col-xs-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">DATA ANGKUTAN</h4>
+                <h4 class="card-title">DATA KONTRABON</h4>
 
               </div>
               <div class="card-body">
@@ -53,7 +53,7 @@
                     <button type="submit" name="submit" class="btn btn-primary btn-block mr-2" value="1"><i class="fa fa-search mr-2"></i>CARI</button>
                   </div>
                 </form>
-                <?php if ($level == "Administrator" || $level == "keuangan" && $username != 'ika') { ?>
+                <?php if ($level == "Administrator" && $username != 'ika' || $username == "aii" || $username == "siskapusat") { ?>
                   <a href="<?php echo base_url();?>angkutan/input_kontrabon" class="btn btn-danger mb-3">Tambah Data</a>
                 <?php } ?>
                 <div class="table-responsive" style="zoom:90%">
@@ -84,8 +84,8 @@
                               <a href="#" class="btn btn-sm btn-warning">Belum Diproses</a>
                             <?php } ?>
                           </td>
-                          <td width="150px">
-                            <?php if ($level == "Administrator" || $level == "keuangan" && $username != 'ika') { ?>
+                          <td width="250px">
+                            <?php if ($level == "Administrator" && $username != 'ika' || $username == "aii" || $username == "siskapusat") { ?>
                               <?php if ($d['status'] == NULL) { ?>
                                 <a href="#" data-href="<?php echo base_url(); ?>angkutan/hapuskontrabon/<?php echo $no_kontrabon; ?>" class="btn btn-sm btn-danger hapus">Hapus</a>
                               <?php } ?>
@@ -114,7 +114,7 @@
         </div>
       </div>
       <div class="col-md-2">
-        <?php $this->load->view('menu/menu_keuangan_administrator.php'); ?>
+        <?php $this->load->view('menu/menu_gudangpusat_administrator.php'); ?>
       </div>
     </div>
   </div>

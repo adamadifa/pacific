@@ -4,7 +4,7 @@
       <span class="input-icon-addon">
         <i class="fa fa-barcode"></i>
       </span>
-      <input type="text" id="no_sj" name="no_sj" class="form-control" placeholder="No Surat Jalan" data-error=".errorTxt1" />
+      <input type="text" id="no_sj" name="no_sj" class="form-control" placeholder="No Bukti" data-error=".errorTxt1" />
       <input type="hidden" id="cekdetailsuratjalan" name="cekdetailsuratjalan">
     </div>
   </div>
@@ -13,7 +13,7 @@
       <span class="input-icon-addon">
         <i class="fa fa-barcode"></i>
       </span>
-      <input type="text" id="no_dok" name="no_dok" class="form-control" placeholder="No Dok. / No. Faktur" data-error=".errorTxt1" />
+      <input type="text" id="no_dok" name="no_dok" class="form-control" placeholder="No Dok. / No. SJ" data-error=".errorTxt1" />
     </div>
   </div>
   <div class="mb-3">
@@ -22,6 +22,92 @@
         <i class="fa fa-calendar-o"></i>
       </span>
       <input type="text" value="" id="tgl_sj" name="tgl_sj" class="datepicker form-control date" placeholder="Tanggal" data-error=".errorTxt19" />
+    </div>
+  </div>
+  <div class="form-group mb-3">
+    <div class="input-icon">
+      <!-- <input type="text" id="tujuan" name="tujuan" class="form-control" placeholder="Tujuan" data-error=".errorTxt19" /> -->
+      <select class="form-select tujuan selectoption" id="tujuan" name="tujuan" data-error=".errorTxt1">
+        <option value="">--PILIH TUJUAN--</option>
+        <option value="BANDUNG" data-tarif="1050000">BANDUNG</option>
+        <option value="PURWOKERTO" data-tarif="1225000">PURWOKERTO</option>
+        <option value="BOGOR" data-tarif="1575000">BOGOR</option>
+        <option value="SUKABUMI" data-tarif="1575000">SUKABUMI</option>
+        <option value="TEGAL" data-tarif="1700000">TEGAL</option>
+        <option value="PEKALONGAN" data-tarif="1900000">PEKALONGAN</option>
+        <option value="SURABAYA COL DESEL" data-tarif="2500000">SURABAYA COL DESEL</option>
+        <option value="SURABAYA TORONTON" data-tarif="4750000">SURABAYA TORONTON</option>
+        <option value="CIREBON" data-tarif="1300000">CIREBON</option>
+        <option value="GARUT" data-tarif="800000">GARUT</option>
+        <option value="DEMAK" data-tarif="2700000">DEMAK</option>
+        <option value="AMBON" data-tarif="2500000">AMBON</option>
+        <option value="TANGERANG" data-tarif="1875000">TANGERANG</option>
+        <option value="KLATEN" data-tarif="2700000">KLATEN</option>
+        <option value="KALIPUCANG" data-tarif="1000000">KALIPUCANG</option>
+        <option value="TASIKMALAYA" data-tarif="0">TASIKMALAYA</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group mb-3">
+    <div class="input-icon">
+      <span class="input-icon-addon">
+        <i class="fa fa-barcode"></i>
+      </span>
+      <input type="text" id="nopol" name="nopol" class="form-control" placeholder="No Polisi" data-error=".errorTxt19" />
+    </div>
+  </div>
+  <div class="form-group mb-3">
+    <div class="input-icon">
+      <span class="input-icon-addon">
+        <i class="fa fa-money"></i>
+      </span>
+      <input type="text" id="tarif" name="tarif" style="text-align:right" class="form-control" placeholder="Tarif" data-error=".errorTxt19" />
+    </div>
+  </div>
+  <div class="form-group mb-3">
+    <div class="input-icon">
+      <span class="input-icon-addon">
+        <i class="fa fa-money"></i>
+      </span>
+      <input type="text" id="tepung" name="tepung" style="text-align:right" class="form-control" placeholder="Tepung" data-error=".errorTxt19" />
+    </div>
+  </div>
+  <div class="form-group mb-3">
+    <div class="input-icon">
+      <span class="input-icon-addon">
+        <i class="fa fa-money"></i>
+      </span>
+      <input type="text" id="bs" name="bs" style="text-align:right" class="form-control" placeholder="BS" data-error=".errorTxt19" />
+    </div>
+  </div>
+  <div class="form-group mb-3">
+    <select class="form-control selectoption" id="angkutan" name="angkutan">
+      <option value="">--PILIH ANGKUTAN--</option>
+      <option value="KS">ANGKUTAN KS</option>
+      <option value="KWN SUAKA">ANGKUTAN KAWAN SWAKA</option>
+      <option value="AS">ANGKUTAN AS</option>
+      <option value="SD">ANGKUTAN SD</option>
+      <option value="WAWAN">ANGKUTAN WAWAN</option>
+      <option value="RTP">ANGKUTAN RTP</option>
+      <option value="KWN GOBRAS">ANGKUTAN KWN GOBRAS</option>
+      <option value="LH">ANGKUTAN LH</option>
+      <option value="TSN">ANGKUTAN TSN</option>
+      <option value="MANDIRI">ANGKUTAN MANDIRI</option>
+      <option value="GS">ANGKUTAN GS</option>
+      <option value="CV TRESNO">ANGKUTAN CV TRESNO</option>
+      <option value="KS">ANGKUTAN KS</option>
+      <option value="MSA">ANGKUTAN MSA</option>
+      <option value="MITRA KOMANDO">ANGKUTAN MITRA KOMANDO</option>
+      <option value="ARP MANDIRI">ANGKUTAN ARP MANDIRI</option>
+      <option value="CAHAYA BIRU">ANGKUTAN CAHAYA BIRU</option>
+    </select>
+  </div>
+  <div class="form-group mb-3" hidden>
+    <div class="input-icon">
+      <span class="input-icon-addon">
+        <i class="fa fa-book"></i>
+      </span>
+      <input type="text" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" data-error=".errorTxt19" />
     </div>
   </div>
   <table class="table table-hover table-striped">
@@ -128,9 +214,18 @@
 </form>
 <script>
   flatpickr(document.getElementById('tgl_sj'), {});
+  $('.selectoption').selectize({});
 </script>
 <script type="text/javascript">
   $(function() {
+    
+    function formatAngka(angka) {
+      if (typeof(angka) != 'string') angka = angka.toString();
+      var reg = new RegExp('([0-9]+)([0-9]{3})');
+      while (reg.test(angka)) angka = angka.replace(reg, '$1,$2');
+      return angka;
+    }
+    
     function loaddetailpp() {
       var no_permintaan = $("#nopermintaan").val();
       $("#loaddetailpermintaankirim").load('<?php echo base_url(); ?>/oman/detailpp_gj/' + no_permintaan);
@@ -171,6 +266,8 @@
         }
       });
     });
+
+
     $("#tambahbarang").click(function(e) {
       e.preventDefault();
       var no_permintaan = $("#nopermintaan").val();
@@ -230,6 +327,7 @@
         });
       }
     });
+
     $(".formValidate").submit(function() {
       var no_sj = $("#no_sj").val();
       var no_dok = $("#no_dok").val();

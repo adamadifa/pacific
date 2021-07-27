@@ -180,6 +180,28 @@ class Angkutan extends CI_Controller
     $this->load->view('angkutan/view_detail_kontrabon',$data);
   }
 
+  function angkutan(){
+
+    $this->template->load('template/template', 'angkutan/angkutan.php');
+  }
+
+  function cetak_angkutan(){
+
+    $dari              = $this->input->post('dari');
+    $sampai            = $this->input->post('sampai');
+    $angkutan          = $this->input->post('angkutan');
+    $data['sampai']    = $sampai;
+    $data['dari']      = $dari;
+    $data['angkutan']  = $angkutan;
+    $data['data']      = $this->Model_angkutan->listAngkutan($dari,$sampai,$angkutan)->result();
+    if(isset($_POST['export'])){
+      header("Content-type: application/vnd-ms-excel");
+
+      header("Content-Disposition: attachment; filename=Laporan Cetak Angkutan.xls");
+    }
+    $this->load->view('angkutan/cetak_angkutan',$data);
+  }
+
   function getDetailAngkutanCount()
   {
     $this->Model_angkutan->getDetailAngkutanCount()->num_rows();

@@ -131,6 +131,7 @@
                             <th>No SJ</th>
                             <th>Tgl Surat Jalan</th>
                             <th>Tarif</th>
+                            <th>Tarif</th>
                             <th>BS</th>
                             <th>Tepung</th>
                             <th>Total</th>
@@ -138,18 +139,25 @@
                         </thead>
                         <tbody>
                           <?php 
+                          $total = 0;
                           foreach ($detail as $key => $d) { 
-                            $tgl
+                            $total += ($d->tarif+$d->bs+$d->tepung);
+                            
                             ?>
                             <tr>
                               <td><?php echo $d->no_surat_jalan;?></td>
-                              <td><?php echo $d->tgl_mutasi_gudang;?></td>
+                              <td><?php echo DateToIndo2($d->tgl_mutasi_gudang);?></td>
+                              <td><?php echo $d->nopol;?></td>
                               <td align="right"><?php echo number_format($d->tarif);?></td>
                               <td align="right"><?php echo number_format($d->bs);?></td>
                               <td align="right"><?php echo number_format($d->tepung);?></td>
                               <td align="right"><?php echo number_format($d->tarif+$d->bs+$d->tepung);?></td>
                             </tr>
                           <?php } ?>
+                          <tr>
+                            <td colspan="6">Grand Total</td>
+                            <td style="text-align:right"><?php echo number_format($total);?></td>
+                          </tr>
                         </tbody>
                       </table>
                     </div>

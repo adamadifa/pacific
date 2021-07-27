@@ -194,6 +194,9 @@ if ($level == "Administrator") {
         <a href="<?php echo base_url(); ?>angkutan/kontrabon" class="list-group-item list-group-item-action">
           <i class="fa fa-book mr-2"></i>Kontrabon Angkutan
         </a>
+        <a href="<?php echo base_url(); ?>angkutan/angkutan" class="list-group-item list-group-item-action">
+          <i class="fa fa-book mr-2"></i>Laporan Angkutan
+        </a>
       </div>
     </div>
   <?php } ?>
@@ -207,6 +210,9 @@ if ($level == "Administrator") {
         </a>
         <a href="<?php echo base_url(); ?>angkutan/kontrabon" class="list-group-item list-group-item-action">
           <i class="fa fa-book mr-2"></i>Kontrabon Angkutan
+        </a>
+        <a href="<?php echo base_url(); ?>angkutan/angkutan" class="list-group-item list-group-item-action">
+          <i class="fa fa-book mr-2"></i>Laporan Angkutan
         </a>
       </div>
     </div>
@@ -247,6 +253,9 @@ if ($level == "Administrator") {
         <i class="fa fa-file-pdf-o mr-2"></i>Saldo Kas Besar
       </a>
       <a href="<?php echo base_url(); ?>laporanpenjualan/penjualankasbesar" class="list-group-item list-group-item-action">
+        <i class="fa fa-file-pdf-o mr-2"></i>Laporan Penjualan Kas Besar
+      </a>
+      <a href="<?php echo base_url(); ?>laporanpenjualan/penjualan" class="list-group-item list-group-item-action">
         <i class="fa fa-file-pdf-o mr-2"></i>Laporan Penjualan
       </a>
       <a href="<?php echo base_url(); ?>laporanpenjualan/uanglogam" class="list-group-item list-group-item-action">

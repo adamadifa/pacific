@@ -4,6 +4,7 @@
       <th>No</th>
       <th>No SJ</th>
       <th>Tgl SJ</th>
+      <th>Angkutan</th>
       <th>Tarif</th>
       <th>BS</th>
       <th>Tepung</th>
@@ -50,6 +51,7 @@
       },
       {"data": "no_surat_jalan"},
       {"data": "tgl_mutasi_gudang"},
+      {"data": "angkutan"},
       {"data": "tarif"},
       {"data": "bs"},
       {"data": "tepung"},

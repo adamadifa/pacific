@@ -150,13 +150,13 @@
 											<?php if (empty($d['kode_klaim']) and $d['keterangan'] != 'Penerimaan Kas Kecil') {
 												if (empty($d['no_ref'])) {
 											?>
-													<a href="#" data-status="0" data-id="<?php echo $d['id'] ?>" data-kodecr="<?php echo $d['kode_cr']; ?>" class="btn btn-success btn-sm edit"><i class="fa fa-pencil"></i></a>
+													<a href="#" data-status="0" data-id="<?php echo $d['id'] ?>" data-kodecr="<?php echo $d['kk_cr']; ?>" class="btn btn-success btn-sm edit"><i class="fa fa-pencil"></i></a>
 													<a href="#" data-href="<?php echo base_url(); ?>kaskecil/hapus_kaskkecil/<?php echo $d['id']; ?>/<?php echo $d['kode_cr']; ?>" class="btn btn-danger btn-sm hapuskk"><i class="fa fa-trash-o"></i></a>
 												<?php
 												}
 											} else {
 												?>
-												<a href="#" data-status="1" data-id="<?php echo $d['id'] ?>" data-kodecr="<?php echo $d['kode_cr']; ?>" class="btn btn-success btn-sm edit"><i class="fa fa-pencil"></i></a>
+												<a href="#" data-status="1" data-id="<?php echo $d['id'] ?>" data-kodecr="<?php echo $d['kk_cr']; ?>" class="btn btn-success btn-sm edit"><i class="fa fa-pencil"></i></a>
 											<?php } ?>
 										</td>
 									</tr>

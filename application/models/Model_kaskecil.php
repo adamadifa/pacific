@@ -24,7 +24,7 @@ class Model_kaskecil extends CI_Model
       $this->db->where('kaskecil_detail.kode_akun', $kodeakun);
     }
     $this->db->select('id,nobukti,tgl_kaskecil,kaskecil_detail.keterangan,kaskecil_detail.jumlah,kaskecil_detail.kode_akun,status_dk,nama_akun,kaskecil_detail.kode_klaim,klaim.keterangan as ket_klaim,no_ref,
-    costratio_biaya.kode_cr,peruntukan');
+    costratio_biaya.kode_cr, kaskecil_detail.kode_cr as kk_cr,peruntukan');
     $this->db->from('kaskecil_detail');
     $this->db->join('coa', 'kaskecil_detail.kode_akun=coa.kode_akun');
     $this->db->join('klaim', 'kaskecil_detail.kode_klaim=klaim.kode_klaim', 'left');
@@ -656,6 +656,8 @@ class Model_kaskecil extends CI_Model
           $this->db->update('costratio_biaya', $datacr, array('kode_cr' => $kodecr));
         }
       }
+      // echo "cek1";
+      // die;
     } else {
       $data = array(
         'tgl_kaskecil' => $tanggal,
@@ -672,6 +674,8 @@ class Model_kaskecil extends CI_Model
       if ($update) {
         $this->db->delete('costratio_biaya', array('kode_cr' => $kodecr));
       }
+      // echo "cek2";
+      // die;
     }
     $this->session->set_flashdata(
       'msg',
@@ -702,11 +706,11 @@ class Model_kaskecil extends CI_Model
     // }else{
     //   $status_dk = 'D';
     // }
-    //$tanggal      = $this->input->post('tanggal');
+    $tanggal      = $this->input->post('tanggaltransaksi');
     //$nobukti      = $this->input->post('nobukti');
     $id           = $this->input->post('id');
-    //$keterangan   = $this->input->post('keterangan');
-    //$jumlah       = str_replace(".", "", $this->input->post('jumlah'));
+    $keterangan   = $this->input->post('keterangan');
+    $jumlah       = str_replace(".", "", $this->input->post('jumlah'));
     $akun         = $this->input->post('kodeakun');
     $kodecr       = $this->input->post('kodecr');
     $peruntukan   = $this->input->post('peruntukan');
@@ -717,16 +721,33 @@ class Model_kaskecil extends CI_Model
       );
       $update = $this->db->update('kaskecil_detail', $data, array('id' => $id));
     } else {
-      $datacr = [
-        'kode_akun' => $akun
-      ];
+     
       $data = array(
         'kode_akun'    => $akun,
         'kode_cr'      => $kodecr,
         'peruntukan'   => $peruntukan
       );
       $update = $this->db->update('kaskecil_detail', $data, array('id' => $id));
-      $this->db->update('costratio_biaya', $datacr, array('kode_cr' => $kodecr));
+      $cekcb = $this->db->get_where('costratio_biaya',array('kode_cr'=>$kodecr))->num_rows();
+      
+      if(empty($cekcb)){
+        $datacr = [
+          'kode_cr' => $kodecr,
+          'tgl_transaksi' => $tanggal,
+          'kode_akun' => $akun,
+          'keterangan' => $keterangan,
+          'kode_cabang' => $cabang,
+          'id_sumber_costratio' => 1,
+          'jumlah' => $jumlah
+        ];
+        $this->db->insert('costratio_biaya', $datacr);
+      }else{
+        $datacr = [
+          'kode_akun' => $akun
+        ];
+        $this->db->update('costratio_biaya', $datacr, array('kode_cr' => $kodecr));
+      }
+     
     }
     $this->session->set_flashdata(
       'msg',

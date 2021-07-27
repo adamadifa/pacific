@@ -1905,7 +1905,7 @@ GROUP BY
 			. $cabang
 			. $salesman
 			. "
-								ORDER BY karyawan.id_karyawan,karyawan.kode_cabang
+								ORDER BY karyawan.kode_cabang,karyawan.id_karyawan
 							";
 		return $this->db->query($query);
 	}
@@ -2217,7 +2217,8 @@ GROUP BY
 			. $cabang
 			. $salesman
 			. "
-		GROUP BY barang.nama_barang,barang.kode_produk,kategori_jenisproduk";
+		GROUP BY barang.nama_barang,barang.kode_produk,kategori_jenisproduk
+		ORDER BY kategori_jenisproduk";
 		return $this->db->query($query);
 	}
 

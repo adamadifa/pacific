@@ -416,6 +416,8 @@
       });
     }
 
+    loadpelanggan();
+
     $("#salesmanretur").change(function() {
       var salesman = $("#salesmanretur").val();
       $.ajax({

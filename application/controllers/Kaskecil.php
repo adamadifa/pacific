@@ -275,7 +275,6 @@ class Kaskecil extends CI_Controller
   {
     $status = $this->input->post('status');
     if ($status == 0) {
-
       $this->Model_kaskecil->update_kaskecil();
     } else {
       $this->Model_kaskecil->update_kaskecilakun();

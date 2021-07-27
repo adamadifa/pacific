@@ -1401,6 +1401,13 @@ class Laporanpenjualan extends CI_Controller
     $data['harganet'] = $this->Model_laporanpenjualan->harganet($dari, $sampai)->row_array();
     $data['retur'] = $this->Model_laporanpenjualan->netreturproduk($dari, $sampai)->row_array();
     $data['produk'] = $this->Model_laporanpenjualan->getProduct()->result();
+    if (isset($_POST['export'])) {
+      // Fungsi header dengan mengirimkan raw data excel
+      header("Content-type: application/vnd-ms-excel");
+
+      // Mendefinisikan nama file ekspor "hasil-export.xls"
+      header("Content-Disposition: attachment; filename=Harga NET.xls");
+    }
     $this->load->view('penjualan/laporan/cetak_harganet', $data);
   }
 }

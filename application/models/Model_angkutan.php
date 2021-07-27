@@ -141,6 +141,17 @@ class Model_angkutan extends CI_Model
     $this->db->insert('detail_kontrabon_angkutan',$data);
   }
 
+  public function listAngkutan($dari="",$sampai="",$angkutan){
+
+    if($angkutan != ''){
+      $angkutan = "AND angkutan = '".$angkutan."' ";
+    }
+    return $this->db->query("SELECT * FROM angkutan
+    INNER JOIN mutasi_gudang_jadi ON mutasi_gudang_jadi.no_dok=angkutan.no_surat_jalan
+    WHERE tgl_mutasi_gudang BETWEEN '$dari' AND '$sampai' "
+    .$angkutan
+    ." ORDER BY tgl_mutasi_gudang ");
+  }
  
   public function insert_ledger(){
 
@@ -187,7 +198,7 @@ class Model_angkutan extends CI_Model
       $this->db->insert('ledger_bank',$data);
     }else if($jmlhhutang['jumlah'] != ''){
       $data = array(
-        'no_bukti'            => 'TEST',
+        'no_bukti'            => $nobukti,
         'tgl_ledger'          => $tgl_ledger,
         'no_ref'              => $no_ref,
         'bank'                => $bank,
@@ -199,7 +210,6 @@ class Model_angkutan extends CI_Model
         'status_dk'           => 'D',
         'peruntukan'          => 'MP',
         'ket_peruntukan'      => 'PST',
-
       );
       $this->db->insert('ledger_bank',$data);
     }
@@ -245,15 +255,12 @@ class Model_angkutan extends CI_Model
 
 
   public function hapusangkutan(){
-
-
     $no_surat_jalan = $this->uri->segment(3);
     $this->db->query("DELETE FROM angkutan WHERE no_surat_jalan = '$no_surat_jalan' ");
     redirect('angkutan');
   }
   
   public function hapuskontrabon(){
-
 
     $no_kontrabon = str_replace(".","/",$this->uri->segment(3));
     $this->db->query("DELETE FROM kontrabon_angkutan WHERE no_kontrabon = '$no_kontrabon' ");
@@ -307,7 +314,7 @@ class Model_angkutan extends CI_Model
     $no_surat_jalan = '';
     $data =  $this->db->query("SELECT no_surat_jalan FROM detail_kontrabon_angkutan")->result();
   
-    $this->datatables->select('no_surat_jalan,tgl_mutasi_gudang,FORMAT(tarif,"c") AS tarif,FORMAT(bs,"c") AS bs,FORMAT(tepung,"c") AS tepung');
+    $this->datatables->select('no_surat_jalan,tgl_mutasi_gudang,FORMAT(tarif,"c") AS tarif,FORMAT(bs,"c") AS bs,FORMAT(tepung,"c") AS tepung,angkutan.angkutan');
     $this->datatables->from('angkutan');
     $this->datatables->join('mutasi_gudang_jadi', 'angkutan.no_surat_jalan = mutasi_gudang_jadi.no_dok','left');
     $this->datatables->where('angkutan.tgl_kontrabon', NULL);
@@ -316,7 +323,7 @@ class Model_angkutan extends CI_Model
         $this->db->where_not_in('angkutan.no_surat_jalan',$d->no_surat_jalan)
       );
     }
-    $this->datatables->add_column('view', '<a href="#"  data-toggle="modal" data-sj="$1" data-tgl="$2"  data-tarif="$3"  data-bs="$4"  data-tepung="$5" class="btn btn-danger btn-sm waves-effect pilih">Pilih</a>', 'no_surat_jalan,tgl_mutasi_gudang,tarif,bs,tepung');
+    $this->datatables->add_column('view', '<a href="#"  data-toggle="modal" data-sj="$1" data-tgl="$2"  data-tarif="$3"  data-bs="$4"  data-tepung="$5" data-angkutan="$" class="btn btn-danger btn-sm waves-effect pilih">Pilih</a>', 'no_surat_jalan,tgl_mutasi_gudang,tarif,bs,tepung,angkutan.angkutan');
     return $this->datatables->generate();
   }
   

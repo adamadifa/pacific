@@ -58,7 +58,6 @@ if ($level == "Administrator" || $level == "admin gudang pusat") {
 
   </div>
 
-  
   <div class="card">
     <div class="list-group">
       <a href="#" class="list-group-item list-group-item-action active">
@@ -67,8 +66,13 @@ if ($level == "Administrator" || $level == "admin gudang pusat") {
       <a href="<?php echo base_url(); ?>angkutan" class="list-group-item list-group-item-action">
         <i class="fa  fa-file-text mr-2"></i>Angkutan
       </a>
+      <a href="<?php echo base_url(); ?>angkutan/kontrabon" class="list-group-item list-group-item-action">
+        <i class="fa  fa-file-text mr-2"></i>Kontrabon Angkutan
+      </a>
+      <a href="<?php echo base_url(); ?>angkutan/angkutan" class="list-group-item list-group-item-action">
+        <i class="fa fa-book mr-2"></i>Laporan Angkutan
+      </a>
     </div>
-
   </div>
 
   <div class="card">

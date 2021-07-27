@@ -3012,6 +3012,8 @@ class Model_penjualan extends CI_Model
       $akun = "1-1486";
     } else if ($cabang == "PST") {
       $akun = "1-1489";
+    } else if ($cabang == "KLT") {
+      $akun = "1-1490";
     }
     $update      = $this->db->update('setoran_pusat', $data, array('kode_setoranpusat' => $kode_setoran));
     if ($update) {
@@ -4534,11 +4536,11 @@ class Model_penjualan extends CI_Model
           'uraian_analisa' => $komentar,
           'id_user' => $id_admin
         ];
-        $cekkomentar = $this->db->get_where('pengajuan_limitkredit_analisa', array('no_pengajuan' => $no_pengajuan, 'id_user' => $id_admin))->num_rows();
+        $cekkomentar = $this->db->get_where('pengajuan_limitkredit_analisa_v3', array('no_pengajuan' => $no_pengajuan, 'id_user' => $id_admin))->num_rows();
         if ($cekkomentar >= 1) {
-          $updatekomentar = $this->db->update('pengajuan_limitkredit_analisa', $datakomentar, array('no_pengajuan' => $no_pengajuan, 'id_user' => $id_admin));
+          $updatekomentar = $this->db->update('pengajuan_limitkredit_analisa_v3', $datakomentar, array('no_pengajuan' => $no_pengajuan, 'id_user' => $id_admin));
         } else {
-          $updatekomentar = $this->db->insert('pengajuan_limitkredit_analisa', $datakomentar);
+          $updatekomentar = $this->db->insert('pengajuan_limitkredit_analisa_v3', $datakomentar);
         }
         if ($updatekomentar) {
           $this->session->set_flashdata(

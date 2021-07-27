@@ -377,6 +377,8 @@
       });
     }
 
+    loadpelanggan();
+l
     $("#salesman2").change(function() {
       var salesman = $("#salesman2").val();
       $.ajax({

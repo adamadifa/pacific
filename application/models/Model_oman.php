@@ -694,8 +694,15 @@ class Model_oman extends CI_Model
 		$no_sj 						= $this->input->post('no_sj');
 		$no_dok 					= $this->input->post('no_dok');
 		$tgl_sj 					= $this->input->post('tgl_sj');
-		$no_permintaan 		= $this->input->post('nopermintaan');
-		$id_admin 				= $this->session->userdata('id_user');
+		$angkutan       			= $this->input->post('angkutan');
+		$tujuan         			= $this->input->post('tujuan');
+		$nopol          			= $this->input->post('nopol');
+		$tarif          			= $this->input->post('tarif');
+		$bs             			= $this->input->post('bs');
+		$tepung         			= $this->input->post('tepung');
+		$keterangan     			= $this->input->post('keterangan');
+		$no_permintaan 				= $this->input->post('nopermintaan');
+		$id_admin 					= $this->session->userdata('id_user');
 		$detail 					= $this->db->get_where('detail_mutasi_gudang_temp', array('no_permintaan_pengiriman' => $no_permintaan))->result();
 		$data_sj 					= array(
 			'no_mutasi_gudang' 						=> $no_sj,
@@ -708,7 +715,9 @@ class Model_oman extends CI_Model
 			'id_admin'										=> $id_admin
 
 		);
+
 		$sj 							= $this->db->insert('mutasi_gudang_jadi', $data_sj);
+		
 
 		if ($sj) {
 			foreach ($detail as $d) {
@@ -722,6 +731,17 @@ class Model_oman extends CI_Model
 			$this->db->delete('detail_mutasi_gudang_temp', array('no_permintaan_pengiriman' => $no_permintaan));
 			$updatepengiriman = "UPDATE permintaan_pengiriman SET status ='1' WHERE no_permintaan_pengiriman='$no_permintaan'";
 			$this->db->query($updatepengiriman);
+			$data = array(
+				'no_surat_jalan'  => $no_dok,
+				'angkutan'        => $angkutan,
+				'tujuan'          => $tujuan,
+				'nopol'           => $nopol,
+				'tarif'           => $tarif,
+				'bs'              => $bs,
+				'tepung'          => $tepung,
+				'keterangan'      => $keterangan,
+			);
+			$this->db->insert('angkutan',$data);
 			$this->session->set_flashdata(
 				'msg',
 				'<div class="alert bg-green text-white alert-dismissible" role="alert">

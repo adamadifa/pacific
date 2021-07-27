@@ -79,6 +79,14 @@ function uang($nilai)
       } else {
         $datecreated = $date_created;
       }
+
+      if($l->peruntukan == "PC"){
+        $peruntukan = "PCF";
+      }else if($l->peruntukan == "MP"){
+        $peruntukan = "MP";
+      }else{
+        $peruntukan = "";
+      }
     ?>
       <tr>
         <td><?php echo $no; ?></td>
@@ -88,7 +96,7 @@ function uang($nilai)
         <td><?php echo $l->tgl_penerimaan; ?></td>
         <td><?php echo $l->pelanggan; ?></td>
         <td><?php echo $l->keterangan; ?></td>
-        <td><?php echo $l->ket_peruntukan; ?></td>
+        <td><?php echo $peruntukan." ".$l->ket_peruntukan; ?></td>
         <td><?php echo "'" . $l->kode_akun; ?></td>
         <td><?php echo $l->nama_akun; ?></td>
         <td align="right"><?php if ($debet != 0) {
