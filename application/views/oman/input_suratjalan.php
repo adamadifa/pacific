@@ -28,7 +28,7 @@
     <div class="input-icon">
       <!-- <input type="text" id="tujuan" name="tujuan" class="form-control" placeholder="Tujuan" data-error=".errorTxt19" /> -->
       <select class="form-select tujuan selectoption" id="tujuan" name="tujuan" data-error=".errorTxt1">
-        <option value="">--PILIH TUJUAN--</option>
+        <option value="" data-tarif="">--PILIH TUJUAN--</option>
         <option value="BANDUNG" data-tarif="1050000">BANDUNG</option>
         <option value="PURWOKERTO" data-tarif="1225000">PURWOKERTO</option>
         <option value="BOGOR" data-tarif="1575000">BOGOR</option>
@@ -366,5 +366,20 @@
 
       });
     });
+
+    $("#mySelectID option").each(function(){
+      var thisOptionValue=$(this).val();
+    });
+
+    $("#tujuan").change(function(e){
+      e.preventDefault();
+      // var tarif = $("#tujuan").val();
+      var option = $('option:selected', this).attr('data-tarif');
+      // var tujuan = $(this).find('option:selected'); 
+      // var tarif = tujuan.attr("data-tarif"); 
+      alert(option);
+      $("#tarif").val(tarif);
+    });
+
   });
 </script>
