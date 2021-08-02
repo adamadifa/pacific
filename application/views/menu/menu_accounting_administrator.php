@@ -20,6 +20,9 @@ if ($level == "Administrator" || $level == "manager accounting" || $level == "sp
       <a href="#" class="list-group-item list-group-item-action active">
         Gudang Jadi
       </a>
+      <a href="<?php echo base_url(); ?>penjualan/hpp" class="list-group-item list-group-item-action">
+        <i class="fa  fa-file-text mr-2"></i>Input HPP
+      </a>
       <a href="<?php echo base_url(); ?>laporangudangjadi/rekaphpp" class="list-group-item list-group-item-action">
         <i class="fa  fa-file-text mr-2"></i>Rekap Persediaan Barang Jadi
       </a>
