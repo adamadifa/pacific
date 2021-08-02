@@ -782,4 +782,65 @@ class Model_laporangudangjadi extends CI_Model
 		$this->db->from('detail_mutasi_gudang_cabang');
 		return $this->db->get();
 	}
+
+	function rekaphpp($bulan, $tahun)
+	{
+		$tgl1 = $tahun . "-" . $bulan . "-01";
+		$tgl2 = date('Y-m-t', strtotime($tgl1));
+		$query = "SELECT mb.kode_produk,nama_barang,mb.isipcsdus,
+		sa_tsm,
+		mutasi_tsm,
+		sa_bdg,
+		mutasi_bdg,
+		sa_bgr,
+		mutasi_bgr,
+		sa_skb,
+		mutasi_skb,
+		sa_tgl,
+		mutasi_tgl,
+		sa_pwt,
+		mutasi_pwt,
+		sa_sby,
+		mutasi_sby,
+		sa_smr,
+		mutasi_smr,
+		sa_klt,
+		mutasi_klt
+		FROM master_barang mb
+		LEFT JOIN (
+			SELECT sa_bj_detail.kode_produk,
+			SUM(IF(sa_bj.kode_cabang ='TSM',jumlah,0)) as sa_tsm,
+			SUM(IF(sa_bj.kode_cabang ='BDG',jumlah,0)) as sa_bdg,
+			SUM(IF(sa_bj.kode_cabang ='SKB',jumlah,0)) as sa_skb,
+			SUM(IF(sa_bj.kode_cabang ='BGR',jumlah,0)) as sa_bgr,
+			SUM(IF(sa_bj.kode_cabang ='TGL',jumlah,0)) as sa_tgl,
+			SUM(IF(sa_bj.kode_cabang ='PWT',jumlah,0)) as sa_pwt,
+			SUM(IF(sa_bj.kode_cabang ='SBY',jumlah,0)) as sa_sby,
+			SUM(IF(sa_bj.kode_cabang ='SMR',jumlah,0)) as sa_smr,
+			SUM(IF(sa_bj.kode_cabang ='KLT',jumlah,0)) as sa_klt
+			FROM saldoawal_bj_detail sa_bj_detail
+			INNER JOIN saldoawal_bj sa_bj ON sa_bj_detail.kode_saldoawal = sa_bj.kode_saldoawal
+			WHERE bulan = '$bulan' AND tahun='$tahun' AND status='GS'
+			GROUP BY sa_bj_detail.kode_produk
+		) sa ON (mb.kode_produk = sa.kode_produk) 
+		
+		LEFT JOIN (
+			SELECT dm.kode_produk,
+			(SUM(IF(mgc.kode_cabang='TSM' AND inout_good = 'IN',jumlah,0)) - SUM(IF(mgc.kode_cabang='TSM' AND inout_good = 'OUT',jumlah,0))) as mutasi_tsm,
+			(SUM(IF(mgc.kode_cabang='BDG' AND inout_good = 'IN',jumlah,0)) - SUM(IF(mgc.kode_cabang='BDG' AND inout_good = 'OUT',jumlah,0))) as mutasi_bdg,
+			(SUM(IF(mgc.kode_cabang='BGR' AND inout_good = 'IN',jumlah,0)) - SUM(IF(mgc.kode_cabang='BGR' AND inout_good = 'OUT',jumlah,0))) as mutasi_bgr,
+			(SUM(IF(mgc.kode_cabang='SKB' AND inout_good = 'IN',jumlah,0)) - SUM(IF(mgc.kode_cabang='SKB' AND inout_good = 'OUT',jumlah,0))) as mutasi_skb,
+			(SUM(IF(mgc.kode_cabang='TGL' AND inout_good = 'IN',jumlah,0)) - SUM(IF(mgc.kode_cabang='TGL' AND inout_good = 'OUT',jumlah,0))) as mutasi_tgl,
+			(SUM(IF(mgc.kode_cabang='PWT' AND inout_good = 'IN',jumlah,0)) - SUM(IF(mgc.kode_cabang='PWT' AND inout_good = 'OUT',jumlah,0))) as mutasi_pwt,
+			(SUM(IF(mgc.kode_cabang='SBY' AND inout_good = 'IN',jumlah,0)) - SUM(IF(mgc.kode_cabang='SBY' AND inout_good = 'OUT',jumlah,0))) as mutasi_sby,
+			(SUM(IF(mgc.kode_cabang='SMR' AND inout_good = 'IN',jumlah,0)) - SUM(IF(mgc.kode_cabang='SMR' AND inout_good = 'OUT',jumlah,0))) as mutasi_smr,
+			(SUM(IF(mgc.kode_cabang='KLT' AND inout_good = 'IN',jumlah,0)) - SUM(IF(mgc.kode_cabang='KLT' AND inout_good = 'OUT',jumlah,0))) as mutasi_klt
+			FROM detail_mutasi_gudang_cabang dm
+			INNER JOIN mutasi_gudang_cabang mgc ON dm.no_mutasi_gudang_cabang = mgc.no_mutasi_gudang_cabang
+			WHERE tgl_mutasi_gudang_cabang BETWEEN '$tgl1' AND '$tgl2'
+			GROUP BY dm.kode_produk
+			) mutasi ON (mb.kode_produk = mutasi.kode_produk)";
+
+		return $this->db->query($query);
+	}
 }
