@@ -787,7 +787,7 @@ class Model_laporangudangjadi extends CI_Model
 	{
 		$tgl1 = $tahun . "-" . $bulan . "-01";
 		$tgl2 = date('Y-m-t', strtotime($tgl1));
-		$query = "SELECT mb.kode_produk,nama_barang,mb.isipcsdus,
+		$query = "SELECT mb.kode_produk,nama_barang,mb.isipcsdus,harga_hpp,
 		sa_tsm,
 		mutasi_tsm,
 		sa_bdg,
@@ -839,7 +839,14 @@ class Model_laporangudangjadi extends CI_Model
 			INNER JOIN mutasi_gudang_cabang mgc ON dm.no_mutasi_gudang_cabang = mgc.no_mutasi_gudang_cabang
 			WHERE tgl_mutasi_gudang_cabang BETWEEN '$tgl1' AND '$tgl2'
 			GROUP BY dm.kode_produk
-			) mutasi ON (mb.kode_produk = mutasi.kode_produk)";
+			) mutasi ON (mb.kode_produk = mutasi.kode_produk)
+			
+		LEFT JOIN(
+			SELECT kode_produk,harga_hpp
+			FROM harga_hpp
+			WHERE bulan='$bulan' AND tahun='$tahun'
+		) hpp ON (mb.kode_produk = hpp.kode_produk)
+			";
 
 		return $this->db->query($query);
 	}
