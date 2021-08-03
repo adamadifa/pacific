@@ -90,6 +90,19 @@ class Model_pengajuan extends CI_Model
     WHERE id_user = '$id_user' ");
   }
 
+  public function getDataPengajuanBarang(){
+  
+    return $this->db->query("SELECT pengajuan_barang.nobukti,nama_lengkap,kode_cabang,tanggal,foto,kode_dept,keterangan,id_user 
+    FROM pengajuan_barang 
+    
+    LEFT JOIN(
+      SELECT detail_pengajuan_barang.nobukti,id_user FROM detail_pengajuan_barang WHERE id_user = '10'
+      GROUP BY detail_pengajuan_barang.nobukti,id_user
+    ) dpb ON (dpb.nobukti=pengajuan_barang.nobukti) 
+    
+    ");
+  }
+
   public function getDetailPengajuanBarang(){
     
     $nobukti       = $this->input->post('nobukti');

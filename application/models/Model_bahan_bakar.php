@@ -228,6 +228,7 @@ class Model_bahan_bakar extends CI_Model
         'nobukti_pemasukan' => $nobukti,
         'kode_barang'       => $d->kode_barang,
         'qty'               => $d->qty,
+        'penyesuaian'       => $d->penyesuaian,
         'keterangan'        => $d->keterangan
 
       );
@@ -273,12 +274,12 @@ class Model_bahan_bakar extends CI_Model
     $this->datatables->join('departemen', 'master_barang_pembelian.kode_dept = departemen.kode_dept');
     $this->datatables->where('master_barang_pembelian.kode_barang', 'GA-002');
     $this->datatables->or_where('master_barang_pembelian.kode_barang', 'GA-007');
+    $this->datatables->or_where('master_barang_pembelian.kode_barang', 'GA-588');
     $this->datatables->where('master_barang_pembelian.status', 'Aktif');
     $this->datatables->add_column('view', '<a href="#"  data-toggle="modal" data-kode="$1" data-nama="$2"  data-jenis="$3"  data-kategori="$4" class="btn btn-danger btn-sm waves-effect pilih">Pilih</a>', 'kode_barang,nama_barang,jenis_barang,kode_kategori');
     return $this->datatables->generate();
   }
 
-  
   function getBarang($kode_barang)
   {
 
@@ -429,7 +430,8 @@ class Model_bahan_bakar extends CI_Model
 
       'nobukti_pengeluaran'   => $nobukti,
       'tgl_pengeluaran'       => $tgl_pengeluaran,
-      'kode_dept'             => $kode_dept
+      'kode_dept'             => $kode_dept,
+      'status'                => 1
 
     );
 

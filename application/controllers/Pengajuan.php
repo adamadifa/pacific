@@ -8,71 +8,15 @@ class Pengajuan extends CI_Controller
     check_login();
     $this->load->model(array('Model_pengajuan', 'Model_pembelian','Model_cabang','Model_gudanglogistik'));
   }
-
-  function pengajuanBarang($rowno = 0)
-  {
-
-    $nobukti          = "";
-    $tanggal          = "";
-
-    if ($this->input->post('submit') != NULL) {
-      $nobukti                  = $this->input->post('nobukti');
-      $tanggal                  = $this->input->post('tanggal');
-      $data   = array(
-        'nobukti'               => $nobukti,
-        'tanggal'               => $tanggal,
-      );
-      $this->session->set_userdata($data);
-    } else {
-
-      if ($this->session->userdata('nobukti') != NULL) {
-        $nobukti = $this->session->userdata('nobukti');
-      }
-
-      if ($this->session->userdata('tanggal') != NULL) {
-        $tanggal = $this->session->userdata('tanggal');
-      }
-    }
-    $rowperpage = 10;
-    if ($rowno != 0) {
-      $rowno = ($rowno - 1) * $rowperpage;
-    }
-    $allcount                     = $this->Model_pengajuan->getrecordPengajuanCount($nobukti, $tanggal);
-    $users_record                 = $this->Model_pengajuan->getDataPengajuan($rowno, $rowperpage, $nobukti, $tanggal);
-    $config['base_url']           = base_url() . 'pengajuan/pengajuanBarang';
-    $config['use_page_numbers']   = TRUE;
-    $config['total_rows']         = $allcount;
-    $config['per_page']           = $rowperpage;
-    $config['first_link']         = 'First';
-    $config['last_link']          = 'Last';
-    $config['next_link']          = 'Next';
-    $config['prev_link']          = 'Prev';
-    $config['full_tag_open']      = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
-    $config['full_tag_close']     = '</ul></nav></div>';
-    $config['num_tag_open']       = '<li class="page-item"><span class="page-link">';
-    $config['num_tag_close']      = '</span></li>';
-    $config['cur_tag_open']       = '<li class="page-item active"><span class="page-link">';
-    $config['cur_tag_close']      = '<span class="sr-only">(current)</span></span></li>';
-    $config['next_tag_open']      = '<li class="page-item"><span class="page-link">';
-    $config['next_tagl_close']    = '<span aria-hidden="true">&raquo;</span></span></li>';
-    $config['prev_tag_open']      = '<li class="page-item"><span class="page-link">';
-    $config['prev_tagl_close']    = '</span>Next</li>';
-    $config['first_tag_open']     = '<li class="page-item"><span class="page-link">';
-    $config['first_tagl_close']   = '</span></li>';
-    $config['last_tag_open']      = '<li class="page-item"><span class="page-link">';
-    $config['last_tagl_close']    = '</span></li>';
-    $this->pagination->initialize($config);
-    $data['pagination']           = $this->pagination->create_links();
-    $data['result']               = $users_record;
-    $data['row']                  = $rowno;
-    $data['nobukti']              = $nobukti;
-    $data['tanggal']              = $tanggal;
-    $this->template->load('template/template', 'pengajuan/pengajuanBarang', $data);
-  }
-
   function inputPengajuanBarang()
   {
    $this->template->load('template/template', 'pengajuan/inputPengajuanBarang');
+  }
+
+  function pengajuanBarang()
+  {
+    $data['data']       = $this->Model_pengajuan->getDataPengajuanBarang();
+    $this->template->load('template/template', 'pengajuan/pengajuanBarang', $data);
   }
 
   function codeotomatis()

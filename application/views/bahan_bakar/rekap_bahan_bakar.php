@@ -44,7 +44,8 @@
                     <select class="form-control selectoption" id="kode_barang" name="kode_barang">
                       <option value="">Pilih Barang</option>
                       <option value="GA-002">Oli Bekas</option>
-                      <option value="GA-007">Bio Solar</option>
+                      <option value="GA-007">Bio Solar Unit 2</option>
+                      <option value="GA-588">Bio Solar Unit 1</option>
                     </select>
                   </div>
 

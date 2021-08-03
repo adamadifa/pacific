@@ -5,7 +5,7 @@
       <div class="row align-items-center">
         <div class="col-auto">
           <h2 class="page-title">
-            INPUT DATA PENGAJUAN BARANG
+            INPUT DATA PENGAJUAN KE-PUSAT
           </h2>
         </div>
       </div>
@@ -18,7 +18,7 @@
             <div class="col-md-5 col-xs-12">
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title">INPUT DATA PENGAJUAN BARANG</h4>
+                  <h4 class="card-title">INPUT DATA PENGAJUAN KE-PUSAT</h4>
                 </div>
                 <div class="card-body">
                   <div class="form-group mb-3">
@@ -69,16 +69,14 @@
                     <div class="col-md-10">
                       <div class="form-group">
                         <div class="input-icon">
-                          <span class="input-icon-addon">
-                            <i class="fa fa-file-o"></i>
-                          </span>
-                          <select class="form-control" name="approval" id="approval">
-                            <option value="Indra">Indra</option>
-                            <option value="Zen Zen">Zen Zen</option>
-                            <option value="Ridwan">Ridwan</option>
-                            <option value="Herdi">Herdi</option>
-                            <option value="Deden">Deden</option>
-                            <option value="Jemmi">Jemmi</option>
+                          <select class="form-select" name="approval" id="approval">
+                            <option value="">-- PILIH YANG AKAN MENYETUJUI --</option>
+                            <option value="244">Indra Triadi</option>
+                            <option value="73">Zenzen Zaenal Abidin</option>
+                            <option value="6">Ridwan Nugraha</option>
+                            <option value="5">Herdy Budiawan</option>
+                            <option value="10">Deden Moch Saman</option>
+                            <option value="11">Jemmy Feldiana</option>
                           </select>
                         </div>
                       </div>
