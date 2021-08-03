@@ -1083,4 +1083,39 @@ class Model_accounting extends CI_Model
     WHERE id_user = '$id_user'
     ");
   }
+
+  function inserthpp()
+  {
+    $bulan = $this->input->post('bulan');
+    $tahun = $this->input->post('tahun');
+    $kodeproduk = $this->input->post('kodeproduk');
+    $hargahpp = str_replace(".", "", $this->input->post('hargahpp'));
+
+    $cek = $this->db->get_where('harga_hpp', array('kode_produk' => $kodeproduk, 'bulan' => $bulan, 'tahun' => $tahun))->num_rows();
+    if ($cek > 0) {
+      echo "1";
+    } else {
+      $data = [
+        'kode_produk' => $kodeproduk,
+        'bulan' => $bulan,
+        'tahun' => $tahun,
+        'harga_hpp' => $hargahpp
+      ];
+      $simpan = $this->db->insert('harga_hpp', $data);
+      if ($simpan) {
+        echo "0";
+      }
+    }
+  }
+
+  function getHpp($bulan, $tahun)
+  {
+    $this->db->join('master_barang', 'harga_hpp.kode_produk = master_barang.kode_produk');
+    return $this->db->get_where('harga_hpp', array('bulan' => $bulan, 'tahun' => $tahun));
+  }
+
+  function hapushpp($bulan, $tahun, $kodeproduk)
+  {
+    $this->db->delete('harga_hpp', array('kode_produk' => $kodeproduk, 'bulan' => $bulan, 'tahun' => $tahun));
+  }
 }

@@ -7,7 +7,7 @@ class Accounting extends CI_Controller
   {
     parent::__construct();
     check_login();
-    $this->load->model(array('Model_accounting', 'Model_cabang', 'Model_keuangan'));
+    $this->load->model(array('Model_accounting', 'Model_cabang', 'Model_keuangan', 'Model_barang'));
   }
 
   function costratiobiaya()
@@ -471,5 +471,34 @@ class Accounting extends CI_Controller
     $kode_akun = $this->input->post('kode_akun');
     $simpan =  $this->Model_accounting->updatebukubesar($nobukti, $sumber, $noref, $kode_akun);
     echo $simpan;
+  }
+
+  function inputhpp()
+  {
+    $data['tahun'] = date("Y");
+    $data['bulan'] = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+    $data['produk'] = $this->Model_barang->getMasterproduk()->result();
+    $this->template->load('template/template', 'accounting/inputhpp', $data);
+  }
+
+  function inserthpp()
+  {
+    $this->Model_accounting->inserthpp();
+  }
+
+  function loadhpp()
+  {
+    $bulan = $this->input->post('bulan');
+    $tahun = $this->input->post('tahun');
+    $data['hpp'] = $this->Model_accounting->getHpp($bulan, $tahun)->result();
+    $this->load->view('accounting/loadhpp', $data);
+  }
+
+  function hapushpp()
+  {
+    $bulan = $this->input->post('bulan');
+    $tahun = $this->input->post('tahun');
+    $kodeproduk = $this->input->post('kodeproduk');
+    $this->Model_accounting->hapushpp($bulan, $tahun, $kodeproduk);
   }
 }
