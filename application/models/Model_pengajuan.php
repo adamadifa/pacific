@@ -65,9 +65,20 @@ class Model_pengajuan extends CI_Model
     );
 
     $this->db->insert('pengajuan_barang',$data);
-    redirect('pengajuan/pengajuanBarang');
 
+    $query = $this->db->query("SELECT * FROM detail_pengajuan_barang_temp WHERE id_user = '$id_user' ");
+    foreach ($query->result() as $d) {
+      $data = array(
+        'nobukti'           => $nobukti,
+        'id_user'           => $d->approval,
+        'status'            => 0,
+      );
+      $this->db->insert('detail_pengajuan_barang',$data);
+    }
+    $this->db->query("DELETE FROM detail_pengajuan_barang_temp WHERE id_user = '$id_user' ");
+    redirect('pengajuan/pengajuanBarang');
   }
+
   
   public function inputDetailPengajuanBarangTemp(){
 

@@ -26,9 +26,14 @@
                 <tr>
                   <th style="width: 1%;">No</th>
                   <th style="width: 7%;">No Bukti</th>
-                  <th>Nama Lengkap</th>
+                  <th>Nama Pemohon</th>
                   <th style="width: 10%;">Tanggal</th>
                   <th style="width: 10%;">Cabang</th>
+                  <th style="width: 10%;">GA</th>
+                  <th style="width: 10%;">MG</th>
+                  <th style="width: 10%;">MA</th>
+                  <th style="width: 10%;">EM</th>
+                  <th style="width: 10%;">DIRUT</th>
                   <th style="width: 7%;">Aksi</th>
                 </tr>
               </thead>

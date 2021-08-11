@@ -271,13 +271,19 @@
 
       var nobukti = $('#nobukti').val();
       var tanggal = $('#tanggal').val();
+      var nama_pemohon = $('#nama_pemohon').val();
 
       if (nobukti == 0) {
 
         swal("Oops!", "No Bukti Harus Diisi!", "warning");
         return false;
 
-      } else if (tanggal == 0) {
+      } else if (nama_pemohon == '') {
+
+        swal("Oops!", "Nama Pemohon Harus Diisi!", "warning");
+        return false;
+
+      }else if (tanggal == 0) {
 
         swal("Oops!", "Tanggal Harus Diisi!", "warning");
         return false;
