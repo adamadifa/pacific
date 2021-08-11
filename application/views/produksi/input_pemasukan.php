@@ -134,7 +134,7 @@
                     </div>
                   </div>
                   <div class="mt-3 d-flex justify-content-end">
-                    <button type="submit" name="submit" class="btn btn-primary btn-block mr-2" value="1"><i class="fa fa-send mr-2"></i>Simpan</button>
+                    <button type="submit" id="simpan" name="submit" class="btn btn-primary btn-block mr-2" value="1"><i class="fa fa-send mr-2"></i>Simpan</button>
                   </div>
                 </div>
               </div>
@@ -180,7 +180,6 @@
 </div>
 <script>
   flatpickr(document.getElementById('tgl_pemasukan'), {});
-  flatpickr(document.getElementById('jatuhtempo'), {});
 </script>
 
 <script>
@@ -230,6 +229,19 @@
           $('#keterangan').val("");
           $('#jenisbarang').val("");
           $('#barang').focus();
+
+        }
+
+      });
+
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>produksi/codeotomatispemasukan',
+        data: '',
+        cache: false,
+        success: function(html) {
+
+          $("#nobukti").val(html);
 
         }
 
@@ -296,8 +308,6 @@
 
       var nobukti = $('#nobukti').val();
       var tgl_pemasukan = $('#tgl_pemasukan').val();
-      var cekdata = $('#cekdata').val();
-      var cekdata = cekdata.replace(/[^\d]/g, "");
 
       if (nobukti == 0) {
 
@@ -307,11 +317,6 @@
       } else if (tgl_pemasukan == 0) {
 
         swal("Oops!", "Tanggal Harus Diisi!", "warning");
-        return false;
-
-      } else if (cekdata == 0) {
-
-        swal("Oops!", "Barang Masih Kosong!", "warning");
         return false;
 
       } else {

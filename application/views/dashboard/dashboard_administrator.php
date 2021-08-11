@@ -19,7 +19,8 @@
         <div class="card-body">
           <?php
           $level_user = $this->session->userdata('level_user');
-          if ($level_user == "Administrator" || $level_user == "manager marketing" || $level_user == "manager accounting" || $level_user == "general manager" || $level_user == "audit" || $level_user == "koordinator kepala admin" || $level_user == "spv accounting") {
+          $username = $this->session->userdata('username');
+          if ($level_user == "Administrator" || $level_user == "manager marketing" || $level_user == "manager accounting" || $level_user == "general manager" || $level_user == "audit" || $level_user == "koordinator kepala admin" || $level_user == "spv accounting" || $username == "ardi") {
           ?>
             <div class="row mb-4">
               <div class="col-md-12">
@@ -51,9 +52,6 @@
                     <a href="#" id="hidekasbesar" class="btn btn-danger btn-block">Sembunyikan Rekap Penjualan & Kas Besar</a>
                   </div>
                 </div>
-
-
-
               </div>
             </div>
             <div class="row">
@@ -76,37 +74,41 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-header bg-dark text-white">
-          <h4 class="card-title">Last Input Data</h4>
-        </div>
-        <div class="card-body">
-          <table class="table table-bordered table-striped table-hover">
-            <thead class="thead-dark">
-              <tr>
-                <th>Cabang</th>
-                <th>Penjualan</th>
-                <th>Kas Besar</th>
-                <th>Kas Kecil</th>
-                <th>Persediaan</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php foreach ($lastupdate as $d) { ?>
+    <?php 
+      if ($username != "ardi") {
+    ?>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header bg-dark text-white">
+            <h4 class="card-title">Last Input Data</h4>
+          </div>
+          <div class="card-body">
+            <table class="table table-bordered table-striped table-hover">
+              <thead class="thead-dark">
                 <tr>
-                  <td><?php echo strtoupper($d->nama_cabang); ?></td>
-                  <td><?php echo strtoupper($d->penjualan); ?></td>
-                  <td><?php echo strtoupper($d->kasbesar); ?></td>
-                  <td><?php echo strtoupper($d->kaskecil); ?></td>
-                  <td><?php echo strtoupper($d->persediaan); ?></td>
+                  <th>Cabang</th>
+                  <th>Penjualan</th>
+                  <th>Kas Besar</th>
+                  <th>Kas Kecil</th>
+                  <th>Persediaan</th>
                 </tr>
-              <?php } ?>
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                <?php foreach ($lastupdate as $d) { ?>
+                  <tr>
+                    <td><?php echo strtoupper($d->nama_cabang); ?></td>
+                    <td><?php echo strtoupper($d->penjualan); ?></td>
+                    <td><?php echo strtoupper($d->kasbesar); ?></td>
+                    <td><?php echo strtoupper($d->kaskecil); ?></td>
+                    <td><?php echo strtoupper($d->persediaan); ?></td>
+                  </tr>
+                <?php } ?>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
+    <?php } ?>
     <div class="col-md-8">
       <div class="card">
         <div class="card-header bg-dark text-white">

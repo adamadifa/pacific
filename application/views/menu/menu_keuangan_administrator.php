@@ -270,6 +270,22 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>laporanpenjualan/omset" class="list-group-item list-group-item-action">
         <i class="fa fa-file-pdf-o mr-2"></i>Omset
       </a>
+      <?php
+      if ($this->session->userdata('username') != "siskapusat" && $this->session->userdata('username') != "nurman") {
+      ?>
+        <a href="<?php echo base_url(); ?>laporanpenjualan/tunaikredit" class="list-group-item list-group-item-action">
+          <i class="fa fa-file mr-2"></i>Tunai Kredit
+        </a>
+        <a href="<?php echo base_url(); ?>laporanpenjualan/kartupiutang" class="list-group-item list-group-item-action">
+          <i class="fa fa-file mr-2"></i>Kartu Piutang
+        </a>
+        <a href="<?php echo base_url(); ?>laporangudangjadi/persediaan" class="list-group-item list-group-item-action">
+          <i class="fa  fa-file-text-o mr-2"></i>Persediaan Barang
+        </a>
+        <a href="<?php echo base_url(); ?>laporangudangjadi/rekappersediaan" class="list-group-item list-group-item-action">
+          <i class="fa  fa-file-text-o mr-2"></i>Rekap Persediaan
+        </a>
+      <?php } ?>
     </div>
   </div>
 <?php } else if ($level == "audit") { ?>

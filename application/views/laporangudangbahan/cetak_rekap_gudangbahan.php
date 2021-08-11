@@ -47,9 +47,9 @@ tr:nth-child(even) {
             echo uang($saldoawal['qtyunitsa']);
           }
         }else{
-          if (!empty($saldoawal['qtyberatsa'])) {
-            echo uang($saldoawal['qtyberatsa']);
-          } 
+          if (!empty($saldoawal['qtyunitsa'])) {
+            echo uang($saldoawal['qtyunitsa']);
+          }
         } ?>
       </th>
       <th bgcolor="green" style="color:white; font-size:14;">PEMBELIAN</th>
@@ -79,8 +79,10 @@ tr:nth-child(even) {
     <?php
     if($barang['satuan'] == 'KG'){
       $saldoakhir        = $saldoawal['qtyberatsa'];
+      $saldoakhirunit        = $saldoawal['qtyunitsa'];
     }else{
       $saldoakhir        = $saldoawal['qtyunitsa'];
+      $saldoakhirunit        = $saldoawal['qtyunitsa'];
     }
     $totqtypemb         = 0;
     $totqtylainnya      = 0;
@@ -190,6 +192,7 @@ tr:nth-child(even) {
       }
 
       $saldoakhir         = $saldoakhir + $qtymasuk - $qtykeluar;
+      $saldoakhirunit     = $saldoakhirunit + $masuk['qty_unit'] - $keluar['qty_unit'];
 
     ?>
       <tr style="color:black; font-size:14;">
@@ -197,18 +200,18 @@ tr:nth-child(even) {
         <td align="right">
           <?php
           if (isset($masuk['qty_unit']) and $masuk['qty_unit'] != "0") {
-            echo uang($qtymasuk);
+            echo uang($masuk['qty_unit']);
           }
           ?>
         </td>
         <td align="right">
           <?php
           if (isset($keluar['qty_unit']) and $keluar['qty_unit'] != "0") {
-            echo uang($qtykeluar);
+            echo uang($keluar['qty_unit']);
           }
           ?>
         </td>
-        <td align="right"><?php echo uang($saldoakhir); ?></td>
+        <td align="right"><?php echo uang($saldoakhirunit); ?></td>
         <td align="right"></td>
         <td align="right">
           <?php

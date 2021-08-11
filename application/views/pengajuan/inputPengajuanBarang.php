@@ -104,7 +104,7 @@
                     </div>
                   </div>
                   <div class="mt-3 d-flex justify-content-end">
-                    <button type="submit" name="submit" class="btn btn-primary btn-block mr-2" value="1"><i class="fa fa-send mr-2"></i>Simpan</button>
+                    <button type="submit" name="submit" id="simpan" class="btn btn-primary btn-block mr-2" value="1"><i class="fa fa-send mr-2"></i>Simpan</button>
                   </div>
                 </div>
               </div>
@@ -271,8 +271,6 @@
 
       var nobukti = $('#nobukti').val();
       var tanggal = $('#tanggal').val();
-      var cekdata = $('#cekdata').val();
-      var cekdata = cekdata.replace(/[^\d]/g, "");
 
       if (nobukti == 0) {
 
@@ -284,11 +282,6 @@
         swal("Oops!", "Tanggal Harus Diisi!", "warning");
         return false;
 
-      } else if (cekdata == 0) {
-
-        swal("Oops!", "Barang Masih Kosong!", "warning");
-        return false;
-
       } else {
 
         return true;
@@ -297,7 +290,5 @@
 
     });
     
-    
-
   });
 </script>

@@ -12,6 +12,7 @@ class Dashboard extends CI_Controller
   function index()
   {
     $level_user = $this->session->userdata('level_user');
+    $username = $this->session->userdata('username');
     if ($level_user == 'Administrator') {
       // $data['jmlPelanggan']    = $this->Model_dashboard->jumlahPelanggan()->row_array();
       // $data['jmlSales']        = $this->Model_dashboard->jumlahSales()->row_array();
@@ -42,6 +43,18 @@ class Dashboard extends CI_Controller
       $data['cabang']          = $this->Model_cabang->view_cabang()->result();
       $data['cb']              = $this->session->userdata('cabang');
       $this->template->load('template/template', 'dashboard/dashboard_admingudang.php', $data);
+    }  elseif ($username == "ardi") {
+      // $data['jmlPelanggan']    = $this->Model_dashboard->jumlahPelanggan()->row_array();
+      // $data['jmlSales']        = $this->Model_dashboard->jumlahSales()->row_array();
+      // $data['jmlBrg']          = $this->Model_dashboard->jumlahBarang()->row_array();
+      $data['rekap']           = $this->Model_dashboard->persediaangudang()->result();
+      $data['cabang']          = $this->Model_cabang->view_cabang()->result();
+      $data['grap']            = $this->Model_dashboard->grafikPenjualan()->result();
+      $data['cb']              = $this->session->userdata('cabang');
+      $data['produk']          = $this->Model_laporangudangjadi->listproduk()->result();
+      $data['tahun']           = date("Y");
+      $data['bulan']           = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+      $this->template->load('template/template', 'dashboard/dashboard_administrator', $data);
     } elseif ($level_user == "admin produksi") {
       $cabang             = $this->session->userdata('cabang');
       $bulan              = date('m') + 0;

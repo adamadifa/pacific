@@ -206,7 +206,7 @@ class Model_komisi extends CI_Model
     AB,
     `AS`,
     CG5,
-    saldo_piutang + penjualankredit as targetawal,
+    IFNULL(saldo_piutang,0) + IFNULL(penjualankredit,0) as targetawal,
     target_collection,
     realisasi_collection,
     target_cashin,

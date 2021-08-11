@@ -12,6 +12,7 @@ class Dashboard extends CI_Controller
   function index()
   {
     $level_user = $this->session->userdata('level_user');
+    $username = $this->session->userdata('username');
     if ($level_user == 'Administrator') {
       // $data['jmlPelanggan']    = $this->Model_dashboard->jumlahPelanggan()->row_array();
       // $data['jmlSales']        = $this->Model_dashboard->jumlahSales()->row_array();
