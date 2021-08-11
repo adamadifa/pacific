@@ -234,6 +234,7 @@
               </div>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item" href="<?php echo base_url() ?>auth/changepassword"><i class="fa fa-key mr-2"></i>Ganti Password</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="<?php echo base_url() ?>auth/logout"><i class="fa fa-power-off mr-2"></i>Log out</a>
             </div>
