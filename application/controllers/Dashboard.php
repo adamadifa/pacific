@@ -200,6 +200,11 @@ class Dashboard extends CI_Controller
       $data['cabang']          = $this->Model_cabang->view_cabang()->result();
       $data['cb']              = $this->session->userdata('cabang');
       $this->template->load('template/template', 'dashboard/dashboard_admingudangpusat.php', $data);
+    } elseif ($level_user == "manager pembelian") {
+      $data['rekap']           = $this->Model_dashboard->persediaangudang()->result();
+      $data['cabang']          = $this->Model_cabang->view_cabang()->result();
+      $data['cb']              = $this->session->userdata('cabang');
+      $this->template->load('template/template', 'dashboard/dashboard_admingudangpusat.php', $data);
     } elseif ($level_user == "admin pajak") {
       $this->template->load('template/template', 'dashboard/dashboard_admingdl.php');
     } elseif ($level_user == "Foreman") {
