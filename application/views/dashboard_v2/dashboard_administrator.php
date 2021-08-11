@@ -357,7 +357,7 @@
       });
     }
 
-    loadrekappersediaan();
+    //loadrekappersediaan();
 
     function loadrekappenjualan() {
       var bulan = $("#bulan").val();

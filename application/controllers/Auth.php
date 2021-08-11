@@ -38,7 +38,6 @@ class Auth extends CI_Controller
         $waktu = date('Y-m-d h:i:s');
         $this->db->query("UPDATE users SET terakhir_login = '$waktu', aktif = '1'  WHERE id_user = '$id_user' ");
         redirect('dashboard');
-       
       } else {
         $this->session->set_flashdata(
           'msg',
@@ -62,5 +61,16 @@ class Auth extends CI_Controller
     $this->db->query("UPDATE users SET aktif = '0' WHERE id_user = '$id_user' ");
     $this->session->sess_destroy();
     redirect('auth/login');
+  }
+
+  function changepassword()
+  {
+    $this->template->load('template/template', 'auth/change_password');
+  }
+
+  function updatepassword()
+  {
+    $id_user = $this->session->userdata('id_user');
+    $this->Model_auth->update_password($id_user);
   }
 }

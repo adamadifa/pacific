@@ -1,25 +1,35 @@
-<h1><?php echo lang('change_password_heading');?></h1>
-
-<div id="infoMessage"><?php echo $message;?></div>
-
-<?php echo form_open("auth/change_password");?>
-
-      <p>
-            <?php echo lang('change_password_old_password_label', 'old_password');?> <br />
-            <?php echo form_input($old_password);?>
-      </p>
-
-      <p>
-            <label for="new_password"><?php echo sprintf(lang('change_password_new_password_label'), $min_password_length);?></label> <br />
-            <?php echo form_input($new_password);?>
-      </p>
-
-      <p>
-            <?php echo lang('change_password_new_password_confirm_label', 'new_password_confirm');?> <br />
-            <?php echo form_input($new_password_confirm);?>
-      </p>
-
-      <?php echo form_input($user_id);?>
-      <p><?php echo form_submit('submit', lang('change_password_submit_btn'));?></p>
-
-<?php echo form_close();?>
+<div class="container-fluid">
+      <!-- Page title -->
+      <div class="page-header">
+            <div class="row align-items-center">
+                  <div class="col-auto">
+                        <h2 class="page-title">
+                              Data Barang
+                        </h2>
+                  </div>
+            </div>
+      </div>
+      <div class="row">
+            <div class="col-md-6">
+                  <div class="card">
+                        <div class="card-header">
+                              <div class="card-title">Ganti Password</div>
+                        </div>
+                        <div class="card-body">
+                              <form action="<?php echo base_url(); ?>auth/updatepassword" method="POST">
+                                    <input type="hidden" value="<?php echo $this->session->userdata('id_user'); ?>">
+                                    <label for="" class="form-label">Password Lama</label>
+                                    <div class="form-group mb-3">
+                                          <input type="password" name="old_password" class="form-control">
+                                    </div>
+                                    <label for="" class="form-label">Password Baru</label>
+                                    <div class="form-group mb-3">
+                                          <input type="password" name="new_password" class="form-control">
+                                    </div>
+                                    <button class="btn btn-primary w-100"><i class="fa fa-key mr-2"></i> Ganti Password</button>
+                              </form>
+                        </div>
+                  </div>
+            </div>
+      </div>
+</div>
