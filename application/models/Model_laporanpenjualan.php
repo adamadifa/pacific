@@ -1786,6 +1786,10 @@ GROUP BY
 			$salesman = "AND karyawan.id_karyawan = '" . $salesman . "' ";
 		}
 
+		$tgl = explode("-", $dari);
+		$bulan = $tgl[1];
+		$tahun = $tgl[0];
+
 
 
 		$query = "SELECT
@@ -1808,98 +1812,116 @@ GROUP BY
 							totalretur,
 							totalpotongan, totalpotistimewa,
 							totalpenyharga,
-							totalpenjualansampaibulanlalu,
-							totalretursampaibulanlalu,
 							totalbayar,
-							bayarsebelumbulanini,
-						(IFNULL(totalpenjualansampaibulanlalu,0)-IFNULL(totalretursampaibulanlalu,0)) - IFNULL(bayarsebelumbulanini,0) as saldoawalpiutang,
-
-						totalpenjualankredit,
-						totalreturkredit,
-						totalbayarkredit,
-						(IFNULL(totalpenjualankredit,0)-IFNULL(totalreturkredit,0)) as totalpiutangbulanini,
-						((IFNULL(totalpenjualansampaibulanlalu,0)-IFNULL(totalretursampaibulanlalu,0)) - IFNULL(bayarsebelumbulanini,0)+(IFNULL(totalpenjualankredit,0)-IFNULL(totalreturkredit,0)))-IFNULL(totalbayarkredit,0) as saldoakhirpiutang
+							saldoawalpiutang,
+						  IFNULL(saldoawalpiutang,0) + (IFNULL(totalbruto,0) - IFNULL(totalpotongan,0)-IFNULL(totalretur,0) - IFNULL(totalpotistimewa,0) - IFNULL(totalpenyharga,0)) - IFNULL(totalbayarpiutang,0) as saldoakhirpiutang
+						
 						FROM
 							karyawan
 
 							LEFT JOIN (
-						SELECT
-							p.id_karyawan,
-							SUM( IF ( kode_produk = 'AB', detailpenjualan.subtotal, NULL ) ) AS AB,
-							SUM( IF ( kode_produk = 'AR', detailpenjualan.subtotal, NULL ) ) AS AR,
-							SUM( IF ( kode_produk = 'AS', detailpenjualan.subtotal, NULL ) ) AS ASE,
-							SUM( IF ( kode_produk = 'BB', detailpenjualan.subtotal, NULL ) ) AS BB,
-							SUM( IF ( kode_produk = 'BBP', detailpenjualan.subtotal, NULL ) ) AS BBP,
-							SUM( IF ( kode_produk = 'CG', detailpenjualan.subtotal, NULL ) ) AS CG,
-							SUM( IF ( kode_produk = 'CGG', detailpenjualan.subtotal, NULL ) ) AS CGG,
-							SUM( IF ( kode_produk = 'DB', detailpenjualan.subtotal, NULL ) ) AS DB,
-							SUM( IF ( kode_produk = 'DEP', detailpenjualan.subtotal, NULL ) ) AS DEP,
-							SUM( IF ( kode_produk = 'DK', detailpenjualan.subtotal, NULL ) ) AS DK,
-							SUM( IF ( kode_produk = 'DS', detailpenjualan.subtotal, NULL ) ) AS DS,
-							SUM( IF ( kode_produk = 'SP', detailpenjualan.subtotal, NULL ) ) AS SP
-						FROM
-							detailpenjualan
-							INNER JOIN barang ON detailpenjualan.kode_barang = barang.kode_barang
-							INNER JOIN penjualan p ON detailpenjualan.no_fak_penj = p.no_fak_penj
-						WHERE
-							tgltransaksi BETWEEN '$dari'
-							AND '$sampai'
-						GROUP BY
-							p.id_karyawan
+								SELECT
+									p.id_karyawan,
+									SUM( IF ( kode_produk = 'AB', detailpenjualan.subtotal, NULL ) ) AS AB,
+									SUM( IF ( kode_produk = 'AR', detailpenjualan.subtotal, NULL ) ) AS AR,
+									SUM( IF ( kode_produk = 'AS', detailpenjualan.subtotal, NULL ) ) AS ASE,
+									SUM( IF ( kode_produk = 'BB', detailpenjualan.subtotal, NULL ) ) AS BB,
+									SUM( IF ( kode_produk = 'BBP', detailpenjualan.subtotal, NULL ) ) AS BBP,
+									SUM( IF ( kode_produk = 'CG', detailpenjualan.subtotal, NULL ) ) AS CG,
+									SUM( IF ( kode_produk = 'CGG', detailpenjualan.subtotal, NULL ) ) AS CGG,
+									SUM( IF ( kode_produk = 'DB', detailpenjualan.subtotal, NULL ) ) AS DB,
+									SUM( IF ( kode_produk = 'DEP', detailpenjualan.subtotal, NULL ) ) AS DEP,
+									SUM( IF ( kode_produk = 'DK', detailpenjualan.subtotal, NULL ) ) AS DK,
+									SUM( IF ( kode_produk = 'DS', detailpenjualan.subtotal, NULL ) ) AS DS,
+									SUM( IF ( kode_produk = 'SP', detailpenjualan.subtotal, NULL ) ) AS SP
+								FROM
+									detailpenjualan
+									INNER JOIN barang ON detailpenjualan.kode_barang = barang.kode_barang
+									INNER JOIN penjualan p ON detailpenjualan.no_fak_penj = p.no_fak_penj
+								WHERE
+									tgltransaksi BETWEEN '$dari'
+									AND '$sampai'
+								GROUP BY
+									p.id_karyawan
 							) dp ON ( karyawan.id_karyawan = dp.id_karyawan )
 
-
-
 							LEFT JOIN (
-						SELECT
-							id_karyawan,
-							SUM(IF(tglretur BETWEEN '$dari' AND '$sampai',retur.total,0 )) AS totalretur,
-							SUM(IF(tglretur BETWEEN '$dari' AND '$sampai' AND jenistransaksi!='tunai',retur.total,0 )) AS totalreturkredit,
-							SUM(IF(tglretur < '$dari',retur.total,0 )) AS totalretursampaibulanlalu
-						FROM
-							retur
-							INNER JOIN penjualan ON retur.no_fak_penj = penjualan.no_fak_penj
-						WHERE
-							tglretur <= '$sampai'
-						GROUP BY
-							id_karyawan
+								SELECT
+									id_karyawan,
+									SUM(retur.total) AS totalretur
+								
+								
+								FROM
+									retur
+									INNER JOIN penjualan ON retur.no_fak_penj = penjualan.no_fak_penj
+								WHERE
+									tglretur  BETWEEN '$dari' AND '$sampai'
+								GROUP BY
+									id_karyawan
 							) rt ON ( karyawan.id_karyawan = rt.id_karyawan )
 
 
 
 							LEFT JOIN (
-						SELECT
-							id_karyawan,
-							SUM(IF(tgltransaksi BETWEEN '$dari' AND '$sampai',potongan,0 )) AS totalpotongan,
-							SUM(IF(tgltransaksi BETWEEN '$dari' AND '$sampai',potistimewa,0 )) AS totalpotistimewa,
-							SUM(IF(tgltransaksi BETWEEN '$dari' AND '$sampai',penyharga,0 )) AS totalpenyharga,
-							SUM(IF(tgltransaksi BETWEEN '$dari' AND '$sampai',subtotal,0 )) AS totalbruto,
-							SUM(IF(tgltransaksi BETWEEN '$dari' AND '$sampai' AND jenistransaksi !='tunai',total,0 )) AS totalpenjualankredit,
-							SUM(IF(tgltransaksi < '$dari',total,0 )) AS totalpenjualansampaibulanlalu
-						FROM
-							penjualan
-						WHERE tgltransaksi <= '$sampai'
-
-						GROUP BY
-							id_karyawan
+								SELECT
+									id_karyawan,
+									SUM(potongan) AS totalpotongan,
+									SUM(potistimewa) AS totalpotistimewa,
+									SUM(penyharga) AS totalpenyharga,
+									SUM(subtotal) AS totalbruto
+								FROM
+									penjualan
+								WHERE tgltransaksi BETWEEN '$dari' AND '$sampai'
+								GROUP BY
+									id_karyawan
 							) penj ON ( karyawan.id_karyawan = penj.id_karyawan )
 
 
 
 						LEFT JOIN (
-						SELECT
-							historibayar.id_karyawan,
-							SUM(IF(tglbayar BETWEEN '$dari' AND '$sampai',bayar,0)) as totalbayar,
-							SUM(IF(tglbayar BETWEEN '$dari' AND '$sampai' AND penjualan.jenisbayar!='tunai',bayar,0)) as totalbayarkredit,
-							SUM(IF(tglbayar < '$dari',bayar,0)) as bayarsebelumbulanini
-						FROM
-							historibayar
-							INNER JOIN penjualan ON historibayar.no_fak_penj = penjualan.no_fak_penj
-						WHERE tglbayar <='$sampai'
-						GROUP BY
-							historibayar.id_karyawan
+								SELECT
+								historibayar.id_karyawan,
+									SUM(bayar) as totalbayar
+								FROM
+									historibayar
+									INNER JOIN penjualan ON historibayar.no_fak_penj = penjualan.no_fak_penj
+								WHERE tglbayar BETWEEN '$dari' AND '$sampai'
+								GROUP BY
+								historibayar.id_karyawan
 							) hb ON ( karyawan.id_karyawan = hb.id_karyawan )
 
+
+						LEFT JOIN (
+							SELECT
+							pjmove.salesbarunew,
+							SUM(bayar) as totalbayarpiutang
+							FROM
+								historibayar
+								INNER JOIN penjualan ON historibayar.no_fak_penj = penjualan.no_fak_penj
+								LEFT JOIN (
+									SELECT pj.no_fak_penj,
+									IF(salesbaru IS NULL,pj.id_karyawan,salesbaru) as salesbarunew, karyawan.nama_karyawan as nama_sales,
+									IF(cabangbaru IS NULL,karyawan.kode_cabang,cabangbaru) as cabangbarunew
+									FROM penjualan pj
+									INNER JOIN karyawan ON pj.id_karyawan = karyawan.id_karyawan
+									LEFT JOIN (
+										SELECT MAX(id_move) as id_move,no_fak_penj,move_faktur.id_karyawan as salesbaru,karyawan.kode_cabang as cabangbaru
+										FROM move_faktur
+										INNER JOIN karyawan ON move_faktur.id_karyawan = karyawan.id_karyawan
+										WHERE tgl_move <= '2021-07-01'
+										GROUP BY no_fak_penj,move_faktur.id_karyawan,karyawan.kode_cabang
+									) move_fak ON (pj.no_fak_penj = move_fak.no_fak_penj)
+								) pjmove ON (historibayar.no_fak_penj = pjmove.no_fak_penj)
+								WHERE tglbayar BETWEEN '2021-07-01' AND '2021-07-31'
+								GROUP BY pjmove.salesbarunew
+							) hbpiutang ON ( karyawan.id_karyawan = hbpiutang.salesbarunew )
+
+
+						LEFT JOIN (
+							SELECT id_karyawan,saldo_piutang as saldoawalpiutang
+							FROM saldoawal_piutang
+							WHERE bulan ='$bulan' AND tahun='$tahun'
+						) sp ON (karyawan.id_karyawan = sp.id_karyawan)
 						WHERE
 							karyawan.id_karyawan != ''"
 			. $cabang

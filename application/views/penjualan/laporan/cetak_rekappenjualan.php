@@ -179,7 +179,7 @@ if ($dari < '2018-09-01') {
 				$grandtotalslpiutang 		= $grandtotalslpiutang + $p->saldoakhirpiutang;
 				$grandtotalbayar 				= $grandtotalbayar + $p->totalbayar;
 
-			
+
 			?>
 				<tr>
 					<td><?php echo $no; ?></td>
@@ -466,7 +466,7 @@ if ($dari < '2018-09-01') {
 				<td style="border:0px"></td>
 				<td colspan="2" style="border:0px">PENJUALAN SAUS PREMIUM</td>
 				<td style="border:0px" align="right"><b><?php echo uang($grandtotalSP); ?></b></td>
-			
+
 			</tr>
 			<tr>
 				<td style="border:0px"></td>
