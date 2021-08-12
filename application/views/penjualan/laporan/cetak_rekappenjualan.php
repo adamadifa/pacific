@@ -22,7 +22,56 @@ if ($dari < '2018-09-01') {
 } else {
 ?>
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/table.css">
+	<style>
+		.table-scroll {
+			position: relative;
+			max-width: 100%;
+			margin: auto;
+			overflow: hidden;
 
+		}
+
+		.table-wrap {
+			width: 100%;
+			overflow: auto;
+		}
+
+		.table-scroll table {
+			width: 100%;
+			margin: auto;
+			border-collapse: separate;
+			border-spacing: 0;
+		}
+
+
+		.clone {
+			position: absolute;
+			top: 0;
+			left: 0;
+			pointer-events: none;
+		}
+
+		.clone th,
+		.clone td {
+			visibility: hidden
+		}
+
+		.clone td,
+		.clone th {
+			border-color: transparent
+		}
+
+		.clone tbody th {
+			visibility: visible;
+			color: red;
+		}
+
+		.clone .fixed-side {
+			border: 1px solid #000;
+			background: #eee;
+			visibility: visible;
+		}
+	</style>
 	<br>
 	<b style="font-size:14px; font-family:Calibri">
 
@@ -57,205 +106,250 @@ if ($dari < '2018-09-01') {
 	</b>
 	<br>
 	<br>
-	<table class="datatable3" style="width:150%" border="1">
-		<thead bgcolor="#024a75" style="color:white; font-size:12;">
-			<tr bgcolor="#024a75" style="color:white; font-size:12;">
-				<td rowspan="2">No</td>
-				<td rowspan="2">Nama Sales</td>
-				<td colspan="12" align="center">PRODUK</td>
-				<td rowspan="2" bgcolor="#f5ae15">Penjualan Bruto</td>
-				<td rowspan="2" bgcolor="#f5ae15">Retur</td>
-				<td rowspan="2" bgcolor="#f5ae15">Potongan</td>
-				<td rowspan="2" bgcolor="#f5ae15">Potongan Istimewa</td>
-				<td rowspan="2" bgcolor="#f5ae15">Penyesuaian Harga</td>
-				<td rowspan="2" bgcolor="#1bbb32">Netto</td>
-				<td rowspan="2" bgcolor="#1bbb32">Penerimaan Uang</td>
-				<td rowspan="2" bgcolor="#1bbb32">Saldo Awal Piutang</td>
-				<td rowspan="2" bgcolor="#1bbb32">Saldo Akhir Piutang</td>
-			</tr>
-			<tr bgcolor="#024a75" style="color:white; font-size:12;">
-				<td>AIDA BESAR 500 GR</td>
-				<td>AIDA KECIL SACHET</td>
-				<td>AIDA BESAR 250 GR</td>
-				<td>SAOS BAWANG BALL</td>
-				<td>SAOS BAWANG BALL PROMO</td>
-				<td>CABE GILING KG</td>
-				<td>CABE GILING MURAH</td>
-				<td>SAOS BAWANG DUS</td>
-				<td>SAUS EXTRA PEDAS</td>
-				<td>KECAP DUS</td>
-				<td>SAUS STICK</td>
-				<td>SAUS PREMIUM</td>
-			</tr>
-		</thead>
-		<tbody>
-			<?php
-			$no = 1;
-			$totalAB 					= 0;
-			$totalAR 					= 0;
-			$totalASE 				= 0;
-			$totalBB 					= 0;
-			$totalBBP 					= 0;
-			$totalCG 					= 0;
-			$totalCGG 				= 0;
-			$totalDB 					= 0;
-			$totalDEP 				= 0;
-			$totalDK 					= 0;
-			$totalDS 					= 0;
-			$totalSP 					= 0;
-			$subtotalbruto 		= 0;
-			$totalpotongan 		= 0;
-			$totalpotistimewa	= 0;
-			$totalpenyharga 	= 0;
-			$totalnetto 			= 0;
-			$totalbayar				= 0;
-			$totalsapiutang 	= 0;
-			$totalslpiutang 	= 0;
+	<div id="table-scroll" class="table-scroll">
+		<div class="table-wrap">
+			<table class="datatable3" style="width:200%">
+				<thead bgcolor="#024a75" style="color:white; font-size:12;">
+					<tr bgcolor="#024a75" style="color:white; font-size:12;">
+						<td rowspan="2" class="fixed-side" scope="col" style=" background-color:#024a75;color:white;">No</td>
+						<td rowspan="2" class="fixed-side" scope="col" style=" background-color:#024a75;color:white;">Nama Sales</td>
+						<td colspan="12" align="center">PRODUK</td>
+						<td rowspan="2" bgcolor="#f5ae15">Penjualan Bruto</td>
+						<td rowspan="2" bgcolor="#f5ae15">Retur</td>
+						<td rowspan="2" bgcolor="#f5ae15">Potongan</td>
+						<td rowspan="2" bgcolor="#f5ae15">Potongan Istimewa</td>
+						<td rowspan="2" bgcolor="#f5ae15">Penyesuaian Harga</td>
+						<td rowspan="2" bgcolor="#1bbb32">Netto</td>
+						<td rowspan="2" bgcolor="#1bbb32">Penerimaan Uang</td>
+						<td colspan="6" bgcolor="#1bbb32">Voucher</td>
+						<td rowspan="2" bgcolor="#1bbb32">Saldo Awal Piutang</td>
+						<td rowspan="2" bgcolor="#1bbb32">Saldo Akhir Piutang</td>
+					</tr>
+					<tr bgcolor="#024a75" style="color:white; font-size:12;">
+						<td>AIDA BESAR 500 GR</td>
+						<td>AIDA KECIL SACHET</td>
+						<td>AIDA BESAR 250 GR</td>
+						<td>SAOS BAWANG BALL</td>
+						<td>SAOS BAWANG BALL PROMO</td>
+						<td>CABE GILING KG</td>
+						<td>CABE GILING MURAH</td>
+						<td>SAOS BAWANG DUS</td>
+						<td>SAUS EXTRA PEDAS</td>
+						<td>KECAP DUS</td>
+						<td>SAUS STICK</td>
+						<td>SAUS PREMIUM</td>
+						<td style="background-color:#cc2727">PP</td>
+						<td style="background-color:#cc2727">DP</td>
+						<td style="background-color:#cc2727">PPS</td>
+						<td style="background-color:#cc2727">PPHK</td>
+						<td style="background-color:#cc2727">SP</td>
+						<td style="background-color:#cc2727">L</td>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+					$no = 1;
+					$totalAB 					= 0;
+					$totalAR 					= 0;
+					$totalASE 				= 0;
+					$totalBB 					= 0;
+					$totalBBP 					= 0;
+					$totalCG 					= 0;
+					$totalCGG 				= 0;
+					$totalDB 					= 0;
+					$totalDEP 				= 0;
+					$totalDK 					= 0;
+					$totalDS 					= 0;
+					$totalSP 					= 0;
+					$subtotalbruto 		= 0;
+					$totalpotongan 		= 0;
+					$totalpotistimewa	= 0;
+					$totalpenyharga 	= 0;
+					$totalnetto 			= 0;
+					$totalbayar				= 0;
+					$totalpenghapusanpiutang = 0;
+					$totaldiskonprogram = 0;
+					$totalpps = 0;
+					$totalpphk = 0;
+					$totalvsp = 0;
+					$totallainnya = 0;
+					$totalsapiutang 	= 0;
+					$totalslpiutang 	= 0;
 
-			$grandtotalAB 					= 0;
-			$grandtotalAR 					= 0;
-			$grandtotalASE 					= 0;
-			$grandtotalBB 					= 0;
-			$grandtotalBBP 					= 0;
-			$grandtotalCG 					= 0;
-			$grandtotalCGG 					= 0;
-			$grandtotalDB 					= 0;
-			$grandtotalDEP 					= 0;
-			$grandtotalDK 					= 0;
-			$grandtotalDS 					= 0;
-			$grandtotalSP 					= 0;
-			$grandsubtotalbruto 		= 0;
-			$grandtotalpotongan 		= 0;
-			$grandtotalpotistimewa	= 0;
-			$grandtotalpenyharga 		= 0;
-			$grandtotalnetto 				= 0;
-			$grndtotalsapiutang 		= 0;
-			$grandtotalslpiutang 		= 0;
-			foreach ($rekap as $key => $p) {
+					$grandtotalAB 					= 0;
+					$grandtotalAR 					= 0;
+					$grandtotalASE 					= 0;
+					$grandtotalBB 					= 0;
+					$grandtotalBBP 					= 0;
+					$grandtotalCG 					= 0;
+					$grandtotalCGG 					= 0;
+					$grandtotalDB 					= 0;
+					$grandtotalDEP 					= 0;
+					$grandtotalDK 					= 0;
+					$grandtotalDS 					= 0;
+					$grandtotalSP 					= 0;
+					$grandsubtotalbruto 		= 0;
+					$grandtotalpotongan 		= 0;
+					$grandtotalpotistimewa	= 0;
+					$grandtotalpenyharga 		= 0;
+					$grandtotalnetto 				= 0;
+					$grndtotalsapiutang 		= 0;
+					$grandtotalslpiutang 		= 0;
+					foreach ($rekap as $key => $p) {
 
-				$rek  = @$rekap[$key + 1]->kode_cabang;
+						$rek  = @$rekap[$key + 1]->kode_cabang;
 
-				$totalAB 								= $totalAB + $p->AB;
-				$totalAR 								= $totalAR + $p->AR;
-				$totalASE 							= $totalASE + $p->ASE;
-				$totalBB 								= $totalBB + $p->BB;
-				$totalBBP 								= $totalBBP + $p->BBP;
-				$totalCG 								= $totalCG + $p->CG;
-				$totalCGG								= $totalCGG + $p->CGG;
-				$totalDB 								= $totalDB + $p->DB;
-				$totalDEP 							= $totalDEP + $p->DEP;
-				$totalDK 								= $totalDK + $p->DK;
-				$totalDS 								= $totalDS + $p->DS;
-				$totalSP 								= $totalSP + $p->SP;
-				$subtotalbruto					= $subtotalbruto + $p->totalbruto;
-				$totalpotongan  				= $totalpotongan + $p->totalpotongan;
-				$totalretur 						= $totalretur + $p->totalretur;
-				$totalpotistimewa 			= $totalpotistimewa + $p->totalpotistimewa;
-				$totalpenyharga 				= $totalpenyharga + $p->totalpenyharga;
-				$netto 									= $p->totalbruto - $p->totalpotongan - $p->totalretur - $p->totalpotistimewa - $p->totalpenyharga;
-				$totalnetto  						= $totalnetto + $p->totalbruto - $p->totalpotongan - $p->totalretur - $p->totalpotistimewa - $p->totalpenyharga;
-				$totalbayar 						= $totalbayar + $p->totalbayar;
-				$totalsapiutang 				= $totalsapiutang + $p->saldoawalpiutang;
-				$totalslpiutang 				= $totalslpiutang + $p->saldoakhirpiutang;
-				$grandtotalAB 					= $grandtotalAB + $p->AB;
-				$grandtotalAR 					= $grandtotalAR + $p->AR;
-				$grandtotalASE 					= $grandtotalASE + $p->ASE;
-				$grandtotalBB 					= $grandtotalBB + $p->BB;
-				$grandtotalBBP 					= $grandtotalBBP + $p->BBP;
-				$grandtotalCG 					= $grandtotalCG + $p->CG;
-				$grandtotalCGG					= $grandtotalCGG + $p->CGG;
-				$grandtotalDB 					= $grandtotalDB + $p->DB;
-				$grandtotalDEP 					= $grandtotalDEP + $p->DEP;
-				$grandtotalDK 					= $grandtotalDK + $p->DK;
-				$grandtotalDS 					= $grandtotalDS + $p->DS;
-				$grandtotalSP 					= $grandtotalSP + $p->SP;
-				$grandsubtotalbruto			= $grandsubtotalbruto + $p->totalbruto;
-				$grandtotalpotongan  		= $grandtotalpotongan + $p->totalpotongan;
-				$grandtotalretur 				= $grandtotalretur + $p->totalretur;
-				$grandtotalpotistimewa 	= $grandtotalpotistimewa + $p->totalpotistimewa;
-				$grandtotalpenyharga 		= $grandtotalpenyharga + $p->totalpenyharga;
-				$grandtotalnetto  			= $grandtotalnetto + $p->totalbruto - $p->totalpotongan - $p->totalretur - $p->totalpotistimewa - $p->totalpenyharga;
-				$grandtotalsapiutang 		= $grandtotalsapiutang + $p->saldoawalpiutang;
-				$grandtotalslpiutang 		= $grandtotalslpiutang + $p->saldoakhirpiutang;
-				$grandtotalbayar 				= $grandtotalbayar + $p->totalbayar;
-
-			
-			?>
-				<tr>
-					<td><?php echo $no; ?></td>
-					<td><?php echo $p->nama_karyawan; ?></td>
-					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->AB)) {
-																														echo uang($p->AB);
-																													} ?></td>
-					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->AR)) {
-																														echo uang($p->AR);
-																													} ?></td>
-					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->ASE)) {
-																														echo uang($p->ASE);
-																													} ?></td>
-					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->BB)) {
-																														echo uang($p->BB);
-																													} ?></td>
-					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->BBP)) {
-																														echo uang($p->BBP);
-																													} ?></td>
-					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->CG)) {
-																														echo uang($p->CG);
-																													} ?></td>
-					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->CGG)) {
-																														echo uang($p->CGG);
-																													} ?></td>
-					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->DB)) {
-																														echo uang($p->DB);
-																													} ?></td>
-					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->DEP)) {
-																														echo uang($p->DEP);
-																													} ?></td>
-					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->DK)) {
-																														echo uang($p->DK);
-																													} ?></td>
-					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->DS)) {
-																														echo uang($p->DS);
-																													} ?></td>
-					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->SP)) {
-																														echo uang($p->SP);
-																													} ?></td>
-					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->totalbruto)) {
-																														echo uang($p->totalbruto);
-																													} ?></td>
-					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->totalretur)) {
-																														echo uang($p->totalretur);
-																													} ?></td>
-					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->totalpotongan)) {
-																														echo uang($p->totalpotongan);
-																													} ?></td>
-					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->totalpotistimewa)) {
-																														echo uang($p->totalpotistimewa);
-																													} ?></td>
-					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->totalpenyharga)) {
-																														echo uang($p->totalpenyharga);
-																													} ?></td>
-					<td style="text-align:right; font-weight:bold"><?php if (!empty($netto)) {
-																														echo uang($netto);
-																													} ?></td>
-					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->totalbayar)) {
-																														echo uang($p->totalbayar);
-																													} ?></td>
-					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->saldoawalpiutang)) {
-																														echo uang($p->saldoawalpiutang);
-																													} ?></td>
-					<td style="text-align:right; font-weight:bold"><?php if (!empty($p->saldoakhirpiutang)) {
-																														echo uang($p->saldoakhirpiutang);
-																													} ?></td>
-
-				</tr>
+						$totalAB 								= $totalAB + $p->AB;
+						$totalAR 								= $totalAR + $p->AR;
+						$totalASE 							= $totalASE + $p->ASE;
+						$totalBB 								= $totalBB + $p->BB;
+						$totalBBP 								= $totalBBP + $p->BBP;
+						$totalCG 								= $totalCG + $p->CG;
+						$totalCGG								= $totalCGG + $p->CGG;
+						$totalDB 								= $totalDB + $p->DB;
+						$totalDEP 							= $totalDEP + $p->DEP;
+						$totalDK 								= $totalDK + $p->DK;
+						$totalDS 								= $totalDS + $p->DS;
+						$totalSP 								= $totalSP + $p->SP;
+						$subtotalbruto					= $subtotalbruto + $p->totalbruto;
+						$totalpotongan  				= $totalpotongan + $p->totalpotongan;
+						$totalretur 						= $totalretur + $p->totalretur;
+						$totalpotistimewa 			= $totalpotistimewa + $p->totalpotistimewa;
+						$totalpenyharga 				= $totalpenyharga + $p->totalpenyharga;
+						$netto 									= $p->totalbruto - $p->totalpotongan - $p->totalretur - $p->totalpotistimewa - $p->totalpenyharga;
+						$totalnetto  						= $totalnetto + $p->totalbruto - $p->totalpotongan - $p->totalretur - $p->totalpotistimewa - $p->totalpenyharga;
+						$totalbayar 						= $totalbayar + $p->totalbayar;
+						$totalpenghapusanpiutang = $totalpenghapusanpiutang += $p->penghapusanpiutang;
+						$totaldiskonprogram = $totaldiskonprogram += $p->diskonprogram;
+						$totalpps = $totalpps += $p->pps;
+						$totalpphk = $totalpphk += $p->pphk;
+						$totalvsp = $totalvsp += $p->vsp;
+						$totallainnya = $totallainnya += $p->lainnya;
+						$totalsapiutang 				= $totalsapiutang + $p->saldoawalpiutang;
+						$totalslpiutang 				= $totalslpiutang + $p->saldoakhirpiutang;
+						$grandtotalAB 					= $grandtotalAB + $p->AB;
+						$grandtotalAR 					= $grandtotalAR + $p->AR;
+						$grandtotalASE 					= $grandtotalASE + $p->ASE;
+						$grandtotalBB 					= $grandtotalBB + $p->BB;
+						$grandtotalBBP 					= $grandtotalBBP + $p->BBP;
+						$grandtotalCG 					= $grandtotalCG + $p->CG;
+						$grandtotalCGG					= $grandtotalCGG + $p->CGG;
+						$grandtotalDB 					= $grandtotalDB + $p->DB;
+						$grandtotalDEP 					= $grandtotalDEP + $p->DEP;
+						$grandtotalDK 					= $grandtotalDK + $p->DK;
+						$grandtotalDS 					= $grandtotalDS + $p->DS;
+						$grandtotalSP 					= $grandtotalSP + $p->SP;
+						$grandsubtotalbruto			= $grandsubtotalbruto + $p->totalbruto;
+						$grandtotalpotongan  		= $grandtotalpotongan + $p->totalpotongan;
+						$grandtotalretur 				= $grandtotalretur + $p->totalretur;
+						$grandtotalpotistimewa 	= $grandtotalpotistimewa + $p->totalpotistimewa;
+						$grandtotalpenyharga 		= $grandtotalpenyharga + $p->totalpenyharga;
+						$grandtotalnetto  			= $grandtotalnetto + $p->totalbruto - $p->totalpotongan - $p->totalretur - $p->totalpotistimewa - $p->totalpenyharga;
+						$grandtotalsapiutang 		= $grandtotalsapiutang + $p->saldoawalpiutang;
+						$grandtotalslpiutang 		= $grandtotalslpiutang + $p->saldoakhirpiutang;
+						$grandtotalbayar 				= $grandtotalbayar + $p->totalbayar;
+						$gradtotalpenghapusanpiutang = $grandtotalpenghapusanpiutang += $p->penghapusanpiutang;
+						$grandtotaldiskonprogram = $grandtotaldiskonprogram += $p->diskonprogram;
+						$grandtotalpps = $grandtotalpps += $p->pps;
+						$grandtotalpphk = $grandtotalpphk += $p->pphk;
+						$grandtotalvsp = $grandtotalvsp += $p->vsp;
+						$grandtotallainnya = $grandtotallainnya += $p->lainnya;
 
 
-			<?php
-				if ($rek != $p->kode_cabang) {
-					echo '
+					?>
+						<tr>
+							<td class="fixed-side" scope="col"><?php echo $no; ?></td>
+							<td class="fixed-side" scope="col"><?php echo $p->nama_karyawan; ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->AB)) {
+																																echo uang($p->AB);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->AR)) {
+																																echo uang($p->AR);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->ASE)) {
+																																echo uang($p->ASE);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->BB)) {
+																																echo uang($p->BB);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->BBP)) {
+																																echo uang($p->BBP);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->CG)) {
+																																echo uang($p->CG);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->CGG)) {
+																																echo uang($p->CGG);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->DB)) {
+																																echo uang($p->DB);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->DEP)) {
+																																echo uang($p->DEP);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->DK)) {
+																																echo uang($p->DK);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->DS)) {
+																																echo uang($p->DS);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->SP)) {
+																																echo uang($p->SP);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->totalbruto)) {
+																																echo uang($p->totalbruto);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->totalretur)) {
+																																echo uang($p->totalretur);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->totalpotongan)) {
+																																echo uang($p->totalpotongan);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->totalpotistimewa)) {
+																																echo uang($p->totalpotistimewa);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->totalpenyharga)) {
+																																echo uang($p->totalpenyharga);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($netto)) {
+																																echo uang($netto);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->totalbayar)) {
+																																echo uang($p->totalbayar);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->penghapusanpiutang)) {
+																																echo uang($p->penghapusanpiutang);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->diskonprogram)) {
+																																echo uang($p->diskonprogram);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->pps)) {
+																																echo uang($p->pps);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->pphk)) {
+																																echo uang($p->pphk);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->vsp)) {
+																																echo uang($p->vsp);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->lainnya)) {
+																																echo uang($p->lainnya);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->saldoawalpiutang)) {
+																																echo uang($p->saldoawalpiutang);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->saldoakhirpiutang)) {
+																																echo uang($p->saldoakhirpiutang);
+																															} ?></td>
+
+						</tr>
+
+
+					<?php
+						if ($rek != $p->kode_cabang) {
+							echo '
 				<tr bgcolor="#024a75" style="color:white; font-weight:bold">
-					<td colspan="2" >TOTAL ' . $p->kode_cabang . '</td>
+				<td colspan="2" class="fixed-side" scope="col" style=" background-color:#024a75;color:white;">TOTAL ' . $p->kode_cabang . '</td>
 					<td align="right" >' . uang($totalAB) . '</td>
 					<td align="right" >' . uang($totalAR) . '</td>
 					<td align="right" >' . uang($totalASE) . '</td>
@@ -275,40 +369,52 @@ if ($dari < '2018-09-01') {
 					<td align="right" >' . uang($totalpenyharga) . '</td>
 					<td align="right" >' . uang($totalnetto) . '</td>
 					<td align="right" >' . uang($totalbayar) . '</td>
+					<td align="right" >' . uang($totalpenghapusanpiutang) . '</td>
+					<td align="right" >' . uang($totaldiskonprogram) . '</td>
+					<td align="right" >' . uang($totalpps) . '</td>
+					<td align="right" >' . uang($totalpphk) . '</td>
+					<td align="right" >' . uang($totalvsp) . '</td>
+					<td align="right" >' . uang($totallainnya) . '</td>
 					<td align="right" >' . uang($totalsapiutang) . '</td>
 					<td align="right" >' . uang($totalslpiutang) . '</td>
 				</tr>';
-					$totalAB 						= 0;
-					$totalAR 						= 0;
-					$totalASE 					= 0;
-					$totalBB 						= 0;
-					$totalBBP 						= 0;
-					$totalCG 						= 0;
-					$totalCGG 					= 0;
-					$totalDB 						= 0;
-					$totalDEP 					= 0;
-					$totalDK 						= 0;
-					$totalDS 						= 0;
-					$totalSP 						= 0;
-					$subtotalbruto 			= 0;
-					$totalretur 				= 0;
-					$totalpotongan 			= 0;
-					$totalpotistimewa 	= 0;
-					$totalpenyharga 		= 0;
-					$totalnetto 				= 0;
-					$totalbayar 				= 0;
-					$totalsapiutang			= 0;
-					$totalslpiutang 		= 0;
-				}
-				$rek  = $p->kode_cabang;
-				$no++;
-			} ?>
-		</tbody>
-		<tfoot>
-			<?php
-			echo '
+							$totalAB 						= 0;
+							$totalAR 						= 0;
+							$totalASE 					= 0;
+							$totalBB 						= 0;
+							$totalBBP 						= 0;
+							$totalCG 						= 0;
+							$totalCGG 					= 0;
+							$totalDB 						= 0;
+							$totalDEP 					= 0;
+							$totalDK 						= 0;
+							$totalDS 						= 0;
+							$totalSP 						= 0;
+							$subtotalbruto 			= 0;
+							$totalretur 				= 0;
+							$totalpotongan 			= 0;
+							$totalpotistimewa 	= 0;
+							$totalpenyharga 		= 0;
+							$totalnetto 				= 0;
+							$totalbayar 				= 0;
+							$totalpenghapusanpiutang = 0;
+							$totaldiskonprogram = 0;
+							$totalpps = 0;
+							$totalpphk = 0;
+							$totalvsp = 0;
+							$totallainnya = 0;
+							$totalsapiutang			= 0;
+							$totalslpiutang 		= 0;
+						}
+						$rek  = $p->kode_cabang;
+						$no++;
+					} ?>
+				</tbody>
+				<tfoot>
+					<?php
+					echo '
 				<tr bgcolor="#024a75" style="color:white; font-weight:bold">
-					<td colspan="2" >TOTAL </td>
+					<td colspan="2" class="fixed-side" scope="col" style=" background-color:#024a75;color:white;">TOTAL </td>
 					<td align="right" >' . uang($grandtotalAB) . '</td>
 					<td align="right" >' . uang($grandtotalAR) . '</td>
 					<td align="right" >' . uang($grandtotalASE) . '</td>
@@ -328,13 +434,20 @@ if ($dari < '2018-09-01') {
 					<td align="right" >' . uang($grandtotalpenyharga) . '</td>
 					<td align="right" >' . uang($grandtotalnetto) . '</td>
 					<td align="right" >' . uang($grandtotalbayar) . '</td>
+					<td align="right" >' . uang($grandtotalpenghapusanpiutang) . '</td>
+					<td align="right" >' . uang($grandtotaldiskonprogram) . '</td>
+					<td align="right" >' . uang($grandtotalpps) . '</td>
+					<td align="right" >' . uang($grandtotalpphk) . '</td>
+					<td align="right" >' . uang($grandtotalvsp) . '</td>
+					<td align="right" >' . uang($grandtotallainnya) . '</td>
 					<td align="right" >' . uang($grandtotalsapiutang) . '</td>
 					<td align="right" >' . uang($grandtotalslpiutang) . '</td>
 				</tr>';
-			?>
-		</tfoot>
-	</table>
-
+					?>
+				</tfoot>
+			</table>
+		</div>
+	</div>
 	<br>
 	<table class="datatable3" style="border:0px;">
 
@@ -466,7 +579,7 @@ if ($dari < '2018-09-01') {
 				<td style="border:0px"></td>
 				<td colspan="2" style="border:0px">PENJUALAN SAUS PREMIUM</td>
 				<td style="border:0px" align="right"><b><?php echo uang($grandtotalSP); ?></b></td>
-			
+
 			</tr>
 			<tr>
 				<td style="border:0px"></td>
@@ -490,3 +603,11 @@ if ($dari < '2018-09-01') {
 		</tbody>
 	</table>
 <?php  } ?>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+	// requires jquery library
+	jQuery(document).ready(function() {
+		jQuery(".datatable3").clone(true).appendTo('#table-scroll').addClass('clone');
+	});
+</script>

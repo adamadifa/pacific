@@ -498,9 +498,8 @@ class Komisi extends CI_Controller
     }
 
     // Get records
-    $users_record = $this->Model_penjualan->getDataSaldoawal($tanggal, $cabang, $bulan, $tahun);
 
-    $data['result']               = $users_record;
+
 
     $data['tanggal']              = $tanggal;
     $data['cbg']                  = $cabang;
@@ -531,6 +530,7 @@ class Komisi extends CI_Controller
       $kodesaldoawalpiutang = "SP" . $cabang . $bln . $thn . $kodesales;
 
       $cek = $this->Model_komisi->cekSaldopiutang($kodesaldoawalpiutang)->num_rows();
+
       if (empty($cek)) {
         $data = [
           'kode_saldoawalpiutang' => $kodesaldoawalpiutang,
@@ -539,7 +539,7 @@ class Komisi extends CI_Controller
           'id_karyawan' => $p->salesbarunew,
           'saldo_piutang' => $p->saldopiutang
         ];
-
+        echo "A";
         $simpan = $this->db->insert('saldoawal_piutang', $data);
         if ($simpan) {
           echo "1";
@@ -548,8 +548,8 @@ class Komisi extends CI_Controller
         $data = [
           'saldo_piutang' => $p->saldopiutang
         ];
-
-        $update = $this->db->update('saldoawal_piutang', array('kode_saldoawalpiutang' => $kodesaldoawalpiutang));
+        echo "B";
+        $update = $this->db->update('saldoawal_piutang', $data, array('kode_saldoawalpiutang' => $kodesaldoawalpiutang));
         if ($update) {
           echo "2";
         }
