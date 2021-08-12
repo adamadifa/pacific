@@ -1813,6 +1813,12 @@ GROUP BY
 							totalpotongan, totalpotistimewa,
 							totalpenyharga,
 							totalbayar,
+							penghapusanpiutang,
+							diskonprogram,
+							pps,
+							pphk,
+							vsp,
+							lainnya,
 							saldoawalpiutang,
 						  IFNULL(saldoawalpiutang,0) + (IFNULL(totalbruto,0) - IFNULL(totalpotongan,0)-IFNULL(totalretur,0) - IFNULL(totalpotistimewa,0) - IFNULL(totalpenyharga,0)) - IFNULL(totalbayarpiutang,0) as saldoakhirpiutang
 						
@@ -1881,7 +1887,13 @@ GROUP BY
 						LEFT JOIN (
 								SELECT
 								historibayar.id_karyawan,
-									SUM(bayar) as totalbayar
+									SUM(bayar) as totalbayar,
+									SUM(IF(status_bayar='voucher' AND ket_voucher ='1',bayar,0)) as penghapusanpiutang,
+									SUM(IF(status_bayar='voucher' AND ket_voucher ='2',bayar,0)) as diskonprogram,
+									SUM(IF(status_bayar='voucher' AND ket_voucher ='3',bayar,0)) as pps,
+									SUM(IF(status_bayar='voucher' AND ket_voucher ='4',bayar,0)) as pphk,
+									SUM(IF(status_bayar='voucher' AND ket_voucher ='6',bayar,0)) as vsp,
+									SUM(IF(status_bayar='voucher' AND ket_voucher ='5',bayar,0)) as lainnya
 								FROM
 									historibayar
 									INNER JOIN penjualan ON historibayar.no_fak_penj = penjualan.no_fak_penj
