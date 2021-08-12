@@ -168,17 +168,18 @@ class Model_angkutan extends CI_Model
     $keterangan         = $this->input->post('keterangan');
     $bank               = $this->input->post('via');
     $no_kontrabon       = $this->input->post('no_kontrabon');
+    $bulan              = substr($this->input->post('tgl_ledger'),6,2);
 
     $jmlhangkutan = $this->db->query("SELECT SUM(tarif+bs+tepung) as jumlah FROM detail_kontrabon_angkutan
     INNER JOIN angkutan ON angkutan.no_surat_jalan=detail_kontrabon_angkutan.no_surat_jalan
     INNER JOIN mutasi_gudang_jadi ON mutasi_gudang_jadi.no_dok=angkutan.no_surat_jalan
-    WHERE MONTH(tgl_mutasi_gudang) = MONTH('$tgl_ledger') AND no_kontrabon = '$no_kontrabon'
+    WHERE MONTH(tgl_mutasi_gudang) = '$bulan' AND no_kontrabon = '$no_kontrabon'
      ")->row_array();
 
     $jmlhhutang = $this->db->query("SELECT SUM(tarif+bs+tepung) as jumlah FROM detail_kontrabon_angkutan
     INNER JOIN angkutan ON angkutan.no_surat_jalan=detail_kontrabon_angkutan.no_surat_jalan
     INNER JOIN mutasi_gudang_jadi ON mutasi_gudang_jadi.no_dok=angkutan.no_surat_jalan
-    WHERE MONTH(tgl_mutasi_gudang) != MONTH('$tgl_ledger') AND no_kontrabon = '$no_kontrabon' ")->row_array();
+    WHERE MONTH(tgl_mutasi_gudang) != '$bulan' AND no_kontrabon = '$no_kontrabon' ")->row_array();
 
     if($jmlhangkutan['jumlah'] != ''){
       $data = array(
@@ -196,9 +197,16 @@ class Model_angkutan extends CI_Model
         'ket_peruntukan'      => 'PST',
       );
       $this->db->insert('ledger_bank',$data);
-    }else if($jmlhhutang['jumlah'] != ''){
+    }
+
+    $qledgers            = "SELECT no_bukti FROM ledger_bank WHERE LEFT(no_bukti,7) = 'LR$cabang$tahun' ORDER BY no_bukti DESC LIMIT 1 ";
+    $ceknolasts          = $this->db->query($qledgers)->row_array();
+    $nobuktilasts        = $ceknolasts['no_bukti'];
+    $nobuktis            = buatkode($nobuktilasts, 'LR' . $cabang . $tahun, 4);
+    
+    if($jmlhhutang['jumlah'] != ''){
       $data = array(
-        'no_bukti'            => $nobukti,
+        'no_bukti'            => $nobuktis,
         'tgl_ledger'          => $tgl_ledger,
         'no_ref'              => $no_ref,
         'bank'                => $bank,
