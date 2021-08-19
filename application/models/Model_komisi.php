@@ -188,10 +188,21 @@ class Model_komisi extends CI_Model
   //   return $this->db->query($query);
   // }
 
-  function cetak_komisi($cabang, $bulan, $tahun)
+  function cetak_komisi($cabang, $bulan, $tahun, $end)
   {
     $dari = $tahun . "-" . $bulan . "-01";
     $sampai = date('Y-m-t', strtotime($dari));
+    $lastmonth = date('Y-m-d', strtotime(date($dari) . '- 1 month'));
+    $lastdate = explode("-", $lastmonth);
+    $bulanlast = $lastdate[1] + 0;
+    $tahunlast = $lastdate[0];
+    if ($bulanlast == 1) {
+      $blnlast1 = 12;
+      $thnlast1 = $tahun - 1;
+    } else {
+      $blnlast1 = $bulanlast - 1;
+      $thnlast1 = $tahun;
+    }
     $query = "SELECT karyawan.id_karyawan,nama_karyawan,
     target_BB_DP,
     BB,
@@ -206,7 +217,7 @@ class Model_komisi extends CI_Model
     AB,
     `AS`,
     CG5,
-    penjualankredit as targetawal,
+    IFNULL(saldo_piutang,0) + IFNULL(penjualankredit,0) as targetawal,
     target_collection,
     realisasi_collection,
     target_cashin,
@@ -255,6 +266,8 @@ class Model_komisi extends CI_Model
 			) retur ON (penjualan.no_fak_penj = retur.no_fak_penj) 
           WHERE tgltransaksi BETWEEN '$dari' AND '$sampai' AND jenistransaksi != 'tunai' AND datediff('$sampai', tgltransaksi) > (pelanggan.jatuhtempo+1)
           GROUP BY id_karyawan
+        
+        
         ) pj ON (pj.id_karyawan = karyawan.id_karyawan)
         LEFT JOIN (
         SELECT  id_karyawan,
@@ -275,15 +288,66 @@ class Model_komisi extends CI_Model
         GROUP BY id_karyawan) komisi_cashin ON (karyawan.id_karyawan = komisi_cashin.id_karyawan)
         
         LEFT JOIN (
-        SELECT
-          id_karyawan,SUM(bayar) as realisasi_cashin
-        FROM
-          historibayar
-        WHERE
-          tglbayar BETWEEN '$dari' 
-          AND '$sampai' AND status_bayar IS NULL
-        GROUP BY
-          id_karyawan 
+          SELECT karyawan.id_karyawan,
+          (IFNULL(jml_belumsetorbulanlalu,0)+IFNULL(totalsetoran,0)) + IFNULL(jml_gmlast,0) - IFNULL(jml_gmnow,0) - IFNULL(jml_belumsetorbulanini,0) as realisasi_cashin
+          FROM karyawan
+          LEFT JOIN (
+              SELECT id_karyawan,jumlah as jml_belumsetorbulanlalu FROM belumsetor_detail
+              INNER JOIN belumsetor ON belumsetor_detail.kode_saldobs = belumsetor.kode_saldobs
+              WHERE bulan='$bulanlast' AND tahun='$tahunlast'
+          ) bs ON (karyawan.id_karyawan = bs.id_karyawan)
+
+          LEFT JOIN (
+            SELECT id_karyawan, SUM(lhp_tunai+lhp_tagihan) as totalsetoran FROM setoran_penjualan WHERE tgl_lhp BETWEEN '$dari' AND '$sampai' GROUP BY id_karyawan
+          ) sp ON (karyawan.id_karyawan = sp.id_karyawan)
+
+
+          LEFT JOIN (
+            SELECT
+              giro.id_karyawan,
+              SUM( jumlah ) AS jml_gmlast 
+            FROM
+              giro
+              INNER JOIN penjualan ON giro.no_fak_penj = penjualan.no_fak_penj
+              LEFT JOIN ( SELECT id_giro FROM historibayar GROUP BY id_giro ) AS hb ON giro.id_giro = hb.id_giro 
+            WHERE
+              MONTH ( tgl_giro ) = '$bulanlast' 
+              AND YEAR ( tgl_giro ) = '$tahun' 
+              AND omset_tahun = '$tahun' 
+              AND omset_bulan = '$bulan' 
+              OR  MONTH ( tgl_giro ) = '$blnlast1' 
+              AND YEAR ( tgl_giro ) = '$thnlast1' 
+              AND omset_tahun = '$tahun' 
+              AND omset_bulan = '$bulan' 
+            GROUP BY
+              id_karyawan
+          ) gmlast ON (karyawan.id_karyawan = gmlast.id_karyawan)
+
+          LEFT JOIN (
+          SELECT
+            giro.id_karyawan,
+            SUM( jumlah ) AS jml_gmnow 
+          FROM
+            giro
+            INNER JOIN penjualan ON giro.no_fak_penj = penjualan.no_fak_penj
+            LEFT JOIN ( SELECT id_giro, tglbayar FROM historibayar GROUP BY id_giro, tglbayar ) AS hb ON giro.id_giro = hb.id_giro 
+          WHERE
+            tgl_giro >= '$dari' 
+            AND tgl_giro <= '$sampai' AND tglbayar IS NULL AND omset_bulan = '0' AND omset_tahun = '' 
+            OR  tgl_giro >= '$dari' 
+            AND tgl_giro <= '$sampai' AND tglbayar >= '$end' 
+            AND omset_bulan > '$bulan' 
+            AND omset_tahun >= '$tahun' 
+          GROUP BY
+            giro.id_karyawan
+          ) gmnow ON (karyawan.id_karyawan = gmnow.id_karyawan)
+
+          LEFT JOIN (
+              SELECT belumsetor_detail.id_karyawan, SUM(jumlah) as jml_belumsetorbulanini
+              FROM belumsetor_detail
+              INNER JOIN belumsetor ON belumsetor_detail.kode_saldobs = belumsetor.kode_saldobs
+              WHERE bulan ='$bulan' AND tahun ='$tahun' GROUP BY id_karyawan
+          ) bsnow ON (karyawan.id_karyawan = bsnow.id_karyawan)
         ) hb ON ( karyawan.id_karyawan = hb.id_karyawan )
         
         LEFT JOIN(

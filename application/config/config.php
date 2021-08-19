@@ -33,7 +33,6 @@ $config['database_pass']   = 'swanpacific160';
 $config['database_name']  = 'pacific';
 
 
-
 //Setingan Base URL
 $config['base_url'] = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http");
 $config['base_url'] .= "://" . $_SERVER['HTTP_HOST'];

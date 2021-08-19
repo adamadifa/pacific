@@ -282,12 +282,22 @@ class Komisi extends CI_Controller
     $cabang = $this->input->post('cabang');
     $bulan = $this->input->post('bulan');
     $tahun = $this->input->post('tahun');
+    $dari = $tahun . "-" . $bulan . "-01";
+    $ceknextbulan     = $this->Model_laporanpenjualan->cekNextBulan($cabang, $bulan, $tahun)->row_array();
+    $tglnextbulan     = $ceknextbulan['tgl_diterimapusat'];
+    if (empty($tglnextbulan)) {
+      $end = date("Y-m-t", strtotime($dari));
+    } else {
+      $end = $ceknextbulan['tgl_diterimapusat'];
+    }
+
+
     $data['cabang'] = $cabang;
     $data['bln'] = $bulan;
     $data['tahun'] = $tahun;
     $data['barang'] = $this->Model_barang->getMasterproduk()->result();
     $data['bulan'] = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
-    $data['komisi'] = $this->Model_komisi->cetak_komisi($cabang, $bulan, $tahun)->result();
+    $data['komisi'] = $this->Model_komisi->cetak_komisi($cabang, $bulan, $tahun, $end)->result();
     //var_dump($data['komisi']);
     //die;
     if (isset($_POST['export'])) {
