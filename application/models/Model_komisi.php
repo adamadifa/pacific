@@ -288,19 +288,19 @@ class Model_komisi extends CI_Model
         
         LEFT JOIN(
         SELECT penjualan.id_karyawan, 
-        SUM(IF(kode_produk = 'AB',jumlah,0)) as AB,
-        SUM(IF(kode_produk = 'AR',jumlah,0)) as AR,
-        SUM(IF(kode_produk = 'AS',jumlah,0)) as `AS`,
-        SUM(IF(kode_produk = 'BB',jumlah,0)) as BB,
-        SUM(IF(kode_produk = 'CG',jumlah,0)) as CG,
-        SUM(IF(kode_produk = 'CGG',jumlah,0)) as CGG,
-        SUM(IF(kode_produk = 'DEP',jumlah,0)) as DEP,
-        SUM(IF(kode_produk = 'DK',jumlah,0)) as DK,
-        SUM(IF(kode_produk = 'DS',jumlah,0)) as DS,
-        SUM(IF(kode_produk = 'SP',jumlah,0)) as SP,
-        SUM(IF(kode_produk = 'BBP',jumlah,0)) as BBP,
-        SUM(IF(kode_produk = 'SPP',jumlah,0)) as SPP,
-        SUM(IF(kode_produk = 'CG5',jumlah,0)) as CG5
+        SUM(IF(kode_produk = 'AB' AND promo !='1',jumlah,0)) as AB,
+        SUM(IF(kode_produk = 'AR' AND promo !='1',jumlah,0)) as AR,
+        SUM(IF(kode_produk = 'AS' AND promo !='1',jumlah,0)) as `AS`,
+        SUM(IF(kode_produk = 'BB' AND promo !='1',jumlah,0)) as BB,
+        SUM(IF(kode_produk = 'CG' AND promo !='1',jumlah,0)) as CG,
+        SUM(IF(kode_produk = 'CGG' AND promo !='1',jumlah,0)) as CGG,
+        SUM(IF(kode_produk = 'DEP' AND promo !='1',jumlah,0)) as DEP,
+        SUM(IF(kode_produk = 'DK' AND promo !='1',jumlah,0)) as DK,
+        SUM(IF(kode_produk = 'DS' AND promo !='1',jumlah,0)) as DS,
+        SUM(IF(kode_produk = 'SP' AND promo !='1',jumlah,0)) as SP,
+        SUM(IF(kode_produk = 'BBP' AND promo !='1',jumlah,0)) as BBP,
+        SUM(IF(kode_produk = 'SPP' AND promo !='1',jumlah,0)) as SPP,
+        SUM(IF(kode_produk = 'CG5' AND promo !='1',jumlah,0)) as CG5
         FROM detailpenjualan
         INNER JOIN penjualan ON detailpenjualan.no_fak_penj = penjualan.no_fak_penj
         INNER JOIN barang ON detailpenjualan.kode_barang = barang.kode_barang
