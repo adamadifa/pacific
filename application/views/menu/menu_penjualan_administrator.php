@@ -458,6 +458,62 @@ if ($level == "Administrator") {
 
     </div>
   </div>
+  <?php } else if ($level == "supervisor cabang") { ?>
+  <div class="card">
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action active">
+        Data Master
+      </a>
+      <a href="<?php echo base_url(); ?>pelanggan/view_pelanggan" class="list-group-item list-group-item-action">Data Pelanggan</a>
+    </div>
+  </div>
+  <div class="card">
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action active">
+        Laporan
+      </a>
+      <a href="<?php echo base_url(); ?>laporanpenjualan/penjualan" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i> Penjualan
+      </a>
+      <a href="<?php echo base_url(); ?>laporanpenjualan/kasbesar" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i> Kas Besar
+      </a>
+      <a href="<?php echo base_url(); ?>laporanpenjualan/kartupiutang" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i>Kartu Piutang
+      </a>
+      <a href="<?php echo base_url(); ?>laporanpenjualan/aup" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i>AUP
+      </a>
+      <a href="<?php echo base_url(); ?>laporanpenjualan/tunaikredit" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i>Tunai Kredit
+      </a>
+      <a href="<?php echo base_url(); ?>laporanpenjualan/lebihsatufaktur" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i>Lebih 1 Faktur
+      </a>
+      <a href="<?php echo base_url(); ?>laporanpenjualan/lapdppp" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i>DPPP
+      </a>
+      <a href="<?php echo base_url(); ?>laporanpenjualan/repo" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i>REPO
+      </a>
+      <a href="<?php echo base_url(); ?>laporanpenjualan/dpp" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i>DPP
+      </a>
+      <a href="<?php echo base_url(); ?>laporanpenjualan/rekapomset" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i>Rekap Omset Pelanggan
+      </a>
+      <a href="<?php echo base_url(); ?>laporanpenjualan/rekappelanggan" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i>Rekap Pelanggan
+      </a>
+      <a href="<?php echo base_url(); ?>laporanpenjualan/rekappenjualan" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i>Rekap Penjualan
+      </a>
+      <a href="<?php echo base_url(); ?>laporanpenjualan/penjualanpending" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i>Penjualan Pending
+      </a>
+
+    </div>
+  </div>
 <?php } else if ($level == "keuangan") {
   $this->load->view('menu/menu_keuangan_administrator'); ?>
 <?php } ?>

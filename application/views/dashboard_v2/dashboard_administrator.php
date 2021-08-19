@@ -316,9 +316,9 @@
               <h4 class="card-title">Data Persediaan All Cabang (DPB)</h4>
             </div>
             <div class="card-body">
-              <div class="alert alert-info">
+              <!-- <div class="alert alert-info">
                 Sedang Di Maintenance !
-              </div>
+              </div> -->
               <div id="loadrekappersediaan"></div>
             </div>
           </div>
@@ -360,7 +360,7 @@
       });
     }
 
-    //loadrekappersediaan();
+    loadrekappersediaan();
 
     function loadrekappenjualan() {
       var bulan = $("#bulan").val();

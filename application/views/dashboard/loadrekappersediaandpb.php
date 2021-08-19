@@ -873,7 +873,8 @@ AND `kode_produk` = 'SPP' AND kode_cabang='$r->kode_cabang'")->row_array();
         <td><span class="badge <?php echo $colorsdk; ?>"><?php echo number_format(floor($sdk), '0', ',', '.'); ?></span></td>
         <td><span class="badge <?php echo $colorsds; ?>"><?php echo number_format(floor($sds), '0', ',', '.'); ?></span></td>
         <td><span class="badge <?php echo $colorssp; ?>"><?php echo number_format(floor($ssp), '0', ',', '.'); ?></span></td>
-        <td><span class="badge <?php echo $colorsspp; ?>"><?php echo number_format(floor($sspp), '0', ',', '.'); ?></span></td>
+        <!-- <td><span class="badge <?php echo $colorsspp; ?>"><?php echo number_format(floor($sspp), '0', ',', '.'); ?></span></td> -->
+        <td><span class="badge <?php echo $colorsspp; ?>">Sedang Maintenance</span></td>
       </tr>
     <?php } ?>
   </table>
