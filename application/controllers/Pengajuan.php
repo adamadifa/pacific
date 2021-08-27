@@ -115,6 +115,13 @@ class Pengajuan extends CI_Controller
     $this->Model_pengajuan->inputDetailPengajuanBarangTemp();
   }
 
+  function approvalpengajuan()
+  {
+
+    $this->Model_pengajuan->approvalpengajuan();
+  }
+
+
   function hapusDetailPengajuanBarangTemp()
   {
 

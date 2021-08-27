@@ -7,8 +7,7 @@ class Model_pengajuan extends CI_Model
   {
 
     $this->db->select('*');
-    $this->db->from('pengajuan_barang');
-    $this->db->join('departemen', 'pengajuan_barang.kode_dept = departemen.kode_dept','left');
+    $this->db->from('viewpengajuanbarang');
     $this->db->order_by('tanggal', 'DESC');
 
     if ($nobukti != '') {
@@ -28,8 +27,7 @@ class Model_pengajuan extends CI_Model
   {
 
     $this->db->select('count(*) as allcount');
-    $this->db->from('pengajuan_barang');
-    $this->db->join('departemen', 'pengajuan_barang.kode_dept = departemen.kode_dept','left');
+    $this->db->from('viewpengajuanbarang');
     $this->db->order_by('tanggal', 'DESC');
 
     if ($nobukti != '') {
@@ -74,6 +72,9 @@ class Model_pengajuan extends CI_Model
         'status'            => 0,
       );
       $this->db->insert('detail_pengajuan_barang',$data);
+      // if($d->approval == '244' || $d->approval == '10' || $d->approval == '6' || $d->approval == '11' || $d->approval == '73' || $d->approval == '5' ){
+      //   $this->db->query("UPDATE pengajuan_barang SET status = '1'  WHERE nobukti = '$nobukti' ");
+      // }
     }
     $this->db->query("DELETE FROM detail_pengajuan_barang_temp WHERE id_user = '$id_user' ");
     redirect('pengajuan/pengajuanBarang');
@@ -103,14 +104,24 @@ class Model_pengajuan extends CI_Model
 
   public function getDataPengajuanBarang(){
   
-    return $this->db->query("SELECT pengajuan_barang.nobukti,nama_lengkap,kode_cabang,tanggal,foto,kode_dept,keterangan,id_user 
-    FROM pengajuan_barang 
-    
-    LEFT JOIN(
-      SELECT detail_pengajuan_barang.nobukti,id_user FROM detail_pengajuan_barang WHERE id_user = '10'
-      GROUP BY detail_pengajuan_barang.nobukti,id_user
-    ) dpb ON (dpb.nobukti=pengajuan_barang.nobukti) 
-    
+    $id_user            = $this->session->userdata('id_user');
+    return $this->db->query("SELECT
+    pengajuan_barang.nobukti,
+    pengajuan_barang.nama_lengkap,
+    pengajuan_barang.tanggal,
+    pengajuan_barang.kode_cabang,
+    MAX(IF (id_user = '244', status, '')) AS ga,
+    MAX(IF (id_user = '73', status, '')) AS mg,
+    MAX(IF (id_user = '6', status, '')) AS ma,
+    MAX(IF (id_user = '5', status, '')) AS mm,
+    MAX(IF (id_user = '10', status, '')) AS gm,
+    MAX(IF (id_user = '11', status, '')) AS dirut
+    FROM pengajuan_barang
+    LEFT JOIN 
+    (
+      SELECT nobukti,id_user,status FROM detail_pengajuan_barang  
+    ) dpb ON (dpb.nobukti=pengajuan_barang.nobukti)
+    GROUP BY pengajuan_barang.nobukti
     ");
   }
 
@@ -120,6 +131,15 @@ class Model_pengajuan extends CI_Model
     return $this->db->query("SELECT * FROM detail_pengajuan_barang 
     INNER JOIN master_barang_pembelian ON master_barang_pembelian.kode_barang=detail_pengajuan_barang.kode_barang
     WHERE nobukti = '$nobukti' ");
+  }
+
+  public function approvalpengajuan(){
+
+    $nobukti       = str_replace(".","/",$this->uri->segment(3));
+    $status         = $this->uri->segment(4);
+    $id_user        = $this->session->userdata('id_user');
+    $this->db->query("UPDATE detail_pengajuan_barang SET status = '$status'  WHERE nobukti = '$nobukti' AND id_user = '$id_user' ");
+    redirect('pengajuan/pengajuanBarang');
   }
 
   public function getPengajuanBarang(){

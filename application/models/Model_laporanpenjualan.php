@@ -1920,11 +1920,11 @@ GROUP BY
 										SELECT MAX(id_move) as id_move,no_fak_penj,move_faktur.id_karyawan as salesbaru,karyawan.kode_cabang as cabangbaru
 										FROM move_faktur
 										INNER JOIN karyawan ON move_faktur.id_karyawan = karyawan.id_karyawan
-										WHERE tgl_move <= '2021-07-01'
+										WHERE tgl_move <= '$dari'
 										GROUP BY no_fak_penj,move_faktur.id_karyawan,karyawan.kode_cabang
 									) move_fak ON (pj.no_fak_penj = move_fak.no_fak_penj)
 								) pjmove ON (historibayar.no_fak_penj = pjmove.no_fak_penj)
-								WHERE tglbayar BETWEEN '2021-07-01' AND '2021-07-31'
+								WHERE tglbayar BETWEEN '$dari' AND '$sampai'
 								GROUP BY pjmove.salesbarunew
 							) hbpiutang ON ( karyawan.id_karyawan = hbpiutang.salesbarunew )
 

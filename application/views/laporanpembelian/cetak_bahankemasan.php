@@ -102,10 +102,27 @@ function angka($nilai)
 				<td colspan="8"><b>Total Bahan Pembantu</b></td>
 				<td align="right"><b><?php echo uang($totalbahanpembantu); ?></b></td>
 			</tr>
-		<?php } else { ?>
+		<?php } else if ($jenis == 'KEMASAN') { ?>
 			<tr bgcolor="#024a75" style="color:white">
 				<td colspan="8"><b>Total Bahan Kemasan</b></td>
 				<td align="right"><b><?php echo uang($totalkemasan); ?></b></td>
+			</tr>
+		<?php } else { ?>
+			<tr bgcolor="#024a75" style="color:white">
+				<td colspan="8"><b>Total Bahan Baku</b></td>
+				<td align="right"><b><?php echo uang($totalbahanbaku); ?></b></td>
+			</tr>
+			<tr bgcolor="#024a75" style="color:white">
+				<td colspan="8"><b>Total Bahan Pembantu</b></td>
+				<td align="right"><b><?php echo uang($totalbahanpembantu); ?></b></td>
+			</tr>
+			<tr bgcolor="#024a75" style="color:white">
+				<td colspan="8"><b>Total Bahan Kemasan</b></td>
+				<td align="right"><b><?php echo uang($totalkemasan); ?></b></td>
+			</tr>
+			<tr bgcolor="#024a75" style="color:white">
+				<td colspan="8"><b>Total</b></td>
+				<td align="right"><b><?php echo uang($totalkemasan+$totalbahanbaku+$totalbahanpembantu); ?></b></td>
 			</tr>
 		<?php } ?>
 	</tbody>
