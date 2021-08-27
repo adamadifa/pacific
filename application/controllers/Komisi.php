@@ -269,6 +269,13 @@ class Komisi extends CI_Controller
     $this->template->load('template/template', 'komisi/laporan/komisi', $data);
   }
 
+  function insentif()
+  {
+    $data['cb']    = $this->session->userdata('cabang');
+    $data['bulan'] = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+    $this->template->load('template/template', 'komisi/laporan/insentif', $data);
+  }
+
   function laporankomisi2()
   {
     $data['cb']    = $this->session->userdata('cabang');
@@ -309,6 +316,39 @@ class Komisi extends CI_Controller
     }
     $this->load->view('komisi/laporan/cetak_komisi', $data);
   }
+
+  function cetak_insentif()
+  {
+    $cabang = $this->input->post('cabang');
+    $bulan = $this->input->post('bulan');
+    $tahun = $this->input->post('tahun');
+    $dari = $tahun . "-" . $bulan . "-01";
+    $ceknextbulan     = $this->Model_laporanpenjualan->cekNextBulan($cabang, $bulan, $tahun)->row_array();
+    $tglnextbulan     = $ceknextbulan['tgl_diterimapusat'];
+    if (empty($tglnextbulan)) {
+      $end = date("Y-m-t", strtotime($dari));
+    } else {
+      $end = $ceknextbulan['tgl_diterimapusat'];
+    }
+
+
+    $data['cabang'] = $cabang;
+    $data['bln'] = $bulan;
+    $data['tahun'] = $tahun;
+    $data['bulan'] = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+    $data['insentif'] = $this->Model_komisi->cetak_insentif($cabang, $bulan, $tahun, $end)->result();
+    //var_dump($data['komisi']);
+    //die;
+    if (isset($_POST['export'])) {
+      // Fungsi header dengan mengirimkan raw data excel
+      header("Content-type: application/vnd-ms-excel");
+
+      // Mendefinisikan nama file ekspor "hasil-export.xls"
+      header("Content-Disposition: attachment; filename=Laporan Komisi.xls");
+    }
+    $this->load->view('komisi/laporan/cetak_insentif', $data);
+  }
+
 
   function cetak_komisi2()
   {

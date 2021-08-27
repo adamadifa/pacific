@@ -211,7 +211,11 @@ function formatnumber($nilai)
       if (!empty($d->target_collection)) {
         $penalty = (($d->realisasi_collection / $d->target_collection) - 1) * $totalpoin;
       } else {
-        $penalty = 0;
+        if (!empty($d->targetawal)) {
+          $penalty = (($d->realisasi_collection / $d->targetawal) - 1) * $totalpoin;
+        } else {
+          $penalty = 0;
+        }
       }
 
       $poinakhir = $totalpoin + $penalty;

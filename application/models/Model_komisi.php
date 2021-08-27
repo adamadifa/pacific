@@ -217,7 +217,7 @@ class Model_komisi extends CI_Model
     AB,
     `AS`,
     CG5,
-    IFNULL(saldo_piutang,0) + IFNULL(penjualankredit,0) as targetawal,
+    IFNULL(saldo_piutang,0) + IFNULL(penjualankredit,0) as  targetawal,
     target_collection,
     realisasi_collection,
     target_cashin,
@@ -238,12 +238,32 @@ class Model_komisi extends CI_Model
         GROUP BY id_karyawan) komisi ON (karyawan.id_karyawan = komisi.id_karyawan)
         
         LEFT JOIN (
-          SELECT historibayar.id_karyawan, SUM(bayar) as realisasi_collection 
+          SELECT salesbarunew,SUM(bayar) as realisasi_collection
           FROM historibayar
-          INNER JOIN penjualan ON historibayar.no_fak_penj	= penjualan.no_fak_penj
-          WHERE penjualan.jenistransaksi != 'tunai' AND tglbayar BETWEEN '$dari' AND '$sampai'
-          GROUP BY historibayar.id_karyawan
-        ) collection ON (karyawan.id_karyawan = collection.id_karyawan)
+          LEFT JOIN (
+            SELECT penjualan.no_fak_penj,tgltransaksi,salesbarunew,penjualan.jenistransaksi,penjualan.kode_pelanggan
+            FROM penjualan 
+            LEFT JOIN (
+                SELECT pj.no_fak_penj,
+                IF(salesbaru IS NULL,pj.id_karyawan,salesbaru) as salesbarunew, karyawan.nama_karyawan as nama_sales,
+                IF(cabangbaru IS NULL,karyawan.kode_cabang,cabangbaru) as cabangbarunew
+                FROM penjualan pj
+                INNER JOIN karyawan ON pj.id_karyawan = karyawan.id_karyawan
+                LEFT JOIN (
+                  SELECT MAX(id_move) as id_move,no_fak_penj,move_faktur.id_karyawan as salesbaru,karyawan.kode_cabang as cabangbaru
+                  FROM move_faktur
+                  INNER JOIN karyawan ON move_faktur.id_karyawan = karyawan.id_karyawan
+                  WHERE tgl_move <= '$dari'
+                  GROUP BY no_fak_penj,move_faktur.id_karyawan,karyawan.kode_cabang
+                ) move_fak ON (pj.no_fak_penj = move_fak.no_fak_penj)
+
+            ) pjmove ON (penjualan.no_fak_penj = pjmove.no_fak_penj)
+          ) penj ON (historibayar.no_fak_penj = penj.no_fak_penj)
+          INNER JOIN pelanggan ON penj.kode_pelanggan = pelanggan.kode_pelanggan
+          WHERE tglbayar BETWEEN '$dari' AND '$sampai' AND penj.jenistransaksi ='kredit'
+          AND datediff('$sampai', penj.tgltransaksi) > pelanggan.jatuhtempo 
+          GROUP BY salesbarunew
+        ) collection ON (karyawan.id_karyawan = collection.salesbarunew)
 		
         LEFT JOIN (
           SELECT id_karyawan,saldo_piutang
@@ -252,20 +272,24 @@ class Model_komisi extends CI_Model
         ) saldoawal_piutang ON (saldoawal_piutang.id_karyawan = karyawan.id_karyawan)
         
         LEFT JOIN (
-          SELECT id_karyawan,SUM(IFNULL(penjualan.total,0) - IFNULL(retur.total,0)) as penjualankredit
+          SELECT id_karyawan,SUM(IFNULL(total,0) - (IFNULL(totalpf,0)-IFNULL(totalgb,0))) as penjualankredit
           FROM penjualan
-          INNER JOIN pelanggan ON penjualan.kode_pelanggan  = pelanggan.kode_pelanggan
+          INNER JOIN pelanggan ON penjualan.kode_pelanggan = pelanggan.kode_pelanggan
           LEFT JOIN (
-				    SELECT retur.no_fak_penj AS no_fak_penj,
-				    SUM(total) AS total
-				    FROM
-					  retur
-				    WHERE tglretur BETWEEN '$dari' AND '$sampai'
-				    GROUP BY
-				  	retur.no_fak_penj
-			) retur ON (penjualan.no_fak_penj = retur.no_fak_penj) 
-          WHERE tgltransaksi BETWEEN '$dari' AND '$sampai' AND jenistransaksi != 'tunai' AND datediff('$sampai', tgltransaksi) > (pelanggan.jatuhtempo+1)
+                SELECT retur.no_fak_penj AS no_fak_penj,
+                sum(retur.subtotal_gb) AS totalgb,
+                sum(retur.subtotal_pf) AS totalpf
+                FROM
+                retur
+                WHERE tglretur BETWEEN '$dari' AND '$sampai'
+                GROUP BY
+                  retur.no_fak_penj
+              ) returbulanini ON (penjualan.no_fak_penj = returbulanini.no_fak_penj)
+              
+          WHERE  tgltransaksi BETWEEN '$dari' AND '$sampai' AND jenistransaksi='kredit' 
+          AND datediff('$sampai', penjualan.tgltransaksi) > pelanggan.jatuhtempo
           GROUP BY id_karyawan
+
         
         
         ) pj ON (pj.id_karyawan = karyawan.id_karyawan)
@@ -620,5 +644,20 @@ class Model_komisi extends CI_Model
     $this->db->from('saldoawal_piutang');
     $this->db->select('saldoawal_piutang.id_karyawan,nama_karyawan,bulan,tahun,saldo_piutang');
     return $this->db->get();
+  }
+
+  function cetak_insentif($cabang, $bulan, $tahun, $end)
+  {
+    $dari = $tahun . "-" . $bulan . "-01";
+    $sampai = date('Y-m-t', strtotime($dari));
+    $query = "SELECT cabang.kode_cabang,nama_cabang,cashin FROM cabang
+    LEFT JOIN (
+      SELECT karyawan.kode_cabang,SUM(bayar) as cashin
+      FROM historibayar
+      INNER JOIN karyawan ON historibayar.id_karyawan = karyawan.id_karyawan
+      WHERE tglbayar BETWEEN '$dari' AND '$sampai'
+      GROUP BY karyawan.kode_cabang
+    ) hb ON (cabang.kode_cabang = hb.kode_cabang)";
+    return $this->db->query($query);
   }
 }

@@ -225,7 +225,7 @@ $hariini = date("Y-m-d");
     INNER JOIN saldoawal_bj ON saldodetail.kode_saldoawal = saldoawal_bj.kode_saldoawal 
     WHERE kode_cabang ='$r->kode_cabang' AND kode_produk='CG' AND status='GS' ORDER BY tanggal DESC LIMIT 1")->row_array();
 
-    $cg5 = $this->db->query("SELECT tanggal,kode_produk,jumlah FROM saldoawal_bj_detail saldodetail
+      $cg5 = $this->db->query("SELECT tanggal,kode_produk,jumlah FROM saldoawal_bj_detail saldodetail
     INNER JOIN saldoawal_bj ON saldodetail.kode_saldoawal = saldoawal_bj.kode_saldoawal 
     WHERE kode_cabang ='$r->kode_cabang' AND kode_produk='CG5' AND status='GS' ORDER BY tanggal DESC LIMIT 1")->row_array();
 
@@ -414,7 +414,7 @@ $hariini = date("Y-m-d");
   WHERE tgl_pengambilan >= '$ab[tanggal]' AND tgl_pengambilan <= '$hariini'
   AND `kode_produk` = 'BB' AND kode_cabang='$r->kode_cabang'")->row_array();
 
-  $msjbbp = $this->db->query("SELECT 
+      $msjbbp = $this->db->query("SELECT 
   SUM(IF(inout_good ='IN' AND tgl_mutasi_gudang_cabang >= '$ab[tanggal]' AND tgl_mutasi_gudang_cabang <= '$hariini'  ,jumlah,0))-
   SUM(IF(inout_good ='OUT' AND tgl_mutasi_gudang_cabang >= '$ab[tanggal]' AND tgl_mutasi_gudang_cabang <= '$hariini' ,jumlah,0)) as jumlah
   FROM `detail_mutasi_gudang_cabang` 
@@ -492,7 +492,7 @@ $hariini = date("Y-m-d");
 
 
 
-$msjcg = $this->db->query("SELECT 
+      $msjcg = $this->db->query("SELECT 
 SUM(IF(inout_good ='IN' AND tgl_mutasi_gudang_cabang >= '$ab[tanggal]' AND tgl_mutasi_gudang_cabang <= '$hariini'  ,jumlah,0))-
 SUM(IF(inout_good ='OUT' AND tgl_mutasi_gudang_cabang >= '$ab[tanggal]' AND tgl_mutasi_gudang_cabang <= '$hariini' ,jumlah,0)) as jumlah
 FROM `detail_mutasi_gudang_cabang` 
@@ -520,7 +520,7 @@ OR `jenis_mutasi` = 'PENYESUAIAN'
  'CG' AND `mutasi_gudang_cabang`.`kode_cabang` = '$r->kode_cabang' 
 ORDER BY `tgl_mutasi_gudang_cabang` ASC")->row_array();
 
-    $dpbambilcg = $this->db->query("SELECT
+      $dpbambilcg = $this->db->query("SELECT
 TRUNCATE(SUM(jml_pengambilan),2) as jumlah,TRUNCATE(SUM(jml_pengembalian),2) as jumlah_kembali   
 FROM
 `detail_dpb`
@@ -873,8 +873,8 @@ AND `kode_produk` = 'SPP' AND kode_cabang='$r->kode_cabang'")->row_array();
         <td><span class="badge <?php echo $colorsdk; ?>"><?php echo number_format(floor($sdk), '0', ',', '.'); ?></span></td>
         <td><span class="badge <?php echo $colorsds; ?>"><?php echo number_format(floor($sds), '0', ',', '.'); ?></span></td>
         <td><span class="badge <?php echo $colorssp; ?>"><?php echo number_format(floor($ssp), '0', ',', '.'); ?></span></td>
-        <!-- <td><span class="badge <?php echo $colorsspp; ?>"><?php echo number_format(floor($sspp), '0', ',', '.'); ?></span></td> -->
-        <td><span class="badge <?php echo $colorsspp; ?>">Sedang Maintenance</span></td>
+        <td><span class="badge <?php echo $colorsspp; ?>"><?php echo number_format(floor($sspp), '0', ',', '.'); ?></span></td>
+        <!-- <td><span class="badge <?php echo $colorsspp; ?>">Sedang Maintenance</span></td> -->
       </tr>
     <?php } ?>
   </table>
