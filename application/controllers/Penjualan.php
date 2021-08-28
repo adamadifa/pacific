@@ -4058,4 +4058,12 @@ class Penjualan extends CI_Controller
 
     echo $komentar['uraian_analisa'];
   }
+
+  function input_lpc()
+  {
+    $data['bln'] = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+    $data['cabang']      = $this->Model_cabang->view_cabang()->result();
+    $data['sess_cab']    = $this->session->userdata('cabang');
+    $this->template->load('template/template', 'penjualan/input_lpc', $data);
+  }
 }

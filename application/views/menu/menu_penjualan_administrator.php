@@ -10,6 +10,9 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>penjualan/input_penjualan" class="list-group-item list-group-item-action">
         <i class="fa fa-shopping-cart mr-2"></i>Input Penjualan
       </a>
+      <a href="<?php echo base_url(); ?>penjualan/input_lpc" class="list-group-item list-group-item-action">
+        <i class="fa fa-file-text mr-2"></i>Input Pengiriman LPC
+      </a>
       <a href="<?php echo base_url(); ?>penjualan/suratjalan" class="list-group-item list-group-item-action">
         <i class="fa fa-truck mr-2"></i>Data Penjualan & Surat Jalan
       </a>
@@ -458,7 +461,7 @@ if ($level == "Administrator") {
 
     </div>
   </div>
-  <?php } else if ($level == "supervisor cabang") { ?>
+<?php } else if ($level == "supervisor cabang") { ?>
   <div class="card">
     <div class="list-group">
       <a href="#" class="list-group-item list-group-item-action active">

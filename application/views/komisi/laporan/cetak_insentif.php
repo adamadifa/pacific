@@ -42,6 +42,11 @@ function formatnumber($nilai)
         <td><?= $no; ?></td>
         <td><?= $d->nama_cabang; ?></td>
         <td align="right"><?= number_format($d->cashin, '0', '', '.'); ?></td>
+        <td></td>
+        <td></td>
+        <td align="right"><?= number_format($d->sisapiutang, '0', '', '.'); ?></td>
+        <td></td>
+        <td></td>
       </tr>
     <?php $no++;
     } ?>

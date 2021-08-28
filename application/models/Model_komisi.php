@@ -650,14 +650,55 @@ class Model_komisi extends CI_Model
   {
     $dari = $tahun . "-" . $bulan . "-01";
     $sampai = date('Y-m-t', strtotime($dari));
-    $query = "SELECT cabang.kode_cabang,nama_cabang,cashin FROM cabang
+    $query = "SELECT cabang.kode_cabang,nama_cabang,cashin,sisapiutang FROM cabang
     LEFT JOIN (
       SELECT karyawan.kode_cabang,SUM(bayar) as cashin
       FROM historibayar
       INNER JOIN karyawan ON historibayar.id_karyawan = karyawan.id_karyawan
       WHERE tglbayar BETWEEN '$dari' AND '$sampai'
       GROUP BY karyawan.kode_cabang
-    ) hb ON (cabang.kode_cabang = hb.kode_cabang)";
+    ) hb ON (cabang.kode_cabang = hb.kode_cabang)
+      
+    LEFT JOIN (
+      SELECT cabangbarunew,SUM((ifnull(penjualan.total,0) - (ifnull(totalpf_last,0)-ifnull(totalgb_last,0)))-ifnull(totalbayar,0)) as sisapiutang
+      FROM penjualan
+      LEFT JOIN (
+        SELECT pj.no_fak_penj,
+        IF(salesbaru IS NULL,pj.id_karyawan,salesbaru) as salesbarunew, karyawan.nama_karyawan as nama_sales,
+        IF(cabangbaru IS NULL,karyawan.kode_cabang,cabangbaru) as cabangbarunew
+        FROM penjualan pj
+        INNER JOIN karyawan ON pj.id_karyawan = karyawan.id_karyawan
+        LEFT JOIN (
+          SELECT MAX(id_move) as id_move,no_fak_penj,move_faktur.id_karyawan as salesbaru,karyawan.kode_cabang as 						cabangbaru
+          FROM move_faktur
+          INNER JOIN karyawan ON move_faktur.id_karyawan = karyawan.id_karyawan
+          WHERE tgl_move <= '$sampai'
+          GROUP BY no_fak_penj,move_faktur.id_karyawan,karyawan.kode_cabang
+        ) move_fak ON (pj.no_fak_penj = move_fak.no_fak_penj)
+      ) pjmove ON (penjualan.no_fak_penj = pjmove.no_fak_penj)
+      
+      LEFT JOIN (
+        SELECT retur.no_fak_penj AS no_fak_penj,
+        sum(retur.subtotal_gb) AS totalgb_last,
+        sum(retur.subtotal_pf) AS totalpf_last
+        FROM
+          retur
+        WHERE tglretur <= '$sampai'
+        GROUP BY
+          retur.no_fak_penj
+      ) r ON (penjualan.no_fak_penj = r.no_fak_penj)
+      
+      LEFT JOIN (
+          SELECT no_fak_penj,sum( historibayar.bayar ) AS totalbayar
+          FROM historibayar
+          WHERE tglbayar <= '$sampai'
+          GROUP BY no_fak_penj
+        ) hblalu ON (penjualan.no_fak_penj = hblalu.no_fak_penj)
+      WHERE tgltransaksi <= '$sampai' AND (ifnull(penjualan.total,0) - (ifnull(totalpf_last,0)-ifnull(totalgb_last,0)))-ifnull(totalbayar,0) !=0 AND datediff('$sampai', penjualan.tgltransaksi) > 15
+      GROUP BY cabangbarunew
+    ) penj ON (cabang.kode_cabang = penj.cabangbarunew)
+        
+    ";
     return $this->db->query($query);
   }
 }
