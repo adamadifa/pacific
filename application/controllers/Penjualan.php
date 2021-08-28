@@ -4066,4 +4066,72 @@ class Penjualan extends CI_Controller
     $data['sess_cab']    = $this->session->userdata('cabang');
     $this->template->load('template/template', 'penjualan/input_lpc', $data);
   }
+
+  function insertlpc()
+  {
+    $tgl_lpc = $this->input->post('tgl_lpc');
+    $cabang = $this->input->post('cabang');
+    $bulanlpc = $this->input->post('bulanlpc');
+    $tahunlpc = $this->input->post('tahunlpc');
+    $kode_lpc = $cabang . $bulanlpc . $tahunlpc;
+    $data = [
+      'kode_lpc' => $kode_lpc,
+      'tgl_lpc' => $tgl_lpc,
+      'kode_cabang' => $cabang,
+      'bulan' => $bulanlpc,
+      'tahun' => $tahunlpc
+    ];
+    $simpan = $this->db->insert('lpc', $data);
+    if ($simpan) {
+      echo 1;
+    } else {
+      echo 0;
+    }
+  }
+
+  function updatelpc()
+  {
+    $tgl_lpc = $this->input->post('tgl_lpc');
+    $kode_lpc = $this->input->post('kode_lpc');
+    $data = [
+      'tgl_lpc' => $tgl_lpc
+    ];
+    $simpan = $this->db->update('lpc', $data, array('kode_lpc' => $kode_lpc));
+    if ($simpan) {
+      echo 1;
+    } else {
+      echo 0;
+    }
+  }
+
+  function hapuslpc()
+  {
+    $kode_lpc = $this->input->post('kode_lpc');
+    $hapus = $this->db->delete('lpc', array('kode_lpc' => $kode_lpc));
+    if ($hapus) {
+      echo 1;
+    } else {
+      echo 0;
+    }
+  }
+
+  function loadlpc()
+  {
+    $data['bln'] = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+    $tahun = $this->input->post('tahun');
+    $bulan = $this->input->post('bulan');
+    $data['lpc'] = $this->Model_penjualan->loadlpc($tahun, $bulan)->result();
+    //var_dump($data['lpc']);
+    $this->load->view('penjualan/loadlpc', $data);
+  }
+
+  function editlpc()
+  {
+    $kode_lpc = $this->input->post('kode_lpc');
+    $data['bln'] = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+    $data['cabang'] = $this->Model_cabang->view_cabang()->result();
+    $data['sess_cab'] = $this->session->userdata('cabang');
+    $data['lpc'] = $this->Model_penjualan->getlpc($kode_lpc)->row_array();
+    $this->load->view('penjualan/edit_lpc', $data);
+  }
 }

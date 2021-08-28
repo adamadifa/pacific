@@ -7700,4 +7700,14 @@ class Model_penjualan extends CI_Model
     $result = $query->result_array();
     return $result[0]['allcount'];
   }
+
+  function loadlpc($tahun, $bulan)
+  {
+    return $this->db->get_where('lpc', array('bulan' => $bulan, 'tahun' => $tahun));
+  }
+
+  function getlpc($kode_lpc)
+  {
+    return $this->db->get_where('lpc', array('kode_lpc' => $kode_lpc));
+  }
 }
