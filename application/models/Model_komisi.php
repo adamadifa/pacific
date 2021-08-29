@@ -650,7 +650,7 @@ class Model_komisi extends CI_Model
   {
     $dari = $tahun . "-" . $bulan . "-01";
     $sampai = date('Y-m-t', strtotime($dari));
-    $query = "SELECT cabang.kode_cabang,nama_cabang,cashin,sisapiutang FROM cabang
+    $query = "SELECT cabang.kode_cabang,nama_cabang,cashin,sisapiutang,lamalpc FROM cabang
     LEFT JOIN (
       SELECT karyawan.kode_cabang,SUM(bayar) as cashin
       FROM historibayar
@@ -658,6 +658,11 @@ class Model_komisi extends CI_Model
       WHERE tglbayar BETWEEN '$dari' AND '$sampai'
       GROUP BY karyawan.kode_cabang
     ) hb ON (cabang.kode_cabang = hb.kode_cabang)
+    LEFT JOIN (
+      SELECT kode_cabang,datediff(tgl_lpc,'$dari') as lamalpc
+      FROM lpc
+      WHERE bulan ='$bulan' AND tahun = '$tahun'
+    ) app_lpc ON (cabang.kode_cabang = app_lpc.kode_cabang)
       
     LEFT JOIN (
       SELECT cabangbarunew,SUM((ifnull(penjualan.total,0) - (ifnull(totalpf_last,0)-ifnull(totalgb_last,0)))-ifnull(totalbayar,0)) as sisapiutang
@@ -698,7 +703,7 @@ class Model_komisi extends CI_Model
       AND penjualan.jenistransaksi ='kredit'
       GROUP BY cabangbarunew
     ) penj ON (cabang.kode_cabang = penj.cabangbarunew)
-        
+    WHERE cabang.kode_cabang !='GRT'
     ";
     return $this->db->query($query);
   }

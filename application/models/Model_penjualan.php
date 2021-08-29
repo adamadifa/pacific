@@ -7703,6 +7703,10 @@ class Model_penjualan extends CI_Model
 
   function loadlpc($tahun, $bulan)
   {
+    $cabang = $this->session->userdata('cabang');
+    if ($cabang != "pusat") {
+      $this->db->where('kode_cabang', $cabang);
+    }
     return $this->db->get_where('lpc', array('bulan' => $bulan, 'tahun' => $tahun));
   }
 

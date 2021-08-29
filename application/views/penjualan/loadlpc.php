@@ -7,13 +7,32 @@ foreach ($lpc as $d) {
     <td><?php echo $d->tahun; ?></td>
     <td><?php echo $d->tgl_lpc; ?></td>
     <td>
-      <a href="#" data-kodelpc="<?php echo $d->kode_lpc; ?>" class="btn btn-primary btn-sm editlpc">
-        <i class="fa fa-pencil"></i>
-      </a>
-      <a href="#" data-kodelpc="<?php echo $d->kode_lpc; ?>" class="btn btn-danger btn-sm hapuslpc">
-        <i class="fa fa-trash-o"></i>
-      </a>
-      <a href="" data-kodelpc="<?php echo $d->kode_lpc; ?>" class="btn btn-success btn-sm approvelpc"><i class="fa fa-check"></i></a>
+      <?php
+      if ($d->status != 1) {
+      ?>
+        <a href="#" data-kodelpc="<?php echo $d->kode_lpc; ?>" class="btn btn-primary btn-sm editlpc">
+          <i class="fa fa-pencil"></i>
+        </a>
+        <a href="#" data-kodelpc="<?php echo $d->kode_lpc; ?>" class="btn btn-danger btn-sm hapuslpc">
+          <i class="fa fa-trash-o"></i>
+        </a>
+      <?php
+      }
+      ?>
+
+      <?php
+      $level = $this->session->userdata('level_user');
+      if ($level == "manager accounting" || $level == "Administrator") {
+        if ($d->status == 1) {
+      ?>
+          <a href="#" data-kodelpc="<?php echo $d->kode_lpc; ?>" class="btn btn-danger btn-sm declinelpc"><i class="fa fa-close mr-2"></i> Batalkan</a>
+        <?php
+        } else {
+        ?>
+          <a href="#" data-kodelpc="<?php echo $d->kode_lpc; ?>" class="btn btn-success btn-sm approvelpc"><i class="fa fa-check"></i></a>
+      <?php
+        }
+      } ?>
     </td>
   </tr>
 <?php
@@ -78,6 +97,50 @@ foreach ($lpc as $d) {
 
       });
 
+    });
+
+    $(".approvelpc").click(function(e) {
+      e.preventDefault();
+      var kode_lpc = $(this).attr("data-kodelpc");
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>/penjualan/approvelpc',
+        data: {
+          kode_lpc: kode_lpc
+        },
+        cache: false,
+        success: function(respond) {
+          if (respond == 1) {
+            swal("Berhasil", "Data Berhasil Di Approve", "success");
+          } else {
+            swal("Oops", "Data Gagal Di Di Approve", "danger");
+          }
+          loadlpc();
+        }
+
+      });
+    });
+
+    $(".declinelpc").click(function(e) {
+      e.preventDefault();
+      var kode_lpc = $(this).attr("data-kodelpc");
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>/penjualan/declinelpc',
+        data: {
+          kode_lpc: kode_lpc
+        },
+        cache: false,
+        success: function(respond) {
+          if (respond == 1) {
+            swal("Berhasil", "Data Berhasil Di Batalkan", "success");
+          } else {
+            swal("Oops", "Data Gagal Di Di Batalkan", "danger");
+          }
+          loadlpc();
+        }
+
+      });
     });
   });
 </script>

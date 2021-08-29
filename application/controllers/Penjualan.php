@@ -4081,11 +4081,17 @@ class Penjualan extends CI_Controller
       'bulan' => $bulanlpc,
       'tahun' => $tahunlpc
     ];
-    $simpan = $this->db->insert('lpc', $data);
-    if ($simpan) {
-      echo 1;
+
+    $cek = $this->db->get_where('lpc', array('kode_lpc' => $kode_lpc))->num_rows();
+    if (empty($cek)) {
+      $simpan = $this->db->insert('lpc', $data);
+      if ($simpan) {
+        echo 1;
+      } else {
+        echo 0;
+      }
     } else {
-      echo 0;
+      echo 2;
     }
   }
 
@@ -4108,6 +4114,34 @@ class Penjualan extends CI_Controller
   {
     $kode_lpc = $this->input->post('kode_lpc');
     $hapus = $this->db->delete('lpc', array('kode_lpc' => $kode_lpc));
+    if ($hapus) {
+      echo 1;
+    } else {
+      echo 0;
+    }
+  }
+
+  function approvelpc()
+  {
+    $kode_lpc = $this->input->post('kode_lpc');
+    $data = [
+      'status' => 1
+    ];
+    $hapus = $this->db->update('lpc', $data, array('kode_lpc' => $kode_lpc));
+    if ($hapus) {
+      echo 1;
+    } else {
+      echo 0;
+    }
+  }
+
+  function declinelpc()
+  {
+    $kode_lpc = $this->input->post('kode_lpc');
+    $data = [
+      'status' => 0
+    ];
+    $hapus = $this->db->update('lpc', $data, array('kode_lpc' => $kode_lpc));
     if ($hapus) {
       echo 1;
     } else {

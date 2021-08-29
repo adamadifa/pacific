@@ -78,7 +78,13 @@
       </div>
     </div>
     <div class="col-md-2">
-      <?php $this->load->view('menu/menu_penjualan_administrator'); ?>
+      <?php
+      if ($this->session->userdata('level_user') == "manager accounting") {
+        $this->load->view('menu/menu_accounting_administrator');
+      } else {
+        $this->load->view('menu/menu_penjualan_administrator');
+      }
+      ?>
     </div>
   </div>
 </div>
@@ -246,6 +252,8 @@
           success: function(respond) {
             if (respond == 1) {
               swal("Berhasil", "Data Berhasil Disimpan", "success");
+            } else if (respond == 2) {
+              swal("Oops", "Data Sudah Diinput", "warning");
             } else {
               swal("Oops", "Data Gagal Disimpan", "danger");
             }

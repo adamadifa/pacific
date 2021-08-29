@@ -71,10 +71,13 @@ if ($level == "Administrator" || $level == "manager accounting" || $level == "sp
   <div class="card">
     <div class="list-group">
       <a href="#" class="list-group-item list-group-item-action active">
-        Data Komisi
+        Data Komisi & Insentif
       </a>
       <a href="<?php echo base_url(); ?>komisi/approvetargetkomisi" class="list-group-item list-group-item-action">
         <i class="fa  fa-file-text mr-2"></i>Approve Target Komisi
+      </a>
+      <a href="<?php echo base_url(); ?>penjualan/input_lpc" class="list-group-item list-group-item-action">
+        <i class="fa  fa-file-text mr-2"></i>Approve LPC
       </a>
     </div>
   </div>
