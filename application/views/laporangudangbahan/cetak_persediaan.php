@@ -77,49 +77,56 @@ tr:nth-child(even) {
       $saldoakhirberat     = $d->qtyberatsa + $d->qtypemb2 + $d->qtylainnya2 + $d->qtypengganti2 - $d->qtyprod4 - $d->qtyseas4 - $d->qtypdqc4 - $d->qtylain4 - $d->qtysus4 - $d->qtycabang4;
       $saldoakhirunit      = $d->qtyunitsa + $d->qtypemb1 + $d->qtylainnya1 + $d->qtypengganti1 - $d->qtyprod3 - $d->qtyseas3 - $d->qtypdqc3 - $d->qtylain3 - $d->qtysus3 - $d->qtycabang3;
 
-      if ($d->satuan != 'KG') {
+      if($d->kode_barang  == 'BB-15'){
+        $satuan = "KG";
+      }else{
+        $satuan = $d->satuan;
+      }
+
+
+      if ($satuan != 'KG') {
         $totalpembelian     += $d->qtypemb1;
       } else {
         $totalpembelian     += $d->qtypemb2;
       }
 
-      if ($d->satuan != 'KG') {
+      if ($satuan != 'KG') {
         $totallainnya       += $d->qtylainnya1;
       } else {
         $totallainnya       += $d->qtylainnya2;
       }
 
-      if ($d->satuan != 'KG') {
+      if ($satuan != 'KG') {
         $totalproduksi      += $d->qtyprod3;
       } else {
         $totalproduksi      += $d->qtyprod4;
       }
 
-      if ($d->satuan != 'KG') {
+      if ($satuan != 'KG') {
         $totalseasoning     += $d->qtyseas3;
       } else {
         $totalseasoning     += $d->qtyseas4;
       }
 
-      if ($d->satuan != 'KG') {
+      if ($satuan != 'KG') {
         $totalpdqc          += $d->qtypdqc3;
       } else {
         $totalpdqc          += $d->qtypdqc4;
       }
 
-      if ($d->satuan != 'KG') {
+      if ($satuan != 'KG') {
         $totallainnyapeng   += $d->qtylain3;
       } else {
         $totallainnyapeng   += $d->qtylain4;
       }
 
-      if ($d->satuan != 'KG') {
+      if ($satuan != 'KG') {
         $totalcabangpeng   += $d->qtycabang3;
       } else {
         $totalcabangpeng   += $d->qtycabang4;
       }
 
-      if ($d->satuan != 'KG') {
+      if ($satuan != 'KG') {
         $totalsusut         += $d->qtysus3;
         $totalretur       = $totalretur + $d->qtypengganti1;
       } else {
@@ -157,7 +164,7 @@ tr:nth-child(even) {
           ?>
         </td>
 
-        <?php if ($d->satuan != 'KG') { ?>
+        <?php if ($satuan != 'KG') { ?>
           <td align="center">
             <?php if (!empty($d->qtypemb1)) {
               echo uang($d->qtypemb1, 2);
@@ -173,7 +180,7 @@ tr:nth-child(even) {
           </td>
         <?php } ?>
 
-        <?php if ($d->satuan != 'KG') { ?>
+        <?php if ($satuan != 'KG') { ?>
           <td align="center">
             <?php if (!empty($d->qtylainnya1)) {
               echo uang($d->qtylainnya1, 2);
@@ -189,7 +196,7 @@ tr:nth-child(even) {
           </td>
         <?php } ?>
 
-        <?php if ($d->satuan != 'KG') { ?>
+        <?php if ($satuan != 'KG') { ?>
           <td align="center">
             <?php if (!empty($d->qtypengganti1)) {
               echo uang($d->qtypengganti1, 2);
@@ -206,7 +213,7 @@ tr:nth-child(even) {
         <?php } ?>
 
 
-        <?php if ($d->satuan != 'KG') { ?>
+        <?php if ($satuan != 'KG') { ?>
           <td align="center">
             <?php if (!empty($d->qtyprod3)) {
               echo uang($d->qtyprod3, 2);
@@ -222,7 +229,7 @@ tr:nth-child(even) {
           </td>
         <?php } ?>
 
-        <?php if ($d->satuan != 'KG') { ?>
+        <?php if ($satuan != 'KG') { ?>
           <td align="center">
             <?php if (!empty($d->qtyseas3)) {
               echo uang($d->qtyseas3, 2);
@@ -238,7 +245,7 @@ tr:nth-child(even) {
           </td>
         <?php } ?>
 
-        <?php if ($d->satuan != 'KG') { ?>
+        <?php if ($satuan != 'KG') { ?>
           <td align="center">
             <?php if (!empty($d->qtypdqc3)) {
               echo uang($d->qtypdqc3, 2);
@@ -254,7 +261,7 @@ tr:nth-child(even) {
           </td>
         <?php } ?>
 
-        <?php if ($d->satuan != 'KG') { ?>
+        <?php if ($satuan != 'KG') { ?>
           <td align="center">
             <?php if (!empty($d->qtysus3)) {
               echo uang($d->qtysus3, 2);
@@ -270,7 +277,7 @@ tr:nth-child(even) {
           </td>
         <?php } ?>
 
-        <?php if ($d->satuan != 'KG') { ?>
+        <?php if ($satuan != 'KG') { ?>
 
           <td align="center">
             <?php if (!empty($d->qtycabang3)) {
@@ -287,7 +294,7 @@ tr:nth-child(even) {
           </td>
         <?php } ?>
 
-        <?php if ($d->satuan != 'KG') { ?>
+        <?php if ($satuan != 'KG') { ?>
 
           <td align="center">
             <?php if (!empty($d->qtylain3)) {

@@ -270,6 +270,7 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>laporanpenjualan/omset" class="list-group-item list-group-item-action">
         <i class="fa fa-file-pdf-o mr-2"></i>Omset
       </a>
+	  
       <?php
       if ($this->session->userdata('username') != "siskapusat" && $this->session->userdata('username') != "nurman") {
       ?>
@@ -286,6 +287,14 @@ if ($level == "Administrator") {
           <i class="fa  fa-file-text-o mr-2"></i>Rekap Persediaan
         </a>
       <?php } ?>
+	  <?php if($this->session->userdata('id_user') == "72"){ ?>
+	   <a href="<?php echo base_url(); ?>komisi/laporankomisi" class="list-group-item list-group-item-action">
+        <i class="fa fa-file-o mr-2"></i>Komisi
+      </a>
+	  <a href="<?php echo base_url(); ?>komisi/insentif" class="list-group-item list-group-item-action">
+        <i class="fa fa-file-o mr-2"></i>Insentif KA Admin
+      </a>
+	  <?php } ?>
     </div>
   </div>
 <?php } else if ($level == "audit") { ?>
@@ -454,6 +463,8 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>laporankeuangan/ledger" class="list-group-item list-group-item-action">
         <i class="fa fa-file-o mr-2"></i>Ledger / Mutasi Bank
       </a>
+	  
     </div>
   </div>
+  
 <?php } ?>

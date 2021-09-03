@@ -648,18 +648,26 @@ class Model_komisi extends CI_Model
 
   function cetak_insentif($cabang, $bulan, $tahun, $end)
   {
+
     $dari = $tahun . "-" . $bulan . "-01";
+    //$tgllpc = $thn . "-" . $bln . "-01";
     $sampai = date('Y-m-t', strtotime($dari));
+    $cbg = $this->session->userdata('cabang');
+    if($cbg !="pusat"){
+      $c = "AND cabang.kode_cabang = '$cbg'"; 
+    }else{
+      $c = "";
+    }
     $query = "SELECT cabang.kode_cabang,nama_cabang,cashin,sisapiutang,lamalpc FROM cabang
     LEFT JOIN (
       SELECT karyawan.kode_cabang,SUM(bayar) as cashin
       FROM historibayar
       INNER JOIN karyawan ON historibayar.id_karyawan = karyawan.id_karyawan
-      WHERE tglbayar BETWEEN '$dari' AND '$sampai'
+      WHERE tglbayar BETWEEN '$dari' AND '$sampai' AND status_bayar IS NULL
       GROUP BY karyawan.kode_cabang
     ) hb ON (cabang.kode_cabang = hb.kode_cabang)
     LEFT JOIN (
-      SELECT kode_cabang,datediff(tgl_lpc,'$dari') as lamalpc
+      SELECT kode_cabang,datediff(tgl_lpc,'$sampai') as lamalpc
       FROM lpc
       WHERE bulan ='$bulan' AND tahun = '$tahun'
     ) app_lpc ON (cabang.kode_cabang = app_lpc.kode_cabang)
@@ -703,8 +711,8 @@ class Model_komisi extends CI_Model
       AND penjualan.jenistransaksi ='kredit'
       GROUP BY cabangbarunew
     ) penj ON (cabang.kode_cabang = penj.cabangbarunew)
-    WHERE cabang.kode_cabang !='GRT'
-    ";
+    WHERE cabang.kode_cabang !='GRT'".$c
+    ;
     return $this->db->query($query);
   }
 }
