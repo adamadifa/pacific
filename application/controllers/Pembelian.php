@@ -1525,4 +1525,14 @@ class Pembelian extends CI_Controller
       redirectPreviousPage();
     }
   }
+
+  function hapusitemkb()
+  {
+    $this->Model_pembelian->hapusitemkb();
+  }
+
+  function insertitemkb()
+  {
+    $this->Model_pembelian->insertitemkb();
+  }
 }

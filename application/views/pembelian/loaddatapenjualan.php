@@ -12,7 +12,10 @@ foreach ($pnj as $d) {
     <td><?php echo $d->qty; ?></td>
     <td align="right"><?php echo number_format($d->harga, '0', '', '.'); ?></td>
     <td align="right"><?php echo number_format($total, '0', '', '.'); ?></td>
-    <td align="center"><a href="#" data-nobukti="<?php echo $d->nobukti_pembelian; ?>" data-kodebarang="<?php echo $d->kode_barang; ?>" class="btn btn-danger btn-sm hapus"><i class="fa fa-trash-o"></i></a></td>
+    <td align="center">
+      <a href="#" data-nobukti="<?php echo $d->nobukti_pembelian; ?>" data-kodebarang="<?php echo $d->kode_barang; ?>" class="btn btn-danger btn-sm hapus"><i class="fa fa-trash-o"></i></a>
+
+    </td>
   </tr>
 <?php $no++;
 } ?>

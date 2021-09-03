@@ -1192,8 +1192,14 @@ class Model_pembelian extends CI_Model
   {
     $nokontrabon   = $this->input->post('nokontrabon');
     $tglkontrabon  = $this->input->post('tgl_kontrabon');
+    $status = $this->input->post('status');
+    $nodokumen = $this->input->post('nodokumen');
+    $jenisbayar = $this->input->post('jenisbayar');
     $data = array(
-      'tgl_kontrabon' => $tglkontrabon
+      'tgl_kontrabon' => $tglkontrabon,
+      'no_dokumen' => $nodokumen,
+      'kategori' => $status,
+      'jenisbayar' => $jenisbayar
     );
     $update = $this->db->update('kontrabon', $data, array('no_kontrabon' => $nokontrabon));
     if ($update) {
@@ -1204,7 +1210,8 @@ class Model_pembelian extends CI_Model
       <i class="fa fa-check"></i> Data Berhasil di Update !
       </div>'
       );
-      redirectPreviousPage();
+      redirect('pembelian/kontrabon');
+      // redirectPreviousPage();
     } else {
       $this->session->set_flashdata(
         'msg',
@@ -1213,7 +1220,7 @@ class Model_pembelian extends CI_Model
       <i class="fa fa-check"></i> Data Gagal di Update !
       </div>'
       );
-      redirectPreviousPage();
+      redirect('pembelian/kontrabon');
     }
   }
   public function getDataPembelian($rowno, $rowperpage, $nobukti = "", $tgl_pembelian = "", $departemen = "", $ppn = "", $ln = "", $supplier = "", $tunaikredit = "")
@@ -2844,5 +2851,44 @@ WHERE tgl_pembelian BETWEEN '$dari' AND '$sampai'"
     GROUP BY detail_kontrabon.no_kontrabon,no_dokumen,nama_supplier,ppn,norekening
     ";
     return $this->db->query($query);
+  }
+
+  function hapusitemkb()
+  {
+    $nokontrabon = $this->input->post('nobon');
+    $nobukti = $this->input->post('nobuktihapus');
+    $nokb = str_replace("/", ".", $nokontrabon);
+    $hapus = $this->db->delete('detail_kontrabon', array('no_kontrabon' => $nokontrabon, 'nobukti_pembelian' => $nobukti));
+    if ($hapus) {
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-green text-white alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <i class="fa fa-check"></i> Data Berhasil di Hapus !
+      </div>'
+      );
+      redirect('pembelian/editkontrabon/' . $nokb);
+    }
+  }
+
+  function insertitemkb()
+  {
+    $nokontrabon  = $this->input->post('nokontrabon');
+    $nobukti      = $this->input->post('nobukti');
+    $keterangan   = $this->input->post('keterangan');
+    $jmlbayar     = str_replace(".", "", $this->input->post('jmlbayar'));
+    $jmlbayar     = str_replace(",", ".", $jmlbayar);
+    $data = array(
+      'no_kontrabon' => $nokontrabon,
+      'nobukti_pembelian' => $nobukti,
+      'keterangan'       => $keterangan,
+      'jmlbayar'         => $jmlbayar,
+    );
+    $cek  = $this->db->get_where('detail_kontrabon', array('nobukti_pembelian' => $nobukti))->num_rows();
+    if (!empty($cek)) {
+      echo "1";
+    } else {
+      $this->db->insert('detail_kontrabon', $data);
+    }
   }
 }
