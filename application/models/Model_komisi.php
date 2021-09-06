@@ -646,26 +646,121 @@ class Model_komisi extends CI_Model
     return $this->db->get();
   }
 
-  function cetak_insentif($cabang, $bulan, $tahun, $end)
+  function cetak_insentif($cabang, $bulan, $tahun)
   {
 
     $dari = $tahun . "-" . $bulan . "-01";
     //$tgllpc = $thn . "-" . $bln . "-01";
     $sampai = date('Y-m-t', strtotime($dari));
     $cbg = $this->session->userdata('cabang');
-    if($cbg !="pusat"){
-      $c = "AND cabang.kode_cabang = '$cbg'"; 
-    }else{
+    if ($cbg != "pusat") {
+      $c = "AND cabang.kode_cabang = '$cbg'";
+    } else {
       $c = "";
     }
-    $query = "SELECT cabang.kode_cabang,nama_cabang,cashin,sisapiutang,lamalpc FROM cabang
+
+    $lastmonth = date('Y-m-d', strtotime(date($dari) . '- 1 month'));
+    $lastdate = explode("-", $lastmonth);
+    $bulanlast = $lastdate[1] + 0;
+    $tahunlast = $lastdate[0];
+    if ($bulanlast == 1) {
+      $blnlast1 = 12;
+      $thnlast1 = $tahun - 1;
+    } else {
+      $blnlast1 = $bulanlast - 1;
+      $thnlast1 = $tahun;
+    }
+
+    if ($bulan == 12) {
+      $bln = 1;
+      $thn = $tahun + 1;
+    } else {
+      $bln = $bulan + 1;
+      $thn = $tahun;
+    }
+
+
+    $query = "SELECT cabang.kode_cabang,nama_cabang,(IFNULL(jml_belumsetorbulanlalu,0) + IFNULL(totalsetoran,0) + IFNULL(jml_gmlast,0) - IFNULL(jml_gmnow,0) - IFNULL(jml_belumsetorbulanini,0)) as cashin,sisapiutang,lamalpc FROM cabang
+    -- LEFT JOIN (
+    --   SELECT karyawan.kode_cabang,SUM(bayar) as cashin
+    --   FROM historibayar
+    --   INNER JOIN karyawan ON historibayar.id_karyawan = karyawan.id_karyawan
+    --   WHERE tglbayar BETWEEN '$dari' AND '$sampai' AND status_bayar IS NULL
+    --   GROUP BY karyawan.kode_cabang
+    -- ) hb ON (cabang.kode_cabang = hb.kode_cabang)
+
+    
+      
     LEFT JOIN (
-      SELECT karyawan.kode_cabang,SUM(bayar) as cashin
-      FROM historibayar
-      INNER JOIN karyawan ON historibayar.id_karyawan = karyawan.id_karyawan
-      WHERE tglbayar BETWEEN '$dari' AND '$sampai' AND status_bayar IS NULL
-      GROUP BY karyawan.kode_cabang
-    ) hb ON (cabang.kode_cabang = hb.kode_cabang)
+      SELECT belumsetor.kode_cabang,SUM(jumlah) as jml_belumsetorbulanlalu 
+      FROM belumsetor_detail
+      INNER JOIN belumsetor ON belumsetor_detail.kode_saldobs = belumsetor.kode_saldobs
+      WHERE bulan='$bulanlast' AND tahun='$tahunlast'
+      GROUP BY belumsetor.kode_cabang
+    ) bs ON (cabang.kode_cabang = bs.kode_cabang)
+   
+    LEFT JOIN (
+      SELECT kode_cabang, SUM(lhp_tunai+lhp_tagihan) as totalsetoran FROM setoran_penjualan WHERE tgl_lhp BETWEEN '$dari' AND '$sampai' GROUP BY kode_cabang
+    ) sp ON (cabang.kode_cabang = sp.kode_cabang)
+      
+    LEFT JOIN (
+      SELECT
+      karyawan.kode_cabang,
+      SUM( jumlah ) AS jml_gmlast
+      FROM
+      giro
+      INNER JOIN karyawan ON giro.id_karyawan = karyawan.id_karyawan
+      INNER JOIN penjualan ON giro.no_fak_penj = penjualan.no_fak_penj
+      LEFT JOIN ( SELECT id_giro FROM historibayar GROUP BY id_giro ) AS hb ON giro.id_giro = hb.id_giro
+      WHERE
+      MONTH ( tgl_giro ) = '$bulanlast'
+      AND YEAR ( tgl_giro ) = '$tahun'
+      AND omset_tahun = '$tahun'
+      AND omset_bulan = '$bulan'
+      OR MONTH ( tgl_giro ) = '$blnlast1'
+      AND YEAR ( tgl_giro ) = '$thnlast1'
+      AND omset_tahun = '$tahun'
+      AND omset_bulan = '$bulan'
+      GROUP BY
+      karyawan.kode_cabang
+    ) gmlast ON (cabang.kode_cabang = gmlast.kode_cabang)
+
+
+    
+    
+    LEFT JOIN (
+      SELECT
+      karyawan.kode_cabang,
+      SUM( jumlah ) AS jml_gmnow
+      FROM
+      giro
+      INNER JOIN karyawan ON giro.id_karyawan = karyawan.id_karyawan
+      INNER JOIN penjualan ON giro.no_fak_penj = penjualan.no_fak_penj
+      LEFT JOIN (
+      SELECT kode_cabang,MAX(tgl_diterimapusat) as tgl_diterimapusat
+      FROM setoran_pusat
+      WHERE omset_bulan = '$bulan' AND omset_tahun ='$thn'
+      AND MONTH(tgl_diterimapusat) = '$bln' AND YEAR(tgl_diterimapusat) = '$thn'
+      GROUP BY kode_cabang
+      ) nexttgl ON (karyawan.kode_cabang = nexttgl.kode_cabang)
+      LEFT JOIN ( SELECT id_giro, tglbayar FROM historibayar GROUP BY id_giro, tglbayar ) AS hb ON giro.id_giro = hb.id_giro
+      WHERE
+      tgl_giro >= '$dari'
+      AND tgl_giro <= '$sampai' AND tglbayar IS NULL AND omset_bulan='0' AND omset_tahun='' OR tgl_giro>= '$dari'
+      AND tgl_giro <= '$sampai' AND tglbayar>= IFNULL(tgl_diterimapusat,'$sampai')
+      AND omset_bulan > '$bulan'
+      AND omset_tahun >= '$tahun'
+      GROUP BY
+      karyawan.kode_cabang
+    ) gmnow ON (cabang.kode_cabang = gmnow.kode_cabang)
+    
+    LEFT JOIN (
+      SELECT kode_cabang, SUM(jumlah) as jml_belumsetorbulanini
+      FROM belumsetor_detail
+      INNER JOIN belumsetor ON belumsetor_detail.kode_saldobs = belumsetor.kode_saldobs
+      WHERE bulan ='$bulan' AND tahun ='$tahun' GROUP BY kode_cabang
+    ) bsnow ON (cabang.kode_cabang = bsnow.kode_cabang)
+   
     LEFT JOIN (
       SELECT kode_cabang,datediff(tgl_lpc,'$sampai') as lamalpc
       FROM lpc
@@ -682,7 +777,7 @@ class Model_komisi extends CI_Model
         FROM penjualan pj
         INNER JOIN karyawan ON pj.id_karyawan = karyawan.id_karyawan
         LEFT JOIN (
-          SELECT MAX(id_move) as id_move,no_fak_penj,move_faktur.id_karyawan as salesbaru,karyawan.kode_cabang as 						cabangbaru
+          SELECT MAX(id_move) as id_move,no_fak_penj,move_faktur.id_karyawan as salesbaru,karyawan.kode_cabang as cabangbaru
           FROM move_faktur
           INNER JOIN karyawan ON move_faktur.id_karyawan = karyawan.id_karyawan
           WHERE tgl_move <= '$sampai'
@@ -711,8 +806,7 @@ class Model_komisi extends CI_Model
       AND penjualan.jenistransaksi ='kredit'
       GROUP BY cabangbarunew
     ) penj ON (cabang.kode_cabang = penj.cabangbarunew)
-    WHERE cabang.kode_cabang !='GRT'".$c
-    ;
+    WHERE cabang.kode_cabang !='GRT'" . $c;
     return $this->db->query($query);
   }
 }

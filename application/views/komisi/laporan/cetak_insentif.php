@@ -116,3 +116,130 @@ function formatnumber($nilai)
     } ?>
   </tbody>
 </table>
+
+<br>
+<table>
+  <tr>
+    <td>
+      <table class="datatable3">
+        <thead>
+          <tr>
+            <th colspan="3">Ratio LJT > 14 Hari(%) Reward</th>
+          </tr>
+        </thead>
+        <tbody style="font-size:14px">
+          <tr>
+            <td>20%</td>
+            <td>></td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>19%</td>
+            <td>20%</td>
+            <td align="right">35.000</td>
+          </tr>
+          <tr>
+            <td>17%</td>
+            <td>18%</td>
+            <td align="right">70.000</td>
+          </tr>
+          <tr>
+            <td>15%</td>
+            <td>16%</td>
+            <td align="right">105.000</td>
+
+          </tr>
+          <tr>
+            <td>13%</td>
+            <td>14%</td>
+            <td align="right">140.000</td>
+          </tr>
+          <tr>
+            <td>11%</td>
+            <td>12%</td>
+            <td align="right">175.000</td>
+          </tr>
+          <tr>
+            <td>9%</td>
+            <td>10%</td>
+            <td align="right">21.000</td>
+          </tr>
+          <tr>
+            <td>7%</td>
+            <td>8%</td>
+            <td align="right">245.000</td>
+          </tr>
+          <tr>
+            <td>5%</td>
+            <td>6%</td>
+            <td align="right">280.000</td>
+          </tr>
+          <tr>
+            <td>3%</td>
+            <td>4%</td>
+            <td align="right">315.000</td>
+          </tr>
+          <tr>
+            <td>2%</td>
+            <td>0%</td>
+            <td align="right">350.000</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </td>
+    <td valign="top">
+      <table class="datatable3">
+        <thead>
+          <tr>
+            <th>LPC(Hari)</th>
+            <th>Reward</th>
+          </tr>
+        </thead>
+        <tbody style="font-size:14px">
+          <tr>
+            <td>5+</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td align="right">70.000</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td align="right">140.000</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td align="right">210.000</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td align="right">280.000</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td align="right">350.000</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </td>
+    <td valign="top">
+      <table class="datatable3">
+        <tbody style="font-size:14px">
+          <tr>
+            <td>
+              Asumsi pemberlakuan kebijakan LJT
+            </td>
+          </tr>
+          <tr style="background-color: red; color:white">
+            <td>
+              50%
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+</table>
