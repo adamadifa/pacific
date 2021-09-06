@@ -268,7 +268,7 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>laporanpenjualan/rekappenjualan" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>Rekap Penjualan
       </a>
-      <?php if($level =="kepala Admin") { ?>
+      <?php if($level == "kepala admin") { ?>
       <a href="<?php echo base_url(); ?>komisi/insentif" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>Insentif
       </a>
