@@ -7,7 +7,7 @@ class laporanpembelian extends CI_Controller
 	{
 		parent::__construct();
 		check_login();
-		$this->load->model(array('Model_pembelian','Model_gudangbahan'));
+		$this->load->model(array('Model_pembelian', 'Model_gudangbahan'));
 	}
 
 	function pembelian()
@@ -37,7 +37,7 @@ class laporanpembelian extends CI_Controller
 
 	function retur_keluar()
 	{
-    	$data['barang']    = $this->Model_gudangbahan->listproduk()->result();
+		$data['barang']    = $this->Model_gudangbahan->listproduk()->result();
 		$this->template->load('template/template', 'laporanpembelian/retur_keluar.php', $data);
 	}
 
@@ -133,7 +133,7 @@ class laporanpembelian extends CI_Controller
 		$this->load->view('laporanpembelian/cetak_supplier', $data);
 	}
 
-	
+
 	function cetak_retur_keluar()
 	{
 		$data['dari'] 		= $this->input->post('dari');
@@ -175,7 +175,8 @@ class laporanpembelian extends CI_Controller
 	{
 		$data['dari']     = $this->input->post('dari');
 		$data['sampai']   = $this->input->post('sampai');
-		$data['pmb']      = $this->Model_pembelian->cetak_rekapperakun($data['dari'], $data['sampai'])->result();
+		$data['ppn'] 			= $this->input->post('ppn');
+		$data['pmb']      = $this->Model_pembelian->cetak_rekapperakun($data['dari'], $data['sampai'], $data['ppn'])->result();
 		if (isset($_POST['export'])) {
 			// Fungsi header dengan mengirimkan raw data excel
 			header("Content-type: application/vnd-ms-excel");
@@ -216,7 +217,7 @@ class laporanpembelian extends CI_Controller
 		$data['jenis']		= $this->input->post('jenishutang');
 		$data['supp']			= $this->Model_pembelian->getSupplier($data['supplier'])->row_array();
 		$jenislaporan		= $this->input->post('jenislaporan');
-		if($jenislaporan == '1'){
+		if ($jenislaporan == '1') {
 			$data['pmb']			= $this->Model_pembelian->cetak_kartuhutang($data['dari'], $data['sampai'], $data['supplier'], $data['jenis'])->result();
 			if (isset($_POST['export'])) {
 				// Fungsi header dengan mengirimkan raw data excel
@@ -225,7 +226,7 @@ class laporanpembelian extends CI_Controller
 				header("Content-Disposition: attachment; filename=Kartu Hutang.xls");
 			}
 			$this->load->view('laporanpembelian/cetak_kartuhutang', $data);
-		} else if($jenislaporan == '2'){
+		} else if ($jenislaporan == '2') {
 			$data['pmb']			= $this->Model_pembelian->cetak_rekapkartuhutang($data['dari'], $data['sampai'], $data['supplier'], $data['jenis'])->result();
 			if (isset($_POST['export'])) {
 				// Fungsi header dengan mengirimkan raw data excel
@@ -235,7 +236,6 @@ class laporanpembelian extends CI_Controller
 			}
 			$this->load->view('laporanpembelian/cetak_rekapkartuhutang', $data);
 		}
-	
 	}
 
 	function cetak_auh()

@@ -33,7 +33,8 @@
                               <line x1="8" y1="3" x2="8" y2="7" />
                               <line x1="4" y1="11" x2="20" y2="11" />
                               <line x1="11" y1="15" x2="12" y2="15" />
-                              <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                              <line x1="12" y1="15" x2="12" y2="18" />
+                            </svg>
                           </span>
                         </div>
                       </div>
@@ -48,11 +49,19 @@
                               <line x1="8" y1="3" x2="8" y2="7" />
                               <line x1="4" y1="11" x2="20" y2="11" />
                               <line x1="11" y1="15" x2="12" y2="15" />
-                              <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                              <line x1="12" y1="15" x2="12" y2="18" />
+                            </svg>
                           </span>
                         </div>
                       </div>
                     </div>
+                  </div>
+                  <div class="form-group mb-3">
+                    <select class="form-select show-tick" id="ppn" name="ppn" data-error=".errorTxt1">
+                      <option value="">--PPN / Non PPN--</option>
+                      <option value="1">PPN</option>
+                      <option value="0">Non PPN</option>
+                    </select>
                   </div>
                   <div class="form-group">
                     <div class="row">
