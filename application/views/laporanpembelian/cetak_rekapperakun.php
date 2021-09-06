@@ -12,7 +12,11 @@ function angka($nilai)
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/table.css">
 <br>
 <b style="font-size:14px; font-family:Calibri">
-  REKAP PEMBELIAN PER AKUN <br>
+  REKAP PEMBELIAN <?php if ($ppn === "1") {
+                    echo "(PPN)";
+                  } else if ($ppn === "0") {
+                    echo "(Non PPN)";
+                  } ?> PER AKUN <br>
   PERIODE <?php echo DateToIndo2($dari) . " s/d " . DateToIndo2($sampai); ?><br>
 </b>
 <br>

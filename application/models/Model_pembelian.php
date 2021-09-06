@@ -1742,27 +1742,32 @@ WHERE tgl_pembelian BETWEEN '$dari' AND '$sampai'"
     return $this->db->query($query);
   }
 
-  function cetak_rekapperakun($dari = "", $sampai = "")
+  function cetak_rekapperakun($dari = "", $sampai = "", $ppn = "")
   {
 
+    if ($ppn !== "") {
+      $whereppn = "AND ppn='$ppn'";
+    } else {
+      $whereppn = "";
+    }
     $query = "SELECT detail_pembelian.kode_akun AS kode_akun,jk.jurnaldebet,jk.jurnalkredit,coa.nama_akun,status,SUM((qty*harga)+penyesuaian) as total
-  FROM detail_pembelian
-  INNER JOIN pembelian ON pembelian.nobukti_pembelian=detail_pembelian.nobukti_pembelian
-  LEFT JOIN coa ON coa.kode_akun=detail_pembelian.kode_akun
-  LEFT JOIN(SELECT kode_akun,
-    SUM(IF(status_dk='D',(jurnal_koreksi.qty*jurnal_koreksi.harga),0)) as jurnaldebet,
-    SUM(IF(status_dk='K',(jurnal_koreksi.qty*jurnal_koreksi.harga),0)) as jurnalkredit
-    FROM jurnal_koreksi
-    WHERE tgl_jurnalkoreksi BETWEEN '$dari' AND '$sampai'
-    GROUP BY kode_akun
-    ) jk ON (detail_pembelian.kode_akun = jk.kode_akun)
-  WHERE pembelian.tgl_pembelian BETWEEN '$dari' AND '$sampai'
-  GROUP BY
-  detail_pembelian.kode_akun,jk.jurnaldebet,jk.jurnalkredit,coa.nama_akun,status
-  ORDER BY
-  detail_pembelian.kode_akun
-  ASC
-  ";
+    FROM detail_pembelian
+    INNER JOIN pembelian ON pembelian.nobukti_pembelian=detail_pembelian.nobukti_pembelian
+    LEFT JOIN coa ON coa.kode_akun=detail_pembelian.kode_akun
+    LEFT JOIN(SELECT kode_akun,
+      SUM(IF(status_dk='D',(jurnal_koreksi.qty*jurnal_koreksi.harga),0)) as jurnaldebet,
+      SUM(IF(status_dk='K',(jurnal_koreksi.qty*jurnal_koreksi.harga),0)) as jurnalkredit
+      FROM jurnal_koreksi
+      WHERE tgl_jurnalkoreksi BETWEEN '$dari' AND '$sampai'
+      GROUP BY kode_akun
+      ) jk ON (detail_pembelian.kode_akun = jk.kode_akun)
+    WHERE pembelian.tgl_pembelian BETWEEN '$dari' AND '$sampai'" . $whereppn . "
+    GROUP BY
+    detail_pembelian.kode_akun,jk.jurnaldebet,jk.jurnalkredit,coa.nama_akun,status
+    ORDER BY
+    detail_pembelian.kode_akun
+    ASC
+    ";
     return $this->db->query($query);
   }
 
