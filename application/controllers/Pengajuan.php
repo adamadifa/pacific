@@ -54,7 +54,6 @@ class Pengajuan extends CI_Controller
     echo $this->Model_pengajuan->jsonPilihBarang();
   }
 
-
   function view_detailpemasukan_temp()
   {
 

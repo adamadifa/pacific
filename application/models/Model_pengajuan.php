@@ -2,47 +2,6 @@
 
 class Model_pengajuan extends CI_Model
 {
-  
-  public function getDataPengajuan($rowno, $rowperpage, $nobukti = "", $tanggal = "")
-  {
-
-    $this->db->select('*');
-    $this->db->from('viewpengajuanbarang');
-    $this->db->order_by('tanggal', 'DESC');
-
-    if ($nobukti != '') {
-      $this->db->like('nobukti', $nobukti);
-    }
-
-    if ($tanggal != '') {
-      $this->db->where('tanggal', $tanggal);
-    }
-
-    $this->db->limit($rowperpage, $rowno);
-    $query = $this->db->get();
-    return $query->result_array();
-  }
-
-  public function getrecordPengajuanCount($nobukti = "", $tanggal = "")
-  {
-
-    $this->db->select('count(*) as allcount');
-    $this->db->from('viewpengajuanbarang');
-    $this->db->order_by('tanggal', 'DESC');
-
-    if ($nobukti != '') {
-      $this->db->like('nobukti', $nobukti);
-    }
-
-    if ($tanggal != '') {
-      $this->db->where('tanggal', $tanggal);
-    }
-
-    $query  = $this->db->get();
-    $result = $query->result_array();
-    return $result[0]['allcount'];
-  }
-
 
   public function insertPengajuanBarang($foto){
 
@@ -98,8 +57,9 @@ class Model_pengajuan extends CI_Model
     
     $id_user            = $this->session->userdata('id_user');
     
-    return $this->db->query("SELECT * FROM detail_pengajuan_barang_temp 
-    WHERE id_user = '$id_user' ");
+    return $this->db->query("SELECT * FROM detail_pengajuan_barang_temp
+    INNER JOIN users ON users.id_user = detail_pengajuan_barang_temp.approval
+    WHERE detail_pengajuan_barang_temp.id_user = '$id_user' ");
   }
 
   public function getDataPengajuanBarang(){
@@ -110,6 +70,7 @@ class Model_pengajuan extends CI_Model
     pengajuan_barang.nama_lengkap,
     pengajuan_barang.tanggal,
     pengajuan_barang.kode_cabang,
+    pengajuan_barang.keterangan,
     MAX(IF (id_user = '244', status, '')) AS ga,
     MAX(IF (id_user = '73', status, '')) AS mg,
     MAX(IF (id_user = '6', status, '')) AS ma,

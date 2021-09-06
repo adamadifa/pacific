@@ -46,6 +46,15 @@
                       <input type="text" value="" id="nama_pemohon" name="nama_pemohon" class="form-control" placeholder="Nama Pemohon" data-error=".errorTxt19" />
                     </div>
                   </div>
+                  <div class="mb-3">
+                    <select class="form-control selectoption" id="keterangan" name="keterangan">
+                      <option value="">Jenis Pengajuan</option>
+                      <option value="Barang">Barang</option>
+                      <option value="Jasa">Jasa - Service</option>
+                      <option value="ATK">ATK</option>
+                      <option value="Lainnya">Lainnya</option>
+                    </select>
+                  </div>
                   <div class="form-group mb-3">
                     <div class="input-icon">
                       <span class="input-icon-addon">
@@ -149,6 +158,7 @@
 </div>
 <script>
   flatpickr(document.getElementById('tanggal'), {});
+  $('.selectoption').selectize({});
 </script>
 
 <script>

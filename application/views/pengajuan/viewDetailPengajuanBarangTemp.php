@@ -3,7 +3,7 @@ $no=1;
 foreach($data->result() as $d){
   ?>
   <tr>
-    <td><?php echo $d->approval; ?></td>
+    <td><?php echo $d->nama_lengkap; ?></td>
     <td align="center"><a href="#"  data-id="<?php echo $d->id; ?>" class="btn btn-danger btn-sm hapus"><i class="fa fa-trash-o"></i></a></td>
   </tr>
   <?php $no++;} ?>

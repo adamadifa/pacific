@@ -39,12 +39,26 @@
                     </div>
                   </div>
                   <div class="form-group mb-3">
-                    <div class="input-icon">
-                      <span class="input-icon-addon">
-                        <i class="fa fa-calendar-o"></i>
-                      </span>
-                      <input type="text" value="" id="keterangan" name="keterangan" class="form-control" placeholder="Angkutan" data-error=".errorTxt19" />
-                    </div>
+                    <select class="form-control selectoption" id="keterangan" name="keterangan">
+                      <option value="">SEMUA ANGKUTAN</option>
+                      <option value="KS">ANGKUTAN KS</option>
+                      <option value="KWN SUAKA">ANGKUTAN KAWAN SWAKA</option>
+                      <option value="AS">ANGKUTAN AS</option>
+                      <option value="SD">ANGKUTAN SD</option>
+                      <option value="WAWAN">ANGKUTAN WAWAN</option>
+                      <option value="RTP">ANGKUTAN RTP</option>
+                      <option value="KWN GOBRAS">ANGKUTAN KWN GOBRAS</option>
+                      <option value="LH">ANGKUTAN LH</option>
+                      <option value="TSN">ANGKUTAN TSN</option>
+                      <option value="MANDIRI">ANGKUTAN MANDIRI</option>
+                      <option value="GS">ANGKUTAN GS</option>
+                      <option value="CV TRESNO">ANGKUTAN CV TRESNO</option>
+                      <option value="KS">ANGKUTAN KS</option>
+                      <option value="MSA">ANGKUTAN MSA</option>
+                      <option value="MITRA KOMANDO">ANGKUTAN MITRA KOMANDO</option>
+                      <option value="ARP MANDIRI">ANGKUTAN ARP MANDIRI</option>
+                      <option value="CAHAYA BIRU">ANGKUTAN CAHAYA BIRU</option>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -173,6 +187,7 @@
 
 <script>
   flatpickr(document.getElementById('tgl_kontrabon'), {});
+    $('.selectoption').selectize({});
 </script>
 
 <script type="text/javascript">

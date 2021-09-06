@@ -21,7 +21,6 @@
               </div>
               <div class="card-body">
                 <form class="formValidate" id="formValidate" method="POST" action="<?php echo base_url(); ?>angkutan/cetak_angkutan" target="_blank">
-
                   <div class="mb-3">
                     <select class="form-control selectoption" id="angkutan" name="angkutan">
                       <option value="">SEMUA ANGKUTAN</option>
