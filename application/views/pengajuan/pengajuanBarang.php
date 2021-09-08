@@ -31,10 +31,10 @@
                   <th style="width: 10%;">Cabang</th>
                   <th style="width: 10%;">Jenis Pengajuan</th>
                   <th style="width: 5%;">GA</th>
-                  <th style="width: 5%;">MG</th>
                   <th style="width: 5%;">MA</th>
+                  <th style="width: 5%;">MG</th>
                   <th style="width: 5%;">MM</th>
-                  <th style="width: 5%;">GM</th>
+                  <th style="width: 5%;">em</th>
                   <th style="width: 5%;">DIRUT</th>
                   <th style="width: 7%;">Aksi</th>
                 </tr>
@@ -63,21 +63,21 @@
                       <td></td>
                     <?php } ?>
 
-                    <?php if($d['mg'] == 1){ ?>
-                      <td><a href="#" class="btn btn-sm btn-success"><i class="fa fa-check"></i></a></td>
-                    <?php }else if($d['mg'] == 2){ ?>
-                      <td><a href="#" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
-                    <?php }else if($d['mg'] != ''){ ?>
-                      <td><a href="#" class="btn btn-sm btn-warning"><i class="fa fa-history"></i></a></td>
-                    <?php }else{ ?>
-                      <td></td>
-                    <?php } ?>
-
                     <?php if($d['ma'] == 1){ ?>
                       <td><a href="#" class="btn btn-sm btn-success"><i class="fa fa-check"></i></a></td>
                     <?php }else if($d['ma'] == 2){ ?>
                       <td><a href="#" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
                     <?php }else if($d['ma'] != ''){ ?>
+                      <td><a href="#" class="btn btn-sm btn-warning"><i class="fa fa-history"></i></a></td>
+                    <?php }else{ ?>
+                      <td></td>
+                    <?php } ?>
+
+                    <?php if($d['mg'] == 1){ ?>
+                      <td><a href="#" class="btn btn-sm btn-success"><i class="fa fa-check"></i></a></td>
+                    <?php }else if($d['mg'] == 2){ ?>
+                      <td><a href="#" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
+                    <?php }else if($d['mg'] != ''){ ?>
                       <td><a href="#" class="btn btn-sm btn-warning"><i class="fa fa-history"></i></a></td>
                     <?php }else{ ?>
                       <td></td>
@@ -93,11 +93,11 @@
                       <td></td>
                     <?php } ?>
 
-                    <?php if($d['gm'] == 1){ ?>
+                    <?php if($d['em'] == 1){ ?>
                       <td><a href="#" class="btn btn-sm btn-success"><i class="fa fa-check"></i></a></td>
-                    <?php }else if($d['gm'] == 2){ ?>
+                    <?php }else if($d['em'] == 2){ ?>
                       <td><a href="#" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
-                    <?php }else if($d['gm'] != ''){ ?>
+                    <?php }else if($d['em'] != ''){ ?>
                       <td><a href="#" class="btn btn-sm btn-warning"><i class="fa fa-history"></i></a></td>
                     <?php }else{ ?>
                       <td></td>
@@ -114,10 +114,10 @@
                     <?php } ?>
 
                     <td>
-                      <?php if($d['ma'] == 0 && $d['ga'] == 1 || $d['mg']){ ?>
+                      <?php if($d['ga'] == 1 ){ ?>
                         <a href="<?php echo base_url();?>pengajuan/approvalpengajuan/<?php echo $nobukti;?>/1" class="btn btn-sm btn-primary"><i class="fa fa-check"></i></a>
+                      <?php } else if($d['ma'] == '' && $d['ga'] == 1 ){ ?>
                         <a href="<?php echo base_url();?>pengajuan/approvalpengajuan/<?php echo $nobukti;?>/2" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a>
-                      <?php }else{ ?>
                       <?php } ?>
                     </td>
                   </tr>

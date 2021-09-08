@@ -326,6 +326,7 @@ class Model_angkutan extends CI_Model
     $this->datatables->from('angkutan');
     $this->datatables->join('mutasi_gudang_jadi', 'angkutan.no_surat_jalan = mutasi_gudang_jadi.no_dok','left');
     $this->datatables->where('angkutan.tgl_kontrabon', NULL);
+    $this->datatables->where('angkutan.tarif!=', 0);
     foreach ($data as $d) {
       $data = array(
         $this->db->where_not_in('angkutan.no_surat_jalan',$d->no_surat_jalan)

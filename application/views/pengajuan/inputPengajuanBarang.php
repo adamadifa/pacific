@@ -63,60 +63,14 @@
                       <input type="file" id="foto" name="foto" class="form-control" id="customFile">
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-7 col-xs-12">
-             
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-5">
-              <div class="card">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-10">
-                      <div class="form-group">
-                        <div class="input-icon">
-                          <select class="form-select" name="approval" id="approval">
-                            <option value="">-- PILIH YANG AKAN MENYETUJUI --</option>
-                            <option value="244">Indra Triadi</option>
-                            <option value="73">Zenzen Zaenal Abidin</option>
-                            <option value="6">Ridwan Nugraha</option>
-                            <option value="5">Herdy Budiawan</option>
-                            <option value="10">Deden Moch Saman</option>
-                            <option value="11">Jemmy Feldiana</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-2">
-                      <div class="form-group">
-                        <a href="#" id="tambahbarang" class="btn btn-primary"> Oke</a>
-                      </div>
-                    </div>
-                  </div>
-                  <br>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <table class="table table-bordered table-striped">
-                        <thead class="thead-dark">
-                          <tr>
-                            <th>Yang Akan Menyetujui</th>
-                            <th>Aksi</th>
-                          </tr>
-                        </thead>
-                        <tbody id="loadpengajuan">
-
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
                   <div class="mt-3 d-flex justify-content-end">
                     <button type="submit" name="submit" id="simpan" class="btn btn-primary btn-block mr-2" value="1"><i class="fa fa-send mr-2"></i>Simpan</button>
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="col-md-7 col-xs-12">
+             
             </div>
           </div>
         </div>

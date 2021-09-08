@@ -12,30 +12,52 @@ class Model_pengajuan extends CI_Model
     $id_user        = $this->session->userdata('id_user');
     $cabang         = $this->session->userdata('cabang');
 
+    if($keterangan == 'Barang'){
+      $ga           = 0;
+      $mg           = '';
+      $ma           = 0;
+      $mm           = 0;
+      $em           = 0;
+      $dirut        = 0;
+    }else if($keterangan == 'Jasa'){
+      $ga           = 0;
+      $mg           = '';
+      $ma           = 0;
+      $mm           = 0;
+      $em           = 0;
+      $dirut        = 0;
+    }else if($keterangan == 'ATK'){
+      $ga           = 0;
+      $mg           = 0;
+      $ma           = 0;
+      $mm           = '';
+      $em           = '';
+      $dirut        = '';
+    }else{
+      $ga           = 0;
+      $mg           = '';
+      $ma           = 0;
+      $mm           = 0;
+      $em           = 0;
+      $dirut        = 0;
+    }
+
     $data = array(
       'nobukti'         => $nobukti,
       'nama_lengkap'    => $nama_pemohon,
       'keterangan'      => $keterangan,
       'tanggal'         => $tanggal,
       'kode_cabang'     => $cabang,
-      'foto'            => $foto
+      'foto'            => $foto,
+      'ga'              => $ga,
+      'mg'              => $mg,
+      'ma'              => $ma,
+      'mm'              => $mm,
+      'em'              => $em,
+      'dirut'           => $dirut
     );
 
     $this->db->insert('pengajuan_barang',$data);
-
-    $query = $this->db->query("SELECT * FROM detail_pengajuan_barang_temp WHERE id_user = '$id_user' ");
-    foreach ($query->result() as $d) {
-      $data = array(
-        'nobukti'           => $nobukti,
-        'id_user'           => $d->approval,
-        'status'            => 0,
-      );
-      $this->db->insert('detail_pengajuan_barang',$data);
-      // if($d->approval == '244' || $d->approval == '10' || $d->approval == '6' || $d->approval == '11' || $d->approval == '73' || $d->approval == '5' ){
-      //   $this->db->query("UPDATE pengajuan_barang SET status = '1'  WHERE nobukti = '$nobukti' ");
-      // }
-    }
-    $this->db->query("DELETE FROM detail_pengajuan_barang_temp WHERE id_user = '$id_user' ");
     redirect('pengajuan/pengajuanBarang');
   }
 
@@ -64,24 +86,19 @@ class Model_pengajuan extends CI_Model
 
   public function getDataPengajuanBarang(){
   
-    $id_user            = $this->session->userdata('id_user');
     return $this->db->query("SELECT
     pengajuan_barang.nobukti,
     pengajuan_barang.nama_lengkap,
     pengajuan_barang.tanggal,
     pengajuan_barang.kode_cabang,
     pengajuan_barang.keterangan,
-    MAX(IF (id_user = '244', status, '')) AS ga,
-    MAX(IF (id_user = '73', status, '')) AS mg,
-    MAX(IF (id_user = '6', status, '')) AS ma,
-    MAX(IF (id_user = '5', status, '')) AS mm,
-    MAX(IF (id_user = '10', status, '')) AS gm,
-    MAX(IF (id_user = '11', status, '')) AS dirut
+    ga,
+    mg,
+    ma,
+    mm,
+    em,
+    dirut
     FROM pengajuan_barang
-    LEFT JOIN 
-    (
-      SELECT nobukti,id_user,status FROM detail_pengajuan_barang  
-    ) dpb ON (dpb.nobukti=pengajuan_barang.nobukti)
     GROUP BY pengajuan_barang.nobukti
     ");
   }
