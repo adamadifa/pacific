@@ -311,9 +311,6 @@
           cache: false,
           success: function(respond) {
 
-            if (respond == 1) {
-              swal("Oops!", "Data Sudah Di Inputkan!", "warning");
-            }
 
             tampiltemp();
             $('#barang').focus();

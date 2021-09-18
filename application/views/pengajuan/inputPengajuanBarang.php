@@ -58,9 +58,9 @@
                   <div class="form-group mb-3">
                     <div class="input-icon">
                       <span class="input-icon-addon">
-                        <i class="fa fa-image"></i>
+                        <i class="fa fa-book"></i>
                       </span>
-                      <input type="file" id="foto" name="foto" class="form-control" id="customFile">
+                      <input type="text" value="" id="foto" name="foto" class="form-control" placeholder="Link Google Drive" data-error=".errorTxt19" />
                     </div>
                   </div>
                   <div class="mt-3 d-flex justify-content-end">

@@ -366,6 +366,7 @@ class Model_dpb extends CI_Model
   function detaildpb($no_dpb)
   {
     $this->db->join('master_barang', 'detail_dpb.kode_produk = master_barang.kode_produk');
+    $this->db->order_by('nama_barang');
     return $this->db->get_where('detail_dpb', array('no_dpb' => $no_dpb));
   }
 
@@ -3438,7 +3439,8 @@ class Model_dpb extends CI_Model
   	WHERE
       tgl_pengambilan BETWEEN '$tanggal' AND CURDATE()
   		AND kode_cabang = '$cabang' GROUP BY kode_produk
-  	) dpb ON ( master_barang.kode_produk = dpb.kode_produk )";
+  	) dpb ON ( master_barang.kode_produk = dpb.kode_produk ) 
+    ORDER BY master_barang.nama_barang";
     return $this->db->query($query);
   }
 
@@ -3547,7 +3549,8 @@ class Model_dpb extends CI_Model
   		AND kode_cabang = '$cabang'
       GROUP BY detail_mutasi_gudang_cabang.kode_produk
   	) mutasi ON (
-  	master_barang.kode_produk = mutasi.kode_produk)";
+  	master_barang.kode_produk = mutasi.kode_produk) 
+    ORDER BY master_barang.nama_barang";
     return $this->db->query($query);
   }
 
@@ -3568,7 +3571,8 @@ class Model_dpb extends CI_Model
     INNER JOIN mutasi_gudang_cabang mc ON dm.no_mutasi_gudang_cabang = mc.no_mutasi_gudang_cabang
     INNER JOIN master_barang mb ON dm.kode_produk = mb.kode_produk
     WHERE mc.no_dpb='$no_dpb'
-    GROUP BY dm.kode_produk,nama_barang";
+    GROUP BY dm.kode_produk,nama_barang
+    ORDER BY nama_barang";
     return $this->db->query($query);
   }
 

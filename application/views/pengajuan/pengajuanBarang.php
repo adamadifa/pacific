@@ -30,6 +30,7 @@
                   <th style="width: 10%;">Tanggal</th>
                   <th style="width: 10%;">Cabang</th>
                   <th style="width: 10%;">Jenis Pengajuan</th>
+                  <th style="width: 10%;">Gambar Scan</th>
                   <th style="width: 5%;">GA</th>
                   <th style="width: 5%;">MA</th>
                   <th style="width: 5%;">MG</th>
@@ -52,6 +53,7 @@
                     <td><?php echo dateToIndo2($d['tanggal']) ?></td>
                     <td><?php echo $d['kode_cabang']; ?></td>
                     <td><?php echo $d['keterangan']; ?></td>
+                    <td><?php echo $d['foto']; ?></td>
 
                     <?php if($d['ga'] == 1){ ?>
                       <td><a href="#" class="btn btn-sm btn-success"><i class="fa fa-check"></i></a></td>

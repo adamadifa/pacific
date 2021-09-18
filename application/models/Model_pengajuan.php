@@ -3,12 +3,13 @@
 class Model_pengajuan extends CI_Model
 {
 
-  public function insertPengajuanBarang($foto){
+  public function insertPengajuanBarang(){
 
     $nobukti        = $this->input->post('nobukti');
     $keterangan     = $this->input->post('keterangan');
     $nama_pemohon   = $this->input->post('nama_pemohon');
     $tanggal        = $this->input->post('tanggal');
+    $foto           = $this->input->post('foto');
     $id_user        = $this->session->userdata('id_user');
     $cabang         = $this->session->userdata('cabang');
 
@@ -16,18 +17,18 @@ class Model_pengajuan extends CI_Model
       $ga           = 0;
       $mg           = '';
       $ma           = 0;
-      $mm           = 0;
+      $mm           = '';
       $em           = 0;
       $dirut        = 0;
     }else if($keterangan == 'Jasa'){
       $ga           = 0;
       $mg           = '';
       $ma           = 0;
-      $mm           = 0;
+      $mm           = '';
       $em           = 0;
       $dirut        = 0;
     }else if($keterangan == 'ATK'){
-      $ga           = 0;
+      $ga           = '';
       $mg           = 0;
       $ma           = 0;
       $mm           = '';
@@ -92,6 +93,7 @@ class Model_pengajuan extends CI_Model
     pengajuan_barang.tanggal,
     pengajuan_barang.kode_cabang,
     pengajuan_barang.keterangan,
+    pengajuan_barang.foto,
     ga,
     mg,
     ma,
