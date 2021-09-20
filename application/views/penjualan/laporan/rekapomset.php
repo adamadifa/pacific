@@ -33,42 +33,42 @@
                   <?php } else { ?>
                     <input type="hidden" name="cabang" id="cabang" value="<?php echo $cb; ?>">
                   <?php } ?>
-				  <div class="row">
-					  <div class="col-md-6">
-						  <div class="form-group mb-3">
-							<select required class="form-select show-tick" id="bulan" name="bulan1" data-error=".errorTxt1">
-							  <option value="">Bulan</option>
-							  <?php
-							  $bulanini = date("m");
-							  for ($i = 1; $i < count($bulan); $i++) {
-							  ?>
-								<option <?php if ($bulanini == $i) {
-										  echo "selected";
-										} ?> value="<?php echo $i; ?>"><?php echo $bulan[$i]; ?></option>
-							  <?php
-							  }
-							  ?>
-							</select>
-						  </div>
-					  </div>
-					  <div class="col-md-6">
-						  <div class="form-group mb-3">
-							<select required class="form-select show-tick" id="bulan" name="bulan2" data-error=".errorTxt1">
-							  <option value="">Bulan</option>
-							  <?php
-							  $bulanini = date("m");
-							  for ($i = 1; $i < count($bulan); $i++) {
-							  ?>
-								<option <?php if ($bulanini == $i) {
-										  echo "selected";
-										} ?> value="<?php echo $i; ?>"><?php echo $bulan[$i]; ?></option>
-							  <?php
-							  }
-							  ?>
-							</select>
-						  </div>
-					  </div>
-				  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group mb-3">
+                        <select required class="form-select show-tick" id="bulan" name="bulan1" data-error=".errorTxt1">
+                          <option value="">Bulan</option>
+                          <?php
+                          $bulanini = date("m");
+                          for ($i = 1; $i < count($bulan); $i++) {
+                          ?>
+                            <option <?php if ($bulanini == $i) {
+                                      echo "selected";
+                                    } ?> value="<?php echo $i; ?>"><?php echo $bulan[$i]; ?></option>
+                          <?php
+                          }
+                          ?>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group mb-3">
+                        <select required class="form-select show-tick" id="bulan" name="bulan2" data-error=".errorTxt1">
+                          <option value="">Bulan</option>
+                          <?php
+                          $bulanini = date("m");
+                          for ($i = 1; $i < count($bulan); $i++) {
+                          ?>
+                            <option <?php if ($bulanini == $i) {
+                                      echo "selected";
+                                    } ?> value="<?php echo $i; ?>"><?php echo $bulan[$i]; ?></option>
+                          <?php
+                          }
+                          ?>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
 
                   <div class="form-group mb-3">
                     <select required class="form-control show-tick" id="tahun2" name="tahun" data-error=".errorTxt1">
@@ -109,7 +109,13 @@
         </div>
       </div>
       <div class="col-md-2">
-        <?php $this->load->view('menu/menu_accounting_administrator'); ?>
+        <?php
+        if ($this->session->userdata('level') == "admin penjualan") {
+          $this->load->view('menu/menu_accounting_administrator');
+        } else {
+          $this->load->view('menu/menu_penjualan_administrator');
+        }
+        ?>
       </div>
     </div>
   </div>

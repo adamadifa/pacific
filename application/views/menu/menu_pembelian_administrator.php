@@ -1,45 +1,47 @@
 <?php
 $level = $this->session->userdata('level_user');
 if ($level == "Administrator" || $level == "admin pembelian 2" || $level == "admin pembelian" || $level == "manager pembelian") {
+  if ($this->session->userdata('id_user') != "11") {
 ?>
-  <div class="card">
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action active">
-        Data Master
-      </a>
-      <a href="<?php echo base_url(); ?>pembelian/barang" class="list-group-item list-group-item-action">
-        <i class="fa  fa-file-text mr-2"></i>Data Barang
-      </a>
-      <a href="<?php echo base_url(); ?>pembelian/supplier" class="list-group-item list-group-item-action">
-        <i class="fa  fa-users mr-2"></i>Data Supplier
-      </a>
+    <div class="card">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+          Data Master
+        </a>
+        <a href="<?php echo base_url(); ?>pembelian/barang" class="list-group-item list-group-item-action">
+          <i class="fa  fa-file-text mr-2"></i>Data Barang
+        </a>
+        <a href="<?php echo base_url(); ?>pembelian/supplier" class="list-group-item list-group-item-action">
+          <i class="fa  fa-users mr-2"></i>Data Supplier
+        </a>
+      </div>
     </div>
-  </div>
-  <div class="card">
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action active">
-        Transaksi
-      </a>
-      <a href="<?php echo base_url(); ?>pembelian" class="list-group-item list-group-item-action">
-        <i class="fa  fa-shopping-cart mr-2"></i>Pembelian
-      </a>
-      <a href="<?php echo base_url(); ?>pembelian/kontrabon" class="list-group-item list-group-item-action">
-        <i class="fa  fa-file-text-o mr-2"></i>Kontra BON
-      </a>
-      <a href="<?php echo base_url(); ?>pembelian/jurnalkoreksi" class="list-group-item list-group-item-action">
-        <i class="fa  fa-file-text-o mr-2"></i>Jurnal Koreksi
-      </a>
-      <a href="<?php echo base_url(); ?>pembelian/jatuhtempo" class="list-group-item list-group-item-action">
-        <i class="fa  fa-file-text-o mr-2"></i>Jatuh Tempo
-      </a>
-      <a href="<?php echo base_url(); ?>pembelian/returpembelian" class="list-group-item list-group-item-action">
-        <i class="fa  fa-file-text-o mr-2"></i>Retur Pembelian
-      </a>
-      <a href="<?php echo base_url(); ?>pembelian/returproduksi" class="list-group-item list-group-item-action">
-        <i class="fa  fa-file-text-o mr-2"></i>Approvel Retur
-      </a>
+    <div class="card">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+          Transaksi
+        </a>
+        <a href="<?php echo base_url(); ?>pembelian" class="list-group-item list-group-item-action">
+          <i class="fa  fa-shopping-cart mr-2"></i>Pembelian
+        </a>
+        <a href="<?php echo base_url(); ?>pembelian/kontrabon" class="list-group-item list-group-item-action">
+          <i class="fa  fa-file-text-o mr-2"></i>Kontra BON
+        </a>
+        <a href="<?php echo base_url(); ?>pembelian/jurnalkoreksi" class="list-group-item list-group-item-action">
+          <i class="fa  fa-file-text-o mr-2"></i>Jurnal Koreksi
+        </a>
+        <a href="<?php echo base_url(); ?>pembelian/jatuhtempo" class="list-group-item list-group-item-action">
+          <i class="fa  fa-file-text-o mr-2"></i>Jatuh Tempo
+        </a>
+        <a href="<?php echo base_url(); ?>pembelian/returpembelian" class="list-group-item list-group-item-action">
+          <i class="fa  fa-file-text-o mr-2"></i>Retur Pembelian
+        </a>
+        <a href="<?php echo base_url(); ?>pembelian/returproduksi" class="list-group-item list-group-item-action">
+          <i class="fa  fa-file-text-o mr-2"></i>Approvel Retur
+        </a>
+      </div>
     </div>
-  </div>
+  <?php } ?>
   <div class="card">
     <div class="list-group">
       <a href="#" class="list-group-item list-group-item-action active">
