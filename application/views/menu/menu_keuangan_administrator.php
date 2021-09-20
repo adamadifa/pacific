@@ -1,91 +1,93 @@
 <?php
 $level = $this->session->userdata('level_user');
 if ($level == "Administrator") {
+  if ($this->session->userdata('id_user') != "11") {
 ?>
-  <div class="card">
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action active">
-        Penjualan
-      </a>
-      <a href="<?php echo base_url(); ?>pembayaran/listgiro" class="list-group-item list-group-item-action">
-        <i class="fa fa-file-text mr-2"></i>Giro
-      </a>
-      <a href="<?php echo base_url(); ?>pembayaran/listtransfer" class="list-group-item list-group-item-action">
-        <i class="fa fa-file-text mr-2"></i>Transfer
-      </a>
-      <a href="<?php echo base_url(); ?>pembayaran/listtransferpenjpending" class="list-group-item list-group-item-action">
-        <i class="fa fa-file-text mr-2"></i>Transfer Penjualan Pending
-      </a>
+    <div class="card">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+          Penjualan
+        </a>
+        <a href="<?php echo base_url(); ?>pembayaran/listgiro" class="list-group-item list-group-item-action">
+          <i class="fa fa-file-text mr-2"></i>Giro
+        </a>
+        <a href="<?php echo base_url(); ?>pembayaran/listtransfer" class="list-group-item list-group-item-action">
+          <i class="fa fa-file-text mr-2"></i>Transfer
+        </a>
+        <a href="<?php echo base_url(); ?>pembayaran/listtransferpenjpending" class="list-group-item list-group-item-action">
+          <i class="fa fa-file-text mr-2"></i>Transfer Penjualan Pending
+        </a>
+      </div>
     </div>
-  </div>
-  <div class="card">
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action active">
-        Kas Besar
-      </a>
-      <a href="<?php echo base_url(); ?>penjualan/saldoawalkb" class="list-group-item list-group-item-action">
-        <i class="fa fa-gears mr-2"></i>Saldo Awal Kas Besar
-      </a>
-      <a href="<?php echo base_url(); ?>penjualan/ceksetoranpusat" class="list-group-item list-group-item-action">
-        <i class="fa fa-file-text mr-2"></i>Penerimaan Setoran
-      </a>
+    <div class="card">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+          Kas Besar
+        </a>
+        <a href="<?php echo base_url(); ?>penjualan/saldoawalkb" class="list-group-item list-group-item-action">
+          <i class="fa fa-gears mr-2"></i>Saldo Awal Kas Besar
+        </a>
+        <a href="<?php echo base_url(); ?>penjualan/ceksetoranpusat" class="list-group-item list-group-item-action">
+          <i class="fa fa-file-text mr-2"></i>Penerimaan Setoran
+        </a>
+      </div>
     </div>
-  </div>
-  <div class="card">
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action active">
-        Pembelian
-      </a>
-      <a href="<?php echo base_url(); ?>pembelian" class="list-group-item list-group-item-action">
-        <i class="fa fa-shopping-cart mr-2"></i>Data Pembelian
-      </a>
-      <a href="<?php echo base_url(); ?>pembelian/kontrabonkeuangan" class="list-group-item list-group-item-action">
-        <i class="fa fa-bookmark-o mr-2"></i>Kontrabon
-      </a>
+    <div class="card">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+          Pembelian
+        </a>
+        <a href="<?php echo base_url(); ?>pembelian" class="list-group-item list-group-item-action">
+          <i class="fa fa-shopping-cart mr-2"></i>Data Pembelian
+        </a>
+        <a href="<?php echo base_url(); ?>pembelian/kontrabonkeuangan" class="list-group-item list-group-item-action">
+          <i class="fa fa-bookmark-o mr-2"></i>Kontrabon
+        </a>
+      </div>
     </div>
-  </div>
-  <div class="card">
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action active">
-        Kas Kecil
-      </a>
-      <a href="<?php echo base_url(); ?>kaskecil" class="list-group-item list-group-item-action">
-        <i class="fa fa-book mr-2"></i>Kas Kecil
-      </a>
-      <a href="<?php echo base_url(); ?>kaskecil/klaim" class="list-group-item list-group-item-action">
-        <i class="fa fa-file-archive-o mr-2"></i>Buat Klaim
-      </a>
-      <a href="<?php echo base_url(); ?>kaskecil/klaimcabang" class="list-group-item list-group-item-action">
-        <i class="fa fa-file-text-o mr-2"></i>Klaim Cabang
-      </a>
-      <a href="<?php echo base_url(); ?>kaskecil/penerimaankaskecil" class="list-group-item list-group-item-action">
-        <i class="fa fa-file-text mr-2"></i>Penerimaan Kas Kecil
-      </a>
+    <div class="card">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+          Kas Kecil
+        </a>
+        <a href="<?php echo base_url(); ?>kaskecil" class="list-group-item list-group-item-action">
+          <i class="fa fa-book mr-2"></i>Kas Kecil
+        </a>
+        <a href="<?php echo base_url(); ?>kaskecil/klaim" class="list-group-item list-group-item-action">
+          <i class="fa fa-file-archive-o mr-2"></i>Buat Klaim
+        </a>
+        <a href="<?php echo base_url(); ?>kaskecil/klaimcabang" class="list-group-item list-group-item-action">
+          <i class="fa fa-file-text-o mr-2"></i>Klaim Cabang
+        </a>
+        <a href="<?php echo base_url(); ?>kaskecil/penerimaankaskecil" class="list-group-item list-group-item-action">
+          <i class="fa fa-file-text mr-2"></i>Penerimaan Kas Kecil
+        </a>
+      </div>
     </div>
-  </div>
-  <div class="card">
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action active">
-        Mutasi Bank
-      </a>
-      <a href="<?php echo base_url(); ?>kaskecil/mutasibank" class="list-group-item list-group-item-action">
-        <i class="fa fa-bank mr-2"></i>Mutasi Bank
-      </a>
+    <div class="card">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+          Mutasi Bank
+        </a>
+        <a href="<?php echo base_url(); ?>kaskecil/mutasibank" class="list-group-item list-group-item-action">
+          <i class="fa fa-bank mr-2"></i>Mutasi Bank
+        </a>
+      </div>
     </div>
-  </div>
-  <div class="card">
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action active">
-        Ledger
-      </a>
-      <a href="<?php echo base_url(); ?>keuangan/saldoledger" class="list-group-item list-group-item-action">
-        <i class="fa fa-gear mr-2"></i>Saldo Awal Ledger
-      </a>
-      <a href="<?php echo base_url(); ?>keuangan/ledger" class="list-group-item list-group-item-action">
-        <i class="fa fa-book mr-2"></i>Ledger
-      </a>
+    <div class="card">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+          Ledger
+        </a>
+        <a href="<?php echo base_url(); ?>keuangan/saldoledger" class="list-group-item list-group-item-action">
+          <i class="fa fa-gear mr-2"></i>Saldo Awal Ledger
+        </a>
+        <a href="<?php echo base_url(); ?>keuangan/ledger" class="list-group-item list-group-item-action">
+          <i class="fa fa-book mr-2"></i>Ledger
+        </a>
+      </div>
     </div>
-  </div>
+  <?php } ?>
   <div class="card">
     <div class="list-group">
       <a href="#" class="list-group-item list-group-item-action active">
@@ -132,9 +134,7 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>pembayaran/listtransferpenjpending" class="list-group-item list-group-item-action">
         <i class="fa fa-file-text mr-2"></i>Transfer Penjualan Pending
       </a>
-      <a href="<?php echo base_url(); ?>laporanpenjualan/penjualan" class="list-group-item list-group-item-action">
-        <i class="fa fa-file-text mr-2"></i>Laporan Penjualan
-      </a>
+
     </div>
   </div>
   <div class="card">
@@ -150,30 +150,38 @@ if ($level == "Administrator") {
       </a>
     </div>
   </div>
-  <div class="card">
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action active">
-        Pembelian
-      </a>
-      <a href="<?php echo base_url(); ?>pembelian" class="list-group-item list-group-item-action">
-        <i class="fa fa-shopping-cart mr-2"></i>Data Pembelian
-      </a>
-      <a href="<?php echo base_url(); ?>pembelian/kontrabonkeuangan" class="list-group-item list-group-item-action">
-        <i class="fa fa-bookmark-o mr-2"></i>Kontrabon
-      </a>
+  <?php
+  if ($this->session->userdata('username') != "nurman") {
+  ?>
+    <div class="card">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+          Pembelian
+        </a>
+        <a href="<?php echo base_url(); ?>pembelian" class="list-group-item list-group-item-action">
+          <i class="fa fa-shopping-cart mr-2"></i>Data Pembelian
+        </a>
+        <a href="<?php echo base_url(); ?>pembelian/kontrabonkeuangan" class="list-group-item list-group-item-action">
+          <i class="fa fa-bookmark-o mr-2"></i>Kontrabon
+        </a>
+      </div>
     </div>
-  </div>
+  <?php } ?>
   <div class="card">
     <div class="list-group">
       <a href="#" class="list-group-item list-group-item-action active">
         Kas Kecil
       </a>
-      <a href="<?php echo base_url(); ?>kaskecil" class="list-group-item list-group-item-action">
-        <i class="fa fa-book mr-2"></i>Kas Kecil
-      </a>
-      <a href="<?php echo base_url(); ?>kaskecil/klaim" class="list-group-item list-group-item-action">
-        <i class="fa fa-file-archive-o mr-2"></i>Buat Klaim
-      </a>
+      <?php
+      if ($this->session->userdata('username') != "nurman") {
+      ?>
+        <a href="<?php echo base_url(); ?>kaskecil" class="list-group-item list-group-item-action">
+          <i class="fa fa-book mr-2"></i>Kas Kecil
+        </a>
+        <a href="<?php echo base_url(); ?>kaskecil/klaim" class="list-group-item list-group-item-action">
+          <i class="fa fa-file-archive-o mr-2"></i>Buat Klaim
+        </a>
+      <?php } ?>
       <a href="<?php echo base_url(); ?>kaskecil/klaimcabang" class="list-group-item list-group-item-action">
         <i class="fa fa-file-text-o mr-2"></i>Klaim Cabang
       </a>
@@ -182,7 +190,7 @@ if ($level == "Administrator") {
       </a>
     </div>
   </div>
-    
+
   <?php
   if ($this->session->userdata('username') == "siskapusat") {
   ?>
@@ -270,7 +278,7 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>laporanpenjualan/omset" class="list-group-item list-group-item-action">
         <i class="fa fa-file-pdf-o mr-2"></i>Omset
       </a>
-	  
+
       <?php
       if ($this->session->userdata('username') != "siskapusat" && $this->session->userdata('username') != "nurman") {
       ?>
@@ -280,21 +288,23 @@ if ($level == "Administrator") {
         <a href="<?php echo base_url(); ?>laporanpenjualan/kartupiutang" class="list-group-item list-group-item-action">
           <i class="fa fa-file mr-2"></i>Kartu Piutang
         </a>
-        <a href="<?php echo base_url(); ?>laporangudangjadi/persediaan" class="list-group-item list-group-item-action">
-          <i class="fa  fa-file-text-o mr-2"></i>Persediaan Barang
+        <?php if ($this->session->userdata('username') != "ika") { ?>
+          <a href="<?php echo base_url(); ?>laporangudangjadi/persediaan" class="list-group-item list-group-item-action">
+            <i class="fa  fa-file-text-o mr-2"></i>Persediaan Barang
+          </a>
+          <a href="<?php echo base_url(); ?>laporangudangjadi/rekappersediaan" class="list-group-item list-group-item-action">
+            <i class="fa  fa-file-text-o mr-2"></i>Rekap Persediaan
+          </a>
+        <?php } ?>
+      <?php } ?>
+      <?php if ($this->session->userdata('id_user') == "72") { ?>
+        <a href="<?php echo base_url(); ?>komisi/laporankomisi" class="list-group-item list-group-item-action">
+          <i class="fa fa-file-o mr-2"></i>Komisi
         </a>
-        <a href="<?php echo base_url(); ?>laporangudangjadi/rekappersediaan" class="list-group-item list-group-item-action">
-          <i class="fa  fa-file-text-o mr-2"></i>Rekap Persediaan
+        <a href="<?php echo base_url(); ?>komisi/insentif" class="list-group-item list-group-item-action">
+          <i class="fa fa-file-o mr-2"></i>Insentif KA Admin
         </a>
       <?php } ?>
-	  <?php if($this->session->userdata('id_user') == "72"){ ?>
-	   <a href="<?php echo base_url(); ?>komisi/laporankomisi" class="list-group-item list-group-item-action">
-        <i class="fa fa-file-o mr-2"></i>Komisi
-      </a>
-	  <a href="<?php echo base_url(); ?>komisi/insentif" class="list-group-item list-group-item-action">
-        <i class="fa fa-file-o mr-2"></i>Insentif KA Admin
-      </a>
-	  <?php } ?>
     </div>
   </div>
 <?php } else if ($level == "audit") { ?>
@@ -463,8 +473,8 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>laporankeuangan/ledger" class="list-group-item list-group-item-action">
         <i class="fa fa-file-o mr-2"></i>Ledger / Mutasi Bank
       </a>
-	  
+
     </div>
   </div>
-  
+
 <?php } ?>
