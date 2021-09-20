@@ -113,7 +113,7 @@ if ($dari < '2018-09-01') {
 					<tr bgcolor="#024a75" style="color:white; font-size:12;">
 						<td rowspan="2" class="fixed-side" scope="col" style=" background-color:#024a75;color:white;">No</td>
 						<td rowspan="2" class="fixed-side" scope="col" style=" background-color:#024a75;color:white;">Nama Sales</td>
-						<td colspan="12" align="center">PRODUK</td>
+						<td colspan="13" align="center">PRODUK</td>
 						<td rowspan="2" bgcolor="#f5ae15">Penjualan Bruto</td>
 						<td rowspan="2" bgcolor="#f5ae15">Retur</td>
 						<td rowspan="2" bgcolor="#f5ae15">Potongan</td>
@@ -133,6 +133,7 @@ if ($dari < '2018-09-01') {
 						<td>SAOS BAWANG BALL PROMO</td>
 						<td>CABE GILING KG</td>
 						<td>CABE GILING MURAH</td>
+						<td>CABE GILING 5</td>
 						<td>SAOS BAWANG DUS</td>
 						<td>SAUS EXTRA PEDAS</td>
 						<td>KECAP DUS</td>
@@ -156,6 +157,7 @@ if ($dari < '2018-09-01') {
 					$totalBBP 					= 0;
 					$totalCG 					= 0;
 					$totalCGG 				= 0;
+					$totalCG5 				= 0;
 					$totalDB 					= 0;
 					$totalDEP 				= 0;
 					$totalDK 					= 0;
@@ -183,6 +185,7 @@ if ($dari < '2018-09-01') {
 					$grandtotalBBP 					= 0;
 					$grandtotalCG 					= 0;
 					$grandtotalCGG 					= 0;
+					$grandtotalCG5 					= 0;
 					$grandtotalDB 					= 0;
 					$grandtotalDEP 					= 0;
 					$grandtotalDK 					= 0;
@@ -206,6 +209,7 @@ if ($dari < '2018-09-01') {
 						$totalBBP 								= $totalBBP + $p->BBP;
 						$totalCG 								= $totalCG + $p->CG;
 						$totalCGG								= $totalCGG + $p->CGG;
+						$totalCG5								= $totalCG5 + $p->CG5;
 						$totalDB 								= $totalDB + $p->DB;
 						$totalDEP 							= $totalDEP + $p->DEP;
 						$totalDK 								= $totalDK + $p->DK;
@@ -234,6 +238,7 @@ if ($dari < '2018-09-01') {
 						$grandtotalBBP 					= $grandtotalBBP + $p->BBP;
 						$grandtotalCG 					= $grandtotalCG + $p->CG;
 						$grandtotalCGG					= $grandtotalCGG + $p->CGG;
+						$grandtotalCG5					= $grandtotalCG5 + $p->CG5;
 						$grandtotalDB 					= $grandtotalDB + $p->DB;
 						$grandtotalDEP 					= $grandtotalDEP + $p->DEP;
 						$grandtotalDK 					= $grandtotalDK + $p->DK;
@@ -281,6 +286,9 @@ if ($dari < '2018-09-01') {
 							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->CGG)) {
 																																echo uang($p->CGG);
 																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->CG5)) {
+																									echo uang($p->CG5);
+																								} ?></td>																								
 							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->DB)) {
 																																echo uang($p->DB);
 																															} ?></td>
@@ -357,6 +365,7 @@ if ($dari < '2018-09-01') {
 					<td align="right" >' . uang($totalBBP) . '</td>
 					<td align="right" >' . uang($totalCG) . '</td>
 					<td align="right" >' . uang($totalCGG) . '</td>
+					<td align="right" >' . uang($totalCG5) . '</td>
 					<td align="right" >' . uang($totalDB) . '</td>
 					<td align="right" >' . uang($totalDEP) . '</td>
 					<td align="right" >' . uang($totalDK) . '</td>
@@ -385,6 +394,7 @@ if ($dari < '2018-09-01') {
 							$totalBBP 						= 0;
 							$totalCG 						= 0;
 							$totalCGG 					= 0;
+							$totalCG5 					= 0;
 							$totalDB 						= 0;
 							$totalDEP 					= 0;
 							$totalDK 						= 0;
@@ -422,6 +432,7 @@ if ($dari < '2018-09-01') {
 					<td align="right" >' . uang($grandtotalBBP) . '</td>
 					<td align="right" >' . uang($grandtotalCG) . '</td>
 					<td align="right" >' . uang($grandtotalCGG) . '</td>
+					<td align="right" >' . uang($grandtotalCG5) . '</td>
 					<td align="right" >' . uang($grandtotalDB) . '</td>
 					<td align="right" >' . uang($grandtotalDEP) . '</td>
 					<td align="right" >' . uang($grandtotalDK) . '</td>
@@ -563,7 +574,7 @@ if ($dari < '2018-09-01') {
 			<tr>
 				<td style="border:0px"></td>
 				<td colspan="2" style="border:0px">PENJUALAN CABE GILING MURAH</td>
-				<td style="border:0px" align="right"><b><?php echo uang($grandtotalCG + $grandtotalCGG); ?></b></td>
+				<td style="border:0px" align="right"><b><?php echo uang($grandtotalCG + $grandtotalCGG + $grandtotalCG5); ?></b></td>
 			</tr>
 			<tr>
 				<td style="border:0px"></td>
