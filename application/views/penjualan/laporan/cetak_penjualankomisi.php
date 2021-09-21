@@ -75,7 +75,7 @@ if ($dari < '2018-09-01') {
         <th rowspan="2" style="width: 4%;">Salesman</th>
         <th rowspan="2" style="width: 3%;">Pasar</th>
         <th rowspan="2" style="width: 3%;">Hari</th>
-        <th colspan="13" style="background-color: #19c116;">Produk</th>
+        <th colspan="15" style="background-color: #19c116;">Produk</th>
 
         <th rowspan="2" style="width: 3%; background-color: #024a75;">Total Netto</th>
         <th rowspan="2" style="width: 5%; background-color: #024a75;">Tunai / Kredit</th>
@@ -99,6 +99,8 @@ if ($dari < '2018-09-01') {
         <th style="width: 1%;">BBP</th>
         <th style="width: 1%;">SPP</th>
         <th style="width: 1%;">CG5</th>
+        <th style="width: 1%;">SC</th>
+        <th style="width: 1%;">SP8</th>
 
 
       </tr>
@@ -159,6 +161,14 @@ if ($dari < '2018-09-01') {
 
         if ($b->kode_produk == "CG5") {
           $isipcsdusCG5 = $b->isipcsdus;
+        }
+
+        if ($b->kode_produk == "SC") {
+          $isipcsdusSC = $b->isipcsdus;
+        }
+
+        if ($b->kode_produk == "SP8") {
+          $isipcsdusSP8 = $b->isipcsdus;
         }
       }
 
@@ -277,6 +287,18 @@ if ($dari < '2018-09-01') {
         } else {
           $CG5 = 0;
         }
+
+        if (!empty($d->SC)) {
+          $SC = $d->SC / $isipcsdusSC;
+        } else {
+          $SC = 0;
+        }
+
+        if (!empty($d->SP8)) {
+          $SP8 = $d->SP8 / $isipcsdusSP8;
+        } else {
+          $SP8 = 0;
+        }
         $totalAB += $AB;
         $totalAR += $AR;
         $totalAS += $AS;
@@ -290,6 +312,8 @@ if ($dari < '2018-09-01') {
         $totalBBP += $BBP;
         $totalSPP += $SPP;
         $totalCG5 += $CG5;
+        $totalSC += $SC;
+        $totalSP8 += $SP8;
 
 
         if ($d->status_lunas == 1) {
@@ -418,6 +442,22 @@ if ($dari < '2018-09-01') {
             ?>
 
           </td>
+          <td align="center">
+            <?php
+            if (!empty($SC)) {
+              echo formatqty($SC);
+            }
+            ?>
+
+          </td>
+          <td align="center">
+            <?php
+            if (!empty($SP8)) {
+              echo formatqty($SP8);
+            }
+            ?>
+
+          </td>
 
           <td align="right"><b><?php if (!empty($d->totalnetto)) {
                                   echo uang($d->totalnetto);
@@ -457,6 +497,8 @@ if ($dari < '2018-09-01') {
         <th align="right"><b><?php echo formatqty($totalBBP); ?></b></th>
         <th align="right"><b><?php echo formatqty($totalSPP); ?></b></th>
         <th align="right"><b><?php echo formatqty($totalCG5); ?></b></th>
+        <th align="right"><b><?php echo formatqty($totalSC); ?></b></th>
+        <th align="right"><b><?php echo formatqty($totalSP8); ?></b></th>
         <th align="right"><b><?php echo formatqty($totalnetto); ?></b></th>
       </tr>
     </tbody>

@@ -113,7 +113,7 @@ if ($dari < '2018-09-01') {
 					<tr bgcolor="#024a75" style="color:white; font-size:12;">
 						<td rowspan="2" class="fixed-side" scope="col" style=" background-color:#024a75;color:white;">No</td>
 						<td rowspan="2" class="fixed-side" scope="col" style=" background-color:#024a75;color:white;">Nama Sales</td>
-						<td colspan="13" align="center">PRODUK</td>
+						<td colspan="15" align="center">PRODUK</td>
 						<td rowspan="2" bgcolor="#f5ae15">Penjualan Bruto</td>
 						<td rowspan="2" bgcolor="#f5ae15">Retur</td>
 						<td rowspan="2" bgcolor="#f5ae15">Potongan</td>
@@ -139,6 +139,8 @@ if ($dari < '2018-09-01') {
 						<td>KECAP DUS</td>
 						<td>SAUS STICK</td>
 						<td>SAUS PREMIUM</td>
+						<td>SAMBAL CABE 200</td>
+						<td>SAUS STICK PREMIUM</td>
 						<td style="background-color:#cc2727">PP</td>
 						<td style="background-color:#cc2727">DP</td>
 						<td style="background-color:#cc2727">PPS</td>
@@ -163,6 +165,7 @@ if ($dari < '2018-09-01') {
 					$totalDK 					= 0;
 					$totalDS 					= 0;
 					$totalSP 					= 0;
+					$totalSC 					= 0;
 					$subtotalbruto 		= 0;
 					$totalpotongan 		= 0;
 					$totalpotistimewa	= 0;
@@ -191,6 +194,7 @@ if ($dari < '2018-09-01') {
 					$grandtotalDK 					= 0;
 					$grandtotalDS 					= 0;
 					$grandtotalSP 					= 0;
+					$grandtotalSC 					= 0;
 					$grandsubtotalbruto 		= 0;
 					$grandtotalpotongan 		= 0;
 					$grandtotalpotistimewa	= 0;
@@ -215,6 +219,8 @@ if ($dari < '2018-09-01') {
 						$totalDK 								= $totalDK + $p->DK;
 						$totalDS 								= $totalDS + $p->DS;
 						$totalSP 								= $totalSP + $p->SP;
+						$totalSC 								= $totalSC + $p->SC;
+						$totalSP8 								= $totalSP8 + $p->SP8;
 						$subtotalbruto					= $subtotalbruto + $p->totalbruto;
 						$totalpotongan  				= $totalpotongan + $p->totalpotongan;
 						$totalretur 						= $totalretur + $p->totalretur;
@@ -244,6 +250,8 @@ if ($dari < '2018-09-01') {
 						$grandtotalDK 					= $grandtotalDK + $p->DK;
 						$grandtotalDS 					= $grandtotalDS + $p->DS;
 						$grandtotalSP 					= $grandtotalSP + $p->SP;
+						$grandtotalSC 					= $grandtotalSC + $p->SC;
+						$grandtotalSP8 					= $grandtotalSP8 + $p->SP8;
 						$grandsubtotalbruto			= $grandsubtotalbruto + $p->totalbruto;
 						$grandtotalpotongan  		= $grandtotalpotongan + $p->totalpotongan;
 						$grandtotalretur 				= $grandtotalretur + $p->totalretur;
@@ -303,6 +311,12 @@ if ($dari < '2018-09-01') {
 																															} ?></td>
 							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->SP)) {
 																																echo uang($p->SP);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->SC)) {
+																																echo uang($p->SC);
+																															} ?></td>
+							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->SP8)) {
+																																echo uang($p->SP8);
 																															} ?></td>
 							<td style="text-align:right; font-weight:bold"><?php if (!empty($p->totalbruto)) {
 																																echo uang($p->totalbruto);
@@ -371,6 +385,8 @@ if ($dari < '2018-09-01') {
 					<td align="right" >' . uang($totalDK) . '</td>
 					<td align="right" >' . uang($totalDS) . '</td>
 					<td align="right" >' . uang($totalSP) . '</td>
+					<td align="right" >' . uang($totalSC) . '</td>
+					<td align="right" >' . uang($totalSP8) . '</td>
 					<td align="right" >' . uang($subtotalbruto) . '</td>
 					<td align="right" >' . uang($totalretur) . '</td>
 					<td align="right" >' . uang($totalpotongan) . '</td>
@@ -400,6 +416,8 @@ if ($dari < '2018-09-01') {
 							$totalDK 						= 0;
 							$totalDS 						= 0;
 							$totalSP 						= 0;
+							$totalSC 						= 0;
+							$totalSP8 						= 0;
 							$subtotalbruto 			= 0;
 							$totalretur 				= 0;
 							$totalpotongan 			= 0;
@@ -438,6 +456,8 @@ if ($dari < '2018-09-01') {
 					<td align="right" >' . uang($grandtotalDK) . '</td>
 					<td align="right" >' . uang($grandtotalDS) . '</td>
 					<td align="right" >' . uang($grandtotalSP) . '</td>
+					<td align="right" >' . uang($grandtotalSC) . '</td>
+					<td align="right" >' . uang($grandtotalSP8) . '</td>
 					<td align="right" >' . uang($grandsubtotalbruto) . '</td>
 					<td align="right" >' . uang($grandtotalretur) . '</td>
 					<td align="right" >' . uang($grandtotalpotongan) . '</td>
@@ -590,6 +610,18 @@ if ($dari < '2018-09-01') {
 				<td style="border:0px"></td>
 				<td colspan="2" style="border:0px">PENJUALAN SAUS PREMIUM</td>
 				<td style="border:0px" align="right"><b><?php echo uang($grandtotalSP); ?></b></td>
+
+			</tr>
+			<tr>
+				<td style="border:0px"></td>
+				<td colspan="2" style="border:0px">PENJUALAN SAMBAL CABE 200</td>
+				<td style="border:0px" align="right"><b><?php echo uang($grandtotalSC); ?></b></td>
+
+			</tr>
+			<tr>
+				<td style="border:0px"></td>
+				<td colspan="2" style="border:0px">SAUS STICK PREMIUM</td>
+				<td style="border:0px" align="right"><b><?php echo uang($grandtotalSP8); ?></b></td>
 
 			</tr>
 			<tr>

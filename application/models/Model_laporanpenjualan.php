@@ -1808,6 +1808,7 @@ GROUP BY
 							DEP,
 							DK,
 							DS,
+							SC,
 							SP,
 							totalbruto,
 							totalretur,
@@ -1841,6 +1842,8 @@ GROUP BY
 									SUM( IF ( kode_produk = 'DEP', detailpenjualan.subtotal, NULL ) ) AS DEP,
 									SUM( IF ( kode_produk = 'DK', detailpenjualan.subtotal, NULL ) ) AS DK,
 									SUM( IF ( kode_produk = 'DS', detailpenjualan.subtotal, NULL ) ) AS DS,
+									SUM( IF ( kode_produk = 'SC', detailpenjualan.subtotal, NULL ) ) AS SC,
+									SUM( IF ( kode_produk = 'SP8', detailpenjualan.subtotal, NULL ) ) AS SP8,
 									SUM( IF ( kode_produk = 'SP', detailpenjualan.subtotal, NULL ) ) AS SP
 								FROM
 									detailpenjualan
@@ -3356,7 +3359,7 @@ GROUP BY
 		p.kode_pelanggan,pl.nama_pelanggan,
 		p.id_karyawan,k.nama_karyawan,
 		pl.pasar,pl.hari,
-		AB,AR,`AS`,BB,CG,CGG,DEP,DK,DS,SP,BBP,SPP,CG5,
+		AB,AR,`AS`,BB,CG,CGG,DEP,DK,DS,SP,BBP,SPP,CG5,SP8,SC,
 	
 		p.subtotal as totalbruto,
 		(ifnull( r.totalpf, 0 ) - ifnull( r.totalgb, 0 ) ) AS totalretur,
@@ -3389,6 +3392,8 @@ GROUP BY
 			SUM(IF(kode_produk = 'SP',jumlah,0)) as SP,
 			SUM(IF(kode_produk = 'BBP',jumlah,0)) as BBP,
 			SUM(IF(kode_produk = 'SPP',jumlah,0)) as SPP,
+			SUM(IF(kode_produk = 'SC',jumlah,0)) as SC,
+			SUM(IF(kode_produk = 'SP8',jumlah,0)) as SP8,
 			SUM(IF(kode_produk = 'CG5',jumlah,0)) as CG5
 		
 			FROM detailpenjualan dp 
@@ -3466,7 +3471,7 @@ GROUP BY
 		p.kode_pelanggan,pl.nama_pelanggan,
 		p.id_karyawan,k.nama_karyawan,
 		pl.pasar,pl.hari,
-		AB,AR,`AS`,BB,CG,CGG,DEP,DK,DS,SP,BBP,SPP,CG5,
+		AB,AR,`AS`,BB,CG,CGG,DEP,DK,DS,SP,BBP,SPP,CG5,SC,SP8,
 	
 		p.subtotal as totalbruto,
 		(ifnull( r.totalpf, 0 ) - ifnull( r.totalgb, 0 ) ) AS totalretur,
@@ -3499,7 +3504,9 @@ GROUP BY
 			SUM(IF(kode_produk = 'SP' AND promo !='1',jumlah,0)) as SP,
 			SUM(IF(kode_produk = 'BBP' AND promo !='1',jumlah,0)) as BBP,
 			SUM(IF(kode_produk = 'SPP' AND promo !='1',jumlah,0)) as SPP,
-			SUM(IF(kode_produk = 'CG5' AND promo !='1',jumlah,0)) as CG5
+			SUM(IF(kode_produk = 'CG5' AND promo !='1',jumlah,0)) as CG5,
+			SUM(IF(kode_produk = 'SC' AND promo !='1',jumlah,0)) as SC,
+			SUM(IF(kode_produk = 'SP8' AND promo !='1',jumlah,0)) as SP8
 		
 			FROM detailpenjualan dp 
 			INNER JOIN barang b ON dp.kode_barang = b.kode_barang
