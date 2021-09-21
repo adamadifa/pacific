@@ -74,8 +74,8 @@
     </div>
   </div>
   <div class="row">
-    <?php 
-      if ($username != "ardi") {
+    <?php
+    if ($username != "ardi") {
     ?>
       <div class="col-md-4">
         <div class="card">
@@ -169,17 +169,17 @@
         });
       }
 
-      function loadrekappersediaan() {
+      // function loadrekappersediaan() {
 
-        $.ajax({
-          type: 'POST',
-          url: '<?php echo base_url(); ?>dashboard/loadrekappersediaandpb',
-          cache: false,
-          success: function(respond) {
-            $("#loadrekappersediaan").html(respond);
-          }
-        });
-      }
+      //   $.ajax({
+      //     type: 'POST',
+      //     url: '<?php echo base_url(); ?>dashboard/loadrekappersediaandpb',
+      //     cache: false,
+      //     success: function(respond) {
+      //       $("#loadrekappersediaan").html(respond);
+      //     }
+      //   });
+      // }
 
       // function loadsaldoproduk()
       // {
