@@ -11,10 +11,8 @@
         <th style="width: 10%;">Cabang</th>
         <th style="width: 10%;">Pengajuan</th>
         <th style="width: 10%;">Gambar Scan</th>
-        <th style="width: 5%;">GA</th>
-        <th style="width: 5%;">MA</th>
-        <th style="width: 5%;">EM</th>
-        <th style="width: 5%;">DIRUT</th>
+        <th style="width: 10%;">M. Accounting</th>
+        <th style="width: 10%;">M. Gudang</th>
         <th style="width: 7%;">Aksi</th>
       </tr>
     </thead>
@@ -34,16 +32,6 @@
           <td><?php echo $d['keterangan']; ?></td>
           <td><a target="_blank" href="<?php echo $d['foto']; ?>">Lihat Gambar Scan</a></td>
 
-          <?php if($d['ga'] == 1){ ?>
-            <td><a href="#" class="btn btn-sm btn-success"><i class="fa fa-check"></i></a></td>
-          <?php }else if($d['ga'] == 2){ ?>
-            <td><a href="#" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
-          <?php }else if($d['ga'] != ''){ ?>
-            <td><a href="#" class="btn btn-sm btn-warning"><i class="fa fa-history"></i></a></td>
-          <?php }else{ ?>
-            <td></td>
-          <?php } ?>
-
           <?php if($d['ma'] == 1){ ?>
             <td><a href="#" class="btn btn-sm btn-success"><i class="fa fa-check"></i></a></td>
           <?php }else if($d['ma'] == 2){ ?>
@@ -54,63 +42,35 @@
             <td></td>
           <?php } ?>
 
-          <?php if($d['em'] == 1){ ?>
+          <?php if($d['mg'] == 1){ ?>
             <td><a href="#" class="btn btn-sm btn-success"><i class="fa fa-check"></i></a></td>
-          <?php }else if($d['em'] == 2){ ?>
+          <?php }else if($d['mg'] == 2){ ?>
             <td><a href="#" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
-          <?php }else if($d['em'] != ''){ ?>
-            <td><a href="#" class="btn btn-sm btn-warning"><i class="fa fa-history"></i></a></td>
-          <?php }else{ ?>
-            <td></td>
-          <?php } ?>
-
-          <?php if($d['dirut'] == 1){ ?>
-            <td><a href="#" class="btn btn-sm btn-success"><i class="fa fa-check"></i></a></td>
-          <?php }else if($d['dirut'] == 2){ ?>
-            <td><a href="#" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
-          <?php }else if($d['dirut'] != ''){ ?>
+          <?php }else if($d['mg'] != ''){ ?>
             <td><a href="#" class="btn btn-sm btn-warning"><i class="fa fa-history"></i></a></td>
           <?php }else{ ?>
             <td></td>
           <?php } ?>
 
           <td>
-            <?php if($id_user == '244'){ ?>
-              <?php if($d['ga'] == 1 && $d['ma'] == 0){ ?>
+            <?php if($id_user == '6'){ ?>
+              <?php if($d['ma'] == 1 && $d['mg'] == 0){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
-              <?php }else if($d['ga'] == 2 && $d['ma'] == 0){ ?>
+              <?php }else if($d['ma'] == 2 && $d['mg'] == 0){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
-              <?php }else if($d['ga'] == 0){ ?>
-                <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
-                <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
-              <?php } ?>
-            <?php }else if($id_user == '6'){ ?>
-              <?php if($d['ma'] == 1 && $d['em'] == 0){ ?>
-                <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
-              <?php }else if($d['ma'] == 2 && $d['em'] == 0){ ?>
-                <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
-              <?php }else if($d['ga'] == 1 && $d['ma'] == 0){ ?>
+              <?php }else if($d['ma'] == 0){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
               <?php } ?>
-            <?php }else if($id_user == '10'){ ?>
-              <?php if($d['em'] == 1 && $d['dirut'] == 0){ ?>
+            <?php }else if($id_user == '73'){ ?>
+              <?php if($d['mg'] == 1){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
-              <?php }else if($d['em'] == 2 && $d['dirut'] == 0){ ?>
+              <?php }else if($d['mg'] == 2){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
-              <?php }else if($d['ma'] == 1 && $d['em'] == 0){ ?>
-                <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
-                <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
-              <?php } ?>    
-            <?php }else if($id_user == '11'){ ?>
-              <?php if($d['dirut'] == 1){ ?>
-                <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
-              <?php }else if($d['dirut'] == 2){ ?>
-                <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
-              <?php }else if($d['em'] == 1 && $d['dirut'] == 0){ ?>
+              <?php }else if($d['ma'] == 1 && $d['mg'] == 0){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
-              <?php } ?>   
+              <?php } ?>  
             <?php } ?>
           </td>
         </tr>
@@ -130,9 +90,9 @@
 <script>
   $(document).ready(function() {
     $('#mytable').DataTable({
-            responsive: true
+        responsive: true
     });
-
+    
     $('.approve').click(function(e) {
       e.preventDefault();
       var nobukti = $(this).attr('data-kode');
@@ -147,7 +107,7 @@
         cache: false,
         success: function(respond) {
          
-          var jenis_pengajuan = 'Barang';
+          var jenis_pengajuan = 'ATK';
           $.ajax({
             type: 'POST',
             url: '<?php echo base_url(); ?>pengajuan/jenisPengajuan',
@@ -162,7 +122,6 @@
         }
       });
     });
-
 
   });
 </script>

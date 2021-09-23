@@ -13,6 +13,7 @@
         <th style="width: 10%;">Gambar Scan</th>
         <th style="width: 5%;">GA</th>
         <th style="width: 5%;">MA</th>
+        <th style="width: 5%;">MM</th>
         <th style="width: 5%;">EM</th>
         <th style="width: 5%;">DIRUT</th>
         <th style="width: 7%;">Aksi</th>
@@ -54,6 +55,16 @@
             <td></td>
           <?php } ?>
 
+          <?php if($d['mm'] == 1){ ?>
+            <td><a href="#" class="btn btn-sm btn-success"><i class="fa fa-check"></i></a></td>
+          <?php }else if($d['mm'] == 2){ ?>
+            <td><a href="#" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
+          <?php }else if($d['mm'] != ''){ ?>
+            <td><a href="#" class="btn btn-sm btn-warning"><i class="fa fa-history"></i></a></td>
+          <?php }else{ ?>
+            <td></td>
+          <?php } ?>
+
           <?php if($d['em'] == 1){ ?>
             <td><a href="#" class="btn btn-sm btn-success"><i class="fa fa-check"></i></a></td>
           <?php }else if($d['em'] == 2){ ?>
@@ -85,20 +96,29 @@
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
               <?php } ?>
             <?php }else if($id_user == '6'){ ?>
-              <?php if($d['ma'] == 1 && $d['em'] == 0){ ?>
+              <?php if($d['ma'] == 1 && $d['mm'] == 0){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
-              <?php }else if($d['ma'] == 2 && $d['em'] == 0){ ?>
+              <?php }else if($d['ma'] == 2 && $d['mm'] == 0){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
               <?php }else if($d['ga'] == 1 && $d['ma'] == 0){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
               <?php } ?>
+            <?php }else if($id_user == '5'){ ?>
+              <?php if($d['mm'] == 1 && $d['em'] == 0){ ?>
+                <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
+              <?php }else if($d['mm'] == 2 && $d['em'] == 0){ ?>
+                <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
+              <?php }else if($d['ma'] == 1 && $d['mm'] == 0){ ?>
+                <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
+                <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
+              <?php } ?>  
             <?php }else if($id_user == '10'){ ?>
               <?php if($d['em'] == 1 && $d['dirut'] == 0){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
               <?php }else if($d['em'] == 2 && $d['dirut'] == 0){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
-              <?php }else if($d['ma'] == 1 && $d['em'] == 0){ ?>
+              <?php }else if($d['mm'] == 1 && $d['em'] == 0){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
               <?php } ?>    
@@ -147,7 +167,7 @@
         cache: false,
         success: function(respond) {
          
-          var jenis_pengajuan = 'Barang';
+          var jenis_pengajuan = 'Lainnya';
           $.ajax({
             type: 'POST',
             url: '<?php echo base_url(); ?>pengajuan/jenisPengajuan',

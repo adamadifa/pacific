@@ -147,7 +147,7 @@
         cache: false,
         success: function(respond) {
          
-          var jenis_pengajuan = 'Barang';
+          var jenis_pengajuan = 'Jasa';
           $.ajax({
             type: 'POST',
             url: '<?php echo base_url(); ?>pengajuan/jenisPengajuan',

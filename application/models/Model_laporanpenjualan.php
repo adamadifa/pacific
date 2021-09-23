@@ -3359,7 +3359,8 @@ GROUP BY
 		p.kode_pelanggan,pl.nama_pelanggan,
 		p.id_karyawan,k.nama_karyawan,
 		pl.pasar,pl.hari,
-		AB,AR,`AS`,BB,CG,CGG,DEP,DK,DS,SP,BBP,SPP,CG5,SP8,SC,
+
+		AB,AR,`AS`,BB,CG,CGG,DEP,DK,DS,SP,BBP,SPP,CG5,SC,SP8,
 	
 		p.subtotal as totalbruto,
 		(ifnull( r.totalpf, 0 ) - ifnull( r.totalgb, 0 ) ) AS totalretur,
@@ -3392,10 +3393,10 @@ GROUP BY
 			SUM(IF(kode_produk = 'SP',jumlah,0)) as SP,
 			SUM(IF(kode_produk = 'BBP',jumlah,0)) as BBP,
 			SUM(IF(kode_produk = 'SPP',jumlah,0)) as SPP,
+			SUM(IF(kode_produk = 'CG5',jumlah,0)) as CG5,
 			SUM(IF(kode_produk = 'SC',jumlah,0)) as SC,
-			SUM(IF(kode_produk = 'SP8',jumlah,0)) as SP8,
-			SUM(IF(kode_produk = 'CG5',jumlah,0)) as CG5
-		
+			SUM(IF(kode_produk = 'SP8',jumlah,0)) as SP8
+
 			FROM detailpenjualan dp 
 			INNER JOIN barang b ON dp.kode_barang = b.kode_barang
 			GROUP BY dp.no_fak_penj

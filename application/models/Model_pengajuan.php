@@ -85,8 +85,11 @@ class Model_pengajuan extends CI_Model
     WHERE detail_pengajuan_barang_temp.id_user = '$id_user' ");
   }
 
-  public function getDataPengajuanBarang(){
+  public function getDataPengajuanBarang($jenis_pengajuan){
   
+    if($jenis_pengajuan != ""){
+      $jenis_pengajuan  = "WHERE keterangan = '".$jenis_pengajuan."' "; 
+    }
     return $this->db->query("SELECT
     pengajuan_barang.nobukti,
     pengajuan_barang.nama_lengkap,
@@ -100,7 +103,9 @@ class Model_pengajuan extends CI_Model
     mm,
     em,
     dirut
-    FROM pengajuan_barang
+    FROM pengajuan_barang " 
+    .$jenis_pengajuan
+    ."
     GROUP BY pengajuan_barang.nobukti
     ");
   }
@@ -115,11 +120,23 @@ class Model_pengajuan extends CI_Model
 
   public function approvalpengajuan(){
 
-    $nobukti       = str_replace(".","/",$this->uri->segment(3));
+    $nobukti        = str_replace(".","/",$this->uri->segment(3));
     $status         = $this->uri->segment(4);
     $id_user        = $this->session->userdata('id_user');
-    $this->db->query("UPDATE detail_pengajuan_barang SET status = '$status'  WHERE nobukti = '$nobukti' AND id_user = '$id_user' ");
-    redirect('pengajuan/pengajuanBarang');
+
+    if($id_user == '244'){
+      return $this->db->query("UPDATE pengajuan_barang SET ga = '$status'  WHERE nobukti = '$nobukti' ");
+    }else if($id_user == '6'){
+      return $this->db->query("UPDATE pengajuan_barang SET ma = '$status'  WHERE nobukti = '$nobukti' ");
+    }else if($id_user == '5'){
+      return $this->db->query("UPDATE pengajuan_barang SET mm = '$status'  WHERE nobukti = '$nobukti' ");
+    }else if($id_user == '10'){
+      return $this->db->query("UPDATE pengajuan_barang SET em = '$status'  WHERE nobukti = '$nobukti' ");
+    }else if($id_user == '11'){
+      return $this->db->query("UPDATE pengajuan_barang SET dirut = '$status'  WHERE nobukti = '$nobukti' ");
+    }else if($id_user == '73'){
+      return $this->db->query("UPDATE pengajuan_barang SET mg = '$status'  WHERE nobukti = '$nobukti' ");
+    }
   }
 
   public function getPengajuanBarang(){
@@ -138,9 +155,7 @@ class Model_pengajuan extends CI_Model
   public function hapusPengajuanBarang(){
     
     $nobukti       = str_replace(".","/",$this->uri->segment(3));
-    $this->db->query("DELETE FROM detail_pengajuan_barang WHERE nobukti = '$nobukti' ");
     $this->db->query("DELETE FROM pengajuan_barang WHERE nobukti = '$nobukti' ");
-    redirect('pengajuan/pengajuanBarang');
   }
 
   function jsonPilihBarang()

@@ -12,11 +12,25 @@ class Pengajuan extends CI_Controller
   {
    $this->template->load('template/template', 'pengajuan/inputPengajuanBarang');
   }
-
+  
   function pengajuanBarang()
   {
-    $data['data']       = $this->Model_pengajuan->getDataPengajuanBarang();
-    $this->template->load('template/template', 'pengajuan/pengajuanBarang', $data);
+   $this->template->load('template/template', 'pengajuan/viewPengajuan');
+  }
+
+  function jenisPengajuan()
+  {
+    $jenis_pengajuan          = $this->input->post('jenis_pengajuan');
+    $data['data']             = $this->Model_pengajuan->getDataPengajuanBarang($jenis_pengajuan);
+    if($jenis_pengajuan == 'Barang'){
+    $this->load->view('pengajuan/pengajuanBarang', $data);
+    }else if($jenis_pengajuan == 'ATK'){
+    $this->load->view('pengajuan/pengajuanATK', $data);
+    }else if($jenis_pengajuan == 'Jasa'){
+    $this->load->view('pengajuan/pengajuanJasa', $data);
+    }else if($jenis_pengajuan == 'Lainnya'){
+    $this->load->view('pengajuan/pengajuanLainnya', $data);
+    }
   }
 
   function codeotomatis()
