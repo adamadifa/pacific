@@ -169,17 +169,17 @@
         });
       }
 
-      // function loadrekappersediaan() {
+      function loadrekappersediaan() {
 
-      //   $.ajax({
-      //     type: 'POST',
-      //     url: '<?php echo base_url(); ?>dashboard/loadrekappersediaandpb',
-      //     cache: false,
-      //     success: function(respond) {
-      //       $("#loadrekappersediaan").html(respond);
-      //     }
-      //   });
-      // }
+        $.ajax({
+          type: 'POST',
+          url: '<?php echo base_url(); ?>dashboard/loadrekappersediaandpb',
+          cache: false,
+          success: function(respond) {
+            $("#loadrekappersediaan").html(respond);
+          }
+        });
+      }
 
       // function loadsaldoproduk()
       // {
