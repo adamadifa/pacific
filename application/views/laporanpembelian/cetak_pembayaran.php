@@ -42,6 +42,8 @@ function angka($nilai)
 			<td>BCA<br>CV MAKMUR PERMATA</td>
 			<td>KAS BESAR PUSAT</td>
 			<td>KAS KECIL</td>
+			<td>BNI <br>INDO PANGAN</td>
+			<td>BNI <br>VALLAS INDO</td>
 			<td>LAIN LAIN/BANK CBG</td>
 			<td>TOTAL</td>
 			<td>TGL INPUT</td>
@@ -59,6 +61,8 @@ function angka($nilai)
 		$bca_mp  = 0;
 		$kas     = 0;
 		$kaskecil = 0;
+		$bni_indo_pangan = 0;
+		$bni_indo_vallas = 0;
 		$lainlain = 0;
 
 		$totalbayar  = 0;
@@ -73,6 +77,8 @@ function angka($nilai)
 			$bca_mp   = $bca_mp + $d->bca_mp;
 			$kas 			= $kas + $d->kasbesar;
 			$kaskecil = $kaskecil + $d->kaskecil;
+			$bni_indo_pangan = $bni_indo_pangan + $d->bni_indo_pangan;
+			$bni_indo_vallas = $bni_indo_vallas + $d->bni_indo_vallas;
 			$lainlain = $lainlain + $d->lainlain;
 			$totalbayar = $totalbayar + $d->totalbayar;
 
@@ -84,39 +90,46 @@ function angka($nilai)
 				<td><?php echo $d->nama_supplier; ?></td>
 				<td><?php echo $d->no_kontrabon; ?></td>
 				<td align="right"><?php if (!empty($d->cash)) {
-														echo uang($d->cash);
-													} ?></td>
+										echo uang($d->cash);
+									} ?></td>
 				<td align="right"><?php if (!empty($d->bca)) {
-														echo uang($d->bca);
-													} ?></td>
+										echo uang($d->bca);
+									} ?></td>
 				<td align="right"><?php if (!empty($d->bca_cv)) {
-														echo uang($d->bca_cv);
-													} ?></td>
+										echo uang($d->bca_cv);
+									} ?></td>
 				<td align="right"><?php if (!empty($d->permata)) {
-														echo uang($d->permata);
-													} ?></td>
+										echo uang($d->permata);
+									} ?></td>
 				<td align="right"><?php if (!empty($d->bni)) {
-														echo uang($d->bni);
-													} ?></td>
+										echo uang($d->bni);
+									} ?></td>
 
 				<td align="right"><?php if (!empty($d->bni_mp)) {
-														echo uang($d->bni_mp);
-													} ?></td>
+										echo uang($d->bni_mp);
+									} ?></td>
 				<td align="right"><?php if (!empty($d->bca_mp)) {
-														echo uang($d->bca_mp);
-													} ?></td>
+										echo uang($d->bca_mp);
+									} ?></td>
 				<td align="right"><?php if (!empty($d->kasbesar)) {
-														echo uang($d->kasbesar);
-													} ?></td>
+										echo uang($d->kasbesar);
+									} ?></td>
 				<td align="right"><?php if (!empty($d->kaskecil)) {
-														echo uang($d->kaskecil);
-													} ?></td>
+										echo uang($d->kaskecil);
+									} ?></td>
+				<td align="right"><?php if (!empty($d->bni_indo_pangan)) {
+										echo uang($d->bni_indo_pangan);
+									} ?></td>
+				<td align="right"><?php if (!empty($d->bni_indo_vallas)) {
+										echo uang($d->bni_indo_vallas);
+									} ?></td>
+
 				<td align="right"><?php if (!empty($d->lainlain)) {
-														echo uang($d->lainlain) . " (" . $d->via . ")";
-													} ?></td>
+										echo uang($d->lainlain) . " (" . $d->via . ")";
+									} ?></td>
 				<td align="right"><?php if (!empty($d->totalbayar)) {
-														echo uang($d->totalbayar);
-													} ?></td>
+										echo uang($d->totalbayar);
+									} ?></td>
 				<td><?php echo $d->log; ?></td>
 				<td><?php echo $d->date_updated; ?></td>
 			</tr>
@@ -125,38 +138,45 @@ function angka($nilai)
 		<tr>
 			<td colspan="5"><b>TOTAL</b></td>
 			<td align="right"><b><?php if (!empty($cash)) {
-															echo uang($cash);
-														} ?></b></td>
+										echo uang($cash);
+									} ?></b></td>
 			<td align="right"><b><?php if (!empty($bca)) {
-															echo uang($bca);
-														} ?></b></td>
+										echo uang($bca);
+									} ?></b></td>
 			<td align="right"><b><?php if (!empty($bca_cv)) {
-															echo uang($bca_cv);
-														} ?></b></td>
+										echo uang($bca_cv);
+									} ?></b></td>
 			<td align="right"><b><?php if (!empty($permata)) {
-															echo uang($permata);
-														} ?></b></td>
+										echo uang($permata);
+									} ?></b></td>
 			<td align="right"><b><?php if (!empty($bni)) {
-															echo uang($bni);
-														} ?></b></td>
+										echo uang($bni);
+									} ?></b></td>
 			<td align="right"><b><?php if (!empty($bni_mp)) {
-															echo uang($bni_mp);
-														} ?></b></td>
+										echo uang($bni_mp);
+									} ?></b></td>
 			<td align="right"><b><?php if (!empty($bca_mp)) {
-															echo uang($bca_mp);
-														} ?></b></td>
+										echo uang($bca_mp);
+									} ?></b></td>
 			<td align="right"><b><?php if (!empty($kas)) {
-															echo uang($kas);
-														} ?></b></td>
+										echo uang($kas);
+									} ?></b></td>
 			<td align="right"><b><?php if (!empty($kaskecil)) {
-															echo uang($kaskecil);
-														} ?></b></td>
+										echo uang($kaskecil);
+									} ?></b></td>
+			<td align="right"><b><?php if (!empty($bni_indo_pangan)) {
+										echo uang($bni_indo_pangan);
+									} ?></b></td>
+			<td align="right"><b><?php if (!empty($bni_indo_vallas)) {
+										echo uang($bni_indo_vallas);
+									} ?></b></td>
+
 			<td align="right"><b><?php if (!empty($lainlain)) {
-															echo uang($lainlain);
-														} ?></b></td>
+										echo uang($lainlain);
+									} ?></b></td>
 			<td align="right"><b><?php if (!empty($totalbayar)) {
-															echo uang($totalbayar);
-														} ?></b></td>
+										echo uang($totalbayar);
+									} ?></b></td>
 			<td></td>
 			<td></td>
 		</tr>

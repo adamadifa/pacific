@@ -1678,6 +1678,8 @@ WHERE tgl_pembelian BETWEEN '$dari' AND '$sampai'"
  SUM(IF( via = 'BNI MP', jmlbayar, 0)) AS bni_mp,
  SUM(IF( via = 'BCA MP', jmlbayar, 0)) AS bca_mp,
  SUM(IF( via = 'CASH', jmlbayar, 0)) AS cash,
+ SUM(IF( via = 'BNI CV INDO', jmlbayar, 0)) AS bni_indo_pangan,
+ SUM(IF( via = 'BNI VLS INDO', jmlbayar, 0)) AS bni_indo_vallas,
  SUM(IF( master_bank.kode_cabang != 'PST', jmlbayar, 0)) AS lainlain,
  IFNULL(SUM(jmlbayar),0) as totalbayar
  FROM detail_kontrabon
