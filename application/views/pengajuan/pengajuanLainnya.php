@@ -5,7 +5,7 @@
     <thead class="thead-dark">
       <tr>
         <th style="width: 1%;">No</th>
-        <th style="width: 7%;">No Bukti</th>
+        <th style="width: 10%;">No Bukti</th>
         <th>Nama Pemohon</th>
         <th style="width: 10%;">Tanggal</th>
         <th style="width: 10%;">Cabang</th>
@@ -16,7 +16,7 @@
         <th style="width: 5%;">MM</th>
         <th style="width: 5%;">EM</th>
         <th style="width: 5%;">DIRUT</th>
-        <th style="width: 7%;">Aksi</th>
+        <th style="width: 10%;">Aksi</th>
       </tr>
     </thead>
     <tbody>
@@ -131,6 +131,10 @@
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
               <?php } ?>   
+            <?php }else{ ?>
+              <?php if($d['ga'] == 0){ ?>
+                <a href="#" data-href="<?php echo base_url();?>pengajuan/hapusPengajuanBarang/<?php echo $nobukti;?>" class="btn btn-sm btn-danger hapus"><i class="fa fa-trash"></i></a>
+              <?php } ?>
             <?php } ?>
           </td>
         </tr>
@@ -180,6 +184,20 @@
             }
           });
         }
+      });
+    });
+
+    $(".hapus").click(function(e) {
+      e.preventDefault();
+      var getLink = $(this).attr('data-href');
+      swal({
+        title: 'Alert',
+        text: 'Hapus Data ?',
+        html: true,
+        confirmButtonColor: '#d43737',
+        showCancelButton: true,
+      }, function() {
+        window.location.href = getLink
       });
     });
 

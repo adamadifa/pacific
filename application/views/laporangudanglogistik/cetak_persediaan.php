@@ -49,6 +49,7 @@ function uang($nilai)
       <th rowspan="2" bgcolor="#024a75" style="color:white; font-size:14;width:15px">NO</th>
       <th rowspan="2" bgcolor="#024a75" style="color:white; font-size:14;width:100px">KODE</th>
       <th rowspan="2" bgcolor="#024a75" style="color:white; font-size:14;">NAMA BARANG</th>
+      <th rowspan="2" bgcolor="#024a75" style="color:white; font-size:14;">SATUAN</th>
       <th <?php if ($kategori == "K001") {
             echo "colspan='3'";
           } else {
@@ -156,6 +157,7 @@ function uang($nilai)
         <td width="15px"><?php echo $no++; ?></td>
         <td width="100px"><?php echo $d->kode_barang; ?></td>
         <td><?php echo $d->nama_barang; ?></td>
+        <td><?php echo $d->satuan; ?></td>
         <!-- Saldo Awal -->
         <td width="70px" align="center">
           <?php

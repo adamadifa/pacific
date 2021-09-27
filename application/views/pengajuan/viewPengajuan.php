@@ -54,6 +54,11 @@ $id_user = $this->session->userdata('id_user');
                     <option value="Lainnya">Lainnya</option>
                   <?php } else if ($id_user == '73') { ?>
                     <option value="ATK">ATK</option>
+                  <?php }else{ ?>
+                    <option value="Barang">Barang</option>
+                    <option value="Jasa">Jasa - Service</option>
+                    <option value="ATK">ATK</option>
+                    <option value="Lainnya">Lainnya</option>
                   <?php } ?>
                 </select>
               </div>

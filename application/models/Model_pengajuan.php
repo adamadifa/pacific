@@ -5,12 +5,12 @@ class Model_pengajuan extends CI_Model
 
   public function insertPengajuanBarang(){
 
+    $id_user        = $this->session->userdata('id_user');
     $nobukti        = $this->input->post('nobukti');
     $keterangan     = $this->input->post('keterangan');
     $nama_pemohon   = $this->input->post('nama_pemohon');
     $tanggal        = $this->input->post('tanggal');
     $foto           = $this->input->post('foto');
-    $id_user        = $this->session->userdata('id_user');
     $cabang         = $this->session->userdata('cabang');
 
     if($keterangan == 'Barang'){
@@ -50,6 +50,7 @@ class Model_pengajuan extends CI_Model
       'tanggal'         => $tanggal,
       'kode_cabang'     => $cabang,
       'foto'            => $foto,
+      'id_user'         => $id_user,
       'ga'              => $ga,
       'mg'              => $mg,
       'ma'              => $ma,
@@ -62,33 +63,18 @@ class Model_pengajuan extends CI_Model
     redirect('pengajuan/pengajuanBarang');
   }
 
-  
-  public function inputDetailPengajuanBarangTemp(){
-
-    $approval           = $this->input->post('approval');
-    $id_user            = $this->session->userdata('id_user');
-    
-    $data = array(
-      'approval'          => $approval,
-      'id_user'           => $id_user,
-    );
-    $this->db->insert('detail_pengajuan_barang_temp',$data);
-
-  }
-
-  public function getDetailPengajuanBarangTemp(){
-    
-    $id_user            = $this->session->userdata('id_user');
-    
-    return $this->db->query("SELECT * FROM detail_pengajuan_barang_temp
-    INNER JOIN users ON users.id_user = detail_pengajuan_barang_temp.approval
-    WHERE detail_pengajuan_barang_temp.id_user = '$id_user' ");
-  }
-
   public function getDataPengajuanBarang($jenis_pengajuan){
+
+    $id_user        = $this->session->userdata('id_user');
   
     if($jenis_pengajuan != ""){
       $jenis_pengajuan  = "WHERE keterangan = '".$jenis_pengajuan."' "; 
+    }
+
+    if($id_user == "6" OR $id_user == "5" OR $id_user == "244" OR $id_user == "10" OR $id_user == "11" OR $id_user == "73"){
+      $id_user  = ""; 
+    }else{
+      $id_user  = "AND id_user = '".$id_user."' "; 
     }
     return $this->db->query("SELECT
     pengajuan_barang.nobukti,
@@ -105,16 +91,15 @@ class Model_pengajuan extends CI_Model
     dirut
     FROM pengajuan_barang " 
     .$jenis_pengajuan
+    .$id_user
     ."
     GROUP BY pengajuan_barang.nobukti
     ");
   }
 
-  public function getDetailPengajuanBarang(){
+  public function getPengajuan($nobukti){
     
-    $nobukti       = $this->input->post('nobukti');
-    return $this->db->query("SELECT * FROM detail_pengajuan_barang 
-    INNER JOIN master_barang_pembelian ON master_barang_pembelian.kode_barang=detail_pengajuan_barang.kode_barang
+    return $this->db->query("SELECT * FROM pengajuan_barang 
     WHERE nobukti = '$nobukti' ");
   }
 
@@ -144,32 +129,36 @@ class Model_pengajuan extends CI_Model
     $nobukti       = $this->input->post('nobukti');
     return $this->db->query("SELECT * FROM  pengajuan_barang WHERE nobukti = '$nobukti' ");
   }
-
-  public function hapusDetailPengajuanBarangTemp(){
-    
-    $id       = $this->input->post('id');
-    $this->db->query("DELETE FROM detail_pengajuan_barang_temp WHERE id = '$id' ");
-  }
-
   
   public function hapusPengajuanBarang(){
     
     $nobukti       = str_replace(".","/",$this->uri->segment(3));
     $this->db->query("DELETE FROM pengajuan_barang WHERE nobukti = '$nobukti' ");
+    redirect('pengajuan/pengajuanBarang');
   }
 
-  function jsonPilihBarang()
+  function input_komentar()
   {
 
-    $this->datatables->select('kode_barang,nama_barang,satuan,master_barang_pembelian.kode_dept,nama_dept,jenis_barang,kode_kategori');
-    $this->datatables->from('master_barang_pembelian');
-    $this->datatables->join('departemen', 'master_barang_pembelian.kode_dept = departemen.kode_dept');
-    $this->datatables->where('master_barang_pembelian.status', 'Aktif');
-    $this->datatables->where('master_barang_pembelian.kode_dept', 'GAF');
-    $this->datatables->add_column('view', '<a href="#"  data-toggle="modal" data-kode="$1" data-nama="$2"  data-jenis="$3"  data-kategori="$4" class="btn btn-danger btn-sm waves-effect pilih">Pilih</a>', 'kode_barang,nama_barang,jenis_barang,kode_kategori');
-    return $this->datatables->generate();
+    $komentar             = $this->input->post('komentar');
+    $kode_maintenance     = $this->input->post('kode_maintenance');
+    $id_user              = $this->session->userdata('id_user');
+    $tanggal              = date('Y-m-d H:i:s');
+   
+    $data             = array(
+      'komentar'                => $komentar,
+      'kode_maintenance'        => $kode_maintenance,
+      'id_user'                 => $id_user,
+      'tanggal'                 => $tanggal
+    );
+    $this->db->insert('komentar', $data);
   }
-
   
+  function viewChat()
+  {
+    $kode_maintenance     = $this->input->post('kode_maintenance');
+    return $this->db->query("SELECT * FROM komentar INNER JOIN users ON users.id_user=komentar.id_user WHERE kode_maintenance = '$kode_maintenance'  ");
+    
+  }
 
 }

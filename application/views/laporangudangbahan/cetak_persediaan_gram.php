@@ -406,7 +406,7 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtylainnya1)) {
-              if ($d->qtypemb1 != '' && $d->qtypemb1 != 0 && !empty($d->qtypemb1) ) {
+              if ($d->qtypemb1 != '' OR $d->qtypemb1 != 0 OR !empty($d->qtypemb1) ) {
                 echo uang($hargapemb);
               }else{
                 echo uang($hargasa);
@@ -418,7 +418,7 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtylainnya1)) {
-              if ($d->qtypemb1 != '' && $d->qtypemb1 != 0 && !empty($d->qtypemb1) ) {
+              if ($d->qtypemb1 != '' OR $d->qtypemb1 != 0 OR !empty($d->qtypemb1) ) {
                 echo uang($d->qtylainnya1 * $hargapemb);
               }else{
                 echo uang($d->qtylainnya1 * $hargasa);
@@ -465,7 +465,7 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtypengganti1)) {
-              if ($d->qtypemb1 != '' && $d->qtypemb1 != 0 && !empty($d->qtypemb1) ) {
+              if ($d->qtypemb1 != '' OR $d->qtypemb1 != 0 OR !empty($d->qtypemb1) ) {
                 echo uang($hargapemb);
               }else{
                 echo uang($hargasa);
@@ -477,12 +477,12 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtypengganti1)) {
-              if ($d->qtypemb1 != '' && $d->qtypemb1 != 0 && !empty($d->qtypemb1) ) {
-                $jmlhretur = $d->qtypengganti1 * $hargasa;
-                echo uang($d->qtypengganti1 * $hargasa);
-              }else{
+              if ($d->qtypemb1 != '' OR $d->qtypemb1 != 0 OR !empty($d->qtypemb1) ) {
                 $jmlhretur = $d->qtypengganti1 * $hargapemb;
                 echo uang($d->qtypengganti1 * $hargapemb);
+              }else{
+                $jmlhretur = $d->qtypengganti1 * $hargasa;
+                echo uang($d->qtypengganti1 * $hargasa);
               }
               
             }else{
