@@ -880,8 +880,8 @@ AND `kode_produk` = 'SP8' AND kode_cabang='$r->kode_cabang'")->row_array();
       $sds  = ($ds['jumlah'] / 504) + ($msjds['jumlah'] / 504) - $dpbambilds['jumlah'] + $dpbambilds['jumlah_kembali'];
       $ssp  = ($sp['jumlah'] / 12) + ($msjsp['jumlah'] / 12) - $dpbambilsp['jumlah'] + $dpbambilsp['jumlah_kembali'];
       $sspp  = ($spp['jumlah'] / 1) + ($msjspp['jumlah'] / 1) - $dpbambilspp['jumlah'] + $dpbambilspp['jumlah_kembali'];
-      $ssc  = ($sc['jumlah'] / 1) + ($msjsc['jumlah'] / 1) - $dpbambilsc['jumlah'] + $dpbambilsc['jumlah_kembali'];
-      $ssp8  = ($sp8['jumlah'] / 1) + ($msjsp8['jumlah'] / 1) - $dpbambilsp8['jumlah'] + $dpbambilsp8['jumlah_kembali'];
+      $ssc  = ($sc['jumlah'] / 24) + ($msjsc['jumlah'] / 24) - $dpbambilsc['jumlah'] + $dpbambilsc['jumlah_kembali'];
+      $ssp8  = ($sp8['jumlah'] / 480) + ($msjsp8['jumlah'] / 480) - $dpbambilsp8['jumlah'] + $dpbambilsp8['jumlah_kembali'];
 
       if ($sab <= 0) {
         $colorab = "bg-red";
@@ -994,7 +994,7 @@ AND `kode_produk` = 'SP8' AND kode_cabang='$r->kode_cabang'")->row_array();
         <td><span class="badge <?php echo $colorssp; ?>"><?php echo number_format(floor($ssp), '0', ',', '.'); ?></span></td>
         <td><span class="badge <?php echo $colorsspp; ?>"><?php echo number_format(floor($sspp), '0', ',', '.'); ?></span></td>
         <td><span class="badge <?php echo $colorssc; ?>"><?php echo number_format(floor($ssc), '0', ',', '.'); ?></span></td>
-        <td><span class="badge <?php echo $colorsp8; ?>"><?php echo number_format(floor($sp8), '0', ',', '.'); ?></span></td>
+        <td><span class="badge <?php echo $colorsp8; ?>"><?php echo number_format(floor($ssp8), '0', ',', '.'); ?></span></td>
         <!-- <td><span class="badge <?php echo $colorsspp; ?>">Sedang Maintenance</span></td> -->
       </tr>
     <?php } ?>
