@@ -655,6 +655,15 @@ class Gudangbahan extends CI_Controller
     $this->template->load('template/template', 'gudangbahan/input_retur');
   }
 
+  function cekkode()
+  {
+
+    $nobukti          = $this->input->post('nobukti');
+    $cek = $this->db->get_where('pemasukan_gb', array('nobukti_pemasukan' => $nobukti))->num_rows();
+    echo $cek;
+  }
+
+
   function edit_pemasukan()
   {
 

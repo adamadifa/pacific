@@ -9,26 +9,9 @@ function uang($nilai)
 ?>
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/table.css">
 <style>
-  body {
-    height: 1000px;
-  }
-
-  #header-fixed {
-    position: fixed;
-    top: 0px;
-    display: none;
-    background-color: white;
-    width: 100%;
-  }
-
-  table {
-    border-collapse: collapse;
-  }
-
-  table,
-  td,
-  th {
-    border: 1px solid black;
+ 
+  tr:nth-child(even) {
+    background-color: #d6d6d6c2;
   }
 </style>
 <br>
@@ -39,7 +22,7 @@ function uang($nilai)
   TAHUN <?php echo $tahun; ?><br>
 </b>
 <br>
-<table class="" id="table-1" <?php if ($kategori == "K001") {
+<table class="datatable3" style="width:150%" id="table-1" <?php if ($kategori == "K001") {
                                 echo "style='width: 100%'";
                               } else {
                                 echo "style='width: 100%'";
@@ -48,8 +31,8 @@ function uang($nilai)
     <tr bgcolor="#024a75">
       <th rowspan="2" bgcolor="#024a75" style="color:white; font-size:14;width:15px">NO</th>
       <th rowspan="2" bgcolor="#024a75" style="color:white; font-size:14;width:100px">KODE</th>
-      <th rowspan="2" bgcolor="#024a75" style="color:white; font-size:14;">NAMA BARANG</th>
-      <th rowspan="2" bgcolor="#024a75" style="color:white; font-size:14;">SATUAN</th>
+      <th rowspan="2" bgcolor="#024a75" style="color:white; font-size:14;width:300px">NAMA BARANG</th>
+      <th rowspan="2" bgcolor="#024a75" style="color:white; font-size:14;width:100px">SATUAN</th>
       <th <?php if ($kategori == "K001") {
             echo "colspan='3'";
           } else {
@@ -73,20 +56,20 @@ function uang($nilai)
       <th rowspan="2" style="color:white; font-size:14;width:70px">OPNAME</th>
       <th rowspan="2" style="color:white; font-size:14;width:70px">SELISIH</th>
     </tr>
-    <tr bgcolor="#024a75">
+    <tr bgcolor="#28a745">
       <?php if ($kategori == "K001") { ?>
-        <th style="color:white; font-size:14;width:70px">STOK</th>
-        <th style="color:white; font-size:14;width:90px">HARGA</th>
-        <th style="color:white; font-size:14;width:120px">JUMLAH</th>
-        <th style="color:white; font-size:14;width:70px">QTY</th>
-        <th style="color:white; font-size:14;width:90px">HARGA</th>
-        <th style="color:white; font-size:14;width:120px">JUMLAH</th>
-        <th style="color:white; font-size:14;width:70px">QTY</th>
-        <th style="color:white; font-size:14;width:90px">HARGA</th>
-        <th style="color:white; font-size:14;width:120px">JUMLAH</th>
-        <th style="color:white; font-size:14;width:70px">QTY</th>
-        <th style="color:white; font-size:14;width:90px">HARGA</th>
-        <th style="color:white; font-size:14;width:120px">JUMLAH</th>
+        <th bgcolor="#28a745" style="color:white; font-size:14;width:70px">STOK</th>
+        <th bgcolor="#28a745" style="color:white; font-size:14;width:90px">HARGA</th>
+        <th bgcolor="#28a745" style="color:white; font-size:14;width:120px">JUMLAH</th>
+        <th bgcolor="#28a745" style="color:white; font-size:14;width:70px">QTY</th>
+        <th bgcolor="#28a745" style="color:white; font-size:14;width:90px">HARGA</th>
+        <th bgcolor="#28a745" style="color:white; font-size:14;width:120px">JUMLAH</th>
+        <th bgcolor="#28a745" style="color:white; font-size:14;width:70px">QTY</th>
+        <th bgcolor="#28a745" style="color:white; font-size:14;width:90px">HARGA</th>
+        <th bgcolor="#28a745" style="color:white; font-size:14;width:120px">JUMLAH</th>
+        <th bgcolor="#28a745" style="color:white; font-size:14;width:70px">QTY</th>
+        <th bgcolor="#28a745" style="color:white; font-size:14;width:90px">HARGA</th>
+        <th bgcolor="#28a745" style="color:white; font-size:14;width:120px">JUMLAH</th>
       <?php } ?>
     </tr>
   </thead>
@@ -258,7 +241,7 @@ function uang($nilai)
   </tbody>
   <tfoot bgcolor="#024a75" style="color:white; font-size:14;">
     <tr>
-      <th style="color:white; font-size:14;" colspan="3">TOTAL</th>
+      <th style="color:white; font-size:14;" colspan="4">TOTAL</th>
       <th align="center">
         <?php
         echo uang($totqtysaldoawal);
@@ -335,26 +318,6 @@ function uang($nilai)
   </tfoot>
 </table>
 
-<table id="header-fixed"></table>
-
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-
 <script>
-  $(function() {
-    var tableOffset = $("#table-1").offset().top;
-    var $header = $("#table-1 > thead").clone();
-    var $fixedHeader = $("#header-fixed").append($header);
-
-    $(window).bind("scroll", function() {
-      var offset = $(this).scrollTop();
-
-      if (offset >= tableOffset && $fixedHeader.is(":hidden")) {
-        $fixedHeader.show();
-      } else if (offset < tableOffset) {
-        $fixedHeader.hide();
-      }
-    });
-  });
+  
 </script>

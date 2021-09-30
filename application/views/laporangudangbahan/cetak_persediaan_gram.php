@@ -1010,9 +1010,9 @@ tr:nth-child(even) {
       </tr>
       <?php if ($jenis_barang != $d->jenis_barang && $d->satuan == "KG") { ?>
       <tr bgcolor="#024a75">
-        <th colspan="4" style="color:white; font-size:14;">SUBTOTAL <?php echo $d->jenis_barang;?></th>
+        <th colspan="4"  bgcolor="#024a75" style="color:white; font-size:14;">Subtotal <?php echo $d->jenis_barang;?></th>
 
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotalqtysa)) {
             echo uang($subtotalqtysa);
           } else {
@@ -1020,8 +1020,8 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th></th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75"></th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotaljmlhsa)) {
             echo uang($subtotaljmlhsa);
           } else {
@@ -1029,7 +1029,7 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotalpembelian)) {
             echo uang($subtotalpembelian);
           } else {
@@ -1037,8 +1037,8 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th></th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75"></th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotjmlhpemb)) {
             echo uang($subtotjmlhpemb);
           } else {
@@ -1046,7 +1046,7 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotallainnya)) {
             echo uang($subtotallainnya);
           } else {
@@ -1054,8 +1054,8 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th></th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75"></th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotjmlhlainnya)) {
             echo uang($subtotjmlhlainnya);
           } else {
@@ -1063,7 +1063,7 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotalretur)) {
             echo uang($subtotalretur);
           } else {
@@ -1071,8 +1071,8 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th></th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75"></th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotjmlhretur)) {
             echo uang($subtotjmlhretur);
           } else {
@@ -1080,7 +1080,7 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotalproduksi)) {
             echo uang($subtotalproduksi);
           } else {
@@ -1088,8 +1088,8 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th></th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75"></th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotjmlhproduksi)) {
             echo uang($subtotjmlhproduksi);
           } else {
@@ -1097,7 +1097,7 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotalseasoning)) {
             echo uang($subtotalseasoning);
           } else {
@@ -1105,8 +1105,8 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th></th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75"></th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotjmlhseasoning)) {
             echo uang($subtotjmlhseasoning);
           } else {
@@ -1114,7 +1114,7 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotalpdqc)) {
             echo uang($subtotalpdqc);
           } else {
@@ -1122,8 +1122,8 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th></th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75"></th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotjmlhpdqc)) {
             echo uang($subtotjmlhpdqc);
           } else {
@@ -1131,7 +1131,7 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotalsusut)) {
             echo uang($subtotalsusut);
           } else {
@@ -1139,8 +1139,8 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th></th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75"></th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotjmlhsusut)) {
             echo uang($subtotjmlhsusut);
           } else {
@@ -1148,7 +1148,7 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotalcabangpeng)) {
             echo uang($subtotalcabangpeng);
           } else {
@@ -1156,8 +1156,8 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th></th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75"></th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotjmlhcabang)) {
             echo uang($subtotjmlhcabang);
           } else {
@@ -1165,7 +1165,7 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotallainnyapeng)) {
             echo uang($subtotallainnyapeng);
           } else {
@@ -1173,8 +1173,8 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th></th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75"></th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotjmlhlainnyapeng)) {
             echo uang($subtotjmlhlainnyapeng);
           } else {
@@ -1182,7 +1182,7 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotsaldoakhir)) {
             echo uang($subtotsaldoakhir);
           } else {
@@ -1190,8 +1190,8 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th></th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75"></th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotjmlhsaldoakhir)) {
             echo uang($subtotjmlhsaldoakhir);
           } else {
@@ -1199,7 +1199,7 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotalopname)) {
             echo uang($subtotalopname);
           } else {
@@ -1207,8 +1207,8 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th></th>
-        <th align="center" style="color:white; font-size:14;">
+        <th bgcolor="#024a75"></th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
           <?php if (!empty($subtotjmlhopname)) {
             echo uang($subtotjmlhopname);
           } else {
@@ -1216,8 +1216,8 @@ tr:nth-child(even) {
           }
           ?>
         </th>
-        <th></th>
-        <th></th>
+        <th bgcolor="#024a75"></th>
+        <th bgcolor="#024a75"></th>
       </tr>
     <?php 
       $subtotalopname  = 0;

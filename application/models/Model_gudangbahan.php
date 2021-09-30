@@ -50,6 +50,12 @@ class Model_gudangbahan extends CI_Model
     return $this->db->get_where('saldoawal_gb_retur', array('bulan' => $bulan, 'tahun' => $tahun));
   }
 
+  function cekKode($nobukti)
+  {
+
+     $this->db->query("SELECT COUNT(nobukti_pemasukan) AS cekdata FROM pemasukan_gb WHERE nobukti_pemasukan = '$nobukti' ");
+  }
+
   function ceksaldo($bulan, $tahun)
   {
 

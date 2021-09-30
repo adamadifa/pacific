@@ -4,6 +4,14 @@ function formatnumber($nilai)
 
   return number_format($nilai, '2', ',', '.');
 }
+$tgl1 = "2021-08-31";
+$tanggal = $tahun . "-" . $bln . "-" . "31";
+if ($tanggal > $tgl1) {
+  $persentaseljt = 55;
+} else {
+  $persentaseljt = 50;
+}
+
 
 ?>
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/table.css">
@@ -53,7 +61,7 @@ function formatnumber($nilai)
         <td align="right"><?= number_format($d->sisapiutang, '0', '', '.'); ?></td>
         <td>
           <?php
-          $ratiokategori2 = (($d->sisapiutang / $d->cashin) * 100) * (50 / 100);
+          $ratiokategori2 = (($d->sisapiutang / $d->cashin) * 100) * ($persentaseljt / 100);
           echo number_format($ratiokategori2, '2', ',', '.') . "%";
 
           ?>
@@ -235,7 +243,7 @@ function formatnumber($nilai)
           </tr>
           <tr style="background-color: red; color:white">
             <td>
-              50%
+              55%
             </td>
           </tr>
         </tbody>

@@ -26,6 +26,7 @@
                       <span class="input-icon-addon">
                         <i class="fa fa-barcode"></i>
                       </span>
+                      <input type="hidden" value="" id="cekkode" name="cekkode" />
                       <input type="hidden" value="" id="cekdata" name="cekdata" />
                       <input type="text" value="" id="nobukti" name="nobukti" class="form-control" placeholder="No Bukti" data-error=".errorTxt19" />
                     </div>
@@ -212,7 +213,7 @@
       $("#databarang").modal("show");
 
     });
-
+    
     function tampiltemp() {
 
       $.ajax({
@@ -239,6 +240,7 @@
         }
 
       });
+
     }
 
     $("#tambahbarang").click(function(e) {
@@ -296,6 +298,28 @@
         });
 
       }
+    });
+
+    $('#nobukti').on("input", function() {
+
+      var nobukti = $('#nobukti').val();
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>gudangbahan/cekkode',
+        data: {
+          nobukti: nobukti,
+        },
+        cache: false,
+        success: function(respond) {
+
+            if (respond == 1) {
+              $('#nobukti').val("");
+              swal("Oops!", "Nobukti Sudah Ada!", "warning");
+            }
+        }
+
+      });
+
     });
 
     $("#simpan").click(function() {
