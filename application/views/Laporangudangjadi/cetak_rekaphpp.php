@@ -64,25 +64,37 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 <br>
 <div id="table-scroll" class="table-scroll">
   <div class="table-wrap">
-    <table class="datatable3" style="width:150%" margin-bottom: 30px" border="1">
+    <table class="datatable3" style="width:180%" margin-bottom: 30px" border="1">
       <thead bgcolor="#024a75" style="color:white; font-size:18px">
         <tr>
           <th rowspan="3" class="fixed-side" scope="col" style="background-color:#024a75 ;">NO</th>
           <th rowspan="3" class="fixed-side" scope="col" style="background-color:#024a75 ;">PRODUK</th>
-          <th colspan="27" bgcolor="#024a75">CABANG</th>
+          <th colspan="36" bgcolor="#024a75">CABANG</th>
         </tr>
         <tr style="background-color: #03b058;">
           <th colspan="3">TASIKMALAYA</th>
           <th colspan="3">BANDUNG</th>
-          <th colspan="3">BOGOR</th>
           <th colspan="3">SUKABUMI</th>
+          <th colspan="3">BOGOR</th>
           <th colspan="3">TEGAL</th>
           <th colspan="3">PURWOKETO</th>
+          <th colspan="3">PUSAT</th>
           <th colspan="3">SURABAYA</th>
           <th colspan="3">SEMARANG</th>
           <th colspan="3">KLATEN</th>
+          <th colspan="3">GD PUSAT</th>
+          <th colspan="3">JUMLAH</th>
         </tr>
         <tr style="background-color: #03b058;">
+          <th>QTY</th>
+          <th>HARGA</th>
+          <th>JUMLAH</th>
+          <th>QTY</th>
+          <th>HARGA</th>
+          <th>JUMLAH</th>
+          <th>QTY</th>
+          <th>HARGA</th>
+          <th>JUMLAH</th>
           <th>QTY</th>
           <th>HARGA</th>
           <th>JUMLAH</th>
@@ -124,25 +136,41 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
           $qtysby = ($d->sa_sby + $d->mutasi_sby) / $d->isipcsdus;
           $qtysmr = ($d->sa_smr + $d->mutasi_smr) / $d->isipcsdus;
           $qtyklt = ($d->sa_klt + $d->mutasi_klt) / $d->isipcsdus;
+          $qtypst = ($d->sa_pst + $d->mutasi_pst) / $d->isipcsdus;
           $harga = $d->harga_hpp;
 
-          $jmltsm = $qtytsm * $harga;
-          $jmlbdg = $qtybdg * $harga;
-          $jmlbgr = $qtybgr * $harga;
-          $jmlskb = $qtyskb * $harga;
-          $jmltgl = $qtytgl * $harga;
-          $jmlpwt = $qtypwt * $harga;
-          $jmlsby = $qtysby * $harga;
-          $jmlsmr = $qtysmr * $harga;
-          $jmlklt = $qtyklt * $harga;
+          $jmltsm = ROUND($qtytsm, 2) * $d->harga_tsm;
+          $jmlbdg = ROUND($qtybdg, 2) * $d->harga_bdg;
+          $jmlskb = ROUND($qtyskb, 2) * $d->harga_skb;
+          $jmlbgr = ROUND($qtybgr, 2) * $d->harga_bgr;
+          $jmltgl = ROUND($qtytgl, 2) * $d->harga_tgl;
+          $jmlpwt = ROUND($qtypwt, 2) * $d->harga_pwt;
+          $jmlsby = ROUND($qtysby, 2) * $d->harga_sby;
+          $jmlsmr = ROUND($qtysmr, 2) * $d->harga_smr;
+          $jmlklt = ROUND($qtyklt, 2) * $d->harga_klt;
+          $jmlpst = ROUND($qtypst, 2) * $d->harga_pst;
+
+          $sa_gdpusat = $d->saldoawal_gd + ($d->jmlfsthp_gd + $d->jmlrepack_gd + $d->jmllainlain_in_gd) - ($d->jmlsuratjalan_gd + $d->jmlreject_gd + $d->jmllainlain_out_gd);
+          $jmlgdpst = $sa_gdpusat * $d->harga_kirim_cabang;
+
+
+          $totalqty = ROUND($qtytsm) + ROUND($qtybdg, 2) + ROUND($qtyskb, 2) + ROUND($qtybgr, 2) + ROUND($qtytgl, 2) + ROUND($qtypwt, 2) + ROUND($qtysby, 2) + ROUND($qtysmr, 2) + ROUND($qtyklt, 2) + ROUND($qtypst, 2)
+            + $sa_gdpusat;
+
+          $totaljml = $jmltsm + $jmlbdg + $jmlskb + $jmlbgr + $jmltgl + $jmlpwt + $jmlsby + $jmlsmr + $jmlklt + $jmlpst + $jmlgdpst;
+          if ($totalqty != 0) {
+            $hargatotal = $totaljml / $totalqty;
+          } else {
+            $hargatotal = 0;
+          }
         ?>
           <tr>
-            <td class="fixed-side" scope="col"><?php echo $no; ?></td>
+            <td class="fixed-side" scope="col"><?php echo ROUND($totaljml, 5); ?></td>
             <td class="fixed-side" scope="col"><?php echo $d->nama_barang; ?></td>
             <td align="right"><?php echo number_format($qtytsm, '2', ',', '.'); ?></td>
             <td align="right">
-              <?php if (!empty($harga)) {
-                echo number_format($harga, '2', ',', '.');
+              <?php if (!empty($d->harga_tsm)) {
+                echo number_format($d->harga_tsm, '2', ',', '.');
               } ?>
             </td>
             <td align="right">
@@ -152,8 +180,8 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
             </td>
             <td align="right"><?php echo number_format($qtybdg, '2', ',', '.'); ?></td>
             <td align="right">
-              <?php if (!empty($harga)) {
-                echo number_format($harga, '2', ',', '.');
+              <?php if (!empty($d->harga_bdg)) {
+                echo number_format($d->harga_bdg, '2', ',', '.');
               } ?>
             </td>
             <td align="right">
@@ -161,21 +189,10 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
                 echo number_format($jmlbdg, '2', ',', '.');
               } ?>
             </td>
-            <td align="right"><?php echo number_format($qtybgr, '2', ',', '.'); ?></td>
-            <td align="right">
-              <?php if (!empty($harga)) {
-                echo number_format($harga, '2', ',', '.');
-              } ?>
-            </td>
-            <td align="right">
-              <?php if (!empty($jmlbgr)) {
-                echo number_format($jmlbgr, '2', ',', '.');
-              } ?>
-            </td>
             <td align="right"><?php echo number_format($qtyskb, '2', ',', '.'); ?></td>
             <td align="right">
-              <?php if (!empty($harga)) {
-                echo number_format($harga, '2', ',', '.');
+              <?php if (!empty($d->harga_skb)) {
+                echo number_format($d->harga_skb, '2', ',', '.');
               } ?>
             </td>
             <td align="right">
@@ -183,10 +200,21 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
                 echo number_format($jmlskb, '2', ',', '.');
               } ?>
             </td>
+            <td align="right"><?php echo number_format($qtybgr, '2', ',', '.'); ?></td>
+            <td align="right">
+              <?php if (!empty($d->harga_bgr)) {
+                echo number_format($d->harga_bgr, '2', ',', '.');
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($jmlbgr)) {
+                echo number_format($jmlbgr, '2', ',', '.');
+              } ?>
+            </td>
             <td align="right"><?php echo number_format($qtytgl, '2', ',', '.'); ?></td>
             <td align="right">
-              <?php if (!empty($harga)) {
-                echo number_format($harga, '2', ',', '.');
+              <?php if (!empty($d->harga_tgl)) {
+                echo number_format($d->harga_tgl, '2', ',', '.');
               } ?>
             </td>
             <td align="right">
@@ -196,8 +224,8 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
             </td>
             <td align="right"><?php echo number_format($qtypwt, '2', ',', '.'); ?></td>
             <td align="right">
-              <?php if (!empty($harga)) {
-                echo number_format($harga, '2', ',', '.');
+              <?php if (!empty($d->harga_pwt)) {
+                echo number_format($d->harga_pwt, '2', ',', '.');
               } ?>
             </td>
             <td align="right">
@@ -205,10 +233,21 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
                 echo number_format($jmlpwt, '2', ',', '.');
               } ?>
             </td>
+            <td align="right"><?php echo number_format($qtypst, '2', ',', '.'); ?></td>
+            <td align="right">
+              <?php if (!empty($d->harga_pst)) {
+                echo number_format($d->harga_pst, '2', ',', '.');
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($jmlpst)) {
+                echo number_format($jmlpst, '2', ',', '.');
+              } ?>
+            </td>
             <td align="right"><?php echo number_format($qtysby, '2', ',', '.'); ?></td>
             <td align="right">
-              <?php if (!empty($harga)) {
-                echo number_format($harga, '2', ',', '.');
+              <?php if (!empty($d->harga_sby)) {
+                echo number_format($d->harga_sby, '2', ',', '.');
               } ?>
             </td>
             <td align="right">
@@ -218,8 +257,8 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
             </td>
             <td align="right"><?php echo number_format($qtysmr, '2', ',', '.'); ?></td>
             <td align="right">
-              <?php if (!empty($harga)) {
-                echo number_format($harga, '2', ',', '.');
+              <?php if (!empty($d->harga_smr)) {
+                echo number_format($d->harga_smr, '2', ',', '.');
               } ?>
             </td>
             <td align="right">
@@ -229,13 +268,35 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
             </td>
             <td align="right"><?php echo number_format($qtyklt, '2', ',', '.'); ?></td>
             <td align="right">
-              <?php if (!empty($harga)) {
-                echo number_format($harga, '2', ',', '.');
+              <?php if (!empty($d->harga_klt)) {
+                echo number_format($d->harga_klt, '2', ',', '.');
               } ?>
             </td>
             <td align="right">
               <?php if (!empty($jmlklt)) {
                 echo number_format($jmlklt, '2', ',', '.');
+              } ?>
+            </td>
+            <td align="right"><?php echo number_format($sa_gdpusat, '2', ',', '.'); ?></td>
+            <td align="right">
+              <?php if (!empty($d->harga_kirim_cabang)) {
+                echo number_format($d->harga_kirim_cabang, '2', ',', '.');
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($jmlgdpst)) {
+                echo number_format($jmlgdpst, '2', ',', '.');
+              } ?>
+            </td>
+            <td align="right"><?php echo number_format($totalqty, '2', ',', '.'); ?></td>
+            <td align="right">
+              <?php if (!empty($hargatotal)) {
+                echo number_format($hargatotal, '2', ',', '.');
+              } ?>
+            </td>
+            <td align="right">
+              <?php if (!empty($totaljml)) {
+                echo number_format($totaljml, '2', ',', '.');
               } ?>
             </td>
           </tr>

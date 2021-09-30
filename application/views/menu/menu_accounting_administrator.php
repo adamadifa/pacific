@@ -23,6 +23,9 @@ if ($level == "Administrator" || $level == "manager accounting" || $level == "sp
       <a href="<?php echo base_url(); ?>accounting/inputhpp" class="list-group-item list-group-item-action">
         <i class="fa  fa-file-text mr-2"></i>Input HPP
       </a>
+      <a href="<?php echo base_url(); ?>accounting/inputhargaawal" class="list-group-item list-group-item-action">
+        <i class="fa  fa-file-text mr-2"></i>Input Saldo Awal Harga
+      </a>
       <a href="<?php echo base_url(); ?>laporangudangjadi/rekaphpp" class="list-group-item list-group-item-action">
         <i class="fa  fa-file-text mr-2"></i>Rekap Persediaan Barang Jadi
       </a>

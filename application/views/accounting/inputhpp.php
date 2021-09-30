@@ -37,38 +37,6 @@
                     <?php } ?>
                   </select>
                 </div>
-                <div class="row">
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <select class="form-select" name="kodeproduk" id="kodeproduk">
-                        <option value="">Pilih Produk</option>
-                        <?php foreach ($produk as $p) { ?>
-                          <option value="<?php echo $p->kode_produk; ?>"><?php echo $p->nama_barang; ?></option>
-                        <?php } ?>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="input-icon">
-                      <span class="input-icon-addon">
-                        <!-- Download SVG icon from http://tabler-icons.io/i/report-money -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                          <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" />
-                          <rect x="9" y="3" width="6" height="4" rx="2" />
-                          <path d="M14 11h-2.5a1.5 1.5 0 0 0 0 3h1a1.5 1.5 0 0 1 0 3h-2.5" />
-                          <path d="M12 17v1m0 -8v1" />
-                        </svg>
-                      </span>
-                      <input type="text" placeholder="Harga HPP" style="text-align: right;" name="hargahpp" id="hargahpp" class="form-control">
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <a href="#" class="btn btn-primary" id="tambah_hpp"><i class="fa fa-plus mr-2"></i>Tambah</a>
-                    </div>
-                  </div>
-                </div>
               </form>
 
               <div class="table-responsive mt-3">
@@ -78,7 +46,6 @@
                       <th>Kode Produk</th>
                       <th>Nama Barang</th>
                       <th>HPP</th>
-                      <th></th>
                     </tr>
                   </thead>
                   <tbody id="loadhpp">
@@ -127,42 +94,8 @@
       e.preventDefault();
       loadhpp();
     });
-    $('#hargahpp').maskMoney();
-    $("#tambah_hpp").click(function(e) {
-      var bulan = $("#bulan").val();
-      var tahun = $("#tahun").val();
-      var kodeproduk = $("#kodeproduk").val();
-      var hargahpp = $("#hargahpp").val();
 
-      if (bulan == "") {
-        swal("Oops", "Bulan Harus Dipilih !", "warning");
-      } else if (tahun == "") {
-        swal("Oops", "Tahun Harus Dipilih !", "warning");
-      } else if (kodeproduk == "") {
-        swal("Oops", "Produk Harus Dipilih !", "warning");
-      } else if (hargahpp == "") {
-        swal("Oops", "Harga Harus Diisi !", "warning");
-      } else {
-        $.ajax({
-          type: 'POST',
-          url: '<?php echo base_url(); ?>accounting/inserthpp',
-          data: {
-            bulan: bulan,
-            tahun: tahun,
-            kodeproduk: kodeproduk,
-            hargahpp: hargahpp
-          },
-          cache: false,
-          success: function(respond) {
-            if (respond == 1) {
-              swal("Oops", "Data sudah diinputkan", "warning");
-            } else {
-              loadhpp();
-            }
-          }
-        });
-      }
-    });
+
 
 
   });
