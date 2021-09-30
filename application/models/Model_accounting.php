@@ -1089,11 +1089,15 @@ class Model_accounting extends CI_Model
     $bulan = $this->input->post('bulan');
     $tahun = $this->input->post('tahun');
     $kodeproduk = $this->input->post('kodeproduk');
-    $hargahpp = str_replace(".", "", $this->input->post('hargahpp'));
+    $hargahpp = $this->input->post('hargahpp');
 
     $cek = $this->db->get_where('harga_hpp', array('kode_produk' => $kodeproduk, 'bulan' => $bulan, 'tahun' => $tahun))->num_rows();
     if ($cek > 0) {
       echo "1";
+      $data = [
+        'harga_hpp' => $hargahpp
+      ];
+      $simpan = $this->db->update('harga_hpp', $data, array('kode_produk' => $kodeproduk, 'bulan' => $bulan, 'tahun' => $tahun));
     } else {
       $data = [
         'kode_produk' => $kodeproduk,
@@ -1108,14 +1112,83 @@ class Model_accounting extends CI_Model
     }
   }
 
+
+  function inserthargaawal()
+  {
+    $bulan = $this->input->post('bulan');
+    $tahun = $this->input->post('tahun');
+    $kodeproduk = $this->input->post('kodeproduk');
+    $hargaawal = $this->input->post('hargaawal');
+    $lokasi = $this->input->post('lokasi');
+
+    $cek = $this->db->get_where('harga_awal', array('kode_produk' => $kodeproduk, 'bulan' => $bulan, 'tahun' => $tahun, 'lokasi' => $lokasi))->num_rows();
+    if ($cek > 0) {
+      echo "1";
+      $data = [
+        'harga_awal' => $hargaawal
+      ];
+      $simpan = $this->db->update('harga_awal', $data, array('kode_produk' => $kodeproduk, 'bulan' => $bulan, 'tahun' => $tahun, 'lokasi' => $lokasi));
+    } else {
+      $data = [
+        'kode_produk' => $kodeproduk,
+        'bulan' => $bulan,
+        'tahun' => $tahun,
+        'lokasi' => $lokasi,
+        'harga_awal' => $hargaawal
+      ];
+      $simpan = $this->db->insert('harga_awal', $data);
+      if ($simpan) {
+        echo "0";
+      }
+    }
+  }
+
+
+
   function getHpp($bulan, $tahun)
   {
-    $this->db->join('master_barang', 'harga_hpp.kode_produk = master_barang.kode_produk');
-    return $this->db->get_where('harga_hpp', array('bulan' => $bulan, 'tahun' => $tahun));
+    $query = "SELECT master_barang.kode_produk,nama_barang,harga_hpp
+    FROM master_barang
+    LEFT JOIN (SELECT kode_produk,harga_hpp FROM harga_hpp WHERE bulan='$bulan' AND tahun='$tahun') hpp ON (hpp.kode_produk = master_barang.kode_produk)
+    ORDER BY urutan ASC";
+    return $this->db->query($query);
+  }
+
+  function getHargaAwal($bulan, $tahun, $lokasi)
+  {
+    $query = "SELECT master_barang.kode_produk,nama_barang,harga_awal
+    FROM master_barang
+    LEFT JOIN (SELECT kode_produk,harga_awal FROM harga_awal WHERE bulan='$bulan' AND tahun='$tahun' AND lokasi='$lokasi') ha ON (ha.kode_produk = master_barang.kode_produk)
+    ORDER BY urutan ASC";
+    return $this->db->query($query);
   }
 
   function hapushpp($bulan, $tahun, $kodeproduk)
   {
     $this->db->delete('harga_hpp', array('kode_produk' => $kodeproduk, 'bulan' => $bulan, 'tahun' => $tahun));
+  }
+
+
+  function rekapmutasi($dari, $sampai)
+  {
+
+    $dari = '2021-06-01';
+    $sampai = '2021-06-30';
+    $query = "SELECT
+    m.kode_produk,
+    nama_barang
+    FROM
+    master_barang
+    LEFT JOIN (
+      SELECT
+      kode_produk,
+      IFNULL(SUM( IF ( `inout` = 'IN', jumlah, 0 ) ) - SUM( IF ( `inout` = 'OUT', jumlah, 0 ) ),0 ) 
+      FROM
+      detail_mutasi_produksi
+      INNER JOIN mutasi_produksi ON d.no_mutasi_produksi = mutasi_produksi.no_mutasi_produksi 
+      WHERE tgl_mutasi_produksi < '$dari' 
+    ) sa ON (sa.kode_produk = master_barang.kode_produk)";
+
+    return $this->db->query($query);
   }
 }

@@ -477,13 +477,25 @@ class Accounting extends CI_Controller
   {
     $data['tahun'] = date("Y");
     $data['bulan'] = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
-    $data['produk'] = $this->Model_barang->getMasterproduk()->result();
     $this->template->load('template/template', 'accounting/inputhpp', $data);
+  }
+
+  function inputhargaawal()
+  {
+    $data['tahun'] = date("Y");
+    $data['bulan'] = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+    $data['cabang'] = $this->Model_cabang->view_cabang()->result();
+    $this->template->load('template/template', 'accounting/inputhargaawal', $data);
   }
 
   function inserthpp()
   {
     $this->Model_accounting->inserthpp();
+  }
+
+  function inserthargaawal()
+  {
+    $this->Model_accounting->inserthargaawal();
   }
 
   function loadhpp()
@@ -494,11 +506,20 @@ class Accounting extends CI_Controller
     $this->load->view('accounting/loadhpp', $data);
   }
 
-  function hapushpp()
+  function loadhargaawal()
   {
     $bulan = $this->input->post('bulan');
     $tahun = $this->input->post('tahun');
-    $kodeproduk = $this->input->post('kodeproduk');
-    $this->Model_accounting->hapushpp($bulan, $tahun, $kodeproduk);
+    $lokasi = $this->input->post('lokasi');
+    $data['hargaawal'] = $this->Model_accounting->getHargaawal($bulan, $tahun, $lokasi)->result();
+    $this->load->view('accounting/loadhargaawal', $data);
   }
+
+  // function hapushpp()
+  // {
+  //   $bulan = $this->input->post('bulan');
+  //   $tahun = $this->input->post('tahun');
+  //   $kodeproduk = $this->input->post('kodeproduk');
+  //   $this->Model_accounting->hapushpp($bulan, $tahun, $kodeproduk);
+  // }
 }
