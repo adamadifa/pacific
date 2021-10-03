@@ -8,14 +8,21 @@ class Pengajuan extends CI_Controller
     check_login();
     $this->load->model(array('Model_pengajuan', 'Model_pembelian','Model_cabang','Model_gudanglogistik'));
   }
+
   function inputPengajuanBarang()
   {
    $this->template->load('template/template', 'pengajuan/inputPengajuanBarang');
   }
   
+  function editPengajuanBarang()
+  {
+    $data['data']         = $this->Model_pengajuan->getPengajuanBarangEdit()->row_array();
+    $this->template->load('template/template', 'pengajuan/editPengajuanBarang',$data);
+  }
+  
   function pengajuanBarang()
   {
-   $this->template->load('template/template', 'pengajuan/viewPengajuan');
+    $this->template->load('template/template', 'pengajuan/viewPengajuan');
   }
 
   function jenisPengajuan()
@@ -51,7 +58,7 @@ class Pengajuan extends CI_Controller
       $kode   = 1;
     }
     $kodemax  = str_pad($kode, 3, "0", STR_PAD_LEFT);
-    $kodejadi   = "PBC/" . $bulan . "" . $tahun . "/" . $kodemax;
+    $kodejadi   = "PBC-" . $bulan . "" . $tahun . "-" . $kodemax;
     echo $kodejadi;
   }
 
@@ -73,10 +80,10 @@ class Pengajuan extends CI_Controller
     $this->Model_pengajuan->insertPengajuanBarang();
   }
 
-  function inputDetailPengajuanBarangTemp()
+  function updatePengajuanBarang()
   {
 
-    $this->Model_pengajuan->inputDetailPengajuanBarangTemp();
+    $this->Model_pengajuan->updatePengajuanBarang();
   }
 
   function approvalpengajuan()
@@ -95,7 +102,7 @@ class Pengajuan extends CI_Controller
   function view_komentar(){
       
     $data['cabang']             = $this->session->userdata('cabang');
-    $nobukti                    = str_replace(".","/",$this->uri->segment(3));
+    $nobukti                    = $this->uri->segment(3);
     $data['detail']             = $this->Model_pengajuan->getPengajuan($nobukti)->row_array();
     $this->template->load('template/template', 'pengajuan/view_komentar',$data);
   }

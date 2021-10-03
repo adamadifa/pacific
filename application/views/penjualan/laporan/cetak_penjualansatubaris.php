@@ -448,16 +448,16 @@ if ($dari < '2018-09-01') {
           </td>
           <td align="center">
             <?php
-            if (!empty($SP8)) {
-              echo formatqty($SP8);
+            if (!empty($SC)) {
+              echo formatqty($SC);
             }
             ?>
 
           </td>
           <td align="center">
             <?php
-            if (!empty($SC)) {
-              echo formatqty($SC);
+            if (!empty($SP8)) {
+              echo formatqty($SP8);
             }
             ?>
 

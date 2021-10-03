@@ -70,7 +70,6 @@ if ($level == "Administrator" || $level == "admin gudang pusat") {
         <a href="<?php echo base_url(); ?>angkutan/kontrabon" class="list-group-item list-group-item-action">
           <i class="fa  fa-file-text mr-2"></i>Kontrabon Angkutan
         </a>
-
       </div>
     </div>
   <?php } ?>

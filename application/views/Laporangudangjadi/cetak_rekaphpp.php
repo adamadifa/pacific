@@ -165,7 +165,7 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
           }
         ?>
           <tr>
-            <td class="fixed-side" scope="col"><?php echo ROUND($totaljml, 5); ?></td>
+            <td class="fixed-side" scope="col"><?php echo $no;; ?></td>
             <td class="fixed-side" scope="col"><?php echo $d->nama_barang; ?></td>
             <td align="right"><?php echo number_format($qtytsm, '2', ',', '.'); ?></td>
             <td align="right">

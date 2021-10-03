@@ -63,6 +63,66 @@ class Model_pengajuan extends CI_Model
     redirect('pengajuan/pengajuanBarang');
   }
 
+  
+  public function updatePengajuanBarang(){
+
+    $id_user        = $this->session->userdata('id_user');
+    $nobukti        = $this->input->post('nobukti');
+    $keterangan     = $this->input->post('keterangan');
+    $nama_pemohon   = $this->input->post('nama_pemohon');
+    $tanggal        = $this->input->post('tanggal');
+    $foto           = $this->input->post('foto');
+    $cabang         = $this->session->userdata('cabang');
+
+    if($keterangan == 'Barang'){
+      $ga           = 0;
+      $mg           = '';
+      $ma           = 0;
+      $mm           = '';
+      $em           = 0;
+      $dirut        = 0;
+    }else if($keterangan == 'Jasa'){
+      $ga           = 0;
+      $mg           = '';
+      $ma           = 0;
+      $mm           = '';
+      $em           = 0;
+      $dirut        = 0;
+    }else if($keterangan == 'ATK'){
+      $ga           = '';
+      $mg           = 0;
+      $ma           = 0;
+      $mm           = '';
+      $em           = '';
+      $dirut        = '';
+    }else{
+      $ga           = 0;
+      $mg           = '';
+      $ma           = 0;
+      $mm           = 0;
+      $em           = 0;
+      $dirut        = 0;
+    }
+
+    $data = array(
+      'nama_lengkap'    => $nama_pemohon,
+      'keterangan'      => $keterangan,
+      'tanggal'         => $tanggal,
+      'kode_cabang'     => $cabang,
+      'foto'            => $foto,
+      'id_user'         => $id_user,
+      'ga'              => $ga,
+      'mg'              => $mg,
+      'ma'              => $ma,
+      'mm'              => $mm,
+      'em'              => $em,
+      'dirut'           => $dirut
+    );
+
+    $this->db->update('pengajuan_barang', $data, array('nobukti' => $nobukti));
+    redirect('pengajuan/pengajuanBarang');
+  }
+
   public function getDataPengajuanBarang($jenis_pengajuan){
 
     $id_user        = $this->session->userdata('id_user');
@@ -105,7 +165,7 @@ class Model_pengajuan extends CI_Model
 
   public function approvalpengajuan(){
 
-    $nobukti        = str_replace(".","/",$this->uri->segment(3));
+    $nobukti        = $this->uri->segment(3);
     $status         = $this->uri->segment(4);
     $id_user        = $this->session->userdata('id_user');
 
@@ -130,9 +190,16 @@ class Model_pengajuan extends CI_Model
     return $this->db->query("SELECT * FROM  pengajuan_barang WHERE nobukti = '$nobukti' ");
   }
   
+
+  public function getPengajuanBarangEdit(){
+  
+    $nobukti        = $this->uri->segment(3);
+    return $this->db->query("SELECT * FROM  pengajuan_barang WHERE nobukti = '$nobukti' ");
+  }
+  
   public function hapusPengajuanBarang(){
     
-    $nobukti       = str_replace(".","/",$this->uri->segment(3));
+    $nobukti        = $this->uri->segment(3);
     $this->db->query("DELETE FROM pengajuan_barang WHERE nobukti = '$nobukti' ");
     redirect('pengajuan/pengajuanBarang');
   }

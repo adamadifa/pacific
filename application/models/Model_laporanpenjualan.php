@@ -1892,7 +1892,7 @@ GROUP BY
 						LEFT JOIN (
 								SELECT
 								historibayar.id_karyawan,
-									SUM(bayar) as totalbayar,
+									SUM(IF(status_bayar IS NULL,bayar,0)) as totalbayar,
 									SUM(IF(status_bayar='voucher' AND ket_voucher ='1',bayar,0)) as penghapusanpiutang,
 									SUM(IF(status_bayar='voucher' AND ket_voucher ='2',bayar,0)) as diskonprogram,
 									SUM(IF(status_bayar='voucher' AND ket_voucher ='3',bayar,0)) as pps,

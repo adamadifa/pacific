@@ -473,7 +473,9 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>laporankeuangan/ledger" class="list-group-item list-group-item-action">
         <i class="fa fa-file-o mr-2"></i>Ledger / Mutasi Bank
       </a>
-
+      <a href="<?php echo base_url(); ?>angkutan/angkutan" class="list-group-item list-group-item-action">
+          <i class="fa fa-book mr-2"></i>Laporan Angkutan
+        </a>
     </div>
   </div>
 

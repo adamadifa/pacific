@@ -23,7 +23,7 @@
       <?php
       $sno  = 1;
       foreach ($data->result_array() as $d) {
-        $nobukti       = str_replace("/",".",$d['nobukti']);
+        $nobukti       = $d['nobukti'];
         $id_user       = $this->session->userdata('id_user');
         ?>
         <tr>
@@ -135,6 +135,7 @@
               <?php if($d['ga'] == 0){ ?>
                 <a href="#" data-href="<?php echo base_url();?>pengajuan/hapusPengajuanBarang/<?php echo $nobukti;?>" class="btn btn-sm btn-danger hapus"><i class="fa fa-trash"></i></a>
               <?php } ?>
+              <a href="<?php echo base_url();?>pengajuan/view_komentar/<?php echo $nobukti; ?>" class="btn-sm btn btn-primary"><i class="fa fa-comment"></i></a>
             <?php } ?>
           </td>
         </tr>

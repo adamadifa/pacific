@@ -67,10 +67,10 @@ tr:nth-child(even) {
     }
     ?>
     <tr bgcolor="#024a75" style="color:white; text-align: center;font-size: 14">
-      <td colspan="6">TOTAL</td>
-      <td align="center"><?php echo uang($qty_unit); ?></td>
-      <td align="center"><?php echo uang($qty_berat, 2); ?></td>
-      <td align="center"><?php echo uang($qty_lebih, 2); ?></td>
+      <td bgcolor="#024a75" colspan="6">TOTAL</td>
+      <td bgcolor="#024a75" align="center"><?php echo uang($qty_unit); ?></td>
+      <td bgcolor="#024a75" align="center"><?php echo uang($qty_berat, 2); ?></td>
+      <td bgcolor="#024a75" align="center"><?php echo uang($qty_lebih, 2); ?></td>
     </tr>
   </tbody>
 </table>

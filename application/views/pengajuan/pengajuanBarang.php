@@ -22,7 +22,7 @@
       <?php
       $sno  = 1;
       foreach ($data->result_array() as $d) {
-        $nobukti       = str_replace("/",".",$d['nobukti']);
+        $nobukti       = $d['nobukti'];
         $id_user       = $this->session->userdata('id_user');
         ?>
         <tr>
@@ -78,43 +78,57 @@
             <?php if($id_user == '244'){ ?>
               <?php if($d['ga'] == 1 && $d['ma'] == 0){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
+                <a href="<?php echo base_url();?>pengajuan/view_komentar/<?php echo $nobukti; ?>" class="btn-sm btn btn-primary"><i class="fa fa-comment"></i></a>
               <?php }else if($d['ga'] == 2 && $d['ma'] == 0){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
+                <a href="<?php echo base_url();?>pengajuan/view_komentar/<?php echo $nobukti; ?>" class="btn-sm btn btn-primary"><i class="fa fa-comment"></i></a>
               <?php }else if($d['ga'] == 0){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
+                <a href="<?php echo base_url();?>pengajuan/view_komentar/<?php echo $nobukti; ?>" class="btn-sm btn btn-primary"><i class="fa fa-comment"></i></a>
               <?php } ?>
             <?php }else if($id_user == '6'){ ?>
               <?php if($d['ma'] == 1 && $d['em'] == 0){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
+                <a href="<?php echo base_url();?>pengajuan/view_komentar/<?php echo $nobukti; ?>" class="btn-sm btn btn-primary"><i class="fa fa-comment"></i></a>
               <?php }else if($d['ma'] == 2 && $d['em'] == 0){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
+                <a href="<?php echo base_url();?>pengajuan/view_komentar/<?php echo $nobukti; ?>" class="btn-sm btn btn-primary"><i class="fa fa-comment"></i></a>
               <?php }else if($d['ga'] == 1 && $d['ma'] == 0){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
+                <a href="<?php echo base_url();?>pengajuan/view_komentar/<?php echo $nobukti; ?>" class="btn-sm btn btn-primary"><i class="fa fa-comment"></i></a>
               <?php } ?>
             <?php }else if($id_user == '10'){ ?>
               <?php if($d['em'] == 1 && $d['dirut'] == 0){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
+                <a href="<?php echo base_url();?>pengajuan/view_komentar/<?php echo $nobukti; ?>" class="btn-sm btn btn-primary"><i class="fa fa-comment"></i></a>
               <?php }else if($d['em'] == 2 && $d['dirut'] == 0){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
+                <a href="<?php echo base_url();?>pengajuan/view_komentar/<?php echo $nobukti; ?>" class="btn-sm btn btn-primary"><i class="fa fa-comment"></i></a>
               <?php }else if($d['ma'] == 1 && $d['em'] == 0){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
+                <a href="<?php echo base_url();?>pengajuan/view_komentar/<?php echo $nobukti; ?>" class="btn-sm btn btn-primary"><i class="fa fa-comment"></i></a>
               <?php } ?>    
             <?php }else if($id_user == '11'){ ?>
               <?php if($d['dirut'] == 1){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
+                <a href="<?php echo base_url();?>pengajuan/view_komentar/<?php echo $nobukti; ?>" class="btn-sm btn btn-primary"><i class="fa fa-comment"></i></a>
               <?php }else if($d['dirut'] == 2){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
+                <a href="<?php echo base_url();?>pengajuan/view_komentar/<?php echo $nobukti; ?>" class="btn-sm btn btn-primary"><i class="fa fa-comment"></i></a>
               <?php }else if($d['em'] == 1 && $d['dirut'] == 0){ ?>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="1" class="btn btn-sm btn-primary approve"><i class="fa fa-check"></i></a>
                 <a href="#" data-kode="<?php echo $nobukti;?>" data-status="2" class="btn btn-sm btn-danger approve"><i class="fa fa-times"></i></a>
+                <a href="<?php echo base_url();?>pengajuan/view_komentar/<?php echo $nobukti; ?>" class="btn-sm btn btn-primary"><i class="fa fa-comment"></i></a>
               <?php } ?>   
             <?php }else{ ?>
               <?php if($d['ga'] == 0){ ?>
                 <a href="#" data-href="<?php echo base_url();?>pengajuan/hapusPengajuanBarang/<?php echo $nobukti;?>" class="btn btn-sm btn-danger hapus"><i class="fa fa-trash"></i></a>
+                <a href="<?php echo base_url();?>pengajuan/editPengajuanBarang/<?php echo $nobukti;?>" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a>
               <?php } ?>
+              <a href="<?php echo base_url();?>pengajuan/view_komentar/<?php echo $nobukti; ?>" class="btn-sm btn btn-primary"><i class="fa fa-comment"></i></a>
             <?php } ?>
           </td>
         </tr>
