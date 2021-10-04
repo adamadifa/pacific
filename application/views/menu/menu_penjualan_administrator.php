@@ -152,6 +152,16 @@ if ($level == "Administrator") {
   <div class="card">
     <div class="list-group">
       <a href="#" class="list-group-item list-group-item-action active">
+        Order Management (OMAN)
+      </a>
+      <a href="<?php echo base_url(); ?>oman/omancabang" class="list-group-item list-group-item-action">
+        <i class="fa  fa-file-text mr-2"></i>Order Management
+      </a>
+    </div>
+  </div>
+  <div class="card">
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action active">
         Data Penjualan
       </a>
       <a href="<?php echo base_url(); ?>penjualan/input_penjualan" class="list-group-item list-group-item-action">

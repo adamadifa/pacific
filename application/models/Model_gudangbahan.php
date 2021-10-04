@@ -662,6 +662,13 @@ class Model_gudangbahan extends CI_Model
     return $this->db->get_where('pemasukan_gb', array('nobukti_pemasukan' => $nobukti));
   }
 
+  function getPengeluaran()
+  {
+
+    $nobukti            = $this->input->post('nobukti');
+    return $this->db->get_where('pengeluaran_gb', array('nobukti_pengeluaran' => $nobukti));
+  }
+
   function getRetur()
   {
 
@@ -676,15 +683,6 @@ class Model_gudangbahan extends CI_Model
     $nobukti            = $this->input->post('nobukti');
     $this->db->join('master_barang_pembelian', 'detail_pengeluaran_gb.kode_barang = master_barang_pembelian.kode_barang');
     return $this->db->get_where('detail_pengeluaran_gb', array('detail_pengeluaran_gb.nobukti_pengeluaran' => $nobukti));
-  }
-
-  function getPengeluaran()
-  {
-
-    $nobukti            = $this->input->post('nobukti');
-    $this->db->from('pengeluaran_gb');
-    // $this->db->join('supplier', 'pengeluaran_gb.supplier = supplier.kode_supplier');
-    $this->db->where('nobukti_pengeluaran', $nobukti);
   }
 
   public function getrecordPembelianCount($nobukti = "", $tgl_pembelian = "", $departemen = "", $ppn = "", $ln = "", $supplier = "")

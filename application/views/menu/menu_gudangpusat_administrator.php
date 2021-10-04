@@ -19,7 +19,7 @@ if ($level == "Administrator" || $level == "admin gudang pusat") {
         <a href="#" class="list-group-item list-group-item-action active">
           Order Management (OMAN)
         </a>
-        <a href="<?php echo base_url(); ?>oman/view_omanmkt" class="list-group-item list-group-item-action">
+        <a href="<?php echo base_url(); ?>oman/omancabang" class="list-group-item list-group-item-action">
           <i class="fa  fa-file-text mr-2"></i>Order Management
         </a>
         <a href="<?php echo base_url(); ?>oman/permintaan_produksi" class="list-group-item list-group-item-action">
