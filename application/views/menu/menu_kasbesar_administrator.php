@@ -1,4 +1,5 @@
 <?php
+$id_user = $this->session->userdata('id_user');
 $level = $this->session->userdata('level_user');
 if ($level == "Administrator") {
   if ($this->session->userdata('id_user') != "11") {
@@ -42,9 +43,11 @@ if ($level == "Administrator") {
         <a href="<?php echo base_url(); ?>penjualan/saldoawalkb" class="list-group-item list-group-item-action">
           <i class="fa fa-gears mr-2"></i>Saldo Awal Kas Besar
         </a>
+
         <a href="<?php echo base_url(); ?>penjualan/saldokurlebsetor" class="list-group-item list-group-item-action">
           <i class="fa fa-gears mr-2"></i>Saldo Awal Kurang Lebih Setor
         </a>
+
       </div>
     </div>
   <?php } ?>
@@ -91,9 +94,11 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>penjualan/setorantransfer" class="list-group-item list-group-item-action">
         <i class="fa fa-money mr-2"></i>Setoran Transfer
       </a>
-      <a href="<?php echo base_url(); ?>penjualan/logamtokertas" class="list-group-item list-group-item-action">
-        <i class="fa fa-money mr-2"></i>Ganti Logam ke Kertas
-      </a>
+      <?php if ($id_user != 34 and $id_user != 230 and $id_user != 197) { ?>
+        <a href="<?php echo base_url(); ?>penjualan/logamtokertas" class="list-group-item list-group-item-action">
+          <i class="fa fa-money mr-2"></i>Ganti Logam ke Kertas
+        </a>
+      <?php } ?>
       <a href="<?php echo base_url(); ?>penjualan/kuranglebihsetor" class="list-group-item list-group-item-action">
         <i class="fa fa-money mr-2"></i>Kurang / Lebih Setor
       </a>
@@ -102,17 +107,19 @@ if ($level == "Administrator") {
       </a>
     </div>
   </div>
-  <div class="card">
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action active">
-        Saldo Awal
-      </a>
+  <?php if ($id_user != 63 and $id_user != 34 and $id_user != 230 and $id_user != 197) { ?>
+    <div class="card">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+          Saldo Awal
+        </a>
 
-      <a href="<?php echo base_url(); ?>penjualan/saldokurlebsetor" class="list-group-item list-group-item-action">
-        <i class="fa fa-gears mr-2"></i>Saldo Awal Kurang Lebih Setor
-      </a>
+        <a href="<?php echo base_url(); ?>penjualan/saldokurlebsetor" class="list-group-item list-group-item-action">
+          <i class="fa fa-gears mr-2"></i>Saldo Awal Kurang Lebih Setor
+        </a>
+      </div>
     </div>
-  </div>
+  <?php } ?>
   <div class="card">
     <div class="list-group">
       <a href="#" class="list-group-item list-group-item-action active">

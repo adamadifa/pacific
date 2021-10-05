@@ -1,4 +1,5 @@
 <?php
+$id_user = $this->session->userdata('id_user');
 $level = $this->session->userdata('level_user');
 if ($level == "Administrator") {
   if ($this->session->userdata('id_user') != "11") {
@@ -14,9 +15,11 @@ if ($level == "Administrator") {
         <a href="<?php echo base_url(); ?>penjualan/input_lpc" class="list-group-item list-group-item-action">
           <i class="fa fa-file-text mr-2"></i>Input Pengiriman LPC
         </a>
+
         <a href="<?php echo base_url(); ?>penjualan/suratjalan" class="list-group-item list-group-item-action">
           <i class="fa fa-truck mr-2"></i>Data Penjualan & Surat Jalan
         </a>
+
         <a href="<?php echo base_url(); ?>pembayaran" class="list-group-item list-group-item-action">
           <i class="fa fa-balance-scale mr-2"></i>Histori Penjualan Pelanggan
         </a>
@@ -149,16 +152,18 @@ if ($level == "Administrator") {
     </div>
   </div>
 <?php } else if ($level == "admin penjualan" || $level == "kepala admin" || $level == "spv cabang") { ?>
-  <div class="card">
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action active">
-        Order Management (OMAN)
-      </a>
-      <a href="<?php echo base_url(); ?>oman/omancabang" class="list-group-item list-group-item-action">
-        <i class="fa  fa-file-text mr-2"></i>Order Management
-      </a>
+  <?php if ($id_user != 26 and $id_user != 9) { ?>
+    <div class="card">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+          Order Management (OMAN)
+        </a>
+        <a href="<?php echo base_url(); ?>oman/omancabang" class="list-group-item list-group-item-action">
+          <i class="fa  fa-file-text mr-2"></i>Order Management
+        </a>
+      </div>
     </div>
-  </div>
+  <?php } ?>
   <div class="card">
     <div class="list-group">
       <a href="#" class="list-group-item list-group-item-action active">
@@ -167,24 +172,34 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>penjualan/input_penjualan" class="list-group-item list-group-item-action">
         <i class="fa fa-shopping-cart mr-2"></i>Input Penjualan
       </a>
-      <a href="<?php echo base_url(); ?>penjualan/input_lpc" class="list-group-item list-group-item-action">
-        <i class="fa fa-file-text mr-2"></i>Input Pengiriman LPC
-      </a>
-      <a href="<?php echo base_url(); ?>penjualan/suratjalan" class="list-group-item list-group-item-action">
-        <i class="fa fa-truck mr-2"></i>Data Penjualan & Surat Jalan
-      </a>
-      <a href="<?php echo base_url(); ?>pembayaran" class="list-group-item list-group-item-action">
-        <i class="fa fa-balance-scale mr-2"></i>Histori Penjualan Pelanggan
-      </a>
-      <a href="<?php echo base_url(); ?>penjualan/penjualanpend" class="list-group-item list-group-item-action">
-        <i class="fa fa-history mr-2"></i>Penjualan Pending
-      </a>
+      <?php if ($id_user != 26 and $id_user != 9 and $id_user != 234) { ?>
+        <a href="<?php echo base_url(); ?>penjualan/input_lpc" class="list-group-item list-group-item-action">
+          <i class="fa fa-file-text mr-2"></i>Input Pengiriman LPC
+        </a>
+      <?php } ?>
+      <?php if ($id_user != 164 and $id_user != 163 and $id_user != 234) { ?>
+        <a href="<?php echo base_url(); ?>penjualan/suratjalan" class="list-group-item list-group-item-action">
+          <i class="fa fa-truck mr-2"></i>Data Penjualan & Surat Jalan
+        </a>
+      <?php } ?>
+      <?php if ($id_user != 26) { ?>
+        <a href="<?php echo base_url(); ?>pembayaran" class="list-group-item list-group-item-action">
+          <i class="fa fa-balance-scale mr-2"></i>Histori Penjualan Pelanggan
+        </a>
+      <?php } ?>
+      <?php if ($id_user != 234) { ?>
+        <a href="<?php echo base_url(); ?>penjualan/penjualanpend" class="list-group-item list-group-item-action">
+          <i class="fa fa-history mr-2"></i>Penjualan Pending
+        </a>
+      <?php } ?>
       <a href="<?php echo base_url(); ?>penjualan/koreksifaktur" class="list-group-item list-group-item-action">
         <i class="fa fa-pencil mr-2"></i>Koreksi Faktur
       </a>
-      <a href="<?php echo base_url(); ?>penjualan/movesales" class="list-group-item list-group-item-action">
-        <i class="fa fa-retweet mr-2"></i>Pindah Piutang Sales
-      </a>
+      <?php if ($id_user != 9 and $id_user != 234) { ?>
+        <a href="<?php echo base_url(); ?>penjualan/movesales" class="list-group-item list-group-item-action">
+          <i class="fa fa-retweet mr-2"></i>Pindah Piutang Sales
+        </a>
+      <?php } ?>
     </div>
   </div>
   <div class="card">
@@ -220,20 +235,23 @@ if ($level == "Administrator") {
       </a>
     </div>
   </div>
-
-  <div class="card">
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action active">
-        Data Pengajuan
-      </a>
-      <a href="<?php echo base_url(); ?>penjualan/limitkreditv3" class="list-group-item list-group-item-action">
-        <i class="fa fa-money mr-2"></i>Pengajuan Limit Kredit
-      </a>
-      <a href="<?php echo base_url(); ?>penjualan/jatuhtempo" class="list-group-item list-group-item-action">
-        <i class="fa fa-calendar-times-o mr-2"></i>Pengajuan Jatuh Tempo
-      </a>
+  <?php if ($id_user != 234) { ?>
+    <div class="card">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+          Data Pengajuan
+        </a>
+        <a href="<?php echo base_url(); ?>penjualan/limitkreditv3" class="list-group-item list-group-item-action">
+          <i class="fa fa-money mr-2"></i>Pengajuan Limit Kredit
+        </a>
+        <?php if ($id_user != 9) { ?>
+          <a href="<?php echo base_url(); ?>penjualan/jatuhtempo" class="list-group-item list-group-item-action">
+            <i class="fa fa-calendar-times-o mr-2"></i>Pengajuan Jatuh Tempo
+          </a>
+        <?php } ?>
+      </div>
     </div>
-  </div>
+  <?php } ?>
   <div class="card">
     <div class="list-group">
       <a href="#" class="list-group-item list-group-item-action active">
@@ -257,24 +275,36 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>laporanpenjualan/lebihsatufaktur" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>Lebih 1 Faktur
       </a>
-      <a href="<?php echo base_url(); ?>laporanpenjualan/lapdppp" class="list-group-item list-group-item-action">
-        <i class="fa fa-file mr-2"></i>DPPP
-      </a>
-      <a href="<?php echo base_url(); ?>laporanpenjualan/repo" class="list-group-item list-group-item-action">
-        <i class="fa fa-file mr-2"></i>REPO
-      </a>
-      <a href="<?php echo base_url(); ?>laporanpenjualan/dpp" class="list-group-item list-group-item-action">
-        <i class="fa fa-file mr-2"></i>DPP
-      </a>
-      <a href="<?php echo base_url(); ?>laporanpenjualan/rekapomset" class="list-group-item list-group-item-action">
-        <i class="fa fa-file mr-2"></i>Rekap Omset Pelanggan
-      </a>
-      <a href="<?php echo base_url(); ?>laporanpenjualan/rekappelanggan" class="list-group-item list-group-item-action">
-        <i class="fa fa-file mr-2"></i>Rekap Pelanggan
-      </a>
-      <a href="<?php echo base_url(); ?>laporanpenjualan/penjualanpending" class="list-group-item list-group-item-action">
-        <i class="fa fa-file mr-2"></i>Penjualan Pending
-      </a>
+      <?php if ($id_user != 9 and $id_user != 34 and $id_user != 230 and $id_user != 197) { ?>
+        <a href="<?php echo base_url(); ?>laporanpenjualan/lapdppp" class="list-group-item list-group-item-action">
+          <i class="fa fa-file mr-2"></i>DPPP
+        </a>
+        <?php if ($id_user != 234 and $id_user != 34 and $id_user != 230) { ?>
+          <a href="<?php echo base_url(); ?>laporanpenjualan/repo" class="list-group-item list-group-item-action">
+            <i class="fa fa-file mr-2"></i>REPO
+          </a>
+        <?php } ?>
+      <?php } ?>
+      <?php if ($id_user != 34 and $id_user != 234 and $id_user != 197) { ?>
+        <a href="<?php echo base_url(); ?>laporanpenjualan/dpp" class="list-group-item list-group-item-action">
+          <i class="fa fa-file mr-2"></i>DPP
+        </a>
+      <?php } ?>
+      <?php if ($id_user != 234) { ?>
+        <a href="<?php echo base_url(); ?>laporanpenjualan/rekapomset" class="list-group-item list-group-item-action">
+          <i class="fa fa-file mr-2"></i>Rekap Omset Pelanggan
+        </a>
+      <?php } ?>
+      <?php if ($id_user != 34 and $id_user != 230 and $id_user != 197) { ?>
+        <a href="<?php echo base_url(); ?>laporanpenjualan/rekappelanggan" class="list-group-item list-group-item-action">
+          <i class="fa fa-file mr-2"></i>Rekap Pelanggan
+        </a>
+      <?php } ?>
+      <?php if ($id_user != 163 and $id_user != 234) { ?>
+        <a href="<?php echo base_url(); ?>laporanpenjualan/penjualanpending" class="list-group-item list-group-item-action">
+          <i class="fa fa-file mr-2"></i>Penjualan Pending
+        </a>
+      <?php } ?>
       <a href="<?php echo base_url(); ?>laporanpenjualan/rekappenjualan" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>Rekap Penjualan
       </a>

@@ -1,21 +1,24 @@
 <?php
+$id_user = $this->session->userdata('id_user');
 $level = $this->session->userdata('level_user');
 if ($level == "Administrator" || $level == "admin gudang" || $level == "kepala admin" || $level == "spv cabang") {
   if ($this->session->userdata('id_user') != "11") {
 ?>
-    <div class="card">
-      <div class="list-group">
-        <a href="#" class="list-group-item list-group-item-action active">
-          Saldo Awal
-        </a>
-        <a href="<?php echo base_url(); ?>dpb/saldoawalgs" class="list-group-item list-group-item-action">
-          <i class="fa   fa-bookmark-o mr-2"></i>Saldo Awal Good Stok
-        </a>
-        <a href="<?php echo base_url(); ?>dpb/saldoawalbs" class="list-group-item list-group-item-action">
-          <i class="fa   fa-bookmark-o mr-2"></i>Saldo Awal Bad Stok
-        </a>
+    <?php if ($id_user != 233) { ?>
+      <div class="card">
+        <div class="list-group">
+          <a href="#" class="list-group-item list-group-item-action active">
+            Saldo Awal
+          </a>
+          <a href="<?php echo base_url(); ?>dpb/saldoawalgs" class="list-group-item list-group-item-action">
+            <i class="fa   fa-bookmark-o mr-2"></i>Saldo Awal Good Stok
+          </a>
+          <a href="<?php echo base_url(); ?>dpb/saldoawalbs" class="list-group-item list-group-item-action">
+            <i class="fa   fa-bookmark-o mr-2"></i>Saldo Awal Bad Stok
+          </a>
+        </div>
       </div>
-    </div>
+    <?php } ?>
     <?php if ($this->session->userdata('cabang') == 'TSM' || $this->session->userdata('cabang') == 'pusat') { ?>
       <div class="card">
         <div class="list-group">
@@ -47,18 +50,22 @@ if ($level == "Administrator" || $level == "admin gudang" || $level == "kepala a
         <a href="<?php echo base_url(); ?>oman/suratjalan_gjcab" class="list-group-item list-group-item-action">
           <i class="fa  fa-truck mr-2"></i>Surat Jalan
         </a>
-        <a href="<?php echo base_url(); ?>oman/transit_in" class="list-group-item list-group-item-action">
-          <i class="fa  fa-truck mr-2"></i>Transit IN
-        </a>
+        <?php if ($id_user != 42) { ?>
+          <a href="<?php echo base_url(); ?>oman/transit_in" class="list-group-item list-group-item-action">
+            <i class="fa  fa-truck mr-2"></i>Transit IN
+          </a>
+        <?php } ?>
         <a href="<?php echo base_url(); ?>dpb/retur" class="list-group-item list-group-item-action">
           <i class="fa  fa-history mr-2"></i>Retur
         </a>
         <a href="<?php echo base_url(); ?>dpb/hutangkirim" class="list-group-item list-group-item-action">
           <i class="fa  fa-car mr-2"></i>Hutang Kirim
         </a>
-        <a href="<?php echo base_url(); ?>dpb/plttr" class="list-group-item list-group-item-action">
-          <i class="fa  fa-copy mr-2"></i>Pelunasan TTR
-        </a>
+        <?php if ($id_user != 42 and $id_user != 233 and $id_user != 34 and $id_user != 230 and $id_user != 197) { ?>
+          <a href="<?php echo base_url(); ?>dpb/plttr" class="list-group-item list-group-item-action">
+            <i class="fa  fa-copy mr-2"></i>Pelunasan TTR
+          </a>
+        <?php } ?>
         <a href="<?php echo base_url(); ?>repackreject/repackcab" class="list-group-item list-group-item-action">
           <i class="fa  fa-refresh mr-2"></i>Repack
         </a>
@@ -87,9 +94,11 @@ if ($level == "Administrator" || $level == "admin gudang" || $level == "kepala a
         <a href="<?php echo base_url(); ?>dpb/plhutangkirim" class="list-group-item list-group-item-action">
           <i class="fa  fa-car mr-2"></i>Pelunasan Hutang Kirim
         </a>
-        <a href="<?php echo base_url(); ?>dpb/ttr" class="list-group-item list-group-item-action">
-          <i class="fa  fa-copy mr-2"></i>TTR
-        </a>
+        <?php if ($id_user != 42 and $id_user != 233 and $id_user != 34 and $id_user != 230 and $id_user != 197) { ?>
+          <a href="<?php echo base_url(); ?>dpb/ttr" class="list-group-item list-group-item-action">
+            <i class="fa  fa-copy mr-2"></i>TTR
+          </a>
+        <?php } ?>
         <a href="<?php echo base_url(); ?>dpb/promosi" class="list-group-item list-group-item-action">
           <i class="fa fa-credit-card mr-2"></i>Promosi
         </a>

@@ -1,3 +1,6 @@
+<?php
+$id_user = $this->session->userdata('id_user');
+?>
 <div class="container-fluid">
   <!-- Page title -->
   <div class="page-header">
@@ -9,65 +12,69 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="table-responsive mb-4">
-        <div id="loadrekappenjualan">
+  <?php if ($id_user != 234) { ?>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive mb-4">
+          <div id="loadrekappenjualan">
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  <?php } ?>
   <!-- Content here -->
-  <div class="row">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-header bg-dark text-white">
-          <h4 class="card-title">DATA PERSEDIAAN GOOD STOK GUDANG CABANG</h4>
-        </div>
-        <div class="card-body">
-          <?php if ($cb == 'pusat') { ?>
-            <div class="form-group mb-3">
-              <select class="form-select" id="cabang" name="cabang">
-                <?php foreach ($cabang as $c) { ?>
-                  <option <?php if ($cb == $c->kode_cabang) {
-                            echo "selected";
-                          } ?> value="<?php echo $c->kode_cabang; ?>"><?php echo strtoupper($c->nama_cabang); ?></option>
-                <?php } ?>
-              </select>
+  <?php if ($id_user != 26 and $id_user != 9) { ?>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header bg-dark text-white">
+            <h4 class="card-title">DATA PERSEDIAAN GOOD STOK GUDANG CABANG</h4>
+          </div>
+          <div class="card-body">
+            <?php if ($cb == 'pusat') { ?>
+              <div class="form-group mb-3">
+                <select class="form-select" id="cabang" name="cabang">
+                  <?php foreach ($cabang as $c) { ?>
+                    <option <?php if ($cb == $c->kode_cabang) {
+                              echo "selected";
+                            } ?> value="<?php echo $c->kode_cabang; ?>"><?php echo strtoupper($c->nama_cabang); ?></option>
+                  <?php } ?>
+                </select>
+              </div>
+            <?php } else { ?>
+              <input type="hidden" readonly id="cabang" name="cabang" value="<?php echo $cb; ?>" class="form-control" placeholder="Kode Cabang" />
+            <?php } ?>
+            <div id="loadsaldo">
             </div>
-          <?php } else { ?>
-            <input type="hidden" readonly id="cabang" name="cabang" value="<?php echo $cb; ?>" class="form-control" placeholder="Kode Cabang" />
-          <?php } ?>
-          <div id="loadsaldo">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header bg-red text-white">
+            <h4 class="card-title">DATA PERSEDIAAN BAD STOK GUDANG CABANG</h4>
+          </div>
+          <div class="card-body">
+            <?php if ($cb == 'pusat') { ?>
+              <div class="form-group mb-3">
+                <select class="form-select" id="cabangs" name="cabang">
+                  <?php foreach ($cabang as $c) { ?>
+                    <option <?php if ($cb == $c->kode_cabang) {
+                              echo "selected";
+                            } ?> value="<?php echo $c->kode_cabang; ?>"><?php echo strtoupper($c->nama_cabang); ?></option>
+                  <?php } ?>
+                </select>
+              </div>
+            <?php } else { ?>
+              <input type="hidden" readonly id="cabangs" name="cabang" value="<?php echo $cb; ?>" class="form-control" placeholder="Kode Cabang" />
+            <?php } ?>
+            <div id="loadsaldobs">
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-header bg-red text-white">
-          <h4 class="card-title">DATA PERSEDIAAN BAD STOK GUDANG CABANG</h4>
-        </div>
-        <div class="card-body">
-          <?php if ($cb == 'pusat') { ?>
-            <div class="form-group mb-3">
-              <select class="form-select" id="cabangs" name="cabang">
-                <?php foreach ($cabang as $c) { ?>
-                  <option <?php if ($cb == $c->kode_cabang) {
-                            echo "selected";
-                          } ?> value="<?php echo $c->kode_cabang; ?>"><?php echo strtoupper($c->nama_cabang); ?></option>
-                <?php } ?>
-              </select>
-            </div>
-          <?php } else { ?>
-            <input type="hidden" readonly id="cabangs" name="cabang" value="<?php echo $cb; ?>" class="form-control" placeholder="Kode Cabang" />
-          <?php } ?>
-          <div id="loadsaldobs">
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <?php } ?>
 </div>
 <script type="text/javascript">
   $(function() {

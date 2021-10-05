@@ -1,4 +1,5 @@
 <?php
+$id_user = $this->session->userdata('id_user');
 $level = $this->session->userdata('level_user');
 if ($level == "Administrator") {
   if ($this->session->userdata('id_user') != "11") {
@@ -373,16 +374,18 @@ if ($level == "Administrator") {
       </a>
     </div>
   </div>
-  <div class="card">
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action active">
-        Mutasi Bank
-      </a>
-      <a href="<?php echo base_url(); ?>kaskecil/mutasibank" class="list-group-item list-group-item-action">
-        <i class="fa fa-bank mr-2"></i>Mutasi Bank
-      </a>
+  <?php if ($id_user != 161) { ?>
+    <div class="card">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+          Mutasi Bank
+        </a>
+        <a href="<?php echo base_url(); ?>kaskecil/mutasibank" class="list-group-item list-group-item-action">
+          <i class="fa fa-bank mr-2"></i>Mutasi Bank
+        </a>
+      </div>
     </div>
-  </div>
+  <?php } ?>
   <div class="card">
     <div class="list-group">
       <a href="#" class="list-group-item list-group-item-action active">
@@ -391,9 +394,11 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>laporankaskecil/kaskecil" class="list-group-item list-group-item-action">
         <i class="fa fa-file-o mr-2"></i>Kas Kecil
       </a>
-      <a href="<?php echo base_url(); ?>laporankeuangan/ledger" class="list-group-item list-group-item-action">
-        <i class="fa fa-file-o mr-2"></i>Ledger / Mutasi Bank
-      </a>
+      <?php if ($id_user != 161 and $id_user != 230) { ?>
+        <a href="<?php echo base_url(); ?>laporankeuangan/ledger" class="list-group-item list-group-item-action">
+          <i class="fa fa-file-o mr-2"></i>Ledger / Mutasi Bank
+        </a>
+      <?php } ?>
     </div>
   </div>
 <?php } else if ($level == "keuangan2") { ?>
@@ -414,16 +419,18 @@ if ($level == "Administrator") {
       </a>
     </div>
   </div>
-  <div class="card">
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action active">
-        Mutasi Bank
-      </a>
-      <a href="<?php echo base_url(); ?>kaskecil/mutasibank" class="list-group-item list-group-item-action">
-        <i class="fa fa-bank mr-2"></i>Mutasi Bank
-      </a>
+  <?php if ($id_user != 58) { ?>
+    <div class="card">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+          Mutasi Bank
+        </a>
+        <a href="<?php echo base_url(); ?>kaskecil/mutasibank" class="list-group-item list-group-item-action">
+          <i class="fa fa-bank mr-2"></i>Mutasi Bank
+        </a>
+      </div>
     </div>
-  </div>
+  <?php } ?>
   <div class="card">
     <div class="list-group">
       <a href="#" class="list-group-item list-group-item-action active">
@@ -432,9 +439,11 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>laporankaskecil/kaskecil" class="list-group-item list-group-item-action">
         <i class="fa fa-file-o mr-2"></i>Kas Kecil
       </a>
-      <a href="<?php echo base_url(); ?>laporankeuangan/ledger" class="list-group-item list-group-item-action">
-        <i class="fa fa-file-o mr-2"></i>Ledger / Mutasi Bank
-      </a>
+      <?php if ($id_user != 58) { ?>
+        <a href="<?php echo base_url(); ?>laporankeuangan/ledger" class="list-group-item list-group-item-action">
+          <i class="fa fa-file-o mr-2"></i>Ledger / Mutasi Bank
+        </a>
+      <?php } ?>
     </div>
   </div>
 <?php } else if ($level == "manager marketing") { ?>
@@ -474,8 +483,8 @@ if ($level == "Administrator") {
         <i class="fa fa-file-o mr-2"></i>Ledger / Mutasi Bank
       </a>
       <a href="<?php echo base_url(); ?>angkutan/angkutan" class="list-group-item list-group-item-action">
-          <i class="fa fa-book mr-2"></i>Laporan Angkutan
-        </a>
+        <i class="fa fa-book mr-2"></i>Laporan Angkutan
+      </a>
     </div>
   </div>
 

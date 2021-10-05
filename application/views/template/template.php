@@ -173,7 +173,7 @@
 <body class="antialiased">
 
   <div class="page">
-    <header class="navbar navbar-expand-md navbar-dark navbar-fixed-top"  style="zoom:93%">
+    <header class="navbar navbar-expand-md navbar-dark navbar-fixed-top" style="zoom:93%">
       <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-expanded="false" aria-controls="navbar-menu">
           <span class="navbar-toggler-icon"></span>
@@ -309,19 +309,23 @@
               ?>
               <?php
               $level = $this->session->userdata('level_user');
+              $id_user = $this->session->userdata('id_user');
               if ($level != "Administrator" && $level != "manager accounting") {
+                if ($id_user != 26 and  $id_user != 46) {
               ?>
-                <li class="nav-item">
-                  <a class="nav-link" href="<?php echo base_url(); ?>maintenance/view_maintenance">
-                    <span class="nav-link-icon d-md-none d-lg-inline-block mr-3">
-                      <i class="fa fa-gears icon"></i>
-                    </span>
-                    <span class="nav-link-title">
-                      Pengajuan Portal
-                    </span>
-                  </a>
-                </li>
-              <?php } ?>
+                  <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url(); ?>maintenance/view_maintenance">
+                      <span class="nav-link-icon d-md-none d-lg-inline-block mr-3">
+                        <i class="fa fa-gears icon"></i>
+                      </span>
+                      <span class="nav-link-title">
+                        Pengajuan Portal
+                      </span>
+                    </a>
+                  </li>
+              <?php
+                }
+              } ?>
             </ul>
 
           </div>

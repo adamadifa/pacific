@@ -51,7 +51,7 @@ class Dashboard extends CI_Controller
       // $data['cabang']          = $this->Model_cabang->view_cabang()->result();
       $data['cb']              = $this->session->userdata('cabang');
       $this->template->load('template/template', 'dashboard/dashboard_admingudang', $data);
-    }  elseif ($level_user == "admin gudang") {
+    } elseif ($level_user == "admin gudang") {
       $data['jmlPelanggan']    = $this->Model_dashboard->jumlahPelanggan()->row_array();
       $data['jmlSales']        = $this->Model_dashboard->jumlahSales()->row_array();
       $data['jmlBrg']          = $this->Model_dashboard->jumlahBarang()->row_array();
@@ -59,7 +59,7 @@ class Dashboard extends CI_Controller
       $data['cabang']          = $this->Model_cabang->view_cabang()->result();
       $data['cb']              = $this->session->userdata('cabang');
       $this->template->load('template/template', 'dashboard/dashboard_admingudang.php', $data);
-    }  elseif ($username == "ardi") {
+    } elseif ($username == "ardi") {
       // $data['jmlPelanggan']    = $this->Model_dashboard->jumlahPelanggan()->row_array();
       // $data['jmlSales']        = $this->Model_dashboard->jumlahSales()->row_array();
       // $data['jmlBrg']          = $this->Model_dashboard->jumlahBarang()->row_array();
