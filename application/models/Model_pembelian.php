@@ -1225,82 +1225,221 @@ class Model_pembelian extends CI_Model
   }
   public function getDataPembelian($rowno, $rowperpage, $nobukti = "", $tgl_pembelian = "", $departemen = "", $ppn = "", $ln = "", $supplier = "", $tunaikredit = "")
   {
-
-    $this->db->select('nobukti_pembelian,tgl_pembelian,tgl_jatuhtempo,ppn,no_fak_pajak,pembelian.kode_supplier,nama_supplier,pembelian.kode_dept,nama_dept,jenistransaksi,ref_tunai,
-    (SELECT SUM( IF ( STATUS = "PMB", ((qty*harga)+penyesuaian), 0 ) ) - SUM( IF ( STATUS = "PNJ",(qty*harga), 0 ) ) FROM detail_pembelian dp WHERE dp.nobukti_pembelian = pembelian.nobukti_pembelian  ) as harga,
-    (SELECT COUNT(nobukti_pembelian) FROM detail_kontrabon k WHERE k.nobukti_pembelian = pembelian.nobukti_pembelian) as kontrabon,
-    (SELECT (SUM(IF(status_dk="K" AND kode_akun="2-1200" OR status_dk="K" AND kode_akun="2-1300" ,(qty*harga),0))-SUM(IF(status_dk="D" AND kode_akun="2-1200" OR status_dk="D" AND kode_akun="2-1300" ,(qty*harga),0))) FROM jurnal_koreksi j WHERE j.nobukti_pembelian = pembelian.nobukti_pembelian GROUP BY j.nobukti_pembelian) as penyesuaian,
-    (SELECT SUM(jmlbayar) FROM historibayar_pembelian hb
-    INNER JOIN detail_kontrabon on hb.no_kontrabon = detail_kontrabon.no_kontrabon
-    WHERE nobukti_pembelian = pembelian.nobukti_pembelian
-    GROUP BY nobukti_pembelian) as jmlbayar');
-    $this->db->from('pembelian');
-    $this->db->join('departemen', 'pembelian.kode_dept = departemen.kode_dept');
-    $this->db->join('supplier', 'pembelian.kode_supplier = supplier.kode_supplier');
-    $this->db->order_by('tgl_pembelian,nobukti_pembelian', 'DESC');
+    $wherenobukti = "";
+    $wheretanggal = "";
+    $wheredept = "";
+    $whereppn = "";
+    $wheretunaikredit = "";
+    $wheresupplier = "";
     if ($nobukti != '') {
-      $this->db->where('nobukti_pembelian', $nobukti);
-    }
-    if ($tgl_pembelian != '') {
-      $this->db->where('tgl_pembelian', $tgl_pembelian);
-    }
-    if ($departemen != '') {
-      $this->db->where('pembelian.kode_dept', $departemen);
-    }
-    if ($ppn != '') {
-      $this->db->where('pembelian.ppn', $ppn);
+      $wherenobukti = "AND pembelian.nobukti_pembelian = '$nobukti'";
     }
 
-    if ($supplier != '') {
-      $this->db->where('pembelian.kode_supplier', $supplier);
+    if ($tgl_pembelian != '') {
+      $wheretanggal = "AND tgl_pembelian = '$tgl_pembelian'";
+    }
+
+    if ($departemen != '') {
+      $wheredept = "AND pembelian.kode_dept = '$departemen'";
+    }
+
+    if ($ppn != '') {
+      $whereppn = "AND pembelian.ppn = '$ppn'";
     }
 
     if ($tunaikredit != '') {
-      $this->db->where('pembelian.jenistransaksi', $tunaikredit);
+      $wheretunaikredit = "AND pembelian.jenistransaksi = '$tunaikredit'";
     }
-    // if($ln !="")
-    // {
-    //   $this->db->where('ROUND(harga*qty)=jmlbayar');
+
+    if ($supplier != '') {
+      $wheresupplier = "AND pembelian.kode_supplier = '$supplier'";
+    }
+
+    $q = 'SELECT pembelian.nobukti_pembelian,
+      tgl_pembelian,
+      tgl_jatuhtempo,
+      ppn,
+      no_fak_pajak,
+      pembelian.kode_supplier,
+      nama_supplier,
+      pembelian.kode_dept,
+      nama_dept,
+      jenistransaksi,
+      ref_tunai,
+      harga,
+      kontrabon,
+      penyesuaian,
+      jmlbayar
+    FROM pembelian
+      INNER JOIN departemen ON pembelian.kode_dept = departemen.kode_dept
+      INNER JOIN supplier ON pembelian.kode_supplier = supplier.kode_supplier 
+      LEFT JOIN (
+      SELECT nobukti_pembelian, SUM( IF ( STATUS = "PMB", ( ( qty * harga ) + penyesuaian ), 0 ) ) - SUM( IF ( STATUS = "PNJ", ( qty * harga ), 0 ) ) as harga
+      FROM detail_pembelian
+      GROUP BY nobukti_pembelian
+      ) dp ON (dp.nobukti_pembelian = pembelian.nobukti_pembelian)
+      LEFT JOIN (
+        SELECT nobukti_pembelian, COUNT( nobukti_pembelian ) as kontrabon
+        FROM detail_kontrabon
+        GROUP BY nobukti_pembelian
+      ) kb ON (kb.nobukti_pembelian = pembelian.nobukti_pembelian)
+      LEFT JOIN (
+        SELECT
+        nobukti_pembelian,
+        (SUM(IF( status_dk = "K" AND kode_akun = "2-1200" OR status_dk = "K" AND kode_akun = "2-1300", (qty * harga), 0)) 
+        - SUM(IF( status_dk = "D" AND kode_akun = "2-1200" OR status_dk = "D" AND kode_akun = "2-1300", (qty * harga), 0)) 
+        ) as penyesuaian
+        FROM
+        jurnal_koreksi
+        GROUP BY nobukti_pembelian
+      ) jk ON (jk.nobukti_pembelian = pembelian.nobukti_pembelian)
+      
+      LEFT JOIN (
+        SELECT
+          nobukti_pembelian,
+          SUM(jmlbayar) as jmlbayar
+        FROM
+          historibayar_pembelian hb
+        INNER JOIN detail_kontrabon ON hb.no_kontrabon = detail_kontrabon.no_kontrabon 
+        GROUP BY
+          nobukti_pembelian 
+      ) b ON (b.nobukti_pembelian = pembelian.nobukti_pembelian)
+    WHERE 1=1 ' . $wherenobukti . $wheretanggal . $wheredept . $whereppn . $wheretunaikredit . $wheresupplier . '
+    ORDER BY
+      tgl_pembelian DESC,
+      nobukti_pembelian DESC
+    
+    LIMIT ' . $rowno . ',' . $rowperpage;
+
+    // $this->db->select('nobukti_pembeliand,tgl_pembelian,tgl_jatuhtempo,ppn,no_fak_pajak,pembelian.kode_supplier,nama_supplier,pembelian.kode_dept,nama_dept,jenistransaksi,ref_tunai,
+    // (SELECT SUM( IF ( STATUS = "PMB", ((qty*harga)+penyesuaian), 0 ) ) - SUM( IF ( STATUS = "PNJ",(qty*harga), 0 ) ) FROM detail_pembelian dp WHERE dp.nobukti_pembelian = pembelian.nobukti_pembelian  ) as harga,
+    // (SELECT COUNT(nobukti_pembelian) FROM detail_kontrabon k WHERE k.nobukti_pembelian = pembelian.nobukti_pembelian) as kontrabon,
+    // (SELECT (SUM(IF(status_dk="K" AND kode_akun="2-1200" OR status_dk="K" AND kode_akun="2-1300" ,(qty*harga),0))-SUM(IF(status_dk="D" AND kode_akun="2-1200" OR status_dk="D" AND kode_akun="2-1300" ,(qty*harga),0))) FROM jurnal_koreksi j WHERE j.nobukti_pembelian = pembelian.nobukti_pembelian GROUP BY j.nobukti_pembelian) as penyesuaian,
+    // (SELECT SUM(jmlbayar) FROM historibayar_pembelian hb
+    // INNER JOIN detail_kontrabon on hb.no_kontrabon = detail_kontrabon.no_kontrabon
+    // WHERE nobukti_pembelian = pembelian.nobukti_pembelian
+    // GROUP BY nobukti_pembelian) as jmlbayar');
+    // $this->db->from('pembelian');
+    // $this->db->join('departemen', 'pembelian.kode_dept = departemen.kode_dept');
+    // $this->db->join('supplier', 'pembelian.kode_supplier = supplier.kode_supplier');
+    // $this->db->order_by('tgl_pembelian,nobukti_pembelian', 'DESC');
+    // if ($nobukti != '') {
+    //   $this->db->where('nobukti_pembelian', $nobukti);
     // }
-    $this->db->limit($rowperpage, $rowno);
-    $query = $this->db->get();
+    // if ($tgl_pembelian != '') {
+    //   $this->db->where('tgl_pembelian', $tgl_pembelian);
+    // }
+    // if ($departemen != '') {
+    //   $this->db->where('pembelian.kode_dept', $departemen);
+    // }
+    // if ($ppn != '') {
+    //   $this->db->where('pembelian.ppn', $ppn);
+    // }
+
+    // if ($supplier != '') {
+    //   $this->db->where('pembelian.kode_supplier', $supplier);
+    // }
+
+    // if ($tunaikredit != '') {
+    //   $this->db->where('pembelian.jenistransaksi', $tunaikredit);
+    // }
+    // // if($ln !="")
+    // // {
+    // //   $this->db->where('ROUND(harga*qty)=jmlbayar');
+    // // }
+    // $this->db->limit($rowperpage, $rowno);
+    // $query = $this->db->get();
+    $query = $this->db->query($q);
     return $query->result_array();
   }
 
   // Select total records
   public function getrecordPembelianCount($nobukti = "", $tgl_pembelian = "", $departemen = "", $ppn = "", $ln = "", $supplier = "", $tunaikredit = "")
   {
-
-    $this->db->select('count(*) as allcount');
-    $this->db->from('pembelian');
-    $this->db->join('departemen', 'pembelian.kode_dept = departemen.kode_dept');
-    $this->db->join('supplier', 'pembelian.kode_supplier = supplier.kode_supplier');
-    $this->db->order_by('tgl_pembelian', 'desc');
+    $wherenobukti = "";
+    $wheretanggal = "";
+    $wheredept = "";
+    $whereppn = "";
+    $wheretunaikredit = "";
+    $wheresupplier = "";
     if ($nobukti != '') {
-      $this->db->where('nobukti_pembelian', $nobukti);
+      $wherenobukti = "AND pembelian.nobukti_pembelian = '$nobukti'";
     }
+
     if ($tgl_pembelian != '') {
-      $this->db->where('tgl_pembelian', $tgl_pembelian);
+      $wheretanggal = "AND tgl_pembelian = '$tgl_pembelian'";
     }
 
     if ($departemen != '') {
-      $this->db->where('pembelian.kode_dept', $departemen);
+      $wheredept = "AND pembelian.kode_dept = '$departemen'";
     }
 
     if ($ppn != '') {
-      $this->db->where('pembelian.ppn', $ppn);
-    }
-
-    if ($supplier != '') {
-      $this->db->where('pembelian.kode_supplier', $supplier);
+      $whereppn = "AND pembelian.ppn = '$ppn'";
     }
 
     if ($tunaikredit != '') {
-      $this->db->where('pembelian.jenistransaksi', $tunaikredit);
+      $wheretunaikredit = "AND pembelian.jenistransaksi = '$tunaikredit'";
     }
-    $query  = $this->db->get();
-    $result = $query->result_array();
-    return $result[0]['allcount'];
+
+    if ($supplier != '') {
+      $wheresupplier = "AND pembelian.kode_supplier = '$supplier'";
+    }
+    $q = 'SELECT pembelian.nobukti_pembelian,
+          tgl_pembelian,
+          tgl_jatuhtempo,
+          ppn,
+          no_fak_pajak,
+          pembelian.kode_supplier,
+          nama_supplier,
+          pembelian.kode_dept,
+          nama_dept,
+          jenistransaksi,
+          ref_tunai,
+          harga,
+          kontrabon,
+          penyesuaian,
+          jmlbayar
+        FROM pembelian
+          INNER JOIN departemen ON pembelian.kode_dept = departemen.kode_dept
+          INNER JOIN supplier ON pembelian.kode_supplier = supplier.kode_supplier 
+          LEFT JOIN (
+          SELECT nobukti_pembelian, SUM( IF ( STATUS = "PMB", ( ( qty * harga ) + penyesuaian ), 0 ) ) - SUM( IF ( STATUS = "PNJ", ( qty * harga ), 0 ) ) as harga
+          FROM detail_pembelian
+          GROUP BY nobukti_pembelian
+          ) dp ON (dp.nobukti_pembelian = pembelian.nobukti_pembelian)
+          LEFT JOIN (
+            SELECT nobukti_pembelian, COUNT( nobukti_pembelian ) as kontrabon
+            FROM detail_kontrabon
+            GROUP BY nobukti_pembelian
+          ) kb ON (kb.nobukti_pembelian = pembelian.nobukti_pembelian)
+          LEFT JOIN (
+            SELECT
+            nobukti_pembelian,
+            (SUM(IF( status_dk = "K" AND kode_akun = "2-1200" OR status_dk = "K" AND kode_akun = "2-1300", (qty * harga), 0)) 
+            - SUM(IF( status_dk = "D" AND kode_akun = "2-1200" OR status_dk = "D" AND kode_akun = "2-1300", (qty * harga), 0)) 
+            ) as penyesuaian
+            FROM
+            jurnal_koreksi
+            GROUP BY nobukti_pembelian
+          ) jk ON (jk.nobukti_pembelian = pembelian.nobukti_pembelian)
+          
+          LEFT JOIN (
+            SELECT
+              nobukti_pembelian,
+              SUM(jmlbayar) as jmlbayar
+            FROM
+              historibayar_pembelian hb
+            INNER JOIN detail_kontrabon ON hb.no_kontrabon = detail_kontrabon.no_kontrabon 
+            GROUP BY
+              nobukti_pembelian 
+          ) b ON (b.nobukti_pembelian = pembelian.nobukti_pembelian)
+          WHERE 1=1 ' . $wherenobukti . $wheretanggal . $wheredept . $whereppn . $wheretunaikredit . $wheresupplier . '
+        ORDER BY
+          tgl_pembelian DESC,
+          nobukti_pembelian DESC';
+    $result = $this->db->query($q);
+    return $result->num_rows();
   }
 
   function hapuspembelian($nobukti, $ref_tunai = "")
@@ -2272,7 +2411,7 @@ WHERE tgl_pembelian BETWEEN '$dari' AND '$sampai'"
 
     $simpan = $this->db->insert('detail_pembelian', $data);
     if ($simpan) {
-      if ($jenistransaksi == 'TUNAI') {
+      if ($jenistransaksi == 'tunai') {
         $pmb = $this->db->get_where('pembelian', array('nobukti_pembelian' => $nobukti))->row_array();
         $nokontrabon = $pmb['ref_tunai'];
         $detailpmb = $this->db->query("SELECT (SUM( IF ( STATUS = 'PMB', ((qty*harga)+penyesuaian), 0 ) ) - SUM( IF ( STATUS = 'PNJ',(qty*harga), 0 ) )) as totalpembelian FROM detail_pembelian WHERE nobukti_pembelian = '$nobukti'")->row_array();

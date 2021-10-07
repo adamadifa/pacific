@@ -118,7 +118,7 @@
       var harga = $("#hargapenj").val();
       var akunpenj = $("#akunpenj").val();
       var jenistransaksi = $("#jenistransaksi").val();
-      // alert(keterangan);
+      //alert(jenistransaksi);
       if (keterangan == "") {
         swal("Oops!", "Keterangan Harus Diisi !", "warning");
       } else if (qty == "") {
