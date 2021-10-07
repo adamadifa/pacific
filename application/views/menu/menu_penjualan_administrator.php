@@ -182,11 +182,11 @@ if ($level == "Administrator") {
           <i class="fa fa-truck mr-2"></i>Data Penjualan & Surat Jalan
         </a>
       <?php } ?>
-      <?php if ($id_user != 26) { ?>
+      
         <a href="<?php echo base_url(); ?>pembayaran" class="list-group-item list-group-item-action">
           <i class="fa fa-balance-scale mr-2"></i>Histori Penjualan Pelanggan
         </a>
-      <?php } ?>
+      
       <?php if ($id_user != 234) { ?>
         <a href="<?php echo base_url(); ?>penjualan/penjualanpend" class="list-group-item list-group-item-action">
           <i class="fa fa-history mr-2"></i>Penjualan Pending

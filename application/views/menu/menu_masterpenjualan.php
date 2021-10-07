@@ -9,7 +9,11 @@
     <?php if ($this->session->userdata('level_user') == 'Administrator' || $this->session->userdata('level_user') == 'manager accounting') { ?>
       <a href="<?php echo base_url(); ?>users/view_users" class="list-group-item list-group-item-action">Data Users</a>
     <?php } ?>
+	<?php 
+	 if ($this->session->userdata('id_user') != "26") {
+	?>
     <a href="<?php echo base_url(); ?>kendaraan" class="list-group-item list-group-item-action">Data Kendaraan</a>
+	 <?php } ?>
     <?php
     if ($this->session->userdata('level_user') == "Administrator") {
     ?>
