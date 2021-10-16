@@ -35,11 +35,13 @@ class Laporankaskecil extends CI_Controller
     $cabang             = $this->input->post('cabang');
     $dari               = $this->input->post('dari');
     $sampai             = $this->input->post('sampai');
+    $kodeakun1          = $this->input->post('kodeakun1');
+    $kodeakun2          = $this->input->post('kodeakun2');
     $data['dari']        = $dari;
     $data['sampai']      = $sampai;
     $data['saldoawal']  = $this->Model_kaskecil->getSaldoAwal($dari, $sampai, $cabang)->row_array();
-    $data['kaskecil']   = $this->Model_laporankaskecil->kaskecil($cabang, $dari, $sampai)->result();
-    $data['rekap']      = $this->Model_laporankaskecil->rekapkaskecil($cabang, $dari, $sampai)->result();
+    $data['kaskecil']   = $this->Model_laporankaskecil->kaskecil($cabang, $dari, $sampai,$kodeakun1,$kodeakun2)->result();
+    $data['rekap']      = $this->Model_laporankaskecil->rekapkaskecil($cabang, $dari, $sampai,$kodeakun1,$kodeakun2)->result();
     $data['cb']          = $this->Model_cabang->get_cabang($cabang)->row_array();
     if (isset($_POST['export'])) {
       // Fungsi header dengan mengirimkan raw data excel

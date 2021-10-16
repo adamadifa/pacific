@@ -2,7 +2,11 @@
 
 class Model_laporankaskecil extends CI_Model{
 
-  function kaskecil($cabang,$dari,$sampai){
+  function kaskecil($cabang,$dari,$sampai,$kodeakun1="",$kodeakun2=""){
+    if ($kodeakun1 != '' AND $kodeakun2 !="") {
+      $this->db->where('kaskecil_detail.kode_akun >=', $kodeakun1);
+      $this->db->where('kaskecil_detail.kode_akun <=', $kodeakun2);
+    }
     $this->db->where('kode_cabang',$cabang);
     $this->db->where('tgl_kaskecil >=',$dari);
     $this->db->where('tgl_kaskecil <=',$sampai);
@@ -19,7 +23,12 @@ class Model_laporankaskecil extends CI_Model{
     return $this->db->get('mutasibank');
   }
 
-  function rekapkaskecil($cabang,$dari,$sampai){
+  function rekapkaskecil($cabang,$dari,$sampai,$kodeakun1,$kodeakun2){
+    if ($kodeakun1 != '' AND $kodeakun2 !="") {
+     $whereakun = "AND k.kode_akun BETWEEN '$kodeakun1' AND '$kodeakun2'";
+    }else{
+      $whereakun="";
+    }
     $query = "SELECT k.kode_akun,nama_akun,penerimaan,pengeluaran,kode_cabang
       FROM set_coa_cabang
       INNER JOIN coa ON set_coa_cabang.kode_akun = coa.kode_akun
@@ -30,7 +39,7 @@ class Model_laporankaskecil extends CI_Model{
         FROM kaskecil_detail WHERE tgl_kaskecil BETWEEN '$dari' AND '$sampai'
         GROUP BY kaskecil_detail.kode_akun
       ) k ON set_coa_cabang.kode_akun = k.kode_akun
-    WHERE kode_cabang ='$cabang'
+    WHERE kode_cabang ='$cabang'".$whereakun."
     GROUP BY set_coa_cabang.kode_akun,nama_akun,penerimaan,pengeluaran,kode_cabang";
     return $this->db->query($query);
   }

@@ -870,7 +870,7 @@ AND `kode_produk` = 'SP8' AND kode_cabang='$r->kode_cabang'")->row_array();
       $sar = ($ar['jumlah'] / 240) + ($msjar['jumlah'] / 240) - $dpbambilar['jumlah'] + $dpbambilar['jumlah_kembali'];
       $sas = ($as['jumlah'] / 36) + ($msjas['jumlah'] / 36) - $dpbambilas['jumlah'] + $dpbambilas['jumlah_kembali'];
       $sbb = ($bb['jumlah'] / 20) + ($msjbb['jumlah'] / 20) - $dpbambilbb['jumlah'] + $dpbambilbb['jumlah_kembali'];
-      $sbbp = ($bbp['jumlah'] / 20) + ($msjbbp['jumlah'] / 20) - $dpbambilbbp['jumlah'] + $dpbambilbbp['jumlah_kembali'];
+      $sbbp = ($bbp['jumlah'] / 21) + ($msjbbp['jumlah'] / 21) - $dpbambilbbp['jumlah'] + $dpbambilbbp['jumlah_kembali'];
       // $scg  = ($cg['jumlah'] / 10) + ($msjcg['jumlah'] / 10) - $dpbambilcg['jumlah'] + $dpbambilcg['jumlah_kembali'];
       // $scg5  = ($cg5['jumlah'] / 10) + ($msjcg5['jumlah'] / 10) - $dpbambilcg5['jumlah'] + $dpbambilcg5['jumlah_kembali'];
       // $scgg = ($cgg['jumlah'] / 10) + ($msjcgg['jumlah'] / 10) - $dpbambilcgg['jumlah'] + $dpbambilcgg['jumlah_kembali'];

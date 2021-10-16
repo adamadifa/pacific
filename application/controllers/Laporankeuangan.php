@@ -40,18 +40,21 @@ class Laporankeuangan extends CI_Controller
     $dari             = $this->input->post('dari');
     $sampai           = $this->input->post('sampai');
     $jl               = $this->input->post('jenislaporan');
-    $kodeakun         = $this->input->post('kodeakun');
+    $kodeakun1         = $this->input->post('kodeakun1');
+    $kodeakun2         = $this->input->post('kodeakun2');
     $data['dari']     = $dari;
     $data['sampai']   = $sampai;
-    $data['kodeakun'] = $kodeakun;
-    $data['akun']     = $this->db->get_where('coa', array('kode_akun' => $kodeakun))->row_array();
+    $data['kodeakun'] = $kodeakun1;
+    $data['kodeakun2'] = $kodeakun2;
+    $data['akun']     = $this->db->get_where('coa', array('kode_akun' => $kodeakun1))->row_array();
+    $data['akun2']     = $this->db->get_where('coa', array('kode_akun' => $kodeakun2))->row_array();
     $data['saldo']    = $this->Model_keuangan->getSaldoAwalledger($bank, $dari)->row_array();
     $data['bank']     = $this->Model_keuangan->getWhereBankLedger($bank)->row_array();
     if ($jl == 'detail') {
-      $data['ledger'] = $this->Model_keuangan->ledger($bank, $dari, $sampai, $kodeakun)->result();
+      $data['ledger'] = $this->Model_keuangan->ledger($bank, $dari, $sampai, $kodeakun1,$kodeakun2)->result();
       $this->load->view('laporankeuangan/cetak_ledger', $data);
     } else if ($jl == 'rekap') {
-      $data['rekap'] = $this->Model_keuangan->rekapledger($bank, $dari, $sampai, $kodeakun)->result();
+      $data['rekap'] = $this->Model_keuangan->rekapledger($bank, $dari, $sampai, $kodeakun1,$kodeakun2)->result();
       $this->load->view('laporankeuangan/cetak_rekapledger', $data);
     }
   }
@@ -61,7 +64,7 @@ class Laporankeuangan extends CI_Controller
     $coa  = $this->Model_pembelian->getCOA()->result();
     echo "<option value='' selected>Kode Akun</option>";
     foreach ($coa as $s) {
-      echo "<option value='$s->kode_akun'>$s->nama_akun</option>";
+      echo "<option value='$s->kode_akun'>$s->kode_akun $s->nama_akun</option>";
     }
   }
 }

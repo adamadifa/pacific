@@ -47,15 +47,19 @@ class Model_keuangan extends CI_Model
     $this->db->delete('ledger_temp', array('id' => $id));
   }
 
-  function ledger($bank = "", $dari, $sampai, $kodeakun = "")
+  function ledger($bank = "", $dari, $sampai, $kodeakun1 = "",$kodeakun2="")
   {
     if ($bank != '') {
       $this->db->where('bank', $bank);
     }
-    if ($kodeakun != '') {
-      $this->db->where('ledger_bank.kode_akun', $kodeakun);
+    
+	
+	  if ($kodeakun1 != '' AND $kodeakun2 !="") {
+      $this->db->where('ledger_bank.kode_akun >=', $kodeakun1);
+      $this->db->where('ledger_bank.kode_akun <=', $kodeakun2);
     }
-
+	
+	
     $this->db->where('tgl_ledger >=', $dari);
     $this->db->where('tgl_ledger <=', $sampai);
     $this->db->join('coa', 'ledger_bank.kode_akun = coa.kode_akun', 'left');
@@ -380,13 +384,14 @@ class Model_keuangan extends CI_Model
     }
   }
 
-  function rekapledger($bank, $dari, $sampai, $kodeakun)
+  function rekapledger($bank, $dari, $sampai, $kodeakun1,$kodeakun2)
   {
     if ($bank != '') {
       $this->db->where('bank', $bank);
     }
-    if ($kodeakun != '') {
-      $this->db->where('ledger_bank.kode_akun', $kodeakun);
+    if ($kodeakun1 != '' AND $kodeakun2 !="") {
+      $this->db->where('ledger_bank.kode_akun >=', $kodeakun1);
+      $this->db->where('ledger_bank.kode_akun <=', $kodeakun2);
     }
     $this->db->where('tgl_ledger >=', $dari);
     $this->db->where('tgl_ledger <=', $sampai);

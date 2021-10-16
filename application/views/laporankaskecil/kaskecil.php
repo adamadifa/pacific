@@ -33,7 +33,18 @@
                   <?php } else { ?>
                     <input type="hidden" name="cabang" id="cabang" value="<?php echo $cb; ?>">
                   <?php } ?>
-
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <select name="kodeakun1" id="kodeakun1" class="form-select">
+                        <option value="">Kode Akun</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6">
+                      <select name="kodeakun2" id="kodeakun2" class="form-select">
+                        <option value="">Kode Akun</option>
+                      </select>
+                    </div>
+                  </div>
                   <div class="mb-3 form-group">
                     <div class="row">
                       <div class="col-md-6">
@@ -103,6 +114,23 @@
 </script>
 <script>
   $(function() {
+
+    function loadkodeakun() {
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>laporankeuangan/get_coa',
+        cache: false,
+        success: function(respond) {
+          $('#kodeakun1').selectize()[0].selectize.destroy();
+          $('#kodeakun2').selectize()[0].selectize.destroy();
+          $("#kodeakun1").html(respond);
+          $("#kodeakun2").html(respond);
+          $('#kodeakun1').selectize({});
+          $('#kodeakun2').selectize({});
+        }
+      });
+    }
+    loadkodeakun();
     $('#pelanggan').selectize({});
 
     $('.formValidate').bootstrapValidator({

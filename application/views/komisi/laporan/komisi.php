@@ -64,12 +64,7 @@
                       ?>
                     </select>
                   </div>
-                  <div class="form-group mb-3">
-                    <select name="aturankomisi" id="aturankomisi" class="form-select">
-                      <option value="1">Komisi 1</option>
-                      <option value="2">Komisi 2</option>
-                    </select>
-                  </div>
+                  <input type="hidden" name="aturankomisi" value="2">
                   <div class="form-group">
                     <div class="row">
                       <div class="col-md-6">

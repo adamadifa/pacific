@@ -38,9 +38,18 @@
 
                   </div>
                   <div class="mb-3">
-                    <select name="kodeakun" id="kodeakun" class="form-select">
-                      <option value="">Kode Akun</option>
-                    </select>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <select name="kodeakun1" id="kodeakun1" class="form-select">
+                          <option value="">Kode Akun</option>
+                        </select>
+                      </div>
+                      <div class="col-md-6">
+                        <select name="kodeakun2" id="kodeakun2" class="form-select">
+                          <option value="">Kode Akun</option>
+                        </select>
+                      </div>
+                    </div>
                   </div>
                   <div class="mb-3 form-group">
                     <div class="row">
@@ -119,9 +128,12 @@
         url: '<?php echo base_url(); ?>laporankeuangan/get_coa',
         cache: false,
         success: function(respond) {
-          $('#kodeakun').selectize()[0].selectize.destroy();
-          $("#kodeakun").html(respond);
-          $('#kodeakun').selectize({});
+          $('#kodeakun1').selectize()[0].selectize.destroy();
+          $('#kodeakun2').selectize()[0].selectize.destroy();
+          $("#kodeakun1").html(respond);
+          $("#kodeakun2").html(respond);
+          $('#kodeakun1').selectize({});
+          $('#kodeakun2').selectize({});
         }
       });
     }
