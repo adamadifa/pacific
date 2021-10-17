@@ -431,8 +431,10 @@ class Model_komisi extends CI_Model
     DEP,
     target_DS,
     DS,
+    SP8,
     target_SP,
     SP,
+    SC,
     target_AR,
     AR,
     target_AB_AS_CG5,
@@ -580,7 +582,9 @@ class Model_komisi extends CI_Model
         SUM(IF(kode_produk = 'SP' AND promo !='1',jumlah,0)) as SP,
         SUM(IF(kode_produk = 'BBP' AND promo !='1',jumlah,0)) as BBP,
         SUM(IF(kode_produk = 'SPP' AND promo !='1',jumlah,0)) as SPP,
-        SUM(IF(kode_produk = 'CG5' AND promo !='1',jumlah,0)) as CG5
+        SUM(IF(kode_produk = 'CG5' AND promo !='1',jumlah,0)) as CG5,
+        SUM(IF(kode_produk = 'SP8' AND promo !='1',jumlah,0)) as SP8,
+        SUM(IF(kode_produk = 'SC' AND promo !='1',jumlah,0)) as SC
         FROM detailpenjualan
         INNER JOIN penjualan ON detailpenjualan.no_fak_penj = penjualan.no_fak_penj
         INNER JOIN barang ON detailpenjualan.kode_barang = barang.kode_barang

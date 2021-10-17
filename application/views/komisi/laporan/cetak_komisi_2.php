@@ -122,6 +122,14 @@ function formatnumber($nilai)
       if ($b->kode_produk == "CG5") {
         $isipcsdusCG5 = $b->isipcsdus;
       }
+
+      if ($b->kode_produk == "SC") {
+        $isipcsdusSC = $b->isipcsdus;
+      }
+
+      if ($b->kode_produk == "SP8") {
+        $isipcsdusSP8 = $b->isipcsdus;
+      }
     }
 
     $no = 1;
@@ -148,7 +156,8 @@ function formatnumber($nilai)
       }
 
       $DS = $d->DS / $isipcsdusDS;
-      $realisasi_DS = $DS;
+      $SP8 = $d->SP8 / $isipcsdusSP8;
+      $realisasi_DS = $DS + $SP8;
       if (empty($d->target_DS)) {
         $ratioDS = 0;
       } else {
@@ -162,7 +171,8 @@ function formatnumber($nilai)
       }
 
       $SP = $d->SP / $isipcsdusSP;
-      $realisasi_SP = $SP;
+      $SC = $d->SC / $isipcsdusSC;
+      $realisasi_SP = $SP + $SC;
       if (empty($d->target_SP)) {
         $ratioSP = 0;
       } else {
