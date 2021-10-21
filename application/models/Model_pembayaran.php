@@ -1569,14 +1569,9 @@ class Model_pembayaran extends CI_Model
     penjualan.jenistransaksi,
     cabangbarunew as kode_cabang,
     salesbarunew,
+	status_lunas,
     nama_sales as nama_karyawan,
-    ifnull( penjualan.total, 0 ) AS total,
-    ifnull( view_retur.totalgb, 0 ) AS totalgb,
-    ifnull( view_retur.totalpf, 0 ) AS totalpf,
-    (ifnull( view_retur.totalpf, 0 ) - ifnull( view_retur.totalgb, 0 )) AS totalretur,
-    (ifnull( penjualan.total, 0 ) - (ifnull( view_retur.totalpf, 0 ) - ifnull( view_retur.totalgb,0 ))) AS totalpiutang,
-    ifnull( view_historibayar.totalbayar, 0 ) AS totalbayar,
-    ((ifnull( penjualan.total, 0 ) - (ifnull( view_retur.totalpf, 0 ) - ifnull( view_retur.totalgb, 0 ))) - ifnull( view_historibayar.totalbayar, 0 )) AS sisabayar 
+    ifnull( penjualan.total, 0 ) AS total
   FROM
     penjualan
     LEFT JOIN pelanggan ON penjualan.kode_pelanggan = pelanggan.kode_pelanggan
@@ -1595,8 +1590,7 @@ class Model_pembayaran extends CI_Model
           
       ) pjmove ON (penjualan.no_fak_penj = pjmove.no_fak_penj)
       
-    LEFT JOIN view_retur ON penjualan.no_fak_penj = view_retur.no_fak_penj
-    LEFT JOIN view_historibayar ON penjualan.no_fak_penj = view_historibayar.no_fak_penj 
+   
   WHERE
     penjualan.no_fak_penj != ''"
       . $cabang

@@ -356,7 +356,11 @@ tr:nth-child(even) {
           </td>
           <td align="center">
             <?php if (!empty($d->qtypemb1)) {
-              echo uang($hargapemb);
+              if($d->satuan != 'Liter'){
+                echo uang($hargapemb);
+              }else{
+                echo uang($d->totalharga / ($d->qtypemb1+0.01));
+              }
             }else{
               echo "";
             }
@@ -407,7 +411,11 @@ tr:nth-child(even) {
           <td align="center">
             <?php if (!empty($d->qtylainnya1)) {
               if ($d->qtypemb1 != '' OR $d->qtypemb1 != 0 OR !empty($d->qtypemb1) ) {
-                echo uang($hargapemb);
+                if($d->satuan != 'Liter'){
+                  echo uang($hargapemb);
+                }else{
+                  echo uang($d->totalharga / ($d->qtypemb1+0.01));
+                }
               }else{
                 echo uang($hargasa);
               }
@@ -466,7 +474,11 @@ tr:nth-child(even) {
           <td align="center">
             <?php if (!empty($d->qtypengganti1)) {
               if ($d->qtypemb1 != '' OR $d->qtypemb1 != 0 OR !empty($d->qtypemb1) ) {
-                echo uang($hargapemb);
+                if($d->satuan != 'Liter'){
+                  echo uang($hargapemb);
+                }else{
+                  echo uang($d->totalharga / ($d->qtypemb1+0.01));
+                }
               }else{
                 echo uang($hargasa);
               }

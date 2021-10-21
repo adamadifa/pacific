@@ -7,7 +7,9 @@ class Model_laporankaskecil extends CI_Model{
       $this->db->where('kaskecil_detail.kode_akun >=', $kodeakun1);
       $this->db->where('kaskecil_detail.kode_akun <=', $kodeakun2);
     }
+	if($cabang != ""){
     $this->db->where('kode_cabang',$cabang);
+	}
     $this->db->where('tgl_kaskecil >=',$dari);
     $this->db->where('tgl_kaskecil <=',$sampai);
     $this->db->join('coa','kaskecil_detail.kode_akun = coa.kode_akun');

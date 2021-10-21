@@ -1344,7 +1344,7 @@ class Pembayaran extends CI_Controller
 			$users_record = 0;
 		} else {
 			// All records count
-			$allcount     = $this->Model_pembayaran->getDataBayarCount($nofaktur, $namapel, $dari, $sampai)->num_rows();
+			$allcount     = 30;
 			// Get records
 			$users_record = $this->Model_pembayaran->getDataBayar($rowno, $rowperpage, $nofaktur, $namapel, $dari, $sampai)->result_array();
 		}

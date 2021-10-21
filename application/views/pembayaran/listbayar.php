@@ -82,8 +82,7 @@ function uang($nilai)
                   <th>Kode Cabang</th>
                   <th>Jenis Transaksi</th>
                   <th>Total</th>
-                  <th>Jml Bayar</th>
-                  <th>Sisa Bayar</th>
+                 
                   <th>Ket</th>
                   <th>Aksi</th>
                 </tr>
@@ -104,7 +103,7 @@ function uang($nilai)
                 } else {
                   $sno  = $row + 1;
                   foreach ($result as $d) {
-                    if ($d['sisabayar'] == 0) {
+                    if ($d['status_lunas'] == 1) {
                       $color = "bg-green";
                       $ket   = "LUNAS";
                     } else {
@@ -121,8 +120,7 @@ function uang($nilai)
                       <td><?php echo $d['kode_cabang']; ?></td>
                       <td><?php echo strtoupper($d['jenistransaksi']); ?></td>
                       <td align="right"><?php echo uang($d['total']); ?></td>
-                      <td align="right"><?php echo uang($d['totalbayar']); ?></td>
-                      <td align="right"><?php echo uang($d['sisabayar']); ?></td>
+                      
                       <td>
                         <span class="badge <?php echo $color ?>"><?php echo $ket; ?></span></>
                       </td>
