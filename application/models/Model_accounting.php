@@ -443,6 +443,11 @@ class Model_accounting extends CI_Model
   {
 
     $thn = substr($tahun, 2, 2);
+    if ($bulan < 10) {
+      $bulan = "0" . $bulan;
+    } else {
+      $bulan = $bulan;
+    }
     $qbukubesar        = "SELECT no_bukti FROM buku_besar WHERE LEFT(no_bukti,6) = 'GJ$bulan$thn' ORDER BY no_bukti DESC LIMIT 1 ";
     // $datapemb = $this->db->query("SELECT detail_pembelian.kode_akun,coa.nama_akun,kode_dept,tgl_pembelian,detail_pembelian.nobukti_pembelian,qty,harga,status,keterangan,detail_pembelian.kode_barang,nama_barang,ket_penjualan,penyesuaian 
     // FROM detail_pembelian 
@@ -482,7 +487,7 @@ class Model_accounting extends CI_Model
 
       $ceknolast      = $this->db->query($qbukubesar)->row_array();
       $nobuktilast    = $ceknolast['no_bukti'];
-      $nobukti        = buatkode($nobuktilast, 'GJ' . $bulan . $thn, 6);
+      $nobukti        = buatkode($nobuktilast, 'GJ' . $bulan . $thn, 4);
       //var_dump($ceknolast);
       // /die;
       if ($d->status_dk == "D") {
@@ -526,7 +531,7 @@ class Model_accounting extends CI_Model
     foreach ($dataledger as $d) {
       $ceknolast      = $this->db->query($qbukubesar)->row_array();
       $nobuktilast    = $ceknolast['no_bukti'];
-      $nobukti        = buatkode($nobuktilast, 'GJ' . $bulan . $thn, 6);
+      $nobukti        = buatkode($nobuktilast, 'GJ' . $bulan . $thn, 4);
       if (in_array($kode_akun, $this->akunbank)) {
         if ($d->status_dk == "D") {
           $kredit = $d->jumlah;
@@ -581,7 +586,7 @@ class Model_accounting extends CI_Model
 
       $ceknolast      = $this->db->query($qbukubesar)->row_array();
       $nobuktilast    = $ceknolast['no_bukti'];
-      $nobukti        = buatkode($nobuktilast, 'GJ' . $bulan . $thn, 6);
+      $nobukti        = buatkode($nobuktilast, 'GJ' . $bulan . $thn, 4);
 
       $datapenjualan = array(
         'no_bukti' => $nobukti,
@@ -739,6 +744,11 @@ class Model_accounting extends CI_Model
   function tambahbukubesar($nobukti, $sumber, $bulan, $tahun, $noref, $kodeakun)
   {
     $thn = substr($tahun, 2, 2);
+    if ($bulan < 10) {
+      $bulan = "0" . $bulan;
+    } else {
+      $bulan = $bulan;
+    }
     $qbukubesar        = "SELECT no_bukti FROM buku_besar WHERE LEFT(no_bukti,6) = 'GJ$bulan$thn' ORDER BY no_bukti DESC LIMIT 1 ";
     $ceknolast      = $this->db->query($qbukubesar)->row_array();
     $nobuktilast    = $ceknolast['no_bukti'];

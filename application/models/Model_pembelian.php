@@ -2305,15 +2305,32 @@ WHERE tgl_pembelian BETWEEN '$dari' AND '$sampai'"
     $data = array(
       'nobukti_pembelian' => NULL
     );
-    $hapus = $this->db->delete('detail_pembelian', array('kode_barang' => $kodebarang, 'nobukti_pembelian' => $nobukti, 'keterangan' => $keterangan));
-    if ($hapus) {
-      $this->db->delete('costratio_biaya', array('kode_cr' => $kodecr));
-      $this->db->update('detail_bpb', $data, array('no_bpb' => $nobukti));
+    $pmb = $this->db->get_where('pembelian', array('nobukti_pembelian' => $nobukti))->row_array();
+    $jenistransaksi = $pmb['jenistransaksi'];
+
+    $this->db->trans_begin();
+
+    $this->db->delete('detail_pembelian', array('kode_barang' => $kodebarang, 'nobukti_pembelian' => $nobukti, 'keterangan' => $keterangan));
+    $this->db->delete('costratio_biaya', array('kode_cr' => $kodecr));
+    $this->db->update('detail_bpb', $data, array('no_bpb' => $nobukti));
+    if ($jenistransaksi == "tunai") {
+      $nokontrabon = $pmb['ref_tunai'];
+      $detailpmb = $this->db->query("SELECT (SUM( IF ( STATUS = 'PMB', ((qty*harga)+penyesuaian), 0 ) ) - SUM( IF ( STATUS = 'PNJ',(qty*harga), 0 ) )) as totalpembelian FROM detail_pembelian WHERE nobukti_pembelian = '$nobukti'")->row_array();
+      $datakontrabon = [
+        'jmlbayar' => $detailpmb['totalpembelian']
+      ];
+      $this->db->update('detail_kontrabon', $datakontrabon, array('no_kontrabon' => $nokontrabon));
+    }
+    if ($this->db->trans_status() === FALSE) {
+      $this->db->trans_rollback();
+    } else {
+      $this->db->trans_commit();
     }
   }
 
   function insertdetailpembelian()
   {
+
 
     $kodebarang   = $this->input->post('kodebarang');
     $harga        = str_replace(".", "", $this->input->post('harga'));
@@ -2324,6 +2341,50 @@ WHERE tgl_pembelian BETWEEN '$dari' AND '$sampai'"
     $nobukti      = $this->input->post('nobukti');
     $penyharga    = str_replace(".", "", $this->input->post('penyharga'));
     $penyharga    = str_replace(",", ".", $penyharga);
+    if (empty($penyharga)) {
+      $penyharga = 0;
+    } else {
+      $penyharga = $penyharga;
+    }
+    $kodecabang   = $this->input->post('cbg');
+
+
+    $pmb = $this->db->get_where('pembelian', array('nobukti_pembelian' => $nobukti))->row_array();
+    $qdpmb = "SELECT no_urut FROM detail_pembelian WHERE nobukti_pembelian = '$nobukti' ORDER BY no_urut DESC LIMIT 1";
+    $dpmb = $this->db->query($qdpmb)->row_array();
+    $no_urut = $dpmb['no_urut'] + 1;
+    $jenistransaksi = $pmb['jenistransaksi'];
+    $tgltransaksi = explode("-", $pmb['tgl_pembelian']);
+    $bulan = $tgltransaksi[1];
+    $tahun = $tgltransaksi[0];
+    if (strlen($bulan) == 1) {
+      $bulan = "0" . $bulan;
+    } else {
+      $bulan = $bulan;
+    }
+    $awal = $tahun . "-" . $bulan . "-01";
+    $akhir = date("Y-m-t", strtotime($awal));
+
+    $thn = substr($tahun, 2, 2);
+    $barang = $this->db->get_where('master_barang_pembelian', array('kode_barang' => $kodebarang))->row_array();
+    $qcr = "SELECT kode_cr FROM costratio_biaya WHERE tgl_transaksi BETWEEN '$awal' AND '$akhir' ORDER BY kode_cr DESC LIMIT 1 ";
+    $ceknolast = $this->db->query($qcr)->row_array();
+    $nobuktilast = $ceknolast['kode_cr'];
+    $kodecr = buatkode($nobuktilast, "CR" . $bulan . $thn, 4);
+
+
+    $totaljumlah = $jumlah * $harga + $penyharga;
+
+    $datacr = [
+      'kode_cr' => $kodecr,
+      'tgl_transaksi' => $pmb['tgl_pembelian'],
+      'kode_akun'    => $kodeakun,
+      'keterangan'   => "Pembelian " . $barang['nama_barang'] . "(" . $jumlah . ")",
+      'kode_cabang'  => $kodecabang,
+      'id_sumber_costratio' => 4,
+      'jumlah' => $totaljumlah
+    ];
+
     $data = array(
       'nobukti_pembelian' => $nobukti,
       'kode_barang'       => $kodebarang,
@@ -2333,8 +2394,29 @@ WHERE tgl_pembelian BETWEEN '$dari' AND '$sampai'"
       'keterangan'        => $keterangan,
       'status'            => 'PMB',
       'kode_akun'         => $kodeakun,
+      'no_urut'           => $no_urut,
+      'kode_cabang'       => $kodecabang,
+      'kode_cr'           => $kodecr
     );
+    $this->db->trans_begin();
+
     $this->db->insert('detail_pembelian', $data);
+    if ($jenistransaksi == "tunai") {
+      $nokontrabon = $pmb['ref_tunai'];
+      $detailpmb = $this->db->query("SELECT (SUM( IF ( STATUS = 'PMB', ((qty*harga)+penyesuaian), 0 ) ) - SUM( IF ( STATUS = 'PNJ',(qty*harga), 0 ) )) as totalpembelian FROM detail_pembelian WHERE nobukti_pembelian = '$nobukti'")->row_array();
+      $datakontrabon = [
+        'jmlbayar' => $detailpmb['totalpembelian']
+      ];
+      $this->db->update('detail_kontrabon', $datakontrabon, array('no_kontrabon' => $nokontrabon));
+    }
+    if (substr($kodeakun, 0, 3) == "6-1" or substr($kodeakun, 0, 3) == "6-2") {
+      $this->db->insert('costratio_biaya', $datacr);
+    }
+    if ($this->db->trans_status() === FALSE) {
+      $this->db->trans_rollback();
+    } else {
+      $this->db->trans_commit();
+    }
     // $cek  = $this->db->get_where('detail_pembelian', array('kode_barang' => $kodebarang, 'nobukti_pembelian' => $nobukti))->num_rows();
     // if (!empty($cek)) {
     //   echo "1";

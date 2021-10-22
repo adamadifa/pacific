@@ -148,22 +148,44 @@
                       </div>
                     </div>
                     <div class="col-md-1">
-                      <div class="form-group">
-                        <div class="input-icon">
-                          <span class="input-icon-addon">
-                            <i class="fa fa-balance-scale"></i>
-                          </span>
-                          <input type="text" style="text-align:right" value="" id="jumlah" name="jumlah" class="form-control" placeholder="Qty" data-error=".errorTxt19" />
+                      <div class="row mb-2">
+                        <div class="form-group">
+                          <div class="input-icon">
+                            <span class="input-icon-addon">
+                              <i class="fa fa-balance-scale"></i>
+                            </span>
+                            <input type="text" style="text-align:right" value="" id="jumlah" name="jumlah" class="form-control" placeholder="Qty" data-error=".errorTxt19" />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label class="form-check form-switch">
+                            <input class="form-check-input cabang" type="checkbox" name="girotocash" value="1">
+                            <span class="form-check-label"><b>Cabang ?</b></span>
+                          </label>
                         </div>
                       </div>
                     </div>
                     <div class="col-md-2">
-                      <div class="form-group">
-                        <div class="input-icon">
-                          <span class="input-icon-addon">
-                            <i class="fa fa-money"></i>
-                          </span>
-                          <input type="text" style="text-align:right" value="" id="harga" name="harga" class="form-control" placeholder="Harga" style="text-align:right" data-error=".errorTxt19" />
+                      <div class="row mb-2">
+                        <div class="form-group">
+                          <div class="input-icon">
+                            <span class="input-icon-addon">
+                              <i class="fa fa-money"></i>
+                            </span>
+                            <input type="text" style="text-align:right" value="" id="harga" name="harga" class="form-control" placeholder="Harga" style="text-align:right" data-error=".errorTxt19" />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group">
+                          <select name="cbg" id="cbg" class="form-select">
+                            <option value="">-- Pilih Cabang --</option>
+                            <?php foreach ($cabang as $c) { ?>
+                              <option value="<?php echo $c->kode_cabang; ?>"><?php echo strtoupper($c->nama_cabang); ?></option>
+                            <?php } ?>
+                          </select>
                         </div>
                       </div>
                     </div>
@@ -493,6 +515,18 @@
     function loadakun() {
       $("#tabelakun").load("<?php echo base_url(); ?>pembelian/tabelakunpembelian");
     }
+    $("#cbg").hide();
+    $('.cabang').change(function() {
+      //alert('test');
+      if (this.checked) {
+        // var returnVal = confirm("Apakah Benar Barang Ini Merupakan Kebutuhan Cabang ?");
+        // $(this).prop("checked", returnVal);
+        $("#cbg").show();
+      } else {
+        $("#cbg").hide();
+      }
+
+    });
 
     function resetBrg() {
       $("#kodebarang").val("");
@@ -520,6 +554,7 @@
       var kodedept = $("#departemen").val();
       var nobukti = $("#nobukti").val();
       var penyharga = $("#penyharga").val();
+      var cabang = $("#cbg").val();
       if (barang == "") {
         swal("Oops!", "Nama Barang Harus Diisi !", "warning");
       } else if (jumlah == "") {
@@ -539,7 +574,8 @@
             harga: harga,
             kodeakun: kodeakun,
             keterangan: keterangan,
-            penyharga: penyharga
+            penyharga: penyharga,
+            cbg: cabang
           },
           cache: false,
           success: function(respond) {

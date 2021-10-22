@@ -1099,6 +1099,7 @@ class Pembelian extends CI_Controller
     $data['detail']     = $this->Model_pembelian->getTotalPembelian($nobukti)->row_array();
     $data['cekkb']      = $this->Model_pembelian->cekKB($nobukti)->num_rows();
     $data['pemohon']    = $this->Model_pembelian->getPemohon()->result();
+    $data['cabang']     = $this->Model_cabang->view_cabang()->result();
     $this->template->load('template/template', 'pembelian/edit_pembelian', $data);
   }
 
