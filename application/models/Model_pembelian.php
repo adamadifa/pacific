@@ -2814,78 +2814,99 @@ WHERE tgl_pembelian BETWEEN '$dari' AND '$sampai'"
       'kode_akun' => $kodeakun,
       'kode_cabang' => $cbg
     ];
+    $pmb = $this->db->get_where('pembelian', array('nobukti_pembelian' => $nobukti))->row_array();
+    // $qdpmb = "SELECT no_urut FROM detail_pembelian WHERE nobukti_pembelian = '$nobukti' ORDER BY no_urut DESC LIMIT 1";
+    // $dpmb = $this->db->query($qdpmb)->row_array();
+    // $no_urut = $dpmb['no_urut'] + 1;
+    $jenistransaksi = $pmb['jenistransaksi'];
+    $this->db->trans_begin();
 
     $update = $this->db->update('detail_pembelian', $data, array('nobukti_pembelian' => $nobukti, 'kode_barang' => $kodebarang, 'keterangan' => $keteranganold, 'no_urut' => $no_urut));
-    if ($update) {
-      if (!empty($kodecr) && substr($kodeakun, 0, 3) == "6-1" && !empty($cbg) || !empty($kodecr) && substr($kodeakun, 0, 3) == "6-2" && !empty($cbg)) {
-        $datacr = [
-          'tgl_transaksi' => $tglpembelian,
-          'kode_akun'    => $kodeakun,
-          'keterangan'   => "Pembelian " . $namabarang . "(" . $qty . ")",
-          'kode_cabang'  => $cbg,
-          'id_sumber_costratio' => 4,
-          'jumlah' => $qty * $harga
+    if (!empty($kodecr) && substr($kodeakun, 0, 3) == "6-1" && !empty($cbg) || !empty($kodecr) && substr($kodeakun, 0, 3) == "6-2" && !empty($cbg)) {
+      $datacr = [
+        'tgl_transaksi' => $tglpembelian,
+        'kode_akun'    => $kodeakun,
+        'keterangan'   => "Pembelian " . $namabarang . "(" . $qty . ")",
+        'kode_cabang'  => $cbg,
+        'id_sumber_costratio' => 4,
+        'jumlah' => $qty * $harga
 
-        ];
-        $updatecr = $this->db->update('costratio_biaya', $datacr, array('kode_cr' => $kodecr));
-        $datadetail = [
-          'kode_cr' => $kodecr
-        ];
-        $updatedetail = $update = $this->db->update('detail_pembelian', $datadetail, array('nobukti_pembelian' => $nobukti, 'kode_barang' => $kodebarang, 'keterangan' => $keteranganold, 'no_urut' => $no_urut));
-      } else {
-        $datadetail = [
-          'kode_cr' => null
-        ];
-        $hapuscr = $this->db->delete('costratio_biaya', array('kode_cr' => $kodecr));
-        $updatedetail = $update = $this->db->update('detail_pembelian', $datadetail, array('nobukti_pembelian' => $nobukti, 'kode_barang' => $kodebarang, 'keterangan' => $keteranganold, 'no_urut' => $no_urut));
-      }
-
-      if (empty($kodecr) && substr($kodeakun, 0, 3) == "6-1" && !empty($cbg) || empty($kodecr) && substr($kodeakun, 0, 3) == "6-2" && !empty($cbg)) {
-        $tgltransaksi = explode("-", $tglpembelian);
-        $bulan = $tgltransaksi[1];
-        $tahun = $tgltransaksi[0];
-        if (strlen($bulan) == 1) {
-          $bulan = "0" . $bulan;
-        } else {
-          $bulan = $bulan;
-        }
-        $thn = substr($tahun, 2, 2);
-        $awal = $tahun . "-" . $bulan . "-01";
-        $akhir = $tahun . "-" . $bulan . "-31";
-        $qcr = "SELECT kode_cr FROM costratio_biaya WHERE tgl_transaksi BETWEEN '$awal' AND '$akhir' ORDER BY kode_cr DESC LIMIT 1 ";
-        $ceknolast = $this->db->query($qcr)->row_array();
-        $nobuktilast = $ceknolast['kode_cr'];
-        $kodecrnew = buatkode($nobuktilast, "CR" . $bulan . $thn, 4);
-        $datacr = [
-          'kode_cr' => $kodecrnew,
-          'tgl_transaksi' => $tglpembelian,
-          'kode_akun'    => $kodeakun,
-          'keterangan'   => "Pembelian " . $namabarang . "(" . $qty . ")",
-          'kode_cabang'  => $cbg,
-          'id_sumber_costratio' => 4,
-          'jumlah' => $qty * $harga
-
-        ];
-        $simpancr = $this->db->insert('costratio_biaya', $datacr);
-        $datadetail = [
-          'kode_cr' => $kodecrnew
-        ];
-        $updatedetail = $update = $this->db->update('detail_pembelian', $datadetail, array('nobukti_pembelian' => $nobukti, 'kode_barang' => $kodebarang, 'keterangan' => $keteranganold, 'no_urut' => $no_urut));
-      }
-      $this->session->set_flashdata(
-        'msg',
-        '<div class="alert bg-green text-white alert-dismissible" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <i class="fa fa-check"></i> Data Berhasil di Update !
-      </div>'
-      );
-      redirect('pembelian/editpembelian/' . $bukti);
+      ];
+      $updatecr = $this->db->update('costratio_biaya', $datacr, array('kode_cr' => $kodecr));
+      $datadetail = [
+        'kode_cr' => $kodecr
+      ];
+      $updatedetail = $update = $this->db->update('detail_pembelian', $datadetail, array('nobukti_pembelian' => $nobukti, 'kode_barang' => $kodebarang, 'keterangan' => $keteranganold, 'no_urut' => $no_urut));
     } else {
+      $datadetail = [
+        'kode_cr' => null
+      ];
+      $hapuscr = $this->db->delete('costratio_biaya', array('kode_cr' => $kodecr));
+      $updatedetail = $update = $this->db->update('detail_pembelian', $datadetail, array('nobukti_pembelian' => $nobukti, 'kode_barang' => $kodebarang, 'keterangan' => $keteranganold, 'no_urut' => $no_urut));
+    }
+
+    if (empty($kodecr) && substr($kodeakun, 0, 3) == "6-1" && !empty($cbg) || empty($kodecr) && substr($kodeakun, 0, 3) == "6-2" && !empty($cbg)) {
+      $tgltransaksi = explode("-", $tglpembelian);
+      $bulan = $tgltransaksi[1];
+      $tahun = $tgltransaksi[0];
+      if (strlen($bulan) == 1) {
+        $bulan = "0" . $bulan;
+      } else {
+        $bulan = $bulan;
+      }
+      $thn = substr($tahun, 2, 2);
+      $awal = $tahun . "-" . $bulan . "-01";
+      $akhir = $tahun . "-" . $bulan . "-31";
+      $qcr = "SELECT kode_cr FROM costratio_biaya WHERE tgl_transaksi BETWEEN '$awal' AND '$akhir' ORDER BY kode_cr DESC LIMIT 1 ";
+      $ceknolast = $this->db->query($qcr)->row_array();
+      $nobuktilast = $ceknolast['kode_cr'];
+      $kodecrnew = buatkode($nobuktilast, "CR" . $bulan . $thn, 4);
+      $datacr = [
+        'kode_cr' => $kodecrnew,
+        'tgl_transaksi' => $tglpembelian,
+        'kode_akun'    => $kodeakun,
+        'keterangan'   => "Pembelian " . $namabarang . "(" . $qty . ")",
+        'kode_cabang'  => $cbg,
+        'id_sumber_costratio' => 4,
+        'jumlah' => $qty * $harga
+
+      ];
+      $simpancr = $this->db->insert('costratio_biaya', $datacr);
+      $datadetail = [
+        'kode_cr' => $kodecrnew
+      ];
+      $updatedetail = $update = $this->db->update('detail_pembelian', $datadetail, array('nobukti_pembelian' => $nobukti, 'kode_barang' => $kodebarang, 'keterangan' => $keteranganold, 'no_urut' => $no_urut));
+    }
+
+
+    if ($jenistransaksi == "tunai") {
+      $nokontrabon = $pmb['ref_tunai'];
+      $detailpmb = $this->db->query("SELECT (SUM( IF ( STATUS = 'PMB', ((qty*harga)+penyesuaian), 0 ) ) - SUM( IF ( STATUS = 'PNJ',(qty*harga), 0 ) )) as totalpembelian FROM detail_pembelian WHERE nobukti_pembelian = '$nobukti'")->row_array();
+      $datakontrabon = [
+        'jmlbayar' => $detailpmb['totalpembelian']
+      ];
+      $this->db->update('detail_kontrabon', $datakontrabon, array('no_kontrabon' => $nokontrabon));
+    }
+    // if (substr($kodeakun, 0, 3) == "6-1" or substr($kodeakun, 0, 3) == "6-2") {
+    //   $this->db->insert('costratio_biaya', $datacr);
+    // }
+    if ($this->db->trans_status() === FALSE) {
+      $this->db->trans_rollback();
       $this->session->set_flashdata(
         'msg',
         '<div class="alert bg-red text-white alert-dismissible" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       <i class="fa fa-check"></i> Gagal di Update !
+      </div>'
+      );
+      redirect('pembelian/editpembelian/' . $bukti);
+    } else {
+      $this->db->trans_commit();
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-green text-white alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <i class="fa fa-check"></i> Data Berhasil di Update !
       </div>'
       );
       redirect('pembelian/editpembelian/' . $bukti);
