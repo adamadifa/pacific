@@ -273,7 +273,7 @@ $ratiopeny = $penyharga / $totalqty;
     $exclude_DS = ($harganet['bruto_DS'] - $peny_DS - $retur['DS']) / ($harganet['qty_DS'] / $isipcs_ds);
     $exclude_SP = ($harganet['bruto_SP'] - $peny_SP - $retur['SP']) / ($harganet['qty_SP'] / $isipcs_sp);
     ?>
-    <td>HARGA EXLUDE DISKON</td>
+    <td>HARGA NET (EXLUDE DISKON)</td>
     <td align="right"><?php echo number_format($exclude_AB, '0', '', '.'); ?></td>
     <td align="right"><?php echo number_format($exclude_AR, '0', '', '.'); ?></td>
     <td align="right"><?php echo number_format($exclude_AS, '0', '', '.'); ?></td>
@@ -288,7 +288,7 @@ $ratiopeny = $penyharga / $totalqty;
   </tr>
   <tr style="font-size:14px; background-color:black; color:white">
 
-    <td>INCLUDE</td>
+    <td>HARGA NET(INCLUDE DISKON)</td>
     <td align="right"><?php echo number_format($exclude_AB - ($harganet['diskon_AB'] / ($harganet['qty_AB'] / $isipcs_ab)), '0', '', '.'); ?></td>
     <td align="right"><?php echo number_format($exclude_AR - ($harganet['diskon_AR'] / ($harganet['qty_AR'] / $isipcs_ar)), '0', '', '.'); ?></td>
     <td align="right"><?php echo number_format($exclude_AS - ($harganet['diskon_AS'] / ($harganet['qty_AS'] / $isipcs_as)), '0', '', '.'); ?></td>

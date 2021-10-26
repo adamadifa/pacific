@@ -2819,8 +2819,9 @@ WHERE tgl_pembelian BETWEEN '$dari' AND '$sampai'"
     // $dpmb = $this->db->query($qdpmb)->row_array();
     // $no_urut = $dpmb['no_urut'] + 1;
     $jenistransaksi = $pmb['jenistransaksi'];
-    $this->db->trans_begin();
 
+    echo $pmb['noref_tunai'];
+    $this->db->trans_begin();
     $update = $this->db->update('detail_pembelian', $data, array('nobukti_pembelian' => $nobukti, 'kode_barang' => $kodebarang, 'keterangan' => $keteranganold, 'no_urut' => $no_urut));
     if (!empty($kodecr) && substr($kodeakun, 0, 3) == "6-1" && !empty($cbg) || !empty($kodecr) && substr($kodeakun, 0, 3) == "6-2" && !empty($cbg)) {
       $datacr = [

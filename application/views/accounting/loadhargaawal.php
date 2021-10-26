@@ -6,7 +6,7 @@ foreach ($hargaawal as $h) {
         <td><?php echo $h->nama_barang; ?></td>
         <td>
             <div class="form-group">
-                <input type="text" value="<?php echo $h->harga_awal ?>" data-kodeproduk="<?php echo $h->kode_produk; ?>" class="form-control harga_awal" style="text-align:right">
+                <input type="text" value="<?php echo round($h->harga_awal) ?>" data-kodeproduk="<?php echo $h->kode_produk; ?>" class="form-control harga_awal" style="text-align:right">
             </div>
         </td>
 

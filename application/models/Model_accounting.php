@@ -1100,6 +1100,7 @@ class Model_accounting extends CI_Model
     $tahun = $this->input->post('tahun');
     $kodeproduk = $this->input->post('kodeproduk');
     $hargahpp = $this->input->post('hargahpp');
+    $hargahpp = str_replace(".","",$hargahpp);
 
     $cek = $this->db->get_where('harga_hpp', array('kode_produk' => $kodeproduk, 'bulan' => $bulan, 'tahun' => $tahun))->num_rows();
     if ($cek > 0) {
@@ -1129,6 +1130,7 @@ class Model_accounting extends CI_Model
     $tahun = $this->input->post('tahun');
     $kodeproduk = $this->input->post('kodeproduk');
     $hargaawal = $this->input->post('hargaawal');
+    $hargaawal = str_replace(".","",$hargaawal);
     $lokasi = $this->input->post('lokasi');
 
     $cek = $this->db->get_where('harga_awal', array('kode_produk' => $kodeproduk, 'bulan' => $bulan, 'tahun' => $tahun, 'lokasi' => $lokasi))->num_rows();

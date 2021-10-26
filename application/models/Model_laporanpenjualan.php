@@ -608,7 +608,7 @@ GROUP BY
 	function kasbesar($dari, $sampai, $cabang = null, $salesman = null, $pelanggan = null, $jenisbayar = null)
 	{
 
-		$this->db->select('historibayar.no_fak_penj,karyawan.nama_karyawan,k.nama_karyawan as penagih,tgltransaksi,tglbayar,bayar,bayar as bayarterakhir,girotocash,status_bayar,date_format(historibayar.date_created, "%d %M %Y %H:%i:%s") as date_created, date_format(historibayar.date_updated, "%d %M %Y %H:%i:%s") as date_updated,penjualan.status,
+		$this->db->select('historibayar.no_fak_penj,karyawan.nama_karyawan,k.nama_karyawan as penagih,tgltransaksi,tglbayar,bayar,bayar as bayarterakhir,girotocash,status_bayar,date_format(historibayar.date_created, "%d %M %Y %H:%i:%s") as date_created, date_format(historibayar.date_updated, "%d %M %Y %H:%i:%s") as date_updated,penjualan.status,penjualan.jenistransaksi,
 			(
 				SELECT IFNULL(penjualan.total, 0) - (ifnull(r.totalpf, 0) - ifnull(r.totalgb, 0)) AS totalpiutang
 				FROM penjualan

@@ -33,8 +33,9 @@
 		<tr bgcolor="#024a75" style="color:white; font-size:12;">
 			<th rowspan="2">Tgl Pembayaran</th>
 			<th rowspan="2">No Faktur</th>
+			<th rowspan="2">Jenis Transaksi</th>
 			<th rowspan="2">Tgl Faktur</th>
-			<th rowspan="2">Sales (Faktur)</th>
+			<th rowspan="2">Salesman</th>
 			<th rowspan="2">Sales (Penagih)</th>
 			<th rowspan="2">Kode Pel.</th>
 			<th rowspan="2">Nama Pelanggan</th>
@@ -132,6 +133,7 @@
 
 					<td><?php echo DateToIndo2($k->tglbayar); ?></td>
 					<td><?php echo $k->no_fak_penj; ?></td>
+					<td><?php echo strtoupper($k->jenistransaksi); ?></td>
 					<td><?php echo DateToIndo2($k->tgltransaksi); ?></td>
 					<td><?php echo $k->nama_karyawan; ?></td>
 					<td><?php echo $k->penagih; ?></td>
@@ -175,7 +177,7 @@
 		?>
 	</tbody>
 	<tr bgcolor="#024a75" style="color:white; font-size:12;">
-		<td colspan="7">TOTAL</td>
+		<td colspan="8">TOTAL</td>
 		<td style="text-align: right"><?php echo number_format($totaltunai, '0', '', '.');  ?></td>
 		<td style="text-align: right"><?php echo number_format($totaltitip, '0', '', '.');  ?></td>
 		<td style="text-align: right"><?php echo number_format($totalpelunasan, '0', '', '.');  ?></td>
