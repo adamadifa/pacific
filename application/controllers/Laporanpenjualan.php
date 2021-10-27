@@ -1031,6 +1031,21 @@ class Laporanpenjualan extends CI_Controller
     } else {
       $dari             = $tahun . "-" . $bulan . "-" . "01";
       $data['dari']     = $dari;
+      $ceknextbulan     = $this->Model_laporanpenjualan->cekNextBulan($cabang, $bulan, $tahun)->row_array();
+      $cekbeforebulan   = $this->Model_laporanpenjualan->cekBeforeBulan($cabang, $bulan, $tahun)->row_array();
+      $tglnextbulan     = $ceknextbulan['tgl_diterimapusat'];
+      $tglbeforebulan   = $cekbeforebulan['tgl_diterimapusat'];
+      if (empty($tglnextbulan)) {
+        $data['sampai'] = date("Y-m-t", strtotime($dari));
+      } else {
+        $data['sampai'] = $ceknextbulan['tgl_diterimapusat'];
+      }
+
+      if (empty($tglbeforebulan)) {
+        $data['fromlast'] = $dari;
+      } else {
+        $data['fromlast'] = $cekbeforebulan['tgl_diterimapusat'];
+      }
       $salesman          = $this->Model_laporanpenjualan->get_salesman($cabang, $salesnonaktif);
       $listbank         = $this->Model_laporanpenjualan->get_listbank($cbg = "PST");
       $data['listbank']  = $listbank->result();
@@ -1039,7 +1054,6 @@ class Laporanpenjualan extends CI_Controller
       $data['jmlsales']  = $salesman->num_rows();
       $data['cb']        = $this->Model_cabang->get_cabang($cabang)->row_array();
       $data['cbg']      = $cabang;
-      $data['sampai'] = date("Y-m-t", strtotime($dari));
       if (isset($_POST['export'])) {
         // Fungsi header dengan mengirimkan raw data excel
         header("Content-type: application/vnd-ms-excel");
