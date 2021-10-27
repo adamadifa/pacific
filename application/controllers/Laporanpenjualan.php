@@ -989,42 +989,66 @@ class Laporanpenjualan extends CI_Controller
     $bulan             = $this->input->post('bulan');
     $tahun             = $this->input->post('tahun');
     $salesnonaktif     = $this->input->post('salesnonaktif');
+    $format            = $this->input->post('format');
     // $data['dari']			= $dari;
     // $data['sampai']		= $sampai;
-    $dari             = $tahun . "-" . $bulan . "-" . "01";
-    $ceknextbulan     = $this->Model_laporanpenjualan->cekNextBulan($cabang, $bulan, $tahun)->row_array();
-    $cekbeforebulan   = $this->Model_laporanpenjualan->cekBeforeBulan($cabang, $bulan, $tahun)->row_array();
-    $data['dari']     = $dari;
-    $tglnextbulan     = $ceknextbulan['tgl_diterimapusat'];
-    $tglbeforebulan   = $cekbeforebulan['tgl_diterimapusat'];
-    if (empty($tglnextbulan)) {
+    if ($format == 1) {
+      $dari             = $tahun . "-" . $bulan . "-" . "01";
+      $data['dari']     = $dari;
+      $ceknextbulan     = $this->Model_laporanpenjualan->cekNextBulan($cabang, $bulan, $tahun)->row_array();
+      $cekbeforebulan   = $this->Model_laporanpenjualan->cekBeforeBulan($cabang, $bulan, $tahun)->row_array();
+      $tglnextbulan     = $ceknextbulan['tgl_diterimapusat'];
+      $tglbeforebulan   = $cekbeforebulan['tgl_diterimapusat'];
+      if (empty($tglnextbulan)) {
+        $data['sampai'] = date("Y-m-t", strtotime($dari));
+      } else {
+        $data['sampai'] = $ceknextbulan['tgl_diterimapusat'];
+      }
+
+      if (empty($tglbeforebulan)) {
+        $data['fromlast'] = $dari;
+      } else {
+        $data['fromlast'] = $cekbeforebulan['tgl_diterimapusat'];
+      }
+      $salesman          = $this->Model_laporanpenjualan->get_salesman($cabang, $salesnonaktif);
+      $listbank         = $this->Model_laporanpenjualan->get_listbank($cbg = "PST");
+      $data['listbank']  = $listbank->result();
+      $data['salesman']  = $salesman->result();
+      $data['jmlbank']  = $listbank->num_rows();
+      $data['jmlsales']  = $salesman->num_rows();
+      $data['cb']        = $this->Model_cabang->get_cabang($cabang)->row_array();
+      $data['cbg']      = $cabang;
+
+      //$data['logam']	= $this->Model_laporanpenjualan->posisilogam($cabang,$dari,$sampai)->result();
+      if (isset($_POST['export'])) {
+        // Fungsi header dengan mengirimkan raw data excel
+        header("Content-type: application/vnd-ms-excel");
+
+        // Mendefinisikan nama file ekspor "hasil-export.xls"
+        header("Content-Disposition: attachment; filename=LPU.xls");
+      }
+      $this->load->view('penjualan/laporan/cetak_lpu', $data);
+    } else {
+      $dari             = $tahun . "-" . $bulan . "-" . "01";
+      $data['dari']     = $dari;
+      $salesman          = $this->Model_laporanpenjualan->get_salesman($cabang, $salesnonaktif);
+      $listbank         = $this->Model_laporanpenjualan->get_listbank($cbg = "PST");
+      $data['listbank']  = $listbank->result();
+      $data['salesman']  = $salesman->result();
+      $data['jmlbank']  = $listbank->num_rows();
+      $data['jmlsales']  = $salesman->num_rows();
+      $data['cb']        = $this->Model_cabang->get_cabang($cabang)->row_array();
+      $data['cbg']      = $cabang;
       $data['sampai'] = date("Y-m-t", strtotime($dari));
-    } else {
-      $data['sampai'] = $ceknextbulan['tgl_diterimapusat'];
-    }
+      if (isset($_POST['export'])) {
+        // Fungsi header dengan mengirimkan raw data excel
+        header("Content-type: application/vnd-ms-excel");
 
-    if (empty($tglbeforebulan)) {
-      $data['fromlast'] = $dari;
-    } else {
-      $data['fromlast'] = $cekbeforebulan['tgl_diterimapusat'];
+        // Mendefinisikan nama file ekspor "hasil-export.xls"
+        header("Content-Disposition: attachment; filename=LPU.xls");
+      }
+      $this->load->view('penjualan/laporan/cetak_lpu_2', $data);
     }
-    $salesman          = $this->Model_laporanpenjualan->get_salesman($cabang, $salesnonaktif);
-    $listbank         = $this->Model_laporanpenjualan->get_listbank($cbg = "PST");
-    $data['listbank']  = $listbank->result();
-    $data['salesman']  = $salesman->result();
-    $data['jmlbank']  = $listbank->num_rows();
-    $data['jmlsales']  = $salesman->num_rows();
-    $data['cb']        = $this->Model_cabang->get_cabang($cabang)->row_array();
-    $data['cbg']      = $cabang;
-    //$data['logam']	= $this->Model_laporanpenjualan->posisilogam($cabang,$dari,$sampai)->result();
-    if (isset($_POST['export'])) {
-      // Fungsi header dengan mengirimkan raw data excel
-      header("Content-type: application/vnd-ms-excel");
-
-      // Mendefinisikan nama file ekspor "hasil-export.xls"
-      header("Content-Disposition: attachment; filename=LPU.xls");
-    }
-    $this->load->view('penjualan/laporan/cetak_lpu', $data);
   }
 
 

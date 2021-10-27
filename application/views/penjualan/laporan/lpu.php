@@ -64,6 +64,13 @@
                       ?>
                     </select>
                   </div>
+                  <div class="form-group mb-3">
+                    <select name="format" required id="format" class="form-control show-tick">
+                      <option value="">Pilih Format</option>
+                      <option value="1">Format 1</option>
+                      <option value="2">Format 2</option>
+                    </select>
+                  </div>
                   <div class="row mb-3">
                     <div class="col-md-12">
                       <label class="form-check form-switch">
