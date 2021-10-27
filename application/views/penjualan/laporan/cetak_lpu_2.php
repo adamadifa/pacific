@@ -24,7 +24,7 @@ function uang($nilai)
 </b>
 <br>
 
-<table class="datatable3" style="width:100%">
+<table class="datatable3" style="width:200%">
     <thead>
         <tr>
             <th colspan="<?php echo $jmlsales  + 2; ?>" style="background-color:#199291; color:white">LHP CABANG <?php echo strtoupper($cb['nama_cabang']); ?></th>
@@ -147,7 +147,7 @@ function uang($nilai)
             <?php
             $totalallsetoransales = 0;
             foreach ($salesman as $s) {
-                $qallsetoransales     = "SELECT SUM(setoran_kertas+setoran_logam+setoran_transfer+setoran_bg) as totalsetoransales FROM setoran_penjualan WHERE tgl_lhp BETWEEN '$from' AND '$sampai' AND id_karyawan='$s->id_karyawan' GROUP BY id_karyawan";
+                $qallsetoransales     = "SELECT SUM( IFNULL(setoran_kertas,0) + IFNULL(setoran_logam,0) + IFNULL(setoran_transfer,0) + IFNULL(setoran_bg,0) ) as totalsetoransales FROM setoran_penjualan WHERE tgl_lhp BETWEEN '$from' AND '$sampai' AND id_karyawan='$s->id_karyawan' GROUP BY id_karyawan";
                 $allsetoransales      = $this->db->query($qallsetoransales)->row_array();
                 $totalallsetoransales = $totalallsetoransales + $allsetoransales['totalsetoransales'];
             ?>
@@ -169,3 +169,17 @@ function uang($nilai)
 </table>
 <br>
 <br>
+<table class="datatable3" style="font-size:16px">
+    <tr>
+        <td style="font-weight:bold; background-color:yellow">PENERIMAAN LHP</td>
+        <td style="text-align:right; font-weight:bold;"><?php echo uang($totalallsetoran); ?></td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold; background-color:yellow">SETORAN SALES</td>
+        <td style="text-align:right; font-weight:bold;"><?php echo uang($totalallsetoransales); ?></td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold; background-color:yellow">SELISIH</td>
+        <td style="text-align:right; font-weight:bold;"><?php echo uang(($totalallsetoran) - $totalallsetoransales); ?></td>
+    </tr>
+</table>
