@@ -1807,26 +1807,27 @@ WHERE tgl_pembelian BETWEEN '$dari' AND '$sampai'"
       $supplier = "AND pembelian.kode_supplier = '" . $supplier . "' ";
     }
     $query = "SELECT detail_kontrabon.no_kontrabon,detail_kontrabon.nobukti_pembelian,nama_supplier,tglbayar,via,date_format(historibayar_pembelian.log, '%d %M %Y %H:%i:%s') as log, date_format(historibayar_pembelian.date_updated, '%d %M %Y %H:%i:%s') as date_updated,
- SUM(IF( via = 'BCA', jmlbayar, 0)) AS bca,
- SUM(IF( via = 'BCA CV', jmlbayar, 0)) AS bca_cv,
- SUM(IF( via = 'BNI', jmlbayar, 0)) AS bni,
- SUM(IF( via = 'BNI CV', jmlbayar, 0)) AS bni_cv,
- SUM(IF( via = 'KAS', jmlbayar, 0)) AS kasbesar,
- SUM(IF( via = 'KAS KECIL', jmlbayar, 0)) AS kaskecil,
- SUM(IF( via = 'BNI MP VALLAS', jmlbayar, 0)) AS permata,
- SUM(IF( via = 'BNI MP', jmlbayar, 0)) AS bni_mp,
- SUM(IF( via = 'BCA MP', jmlbayar, 0)) AS bca_mp,
- SUM(IF( via = 'CASH', jmlbayar, 0)) AS cash,
- SUM(IF( via = 'BNI CV INDO', jmlbayar, 0)) AS bni_indo_pangan,
- SUM(IF( via = 'BNI VLS INDO', jmlbayar, 0)) AS bni_indo_vallas,
- SUM(IF( master_bank.kode_cabang != 'PST', jmlbayar, 0)) AS lainlain,
- IFNULL(SUM(jmlbayar),0) as totalbayar
- FROM detail_kontrabon
- INNER JOIN historibayar_pembelian ON detail_kontrabon.no_kontrabon = historibayar_pembelian.no_kontrabon
- INNER JOIN pembelian ON detail_kontrabon.nobukti_pembelian = pembelian.nobukti_pembelian
- INNER JOIN supplier ON pembelian.kode_supplier = supplier.kode_supplier
- INNER JOIN master_bank ON historibayar_pembelian.via = master_bank.kode_bank
- WHERE tglbayar BETWEEN '$dari' AND '$sampai'"
+    SUM(IF( via = 'BCA', jmlbayar, 0)) AS bca,
+    SUM(IF( via = 'BCA CV', jmlbayar, 0)) AS bca_cv,
+    SUM(IF( via = 'BNI', jmlbayar, 0)) AS bni,
+    SUM(IF( via = 'BNI CV', jmlbayar, 0)) AS bni_cv,
+    SUM(IF( via = 'KAS', jmlbayar, 0)) AS kasbesar,
+    SUM(IF( via = 'KAS KECIL', jmlbayar, 0)) AS kaskecil,
+    SUM(IF( via = 'BNI MP VALLAS', jmlbayar, 0)) AS permata,
+    SUM(IF( via = 'BNI MP', jmlbayar, 0)) AS bni_mp,
+    SUM(IF( via = 'BCA MP', jmlbayar, 0)) AS bca_mp,
+    SUM(IF( via = 'CASH', jmlbayar, 0)) AS cash,
+    SUM(IF( via = 'BNI CV INDO', jmlbayar, 0)) AS bni_indo_pangan,
+    SUM(IF( via = 'BNI VLS INDO', jmlbayar, 0)) AS bni_indo_vallas,
+    SUM(IF( via = 'BCA  NEW', jmlbayar, 0)) AS bca_new,
+    SUM(IF( master_bank.kode_cabang != 'PST', jmlbayar, 0)) AS lainlain,
+    IFNULL(SUM(jmlbayar),0) as totalbayar
+    FROM detail_kontrabon
+    INNER JOIN historibayar_pembelian ON detail_kontrabon.no_kontrabon = historibayar_pembelian.no_kontrabon
+    INNER JOIN pembelian ON detail_kontrabon.nobukti_pembelian = pembelian.nobukti_pembelian
+    INNER JOIN supplier ON pembelian.kode_supplier = supplier.kode_supplier
+    INNER JOIN master_bank ON historibayar_pembelian.via = master_bank.kode_bank
+    WHERE tglbayar BETWEEN '$dari' AND '$sampai'"
       . $supplier .
       "GROUP BY detail_kontrabon.no_kontrabon,detail_kontrabon.nobukti_pembelian,tglbayar,nama_supplier";
     return $this->db->query($query);
