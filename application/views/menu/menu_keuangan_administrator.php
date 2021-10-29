@@ -257,6 +257,9 @@ if ($level == "Administrator") {
         <a href="<?php echo base_url(); ?>laporankeuangan/ledger" class="list-group-item list-group-item-action">
           <i class="fa fa-file-o mr-2"></i>Ledger / Mutasi Bank
         </a>
+        <a href="<?php echo base_url(); ?>laporanpenjualan/kasbesar" class="list-group-item list-group-item-action">
+          <i class="fa fa-file mr-2"></i> Kas Besar
+        </a>
       <?php } ?>
       <a href="<?php echo base_url(); ?>laporanpenjualan/saldokasbesar" class="list-group-item list-group-item-action">
         <i class="fa fa-file-pdf-o mr-2"></i>Saldo Kas Besar
