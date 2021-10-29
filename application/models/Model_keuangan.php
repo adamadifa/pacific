@@ -47,19 +47,19 @@ class Model_keuangan extends CI_Model
     $this->db->delete('ledger_temp', array('id' => $id));
   }
 
-  function ledger($bank = "", $dari, $sampai, $kodeakun1 = "",$kodeakun2="")
+  function ledger($bank = "", $dari, $sampai, $kodeakun1 = "", $kodeakun2 = "")
   {
     if ($bank != '') {
       $this->db->where('bank', $bank);
     }
-    
-	
-	  if ($kodeakun1 != '' AND $kodeakun2 !="") {
+
+
+    if ($kodeakun1 != '' and $kodeakun2 != "") {
       $this->db->where('ledger_bank.kode_akun >=', $kodeakun1);
       $this->db->where('ledger_bank.kode_akun <=', $kodeakun2);
     }
-	
-	
+
+
     $this->db->where('tgl_ledger >=', $dari);
     $this->db->where('tgl_ledger <=', $sampai);
     $this->db->join('coa', 'ledger_bank.kode_akun = coa.kode_akun', 'left');
@@ -384,12 +384,12 @@ class Model_keuangan extends CI_Model
     }
   }
 
-  function rekapledger($bank, $dari, $sampai, $kodeakun1,$kodeakun2)
+  function rekapledger($bank, $dari, $sampai, $kodeakun1, $kodeakun2)
   {
     if ($bank != '') {
       $this->db->where('bank', $bank);
     }
-    if ($kodeakun1 != '' AND $kodeakun2 !="") {
+    if ($kodeakun1 != '' and $kodeakun2 != "") {
       $this->db->where('ledger_bank.kode_akun >=', $kodeakun1);
       $this->db->where('ledger_bank.kode_akun <=', $kodeakun2);
     }
@@ -602,11 +602,17 @@ class Model_keuangan extends CI_Model
     $status_dk  = $this->input->post('debetkredit');
     $bank       = $this->input->post('bank');
     $cabang     = $this->session->userdata('cabang');
+    $cabang     = $cabang;
+    $tanggal    = explode("-", $tgl);
+    $tahun      = substr($tanggal[0], 2, 2);
+    $bulan      = $tanggal[1];
+    if ($bulan < 10) {
+      $bulan = "0" . $bulan;
+    } else {
+      $bulan = $bulan;
+    }
     if (empty($nobukti)) {
       //Nobukti Ledger
-      $cabang         = $cabang;
-      $tanggal        = explode("-", $tgl);
-      $tahun          = substr($tanggal[0], 2, 2);
       $qledger        = "SELECT no_bukti FROM ledger_bank WHERE LEFT(no_bukti,7) ='LR$cabang$tahun'ORDER BY no_bukti DESC LIMIT 1 ";
       $ceknolast      = $this->db->query($qledger)->row_array();
       $nobuktilast    = $ceknolast['no_bukti'];
@@ -614,6 +620,11 @@ class Model_keuangan extends CI_Model
     } else {
       $nobukti        = $nobukti;
     }
+
+    $qbukubesar        = "SELECT no_bukti FROM buku_besar WHERE LEFT(no_bukti,6) = 'GJ$bulan$tahun' ORDER BY no_bukti DESC LIMIT 1 ";
+    $ceknolast      = $this->db->query($qbukubesar)->row_array();
+    $nobuktilast    = $ceknolast['no_bukti'];
+    $nobukti        = buatkode($nobuktilast, 'GJ' . $bulan . $tahun, 4);
 
     $dataledger = array(
       'no_bukti'        => $nobukti,
@@ -626,7 +637,15 @@ class Model_keuangan extends CI_Model
       'status_validasi' => 1
     );
 
+    $this->db->trans_begin();
     $insertledger = $this->db->insert('ledger_bank', $dataledger);
+
+    if ($this->db->trans_status() === FALSE) {
+      $this->db->trans_rollback();
+    } else {
+      $this->db->trans_commit();
+    }
+
     if ($insertledger) {
       $this->session->set_flashdata(
         'msg',
