@@ -36,6 +36,7 @@ function angka($nilai)
 			<td>CASH</td>
 			<td>BCA AC 0540522278</td>
 			<td>BCA CV PACIFIC</td>
+			<td>BCA 0548999700 </td>
 			<td>BNI MP VALLAS</td>
 			<td>BNI AC 177370752</td>
 			<td>BNI<br>CV MAKMUR PERMATA</td>
@@ -54,6 +55,7 @@ function angka($nilai)
 		<?php
 		$cash 	 = 0;
 		$bca  	 = 0;
+		$bca_new = 0;
 		$bca_cv  = 0;
 		$permata = 0;
 		$bni 		 = 0;
@@ -68,19 +70,20 @@ function angka($nilai)
 		$totalbayar  = 0;
 		$no = 1;
 		foreach ($pmb as $key => $d) {
-			$cash 		= $cash + $d->cash;
-			$bca  		= $bca + $d->bca;
-			$bca_cv		= $bca_cv + $d->bca_cv;
-			$permata  = $permata + $d->permata;
-			$bni		  = $bni + $d->bni;
-			$bni_mp   = $bni_mp + $d->bni_mp;
-			$bca_mp   = $bca_mp + $d->bca_mp;
-			$kas 			= $kas + $d->kasbesar;
-			$kaskecil = $kaskecil + $d->kaskecil;
-			$bni_indo_pangan = $bni_indo_pangan + $d->bni_indo_pangan;
-			$bni_indo_vallas = $bni_indo_vallas + $d->bni_indo_vallas;
-			$lainlain = $lainlain + $d->lainlain;
-			$totalbayar = $totalbayar + $d->totalbayar;
+			$cash 				= $cash + $d->cash;
+			$bca  				= $bca + $d->bca;
+			$bca_new  			= $bca_new + $d->bca_new;
+			$bca_cv				= $bca_cv + $d->bca_cv;
+			$permata  			= $permata + $d->permata;
+			$bni		  		= $bni + $d->bni;
+			$bni_mp   			= $bni_mp + $d->bni_mp;
+			$bca_mp   			= $bca_mp + $d->bca_mp;
+			$kas 				= $kas + $d->kasbesar;
+			$kaskecil 			= $kaskecil + $d->kaskecil;
+			$bni_indo_pangan	= $bni_indo_pangan + $d->bni_indo_pangan;
+			$bni_indo_vallas 	= $bni_indo_vallas + $d->bni_indo_vallas;
+			$lainlain 			= $lainlain + $d->lainlain;
+			$totalbayar 		= $totalbayar + $d->totalbayar;
 
 		?>
 			<tr>
@@ -97,6 +100,9 @@ function angka($nilai)
 									} ?></td>
 				<td align="right"><?php if (!empty($d->bca_cv)) {
 										echo uang($d->bca_cv);
+									} ?></td>
+				<td align="right"><?php if (!empty($d->bca_new)) {
+										echo uang($d->bca_new);
 									} ?></td>
 				<td align="right"><?php if (!empty($d->permata)) {
 										echo uang($d->permata);
@@ -145,6 +151,9 @@ function angka($nilai)
 									} ?></b></td>
 			<td align="right"><b><?php if (!empty($bca_cv)) {
 										echo uang($bca_cv);
+									} ?></b></td>
+			<td align="right"><b><?php if (!empty($bca_new)) {
+										echo uang($bca_new);
 									} ?></b></td>
 			<td align="right"><b><?php if (!empty($permata)) {
 										echo uang($permata);
