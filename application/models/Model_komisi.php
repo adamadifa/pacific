@@ -497,14 +497,6 @@ class Model_komisi extends CI_Model
           AND penjualan.jenistransaksi ='kredit'
           GROUP BY salesbarunew
         ) penj ON (karyawan.id_karyawan = penj.salesbarunew)
-		
-        
-        
-
-        
-        
-        
-        
         LEFT JOIN (
           SELECT karyawan.id_karyawan,
           (IFNULL(jml_belumsetorbulanlalu,0)+IFNULL(totalsetoran,0)) + IFNULL(jml_gmlast,0) - IFNULL(jml_gmnow,0) - IFNULL(jml_belumsetorbulanini,0) as realisasi_cashin
@@ -518,7 +510,6 @@ class Model_komisi extends CI_Model
           LEFT JOIN (
             SELECT id_karyawan, SUM(lhp_tunai+lhp_tagihan) as totalsetoran FROM setoran_penjualan WHERE tgl_lhp BETWEEN '$dari' AND '$sampai' GROUP BY id_karyawan
           ) sp ON (karyawan.id_karyawan = sp.id_karyawan)
-
 
           LEFT JOIN (
             SELECT
@@ -540,7 +531,6 @@ class Model_komisi extends CI_Model
             GROUP BY
               id_karyawan
           ) gmlast ON (karyawan.id_karyawan = gmlast.id_karyawan)
-
           LEFT JOIN (
           SELECT
             giro.id_karyawan,
@@ -596,14 +586,137 @@ class Model_komisi extends CI_Model
         WHERE  status_lunas ='1' AND lastpayment BETWEEN '$dari' AND '$sampai'
         GROUP BY penjualan.id_karyawan
         ) realisasi ON (karyawan.id_karyawan = realisasi.id_karyawan)
-        
-
-       
-
     WHERE kode_cabang ='$cabang' AND nama_karyawan !='-'";
-
     return $this->db->query($query);
   }
+
+  function cetak_komisi_3($cabang, $bulan, $tahun, $end)
+  {
+    $dari = $tahun . "-" . $bulan . "-01";
+    $sampai = date('Y-m-t', strtotime($dari));
+    $lastmonth = date('Y-m-d', strtotime(date($dari) . '- 1 month'));
+    $lastdate = explode("-", $lastmonth);
+    $bulanlast = $lastdate[1] + 0;
+    $tahunlast = $lastdate[0];
+    if ($bulanlast == 1) {
+      $blnlast1 = 12;
+      $thnlast1 = $tahun - 1;
+    } else {
+      $blnlast1 = $bulanlast - 1;
+      $thnlast1 = $tahun;
+    }
+    $query = "SELECT karyawan.id_karyawan,nama_karyawan,
+    target_BB_DP,
+    BB,
+    DEP,
+    target_DS,
+    DS,
+    SP8,
+    target_SP,
+    SP,
+    SC,
+    target_AR,
+    AR,
+    target_AB_AS_CG5,
+    AB,
+    `AS`,
+    CG5,
+    realisasi_cashin,
+    sisapiutang
+    FROM karyawan
+        INNER JOIN (
+        SELECT  id_karyawan,
+        SUM(IF(kategori_komisi='KKQ01',jumlah_target,0)) as target_BB_DP,
+        SUM(IF(kategori_komisi='KKQ02',jumlah_target,0)) as target_DS,
+        SUM(IF(kategori_komisi='KKQ03',jumlah_target,0)) as target_SP,
+        SUM(IF(kategori_komisi='KKQ04',jumlah_target,0)) as target_AR,
+        SUM(IF(kategori_komisi='KKQ05',jumlah_target,0)) as target_AB_AS_CG5
+        FROM
+        komisi_target_qty_detail k_detail
+        INNER JOIN komisi_target ON k_detail.kode_target = komisi_target.kode_target
+        INNER JOIN master_barang ON k_detail.kode_produk = master_barang.kode_produk
+        WHERE bulan ='$bulan' AND tahun='$tahun' 
+        GROUP BY id_karyawan) komisi ON (karyawan.id_karyawan = komisi.id_karyawan)
+        
+        LEFT JOIN (
+          SELECT salesbarunew,SUM((ifnull(penjualan.total,0) - (ifnull(totalpf_last,0)-ifnull(totalgb_last,0)))-ifnull(totalbayar,0)) as sisapiutang
+          FROM penjualan
+          LEFT JOIN (
+            SELECT pj.no_fak_penj,
+            IF(salesbaru IS NULL,pj.id_karyawan,salesbaru) as salesbarunew, karyawan.nama_karyawan as nama_sales,
+            IF(cabangbaru IS NULL,karyawan.kode_cabang,cabangbaru) as cabangbarunew
+            FROM penjualan pj
+            INNER JOIN karyawan ON pj.id_karyawan = karyawan.id_karyawan
+            LEFT JOIN (
+              SELECT MAX(id_move) as id_move,no_fak_penj,move_faktur.id_karyawan as salesbaru,karyawan.kode_cabang as cabangbaru
+              FROM move_faktur
+              INNER JOIN karyawan ON move_faktur.id_karyawan = karyawan.id_karyawan
+              WHERE tgl_move <= '$sampai'
+              GROUP BY no_fak_penj,move_faktur.id_karyawan,karyawan.kode_cabang
+            ) move_fak ON (pj.no_fak_penj = move_fak.no_fak_penj)
+          ) pjmove ON (penjualan.no_fak_penj = pjmove.no_fak_penj)
+          
+          LEFT JOIN (
+            SELECT retur.no_fak_penj AS no_fak_penj,
+            sum(retur.subtotal_gb) AS totalgb_last,
+            sum(retur.subtotal_pf) AS totalpf_last
+            FROM
+              retur
+            WHERE tglretur <= '$sampai'
+            GROUP BY
+              retur.no_fak_penj
+          ) r ON (penjualan.no_fak_penj = r.no_fak_penj)
+          
+          LEFT JOIN (
+              SELECT no_fak_penj,sum( historibayar.bayar ) AS totalbayar
+              FROM historibayar
+              WHERE tglbayar <= '$sampai'
+              GROUP BY no_fak_penj
+            ) hblalu ON (penjualan.no_fak_penj = hblalu.no_fak_penj)
+          WHERE tgltransaksi <= '$sampai' AND (ifnull(penjualan.total,0) - (ifnull(totalpf_last,0)-ifnull(totalgb_last,0)))-ifnull(totalbayar,0) !=0 AND datediff('$sampai', penjualan.tgltransaksi) > 15
+          AND penjualan.jenistransaksi ='kredit'
+          GROUP BY salesbarunew
+        ) penj ON (karyawan.id_karyawan = penj.salesbarunew)
+
+        LEFT JOIN (
+          SELECT historibayar.id_karyawan,SUM(bayar) as realisasi_cashin
+          FROM historibayar WHERE tglbayar BETWEEN '$dari' AND '$sampai' AND status_bayar IS NULL
+          GROUP BY historibayar.id_karyawan
+        ) hb ON (karyawan.id_karyawan = hb.id_karyawan)    
+            
+        
+        LEFT JOIN(
+        SELECT penjualan.id_karyawan, 
+        SUM(IF(kode_produk = 'AB' AND promo !='1',jumlah,0)) as AB,
+        SUM(IF(kode_produk = 'AR' AND promo !='1',jumlah,0)) as AR,
+        SUM(IF(kode_produk = 'AS' AND promo !='1',jumlah,0)) as `AS`,
+        SUM(IF(kode_produk = 'BB' AND promo !='1',jumlah,0)) as BB,
+        SUM(IF(kode_produk = 'CG' AND promo !='1',jumlah,0)) as CG,
+        SUM(IF(kode_produk = 'CGG' AND promo !='1',jumlah,0)) as CGG,
+        SUM(IF(kode_produk = 'DEP' AND promo !='1',jumlah,0)) as DEP,
+        SUM(IF(kode_produk = 'DK' AND promo !='1',jumlah,0)) as DK,
+        SUM(IF(kode_produk = 'DS' AND promo !='1',jumlah,0)) as DS,
+        SUM(IF(kode_produk = 'SP' AND promo !='1',jumlah,0)) as SP,
+        SUM(IF(kode_produk = 'BBP' AND promo !='1',jumlah,0)) as BBP,
+        SUM(IF(kode_produk = 'SPP' AND promo !='1',jumlah,0)) as SPP,
+        SUM(IF(kode_produk = 'CG5' AND promo !='1',jumlah,0)) as CG5,
+        SUM(IF(kode_produk = 'SP8' AND promo !='1',jumlah,0)) as SP8,
+        SUM(IF(kode_produk = 'SC' AND promo !='1',jumlah,0)) as SC
+        FROM detailpenjualan
+        INNER JOIN penjualan ON detailpenjualan.no_fak_penj = penjualan.no_fak_penj
+        INNER JOIN barang ON detailpenjualan.kode_barang = barang.kode_barang
+        LEFT JOIN (
+          SELECT no_fak_penj,max(tglbayar) as lastpayment 
+          FROM historibayar 
+          GROUP BY no_fak_penj
+        ) hb ON (hb.no_fak_penj = penjualan.no_fak_penj) 
+        WHERE  status_lunas ='1' AND lastpayment BETWEEN '$dari' AND '$sampai'
+        GROUP BY penjualan.id_karyawan
+        ) realisasi ON (karyawan.id_karyawan = realisasi.id_karyawan)
+    WHERE kode_cabang ='$cabang' AND nama_karyawan !='-'";
+    return $this->db->query($query);
+  }
+
 
   function cetak_komisi2($cabang, $bulan, $tahun)
   {

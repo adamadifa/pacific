@@ -319,8 +319,11 @@ class Komisi extends CI_Controller
     if ($aturankomisi == 1) {
       $data['komisi'] = $this->Model_komisi->cetak_komisi($cabang, $bulan, $tahun, $end)->result();
       $this->load->view('komisi/laporan/cetak_komisi', $data);
-    } else {
+    } else if ($aturankomisi == 2) {
       $data['komisi'] = $this->Model_komisi->cetak_komisi_2($cabang, $bulan, $tahun, $end)->result();
+      $this->load->view('komisi/laporan/cetak_komisi_2', $data);
+    } else if ($aturankomisi == 3) {
+      $data['komisi'] = $this->Model_komisi->cetak_komisi_3($cabang, $bulan, $tahun, $end)->result();
       $this->load->view('komisi/laporan/cetak_komisi_2', $data);
     }
   }

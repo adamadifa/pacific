@@ -64,7 +64,13 @@
                       ?>
                     </select>
                   </div>
-                  <input type="hidden" name="aturankomisi" value="2">
+                  <div class="form-group mb-3">
+                    <select name="aturankomisi" id="aturankomisi" class="form-select">
+                      <option value="2"> Cash IN Berdasarkan LPU</option>
+                      <option value="3"> Cash IN Berdasarkan Kas Besar</option>
+                    </select>
+                  </div>
+
                   <div class="form-group">
                     <div class="row">
                       <div class="col-md-6">
