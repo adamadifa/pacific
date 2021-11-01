@@ -271,34 +271,29 @@ class Model_kaskecil extends CI_Model
     // $keterangan = $this->input->post('keterangan');
     // $jumlah     = str_replace(".","",$this->input->post('jumlah'));
     // $akun       = $this->input->post('kodeakun');
-
+    $tgltransaksi = explode("-", $tanggal);
+    $bulan = $tgltransaksi[1];
+    $tahun = $tgltransaksi[0];
+    if (strlen($bulan) == 1) {
+      $bulan = "0" . $bulan;
+    } else {
+      $bulan = $bulan;
+    }
+    $thn = substr($tahun, 2, 2);
+    $awal = $tahun . "-" . $bulan . "-01";
+    $akhir =  date('Y-m-t', strtotime($awal));
     $temp = $this->db->get_where('kaskecil_detail_temp', array('nobukti' => $nobukti))->result();
 
     $this->db->trans_begin();
     foreach ($temp as $t) {
       $cekakun = substr($t->kode_akun, 0, 3);
       if ($t->status_dk == 'D' and $cekakun == '6-1' or $t->status_dk == 'D' and $cekakun == '6-2') {
-        $tgltransaksi = explode("-", $tanggal);
-        $bulan = $tgltransaksi[1];
-        $tahun = $tgltransaksi[0];
-        if (strlen($bulan) == 1) {
-          $bulan = "0" . $bulan;
-        } else {
-          $bulan = $bulan;
-        }
-        $thn = substr($tahun, 2, 2);
-        $awal = $tahun . "-" . $bulan . "-01";
-        $akhir =  date('Y-m-t', strtotime($awal));
+
 
         $qcr = "SELECT kode_cr FROM costratio_biaya WHERE tgl_transaksi BETWEEN '$awal' AND '$akhir' ORDER BY kode_cr DESC LIMIT 1 ";
         $ceknolast = $this->db->query($qcr)->row_array();
         $nobuktilast = $ceknolast['kode_cr'];
         $kodecr = buatkode($nobuktilast, "CR" . $bulan . $thn, 4);
-
-        $qbukubesar     = "SELECT no_bukti FROM buku_besar WHERE LEFT(no_bukti,6) = 'GJ$bulan$thn' ORDER BY no_bukti DESC LIMIT 1 ";
-        $ceknolast      = $this->db->query($qbukubesar)->row_array();
-        $nobuktilast    = $ceknolast['no_bukti'];
-        $no_bukubesar   = buatkode($nobuktilast, 'GJ' . $bulan . $thn, 4);
 
 
         $data = array(
@@ -342,6 +337,11 @@ class Model_kaskecil extends CI_Model
         );
         $this->db->insert('kaskecil_detail', $data);
       }
+
+      $qbukubesar     = "SELECT no_bukti FROM buku_besar WHERE LEFT(no_bukti,6) = 'GJ$bulan$thn' ORDER BY no_bukti DESC LIMIT 1 ";
+      $ceknolast      = $this->db->query($qbukubesar)->row_array();
+      $nobuktilast    = $ceknolast['no_bukti'];
+      $no_bukubesar   = buatkode($nobuktilast, 'GJ' . $bulan . $thn, 4);
 
       $ceklastid = "SELECT id FROM kaskecil_detail ORDER BY id DESC LIMIT 1";
       $lastid = $this->db->query($ceklastid)->row_array();
