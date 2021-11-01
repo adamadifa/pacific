@@ -2,6 +2,19 @@
 
 class Model_keuangan extends CI_Model
 {
+  private  $akunbank = array("1-1201");
+  private  $akunkaskecil = [
+    '1-1102',
+    '1-1103',
+    '1-1111',
+    '1-1112',
+    '1-1113',
+    '1-1114',
+    '1-1115',
+    '1-1116',
+    '1-1117',
+    '1-1118'
+  ];
   function getBank($cabang = "")
   {
     if ($cabang != "") {
@@ -621,10 +634,10 @@ class Model_keuangan extends CI_Model
       $nobukti        = $nobukti;
     }
 
-    $qbukubesar        = "SELECT no_bukti FROM buku_besar WHERE LEFT(no_bukti,6) = 'GJ$bulan$tahun' ORDER BY no_bukti DESC LIMIT 1 ";
+    $qbukubesar     = "SELECT no_bukti FROM buku_besar WHERE LEFT(no_bukti,6) = 'GJ$bulan$tahun' ORDER BY no_bukti DESC LIMIT 1 ";
     $ceknolast      = $this->db->query($qbukubesar)->row_array();
     $nobuktilast    = $ceknolast['no_bukti'];
-    $nobukti        = buatkode($nobuktilast, 'GJ' . $bulan . $tahun, 4);
+    $no_bukubesar   = buatkode($nobuktilast, 'GJ' . $bulan . $tahun, 4);
 
     $dataledger = array(
       'no_bukti'        => $nobukti,
@@ -637,16 +650,45 @@ class Model_keuangan extends CI_Model
       'status_validasi' => 1
     );
 
-    $this->db->trans_begin();
-    $insertledger = $this->db->insert('ledger_bank', $dataledger);
+    if (in_array($akun, $this->akunkaskecil)) {
+      if ($status_dk == "D") {
+        $debet = $jumlah;
+        $kredit = 0;
+      } else {
+        $debet = 0;
+        $kredit = $jumlah;
+      }
+      $kode_akun = $akun;
+    }
+    $databukubesar = array(
+      'no_bukti' => $no_bukubesar,
+      'tanggal' => $tgl,
+      'sumber' => 'ledger',
+      'keterangan' => $keterangan,
+      'kode_akun' => $kode_akun,
+      'debet' => $debet,
+      'kredit' => $kredit,
+      'nobukti_transaksi' => $nobukti,
+      'no_ref' => $nobukti
+    );
 
+    $this->db->trans_begin();
+    $this->db->insert('ledger_bank', $dataledger);
+    if (in_array($kode_akun, $this->akunkaskecil)) {
+      $this->db->insert('buku_besar', $databukubesar);
+    }
     if ($this->db->trans_status() === FALSE) {
       $this->db->trans_rollback();
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <i class="material-icons" style="float:left; margin-right:10px">check</i> Data Gagal Disimpan !
+      </div>'
+      );
+      redirect('kaskecil/mutasibank');
     } else {
       $this->db->trans_commit();
-    }
-
-    if ($insertledger) {
       $this->session->set_flashdata(
         'msg',
         '<div class="alert bg-green alert-dismissible" role="alert">
@@ -680,8 +722,80 @@ class Model_keuangan extends CI_Model
       'status_validasi' => 1
     );
 
-    $update = $this->db->update('ledger_bank', $dataledger, array('no_bukti' => $nobukti));
-    if ($update) {
+
+
+    $this->db->trans_begin();
+    $this->db->update('ledger_bank', $dataledger, array('no_bukti' => $nobukti));
+    if (in_array($akun, $this->akunkaskecil)) {
+      if ($status_dk == "D") {
+        $debet = $jumlah;
+        $kredit = 0;
+      } else {
+        $debet = 0;
+        $kredit = $jumlah;
+      }
+      $kode_akun = $akun;
+      $cek = $this->db->get_where('buku_besar', array('no_ref' => $nobukti))->num_rows();
+      if (!empty($cek)) {
+        $databukubesar = array(
+          'tanggal' => $tgl,
+          'keterangan' => $keterangan,
+          'debet' => $debet,
+          'kredit' => $kredit
+        );
+        $this->db->update('buku_besar', $databukubesar, array('no_ref' => $nobukti));
+      } else {
+        $tanggal    = explode("-", $tgl);
+        $tahun      = substr($tanggal[0], 2, 2);
+        $bulan      = $tanggal[1];
+        if ($bulan < 10) {
+          $bulan = "0" . $bulan;
+        } else {
+          $bulan = $bulan;
+        }
+        $qbukubesar     = "SELECT no_bukti FROM buku_besar WHERE LEFT(no_bukti,6) = 'GJ$bulan$tahun' ORDER BY no_bukti DESC LIMIT 1 ";
+        $ceknolast      = $this->db->query($qbukubesar)->row_array();
+        $nobuktilast    = $ceknolast['no_bukti'];
+        $no_bukubesar   = buatkode($nobuktilast, 'GJ' . $bulan . $tahun, 4);
+
+        if (in_array($akun, $this->akunkaskecil)) {
+          if ($status_dk == "D") {
+            $debet = $jumlah;
+            $kredit = 0;
+          } else {
+            $debet = 0;
+            $kredit = $jumlah;
+          }
+          $kode_akun = $akun;
+        }
+        $databukubesar = array(
+          'no_bukti' => $no_bukubesar,
+          'tanggal' => $tgl,
+          'sumber' => 'ledger',
+          'keterangan' => $keterangan,
+          'kode_akun' => $kode_akun,
+          'debet' => $debet,
+          'kredit' => $kredit,
+          'nobukti_transaksi' => $nobukti,
+          'no_ref' => $nobukti
+        );
+        $this->db->insert('buku_besar', $databukubesar);
+      }
+    } else {
+      $this->db->delete('buku_besar', array('no_ref' => $nobukti));
+    }
+    if ($this->db->trans_status() === FALSE) {
+      $this->db->trans_rollback();
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <i class="material-icons" style="float:left; margin-right:10px">check</i> Data Gagal Disimpan !
+      </div>'
+      );
+      redirect('kaskecil/mutasibank');
+    } else {
+      $this->db->trans_commit();
       $this->session->set_flashdata(
         'msg',
         '<div class="alert bg-green alert-dismissible" role="alert">

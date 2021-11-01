@@ -84,7 +84,7 @@ class Pembayaran extends CI_Controller
 			// All records count
 			$allcount     = $this->Model_pelanggan->getrecordPelangganAll($cbg, $salesman, $namapel, $kodepel, $dari, $sampai,  $status);
 			// Get records
-			$users_record = $this->Model_pelanggan->getdataPelangganAll($rowno, $rowperpage, $cbg, $salesman , $namapel,$kodepel, $dari, $sampai, $status);
+			$users_record = $this->Model_pelanggan->getdataPelangganAll($rowno, $rowperpage, $cbg, $salesman, $namapel, $kodepel, $dari, $sampai, $status);
 			// Pagination Configuration
 			$config['base_url']         = base_url() . 'pembayaran/index';
 			$config['use_page_numbers'] = TRUE;
@@ -1250,7 +1250,7 @@ class Pembayaran extends CI_Controller
 			redirect('pembayaran/' . $page);
 		} else {
 			$idtransfer 				= $this->input->post('id_transfer');
-			$data['transfer']		= $this->Model_pembayaran->viewtransfer($idtransfer)->row_array();
+			$data['transfer']			= $this->Model_pembayaran->viewtransfer($idtransfer)->row_array();
 			$data['bank']				= $this->Model_pembayaran->listbank()->result();
 			$data['page']				= $this->input->post('page');
 			$data['bulan'] = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");

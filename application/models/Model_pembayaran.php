@@ -733,10 +733,12 @@ class Model_pembayaran extends CI_Model
       'kategori'        => 'PNJ'
     );
 
+    $this->db->trans_begin();
+
+
+
 
     if ($status == 1) {
-      // $delete       = $this->db->delete('setoran_pusat',array('no_giro'=>$no_giro));
-      // $insert       = $this->db->insert('setoran_pusat',$data);
       $update          = $this->db->update('setoran_pusat', $data, array('no_ref' => $no_giro));
       $deleteledger = $this->db->delete('ledger_bank', array('no_ref' => $no_giro));
       $insertledger = $this->db->insert('ledger_bank', $dataledger);
@@ -887,11 +889,22 @@ class Model_pembayaran extends CI_Model
     //Nobukti Ledger
     $tanggal        = explode("-", $tglcair);
     $tahun          = substr($tanggal[0], 2, 2);
+    $bln            = $tanggal[1];
     $qledger        = "SELECT no_bukti FROM ledger_bank WHERE LEFT(no_bukti,7) ='LR$cabang$tahun'ORDER BY no_bukti DESC LIMIT 1 ";
     $ceknolast      = $this->db->query($qledger)->row_array();
     $nobuktilast    = $ceknolast['no_bukti'];
     $no_bukti       = buatkode($nobuktilast, 'LR' . $cabang . $tahun, 4);
 
+    if ($bln < 10) {
+      $bln = "0" . $bln;
+    } else {
+      $bln = $bln;
+    }
+
+    $qbukubesar     = "SELECT no_bukti FROM buku_besar WHERE LEFT(no_bukti,6) = 'GJ$bln$tahun' ORDER BY no_bukti DESC LIMIT 1 ";
+    $ceknolast      = $this->db->query($qbukubesar)->row_array();
+    $nobuktilast    = $ceknolast['no_bukti'];
+    $no_bukubesar   = buatkode($nobuktilast, 'GJ' . $bln . $tahun, 4);
     //getTransfer
     $gettransfer        = $this->db->get_where('transfer', array('kode_transfer' => $id_transfer))->result();
     $listnofaktur   = '';
@@ -971,44 +984,39 @@ class Model_pembayaran extends CI_Model
       'status_validasi' => 1,
       'kategori'        => 'PNJ'
     );
+
+    $databukubesar = array(
+      'no_bukti' => $no_bukubesar,
+      'tanggal' => $tglcair,
+      'sumber' => 'ledger',
+      'keterangan' => "INV " . $listnofaktur,
+      'kode_akun' => $akun,
+      'debet' => 0,
+      'kredit' => $jmlbayar,
+      'nobukti_transaksi' => $no_bukti,
+      'no_ref' => $no_bukti
+    );
+
+    $this->db->trans_begin();
+
     if ($status == 1) {
-      //$delete = $this->db->delete('setoran_pusat',array('no_giro'=>$id_transfer));
-      //$insert = $this->db->insert('setoran_pusat',$data);
-      $update       = $this->db->update('setoran_pusat', $data, array('no_ref' => $id_transfer));
-      $deleteledger = $this->db->delete('ledger_bank', array('no_ref' => $id_transfer));
-      $insertledger = $this->db->insert('ledger_bank', $dataledger);
+      $this->db->update('setoran_pusat', $data, array('no_ref' => $id_transfer));
+      $this->db->delete('ledger_bank', array('no_ref' => $id_transfer));
+      $this->db->insert('ledger_bank', $dataledger);
+      $this->db->insert('buku_besar', $databukubesar);
     } else if ($status == 2) {
-      //$delete = $this->db->delete('setoran_pusat',array('no_ref'=>$id_transfer));
-      $deleteledger = $this->db->delete('ledger_bank', array('no_ref' => $id_transfer));
-      $update       = $this->db->update('setoran_pusat', $dataditolak, array('no_ref' => $id_transfer));
-      if ($update) {
-        // $qsb 				      	= "SELECT kode_setoranpusat FROM setoran_pusat
-        //                       WHERE LEFT(kode_setoranpusat,4) = 'SB$tahunini' ORDER BY kode_setoranpusat DESC LIMIT 1";
-        // $sb							    = $this->db->query($qsb)->row_array();
-        // $nomor_terakhir 		= $sb['kode_setoranpusat'];
-        // $kode_setoranpusat 	= buatkode($nomor_terakhir,'SB'.$tahunini,5);
-        // $dataditolak = array(
-        //   'kode_setoranpusat' => $kode_setoranpusat,
-        //   'tgl_setoranpusat'	=> $tglcair,
-        //   'kode_cabang'				=> $cabang,
-        //   'bank'							=> $bankpenerima,
-        //   'no_ref'				    => $id_transfer,
-        //   'transfer'					=> '-'.$jmlbayar,
-        //   'keterangan'				=> "TRANSFER PELANGGAN ".$cekcabang['nama_pelanggan']." DI TOLAK",
-        //   'status'						=> '2'
-
-        // );
-
-        // $insert_ditolak  = $this->db->insert('setoran_pusat',$dataditolak);
-      }
+      $cekledger = $this->db->get_where('ledger_bank', array('no_ref' => $id_transfer))->row_array();
+      $noledger = $cekledger['no_bukti'];
+      $this->db->delete('ledger_bank', array('no_ref' => $id_transfer));
+      $this->db->delete('buku_besar', array('no_ref' => $noledger));
+      $this->db->update('setoran_pusat', $dataditolak, array('no_ref' => $id_transfer));
     } else {
-      //echo "TEST";
-      $deleteledger = $this->db->delete('ledger_bank', array('no_ref' => $id_transfer));
-      //$delete = $this->db->delete('setoran_pusat',array('no_giro'=>$id_transfer));
-      $update       = $this->db->update('setoran_pusat', $datapending, array('no_ref' => $id_transfer));
+      $cekledger = $this->db->get_where('ledger_bank', array('no_ref' => $id_transfer))->row_array();
+      $noledger = $cekledger['no_bukti'];
+      $this->db->delete('ledger_bank', array('no_ref' => $id_transfer));
+      $this->db->delete('buku_besar', array('no_ref' => $noledger));
+      $this->db->update('setoran_pusat', $datapending, array('no_ref' => $id_transfer));
     }
-
-
     foreach ($datatransfer as $t) {
       if ($status == 1) {
         $datatransfer = array(
@@ -1019,17 +1027,13 @@ class Model_pembayaran extends CI_Model
           'omset_bulan'       => $bulan,
           'omset_tahun'       => $tahunomset
         );
-
         $cekbayar = $this->db->get_where('historibayar', array('id_transfer' => $t->id_transfer))->num_rows();
-
         $this->db->update('transfer', $datatransfer, array('id_transfer' => $t->id_transfer));
         if ($cekbayar == 0) {
-
           $qbayar       = "SELECT nobukti FROM historibayar WHERE LEFT(nobukti,6) ='$cabang$tahunini-'ORDER BY nobukti DESC LIMIT 1 ";
           $ceknolast    = $this->db->query($qbayar)->row_array();
           $nobuktilast  = $ceknolast['nobukti'];
           $nobukti      = buatkode($nobuktilast, $cabang . $tahunini . "-", 6);
-
           $databayar = array(
             'nobukti'       => $nobukti,
             'no_fak_penj'   => $t->no_fak_penj,
@@ -1040,21 +1044,16 @@ class Model_pembayaran extends CI_Model
             'id_transfer'   => $t->id_transfer,
             'id_karyawan'    => $t->id_karyawan,
             'id_admin'      => $id_admin
-
-
           );
           $this->db->insert('historibayar', $databayar);
         } else {
           $databayar = array(
             'tglbayar'      => $tglcair,
             'bayar'         => $t->jumlah
-
           );
           $this->db->update('historibayar', $databayar, array('id_transfer' => $t->id_transfer));
         }
       } else {
-
-
         if ($status == "2") {
           $datatransfer = array(
             'tgl_ditolak'     => $tgltolak,
@@ -1076,11 +1075,14 @@ class Model_pembayaran extends CI_Model
             'omset_tahun'   => ''
           );
         }
-
-
         $this->db->update('transfer', $datatransfer, array('id_transfer' => $t->id_transfer));
         $this->db->delete('historibayar', array('id_transfer' => $t->id_transfer));
       }
+    }
+    if ($this->db->trans_status() === FALSE) {
+      $this->db->trans_rollback();
+    } else {
+      $this->db->trans_commit();
     }
   }
 

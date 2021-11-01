@@ -2975,6 +2975,14 @@ class Model_penjualan extends CI_Model
       'omset_tahun' => $tahun
 
     );
+    $tanggal    = explode("-", $tanggalditerima);
+    $tahun      = substr($tanggal[0], 2, 2);
+    $bulan      = $tanggal[1];
+    if ($bulan < 10) {
+      $bulan = "0" . $bulan;
+    } else {
+      $bulan = $bulan;
+    }
 
 
 
@@ -2991,6 +2999,11 @@ class Model_penjualan extends CI_Model
     $ceknolast      = $this->db->query($qledger)->row_array();
     $nobuktilast    = $ceknolast['no_bukti'];
     $no_bukti       = buatkode($nobuktilast, 'LR' . $cabang . $tahun, 4);
+
+    $qbukubesar     = "SELECT no_bukti FROM buku_besar WHERE LEFT(no_bukti,6) = 'GJ$bulan$tahun' ORDER BY no_bukti DESC LIMIT 1 ";
+    $ceknolast      = $this->db->query($qbukubesar)->row_array();
+    $nobuktilast    = $ceknolast['no_bukti'];
+    $no_bukubesar   = buatkode($nobuktilast, 'GJ' . $bulan . $tahun, 4);
 
     if ($cabang == 'TSM') {
       $akun = "1-1468";
@@ -3015,31 +3028,58 @@ class Model_penjualan extends CI_Model
     } else if ($cabang == "KLT") {
       $akun = "1-1490";
     }
-    $update      = $this->db->update('setoran_pusat', $data, array('kode_setoranpusat' => $kode_setoran));
-    if ($update) {
-      $dataledger = array(
-        'no_bukti'              => $no_bukti,
-        'no_ref'                 => $kode_setoran,
-        'bank'                  => $bankpenerima,
-        'tgl_ledger'            => $tanggalditerima,
-        'keterangan'            => "SETORAN CAB " . $cabang,
-        'kode_akun'             => $akun,
-        'jumlah'                => $jmlbayar,
-        'status_dk'             => 'K',
-        'status_validasi'       => 1,
-        'kategori'              => 'PNJ'
+
+
+    $this->db->trans_begin();
+
+    $this->db->update('setoran_pusat', $data, array('kode_setoranpusat' => $kode_setoran));
+    $dataledger = array(
+      'no_bukti'              => $no_bukti,
+      'no_ref'                 => $kode_setoran,
+      'bank'                  => $bankpenerima,
+      'tgl_ledger'            => $tanggalditerima,
+      'keterangan'            => "SETORAN CAB " . $cabang,
+      'kode_akun'             => $akun,
+      'jumlah'                => $jmlbayar,
+      'status_dk'             => 'K',
+      'status_validasi'       => 1,
+      'kategori'              => 'PNJ'
+    );
+    $this->db->insert('ledger_bank', $dataledger);
+
+    $databukubesar = array(
+      'no_bukti' => $no_bukubesar,
+      'tanggal' => $tanggalditerima,
+      'sumber' => 'ledger',
+      'keterangan' => "SETORAN CAB " . $cabang,
+      'kode_akun' => $akun,
+      'debet' => 0,
+      'kredit' => $jmlbayar,
+      'nobukti_transaksi' => $no_bukti,
+      'no_ref' => $no_bukti
+    );
+    $this->db->insert('buku_besar', $databukubesar);
+
+    if ($this->db->trans_status() === FALSE) {
+      $this->db->trans_rollback();
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-danger text-white alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <i class="fa fa-check"></i> Setoran Gagal !
+      </div>'
       );
-      $insertledger = $this->db->insert('ledger_bank', $dataledger);
-      if ($insertledger) {
-        $this->session->set_flashdata(
-          'msg',
-          '<div class="alert bg-green text-white alert-dismissible" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<i class="fa fa-check"></i> Setoran Diterima !
-				</div>'
-        );
-        redirect('penjualan/ceksetoranpusat');
-      }
+      redirect('penjualan/ceksetoranpusat');
+    } else {
+      $this->db->trans_commit();
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-green text-white alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <i class="fa fa-check"></i> Setoran Diterima !
+      </div>'
+      );
+      redirect('penjualan/ceksetoranpusat');
     }
   }
 
@@ -3049,19 +3089,34 @@ class Model_penjualan extends CI_Model
       'status' => 0,
       'tgl_diterimapusat' => NULL
     );
-    $update = $this->db->update('setoran_pusat', $data, array('kode_setoranpusat' => $kode_setoran));
-    if ($update) {
-      $deleteledger = $this->db->delete('ledger_bank', array('no_ref' => $kode_setoran));
-      if ($deleteledger) {
-        $this->session->set_flashdata(
-          'msg',
-          '<div class="alert bg-green text-white alert-dismissible" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<i class="fa fa-check"></i> Setoran Dibatalkan !
-				</div>'
-        );
-        redirect('penjualan/ceksetoranpusat');
-      }
+
+    $this->db->trans_begin();
+    $cekledger = $this->db->get_where('ledger_bank', array('no_ref' => $kode_setoran))->row_array();
+    $nobukti = $cekledger['no_bukti'];
+    $this->db->update('setoran_pusat', $data, array('kode_setoranpusat' => $kode_setoran));
+    $this->db->delete('ledger_bank', array('no_ref' => $kode_setoran));
+    $this->db->delete('buku_besar', array('no_ref' => $nobukti));
+
+    if ($this->db->trans_status() === FALSE) {
+      $this->db->trans_rollback();
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-danger text-white alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <i class="fa fa-check"></i> Setoran Gagal Dibatalkan !
+      </div>'
+      );
+      redirect('penjualan/ceksetoranpusat');
+    } else {
+      $this->db->trans_commit();
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-green text-white alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <i class="fa fa-check"></i> Setoran Berhasil Dibatalkan !
+      </div>'
+      );
+      redirect('penjualan/ceksetoranpusat');
     }
   }
 

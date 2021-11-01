@@ -247,6 +247,19 @@ class Model_kaskecil extends CI_Model
     } else {
       $cabang = $cabang;
     }
+
+    $akun = [
+      'BDG' => '1-1102',
+      'BGR' => '1-1103',
+      'PST' => '1-1111',
+      'TSM' => '1-1112',
+      'SKB' => '1-1113',
+      'PWT' => '1-1114',
+      'TGL' => '1-1115',
+      'SBY' => '1-1116',
+      'SMR' => '1-1117',
+      'KLT' => '1-1118'
+    ];
     $status_dk = $this->input->post('inout');
     // if($cabang == 'PST'){
     //   $status_dk = $this->input->post('inout');
@@ -260,10 +273,11 @@ class Model_kaskecil extends CI_Model
     // $akun       = $this->input->post('kodeakun');
 
     $temp = $this->db->get_where('kaskecil_detail_temp', array('nobukti' => $nobukti))->result();
+
+    $this->db->trans_begin();
     foreach ($temp as $t) {
       $cekakun = substr($t->kode_akun, 0, 3);
       if ($t->status_dk == 'D' and $cekakun == '6-1' or $t->status_dk == 'D' and $cekakun == '6-2') {
-
         $tgltransaksi = explode("-", $tanggal);
         $bulan = $tgltransaksi[1];
         $tahun = $tgltransaksi[0];
@@ -280,6 +294,11 @@ class Model_kaskecil extends CI_Model
         $ceknolast = $this->db->query($qcr)->row_array();
         $nobuktilast = $ceknolast['kode_cr'];
         $kodecr = buatkode($nobuktilast, "CR" . $bulan . $thn, 4);
+
+        $qbukubesar     = "SELECT no_bukti FROM buku_besar WHERE LEFT(no_bukti,6) = 'GJ$bulan$thn' ORDER BY no_bukti DESC LIMIT 1 ";
+        $ceknolast      = $this->db->query($qbukubesar)->row_array();
+        $nobuktilast    = $ceknolast['no_bukti'];
+        $no_bukubesar   = buatkode($nobuktilast, 'GJ' . $bulan . $thn, 4);
 
 
         $data = array(
@@ -304,12 +323,10 @@ class Model_kaskecil extends CI_Model
           'id_sumber_costratio' => 1,
           'jumlah' => $t->jumlah
         ];
-        $simpandebet = $this->db->insert('kaskecil_detail', $data);
-        //Simpan Cost Ratio
-        if ($simpandebet) {
-          if ($t->peruntukan != "MP") {
-            $this->db->insert('costratio_biaya', $datacr);
-          }
+
+        $this->db->insert('kaskecil_detail', $data);
+        if ($t->peruntukan != "MP") {
+          $this->db->insert('costratio_biaya', $datacr);
         }
       } else {
         $data = array(
@@ -323,22 +340,54 @@ class Model_kaskecil extends CI_Model
           'peruntukan'   => $t->peruntukan,
           'order'        => 2,
         );
-        $simpankredit = $this->db->insert('kaskecil_detail', $data);
+        $this->db->insert('kaskecil_detail', $data);
       }
-    }
 
-    $hapus = $this->db->delete('kaskecil_detail_temp', array('nobukti' => $nobukti));
-    if ($hapus) {
+      $ceklastid = "SELECT id FROM kaskecil_detail ORDER BY id DESC LIMIT 1";
+      $lastid = $this->db->query($ceklastid)->row_array();
+
+      $databukubesar = array(
+        'no_bukti' => $no_bukubesar,
+        'tanggal' => $tanggal,
+        'sumber' => 'Kas Kecil',
+        'keterangan' => $t->keterangan,
+        'kode_akun' => $akun[$cabang],
+        'debet' => 0,
+        'kredit' => $t->jumlah,
+        'nobukti_transaksi' => $nobukti,
+        'no_ref' => $lastid['id']
+      );
+
+      $this->db->insert('buku_besar', $databukubesar);
+    }
+    $this->db->delete('kaskecil_detail_temp', array('nobukti' => $nobukti));
+    if ($this->db->trans_status() === FALSE) {
+      $this->db->trans_rollback();
+      $this->session->set_flashdata(
+        'msg',
+
+        '<div class="alert bg-danger text-white text-white alert-dismissible" role="alert">
+  
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  
+        <i class="fa fa-check"></i> Data Gagal Disimpan !
+  
+        </div>'
+      );
+
+      redirect('kaskecil');
+    } else {
+      $this->db->trans_commit();
       $this->session->set_flashdata(
         'msg',
 
         '<div class="alert bg-green text-white text-white alert-dismissible" role="alert">
-
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
-      <i class="fa fa-check"></i> Data Berhasil Disimpan !
-
-      </div>'
+  
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  
+        <i class="fa fa-check"></i> Data Berhasil Disimpan !
+  
+        </div>'
       );
 
       redirect('kaskecil');
@@ -572,6 +621,19 @@ class Model_kaskecil extends CI_Model
     } else {
       $cabang = $cabang;
     }
+
+    $akun = [
+      'BDG' => '1-1102',
+      'BGR' => '1-1103',
+      'PST' => '1-1111',
+      'TSM' => '1-1112',
+      'SKB' => '1-1113',
+      'PWT' => '1-1114',
+      'TGL' => '1-1115',
+      'SBY' => '1-1116',
+      'SMR' => '1-1117',
+      'KLT' => '1-1118'
+    ];
     $status_dk = $this->input->post('inout');
     // if($cabang == 'PST'){
     //   $status_dk = $this->input->post('inout');
@@ -591,6 +653,10 @@ class Model_kaskecil extends CI_Model
     // die;
     echo $kodecr;
     $cekakun = substr($akun, 0, 3);
+
+
+
+    $this->db->trans_begin();
     if ($status_dk == 'D' and $peruntukan != "MP" and $cekakun == '6-1' or $status_dk == 'D' and $peruntukan != "MP" and $cekakun == '6-2') {
       if (empty($kodecr)) {
         $tgltransaksi = explode("-", $tanggal);
@@ -648,13 +714,11 @@ class Model_kaskecil extends CI_Model
         );
       }
 
-      $update = $this->db->update('kaskecil_detail', $data, array('id' => $id));
-      if ($update) {
-        if (empty($kodecr)) {
-          $this->db->insert('costratio_biaya', $datacrnew);
-        } else {
-          $this->db->update('costratio_biaya', $datacr, array('kode_cr' => $kodecr));
-        }
+      $this->db->update('kaskecil_detail', $data, array('id' => $id));
+      if (empty($kodecr)) {
+        $this->db->insert('costratio_biaya', $datacrnew);
+      } else {
+        $this->db->update('costratio_biaya', $datacr, array('kode_cr' => $kodecr));
       }
       // echo "cek1";
       // die;
@@ -670,26 +734,47 @@ class Model_kaskecil extends CI_Model
         'peruntukan'   => $peruntukan
       );
 
-      $update = $this->db->update('kaskecil_detail', $data, array('id' => $id));
-      if ($update) {
-        $this->db->delete('costratio_biaya', array('kode_cr' => $kodecr));
-      }
+      $this->db->update('kaskecil_detail', $data, array('id' => $id));
+      $this->db->delete('costratio_biaya', array('kode_cr' => $kodecr));
       // echo "cek2";
       // die;
     }
-    $this->session->set_flashdata(
-      'msg',
 
-      '<div class="alert bg-green text-white text-white alert-dismissible" role="alert">
-
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
-      <i class="fa fa-check"></i> Data Berhasil Disimpan !
-
-      </div>'
+    $databukubesar = array(
+      'tanggal' => $tanggal,
+      'sumber' => 'Kas Kecil',
+      'keterangan' => $keterangan,
+      'kode_akun' => $akun[$cabang],
+      'debet' => 0,
+      'kredit' => $jumlah,
+      'nobukti_transaksi' => $nobukti,
     );
 
-    redirect('kaskecil');
+    $this->db->update('buku_besar', $databukubesar, array('no_ref' => $id));
+
+
+
+    if ($this->db->trans_status() === FALSE) {
+      $this->db->trans_rollback();
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-danger text-white text-white alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <i class="fa fa-check"></i> Data Gagal Disimpan !
+        </div>'
+      );
+      redirect('kaskecil');
+    } else {
+      $this->db->trans_commit();
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-green text-white text-white alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <i class="fa fa-check"></i> Data Berhasil Disimpan !
+        </div>'
+      );
+      redirect('kaskecil');
+    }
   }
 
   function update_kaskecilakun()
@@ -721,16 +806,16 @@ class Model_kaskecil extends CI_Model
       );
       $update = $this->db->update('kaskecil_detail', $data, array('id' => $id));
     } else {
-     
+
       $data = array(
         'kode_akun'    => $akun,
         'kode_cr'      => $kodecr,
         'peruntukan'   => $peruntukan
       );
       $update = $this->db->update('kaskecil_detail', $data, array('id' => $id));
-      $cekcb = $this->db->get_where('costratio_biaya',array('kode_cr'=>$kodecr))->num_rows();
-      
-      if(empty($cekcb)){
+      $cekcb = $this->db->get_where('costratio_biaya', array('kode_cr' => $kodecr))->num_rows();
+
+      if (empty($cekcb)) {
         $datacr = [
           'kode_cr' => $kodecr,
           'tgl_transaksi' => $tanggal,
@@ -741,13 +826,12 @@ class Model_kaskecil extends CI_Model
           'jumlah' => $jumlah
         ];
         $this->db->insert('costratio_biaya', $datacr);
-      }else{
+      } else {
         $datacr = [
           'kode_akun' => $akun
         ];
         $this->db->update('costratio_biaya', $datacr, array('kode_cr' => $kodecr));
       }
-     
     }
     $this->session->set_flashdata(
       'msg',
@@ -800,24 +884,31 @@ class Model_kaskecil extends CI_Model
 
   function hapus_kaskkecil($id, $kodecr)
   {
-    $hapus = $this->db->delete('kaskecil_detail', array('id' => $id));
-    if ($hapus) {
-      $hapuscr = $this->db->delete('costratio_biaya', array('kode_cr' => $kodecr));
-      if ($hapuscr) {
-        $this->session->set_flashdata(
-          'msg',
 
-          '<div class="alert bg-green text-white text-white alert-dismissible" role="alert">
-  
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  
-        <i class="fa fa-check"></i>Data Berhasil Dihapus !
-  
-        </div>'
-        );
-
-        redirect('kaskecil');
-      }
+    $this->db->trans_begin();
+    $this->db->delete('kaskecil_detail', array('id' => $id));
+    $this->db->delete('costratio_biaya', array('kode_cr' => $kodecr));
+    $this->db->delete('buku_besar', array('no_ref' => $id));
+    if ($this->db->trans_status() === FALSE) {
+      $this->db->trans_rollback();
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-danger text-white text-white alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <i class="fa fa-check"></i>Data Gagal Dihapus !
+      </div>'
+      );
+      redirect('kaskecil');
+    } else {
+      $this->db->trans_commit();
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-green text-white text-white alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <i class="fa fa-check"></i>Data Berhasil Dihapus !
+      </div>'
+      );
+      redirect('kaskecil');
     }
   }
 
@@ -865,8 +956,26 @@ class Model_kaskecil extends CI_Model
 
   function hapus_mutasibank($id)
   {
-    $hapus = $this->db->delete('ledger_bank', array('no_bukti' => $id));
-    if ($hapus) {
+    $this->db->trans_begin();
+    $this->db->delete('ledger_bank', array('no_bukti' => $id));
+    $this->db->delete('buku_besar', array('no_ref' => $id));
+    if ($this->db->trans_status() === FALSE) {
+      $this->db->trans_rollback();
+      $this->session->set_flashdata(
+        'msg',
+
+        '<div class="alert bg-danger text-white alert-dismissible" role="alert">
+
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+      <i class="fa fa-check"></i> Data Gagal Dihapus !
+
+      </div>'
+      );
+
+      redirect('kaskecil/mutasibank');
+    } else {
+      $this->db->trans_commit();
       $this->session->set_flashdata(
         'msg',
 
