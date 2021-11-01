@@ -589,6 +589,7 @@ class Model_pembayaran extends CI_Model
   {
 
     $no_giro    = $this->input->post('no_giro');
+    $page       = $this->input->post('page');
     $status     = $this->input->post('status');
     $tgl_giro   = $this->input->post('tgl_giro');
     $pelanggan  = $this->input->post('pelanggan');
@@ -642,10 +643,22 @@ class Model_pembayaran extends CI_Model
     //Nobukti Ledger
     $tanggal        = explode("-", $tglcair);
     $tahun          = substr($tanggal[0], 2, 2);
+    $bln            = $tanggal[1];
     $qledger        = "SELECT no_bukti FROM ledger_bank WHERE LEFT(no_bukti,7) ='LR$cabang$tahun'ORDER BY no_bukti DESC LIMIT 1 ";
     $ceknolast      = $this->db->query($qledger)->row_array();
     $nobuktilast    = $ceknolast['no_bukti'];
     $no_bukti       = buatkode($nobuktilast, 'LR' . $cabang . $tahun, 4);
+
+    if ($bln < 10) {
+      $bln = "0" . $bln;
+    } else {
+      $bln = $bln;
+    }
+
+    $qbukubesar     = "SELECT no_bukti FROM buku_besar WHERE LEFT(no_bukti,6) = 'GJ$bln$tahun' ORDER BY no_bukti DESC LIMIT 1 ";
+    $ceknolast      = $this->db->query($qbukubesar)->row_array();
+    $nobuktilast    = $ceknolast['no_bukti'];
+    $no_bukubesar   = buatkode($nobuktilast, 'GJ' . $bln . $tahun, 4);
 
     //getGiro
     $getgiro        = $this->db->get_where('giro', array('no_giro' => $no_giro))->result();
@@ -733,44 +746,36 @@ class Model_pembayaran extends CI_Model
       'kategori'        => 'PNJ'
     );
 
+    $databukubesar = array(
+      'no_bukti' => $no_bukubesar,
+      'tanggal' => $tglcair,
+      'sumber' => 'ledger',
+      'keterangan' => "INV " . $listnofaktur,
+      'kode_akun' => $akun,
+      'debet' => 0,
+      'kredit' => $jmlbayar,
+      'nobukti_transaksi' => $no_bukti,
+      'no_ref' => $no_bukti
+    );
     $this->db->trans_begin();
-
-
-
-
     if ($status == 1) {
-      $update          = $this->db->update('setoran_pusat', $data, array('no_ref' => $no_giro));
-      $deleteledger = $this->db->delete('ledger_bank', array('no_ref' => $no_giro));
-      $insertledger = $this->db->insert('ledger_bank', $dataledger);
+      $this->db->update('setoran_pusat', $data, array('no_ref' => $no_giro));
+      $this->db->delete('ledger_bank', array('no_ref' => $no_giro));
+      $this->db->insert('ledger_bank', $dataledger);
+      $this->db->insert('buku_besar', $databukubesar);
     } else if ($status == 2) {
-      //$delete       = $this->db->delete('setoran_pusat',array('no_giro'=>$no_giro));
-      $deleteledger = $this->db->delete('ledger_bank', array('no_ref' => $no_giro));
-      $update          = $this->db->update('setoran_pusat', $dataditolak, array('no_ref' => $no_giro));
-      if (!$update) {
-        // $qsb 				      	= "SELECT kode_setoranpusat FROM setoran_pusat
-        //                       WHERE LEFT(kode_setoranpusat,4) = 'SB$tahunini' ORDER BY kode_setoranpusat DESC LIMIT 1";
-        // $sb							    = $this->db->query($qsb)->row_array();
-        // $nomor_terakhir 		= $sb['kode_setoranpusat'];
-        // $kode_setoranpusat 	= buatkode($nomor_terakhir,'SB'.$tahunini,5);
-        // $dataditolak = array(
-        //   'kode_setoranpusat' => $kode_setoranpusat,
-        //   'tgl_setoranpusat'	=> $tglcair,
-        //   'kode_cabang'				=> $cabang,
-        //   'bank'							=> $bankpenerima,
-        //   'no_giro'				    => $no_giro,
-        //   'giro'				      => '-'.$jmlbayar,
-        //   'keterangan'				=> "SETOR GIRO PELANGGAN ".$cekcabang['nama_pelanggan'],
-        //   'status'						=> '2'
-        // );
-        // $insert_ditolak  = $this->db->insert('setoran_pusat',$dataditolak);
-      }
+      $cekledger = $this->db->get_where('ledger_bank', array('no_ref' => $no_giro))->row_array();
+      $noledger = $cekledger['no_bukti'];
+      $this->db->delete('ledger_bank', array('no_ref' => $no_giro));
+      $this->db->update('setoran_pusat', $dataditolak, array('no_ref' => $no_giro));
+      $this->db->delete('buku_besar', array('no_ref' => $noledger));
     } else {
-      //echo "TEST";
-      $deleteledger = $this->db->delete('ledger_bank', array('no_ref' => $no_giro));
-      //$delete       = $this->db->delete('setoran_pusat',array('no_giro'=>$no_giro));
-      $update          = $this->db->update('setoran_pusat', $datapending, array('no_ref' => $no_giro));
+      $cekledger = $this->db->get_where('ledger_bank', array('no_ref' => $no_giro))->row_array();
+      $noledger = $cekledger['no_bukti'];
+      $this->db->delete('ledger_bank', array('no_ref' => $no_giro));
+      $this->db->update('setoran_pusat', $datapending, array('no_ref' => $no_giro));
+      $this->db->delete('buku_besar', array('no_ref' => $noledger));
     }
-
     foreach ($datagiro as $giro) {
       if ($status == 1) {
         $datagiro = array(
@@ -829,6 +834,28 @@ class Model_pembayaran extends CI_Model
         $this->db->delete('historibayar', array('id_giro' => $giro->id_giro));
       }
     }
+
+    if ($this->db->trans_status() === FALSE) {
+      $this->db->trans_rollback();
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-danger text-white alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <i class="fa fa-check"></i> Data Gagal Di Update !
+        </div>'
+      );
+      redirect('pembayaran/' . $page);
+    } else {
+      $this->db->trans_commit();
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-green text-white alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <i class="fa fa-check"></i> Data Berhasil Di Update !
+        </div>'
+      );
+      redirect('pembayaran/' . $page);
+    }
   }
 
 
@@ -836,6 +863,7 @@ class Model_pembayaran extends CI_Model
   {
 
     $id_transfer  = $this->input->post('id_transfer');
+    $page         = $this->input->post('page');
     $status       = $this->input->post('status');
     $tgl_transfer = $this->input->post('tgl_transfer');
     $pelanggan    = $this->input->post('pelanggan');
@@ -1081,8 +1109,24 @@ class Model_pembayaran extends CI_Model
     }
     if ($this->db->trans_status() === FALSE) {
       $this->db->trans_rollback();
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-danger text-white alert-dismissible" role="alert">
+	              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                 <i class="fa fa-check"></i> Data Gagal Di Update !
+	          </div>'
+      );
+      redirect('pembayaran/' . $page);
     } else {
       $this->db->trans_commit();
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-green text-white alert-dismissible" role="alert">
+	              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                 <i class="fa fa-check"></i> Data Berhasil Di Update !
+	          </div>'
+      );
+      redirect('pembayaran/' . $page);
     }
   }
 

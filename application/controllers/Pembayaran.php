@@ -1210,17 +1210,7 @@ class Pembayaran extends CI_Controller
 	{
 
 		if (isset($_POST['submit'])) {
-			$no_giro   	= $this->input->post('no_giro');
-			$page 	  	= $this->input->post('page');
-			$this->Model_pembayaran->updatebayargiro($no_giro);
-			$this->session->set_flashdata(
-				'msg',
-				'<div class="alert bg-green text-white alert-dismissible" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <i class="fa fa-check"></i> Data Berhasil Di Update !
-        </div>'
-			);
-			redirect('pembayaran/' . $page);
+			$this->Model_pembayaran->updatebayargiro();
 		} else {
 			$no_giro 					= $this->input->post('no_giro');
 			$data['status']		= $this->input->post('status');
@@ -1237,17 +1227,7 @@ class Pembayaran extends CI_Controller
 	{
 
 		if (isset($_POST['submit'])) {
-			$idtransfer   = $this->input->post('id_transfer');
-			$page 	  	  = $this->input->post('page');
-			$this->Model_pembayaran->updatebayartransfer($idtransfer);
-			$this->session->set_flashdata(
-				'msg',
-				'<div class="alert bg-green text-white alert-dismissible" role="alert">
-	              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	                 <i class="fa fa-check"></i> Data Berhasil Di Update !
-	          </div>'
-			);
-			redirect('pembayaran/' . $page);
+			$this->Model_pembayaran->updatebayartransfer();
 		} else {
 			$idtransfer 				= $this->input->post('id_transfer');
 			$data['transfer']			= $this->Model_pembayaran->viewtransfer($idtransfer)->row_array();
