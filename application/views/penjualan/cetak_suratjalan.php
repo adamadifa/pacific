@@ -54,7 +54,6 @@ font-family:Arial;}
 </tr>
 
 <tr>
-	<td>&nbsp;</td>
 	<td width="15%">Tgl Faktur</td>
 	<td width="1%">:</td>
 	<td width="40%"><?php echo DatetoIndo2($faktur['tgltransaksi']); ?></td>
@@ -63,7 +62,6 @@ font-family:Arial;}
 	<td><?php echo $faktur['nama_pelanggan']; ?></td>
 </tr>
 <tr>
-	<td>&nbsp;</td>
 	<td>No. Kendaraan</td>
 	<td>:</td>
 	<td></td>
@@ -152,7 +150,7 @@ font-family:Arial;}
 		</tr>
 		<tr style="font-weight:bold; text-align:center">
 			<td>Penjualan</td>
-			<td>Pengemudi</td>
+			<td>Pengirim</td>
 			<td>Pelanggan</td>
 			<td>Security</td>
 			<td></td>

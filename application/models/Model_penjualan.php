@@ -183,7 +183,14 @@ class Model_penjualan extends CI_Model
     } else {
       $potsp = $potsp;
     }
-    $potongan       = $potaida + $potswan + $potstick + $potsp;
+
+    $potsambal       = str_replace(".", "", $this->input->post('potsambal'));
+    if (empty($potsambal)) {
+      $potsambal = 0;
+    } else {
+      $potsambal = $potsambal;
+    }
+    $potongan       = $potaida + $potswan + $potstick + $potsp + $potsambal;
 
 
     $voucher       = str_replace(".", "", $this->input->post('voucher'));

@@ -284,9 +284,9 @@ class Penjualan extends CI_Controller
       $this->Model_penjualan->retur_penjualan();
       $this->session->set_flashdata(
         'msg',
-        '<div class="alert bg-red text-white alert-dismissible" role="alert">
+        '<div class="alert bg-success text-white alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Gagal DIhapus, Periode Laporan Suda Ditutup !
+            <i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil Disimpan !
         </div>'
       );
       redirect('penjualan/retur_penjualangb');
@@ -541,6 +541,15 @@ class Penjualan extends CI_Controller
     $data['faktur']      = $this->Model_penjualan->get_faktur($nofaktur)->row_array();
     $data['barang']      = $this->Model_penjualan->get_detailpenjualan($nofaktur)->result();
     $this->load->view('penjualan/cetak_kwitansi', $data);
+  }
+
+
+  function cetak_faktursj()
+  {
+    $nofaktur            = $this->uri->segment(3);
+    $data['faktur']      = $this->Model_penjualan->get_faktur($nofaktur)->row_array();
+    $data['barang']      = $this->Model_penjualan->get_detailpenjualan($nofaktur)->result();
+    $this->load->view('penjualan/cetak_faktursj', $data);
   }
 
   function update_histori()

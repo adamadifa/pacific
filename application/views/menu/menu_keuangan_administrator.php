@@ -126,6 +126,13 @@ if ($level == "Administrator") {
       <a href="#" class="list-group-item list-group-item-action active">
         Penjualan
       </a>
+      <?php
+      if ($this->session->userdata('username') == "nurman") {
+      ?>
+        <a href="<?php echo base_url(); ?>penjualan/setoranpenjualan" class="list-group-item list-group-item-action">
+          <i class="fa fa-money mr-2"></i>Setoran Penjualan
+        </a>
+      <?php } ?>
       <a href="<?php echo base_url(); ?>pembayaran/listgiro" class="list-group-item list-group-item-action">
         <i class="fa fa-file-text mr-2"></i>Giro
       </a>
@@ -152,7 +159,7 @@ if ($level == "Administrator") {
     </div>
   </div>
   <?php
-  if ($this->session->userdata('username') != "nurman") {
+  if ($this->session->userdata('username') != "nurmans") {
   ?>
     <div class="card">
       <div class="list-group">
@@ -193,7 +200,7 @@ if ($level == "Administrator") {
   </div>
 
   <?php
-  if ($this->session->userdata('username') == "siskapusat") {
+  if ($this->session->userdata('username') == "siskapusat" || $this->session->userdata('username') == "nurman") {
   ?>
     <div class="card">
       <div class="list-group">

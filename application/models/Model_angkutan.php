@@ -168,7 +168,8 @@ class Model_angkutan extends CI_Model
     $keterangan         = $this->input->post('keterangan');
     $bank               = $this->input->post('via');
     $no_kontrabon       = $this->input->post('no_kontrabon');
-    $bulan              = substr($this->input->post('tgl_ledger'),6,2);
+    $bulan              = $tanggal[1];
+    
 
     $jmlhangkutan = $this->db->query("SELECT SUM(tarif+bs+tepung) as jumlah FROM detail_kontrabon_angkutan
     INNER JOIN angkutan ON angkutan.no_surat_jalan=detail_kontrabon_angkutan.no_surat_jalan

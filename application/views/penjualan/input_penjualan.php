@@ -280,6 +280,15 @@
 											<i class="fa fa-money"></i>
 										</span>
 									</div>
+									<div class="input-group mb-2">
+										<span class="input-group-text">
+											SAMBAL
+										</span>
+										<input type="text" class="form-control text-right" id="potsambal" name="potsambal" value="0">
+										<span class="input-group-text">
+											<i class="fa fa-money"></i>
+										</span>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -505,7 +514,7 @@
 </div>
 <script>
 	$(function() {
-		$('#potaida,#potswan,#potstick,#potisaida,#potisswan,#potisstick,#penyaida,#penystick,#penyswan,#potsp,#voucher').maskMoney();
+		$('#potaida,#potswan,#potstick,#potisaida,#potisswan,#potisstick,#penyaida,#penystick,#penyswan,#potsp,#potsambal,#voucher').maskMoney();
 
 		$('#angka3').maskMoney({
 			thousands: '.',
@@ -1177,6 +1186,8 @@
 		uangpotstick = potstick.replace(/\./g, '');
 		potsp = document.getElementById('potsp').value;
 		uangpotsp = potsp.replace(/\./g, '');
+		potsambal = document.getElementById('potsambal').value;
+		uangpotsambal = potsambal.replace(/\./g, '');
 
 		//Potongan Istimewa
 		potisaida = document.getElementById('potisaida').value;
@@ -1215,6 +1226,10 @@
 			uangpotsp = 0;
 		}
 
+		if (uangpotsambal == "") {
+			uangpotsambal = 0;
+		}
+
 		//Potongan Istimewa
 		if (uangpotisaida == "") {
 			uangpotisaida = 0;
@@ -1244,7 +1259,7 @@
 		if (uangvoucher == "") {
 			uangvoucher = 0;
 		}
-		var potongan = parseInt(uangpotaida) + parseInt(uangpotswan) + parseInt(uangpotstick) + parseInt(uangpotsp);
+		var potongan = parseInt(uangpotaida) + parseInt(uangpotswan) + parseInt(uangpotstick) + parseInt(uangpotsp) + parseInt(uangpotsambal);
 		var potistimewa = parseInt(uangpotisaida) + parseInt(uangpotisswan) + parseInt(uangpotisstick);
 		var penyesuaian = parseInt(uangpenyaida) + parseInt(uangpenyswan) + parseInt(uangpenystick);
 		var vc = parseInt(uangvoucher);

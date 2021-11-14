@@ -97,194 +97,514 @@ tr:nth-child(even) {
   </thead>
   <tbody>
     <?php
-    $no               = 1;
-    $totalproduksi    = 0;
-    $totalcabangpeng  = 0;
-    $totalseasoning   = 0;
-    $totalpdqc        = 0;
-    $totalsusut       = 0;
-    $totalpembelian   = 0;
-    $totallainnya     = 0;
-    $totalqtysa       = 0;
-    $saldoakhirunit2  = 0;
-    $totallainnyapeng = 0;
-    $totjmlhlainnya   = 0;
-    $saldoakhirberat2 = 0;
-    $totaljmlhsa      = 0;
-    $totalretur       = 0;
-    $totjmlhcabang    = 0;
-    $totjmlhpdqc      = 0;
-    $totjmlhpemb      = 0;
-    $totjmlhsusut     = 0;
-    $totjmlhproduksi  = 0;
-    $totsaldoakhir   = 0;
-    $totjmlhqtypdqc   = 0;
-    $totalretur   = 0;
-    $totjmlhseasoning = 0;
-    $totjmlpengganti = 0;
-    $totjmlhlainnyapeng = 0;
-    $totjmlhsaldoakhir  = 0;
-    $subtotalqtysa  = 0;
-    $subtotalpembelian  = 0;
-    $subtotallainnya  = 0;
-    $subtotalproduksi  = 0;
-    $subtotalseasoning  = 0;
-    $subtotalpdqc  = 0;
-    $subtotallainnyapeng  = 0;
-    $subtotalcabangpeng  = 0;
-    $subtotalsusut  = 0;
-    $subtotalretur  = 0;
-    $subtotaljmlhsa  = 0;
-    $subtotjmlhpemb  = 0;
-    $subtotjmlhlainnya  = 0;
-    $subtotjmlhproduksi  = 0;
-    $subtotjmlhseasoning  = 0;
-    $subtotjmlhpdqc  = 0;
-    $totjmlhretur  = 0;
-    $subtotjmlhretur  = 0;
-    $subjmlhretur  = 0;
-    $subtotjmlhlainnyapeng = 0;
-    $subtotjmlhcabang      = 0;
-    $subtotjmlhopname       = 0;
-    $totalopname       = 0;
-    $totjmlhopname       = 0;
-    $subtotjmlhsusut       = 0;
-    $subtotalopname      = 0;
-    $subtotsaldoakhir      = 0;
-    $subtotjmlhsaldoakhir  = 0;
-    
+    $no                         = 1;
+    $grandtotalqtysaldoawal     = 0;
+    $grandtotaljmlsaldoawal     = 0;
+    $grandtotalqtypemberlian    = 0;
+    $grandtotaljmlpemberlian    = 0;
+    $grandtotalqtypengganti     = 0;
+    $grandtotaljmlpengganti     = 0;
+    $grandtotalqtylainnya       = 0;
+    $grandtotaljmllainnya       = 0;
+    $grandtotalqtyproduksi      = 0;
+    $grandtotaljmlproduksi      = 0;
+    $grandtotalqtypdqc          = 0;
+    $grandtotaljmlpdqc          = 0;
+    $grandtotalqtyseasoning     = 0;
+    $grandtotaljmlseasoning     = 0;
+    $grandtotalqtysusut         = 0;
+    $grandtotaljmlsusut         = 0;
+    $grandtotalqtycabang        = 0;
+    $grandtotaljmlcabang        = 0;
+    $grandtotalqtylain          = 0;
+    $grandtotaljmllain          = 0;
+    $grandtotalqtysaldoakhir    = 0;
+    $grandtotaljmlsaldoakhir    = 0;
+    $grandtotalqtyopname        = 0;
+    $grandtotaljmlopname        = 0;
+
+    $totalqtyopname             = 0;
+    $totaljumlahsaldoawal       = 0;
+    $totalqtysaldoawal          = 0;
+    $totalqtypembelian          = 0;
+    $totaljumlahopname          = 0;
+    $totalqtylainnya            = 0;
+    $totaljumlahlainnya         = 0;
+    $totalqtyproduksi           = 0;
+    $totalqtyseasoning          = 0;
+    $totalqtypdqc               = 0;
+    $totaljumlahlain            = 0;
+    $totalqtycabang             = 0;
+    $totalqtysusut              = 0;
+    $totalqtypengganti          = 0;
+    $totaljumlahpembelian       = 0;
+    $totaljumlahpengganti       = 0;
+    $totaljumlahproduksi        = 0;
+    $totaljumlahseasoning       = 0;
+    $totaljumlahpdqc            = 0;
+    $totalqtylain               = 0;
+    $totaljumlahcabang          = 0;
+    $totaljumlahsusut           = 0;
+    $totalqtysaldoakhir         = 0;
+    $totaljumlahsaldoakhir      = 0;
     foreach ($data as $key => $d) {
-      $saldoakhirberat     = $d->qtyberatsa + $d->qtypemb2 + $d->qtylainnya2 + $d->qtypengganti2 - $d->qtyprod4 - $d->qtyseas4 - $d->qtypdqc4 - $d->qtylain4 - $d->qtysus4 - $d->qtycabang4;
-      $saldoakhirunit      = $d->qtyunitsa + $d->qtypemb1 + $d->qtylainnya1 + $d->qtypengganti1 - $d->qtyprod3 - $d->qtyseas3 - $d->qtypdqc3 - $d->qtylain3 - $d->qtysus3 - $d->qtycabang3;
 
-      if ($d->satuan != 'KG') {
-        $hargasa          = $d->harga / ($d->qtyunitsa + 0.00000000000000000000000000000000000000000000000000001);
-        $hargapemb        = $d->totalharga / ($d->qtypemb1 + 0.00000000000000000000000000000000000000000000000000001);
-        
+      if($d->satuan == 'KG'){
 
-        $qtysaldoawal         = $d->qtyunitsa;
-
-        $subtotalqtysa       += $d->qtyunitsa;
-        $subtotalpembelian   += $d->qtypemb1;
-        $subtotallainnya     += $d->qtylainnya1;
-        $subtotalproduksi    += $d->qtyprod3;
-        $subtotalseasoning   += $d->qtyseas3;
-        $subtotalpdqc        += $d->qtypdqc3;
-        $subtotallainnyapeng += $d->qtylain3;
-        $subtotalcabangpeng  += $d->qtycabang3;
-        $subtotalsusut       += $d->qtysus3;
-        $subtotalretur       += $d->qtypengganti1;
-        
-        $totalqtysa         += $d->qtyunitsa;
-        $totalpembelian     += $d->qtypemb1;
-        $totallainnya       += $d->qtylainnya1;
-        $totalproduksi      += $d->qtyprod3;
-        $totalseasoning     += $d->qtyseas3;
-        $totalpdqc          += $d->qtypdqc3;
-        $totallainnyapeng   += $d->qtylain3;
-        $totalcabangpeng    += $d->qtycabang3;
-        $totalsusut         += $d->qtysus3;
-        $totalretur         += $d->qtypengganti1;
-
-        $totaljmlhsa      += $d->qtyunitsa * $hargasa;
-        $totjmlhpemb      += $d->qtypemb1 * $hargapemb;
-       
-        
-        $jmlhsaldoawal    = $d->qtyunitsa * $hargasa;
-        $jmlhpemb         = $d->qtypemb1 * $hargapemb;
-        $jmlhretur        = $d->qtypengganti1 * $hargapemb;
-        $jmlhlainnya      = $d->qtylainnya1 * $hargapemb;
-
-        if ($d->qtypemb1 != '' && $d->qtypemb1 != 0 && !empty($d->qtypemb1) ) {
-          $hargakeluarunit    = ($jmlhpemb + $jmlhlainnya + $jmlhretur + $jmlhsaldoawal) / (($d->qtypemb1 + $d->qtyunitsa + $d->qtypengganti1 + $d->qtylainnya1)+0.0000000001);
-          $totjmlhlainnya     += $d->qtylainnya1 * $hargapemb;
-          $totjmlhretur       += $d->qtypengganti1 * $hargapemb;
-          $jmlhlainnya        = $d->qtylainnya1 * $hargapemb;
-          $jmlhretur          = $d->qtypengganti1 * $hargapemb;
+        $qtysaldoawal       = $d->qtyberatsa * 1000;
+        if($qtysaldoawal == 0){
+          $hargasaldoawal     = 0;
         }else{
-          $hargakeluarunit    = $hargasa;
-          $totjmlhlainnya     += $d->qtylainnya1 * $hargasa;
-          $totjmlhretur       += $d->qtypengganti1 * $hargasa;
-          $jmlhlainnya        = $d->qtylainnya1 * $hargasa;
-          $jmlhretur          = $d->qtypengganti1 * $hargasa;
+          $hargasaldoawal     = $d->harga / $qtysaldoawal;
         }
+        $jumlahsaldoawal      = $d->harga;
+        
+        $qtypembelian         = $d->qtypemb2 * 1000;
+        if($qtypembelian == 0){
+          $qtypembelian       = 0;
+          $hargapembelian     = $hargasaldoawal;
+        }else{
+          $hargapembelian     = $d->totalharga / $qtypembelian;
+        }
+        $jumlahpembelian      = $d->totalharga;
+        
+        $qtylainnya         = $d->qtylainnya2 * 1000;
+        if($qtylainnya == 0){
+          $hargalainnya     = 0;
+        }else{
+          $hargalainnya     = $hargapembelian;
+        }
+        $jumlahlainnya      = $qtylainnya * $hargalainnya;
 
-        $subtotjmlhproduksi    += $d->qtyprod3 * $hargakeluarunit;
-        $subtotjmlhseasoning   += $d->qtyseas3 * $hargakeluarunit;
-        $subtotjmlhpdqc        += $d->qtypdqc3 * $hargakeluarunit;
-        $subtotjmlhlainnyapeng += $d->qtylain3 * $hargakeluarunit;
-        $subtotjmlhcabang      += $d->qtycabang3 * $hargakeluarunit;
-        $subtotjmlhsusut       += $d->qtysus3 * $hargakeluarunit;
-        $subtotsaldoakhir      += $saldoakhirunit;
-        $subtotjmlhsaldoakhir  += $saldoakhirunit * $hargakeluarunit;
+        $qtypengganti         = $d->qtypengganti2 * 1000;
+        if($qtypengganti == 0){
+          $hargapengganti       = 0;
+        }else{
+          $hargapengganti     = $hargapembelian;
+        }
+        $jumlahpengganti      = $qtypengganti * $hargapengganti;
 
-        $totjmlhproduksi    += $d->qtyprod3 * $hargakeluarunit;
-        $totjmlhseasoning   += $d->qtyseas3 * $hargakeluarunit;
-        $totjmlhpdqc        += $d->qtypdqc3 * $hargakeluarunit;
-        $totjmlhlainnyapeng += $d->qtylain3 * $hargakeluarunit;
-        $totjmlhcabang      += $d->qtycabang3 * $hargakeluarunit;
-        $totjmlhsusut       += $d->qtysus3 * $hargakeluarunit;
-        $totsaldoakhir      += $saldoakhirunit;
-        $totjmlhsaldoakhir  += $saldoakhirunit * $hargakeluarunit;
+        $qtyproduksi         = $d->qtyprod4 * 1000;
+        if($qtyproduksi == 0){
+          $hargaproduksi       = 0;
+        }else{
+          $hargaproduksi     = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahproduksi      = $qtyproduksi * $hargaproduksi;
+
+        $qtyseasoning         = $d->qtyseas4 * 1000;
+        if($qtyseasoning == 0){
+          $hargaseasoning     = 0;
+        }else{
+          $hargaseasoning     = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahseasoning      = $qtyseasoning * $hargaseasoning;
+        
+        $qtypdqc            = $d->qtypdqc4 * 1000;
+        if($qtypdqc == 0){
+          $hargapdqc        = 0;
+        }else{
+          $hargapdqc        = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahpdqc         = $qtypdqc * $hargapdqc;
+
+        $qtysusut         = $d->qtysus4 * 1000;
+        if($qtysusut == 0){
+          $hargasusut     = 0;
+        }else{
+          $hargasusut     = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahsusut      = $qtysusut * $hargasusut;
+
+        $qtycabang         = $d->qtycabang4 * 1000;
+        if($qtycabang == 0){
+          $hargacabang     = 0;
+        }else{
+          $hargacabang     = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahcabang      = $qtycabang * $hargacabang;
+
+        $qtylain         = $d->qtylain4 * 1000;
+        if($qtylain == 0){
+          $hargalain     = 0;
+        }else{
+          $hargalain     = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahlain      = $qtylain * $hargalain;
+
+        $qtysaldoakhir         = ($qtysaldoawal + $qtypembelian + $qtylainnya + $qtypengganti) - ($qtyproduksi + $qtypdqc + $qtyseasoning + $qtysusut + $qtycabang + $qtylain);
+        if($qtysaldoakhir == 0){
+          $hargasaldoakhir     = 0;
+        }else{
+          $hargasaldoakhir     = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahsaldoakhir      = $qtysaldoakhir * $hargasaldoakhir;
+
+        $qtyopname       = $d->qtyberatop * 1000;
+        if($qtyopname == 0){
+          $hargaopname     = 0;
+        }else{
+          $hargaopname     = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahopname      = $qtyopname * $hargaopname;
+        
+        $totalqtysaldoawal          += $qtysaldoawal;
+        $totaljumlahsaldoawal       += $jumlahsaldoawal;
+        $totalqtypembelian          += $qtypembelian;
+        $totaljumlahpembelian       += $jumlahpembelian;
+        $totalqtylainnya            += $qtylainnya;
+        $totaljumlahlainnya         += $jumlahlainnya;
+        $totalqtypengganti          += $qtypengganti;
+        $totaljumlahpengganti       += $jumlahpengganti;
+        $totalqtyproduksi           += $qtyproduksi;
+        $totaljumlahproduksi        += $jumlahproduksi;
+        $totalqtyseasoning          += $qtyseasoning;
+        $totaljumlahseasoning       += $jumlahseasoning;
+        $totalqtypdqc               += $qtypdqc;
+        $totaljumlahpdqc            += $jumlahpdqc;
+        $totalqtysusut              += $qtysusut;
+        $totaljumlahsusut           += $jumlahsusut;
+        $totalqtycabang             += $qtycabang;
+        $totaljumlahcabang          += $jumlahcabang;
+        $totalqtylain               += $qtylain;
+        $totaljumlahlain            += $jumlahlain;
+        $totalqtysaldoakhir         += $qtysaldoakhir;
+        $totaljumlahsaldoakhir      += $qtysaldoakhir * $hargasaldoakhir;
+        $totalqtyopname             += $qtyopname;
+        $totaljumlahopname          += $jumlahopname;
+
+        $grandtotalqtysaldoawal     += $qtysaldoawal;;
+        $grandtotaljmlsaldoawal     += $jumlahsaldoawal;
+        $grandtotalqtypemberlian    += $qtypembelian;
+        $grandtotaljmlpemberlian    += $jumlahpembelian;
+        $grandtotalqtypengganti     += $qtypengganti;
+        $grandtotaljmlpengganti     += $jumlahpengganti;
+        $grandtotalqtylainnya       += $qtylainnya;
+        $grandtotaljmllainnya       += $jumlahlainnya;
+        $grandtotalqtyproduksi      += $qtyproduksi;
+        $grandtotaljmlproduksi      += $jumlahproduksi;
+        $grandtotalqtypdqc          += $qtypdqc;
+        $grandtotaljmlpdqc          += $jumlahpdqc;
+        $grandtotalqtyseasoning     += $qtyseasoning;
+        $grandtotaljmlseasoning     += $jumlahseasoning;
+        $grandtotalqtysusut         += $qtysusut;
+        $grandtotaljmlsusut         += $jumlahsusut;
+        $grandtotalqtycabang        += $qtycabang;
+        $grandtotaljmlcabang        += $jumlahcabang;
+        $grandtotalqtylain          += $qtylain;
+        $grandtotaljmllain          += $jumlahlain;
+        $grandtotalqtysaldoakhir    += $qtysaldoakhir;
+        $grandtotaljmlsaldoakhir    += $jumlahsaldoakhir;
+        $grandtotalqtyopname        += $qtyopname;
+        $grandtotaljmlopname        += $jumlahopname;
+
+      }else if($d->satuan == 'Liter'){
+
+        $hargakilo          = 0.9064;
+        $qtysaldoawal       = ($d->qtyberatsa * 1000) * ($hargakilo);
+        if($qtysaldoawal == 0){
+          $hargasaldoawal     = 0;
+        }else{
+          $hargasaldoawal     = $d->harga / $qtysaldoawal;
+        }
+        $jumlahsaldoawal      = $d->harga;
+        
+        $qtypembelian         = ($d->qtypemb2 * 1000) * ($hargakilo);
+        if($qtypembelian == 0){
+          $qtypembelian       = 0;
+          $hargapembelian     = $hargasaldoawal;
+        }else{
+          $hargapembelian     = $d->totalharga / $qtypembelian;
+        }
+        $jumlahpembelian      = $d->totalharga;
+        
+        $qtylainnya         = ($d->qtylainnya2 * 1000) * ($hargakilo);
+        if($qtylainnya == 0){
+          $hargalainnya     = 0;
+        }else{
+          $hargalainnya     = $hargapembelian;
+        }
+        $jumlahlainnya      = $qtylainnya * $hargalainnya;
+
+        $qtypengganti         = ($d->qtypengganti2 * 1000) * ($hargakilo);
+        if($qtypengganti == 0){
+          $hargapengganti       = 0;
+        }else{
+          $hargapengganti     = $hargapembelian;
+        }
+        $jumlahpengganti      = $qtypengganti * $hargapengganti;
+
+        $qtyproduksi         = ($d->qtyprod4 * 1000) * ($hargakilo);
+        if($qtyproduksi == 0){
+          $hargaproduksi       = 0;
+        }else{
+          $hargaproduksi     = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahproduksi      = $qtyproduksi * $hargaproduksi;
+
+        $qtyseasoning         = ($d->qtyseas4 * 1000) * ($hargakilo);
+        if($qtyseasoning == 0){
+          $hargaseasoning     = 0;
+        }else{
+          $hargaseasoning     = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahseasoning      = $qtyseasoning * $hargaseasoning;
+        
+        $qtypdqc            = ($d->qtypdqc4 * 1000) * ($hargakilo);
+        if($qtypdqc == 0){
+          $hargapdqc        = 0;
+        }else{
+          $hargapdqc        = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahpdqc         = $qtypdqc * $hargapdqc;
+
+        $qtysusut         = ($d->qtysus4 * 1000) * ($hargakilo);
+        if($qtysusut == 0){
+          $hargasusut     = 0;
+        }else{
+          $hargasusut     = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahsusut      = $qtysusut * $hargasusut;
+
+        $qtycabang         = ($d->qtycabang4 * 1000) * ($hargakilo);
+        if($qtycabang == 0){
+          $hargacabang     = 0;
+        }else{
+          $hargacabang     = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahcabang      = $qtycabang * $hargacabang;
+
+        $qtylain         = ($d->qtylain4 * 1000) * ($hargakilo);
+        if($qtylain == 0){
+          $hargalain     = 0;
+        }else{
+          $hargalain     = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahlain      = $qtylain * $hargalain;
+        
+        $qtysaldoakhir         = ($qtysaldoawal + $qtypembelian + $qtylainnya + $qtypengganti) - ($qtyproduksi + $qtypdqc + $qtyseasoning + $qtysusut + $qtycabang + $qtylain);
+        if($qtysaldoakhir == 0){
+          $hargasaldoakhir     = 0;
+        }else{
+          $hargasaldoakhir     = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahsaldoakhir      = $qtysaldoakhir * $hargasaldoakhir;
+
+        $qtyopname             = ($d->qtyberatop * 1000) * $hargakilo;
+        if($qtyopname == 0){
+          $hargaopname         = 0;
+        }else{
+          $hargaopname         = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahopname          = $qtyopname * $hargaopname;
+
+        
+        $totalqtysaldoawal          += $qtysaldoawal;
+        $totaljumlahsaldoawal       += $jumlahsaldoawal;
+        $totalqtypembelian          += $qtypembelian;
+        $totaljumlahpembelian       += $jumlahpembelian;
+        $totalqtylainnya            += $qtylainnya;
+        $totaljumlahlainnya         += $jumlahlainnya;
+        $totalqtypengganti          += $qtypengganti;
+        $totaljumlahpengganti       += $jumlahpengganti;
+        $totalqtyproduksi           += $qtyproduksi;
+        $totaljumlahproduksi        += $jumlahproduksi;
+        $totalqtyseasoning          += $qtyseasoning;
+        $totaljumlahseasoning       += $jumlahseasoning;
+        $totalqtypdqc               += $qtypdqc;
+        $totaljumlahpdqc            += $jumlahpdqc;
+        $totalqtysusut              += $qtysusut;
+        $totaljumlahsusut           += $jumlahsusut;
+        $totalqtycabang             += $qtycabang;
+        $totaljumlahcabang          += $jumlahcabang;
+        $totalqtylain               += $qtylain;
+        $totaljumlahlain            += $jumlahlain;
+        $totalqtysaldoakhir         += $qtysaldoakhir;
+        $totaljumlahsaldoakhir      += $qtysaldoakhir * $hargasaldoakhir;
+        $totalqtyopname             += $qtyopname;
+        $totaljumlahopname          += $jumlahopname;
+
+        $grandtotalqtysaldoawal     += $qtysaldoawal;;
+        $grandtotaljmlsaldoawal     += $jumlahsaldoawal;
+        $grandtotalqtypemberlian    += $qtypembelian;
+        $grandtotaljmlpemberlian    += $jumlahpembelian;
+        $grandtotalqtypengganti     += $qtypengganti;
+        $grandtotaljmlpengganti     += $jumlahpengganti;
+        $grandtotalqtylainnya       += $qtylainnya;
+        $grandtotaljmllainnya       += $jumlahlainnya;
+        $grandtotalqtyproduksi      += $qtyproduksi;
+        $grandtotaljmlproduksi      += $jumlahproduksi;
+        $grandtotalqtypdqc          += $qtypdqc;
+        $grandtotaljmlpdqc          += $jumlahpdqc;
+        $grandtotalqtyseasoning     += $qtyseasoning;
+        $grandtotaljmlseasoning     += $jumlahseasoning;
+        $grandtotalqtysusut         += $qtysusut;
+        $grandtotaljmlsusut         += $jumlahsusut;
+        $grandtotalqtycabang        += $qtycabang;
+        $grandtotaljmlcabang        += $jumlahcabang;
+        $grandtotalqtylain          += $qtylain;
+        $grandtotaljmllain          += $jumlahlain;
+        $grandtotalqtysaldoakhir    += $qtysaldoakhir;
+        $grandtotaljmlsaldoakhir    += $jumlahsaldoakhir;
+        $grandtotalqtyopname        += $qtyopname;
+        $grandtotaljmlopname        += $jumlahopname;
 
       }else{
 
-        $hargasa            = $d->harga / ($d->qtyberatsa * 1000 + 0.00000000000000000000000000000000000000000000000000001);
-        $hargapemb          = $d->totalharga / ($d->qtypemb2 * 1000 + 0.00000000000000000000000000000000000000000000000000001);
+        $qtysaldoawal         = $d->qtyunitsa;
+        if($qtysaldoawal == 0){
+          $hargasaldoawal     = 0;
+        }else{
+          $hargasaldoawal     = $d->harga / $qtysaldoawal;
+        }
+        $jumlahsaldoawal      = $d->harga;
 
-        $subtotalopname      += $d->qtyberatop * 1000;
-        $subtotalqtysa       += $d->qtyberatsa * 1000;
-        $subtotalpembelian   += $d->qtypemb2 * 1000;
-        $subtotallainnya     += $d->qtylainnya2 * 1000;
-        $subtotalproduksi    += $d->qtyprod4 * 1000;
-        $subtotalseasoning   += $d->qtyseas4 * 1000;
-        $subtotalpdqc        += $d->qtypdqc4 * 1000;
-        $subtotallainnyapeng += $d->qtylain4 * 1000;
-        $subtotalcabangpeng  += $d->qtycabang4 * 1000;
-        $subtotalsusut       += $d->qtysus4 * 1000;
-        $subtotalretur       += $d->qtypengganti2 * 1000;
+        $qtypembelian         = $d->qtypemb1;
+        if($qtypembelian == 0){
+          $qtypembelian       = 0;
+          $hargapembelian     = $hargasaldoawal;
+        }else{
+          $hargapembelian     = $d->totalharga / $qtypembelian;
+        }
+        $jumlahpembelian      = $d->totalharga;
 
-        $totalqtysa         += $d->qtyberatsa * 1000;
-        $totalpembelian     += $d->qtypemb2 * 1000;
-        $totallainnya       += $d->qtylainnya2 * 1000;
-        $totalproduksi      += $d->qtyprod4 * 1000;
-        $totalseasoning     += $d->qtyseas4 * 1000;
-        $totalpdqc          += $d->qtypdqc4 * 1000;
-        $totallainnyapeng   += $d->qtylain4 * 1000;
-        $totalcabangpeng    += $d->qtycabang4 * 1000;
-        $totalsusut         += $d->qtysus4 * 1000;
-        $totalretur         += $d->qtypengganti2 * 1000;
+        $qtylainnya         = $d->qtylainnya1;
+        if($qtylainnya == 0){
+          $hargalainnya       = 0;
+        }else{
+          if($d->kode_barang == 'BK-45' AND $bulan == '9' AND $tahun == '2021'){
+            $hargalainnya     = 9078.43;
+          }else if($d->kode_barang == 'BK-44' AND $bulan == '9' AND $tahun == '2021'){
+            $hargalainnya     = 14612.79;
+          }else{
+            $hargalainnya     = $hargapembelian;
+          }
+        }
+        $jumlahlainnya      = $qtylainnya * $hargalainnya;
 
+        $qtypengganti         = $d->qtypengganti1;
+        if($qtypengganti == 0){
+          $hargapengganti       = 0;
+        }else{
+          $hargapengganti     = $hargapembelian;
+        }
+        $jumlahpengganti      = $qtypengganti * $hargapengganti;
         
-        $qtypemb2         = $d->qtypemb2 * 1000;
-        $qtysaldoawal     = $d->qtyberatsa * 1000;
-        $qtypengganti2    = $d->qtypengganti2 * 1000;
-        $qtylainnya2      = $d->qtylainnya2 * 1000;
-        $qtyprod4         = $d->qtyprod4 * 1000;
-        $qtyseas4         = $d->qtyseas4 * 1000;
-        $qtypdqc4         = $d->qtypdqc4 * 1000;
-        $qtylain4         = $d->qtylain4 * 1000;
-        $qtycabang4       = $d->qtycabang4 * 1000;
-        $qtysus4          = $d->qtysus4 * 1000;
-        $saldoakhirberat  = $saldoakhirberat * 1000; 
+        $qtyproduksi         = $d->qtyprod3;
+        if($qtyproduksi == 0){
+          $hargaproduksi       = 0;
+        }else{
+          $hargaproduksi     = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahproduksi      = $qtyproduksi * $hargaproduksi;
 
-        $jmlhpemb         = $qtypemb2 * $hargapemb;
-        $jmlhlainnya      = $qtylainnya2 * $hargapemb;
-        $jmlhsaberat      = $qtysaldoawal * $hargapemb;
-        $jmlhretur        = $qtypengganti2 * $hargapemb;
-        $totjmlhretur     += $qtypengganti2 * $hargapemb;
+        $qtyseasoning         = $d->qtyseas3;
+        if($qtyseasoning == 0){
+          $hargaseasoning     = 0;
+        }else{
+          $hargaseasoning     = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahseasoning      = $qtyseasoning * $hargaseasoning;
 
-        $jmlhsaldo              = $qtysaldoawal * $hargasa;
+        $qtypdqc         = $d->qtypdqc3;
+        if($qtypdqc == 0){
+          $hargapdqc     = 0;
+        }else{
+          $hargapdqc     = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahpdqc      = $qtypdqc * $hargapdqc;
+
+        $qtysusut         = $d->qtysus3;
+        if($qtysusut == 0){
+          $hargasusut     = 0;
+        }else{
+          $hargasusut     = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahsusut      = $qtysusut * $hargasusut;
+
+        $qtycabang         = $d->qtycabang3;
+        if($qtycabang == 0){
+          $hargacabang     = 0;
+        }else{
+          $hargacabang     = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahcabang      = $qtycabang * $hargacabang;
+
+        $qtylain         = $d->qtylain3;
+        if($qtylain == 0){
+          $hargalain     = 0;
+        }else{
+          $hargalain     = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahlain      = $qtylain * $hargalain;
         
-        $subtotaljmlhsa         += $jmlhsaldo;
-        $subtotjmlhpemb         += $jmlhpemb;
+        $qtysaldoakhir         = ($qtysaldoawal + $qtypembelian + $qtylainnya + $qtypengganti) - ($qtyproduksi + $qtypdqc + $qtyseasoning + $qtysusut + $qtycabang + $qtylain);
+        if($qtysaldoakhir == 0){
+          $hargasaldoakhir     = 0;
+        }else{
+          $hargasaldoakhir     = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahsaldoakhir      = $qtysaldoakhir * $hargasaldoakhir;
 
-        $totaljmlhsa            += $jmlhsaldo;
-        $totjmlhpemb            += $jmlhpemb;
-        $totsaldoakhir          += $saldoakhirberat;
+        $qtyopname       = $d->qtyunitop;
+        if($qtyopname == 0){
+          $hargaopname     = 0;
+        }else{
+          $hargaopname     = ($jumlahsaldoawal + $jumlahpembelian + $jumlahlainnya + $jumlahpengganti) / ($qtysaldoawal + $qtypembelian + $qtypengganti + $qtylainnya);
+        }
+        $jumlahopname      = $qtyopname * $hargaopname;
 
+        $totalqtysaldoawal          += $qtysaldoawal;
+        $totaljumlahsaldoawal       += $jumlahsaldoawal;
+        $totalqtypembelian          += $qtypembelian;
+        $totaljumlahpembelian       += $jumlahpembelian;
+        $totalqtylainnya            += $qtylainnya;
+        $totaljumlahlainnya         += $jumlahlainnya;
+        $totalqtypengganti          += $qtypengganti;
+        $totaljumlahpengganti       += $jumlahpengganti;
+        $totalqtyproduksi           += $qtyproduksi;
+        $totaljumlahproduksi        += $jumlahproduksi;
+        $totalqtyseasoning          += $qtyseasoning;
+        $totaljumlahseasoning       += $jumlahseasoning;
+        $totalqtypdqc               += $qtypdqc;
+        $totaljumlahpdqc            += $jumlahpdqc;
+        $totalqtysusut              += $qtysusut;
+        $totaljumlahsusut           += $jumlahsusut;
+        $totalqtycabang             += $qtycabang;
+        $totaljumlahcabang          += $jumlahcabang;
+        $totalqtylain               += $qtylain;
+        $totaljumlahlain            += $jumlahlain;
+        $totalqtysaldoakhir         += $qtysaldoakhir;
+        $totaljumlahsaldoakhir      += $qtysaldoakhir * $hargasaldoakhir;
+        $totalqtyopname             += $qtyopname;
+        $totaljumlahopname          += $jumlahopname;
 
+        $grandtotalqtysaldoawal     += $qtysaldoawal;;
+        $grandtotaljmlsaldoawal     += $jumlahsaldoawal;
+        $grandtotalqtypemberlian    += $qtypembelian;
+        $grandtotaljmlpemberlian    += $jumlahpembelian;
+        $grandtotalqtypengganti     += $qtypengganti;
+        $grandtotaljmlpengganti     += $jumlahpengganti;
+        $grandtotalqtylainnya       += $qtylainnya;
+        $grandtotaljmllainnya       += $jumlahlainnya;
+        $grandtotalqtyproduksi      += $qtyproduksi;
+        $grandtotaljmlproduksi      += $jumlahproduksi;
+        $grandtotalqtypdqc          += $qtypdqc;
+        $grandtotaljmlpdqc          += $jumlahpdqc;
+        $grandtotalqtyseasoning     += $qtyseasoning;
+        $grandtotaljmlseasoning     += $jumlahseasoning;
+        $grandtotalqtysusut         += $qtysusut;
+        $grandtotaljmlsusut         += $jumlahsusut;
+        $grandtotalqtycabang        += $qtycabang;
+        $grandtotaljmlcabang        += $jumlahcabang;
+        $grandtotalqtylain          += $qtylain;
+        $grandtotaljmllain          += $jumlahlain;
+        $grandtotalqtysaldoakhir    += $qtysaldoakhir;
+        $grandtotaljmlsaldoakhir    += $jumlahsaldoakhir;
+        $grandtotalqtyopname        += $qtyopname;
+        $grandtotaljmlopname        += $jumlahopname;
       }
+
       $jenis_barang     = @$data[$key + 1]->jenis_barang;
     ?>
       <tr style="font-size: 14;">
@@ -292,741 +612,53 @@ tr:nth-child(even) {
         <td><?php echo $d->kode_barang; ?></td>
         <td><?php echo $d->nama_barang; ?></td>
         <td><?php echo $d->satuan; ?></td>
-        <?php if ($d->satuan != 'KG') { ?>
-          <td align="center">
-            <?php if ($d->qtyunitsa != 0) {
-              echo uang($d->qtyunitsa);
-            } else {
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtyunitsa)) {
-              echo uang($hargasa);
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtyunitsa)) {
-              $jmlhsaldounit = $d->qtyunitsa * $hargasa;
-              echo uang($jmlhsaldounit);
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-        <?php } else { ?>
-          <td align="center">
-            <?php if ($d->qtyberatsa != 0) {
-              echo uang($d->qtyberatsa*1000);
-            } else {
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtyberatsa)) {
-              $hargasa = ($hargasa);
-              echo uang($hargasa);
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtyberatsa)) {
-              $jmlhsaberat = $qtysaldoawal * $hargasa;
-              echo uang($jmlhsaberat );
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-        <?php }  ?>
-        
-        <?php if ($d->satuan != 'KG') { ?>
-          <td align="center">
-            <?php if (!empty($d->qtypemb1)) {
-            echo uang($d->qtypemb1);
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtypemb1)) {
-              if($d->satuan != 'Liter'){
-                echo uang($hargapemb);
-              }else{
-                echo uang($d->totalharga / ($d->qtypemb1+0.01));
-              }
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtypemb1)) {
-              $jmlhpemb = $d->qtypemb1 * ($hargapemb);
-              echo uang($d->qtypemb1 * $hargapemb);
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-        <?php } else { ?>
-          <td align="center">
-            <?php if (!empty($d->qtypemb2)) {
-            $qtypemb2 = $d->qtypemb2*1000;
-            echo uang($qtypemb2);
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->totalharga)) {
-              echo uang($d->totalharga / ($d->qtypemb2 * 1000));
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->totalharga)) {
-              echo uang($jmlhpemb );
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-        <?php } ?>
-
-        <?php if ($d->satuan != 'KG') { ?>
-          <td align="center">
-            <?php if (!empty($d->qtylainnya1)) {
-              echo uang($d->qtylainnya1);
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtylainnya1)) {
-              if ($d->qtypemb1 != '' OR $d->qtypemb1 != 0 OR !empty($d->qtypemb1) ) {
-                if($d->satuan != 'Liter'){
-                  echo uang($hargapemb);
-                }else{
-                  echo uang($d->totalharga / ($d->qtypemb1+0.01));
-                }
-              }else{
-                echo uang($hargasa);
-              }
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtylainnya1)) {
-              if ($d->qtypemb1 != '' OR $d->qtypemb1 != 0 OR !empty($d->qtypemb1) ) {
-                echo uang($d->qtylainnya1 * $hargapemb);
-              }else{
-                echo uang($d->qtylainnya1 * $hargasa);
-              }
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-        <?php } else { ?>
-          <td align="center">
-            <?php if (!empty($d->qtylainnya2)) {
-            echo uang($qtylainnya2);
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtylainnya2)) {
-              echo uang($d->totalharga / ($d->qtypemb2 * 1000));
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtylainnya2)) {
-              $jmlhlainya             = $qtylainnya2 * $hargapemb;
-              $subtotjmlhlainnya      += $jmlhlainya;
-              $totjmlhlainnya         += $jmlhlainya;
-              echo uang($jmlhlainya);
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-        <?php } ?>
-
-        <?php if ($d->satuan != 'KG') { ?>
-          <td align="center">
-            <?php if (!empty($d->qtypengganti1)) {
-              echo uang($d->qtypengganti1);
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtypengganti1)) {
-              if ($d->qtypemb1 != '' OR $d->qtypemb1 != 0 OR !empty($d->qtypemb1) ) {
-                if($d->satuan != 'Liter'){
-                  echo uang($hargapemb);
-                }else{
-                  echo uang($d->totalharga / ($d->qtypemb1+0.01));
-                }
-              }else{
-                echo uang($hargasa);
-              }
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtypengganti1)) {
-              if ($d->qtypemb1 != '' OR $d->qtypemb1 != 0 OR !empty($d->qtypemb1) ) {
-                $jmlhretur = $d->qtypengganti1 * $hargapemb;
-                echo uang($d->qtypengganti1 * $hargapemb);
-              }else{
-                $jmlhretur = $d->qtypengganti1 * $hargasa;
-                echo uang($d->qtypengganti1 * $hargasa);
-              }
-              
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-        <?php } else { ?>
-          <td align="center">
-            <?php if (!empty($d->qtypengganti2)) {
-            $qtypengganti2 = $d->qtypengganti2*1000;
-            echo uang($qtypengganti2);
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtypengganti2)) {
-              echo uang($d->totalharga / ($d->qtypemb2 * 1000));
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtypengganti2)) {
-              $jmlhretur = ($d->qtypengganti2*1000) * ($d->totalharga / ($d->qtypemb2 * 1000));
-              echo uang($jmlhretur);
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-        <?php } ?>
-
-        <?php if ($d->satuan != 'KG') { ?>
-          <td align="center">
-            <?php if (!empty($d->qtyprod3)) {
-              echo uang($d->qtyprod3);
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtyprod3)) {
-                echo uang($hargakeluarunit);
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtyprod3)) {
-              echo uang($d->qtyprod3 * $hargakeluarunit);
-            }
-            ?>
-          </td>
-        <?php } else { ?>
-          <td align="center">
-            <?php if (!empty($d->qtyprod4)) {
-            echo uang($qtyprod4);
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtyprod4)) {
-              if ($d->qtypemb2 == '' || $d->qtypemb2 == '0' || $d->qtypemb2 == NULL) {
-                $hargakeluarberat = $hargasa;
-                echo uang($hargakeluarberat);
-              }else{
-                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
-                echo uang($hargakeluarberat);
-              }
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtyprod4)) {      
-              $jmlhproduksi4          = $qtyprod4 * $hargakeluarberat;
-              $subtotjmlhproduksi     += $jmlhproduksi4;
-              $totjmlhproduksi        += $jmlhproduksi4;
-              echo uang($jmlhproduksi4);
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-        <?php } ?>
-
-        <?php if ($d->satuan != 'KG') { ?>
-          <td align="center">
-            <?php if (!empty($d->qtyseas3)) {
-              echo uang($d->qtyseas3);
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtyseas3)) {
-              echo uang($hargakeluarunit);
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtyseas3)) {
-              echo uang($d->qtyseas3*$hargakeluarunit);
-            }
-            ?>
-          </td>
-        <?php } else { ?>
-          <td align="center">
-            <?php if (!empty($d->qtyseas4)) {
-              echo uang($qtyseas4);
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtyseas4)) {
-              if ($d->qtypemb2 == '' || $d->qtypemb2 == '0' || $d->qtypemb2 == NULL) {
-                $hargakeluarberat = $hargasa;
-                echo uang($hargakeluarberat);
-              }else{
-                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
-                echo uang($hargakeluarberat);
-              }
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtyseas4)) {
-              $jmlseasoning4          = $qtyseas4 * $hargakeluarberat;
-              $subtotjmlhseasoning    += $jmlseasoning4;
-              $totjmlhseasoning       += $jmlseasoning4;
-              echo uang($jmlseasoning4);
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-        <?php } ?>
-
-        <?php if ($d->satuan != 'KG') { ?>
-          <td align="center">
-            <?php if (!empty($d->qtypdqc3)) {
-              echo uang($d->qtypdqc3);
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtypdqc3)) {
-              echo uang($hargakeluarunit);
-
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtypdqc3)) {
-              echo uang($d->qtypdqc3*$hargakeluarunit);
-            }
-            ?>
-          </td>
-        <?php } else { ?>
-          <td align="center">
-            <?php if (!empty($d->qtypdqc4)) {
-              echo uang($qtypdqc4);
-            }
-            ?>
-          </td>
-          
-          <td align="center">
-            <?php if (!empty($d->qtypdqc4)) {
-              if ($d->qtypemb2 == '' || $d->qtypemb2 == '0' || $d->qtypemb2 == NULL) {
-                $hargakeluarberat = $hargasa;
-                echo uang($hargakeluarberat);
-              }else{
-                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
-                echo uang($hargakeluarberat);
-              }
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtypdqc4)) {
-              $jmlhpdqc4              = $qtypdqc4 * $hargakeluarberat;
-              $subtotjmlhpdqc         += $jmlhpdqc4;
-              $totjmlhpdqc            += $jmlhpdqc4;
-              echo uang($jmlhpdqc4);
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-        <?php } ?>
-
-        <?php if ($d->satuan != 'KG') { ?>
-          <td align="center">
-            <?php if (!empty($d->qtysus3)) {
-              echo uang($d->qtysus3*1000);
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtysus3)) {
-              echo uang($hargakeluarunit);
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtysus3)) {
-              echo uang($d->qtysus3*$hargakeluarunit);
-            }
-            ?>
-          </td>
-        <?php } else { ?>
-          <td align="center">
-            <?php if (!empty($d->qtysus4)) {
-              echo uang($qtysus4);
-            }
-            ?>
-          </td>
-          
-          <td align="center">
-            <?php if (!empty($d->qtysus4)) {
-              if ($d->qtypemb2 == '' || $d->qtypemb2 == '0' || $d->qtypemb2 == NULL) {
-                $hargakeluarberat = $hargasa;
-                echo uang($hargakeluarberat);
-              }else{
-                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
-                echo uang($hargakeluarberat);
-              }
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtysus4)) {
-              $jmlhsusut              = $qtysus4 * $hargakeluarberat;
-              $totjmlhsusut           += $jmlhsusut;
-              $subtotjmlhsusut        += $jmlhsusut;
-              echo uang($jmlhsusut );
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-        <?php } ?>
-
-        <?php if ($d->satuan != 'KG') { ?>
-
-          <td align="center">
-            <?php if (!empty($d->qtycabang3)) {
-              echo uang($d->qtycabang3);
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtycabang3)) {
-              echo uang($hargakeluarunit);
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtycabang3)) {
-              echo uang($d->qtycabang3*$hargakeluarunit);
-            }
-            ?>
-          </td>
-        <?php } else { ?>
-          <td align="center">
-            <?php if (!empty($d->qtycabang4)) {
-              echo uang($qtycabang4);
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtycabang4)) {
-              if ($d->qtypemb2 == '' || $d->qtypemb2 == '0' || $d->qtypemb2 == NULL) {
-                $hargakeluarberat = $hargasa;
-                echo uang($hargakeluarberat);
-              }else{
-                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
-                echo uang($hargakeluarberat);
-              }
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtycabang4)) {
-              $jmlhcabang             = $qtycabang4 * $hargakeluarberat;
-              $subtotjmlhcabang       += $jmlhcabang;
-              $totjmlhcabang          += $jmlhcabang;
-              echo uang($jmlhcabang );
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-        <?php } ?>
-
-        <?php if ($d->satuan != 'KG') { ?>
-
-          <td align="center">
-            <?php if (!empty($d->qtylain3)) {
-              echo uang($d->qtylain3);
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtylain3)) {
-                echo uang($hargakeluarunit);
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtylain3)) {
-              echo uang($d->qtylain3*$hargakeluarunit);
-            }
-            ?>
-          </td>
-        <?php } else { ?>
-          <td align="center">
-            <?php if (!empty($d->qtylain4)) {
-              echo uang($qtylain4);
-            }
-            ?>
-          </td>
-          
-          <td align="center">
-            <?php if (!empty($d->qtylain4)) {
-              if ($d->qtypemb2 == '' || $d->qtypemb2 == '0' || $d->qtypemb2 == NULL) {
-                $hargakeluarberat = $hargasa;
-                echo uang($hargakeluarberat);
-              }else{
-                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
-                echo uang($hargakeluarberat);
-              }
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($d->qtylain4)) {
-              $jmllainnyapeng         = $qtylain4 * $hargakeluarberat;
-              $subtotjmlhlainnyapeng  += $jmllainnyapeng;
-              $totjmlhlainnyapeng     += $jmllainnyapeng;
-              echo uang($jmllainnyapeng );
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-        <?php } ?>
-
-        <?php if ($d->satuan != 'KG') { ?>
-          <td align="center">
-            <?php if (!empty($saldoakhirunit)) {
-              echo uang($saldoakhirunit);
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($saldoakhirunit)) {
-                echo uang($hargakeluarunit);
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($saldoakhirunit)) {
-              $jmlhsaldoakhir         = $saldoakhirunit * $hargakeluarunit;
-              echo uang($jmlhsaldoakhir);
-            }
-            ?>
-          </td>
-        <?php } else { ?>
-          <td align="center">
-            <?php if (!empty($saldoakhirberat)) {
-              echo uang($saldoakhirberat);
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($saldoakhirberat)) {
-              if ($d->qtypemb2 == '' || $d->qtypemb2 == '0' || $d->qtypemb2 == NULL) {
-                $hargakeluarberat = $hargasa;
-                echo uang($hargakeluarberat);
-              }else{
-                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
-                echo uang($hargakeluarberat);
-              }
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($saldoakhirberat)) {
-              $jmlhsaldoakhir         = $saldoakhirberat * $hargakeluarberat;
-              $subtotsaldoakhir       += $saldoakhirberat;
-              $subtotjmlhsaldoakhir   += $jmlhsaldoakhir;
-              $totjmlhsaldoakhir      += $jmlhsaldoakhir;
-              echo uang($jmlhsaldoakhir);
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-        <?php } ?>
-        
-        <?php if ($d->satuan != 'KG') { ?>
-          <td align="center">
-            <?php if ($d->qtyunitop != 0) {
-              echo uang($d->qtyunitop);
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($saldoakhirunit)) {
-                echo uang($hargakeluarunit);
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($saldoakhirunit)) {
-              $jmlhopname             = $d->qtyunitop * $hargakeluarunit;
-              $totalopname            += $d->qtyunitop;
-              $totjmlhopname          += $d->qtyunitop * $hargakeluarunit;
-              echo uang($jmlhopname);
-            }
-            ?>
-          </td>
-        <?php } else { ?>
-          <td align="center">
-            <?php if ($d->qtyberatop != 0) {
-              echo uang($d->qtyberatop * 1000);
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($saldoakhirberat)) {
-             if ($d->qtypemb2 == '' || $d->qtypemb2 == '0' || $d->qtypemb2 == NULL) {
-                $hargakeluarberat = $hargasa;
-                echo uang($hargakeluarberat);
-              }else{
-                $hargakeluarberat = ($jmlhpemb+$jmlhlainnya+$jmlhretur+$jmlhsaberat) / ($qtypemb2+$qtysaldoawal+$qtypengganti2+$qtylainnya2);
-                echo uang($hargakeluarberat);
-              }
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-          <td align="center">
-            <?php if (!empty($saldoakhirberat)) {
-              $jmlhopname             = ($d->qtyberatop * 1000) * $hargakeluarberat;
-              $totalopname            += $d->qtyberatop * 1000;
-              $subtotjmlhopname       += $jmlhopname;
-              $totjmlhopname          += ($d->qtyberatop * 1000) * $hargakeluarberat;
-              echo uang($jmlhopname);
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-        <?php } ?>
-        <?php if ($d->satuan != 'KG') { ?>
-          <td align="center">
-            <?php if (!empty($saldoakhirunit)) {
-              echo uang( $d->qtyunitop - $saldoakhirunit);
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-        <?php } else { ?>
-          <td align="center">
-            <?php if (!empty($saldoakhirberat)) {
-              echo uang(($d->qtyberatop * 1000) - ($saldoakhirberat));
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-        <?php } ?>
-        
-        <?php if ($d->satuan != 'KG') { ?>
-          <td align="center">
-            <?php if (!empty($saldoakhirunit)) {
-              echo uang($jmlhsaldoakhir - $jmlhopname);
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-        <?php } else { ?>
-          <td align="center">
-            <?php if (!empty($saldoakhirberat)) {
-              echo uang($jmlhsaldoakhir - $jmlhopname);
-            }else{
-              echo "";
-            }
-            ?>
-          </td>
-        <?php } ?>
+        <td align="right"><?php if($qtysaldoawal != 0){ echo uang($qtysaldoawal); } ?></td>
+        <td align="right"><?php if($qtysaldoawal != 0){ echo uang($hargasaldoawal); } ?></td>
+        <td align="right"><?php if($qtysaldoawal != 0){ echo uang($jumlahsaldoawal); } ?></td>
+        <td align="right"><?php if($qtypembelian != 0){ echo uang($qtypembelian); } ?></td>
+        <td align="right"><?php if($qtypembelian != 0){ echo uang($hargapembelian); } ?></td>
+        <td align="right"><?php if($qtypembelian != 0){ echo uang($jumlahpembelian); } ?></td>
+        <td align="right"><?php if($qtylainnya != 0){ echo uang($qtylainnya); } ?></td>
+        <td align="right"><?php if($qtylainnya != 0){ echo uang($hargalainnya); } ?></td>
+        <td align="right"><?php if($qtylainnya != 0){ echo uang($jumlahlainnya); } ?></td>
+        <td align="right"><?php if($qtypengganti != 0){ echo uang($qtypengganti); } ?></td>
+        <td align="right"><?php if($qtypengganti != 0){ echo uang($hargapengganti); } ?></td>
+        <td align="right"><?php if($qtypengganti != 0){ echo uang($jumlahpengganti); } ?></td>
+        <td align="right"><?php if($qtyproduksi != 0){ echo uang($qtyproduksi); } ?></td>
+        <td align="right"><?php if($qtyproduksi != 0){ echo uang($hargaproduksi); } ?></td>
+        <td align="right"><?php if($qtyproduksi != 0){ echo uang($jumlahproduksi); } ?></td>
+        <td align="right"><?php if($qtyseasoning != 0){ echo uang($qtyseasoning); } ?></td>
+        <td align="right"><?php if($qtyseasoning != 0){ echo uang($hargaseasoning); } ?></td>
+        <td align="right"><?php if($qtyseasoning != 0){ echo uang($jumlahseasoning); } ?></td>
+        <td align="right"><?php if($qtypdqc != 0){ echo uang($qtypdqc); } ?></td>
+        <td align="right"><?php if($qtypdqc != 0){ echo uang($hargapdqc); } ?></td>
+        <td align="right"><?php if($qtypdqc != 0){ echo uang($jumlahpdqc); } ?></td>
+        <td align="right"><?php if($qtysusut != 0){ echo uang($qtysusut); } ?></td>
+        <td align="right"><?php if($qtysusut != 0){ echo uang($hargasusut); } ?></td>
+        <td align="right"><?php if($qtysusut != 0){ echo uang($jumlahsusut); } ?></td>
+        <td align="right"><?php if($qtycabang != 0){ echo uang($qtycabang); } ?></td>
+        <td align="right"><?php if($qtycabang != 0){ echo uang($hargacabang); } ?></td>
+        <td align="right"><?php if($qtycabang != 0){ echo uang($jumlahcabang); } ?></td>
+        <td align="right"><?php if($qtylain != 0){ echo uang($qtylain); } ?></td>
+        <td align="right"><?php if($qtylain != 0){ echo uang($hargalain); } ?></td>
+        <td align="right"><?php if($qtylain != 0){ echo uang($jumlahlain); } ?></td>
+        <td align="right"><?php if($qtysaldoakhir != 0){ echo uang($qtysaldoakhir); } ?></td>
+        <td align="right"><?php if($qtysaldoakhir != 0){ echo uang($hargasaldoakhir); } ?></td>
+        <td align="right"><?php if($qtysaldoakhir != 0){ echo uang($jumlahsaldoakhir); } ?></td>
+        <td align="right"><?php if($qtyopname != 0){ echo uang($qtyopname); } ?></td>
+        <td align="right"><?php if($qtyopname != 0){ echo uang($hargaopname); } ?></td>
+        <td align="right"><?php if($qtyopname != 0){ echo uang($jumlahopname); } ?></td>
+        <td align="right"><?php if($qtysaldoakhir-$qtyopname != 0){ echo uang($qtysaldoakhir-$qtyopname); } ?></td>
+        <td align="right"><?php if($jumlahsaldoakhir-$jumlahopname != 0){ echo uang($jumlahsaldoakhir-$jumlahopname); } ?></td>
       </tr>
+
       <?php if ($jenis_barang != $d->jenis_barang && $d->satuan == "KG") { ?>
       <tr bgcolor="#024a75">
         <th colspan="4"  bgcolor="#024a75" style="color:white; font-size:14;">Subtotal <?php echo $d->jenis_barang;?></th>
 
         <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotalqtysa)) {
-            echo uang($subtotalqtysa);
+          <?php if (!empty($totalqtysaldoawal)) {
+            echo uang($totalqtysaldoawal);
           } else {
             echo "0";
           }
@@ -1034,33 +666,16 @@ tr:nth-child(even) {
         </th>
         <th bgcolor="#024a75"></th>
         <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotaljmlhsa)) {
-            echo uang($subtotaljmlhsa);
+          <?php if (!empty($totaljumlahsaldoawal)) {
+            echo uang($totaljumlahsaldoawal);
           } else {
             echo "0";
           }
           ?>
         </th>
         <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotalpembelian)) {
-            echo uang($subtotalpembelian);
-          } else {
-            echo "0";
-          }
-          ?>
-        </th>
-        <th bgcolor="#024a75"></th>
-        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotjmlhpemb)) {
-            echo uang($subtotjmlhpemb);
-          } else {
-            echo "0";
-          }
-          ?>
-        </th>
-        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotallainnya)) {
-            echo uang($subtotallainnya);
+          <?php if (!empty($totalqtypembelian)) {
+            echo uang($totalqtypembelian);
           } else {
             echo "0";
           }
@@ -1068,33 +683,16 @@ tr:nth-child(even) {
         </th>
         <th bgcolor="#024a75"></th>
         <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotjmlhlainnya)) {
-            echo uang($subtotjmlhlainnya);
+          <?php if (!empty($totaljumlahpembelian)) {
+            echo uang($totaljumlahpembelian);
           } else {
             echo "0";
           }
           ?>
         </th>
         <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotalretur)) {
-            echo uang($subtotalretur);
-          } else {
-            echo "0";
-          }
-          ?>
-        </th>
-        <th bgcolor="#024a75"></th>
-        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotjmlhretur)) {
-            echo uang($subtotjmlhretur);
-          } else {
-            echo "0";
-          }
-          ?>
-        </th>
-        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotalproduksi)) {
-            echo uang($subtotalproduksi);
+          <?php if (!empty($totalqtylainnya)) {
+            echo uang($totalqtylainnya);
           } else {
             echo "0";
           }
@@ -1102,33 +700,16 @@ tr:nth-child(even) {
         </th>
         <th bgcolor="#024a75"></th>
         <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotjmlhproduksi)) {
-            echo uang($subtotjmlhproduksi);
+          <?php if (!empty($totaljumlahlainnya)) {
+            echo uang($totaljumlahlainnya);
           } else {
             echo "0";
           }
           ?>
         </th>
         <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotalseasoning)) {
-            echo uang($subtotalseasoning);
-          } else {
-            echo "0";
-          }
-          ?>
-        </th>
-        <th bgcolor="#024a75"></th>
-        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotjmlhseasoning)) {
-            echo uang($subtotjmlhseasoning);
-          } else {
-            echo "0";
-          }
-          ?>
-        </th>
-        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotalpdqc)) {
-            echo uang($subtotalpdqc);
+          <?php if (!empty($totalqtypengganti)) {
+            echo uang($totalqtypengganti);
           } else {
             echo "0";
           }
@@ -1136,33 +717,16 @@ tr:nth-child(even) {
         </th>
         <th bgcolor="#024a75"></th>
         <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotjmlhpdqc)) {
-            echo uang($subtotjmlhpdqc);
+          <?php if (!empty($totaljumlahpengganti)) {
+            echo uang($totaljumlahpengganti);
           } else {
             echo "0";
           }
           ?>
         </th>
         <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotalsusut)) {
-            echo uang($subtotalsusut);
-          } else {
-            echo "0";
-          }
-          ?>
-        </th>
-        <th bgcolor="#024a75"></th>
-        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotjmlhsusut)) {
-            echo uang($subtotjmlhsusut);
-          } else {
-            echo "0";
-          }
-          ?>
-        </th>
-        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotalcabangpeng)) {
-            echo uang($subtotalcabangpeng);
+          <?php if (!empty($totalqtyproduksi)) {
+            echo uang($totalqtyproduksi);
           } else {
             echo "0";
           }
@@ -1170,33 +734,16 @@ tr:nth-child(even) {
         </th>
         <th bgcolor="#024a75"></th>
         <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotjmlhcabang)) {
-            echo uang($subtotjmlhcabang);
+          <?php if (!empty($totaljumlahproduksi)) {
+            echo uang($totaljumlahproduksi);
           } else {
             echo "0";
           }
           ?>
         </th>
         <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotallainnyapeng)) {
-            echo uang($subtotallainnyapeng);
-          } else {
-            echo "0";
-          }
-          ?>
-        </th>
-        <th bgcolor="#024a75"></th>
-        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotjmlhlainnyapeng)) {
-            echo uang($subtotjmlhlainnyapeng);
-          } else {
-            echo "0";
-          }
-          ?>
-        </th>
-        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotsaldoakhir)) {
-            echo uang($subtotsaldoakhir);
+          <?php if (!empty($totalqtyseasoning)) {
+            echo uang($totalqtyseasoning);
           } else {
             echo "0";
           }
@@ -1204,16 +751,16 @@ tr:nth-child(even) {
         </th>
         <th bgcolor="#024a75"></th>
         <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotjmlhsaldoakhir)) {
-            echo uang($subtotjmlhsaldoakhir);
+          <?php if (!empty($totaljumlahseasoning)) {
+            echo uang($totaljumlahseasoning);
           } else {
             echo "0";
           }
           ?>
         </th>
         <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotalopname)) {
-            echo uang($subtotalopname);
+          <?php if (!empty($totalqtypdqc)) {
+            echo uang($totalqtypdqc);
           } else {
             echo "0";
           }
@@ -1221,8 +768,93 @@ tr:nth-child(even) {
         </th>
         <th bgcolor="#024a75"></th>
         <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
-          <?php if (!empty($subtotjmlhopname)) {
-            echo uang($subtotjmlhopname);
+          <?php if (!empty($totaljumlahpdqc)) {
+            echo uang($totaljumlahpdqc);
+          } else {
+            echo "0";
+          }
+          ?>
+        </th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
+          <?php if (!empty($totalqtysusut)) {
+            echo uang($totalqtysusut);
+          } else {
+            echo "0";
+          }
+          ?>
+        </th>
+        <th bgcolor="#024a75"></th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
+          <?php if (!empty($totaljumlahsusut)) {
+            echo uang($totaljumlahsusut);
+          } else {
+            echo "0";
+          }
+          ?>
+        </th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
+          <?php if (!empty($totalqtycabang)) {
+            echo uang($totalqtycabang);
+          } else {
+            echo "0";
+          }
+          ?>
+        </th>
+        <th bgcolor="#024a75"></th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
+          <?php if (!empty($totaljumlahcabang)) {
+            echo uang($totaljumlahcabang);
+          } else {
+            echo "0";
+          }
+          ?>
+        </th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
+          <?php if (!empty($totalqtylain)) {
+            echo uang($totalqtylain);
+          } else {
+            echo "0";
+          }
+          ?>
+        </th>
+        <th bgcolor="#024a75"></th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
+          <?php if (!empty($totaljumlahlain)) {
+            echo uang($totaljumlahlain);
+          } else {
+            echo "0";
+          }
+          ?>
+        </th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
+          <?php if (!empty($totalqtysaldoakhir)) {
+            echo uang($totalqtysaldoakhir);
+          } else {
+            echo "0";
+          }
+          ?>
+        </th>
+        <th bgcolor="#024a75"></th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
+          <?php if (!empty($totaljumlahsaldoakhir)) {
+            echo uang($totaljumlahsaldoakhir);
+          } else {
+            echo "0";
+          }
+          ?>
+        </th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
+          <?php if (!empty($totalqtyopname)) {
+            echo uang($totalqtyopname);
+          } else {
+            echo "0";
+          }
+          ?>
+        </th>
+        <th bgcolor="#024a75"></th>
+        <th bgcolor="#024a75" align="center" style="color:white; font-size:14;">
+          <?php if (!empty($totaljumlahopname)) {
+            echo uang($totaljumlahopname);
           } else {
             echo "0";
           }
@@ -1232,38 +864,38 @@ tr:nth-child(even) {
         <th bgcolor="#024a75"></th>
       </tr>
     <?php 
-      $subtotalopname  = 0;
-      $subtotaljmlhsa  = 0;
-      $subtotalqtysa  = 0;
-      $subtotalpembelian  = 0;
-      $subtotjmlhopname  = 0;
-      $subtotallainnya  = 0;
-      $subtotjmlhlainnya  = 0;
-      $subtotalproduksi  = 0;
-      $subtotalseasoning  = 0;
-      $subtotalpdqc  = 0;
-      $subtotallainnyapeng  = 0;
-      $subtotalcabangpeng  = 0;
-      $subtotalsusut  = 0;
-      $subtotalretur  = 0;
-      $subtotjmlhpemb  = 0;
-      $subtotjmlhretur  = 0;
-      $subtotjmlhproduksi  = 0;
-      $subtotjmlhseasoning  = 0;
-      $subtotjmlhpdqc  = 0;
-      $subtotjmlhlainnyapeng = 0;
-      $subtotjmlhcabang      = 0;
-      $subtotjmlhsusut       = 0;
-      $subtotsaldoakhir      = 0;
-      $subtotjmlhsaldoakhir  = 0;
+      $totalqtyopname  = 0;
+      $totaljumlahsaldoawal  = 0;
+      $totalqtysaldoawal  = 0;
+      $totalqtypembelian  = 0;
+      $totaljumlahopname  = 0;
+      $totalqtylainnya  = 0;
+      $totaljumlahlainnya  = 0;
+      $totalqtyproduksi  = 0;
+      $totalqtyseasoning  = 0;
+      $totalqtypdqc  = 0;
+      $totaljumlahlain  = 0;
+      $totalqtycabang  = 0;
+      $totalqtysusut  = 0;
+      $totalqtypengganti  = 0;
+      $totaljumlahpembelian  = 0;
+      $totaljumlahpengganti  = 0;
+      $totaljumlahproduksi  = 0;
+      $totaljumlahseasoning  = 0;
+      $totaljumlahpdqc  = 0;
+      $totalqtylain = 0;
+      $totaljumlahcabang      = 0;
+      $totaljumlahsusut       = 0;
+      $totalqtysaldoakhir      = 0;
+      $totaljumlahsaldoakhir  = 0;
     } ?>
     <?php } ?>
     <tr>
       <th colspan="4" style="background:red; color:white; font-size:14;">TOTAL</th>
 
       <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totalqtysa)) {
-          echo uang($totalqtysa);
+        <?php if (!empty($grandtotalqtysaldoawal)) {
+          echo uang($grandtotalqtysaldoawal);
         } else {
           echo "0";
         }
@@ -1271,33 +903,16 @@ tr:nth-child(even) {
       </th>
       <th style="background:red;"></th>
       <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totaljmlhsa)) {
-          echo uang($totaljmlhsa);
+        <?php if (!empty($grandtotaljmlsaldoawal)) {
+          echo uang($grandtotaljmlsaldoawal);
         } else {
           echo "0";
         }
         ?>
       </th>
       <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totalpembelian)) {
-          echo uang($totalpembelian);
-        } else {
-          echo "0";
-        }
-        ?>
-      </th>
-      <th style="background:red;"></th>
-      <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totjmlhpemb)) {
-          echo uang($totjmlhpemb);
-        } else {
-          echo "0";
-        }
-        ?>
-      </th>
-      <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totallainnya)) {
-          echo uang($totallainnya);
+        <?php if (!empty($grandtotalqtypemberlian)) {
+          echo uang($grandtotalqtypemberlian);
         } else {
           echo "0";
         }
@@ -1305,16 +920,33 @@ tr:nth-child(even) {
       </th>
       <th style="background:red;"></th>
       <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totjmlhlainnya)) {
-          echo uang($totjmlhlainnya);
+        <?php if (!empty($grandtotaljmlpemberlian)) {
+          echo uang($grandtotaljmlpemberlian);
+        } else {
+          echo "0";
+        }
+        ?>
+      </th>
+      <th align="center" style="background:red; color:white; font-size:14;">
+        <?php if (!empty($grandtotalqtylainnya)) {
+          echo uang($grandtotalqtylainnya);
+        } else {
+          echo "0";
+        }
+        ?>
+      </th>
+      <th style="background:red;"></th>
+      <th align="center" style="background:red; color:white; font-size:14;">
+        <?php if (!empty($grandtotaljmllainnya)) {
+          echo uang($grandtotaljmllainnya);
         } else {
           echo "0";
         }
         ?>
       </th>
       <th align="center" style="background:red;color:white; font-size:14;">
-        <?php if (!empty($totalretur)) {
-          echo uang($totalretur);
+        <?php if (!empty($grandtotalqtypengganti)) {
+          echo uang($grandtotalqtypengganti);
         } else {
           echo "0";
         }
@@ -1322,33 +954,16 @@ tr:nth-child(even) {
       </th>
       <th align="center" style="background:red;color:white; font-size:14;"></th>
       <th align="center" style="background:red;color:white; font-size:14;">
-        <?php if (!empty($totjmlhretur)) {
-          echo uang($totjmlhretur);
+        <?php if (!empty($grandtotaljmlpengganti)) {
+          echo uang($grandtotaljmlpengganti);
         } else {
           echo "0";
         }
         ?>
       </th>
       <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totalproduksi)) {
-          echo uang($totalproduksi);
-        } else {
-          echo "0";
-        }
-        ?>
-      </th>
-      <th style="background:red;"></th>
-      <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totjmlhproduksi)) {
-          echo uang($totjmlhproduksi);
-        } else {
-          echo "0";
-        }
-        ?>
-      </th>
-      <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totalseasoning)) {
-          echo uang($totalseasoning);
+        <?php if (!empty($grandtotalqtyproduksi)) {
+          echo uang($grandtotalqtyproduksi);
         } else {
           echo "0";
         }
@@ -1356,33 +971,16 @@ tr:nth-child(even) {
       </th>
       <th style="background:red;"></th>
       <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totjmlhseasoning)) {
-          echo uang($totjmlhseasoning);
+        <?php if (!empty($grandtotaljmlproduksi)) {
+          echo uang($grandtotaljmlproduksi);
         } else {
           echo "0";
         }
         ?>
       </th>
       <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totalpdqc)) {
-          echo uang($totalpdqc);
-        } else {
-          echo "0";
-        }
-        ?>
-      </th>
-      <th style="background:red;"></th>
-      <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totjmlhpdqc)) {
-          echo uang($totjmlhpdqc);
-        } else {
-          echo "0";
-        }
-        ?>
-      </th>
-      <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totalsusut)) {
-          echo uang($totalsusut);
+        <?php if (!empty($grandtotalqtyseasoning)) {
+          echo uang($grandtotalqtyseasoning);
         } else {
           echo "0";
         }
@@ -1390,33 +988,16 @@ tr:nth-child(even) {
       </th>
       <th style="background:red;"></th>
       <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totjmlhsusut)) {
-          echo uang($totjmlhsusut);
+        <?php if (!empty($grandtotaljmlseasoning)) {
+          echo uang($grandtotaljmlseasoning);
         } else {
           echo "0";
         }
         ?>
       </th>
       <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totalcabangpeng)) {
-          echo uang($totalcabangpeng);
-        } else {
-          echo "0";
-        }
-        ?>
-      </th>
-      <th style="background:red;"></th>
-      <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totjmlhcabang)) {
-          echo uang($totjmlhcabang);
-        } else {
-          echo "0";
-        }
-        ?>
-      </th>
-      <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totallainnyapeng)) {
-          echo uang($totallainnyapeng);
+        <?php if (!empty($grandtotalqtypdqc)) {
+          echo uang($grandtotalqtypdqc);
         } else {
           echo "0";
         }
@@ -1424,33 +1005,16 @@ tr:nth-child(even) {
       </th>
       <th style="background:red;"></th>
       <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totjmlhlainnyapeng)) {
-          echo uang($totjmlhlainnyapeng);
+        <?php if (!empty($grandtotaljmlpdqc)) {
+          echo uang($grandtotaljmlpdqc);
         } else {
           echo "0";
         }
         ?>
       </th>
       <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totsaldoakhir)) {
-          echo uang($totsaldoakhir);
-        } else {
-          echo "0";
-        }
-        ?>
-      </th>
-      <th style="background:red;"></th>
-      <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totjmlhsaldoakhir)) {
-          echo uang($totjmlhsaldoakhir);
-        } else {
-          echo "0";
-        }
-        ?>
-      </th>
-      <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totalopname)) {
-          echo uang($totalopname);
+        <?php if (!empty($grandtotalqtysusut)) {
+          echo uang($grandtotalqtysusut);
         } else {
           echo "0";
         }
@@ -1458,8 +1022,76 @@ tr:nth-child(even) {
       </th>
       <th style="background:red;"></th>
       <th align="center" style="background:red; color:white; font-size:14;">
-        <?php if (!empty($totjmlhopname)) {
-          echo uang($totjmlhopname);
+        <?php if (!empty($grandtotaljmlsusut)) {
+          echo uang($grandtotaljmlsusut);
+        } else {
+          echo "0";
+        }
+        ?>
+      </th>
+      <th align="center" style="background:red; color:white; font-size:14;">
+        <?php if (!empty($grandtotalqtycabang)) {
+          echo uang($grandtotalqtycabang);
+        } else {
+          echo "0";
+        }
+        ?>
+      </th>
+      <th style="background:red;"></th>
+      <th align="center" style="background:red; color:white; font-size:14;">
+        <?php if (!empty($grandtotaljmlcabang)) {
+          echo uang($grandtotaljmlcabang);
+        } else {
+          echo "0";
+        }
+        ?>
+      </th>
+      <th align="center" style="background:red; color:white; font-size:14;">
+        <?php if (!empty($grandtotalqtylain)) {
+          echo uang($grandtotalqtylain);
+        } else {
+          echo "0";
+        }
+        ?>
+      </th>
+      <th style="background:red;"></th>
+      <th align="center" style="background:red; color:white; font-size:14;">
+        <?php if (!empty($grandtotaljmllain)) {
+          echo uang($grandtotaljmllain);
+        } else {
+          echo "0";
+        }
+        ?>
+      </th>
+      <th align="center" style="background:red; color:white; font-size:14;">
+        <?php if (!empty($grandtotalqtysaldoakhir)) {
+          echo uang($grandtotalqtysaldoakhir);
+        } else {
+          echo "0";
+        }
+        ?>
+      </th>
+      <th style="background:red;"></th>
+      <th align="center" style="background:red; color:white; font-size:14;">
+        <?php if (!empty($grandtotaljmlsaldoakhir)) {
+          echo uang($grandtotaljmlsaldoakhir);
+        } else {
+          echo "0";
+        }
+        ?>
+      </th>
+      <th align="center" style="background:red; color:white; font-size:14;">
+        <?php if (!empty($grandtotalqtyopname)) {
+          echo uang($grandtotalqtyopname);
+        } else {
+          echo "0";
+        }
+        ?>
+      </th>
+      <th style="background:red;"></th>
+      <th align="center" style="background:red; color:white; font-size:14;">
+        <?php if (!empty($grandtotaljmlopname)) {
+          echo uang($grandtotaljmlopname);
         } else {
           echo "0";
         }

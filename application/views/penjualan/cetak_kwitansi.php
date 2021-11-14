@@ -54,7 +54,6 @@ font-family:Arial;}
 </tr>
 
 <tr>
-	<td>&nbsp;</td>
 	<td width="15%">Tgl Faktur</td>
 	<td width="1%">:</td>
 	<td width="40%"><?php echo DatetoIndo2($faktur['tgltransaksi']); ?></td>
@@ -63,7 +62,6 @@ font-family:Arial;}
 	<td><?php echo $faktur['nama_pelanggan']; ?></td>
 </tr>
 <tr>
-	<td>&nbsp;</td>
 	<td></td>
 	<td></td>
 	<td></td>
@@ -77,7 +75,7 @@ font-family:Arial;}
 
 		<table class="garis5" width="100%">
 				<thead>
-					<tr style="padding: : 10px">
+					<tr style="padding: 10px">
 						<th rowspan="2">NO</th>
 						<th rowspan="2">KODE BARANG</th>
 						<th rowspan="2">NAMA BARANG</th>

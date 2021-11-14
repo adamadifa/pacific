@@ -111,6 +111,7 @@ function uang($nilai)
                       <td>
                         <a href="<?php echo base_url(); ?>penjualan/cetak_faktur/<?php echo $d['no_fak_penj']; ?>" class="btn btn-sm btn-primary" target="_blank"><i class="fa fa-print"></i></a>
                         <a href="<?php echo base_url(); ?>penjualan/cetak_suratjalan/<?php echo $d['no_fak_penj']; ?>" class="btn btn-sm btn-warning" target="_blank"><i class="fa fa-print"></i></a>
+                        <a href="<?php echo base_url(); ?>penjualan/cetak_faktursj/<?php echo $d['no_fak_penj']; ?>" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-print"></i></a>
                       </td>
                     </tr>
                 <?php

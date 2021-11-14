@@ -1810,6 +1810,7 @@ GROUP BY
 							DS,
 							SC,
 							SP,
+							SP8,
 							totalbruto,
 							totalretur,
 							totalpotongan, totalpotistimewa,
