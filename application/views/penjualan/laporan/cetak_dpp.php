@@ -52,7 +52,7 @@ function uang($nilai)
 			<th rowspan="2">NAMA PELANGGAN</th>
 			<th rowspan="2">PASAR/DAERAH</th>
 			<th rowspan="2">SALESMAN</th>
-			<th colspan="11">PRODUK</th>
+			<th colspan="16">PRODUK</th>
 		</tr>
 		<tr bgcolor="#024a75" style="color:white; font-size:12;">
 			<th>BB</th>
@@ -66,6 +66,11 @@ function uang($nilai)
 			<th>CG</th>
 			<th>CGG</th>
 			<th>SP</th>
+			<th>BBP</th>
+			<th>SPP</th>
+			<th>CG5</th>
+			<th>SC</th>
+			<th>SP8</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -81,6 +86,11 @@ function uang($nilai)
 		$total_cg = 0;
 		$total_cgg = 0;
 		$total_sp = 0;
+		$total_bbp = 0;
+		$total_spp = 0;
+		$total_cg5 = 0;
+		$total_sc = 0;
+		$total_sp8 = 0;
 		foreach ($dpp as $d) {
 			$total_bb = $total_bb + $d->BB;
 			$total_ab = $total_ab + $d->AB;
@@ -93,6 +103,11 @@ function uang($nilai)
 			$total_cg = $total_cg + $d->CG;
 			$total_cgg = $total_cgg + $d->CGG;
 			$total_sp = $total_sp + $d->SP;
+			$total_bbp = $total_bbp + $d->BBP;
+			$total_spp = $total_spp + $d->SPP;
+			$total_cg5 = $total_cg5 + $d->CG5;
+			$total_sc = $total_sc + $d->SC;
+			$total_sp8 = $total_sp8 + $d->SP8;
 		?>
 			<tr style="font-size:12;">
 				<td><?php echo DateToIndo2($d->tgltransaksi); ?></td>
@@ -101,38 +116,53 @@ function uang($nilai)
 				<td><?php echo $d->pasar; ?></td>
 				<td><?php echo $d->nama_karyawan; ?></td>
 				<td align="right"><?php if ($d->BB != 0) {
-														echo uang($d->BB);
-													} ?></td>
+										echo uang($d->BB);
+									} ?></td>
 				<td align="right"><?php if ($d->AB != 0) {
-														echo uang($d->AB);
-													} ?></td>
+										echo uang($d->AB);
+									} ?></td>
 				<td align="right"><?php if ($d->AR != 0) {
-														echo uang($d->AR);
-													} ?></td>
+										echo uang($d->AR);
+									} ?></td>
 				<td align="right"><?php if ($d->ASE != 0) {
-														echo uang($d->ASE);
-													} ?></td>
+										echo uang($d->ASE);
+									} ?></td>
 				<td align="right"><?php if ($d->DP != 0) {
-														echo uang($d->DP);
-													} ?></td>
+										echo uang($d->DP);
+									} ?></td>
 				<td align="right"><?php if ($d->DK != 0) {
-														echo uang($d->DK);
-													} ?></td>
+										echo uang($d->DK);
+									} ?></td>
 				<td align="right"><?php if ($d->DS != 0) {
-														echo uang($d->DS);
-													} ?></td>
+										echo uang($d->DS);
+									} ?></td>
 				<td align="right"><?php if ($d->DB != 0) {
-														echo uang($d->DB);
-													} ?></td>
+										echo uang($d->DB);
+									} ?></td>
 				<td align="right"><?php if ($d->CG != 0) {
-														echo uang($d->CG);
-													} ?></td>
+										echo uang($d->CG);
+									} ?></td>
 				<td align="right"><?php if ($d->CGG != 0) {
-														echo uang($d->CGG);
-													} ?></td>
+										echo uang($d->CGG);
+									} ?></td>
 				<td align="right"><?php if ($d->SP != 0) {
-					echo uang($d->SP);
-				} ?></td>
+										echo uang($d->SP);
+									} ?></td>
+				<td align="right"><?php if ($d->SP != 0) {
+										echo uang($d->BBP);
+									} ?></td>
+				<td align="right"><?php if ($d->SP != 0) {
+										echo uang($d->SPP);
+									} ?></td>
+				<td align="right"><?php if ($d->SP != 0) {
+										echo uang($d->CG5);
+									} ?></td>
+				<td align="right"><?php if ($d->SC != 0) {
+										echo uang($d->SC);
+									} ?></td>
+				<td align="right"><?php if ($d->SP8 != 0) {
+										echo uang($d->SP8);
+									} ?></td>
 			</tr>
 		<?php } ?>
 	</tbody>
@@ -140,38 +170,53 @@ function uang($nilai)
 		<tr bgcolor="#024a75" style="color:white; font-size:12;">
 			<td colspan="5">TOTAL</td>
 			<td><?php if ($total_bb != 0) {
-						echo uang($total_bb);
-					} ?></td>
+					echo uang($total_bb);
+				} ?></td>
 			<td><?php if ($total_ab != 0) {
-						echo uang($total_ab);
-					} ?></td>
+					echo uang($total_ab);
+				} ?></td>
 			<td><?php if ($total_ar != 0) {
-						echo uang($total_ar);
-					} ?></td>
+					echo uang($total_ar);
+				} ?></td>
 			<td><?php if ($total_ase != 0) {
-						echo uang($total_ase);
-					} ?></td>
+					echo uang($total_ase);
+				} ?></td>
 			<td><?php if ($total_dp != 0) {
-						echo uang($total_dp);
-					} ?></td>
+					echo uang($total_dp);
+				} ?></td>
 			<td><?php if ($total_dk != 0) {
-						echo uang($total_dk);
-					} ?></td>
+					echo uang($total_dk);
+				} ?></td>
 			<td><?php if ($total_ds != 0) {
-						echo uang($total_ds);
-					} ?></td>
+					echo uang($total_ds);
+				} ?></td>
 			<td><?php if ($total_db != 0) {
-						echo uang($total_db);
-					} ?></td>
+					echo uang($total_db);
+				} ?></td>
 			<td><?php if ($total_cg != 0) {
-						echo uang($total_cg);
-					} ?></td>
+					echo uang($total_cg);
+				} ?></td>
 			<td><?php if ($total_cgg != 0) {
-						echo uang($total_cgg);
-					} ?></td>
+					echo uang($total_cgg);
+				} ?></td>
 			<td><?php if ($total_sp != 0) {
-						echo uang($total_sp);
-					} ?></td>
+					echo uang($total_sp);
+				} ?></td>
+			<td><?php if ($total_bbp != 0) {
+					echo uang($total_bbp);
+				} ?></td>
+			<td><?php if ($total_spp != 0) {
+					echo uang($total_spp);
+				} ?></td>
+			<td><?php if ($total_cg5 != 0) {
+					echo uang($total_cg5);
+				} ?></td>
+			<td><?php if ($total_sc != 0) {
+					echo uang($total_sc);
+				} ?></td>
+			<td><?php if ($total_sp8 != 0) {
+					echo uang($total_sp8);
+				} ?></td>
 		</tr>
 
 	</tfoot>

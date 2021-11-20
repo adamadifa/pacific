@@ -119,9 +119,7 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>laporanpenjualan/lebihsatufaktur" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>Lebih 1 Faktur
       </a>
-      <a href="<?php echo base_url(); ?>laporanpenjualan/lapdppp" class="list-group-item list-group-item-action">
-        <i class="fa fa-file mr-2"></i>DPPP
-      </a>
+
       <a href="<?php echo base_url(); ?>laporanpenjualan/lapdppp_v2" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>DPPP V2
       </a>
@@ -182,11 +180,11 @@ if ($level == "Administrator") {
           <i class="fa fa-truck mr-2"></i>Data Penjualan & Surat Jalan
         </a>
       <?php } ?>
-      
-        <a href="<?php echo base_url(); ?>pembayaran" class="list-group-item list-group-item-action">
-          <i class="fa fa-balance-scale mr-2"></i>Histori Penjualan Pelanggan
-        </a>
-      
+
+      <a href="<?php echo base_url(); ?>pembayaran" class="list-group-item list-group-item-action">
+        <i class="fa fa-balance-scale mr-2"></i>Histori Penjualan Pelanggan
+      </a>
+
       <?php if ($id_user != 234) { ?>
         <a href="<?php echo base_url(); ?>penjualan/penjualanpend" class="list-group-item list-group-item-action">
           <i class="fa fa-history mr-2"></i>Penjualan Pending
@@ -276,8 +274,8 @@ if ($level == "Administrator") {
         <i class="fa fa-file mr-2"></i>Lebih 1 Faktur
       </a>
       <?php if ($id_user != 9 and $id_user != 34 and $id_user != 230 and $id_user != 197) { ?>
-        <a href="<?php echo base_url(); ?>laporanpenjualan/lapdppp" class="list-group-item list-group-item-action">
-          <i class="fa fa-file mr-2"></i>DPPP
+        <a href="<?php echo base_url(); ?>laporanpenjualan/lapdppp_v2" class="list-group-item list-group-item-action">
+          <i class="fa fa-file mr-2"></i>DPPP V2
         </a>
         <?php if ($id_user != 234 and $id_user != 34 and $id_user != 230) { ?>
           <a href="<?php echo base_url(); ?>laporanpenjualan/repo" class="list-group-item list-group-item-action">
@@ -285,11 +283,7 @@ if ($level == "Administrator") {
           </a>
         <?php } ?>
       <?php } ?>
-      <?php if ($id_user != 34 and $id_user != 234 and $id_user != 197) { ?>
-        <a href="<?php echo base_url(); ?>laporanpenjualan/dpp" class="list-group-item list-group-item-action">
-          <i class="fa fa-file mr-2"></i>DPP
-        </a>
-      <?php } ?>
+
       <?php if ($id_user != 234) { ?>
         <a href="<?php echo base_url(); ?>laporanpenjualan/rekapomset" class="list-group-item list-group-item-action">
           <i class="fa fa-file mr-2"></i>Rekap Omset Pelanggan
@@ -368,17 +362,14 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>laporanpenjualan/lebihsatufaktur" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>Lebih 1 Faktur
       </a>
-      <a href="<?php echo base_url(); ?>laporanpenjualan/lapdppp" class="list-group-item list-group-item-action">
-        <i class="fa fa-file mr-2"></i>DPPP
+      <a href="<?php echo base_url(); ?>laporanpenjualan/lapdppp_v2" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i>DPPP V2
       </a>
       <a href="<?php echo base_url(); ?>laporanpenjualan/repo" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>REPO
       </a>
       <a href="<?php echo base_url(); ?>laporanpenjualan/dpp" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>DPP
-      </a>
-	  <a href="<?php echo base_url(); ?>laporanpenjualan/lapdppp_v2" class="list-group-item list-group-item-action">
-        <i class="fa fa-file mr-2"></i>DPPP V2
       </a>
       <a href="<?php echo base_url(); ?>laporanpenjualan/rekapomset" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>Rekap Omset Pelanggan
@@ -437,8 +428,8 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>laporanpenjualan/lebihsatufaktur" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>Lebih 1 Faktur
       </a>
-      <a href="<?php echo base_url(); ?>laporanpenjualan/lapdppp" class="list-group-item list-group-item-action">
-        <i class="fa fa-file mr-2"></i>DPPP
+      <a href="<?php echo base_url(); ?>laporanpenjualan/lapdppp_v2" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i>DPPP V2
       </a>
       <a href="<?php echo base_url(); ?>laporanpenjualan/repo" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>REPO
@@ -488,8 +479,8 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>laporanpenjualan/lebihsatufaktur" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>Lebih 1 Faktur
       </a>
-      <a href="<?php echo base_url(); ?>laporanpenjualan/lapdppp" class="list-group-item list-group-item-action">
-        <i class="fa fa-file mr-2"></i>DPPP
+      <a href="<?php echo base_url(); ?>laporanpenjualan/lapdppp_v2" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i>DPPP V2
       </a>
       <a href="<?php echo base_url(); ?>laporanpenjualan/repo" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>REPO
@@ -544,8 +535,8 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>laporanpenjualan/lebihsatufaktur" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>Lebih 1 Faktur
       </a>
-      <a href="<?php echo base_url(); ?>laporanpenjualan/lapdppp" class="list-group-item list-group-item-action">
-        <i class="fa fa-file mr-2"></i>DPPP
+      <a href="<?php echo base_url(); ?>laporanpenjualan/lapdppp_v2" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i>DPPP V2
       </a>
       <a href="<?php echo base_url(); ?>laporanpenjualan/repo" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>REPO

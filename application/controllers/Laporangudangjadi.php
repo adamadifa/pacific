@@ -423,11 +423,19 @@ class Laporangudangjadi extends CI_Controller
 	{
 
 		$dari 						= $this->input->post('dari');
-		$sampai     			= $this->input->post('sampai');
+		$sampai     				= $this->input->post('sampai');
 		$cabang 					= $this->input->post('cabang');
-		$data['dari']			= $dari;
-		$data['sampai']		= $sampai;
-		$data['konsolidasi']		= $this->Model_laporangudangjadi->konsolidasibjpenjualan($cabang, $dari, $sampai)->result();
+		$jeniskonsolidasi 			= $this->input->post('jeniskonsolidasi');
+		$data['dari']				= $dari;
+		$data['sampai']				= $sampai;
+		$data['cabang']				= $cabang;
+		if ($jeniskonsolidasi == 1) {
+			$data['jeniskonsolidasi'] = "PENJUALAN";
+			$data['konsolidasi']		= $this->Model_laporangudangjadi->konsolidasibjpenjualan($cabang, $dari, $sampai)->result();
+		} else {
+			$data['jeniskonsolidasi'] = "RETUR";
+			$data['konsolidasi']		= $this->Model_laporangudangjadi->konsolidasibjretur($cabang, $dari, $sampai)->result();
+		}
 		if (isset($_POST['export'])) {
 			// Fungsi header dengan mengirimkan raw data excel
 			header("Content-type: application/vnd-ms-excel");

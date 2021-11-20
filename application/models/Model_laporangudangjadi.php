@@ -1228,14 +1228,15 @@ class Model_laporangudangjadi extends CI_Model
 
 		return $this->db->query($query);
 	}
-	
+
 	function konsolidasibjpenjualan($cabang, $dari, $sampai)
 	{
 		$tanggal = explode("-", $dari);
 		$bulan 	 = $tanggal[1];
 		$tahun 	 = $tanggal[0];
 		$mulai   = $tahun . "-" . $bulan . "-" . "01";
-		$query = "SELECT master_barang.kode_produk,nama_barang,isipcsdus,totalpenjualan,totalpersediaan, IFNULL(totalpenjualan,0) - IFNULL(totalpersediaan,0) as selisih
+		$query = "SELECT master_barang.kode_produk,nama_barang,isipcsdus,satuan,isipack,isipcs,
+		totalpenjualan,totalpersediaan, IFNULL(totalpenjualan,0) - IFNULL(totalpersediaan,0) as selisih
 		FROM master_barang
 		LEFT JOIN (
 			SELECT kode_produk, SUM(jumlah) as totalpenjualan
@@ -1243,7 +1244,7 @@ class Model_laporangudangjadi extends CI_Model
 			INNER JOIN barang ON detailpenjualan.kode_barang = barang.kode_barang
 			INNER JOIN penjualan ON detailpenjualan.no_fak_penj = penjualan.no_fak_penj
 			INNER JOIN karyawan ON penjualan.id_karyawan = karyawan.id_karyawan
-			WHERE tgltransaksi BETWEEN '2021-09-01' AND '2021-09-30' AND karyawan.kode_cabang ='BDG'
+			WHERE tgltransaksi BETWEEN '$dari' AND '$sampai' AND karyawan.kode_cabang ='$cabang' AND promo !=1
 			GROUP BY kode_produk
 		) dp ON (master_barang.kode_produk = dp.kode_produk)
 
@@ -1253,8 +1254,41 @@ class Model_laporangudangjadi extends CI_Model
 			INNER JOIN mutasi_gudang_cabang 
 			ON detail_mutasi_gudang_cabang.no_mutasi_gudang_cabang = mutasi_gudang_cabang.no_mutasi_gudang_cabang
 			WHERE jenis_mutasi = 'PENJUALAN'  
-			AND tgl_mutasi_gudang_cabang BETWEEN '2021-09-01' AND '2021-09-30'
-			AND kode_cabang ='BDG'
+			AND tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai'
+			AND kode_cabang ='$cabang'
+			GROUP BY kode_produk
+		) persediaan ON (master_barang.kode_produk = persediaan.kode_produk)";
+		return $this->db->query($query);
+	}
+
+	function konsolidasibjretur($cabang, $dari, $sampai)
+	{
+		$tanggal = explode("-", $dari);
+		$bulan 	 = $tanggal[1];
+		$tahun 	 = $tanggal[0];
+		$mulai   = $tahun . "-" . $bulan . "-" . "01";
+		$query = "SELECT master_barang.kode_produk,nama_barang,isipcsdus,satuan,isipack,isipcs,
+		totalpenjualan,totalpersediaan, IFNULL(totalpenjualan,0) - IFNULL(totalpersediaan,0) as selisih
+		FROM master_barang
+		LEFT JOIN (
+			SELECT kode_produk, SUM(jumlah) as totalpenjualan
+			FROM detailretur
+			INNER JOIN barang ON detailretur.kode_barang = barang.kode_barang
+			INNER JOIN retur ON detailretur.no_retur_penj = retur.no_retur_penj
+			INNER JOIN penjualan ON retur.no_fak_penj = penjualan.no_fak_penj
+			INNER JOIN karyawan ON penjualan.id_karyawan = karyawan.id_karyawan
+			WHERE tglretur BETWEEN '$dari' AND '$sampai' AND karyawan.kode_cabang ='$cabang' 
+			GROUP BY kode_produk
+		) dp ON (master_barang.kode_produk = dp.kode_produk)
+
+		LEFT JOIN (
+			SELECT kode_produk,SUM(jumlah) as totalpersediaan
+			FROM detail_mutasi_gudang_cabang
+			INNER JOIN mutasi_gudang_cabang 
+			ON detail_mutasi_gudang_cabang.no_mutasi_gudang_cabang = mutasi_gudang_cabang.no_mutasi_gudang_cabang
+			WHERE jenis_mutasi = 'RETUR'  
+			AND tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai'
+			AND kode_cabang ='$cabang'
 			GROUP BY kode_produk
 		) persediaan ON (master_barang.kode_produk = persediaan.kode_produk)";
 		return $this->db->query($query);
