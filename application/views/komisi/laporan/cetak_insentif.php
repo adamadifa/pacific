@@ -8,7 +8,7 @@ $tgl1 = "2021-08-31";
 $tanggal = $tahun . "-" . $bln . "-" . "31";
 if ($bln == 9 AND $tahun ="2021") {
   $persentaseljt = 55;
-} else if ($bln == 10 AND $tahun ="2021") {
+} else if ($bln >= 10 AND $tahun ="2021") {
   $persentaseljt = 60;
 } else if ($bln <= 8 AND $tahun ="2021") {
   $persentaseljt = 50;

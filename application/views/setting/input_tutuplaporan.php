@@ -39,6 +39,10 @@
       <option value="penjualan">PENJUALAN</option>
       <option value="kaskecil">KAS KECIL</option>
       <option value="pembelian">PEMBELIAN</option>
+      <option value="gudangpusat">GUDANG PUSAT</option>
+      <option value="gudangcabang">GUDANG CABANG</option>
+      <option value="gudangbahan">GUDANG BAHAN</option>
+      <option value="gudanglogistik">GUDANG LOGISTIK</option>
     </select>
   </div>
   <div class="mb-3 d-flex justify-content-end">

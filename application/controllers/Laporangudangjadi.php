@@ -57,6 +57,14 @@ class Laporangudangjadi extends CI_Controller
 		$this->template->load('template/template', 'Laporangudangjadi/rekappersediaancabang', $data);
 	}
 
+	function konsolidasibj()
+	{
+		$data['cb']			= $this->session->userdata('cabang');
+		$data['cabang'] = $this->Model_cabang->view_cabang()->result();
+		$this->template->load('template/template', 'Laporangudangjadi/konsolidasibj', $data);
+	}
+
+
 
 	function rekapbadstok()
 	{
@@ -409,5 +417,23 @@ class Laporangudangjadi extends CI_Controller
 		}
 
 		$this->load->view('Laporangudangjadi/cetak_rekaphpp', $data);
+	}
+
+	function cetak_konsolidasibj()
+	{
+
+		$dari 						= $this->input->post('dari');
+		$sampai     			= $this->input->post('sampai');
+		$cabang 					= $this->input->post('cabang');
+		$data['dari']			= $dari;
+		$data['sampai']		= $sampai;
+		$data['konsolidasi']		= $this->Model_laporangudangjadi->konsolidasibjpenjualan($cabang, $dari, $sampai)->result();
+		if (isset($_POST['export'])) {
+			// Fungsi header dengan mengirimkan raw data excel
+			header("Content-type: application/vnd-ms-excel");
+			// Mendefinisikan nama file ekspor "hasil-export.xls"
+			header("Content-Disposition: attachment; filename=Rekap Persediaan BJ.xls");
+		}
+		$this->load->view('Laporangudangjadi/cetak_konsolidasibj', $data);
 	}
 }

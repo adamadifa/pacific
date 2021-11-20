@@ -97,6 +97,7 @@ tr:nth-child(even) {
   </thead>
   <tbody>
     <?php
+    $hargaminyak                = $this->db->query("SELECT harga FROM harga_minyak WHERE bulan = '$bulan' AND tahun = '$tahun' ")->row_array();
     $no                         = 1;
     $grandtotalqtysaldoawal     = 0;
     $grandtotaljmlsaldoawal     = 0;
@@ -300,7 +301,7 @@ tr:nth-child(even) {
 
       }else if($d->satuan == 'Liter'){
 
-        $hargakilo          = 0.9064;
+        $hargakilo          = $hargaminyak['harga'];
         $qtysaldoawal       = ($d->qtyberatsa * 1000) * ($hargakilo);
         if($qtysaldoawal == 0){
           $hargasaldoawal     = 0;

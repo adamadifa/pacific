@@ -48,10 +48,16 @@
 
                     </select>
                   </div>
+				  
                   <div class="form-group mb-3">
                     <input type="text" class="form-control" name="tahun" placeholder="Tahun">
                   </div>
-
+					<div class="mb-3">
+					<select class="form-select" name="status" id="status">
+						<option value="1">Berdasarkan Selling Out</option>
+						<option value="2">Berdasarkan Tunai Kredit</option>
+					</select>
+					</div>
                   <div class="form-group">
                     <div class="row">
                       <div class="col-md-6">

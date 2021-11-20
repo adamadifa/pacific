@@ -447,8 +447,14 @@ class Model_gudanglogistik extends CI_Model
       'qty'               => $qty,
       'harga'             => $harga
     );
-
-    $this->db->insert('saldoawal_gl_detail', $data);
+    $cek = $this->db->query("SELECT * FROM saldoawal_gl_detail WHERE kode_saldoawal_gl = '$kode_saldoawal_gl' AND kode_barang = '$kode_barang' ")->num_rows();
+    if($cek > 0){
+      $this->db->where('kode_saldoawal_gl', $kode_saldoawal_gl);
+      $this->db->where('kode_barang', $kode_barang);
+      $this->db->update('saldoawal_gl_detail', $data);
+    }else{
+      $this->db->insert('saldoawal_gl_detail', $data);
+    }
   }
 
   function insert_prosesopname()
@@ -463,8 +469,14 @@ class Model_gudanglogistik extends CI_Model
       'kode_barang'       => $kode_barang,
       'qty'               => $qty
     );
-
-    $this->db->insert('opname_gl_detail', $data);
+    $cek = $this->db->query("SELECT * FROM opname_gl_detail WHERE kode_opname_gl = '$kode_opname_gl' AND kode_barang = '$kode_barang' ")->num_rows();
+    if($cek > 0){
+      $this->db->where('kode_opname_gl', $kode_opname_gl);
+      $this->db->where('kode_barang', $kode_barang);
+      $this->db->update('opname_gl_detail', $data);
+    }else{
+      $this->db->insert('opname_gl_detail', $data);
+    }
   }
 
 

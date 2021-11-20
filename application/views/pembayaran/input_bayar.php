@@ -42,12 +42,12 @@
       <div class="form-group">
         <select class="form-select" name="jenisbayar" id="jenisbayar">
           <option value="titipan">Titipan</option>
-          <option value="tunai">Tunai</option>
+          
         </select>
       </div>
     </div>
   </div>
-
+  
   <div class="row mb-3">
     <div class="col-md-12">
       <label class="form-label">Salesman Penagih</label>

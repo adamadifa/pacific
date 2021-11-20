@@ -3154,6 +3154,164 @@ GROUP BY
 
 		return $this->db->query($query);
 	}
+	
+	function dppp_v2_tunaikredit($cabang, $tahun, $bulan)
+	{
+		$awaltahunini = $tahun . "-01-01";
+		$awaltahunlalu = $tahun - 1 . "-01-01";
+
+		$awalbulanini = $tahun . "-" . $bulan . "-01";
+		$akhirbulanini = date('Y-m-t', strtotime($awalbulanini));
+
+		$awalbulaninilast = $tahun - 1 . "-" . $bulan . "-01";
+		$akhirbulaninilast = date('Y-m-t', strtotime($awalbulaninilast));
+
+
+		$query = "SELECT
+		cabang.kode_cabang,
+		nama_cabang,
+		reallastbulanini_ab,
+		reallastsampaibulanini_ab,
+		realbulanini_ab,
+		realsampaibulanini_ab,
+		reallastbulanini_ar,realbulanini_ar,realsampaibulanini_ar,reallastsampaibulanini_ar,
+		reallastbulanini_as,realbulanini_as,realsampaibulanini_as,reallastsampaibulanini_as,
+		reallastbulanini_bb,realbulanini_bb,realsampaibulanini_bb,reallastsampaibulanini_bb,
+		reallastbulanini_cg,realbulanini_cg,realsampaibulanini_cg,reallastsampaibulanini_cg,
+		reallastbulanini_cgg,realbulanini_cgg,realsampaibulanini_cgg,reallastsampaibulanini_cgg,
+		reallastbulanini_dep,realbulanini_dep,realsampaibulanini_dep,reallastsampaibulanini_dep,
+		reallastbulanini_ds,realbulanini_ds,realsampaibulanini_ds,reallastsampaibulanini_ds,
+		reallastbulanini_sp,realbulanini_sp,realsampaibulanini_sp,reallastsampaibulanini_sp,
+		reallastbulanini_cg5,realbulanini_cg5,realsampaibulanini_cg5,reallastsampaibulanini_cg5,
+		ab_bulanini,ab_sampaibulanini,
+		ar_bulanini,ar_sampaibulanini,
+		as_bulanini,as_sampaibulanini,
+		bb_bulanini,bb_sampaibulanini,
+		cg_bulanini,cg_sampaibulanini,
+		cgg_sampaibulanini,cgg_bulanini,
+		dep_bulanini,dep_sampaibulanini,
+		ds_bulanini,ds_sampaibulanini,
+		sp_bulanini,sp_sampaibulanini,
+		cg5_bulanini,cg5_sampaibulanini
+	FROM
+		cabang
+		LEFT JOIN (
+		SELECT
+			karyawan.kode_cabang,
+			SUM(IF( kode_produk = 'AB' AND tgltransaksi >= '$awalbulaninilast' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_ab,
+			SUM(IF( kode_produk = 'AB' AND tgltransaksi >= '$awaltahunlalu' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_ab,
+			SUM(IF( kode_produk = 'AB' AND tgltransaksi >= '$awalbulanini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_ab,
+			SUM(IF( kode_produk = 'AB' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_ab,
+			
+			SUM(IF( kode_produk = 'AR' AND tgltransaksi >= '$awalbulaninilast' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_ar,
+			SUM(IF( kode_produk = 'AR' AND tgltransaksi >= '$awaltahunlalu' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_ar,
+			SUM(IF( kode_produk = 'AR' AND tgltransaksi >= '$awalbulanini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_ar,
+			SUM(IF( kode_produk = 'AR' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_ar,
+			
+			SUM(IF( kode_produk = 'AS' AND tgltransaksi >= '$awalbulaninilast' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_as,
+			SUM(IF( kode_produk = 'AS' AND tgltransaksi >= '$awaltahunlalu' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_as,
+			SUM(IF( kode_produk = 'AS' AND tgltransaksi >= '$awalbulanini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_as,
+			SUM(IF( kode_produk = 'AS' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_as,
+			
+			SUM(IF( kode_produk = 'BB' AND tgltransaksi >= '$awalbulaninilast' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_bb,
+			SUM(IF( kode_produk = 'BB' AND tgltransaksi >= '$awaltahunlalu' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_bb,
+			SUM(IF( kode_produk = 'BB' AND tgltransaksi >= '$awalbulanini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_bb,
+			SUM(IF( kode_produk = 'BB' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_bb,
+			
+			SUM(IF( kode_produk = 'CG' AND tgltransaksi >= '$awalbulaninilast' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_cg,
+			SUM(IF( kode_produk = 'CG' AND tgltransaksi >= '$awaltahunlalu' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_cg,
+			SUM(IF( kode_produk = 'CG' AND tgltransaksi >= '$awalbulanini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_cg,
+			SUM(IF( kode_produk = 'CG' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_cg,
+			
+			
+			SUM(IF( kode_produk = 'CGG' AND tgltransaksi >= '$awalbulaninilast' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_cgg,
+			SUM(IF( kode_produk = 'CGG' AND tgltransaksi >= '$awaltahunlalu' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_cgg,
+			SUM(IF( kode_produk = 'CGG' AND tgltransaksi >= '$awalbulanini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_cgg,
+			SUM(IF( kode_produk = 'CGG' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_cgg,
+			
+			SUM(IF( kode_produk = 'DEP' AND tgltransaksi >= '$awalbulaninilast' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_dep,
+			SUM(IF( kode_produk = 'DEP' AND tgltransaksi >= '$awaltahunlalu' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_dep,
+			SUM(IF( kode_produk = 'DEP' AND tgltransaksi >= '$awalbulanini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_dep,
+			SUM(IF( kode_produk = 'DEP' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_dep,
+			
+			SUM(IF( kode_produk = 'DS' AND tgltransaksi >= '$awalbulaninilast' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_ds,
+			SUM(IF( kode_produk = 'DS' AND tgltransaksi >= '$awaltahunlalu' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_ds,
+			SUM(IF( kode_produk = 'DS' AND tgltransaksi >= '$awalbulanini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_ds,
+			SUM(IF( kode_produk = 'DS' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_ds,
+			
+			SUM(IF( kode_produk = 'SP' AND tgltransaksi >= '$awalbulaninilast' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_sp,
+			SUM(IF( kode_produk = 'SP' AND tgltransaksi >= '$awaltahunlalu' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_sp,
+			SUM(IF( kode_produk = 'SP' AND tgltransaksi >= '$awalbulanini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_sp,
+			SUM(IF( kode_produk = 'SP' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_sp,
+			
+			SUM(IF( kode_produk = 'CG5' AND tgltransaksi >= '$awalbulaninilast' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_cg5,
+			SUM(IF( kode_produk = 'CG5' AND tgltransaksi >= '$awaltahunlalu' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_cg5,
+			SUM(IF( kode_produk = 'CG5' AND tgltransaksi >= '$awalbulanini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_cg5,
+			SUM(IF( kode_produk = 'CG5' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_cg5
+			
+		FROM
+			detailpenjualan
+			INNER JOIN penjualan ON detailpenjualan.no_fak_penj = penjualan.no_fak_penj
+			INNER JOIN karyawan ON penjualan.id_karyawan = karyawan.id_karyawan
+			INNER JOIN barang ON detailpenjualan.kode_barang = barang.kode_barang
+
+		WHERE
+		tgltransaksi BETWEEN '$awaltahunlalu' AND '$akhirbulaninilast' OR 
+		tgltransaksi BETWEEN '$awaltahunini' AND '$akhirbulanini'
+		GROUP BY
+			karyawan.kode_cabang 
+		) realisasi ON (
+		realisasi.kode_cabang = cabang.kode_cabang) 
+		
+		LEFT JOIN (
+			SELECT karyawan.kode_cabang,
+			SUM(IF(kode_produk = 'AB' AND bulan = '$bulan',jumlah_target,0)) as ab_bulanini,
+			SUM(IF(kode_produk = 'AB' AND bulan <= '$bulan',jumlah_target,0)) as ab_sampaibulanini,
+			
+	
+			SUM(IF(kode_produk = 'AR' AND bulan = '$bulan',jumlah_target,0)) as ar_bulanini,
+			SUM(IF(kode_produk = 'AR' AND bulan <= '$bulan',jumlah_target,0)) as ar_sampaibulanini,
+			
+	
+			SUM(IF(kode_produk = 'AS' AND bulan = '$bulan',jumlah_target,0)) as as_bulanini,
+			SUM(IF(kode_produk = 'AS' AND bulan <= '$bulan',jumlah_target,0)) as as_sampaibulanini,
+			
+		
+			SUM(IF(kode_produk = 'BB' AND bulan = '$bulan',jumlah_target,0)) as bb_bulanini,
+			SUM(IF(kode_produk = 'BB' AND bulan <= '$bulan',jumlah_target,0)) as bb_sampaibulanini,
+			
+			
+			SUM(IF(kode_produk = 'CG' AND bulan = '$bulan',jumlah_target,0)) as cg_bulanini,
+			SUM(IF(kode_produk = 'CG' AND bulan <= '$bulan',jumlah_target,0)) as cg_sampaibulanini,
+			
+			SUM(IF(kode_produk = 'CGG',jumlah_target,0)) as cgg_tahun,
+			SUM(IF(kode_produk = 'CGG' AND bulan = '$bulan',jumlah_target,0)) as cgg_bulanini,
+			SUM(IF(kode_produk = 'CGG' AND bulan <= '$bulan',jumlah_target,0)) as cgg_sampaibulanini,
+			
+	
+			SUM(IF(kode_produk = 'DEP' AND bulan = '$bulan',jumlah_target,0)) as dep_bulanini,
+			SUM(IF(kode_produk = 'DEP' AND bulan <= '$bulan',jumlah_target,0)) as dep_sampaibulanini,
+			
+	
+			SUM(IF(kode_produk = 'DS' AND bulan = '$bulan',jumlah_target,0)) as ds_bulanini,
+			SUM(IF(kode_produk = 'DS' AND bulan <= '$bulan',jumlah_target,0)) as ds_sampaibulanini,
+			
+	
+			SUM(IF(kode_produk = 'SP' AND bulan = '$bulan',jumlah_target,0)) as sp_bulanini,
+			SUM(IF(kode_produk = 'SP' AND bulan <= '$bulan',jumlah_target,0)) as sp_sampaibulanini,
+			
+		
+			SUM(IF(kode_produk = 'CG5' AND bulan = '$bulan',jumlah_target,0)) as cg5_bulanini,
+			SUM(IF(kode_produk = 'CG5' AND bulan <= '$bulan',jumlah_target,0)) as cg5_sampaibulanini
+			FROM komisi_target_qty_detail dt
+			INNER JOIN komisi_target kt ON dt.kode_target = kt.kode_target
+			INNER JOIN karyawan ON dt.id_karyawan = karyawan.id_karyawan
+			WHERE tahun = '$tahun' AND bulan <='$bulan'
+			GROUP BY karyawan.kode_cabang 
+			) target ON (cabang.kode_cabang = target.kode_cabang)";
+
+		return $this->db->query($query);
+	}
 
 
 	function dppp_v2_sales($cabang, $tahun, $bulan)
@@ -3318,7 +3476,164 @@ GROUP BY
 		return $this->db->query($query);
 	}
 
+	
+	function dppp_v2_sales_tunaikredit($cabang, $tahun, $bulan)
+	{
+		$awaltahunini = $tahun . "-01-01";
+		$awaltahunlalu = $tahun - 1 . "-01-01";
 
+		$awalbulanini = $tahun . "-" . $bulan . "-01";
+		$akhirbulanini = date('Y-m-t', strtotime($awalbulanini));
+
+		$awalbulaninilast = $tahun - 1 . "-" . $bulan . "-01";
+		$akhirbulaninilast = date('Y-m-t', strtotime($awalbulaninilast));
+
+
+		$query = "SELECT
+		karyawan.id_karyawan,nama_karyawan,
+		reallastbulanini_ab,
+		reallastsampaibulanini_ab,
+		realbulanini_ab,
+		realsampaibulanini_ab,
+		reallastbulanini_ar,realbulanini_ar,realsampaibulanini_ar,reallastsampaibulanini_ar,
+		reallastbulanini_as,realbulanini_as,realsampaibulanini_as,reallastsampaibulanini_as,
+		reallastbulanini_bb,realbulanini_bb,realsampaibulanini_bb,reallastsampaibulanini_bb,
+		reallastbulanini_cg,realbulanini_cg,realsampaibulanini_cg,reallastsampaibulanini_cg,
+		reallastbulanini_cgg,realbulanini_cgg,realsampaibulanini_cgg,reallastsampaibulanini_cgg,
+		reallastbulanini_dep,realbulanini_dep,realsampaibulanini_dep,reallastsampaibulanini_dep,
+		reallastbulanini_ds,realbulanini_ds,realsampaibulanini_ds,reallastsampaibulanini_ds,
+		reallastbulanini_sp,realbulanini_sp,realsampaibulanini_sp,reallastsampaibulanini_sp,
+		reallastbulanini_cg5,realbulanini_cg5,realsampaibulanini_cg5,reallastsampaibulanini_cg5,
+		ab_bulanini,ab_sampaibulanini,
+		ar_bulanini,ar_sampaibulanini,
+		as_bulanini,as_sampaibulanini,
+		bb_bulanini,bb_sampaibulanini,
+		cg_bulanini,cg_sampaibulanini,
+		cgg_sampaibulanini,cgg_bulanini,
+		dep_bulanini,dep_sampaibulanini,
+		ds_bulanini,ds_sampaibulanini,
+		sp_bulanini,sp_sampaibulanini,
+		cg5_bulanini,cg5_sampaibulanini
+	FROM
+		karyawan
+		LEFT JOIN (
+		SELECT
+			penjualan.id_karyawan,
+			SUM(IF( kode_produk = 'AB' AND tgltransaksi >= '$awalbulaninilast' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_ab,
+			SUM(IF( kode_produk = 'AB' AND tgltransaksi >= '$awaltahunlalu' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_ab,
+			SUM(IF( kode_produk = 'AB' AND tgltransaksi >= '$awalbulanini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_ab,
+			SUM(IF( kode_produk = 'AB' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_ab,
+			
+			SUM(IF( kode_produk = 'AR' AND tgltransaksi >= '$awalbulaninilast' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_ar,
+			SUM(IF( kode_produk = 'AR' AND tgltransaksi >= '$awaltahunlalu' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_ar,
+			SUM(IF( kode_produk = 'AR' AND tgltransaksi >= '$awalbulanini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_ar,
+			SUM(IF( kode_produk = 'AR' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_ar,
+			
+			SUM(IF( kode_produk = 'AS' AND tgltransaksi >= '$awalbulaninilast' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_as,
+			SUM(IF( kode_produk = 'AS' AND tgltransaksi >= '$awaltahunlalu' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_as,
+			SUM(IF( kode_produk = 'AS' AND tgltransaksi >= '$awalbulanini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_as,
+			SUM(IF( kode_produk = 'AS' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_as,
+			
+			SUM(IF( kode_produk = 'BB' AND tgltransaksi >= '$awalbulaninilast' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_bb,
+			SUM(IF( kode_produk = 'BB' AND tgltransaksi >= '$awaltahunlalu' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_bb,
+			SUM(IF( kode_produk = 'BB' AND tgltransaksi >= '$awalbulanini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_bb,
+			SUM(IF( kode_produk = 'BB' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_bb,
+			
+			SUM(IF( kode_produk = 'CG' AND tgltransaksi >= '$awalbulaninilast' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_cg,
+			SUM(IF( kode_produk = 'CG' AND tgltransaksi >= '$awaltahunlalu' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_cg,
+			SUM(IF( kode_produk = 'CG' AND tgltransaksi >= '$awalbulanini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_cg,
+			SUM(IF( kode_produk = 'CG' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_cg,
+			
+			
+			SUM(IF( kode_produk = 'CGG' AND tgltransaksi >= '$awalbulaninilast' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_cgg,
+			SUM(IF( kode_produk = 'CGG' AND tgltransaksi >= '$awaltahunlalu' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_cgg,
+			SUM(IF( kode_produk = 'CGG' AND tgltransaksi >= '$awalbulanini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_cgg,
+			SUM(IF( kode_produk = 'CGG' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_cgg,
+			
+			SUM(IF( kode_produk = 'DEP' AND tgltransaksi >= '$awalbulaninilast' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_dep,
+			SUM(IF( kode_produk = 'DEP' AND tgltransaksi >= '$awaltahunlalu' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_dep,
+			SUM(IF( kode_produk = 'DEP' AND tgltransaksi >= '$awalbulanini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_dep,
+			SUM(IF( kode_produk = 'DEP' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_dep,
+			
+			SUM(IF( kode_produk = 'DS' AND tgltransaksi >= '$awalbulaninilast' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_ds,
+			SUM(IF( kode_produk = 'DS' AND tgltransaksi >= '$awaltahunlalu' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_ds,
+			SUM(IF( kode_produk = 'DS' AND tgltransaksi >= '$awalbulanini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_ds,
+			SUM(IF( kode_produk = 'DS' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_ds,
+			
+			SUM(IF( kode_produk = 'SP' AND tgltransaksi >= '$awalbulaninilast' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_sp,
+			SUM(IF( kode_produk = 'SP' AND tgltransaksi >= '$awaltahunlalu' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_sp,
+			SUM(IF( kode_produk = 'SP' AND tgltransaksi >= '$awalbulanini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_sp,
+			SUM(IF( kode_produk = 'SP' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_sp,
+			
+			SUM(IF( kode_produk = 'CG5' AND tgltransaksi >= '$awalbulaninilast' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastbulanini_cg5,
+			SUM(IF( kode_produk = 'CG5' AND tgltransaksi >= '$awaltahunlalu' AND tgltransaksi <= '$akhirbulaninilast', jumlah, 0 )) AS reallastsampaibulanini_cg5,
+			SUM(IF( kode_produk = 'CG5' AND tgltransaksi >= '$awalbulanini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realbulanini_cg5,
+			SUM(IF( kode_produk = 'CG5' AND tgltransaksi >= '$awaltahunini' AND tgltransaksi <= '$akhirbulanini', jumlah, 0 )) AS realsampaibulanini_cg5
+			
+		FROM
+			detailpenjualan
+			INNER JOIN penjualan ON detailpenjualan.no_fak_penj = penjualan.no_fak_penj
+			INNER JOIN karyawan ON penjualan.id_karyawan = karyawan.id_karyawan
+			INNER JOIN barang ON detailpenjualan.kode_barang = barang.kode_barang
+			
+		WHERE
+		tgltransaksi BETWEEN '$awaltahunlalu' AND '$akhirbulaninilast'  OR 
+		tgltransaksi BETWEEN '$awaltahunini' AND '$akhirbulanini' 
+		GROUP BY
+			penjualan.id_karyawan 
+		) realisasi ON (
+		realisasi.id_karyawan = karyawan.id_karyawan) 
+		
+		LEFT JOIN (
+			SELECT dt.id_karyawan,
+			SUM(IF(kode_produk = 'AB' AND bulan = '$bulan',jumlah_target,0)) as ab_bulanini,
+			SUM(IF(kode_produk = 'AB' AND bulan <= '$bulan',jumlah_target,0)) as ab_sampaibulanini,
+			
+	
+			SUM(IF(kode_produk = 'AR' AND bulan = '$bulan',jumlah_target,0)) as ar_bulanini,
+			SUM(IF(kode_produk = 'AR' AND bulan <= '$bulan',jumlah_target,0)) as ar_sampaibulanini,
+			
+	
+			SUM(IF(kode_produk = 'AS' AND bulan = '$bulan',jumlah_target,0)) as as_bulanini,
+			SUM(IF(kode_produk = 'AS' AND bulan <= '$bulan',jumlah_target,0)) as as_sampaibulanini,
+			
+		
+			SUM(IF(kode_produk = 'BB' AND bulan = '$bulan',jumlah_target,0)) as bb_bulanini,
+			SUM(IF(kode_produk = 'BB' AND bulan <= '$bulan',jumlah_target,0)) as bb_sampaibulanini,
+			
+			
+			SUM(IF(kode_produk = 'CG' AND bulan = '$bulan',jumlah_target,0)) as cg_bulanini,
+			SUM(IF(kode_produk = 'CG' AND bulan <= '$bulan',jumlah_target,0)) as cg_sampaibulanini,
+			
+			SUM(IF(kode_produk = 'CGG',jumlah_target,0)) as cgg_tahun,
+			SUM(IF(kode_produk = 'CGG' AND bulan = '$bulan',jumlah_target,0)) as cgg_bulanini,
+			SUM(IF(kode_produk = 'CGG' AND bulan <= '$bulan',jumlah_target,0)) as cgg_sampaibulanini,
+			
+	
+			SUM(IF(kode_produk = 'DEP' AND bulan = '$bulan',jumlah_target,0)) as dep_bulanini,
+			SUM(IF(kode_produk = 'DEP' AND bulan <= '$bulan',jumlah_target,0)) as dep_sampaibulanini,
+			
+	
+			SUM(IF(kode_produk = 'DS' AND bulan = '$bulan',jumlah_target,0)) as ds_bulanini,
+			SUM(IF(kode_produk = 'DS' AND bulan <= '$bulan',jumlah_target,0)) as ds_sampaibulanini,
+			
+	
+			SUM(IF(kode_produk = 'SP' AND bulan = '$bulan',jumlah_target,0)) as sp_bulanini,
+			SUM(IF(kode_produk = 'SP' AND bulan <= '$bulan',jumlah_target,0)) as sp_sampaibulanini,
+			
+		
+			SUM(IF(kode_produk = 'CG5' AND bulan = '$bulan',jumlah_target,0)) as cg5_bulanini,
+			SUM(IF(kode_produk = 'CG5' AND bulan <= '$bulan',jumlah_target,0)) as cg5_sampaibulanini
+			FROM komisi_target_qty_detail dt
+			INNER JOIN komisi_target kt ON dt.kode_target = kt.kode_target
+			INNER JOIN karyawan ON dt.id_karyawan = karyawan.id_karyawan
+			WHERE tahun = '$tahun' AND bulan <='$bulan' AND karyawan.kode_cabang = '$cabang'
+			GROUP BY dt.id_karyawan 
+			) target ON (karyawan.id_karyawan = target.id_karyawan)
+			WHERE kode_cabang ='$cabang'";
+
+		return $this->db->query($query);
+	}
 
 	function getProduct()
 	{

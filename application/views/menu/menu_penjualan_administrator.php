@@ -377,6 +377,9 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>laporanpenjualan/dpp" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>DPP
       </a>
+	  <a href="<?php echo base_url(); ?>laporanpenjualan/lapdppp_v2" class="list-group-item list-group-item-action">
+        <i class="fa fa-file mr-2"></i>DPPP V2
+      </a>
       <a href="<?php echo base_url(); ?>laporanpenjualan/rekapomset" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>Rekap Omset Pelanggan
       </a>
