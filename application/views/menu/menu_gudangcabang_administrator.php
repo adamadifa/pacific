@@ -233,6 +233,9 @@ if ($level == "Administrator" || $level == "admin gudang" || $level == "kepala a
       <a href="<?php echo base_url(); ?>laporangudangjadi/mutasidpb" class="list-group-item list-group-item-action">
         <i class="fa  fa-file-text-o mr-2"></i>Mutasi DPB
       </a>
+      <a href="<?php echo base_url(); ?>laporangudangjadi/konsolidasibj" class="list-group-item list-group-item-action">
+        <i class="fa  fa-file-text-o mr-2"></i>Konsolidasi BJ
+      </a>
     </div>
   </div>
 <?php } else if (
@@ -254,6 +257,9 @@ if ($level == "Administrator" || $level == "admin gudang" || $level == "kepala a
       </a>
       <a href="<?php echo base_url(); ?>laporangudangjadi/mutasidpb" class="list-group-item list-group-item-action">
         <i class="fa  fa-file-text-o mr-2"></i>Mutasi DPB
+      </a>
+      <a href="<?php echo base_url(); ?>laporangudangjadi/konsolidasibj" class="list-group-item list-group-item-action">
+        <i class="fa  fa-file-text-o mr-2"></i>Konsolidasi BJ
       </a>
     </div>
   </div>
