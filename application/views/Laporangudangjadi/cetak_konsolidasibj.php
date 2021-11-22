@@ -9,7 +9,7 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 <br>
 <b style="font-size:16px; font-family:Calibri">
 	PACIFIC CABANG <?php echo $cabang; ?><br>
-	REKAPITULASI KONSOLIDASI BJ <?php echo $jeniskonsolidasi; ?><br>
+	REKAPITULASI REKONSILIASI BJ <?php echo $jeniskonsolidasi; ?><br>
 	PERIODE <?php echo DateToIndo2($dari) . " s/d " . DateToIndo2($sampai); ?><br><br>
 </b>
 <br>

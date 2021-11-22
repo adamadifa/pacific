@@ -6,7 +6,7 @@ class Dashboard extends CI_Controller
   {
     parent::__construct();
     check_login();
-    $this->load->model(array('Model_dashboard', 'Model_cabang', 'Model_dpb', 'Model_laporangudangjadi'));
+    $this->load->model(array('Model_dashboard', 'Model_cabang', 'Model_dpb', 'Model_laporangudangjadi', 'Model_barang'));
   }
 
   function index()
@@ -268,7 +268,7 @@ class Dashboard extends CI_Controller
   function loadrekappersediaandpb()
   {
     $data['rekap'] = $this->Model_dashboard->persediaangudang()->result();
-    $data['saldo'] = $this->Model_dashboard->rekappersediaan()->result();
+    $data['persediaandpb'] = $this->Model_dashboard->rekappersediaan()->result_array();
     $this->load->view('dashboard/loadrekappersediaandpb', $data);
   }
 

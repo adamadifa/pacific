@@ -4,7 +4,7 @@
     <div class="row align-items-center">
       <div class="col-auto">
         <h2 class="page-title">
-          KONSOLIDASI BJ
+          REKONSILIASI BJ
         </h2>
       </div>
     </div>
@@ -17,7 +17,7 @@
           <div class="col-md-6">
             <div class="card">
               <div class="card-header bg-dark text-white">
-                <h4 class="card-title">KONSOLIDASI BJ</h4>
+                <h4 class="card-title">REKONSILIASI BJ</h4>
               </div>
               <div class="card-body">
                 <form class="formValidate FormBJ" id="formValidate" method="POST" action="<?php echo base_url(); ?>laporangudangjadi/cetak_konsolidasibj" target="_blank">
