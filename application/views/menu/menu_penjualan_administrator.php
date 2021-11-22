@@ -273,11 +273,11 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>laporanpenjualan/lebihsatufaktur" class="list-group-item list-group-item-action">
         <i class="fa fa-file mr-2"></i>Lebih 1 Faktur
       </a>
-      <?php if ($id_user != 9 and $id_user != 34 and $id_user != 230 and $id_user != 197) { ?>
+      <?php if ($id_user != 9 and $id_user != 34  and $id_user != 197) { ?>
         <a href="<?php echo base_url(); ?>laporanpenjualan/lapdppp_v2" class="list-group-item list-group-item-action">
           <i class="fa fa-file mr-2"></i>DPPP V2
         </a>
-        <?php if ($id_user != 234 and $id_user != 34 and $id_user != 230) { ?>
+        <?php if ($id_user != 234 and $id_user != 34) { ?>
           <a href="<?php echo base_url(); ?>laporanpenjualan/repo" class="list-group-item list-group-item-action">
             <i class="fa fa-file mr-2"></i>REPO
           </a>
@@ -289,7 +289,7 @@ if ($level == "Administrator") {
           <i class="fa fa-file mr-2"></i>Rekap Omset Pelanggan
         </a>
       <?php } ?>
-      <?php if ($id_user != 34 and $id_user != 230 and $id_user != 197) { ?>
+      <?php if ($id_user != 34  and $id_user != 197) { ?>
         <a href="<?php echo base_url(); ?>laporanpenjualan/rekappelanggan" class="list-group-item list-group-item-action">
           <i class="fa fa-file mr-2"></i>Rekap Pelanggan
         </a>
