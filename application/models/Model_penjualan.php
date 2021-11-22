@@ -4763,6 +4763,72 @@ class Model_penjualan extends CI_Model
       redirect('penjualan/approvallimitv2');
     }
   }
+
+
+
+  function updatepengajuanlimitv3()
+  {
+    $nopengajuan     = $this->input->post('nopengajuan');
+    $status         = $this->input->post('status');
+    $kode_pelanggan = $this->input->post('kodepelanggan');
+    $jumlahold       = $this->input->post('jumlahold');
+    $penyesuaian     = str_replace(".", "", $this->input->post('jumlah'));
+    //$jumlah         = (($penyesuaian / 100) * $jumlahold) + $jumlahold;
+    $jumlah         = $penyesuaian + $jumlahold;
+    $jatuhtempo     = $this->input->post('jatuhtempo');
+    $data = [
+      'jumlah_rekomendasi'  => $jumlah,
+      'jatuhtempo_rekomendasi' => $jatuhtempo
+    ];
+    if (!empty($jatuhtempo)) {
+      $data = [
+        'jumlah_rekomendasi'  => $jumlah,
+        'jatuhtempo_rekomendasi' => $jatuhtempo
+      ];
+    } else {
+      $data = [
+        'jumlah_rekomendasi'  => $jumlah,
+        'jatuhtempo_rekomendasi' => $jatuhtempo
+      ];
+    }
+
+
+
+    $simpan = $this->db->update('pengajuan_limitkredit_v3', $data, array('no_pengajuan' => $nopengajuan));
+    if ($simpan) {
+      if ($status == '1') {
+        if (!empty($jatuhtempo)) {
+          $datapel = [
+            'limitpel' => $jumlah,
+            'jatuhtempo' => $jatuhtempo
+          ];
+        } else {
+          $datapel = [
+            'limitpel' => $jumlah
+          ];
+        }
+        $updatelimit = $this->db->update('pelanggan', $datapel, array('kode_pelanggan' => $kode_pelanggan));
+      }
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-green text-white alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil Disimpan !
+				</div>'
+      );
+
+      redirect('penjualan/approvallimitv3');
+    } else {
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-red text-white alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Gagal Disimpan !
+				</div>'
+      );
+      redirect('penjualan/approvallimitv3');
+    }
+  }
   function hapuspengajuanlimit($id)
   {
     $hapus = $this->db->delete('pengajuan_limitkredit', array('no_pengajuan' => $id));
@@ -5548,6 +5614,11 @@ class Model_penjualan extends CI_Model
   function getPengajuanLimitkreditv2($id)
   {
     return $this->db->get_where('pengajuan_limitkredit_v2', array('no_pengajuan' => $id));
+  }
+
+  function getPengajuanLimitkreditv3($id)
+  {
+    return $this->db->get_where('pengajuan_limitkredit_v3', array('no_pengajuan' => $id));
   }
 
   // public function getDataPenjualanpend($rowno, $rowperpage, $cbg = "", $salesman = "", $dari = "", $sampai = "", $status = "")

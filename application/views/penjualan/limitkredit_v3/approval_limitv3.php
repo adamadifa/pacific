@@ -590,7 +590,7 @@ $level = $this->session->userdata('level_user');
       });
       $.ajax({
         type: 'POST',
-        url: '<?php echo base_url(); ?>penjualan/edit_pengajuanlimitv2',
+        url: '<?php echo base_url(); ?>penjualan/edit_pengajuanlimitv3',
         data: {
           id: id
         },

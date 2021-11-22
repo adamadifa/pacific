@@ -2310,6 +2310,15 @@ class Penjualan extends CI_Controller
     $this->load->view('penjualan/edit_pengajuanlimitv2', $data);
   }
 
+  function edit_pengajuanlimitv3()
+  {
+    $nopengajuan        = $this->input->post('id');
+    $data['pengajuan']  = $this->Model_penjualan->getPengajuanLimitkreditv3($nopengajuan)->row_array();
+    $data['cb']          = $this->session->userdata('cabang');
+    $data['cabang']     = $this->Model_cabang->view_cabang()->result();
+    $this->load->view('penjualan/edit_pengajuanlimitv3', $data);
+  }
+
   function insertpengajuanlimit()
   {
     $this->Model_penjualan->insertpengajuanlimit();
@@ -2331,6 +2340,11 @@ class Penjualan extends CI_Controller
   function updatepengajuanlimitv2()
   {
     $this->Model_penjualan->updatepengajuanlimitv2();
+  }
+
+  function updatepengajuanlimitv3()
+  {
+    $this->Model_penjualan->updatepengajuanlimitv3();
   }
   function hapuspengajuanlimit()
   {
