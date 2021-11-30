@@ -225,13 +225,14 @@ class Model_dashboard extends CI_Model
 
 	function rekappersediaan()
 	{
-		$query = "SELECT cabang.kode_cabang,nama_cabang,tanggal,kode_saldoawal,
+		$query = "SELECT cabang.kode_cabang,nama_cabang,
 		saldo_ab,
 		saldo_ar,
 		saldo_as,
 		saldo_bb,
 		saldo_dep,
 		saldo_ds,
+		saldo_sp,
 		saldo_spp,
 		saldo_sc,
 		saldo_sp8,
@@ -277,7 +278,7 @@ class Model_dashboard extends CI_Model
 		mg_sp8
 		FROM cabang
 		LEFT JOIN (
-		SELECT kode_cabang,tanggal, detailsaldo.kode_saldoawal,
+		SELECT kode_cabang,
 		SUM(IF(kode_produk='AB',jumlah,0)) as saldo_ab,
 		SUM(IF(kode_produk='AR',jumlah,0)) as saldo_ar,
 		SUM(IF(kode_produk='AS',jumlah,0)) as saldo_as,

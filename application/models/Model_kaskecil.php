@@ -1175,9 +1175,7 @@ class Model_kaskecil extends CI_Model
     $ceknolast      = $this->db->query($qledger)->row_array();
     $nobuktilast    = $ceknolast['no_bukti'];
     $no_bukti       = buatkode($nobuktilast, 'LR' . $cabang . $tahun, 4);
-    if ($cabang == "SMR") {
-      $akun = "1-1117";
-    } else if ($cabang == "KLT") {
+    if ($cabang == "KLT") {
       $akun = "1-1118";
     } else {
       $akun = "1-1104";

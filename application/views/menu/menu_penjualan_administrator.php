@@ -324,6 +324,9 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>penjualan/jatuhtempo" class="list-group-item list-group-item-action">
         <i class="fa fa-money mr-2"></i>Pengajuan Jatuh Tempo
       </a>
+	   <a href="<?php echo base_url(); ?>pembayaran" class="list-group-item list-group-item-action">
+          <i class="fa fa-balance-scale mr-2"></i>Histori Penjualan Pelanggan
+        </a>
     </div>
   </div>
   <div class="card">

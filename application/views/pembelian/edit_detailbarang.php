@@ -154,9 +154,6 @@
       } else if (harga == "") {
         swal("Oops!", "Harga Harus Diisi !", "warning");
         return false;
-      } else if (isChecked && cbg == "") {
-        swal("Oops!", "Cabang Harus Diisi!", "warning");
-        return false;
       } else {
         return true;
       }
