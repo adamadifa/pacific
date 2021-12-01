@@ -6,11 +6,13 @@ function formatnumber($nilai)
 }
 $tgl1 = "2021-08-31";
 $tanggal = $tahun . "-" . $bln . "-" . "31";
-if ($bln == 9 AND $tahun ="2021") {
+if ($bln == 9 and $tahun = "2021") {
   $persentaseljt = 55;
-} else if ($bln >= 10 AND $tahun ="2021") {
+} else if ($bln == 10 and $tahun = "2021") {
   $persentaseljt = 60;
-} else if ($bln <= 8 AND $tahun ="2021") {
+} else if ($bln >= 11 and $tahun = "2021") {
+  $persentaseljt = 65;
+} else if ($bln <= 8 and $tahun = "2021") {
   $persentaseljt = 50;
 }
 
@@ -245,7 +247,7 @@ if ($bln == 9 AND $tahun ="2021") {
           </tr>
           <tr style="background-color: red; color:white">
             <td>
-              <?php echo $persentaseljt;?>%
+              <?php echo $persentaseljt; ?>%
             </td>
           </tr>
         </tbody>
