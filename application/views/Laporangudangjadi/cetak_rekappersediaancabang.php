@@ -41,6 +41,7 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 			<th colspan="6" bgcolor="#28a745" style="color:white; font-size:12;">PENERIMAAN</th>
 			<th colspan="8" bgcolor="#c7473a" style="color:white; font-size:12;">PENGELUARAN</th>
 			<th rowspan="2" bgcolor="#024a75" style="color:white; font-size:12;">SALDO AKHIR</th>
+			<th colspan="3" rowspan="2" bgcolor="#024a75" style="color:white; font-size:12;">SALDO AKHIR</th>
 			<th rowspan="3" bgcolor="#024a75" style="color:white; font-size:12;">TANGGAL INPUT</th>
 			<th rowspan="3" bgcolor="#024a75" style="color:white; font-size:12;">TANGGAL UPDATE</th>
 		</tr>
@@ -61,7 +62,8 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 			<th bgcolor="#c7473a" style="color:white; font-size:12;">REJECT GUDANG</th>
 			<th bgcolor="#c7473a" style="color:white; font-size:12;">TRANSIT OUT</th>
 			<th bgcolor="#c7473a" style="color:white; font-size:12;">LAIN LAIN</th>
-			<th bgcolor="#c7473a" style="color:white; font-size:12;">PENYESUAIAN</th>
+			<th bgcolor="#c7473a" style="color:white; font-size:12;">PENYESUAIAN</th>\
+
 		</tr>
 
 		<tr bgcolor="#024a75" style="color:white; font-size:12;">
@@ -69,11 +71,15 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 			<th>SALDO AWAL</th>
 			<th colspan="14"></th>
 			<th style="text-align: right"><?php echo uang($saldoawal); ?></th>
+			<th bgcolor="#024a75" style="color:white; font-size:12;">DUS</th>
+			<th bgcolor="#024a75" style="color:white; font-size:12;">PACK</th>
+			<th bgcolor="#024a75" style="color:white; font-size:12;">PCS</th>
 		</tr>
 	</thead>
 	<tbody>
 		<?php
 		$saldoakhir 	 			= $saldoawal;
+		$realsaldoakhir = $realsaldoawal;
 		$totalsuratjalan 		= 0;
 		$total_tin       		= 0;
 		$total_retur     		= 0;
@@ -664,27 +670,53 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 
 			if ($m->inout_good == 'IN') {
 				$jumlah  	= ($m->jumlah / $m->isipcsdus);
+				$realjumlah = $m->jumlah;
 				$color_sa = "#28a745";
 			} else {
 				$jumlah = - ($m->jumlah / $m->isipcsdus);
+				$realjumlah = -$m->jumlah;
 				$color_sa = "#c7473a";
 			}
 
 			$saldoakhir 	 			= $saldoakhir + $jumlah;
-			$totalsuratjalan 		= $totalsuratjalan + $jmlsj;
-			$total_tin       		= $total_tin + $jml_tin;
-			$total_retur     		= $total_retur + $jmlretur;
-			$total_lainlain_in 	= $total_lainlain_in + $jmllainlain_in;
+			$realsaldoakhir 			= $realsaldoakhir + $realjumlah;
+			$totalsuratjalan 			= $totalsuratjalan + $jmlsj;
+			$total_tin       			= $total_tin + $jml_tin;
+			$total_retur     			= $total_retur + $jmlretur;
+			$total_lainlain_in 			= $total_lainlain_in + $jmllainlain_in;
 			$total_repack				= $total_repack + $jml_repack;
 			$totalpeny_in				= $totalpeny_in + $jmlpeny_in;
 			$totalpeny 					= $totalpeny + $jmlpeny;
-			$totalpenjualan     = $totalpenjualan + $jmlpenjualan;
-			$totalpromosi       = $totalpromosi + $jmlpromo;
-			$totalrejectpasar   = $totalrejectpasar + $jmlrj_pasar;
-			$totalrejectmobil   = $totalrejectmobil + $jmlrj_mobil;
-			$totalrejectgudang  = $totalrejectgudang + $jmlrj_gudang;
-			$total_to           = $total_to + $jml_to;
-			$total_lainlain_out = $total_lainlain_out + $jmllainlain;
+			$totalpenjualan     		= $totalpenjualan + $jmlpenjualan;
+			$totalpromosi       		= $totalpromosi + $jmlpromo;
+			$totalrejectpasar   		= $totalrejectpasar + $jmlrj_pasar;
+			$totalrejectmobil   		= $totalrejectmobil + $jmlrj_mobil;
+			$totalrejectgudang  		= $totalrejectgudang + $jmlrj_gudang;
+			$total_to           		= $total_to + $jml_to;
+			$total_lainlain_out 		= $total_lainlain_out + $jmllainlain;
+
+			if ($realsaldoakhir != 0) {
+				$jmldus    = floor($realsaldoakhir / $m->isipcsdus);
+				$sisadus   = $realsaldoakhir % $m->isipcsdus;
+				if ($m->isipack == 0) {
+					$jmlpack    = 0;
+					$sisapack   = $sisadus;
+				} else {
+					$jmlpack   = floor($sisadus / $m->isipcs);
+					$sisapack   = $sisadus % $m->isipcs;
+				}
+				$jmlpcs = $sisapack;
+				if ($m->satuan == 'PCS') {
+
+					$jmldus = 0;
+					$jmlpack = 0;
+					$jmlpcs = $realsaldoakhir;
+				}
+			} else {
+				$jmldus 	= 0;
+				$jmlpack	= 0;
+				$jmlpcs 	= 0;
+			}
 		?>
 			<tr style="font-weight: bold; font-size:11px">
 				<td><?php echo DateToIndo2($m->tgl_mutasi_gudang_cabang); ?></td>
@@ -696,8 +728,8 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 				<?php } ?>
 
 				<td><?php if (!empty($tgl_kirimsj) or $tgl_kirimsj != '0000-00-00') {
-							echo DateToIndo2($tgl_kirimsj);
-						} ?></td>
+						echo DateToIndo2($tgl_kirimsj);
+					} ?></td>
 				<td><?php echo $no_bukti; ?></td>
 				<td><?php echo $salesman; ?></td>
 				<td><?php echo $nama_pelanggan; ?></td>
@@ -717,6 +749,9 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 				<td align="right" bgcolor="<?php echo $color_lain; ?>"><?php echo uang($jmllainlain); ?></td>
 				<td align="right" bgcolor=""><?php echo uang($jmlpeny); ?></td>
 				<td align="right" bgcolor="<?php echo $color_sa; ?>"><?php echo uang($saldoakhir); ?></td>
+				<td align="right" bgcolor="<?php echo $color_sa; ?>"><?php echo $jmldus; ?></td>
+				<td align="right" bgcolor="<?php echo $color_sa; ?>"><?php echo $jmlpack; ?></td>
+				<td align="right" bgcolor="<?php echo $color_sa; ?>"><?php echo $jmlpcs; ?></td>
 				<td align="right" bgcolor="<?php echo $color_sa; ?>"><?php echo $m->date_created; ?></td>
 				<td align="right" bgcolor="<?php echo $color_sa; ?>"><?php echo $m->date_updated; ?></td>
 			</tr>
@@ -743,6 +778,9 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 			<th style="text-align: right"><?php echo uang($total_lainlain_out); ?></th>
 			<th style="text-align: right"><?php echo uang($totalpeny); ?></th>
 			<th style="text-align: right"><?php echo uang($saldoakhir); ?></th>
+			<th style="text-align: right"><?php echo uang($jmldus); ?></th>
+			<th style="text-align: right"><?php echo uang($jmlpack); ?></th>
+			<th style="text-align: right"><?php echo uang($jmlpcs); ?></th>
 			<td></td>
 			<td></td>
 		</tr>

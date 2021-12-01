@@ -216,13 +216,17 @@ class Laporangudangjadi extends CI_Controller
 		$mtsa 									= $this->Model_laporangudangjadi->getMtsa($cabang, $dari, $produk)->row_array();
 		if ($mtsa['jumlah'] != 0) {
 			$jmlmtsa	= $mtsa['jumlah'] / $mtsa['isipcsdus'];
+			$realjmlmtsa = $mtsa['jumlah'];
 		} else {
 			$jmlmtsa	= 0;
+			$realjmlmtsa = 0;
 		}
 		if ($ceksaldo['jumlah'] != 0) {
 			$data['saldoawal']	= ($ceksaldo['jumlah'] / $ceksaldo['isipcsdus']) + $jmlmtsa;
+			$data['realsaldoawal']	= $ceksaldo['jumlah'] + $realjmlmtsa;
 		} else {
 			$data['saldoawal']	= 0  + $jmlmtsa;
+			$data['realsaldoawal']	= 0  + $realjmlmtsa;
 		}
 
 

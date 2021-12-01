@@ -147,7 +147,7 @@ class Model_laporangudangjadi extends CI_Model
 		$this->db->join('master_barang', 'detail_mutasi_gudang_cabang.kode_produk=master_barang.kode_produk');
 		$this->db->join('dpb', 'mutasi_gudang_cabang.no_dpb = dpb.no_dpb', 'LEFT');
 		$this->db->join('karyawan', 'dpb.id_karyawan = karyawan.id_karyawan', 'LEFT');
-		$this->db->select('detail_mutasi_gudang_cabang.no_mutasi_gudang_cabang,tgl_mutasi_gudang_cabang,mutasi_gudang_cabang.no_dpb,nama_karyawan,tujuan,no_suratjalan,tgl_kirim,detail_mutasi_gudang_cabang.jumlah,isipcsdus,inout_good,promo,jenis_mutasi,
+		$this->db->select('detail_mutasi_gudang_cabang.no_mutasi_gudang_cabang,tgl_mutasi_gudang_cabang,mutasi_gudang_cabang.no_dpb,nama_karyawan,tujuan,no_suratjalan,tgl_kirim,detail_mutasi_gudang_cabang.jumlah,isipcsdus,isipack,isipcs,satuan,inout_good,promo,jenis_mutasi,
 		date_format(mutasi_gudang_cabang.date_created, "%d %M %Y %H:%i:%s") as date_created, date_format(mutasi_gudang_cabang.date_updated, "%d %M %Y %H:%i:%s") as date_updated
 		');
 		$this->db->from('detail_mutasi_gudang_cabang');
@@ -535,6 +535,7 @@ class Model_laporangudangjadi extends CI_Model
 			isipcsdus,
 			isipack,
 			isipcs,
+			satuan,
 			saldoawalgs,saldoawalbs,
 			SUM(IF(jenis_mutasi = 'SURAT JALAN' AND mc.kode_cabang='$cabang'
 			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai',jumlah,0))
