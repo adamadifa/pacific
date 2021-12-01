@@ -22,6 +22,7 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 			<th colspan="6" bgcolor="#22a538" style="font-size:10px !important">PENERIMAAN</th>
 			<th colspan="8" bgcolor="#c7473a" style="font-size:10px !important">PENGELUARAN</th>
 			<th rowspan="2" bgcolor="#024a75" style="font-size:10px !important">SALDO AKHIR</th>
+			<th colspan="3" bgcolor="#024a75" style="font-size:10px !important">SALDO AKHIR</th>
 		</tr>
 		<tr>
 			<th bgcolor="#22a538" style="font-size:10px !important">PUSAT</th>
@@ -38,6 +39,9 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 			<th bgcolor="#2e73c6" style="font-size:10px !important">TRANSIT OUT</th>
 			<th bgcolor="#c7473a" style="font-size:10px !important">LAIN LAIN</th>
 			<th bgcolor="#c7473a" style="font-size:10px !important">PENYESUAIAN</th>
+			<th bgcolor="#024a75" style="font-size:10px !important">DUS</th>
+			<th bgcolor="#024a75" style="font-size:10px !important">PACK</th>
+			<th bgcolor="#024a75" style="font-size:10px !important">PCS</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -65,58 +69,88 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 				($penjualan + $promosi + $rejectpasar + $rejectmobil + $rejectgd + $transit_out + $lainlain_out + $peny_out);
 
 
+			$realsaldoakhir = ($d->saldoawalgs + $d->sisamutasi + $d->pusat + $d->transit_in + $d->retur + $d->lainlain_in + $d->repack + $d->penyesuaian_in) -
+				($d->penjualan + $d->promosi + $d->reject_pasar + $d->reject_mobil + $d->reject_gudang + $d->transit_out + $d->lainlain_out + $d->penyesuaian_out);
+
+
+			if ($realsaldoakhir != 0) {
+				$jmldus    = floor($realsaldoakhir / $d->isipcsdus);
+				$sisadus   = $realsaldoakhir % $d->isipcsdus;
+				if ($d->isipack == 0) {
+					$jmlpack    = 0;
+					$sisapack   = $sisadus;
+				} else {
+					$jmlpack   = floor($sisadus / $d->isipcs);
+					$sisapack   = $sisadus % $d->isipcs;
+				}
+				$jmlpcs = $sisapack;
+				if ($d->satuan == 'PCS') {
+					$jmldus = 0;
+					$jmlpack = 0;
+					$jmlpcs = $realsaldoakhir;
+				}
+			} else {
+				$jmldus 	= 0;
+				$jmlpack	= 0;
+				$jmlpcs 	= 0;
+			}
+
+
 		?>
 			<tr>
 				<td align="center"><?php echo $no; ?></td>
 				<td><?php echo $d->nama_barang; ?></td>
 				<td align="right"><?php if (!empty($sags)) {
-														echo uang($sags);
-													} ?></td>
+										echo uang($sags);
+									} ?></td>
 				<td align="right"><?php if (!empty($pusat)) {
-														echo uang($pusat);
-													} ?></td>
+										echo uang($pusat);
+									} ?></td>
 				<td align="right"><?php if (!empty($transit_in)) {
-														echo uang($transit_in);
-													} ?></td>
+										echo uang($transit_in);
+									} ?></td>
 				<td align="right"><?php if (!empty($retur)) {
-														echo uang($retur);
-													} ?></td>
+										echo uang($retur);
+									} ?></td>
 				<td align="right"><?php if (!empty($lainlain_in)) {
-														echo uang($lainlain_in);
-													} ?></td>
+										echo uang($lainlain_in);
+									} ?></td>
 				<td align="right"><?php if (!empty($repack)) {
-														echo uang($repack);
-													} ?></td>
+										echo uang($repack);
+									} ?></td>
 				<td align="right"><?php if (!empty($peny_in)) {
-														echo uang($peny_in);
-													} ?></td>
+										echo uang($peny_in);
+									} ?></td>
 				<td align="right"><?php if (!empty($penjualan)) {
-														echo uang($penjualan);
-													} ?></td>
+										echo uang($penjualan);
+									} ?></td>
 				<td align="right"><?php if (!empty($promosi)) {
-														echo uang($promosi);
-													} ?></td>
+										echo uang($promosi);
+									} ?></td>
 				<td align="right"><?php if (!empty($rejectpasar)) {
-														echo uang($rejectpasar);
-													} ?></td>
+										echo uang($rejectpasar);
+									} ?></td>
 				<td align="right"><?php if (!empty($rejectmobil)) {
-														echo uang($rejectmobil);
-													} ?></td>
+										echo uang($rejectmobil);
+									} ?></td>
 				<td align="right"><?php if (!empty($rejectgd)) {
-														echo uang($rejectgd);
-													} ?></td>
+										echo uang($rejectgd);
+									} ?></td>
 				<td align="right"><?php if (!empty($transit_out)) {
-														echo uang($transit_out);
-													} ?></td>
+										echo uang($transit_out);
+									} ?></td>
 				<td align="right"><?php if (!empty($lainlain_out)) {
-														echo uang($lainlain_out);
-													} ?></td>
+										echo uang($lainlain_out);
+									} ?></td>
 				<td align="right"><?php if (!empty($peny_out)) {
-														echo uang($peny_out);
-													} ?></td>
+										echo uang($peny_out);
+									} ?></td>
 				<td align="right"><?php if (!empty($sisamutasi)) {
-														echo uang($sisamutasi);
-													} ?></td>
+										echo uang($sisamutasi);
+									} ?></td>
+				<td align="right"><?php echo $jmldus; ?></td>
+				<td align="right"><?php echo $jmlpack; ?></td>
+				<td align="right"><?php echo $jmlpcs; ?></td>
 			</tr>
 		<?php
 			$no++;
@@ -140,6 +174,7 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 			<th colspan="4" bgcolor="#22a538" style="font-size:10px !important">PENERIMAAN</th>
 			<th colspan="3" bgcolor="#c7473a" style="font-size:10px !important">PENGELUARAN</th>
 			<th rowspan="2" bgcolor="#024a75" style="font-size:10px !important">SALDO AKHIR</th>
+			<th colspan="3" bgcolor="#024a75" style="font-size:10px !important">SALDO AKHIR</th>
 		</tr>
 		<tr>
 			<th bgcolor="#22a538" style="font-size:10px !important">REJECT PASAR</th>
@@ -149,6 +184,9 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 			<th bgcolor="#c7473a" style="font-size:10px !important">KIRIM PUSAT</th>
 			<th bgcolor="#c7473a" style="font-size:10px !important">REPACK</th>
 			<th bgcolor="#c7473a" style="font-size:10px !important">PENYESUAIAN</th>
+			<th bgcolor="#024a75" style="font-size:10px !important">DUS</th>
+			<th bgcolor="#024a75" style="font-size:10px !important">PACK</th>
+			<th bgcolor="#024a75" style="font-size:10px !important">PCS</th>
 	</thead>
 	<tbody>
 		<?php
@@ -167,38 +205,65 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 			$penybad_out 	= $d->penyesuaianbad_out / $d->isipcsdus;
 
 			$sisamutasibad = ($sabs + $rejectpasar + $rejectmobil + $rejectgd + $penybad_in) - ($kirimpusat + $repack + $penybad_out);
+			$realsaldobad = ($d->saldoawalbs + $d->sisamutasibad + $d->reject_pasar + $d->reject_mobil + $d->reject_gudang + $d->penyesuaianbad_in) -
+				($d->kirimpusat + $d->repack + $d->penyesuaianbad_out);
+
+			if ($realsaldobad != 0) {
+				$jmldus    = floor($realsaldobad / $d->isipcsdus);
+				$sisadus   = $realsaldobad % $d->isipcsdus;
+				if ($d->isipack == 0) {
+					$jmlpack    = 0;
+					$sisapack   = $sisadus;
+				} else {
+					$jmlpack   = floor($sisadus / $d->isipcs);
+					$sisapack   = $sisadus % $d->isipcs;
+				}
+				$jmlpcs = $sisapack;
+				if ($d->satuan == 'PCS') {
+					$jmldus = 0;
+					$jmlpack = 0;
+					$jmlpcs = $realsaldobad;
+				}
+			} else {
+				$jmldus 	= 0;
+				$jmlpack	= 0;
+				$jmlpcs 	= 0;
+			}
 
 		?>
 			<tr>
 				<td align="center"><?php echo $no; ?></td>
 				<td><?php echo $d->nama_barang; ?></td>
 				<td align="right"><?php if (!empty($sabs)) {
-														echo uang($sabs);
-													} ?></td>
+										echo uang($sabs);
+									} ?></td>
 				<td align="right"><?php if (!empty($rejectpasar)) {
-														echo uang($rejectpasar);
-													} ?></td>
+										echo uang($rejectpasar);
+									} ?></td>
 				<td align="right"><?php if (!empty($rejectmobil)) {
-														echo uang($rejectmobil);
-													} ?></td>
+										echo uang($rejectmobil);
+									} ?></td>
 				<td align="right"><?php if (!empty($rejectgd)) {
-														echo uang($rejectgd);
-													} ?></td>
+										echo uang($rejectgd);
+									} ?></td>
 				<td align="right"><?php if (!empty($penybad_in)) {
-														echo uang($penybad_in);
-													} ?></td>
+										echo uang($penybad_in);
+									} ?></td>
 				<td align="right"><?php if (!empty($kirimpusat)) {
-														echo uang($kirimpusat);
-													} ?></td>
+										echo uang($kirimpusat);
+									} ?></td>
 				<td align="right"><?php if (!empty($repack)) {
-														echo uang($repack);
-													} ?></td>
+										echo uang($repack);
+									} ?></td>
 				<td align="right"><?php if (!empty($penybad_out)) {
-														echo uang($penybad_out);
-													} ?></td>
+										echo uang($penybad_out);
+									} ?></td>
 				<td align="right"><?php if (!empty($sisamutasibad)) {
-														echo uang($sisamutasibad);
-													} ?></td>
+										echo uang($sisamutasibad);
+									} ?></td>
+				<td align="right"><?php echo $jmldus; ?></td>
+				<td align="right"><?php echo $jmlpack; ?></td>
+				<td align="right"><?php echo $jmlpcs; ?></td>
 			</tr>
 		<?php
 			$no++;
