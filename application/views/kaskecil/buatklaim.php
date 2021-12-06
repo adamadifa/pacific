@@ -114,7 +114,7 @@
 									</tr>
 									<?php
 									$jum 	 						= 0;
-									$saldo						= $saldoawal['saldo_awal'];
+									$saldo							= $saldoawal['saldo_awal'];
 									$totalpenerimaan  = 0;
 									$totalpengeluaran = 0;
 									$sno   = $row + 1;
@@ -126,7 +126,7 @@
 										} else {
 											$penerimaan   = 0;
 											$pengeluaran  = $d['jumlah'];
-											$s 						= -$pengeluaran;
+											$s 						= - $pengeluaran;
 										}
 										$saldo = $saldo;
 										$totalpenerimaan 	= $totalpenerimaan + $penerimaan;

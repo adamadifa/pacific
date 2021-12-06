@@ -43,6 +43,7 @@
       <option value="gudangcabang">GUDANG CABANG</option>
       <option value="gudangbahan">GUDANG BAHAN</option>
       <option value="gudanglogistik">GUDANG LOGISTIK</option>
+      <option value="ledger">ALL LEDGER</option>
     </select>
   </div>
   <div class="mb-3 d-flex justify-content-end">

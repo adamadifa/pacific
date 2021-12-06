@@ -27,11 +27,11 @@ tr:nth-child(even) {
   background-color: #d6d6d6c2;
 }
 </style>
-<table class="datatable3" style="width:100%" border="1">
+<table class="datatable3" style="width:115%;zoom:80%" border="1">
   <thead>
     <tr bgcolor="#024a75">
       <th rowspan="3" bgcolor="#024a75" style="color:white; font-size:14;">NO</th>
-      <th rowspan="3" bgcolor="#024a75" style="color:white; font-size:14;">KODE BARANG</th>
+      <th rowspan="3" bgcolor="#024a75" style="color:white; font-size:14;">KODE</th>
       <th rowspan="3" bgcolor="#024a75" style="color:white; font-size:14;">NAMA BARANG</th>
       <th rowspan="3" bgcolor="#024a75" style="color:white; font-size:14;">SATUAN</th>
     </tr>
@@ -40,6 +40,8 @@ tr:nth-child(even) {
       <th colspan="3" bgcolor="#28a745" style="color:white; font-size:14;">PEMASUKAN</th>
       <th colspan="6" bgcolor="#28a745" style="color:white; font-size:14;">PENGELUARAN</th>
       <th colspan="2" bgcolor="#28a745" style="color:white; font-size:14;">SALDO AKHIR</th>
+      <th colspan="2" bgcolor="#28a745" style="color:white; font-size:14;">OPNAME</th>
+      <th colspan="2" bgcolor="#28a745" style="color:white; font-size:14;">SELISIH</th>
     </tr>
     <tr bgcolor="red">
       <th style="color:white; font-size:14;">UNIT</th>
@@ -53,6 +55,10 @@ tr:nth-child(even) {
       <th style="color:white; font-size:14;">SUSUT</th>
       <th style="color:white; font-size:14;">CABANG</th>
       <th style="color:white; font-size:14;">LAINNYA</th>
+      <th style="color:white; font-size:14;">UNIT</th>
+      <th style="color:white; font-size:14;">BERAT</th>
+      <th style="color:white; font-size:14;">UNIT</th>
+      <th style="color:white; font-size:14;">BERAT</th>
       <th style="color:white; font-size:14;">UNIT</th>
       <th style="color:white; font-size:14;">BERAT</th>
     </tr>
@@ -73,6 +79,8 @@ tr:nth-child(even) {
     $totallainnyapeng = 0;
     $saldoakhirberat2 = 0;
     $totalretur       = 0;
+    $opnameberat      = 0;
+    $opnameunit       = 0;
     foreach ($data as $key => $d) {
       $saldoakhirberat     = $d->qtyberatsa + $d->qtypemb2 + $d->qtylainnya2 + $d->qtypengganti2 - $d->qtyprod4 - $d->qtyseas4 - $d->qtypdqc4 - $d->qtylain4 - $d->qtysus4 - $d->qtycabang4;
       $saldoakhirunit      = $d->qtyunitsa + $d->qtypemb1 + $d->qtylainnya1 + $d->qtypengganti1 - $d->qtyprod3 - $d->qtyseas3 - $d->qtypdqc3 - $d->qtylain3 - $d->qtysus3 - $d->qtycabang3;
@@ -139,6 +147,9 @@ tr:nth-child(even) {
 
       $saldoakhirunit2  = $saldoakhirunit2 + $saldoakhirunit;
       $saldoakhirberat2 = $saldoakhirberat2 + $saldoakhirberat;
+
+      $opnameberat      += $d->qtyberatop;
+      $opnameunit       += $d->qtyunitop;
 
 
     ?>
@@ -325,6 +336,34 @@ tr:nth-child(even) {
           ?>
         </td>
 
+        <td align="center">
+          <?php if (!empty($d->qtyunitop)) {
+            echo uang($d->qtyunitop);
+          }
+          ?>
+        </td>
+
+        <td align="center">
+          <?php if (!empty($d->qtyberatop)) {
+            echo uang($d->qtyberatop, 2);
+          }
+          ?>
+        </td>
+
+        <td align="center">
+          <?php if (!empty($saldoakhirunit-$d->qtyunitop)) {
+            echo uang($saldoakhirunit-$d->qtyunitop);
+          }
+          ?>
+        </td>
+
+        <td align="center">
+          <?php if (!empty($saldoakhirberat-$d->qtyberatop)) {
+            echo uang($saldoakhirberat-$d->qtyberatop, 2);
+          }
+          ?>
+        </td>
+
       </tr>
     <?php
     }
@@ -447,6 +486,24 @@ tr:nth-child(even) {
       <th align="center" style="color:white; font-size:14;">
         <?php if (!empty($saldoakhirberat2)) {
           echo uang($saldoakhirberat2, 2);
+        } else {
+          echo "0";
+        }
+        ?>
+      </th>
+
+      <th align="center" style="color:white; font-size:14;">
+        <?php if (!empty($opnameunit)) {
+          echo uang($opnameunit, 2);
+        } else {
+          echo "0";
+        }
+        ?>
+      </th>
+
+      <th align="center" style="color:white; font-size:14;">
+        <?php if (!empty($opnameberat)) {
+          echo uang($opnameberat, 2);
         } else {
           echo "0";
         }

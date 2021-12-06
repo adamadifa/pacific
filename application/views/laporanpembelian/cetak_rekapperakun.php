@@ -62,42 +62,25 @@ function angka($nilai)
     }
     ?>
     <?php
-    $query = "SELECT
-    jurnal_koreksi.kode_akun,
-    coa.nama_akun,
-    dp.pmb,
-    dp.pnj,
-    SUM(
-    IF
-    ( status_dk = 'D',( jurnal_koreksi.qty * jurnal_koreksi.harga ), 0 )) AS jurnaldebet,
-    SUM(
-    IF
-    ( status_dk = 'K',( jurnal_koreksi.qty * jurnal_koreksi.harga ), 0 )) AS jurnalkredit 
-  FROM
-    jurnal_koreksi
-    LEFT JOIN coa ON coa.kode_akun = jurnal_koreksi.kode_akun
-    LEFT JOIN (
-    SELECT
-      pembelian.kode_akun AS kode_akun,
-      SUM(
-      IF
-      ( STATUS = 'PMB',( detail_pembelian.qty * detail_pembelian.harga ) + penyesuaian, 0 )) AS pmb,
-      SUM(
-      IF
-      ( STATUS = 'PNJ',( detail_pembelian.qty * detail_pembelian.harga ) + penyesuaian, 0 )) AS pnj 
-    FROM
-      detail_pembelian
-      INNER JOIN pembelian ON pembelian.nobukti_pembelian = detail_pembelian.nobukti_pembelian 
-      WHERE pembelian.tgl_pembelian BETWEEN '$dari' AND '$sampai'
-    GROUP BY
-      pembelian.kode_akun 
-    ORDER BY
-      pembelian.kode_akun ASC 
-    ) dp ON ( jurnal_koreksi.kode_akun = dp.kode_akun ) 
- 
-  WHERE tgl_jurnalkoreksi BETWEEN '$dari' AND '$sampai'
-  GROUP BY
-    kode_akun
+    $query = "SELECT 
+    jurnal_koreksi.kode_akun,nama_akun,
+    SUM(IF(status_dk='D',(jurnal_koreksi.qty*jurnal_koreksi.harga),0)) as jurnaldebet,
+    SUM(IF(status_dk='K',(jurnal_koreksi.qty*jurnal_koreksi.harga),0)) as jurnalkredit,
+    pmb,
+    pnj
+    FROM jurnal_koreksi
+    INNER JOIN coa ON coa.kode_akun=jurnal_koreksi.kode_akun
+    LEFT JOIN(
+      SELECT pembelian.kode_akun,
+      SUM(IF( STATUS = 'PMB',( detail_pembelian.qty * detail_pembelian.harga ) + penyesuaian, 0 )) AS pmb,
+      SUM(IF( STATUS = 'PNJ',( detail_pembelian.qty * detail_pembelian.harga ) + penyesuaian, 0 )) AS pnj
+      FROM pembelian
+      INNER JOIN detail_pembelian ON pembelian.nobukti_pembelian=detail_pembelian.nobukti_pembelian
+      WHERE tgl_pembelian BETWEEN '$dari' AND '$sampai'
+      GROUP BY kode_akun
+      ) dp ON (dp.kode_akun=jurnal_koreksi.kode_akun)
+    WHERE tgl_jurnalkoreksi BETWEEN '$dari' AND '$sampai' 
+    GROUP BY kode_akun,nama_akun,pnj,pmb
  ";
     $data = $this->db->query($query)->result();
     $totalkredits   = 0;
@@ -105,15 +88,18 @@ function angka($nilai)
     $no            = 1;
     foreach ($data as $key => $s) {
 
-      if ($s->status == 'PNJ') {
-        $debets      = $s->pmb - $s->pnj + $s->jurnaldebet;
-        $kredits     = $s->jurnalkredit;
-      } else {
-        $kredits     = $s->pmb - $s->pnj + $s->jurnalkredit;
-        $debets      = $s->jurnaldebet;
+      if($s->kode_akun != '1-1503' AND $s->kode_akun != '5-1102' AND substr($dari,5,2) == '11' AND substr($dari,0,4) == '2021'){
+        if ($s->status == 'PNJ') {
+          $debets      = $s->pmb - $s->pnj + $s->jurnaldebet;
+          $kredits     = $s->jurnalkredit;
+        } else {
+          $kredits     = $s->pmb - $s->pnj + $s->jurnalkredit;
+          $debets      = $s->jurnaldebet;
+        }
+        $totaldebets += $debets;
+        $totalkredits += $kredits;
       }
-      $totaldebets += $debets;
-      $totalkredits += $kredits;
+     
     ?>
       <tr style="background-color:<?php echo $bgcolor; ?>">
         <td><?php echo "'" . $s->kode_akun; ?></td>

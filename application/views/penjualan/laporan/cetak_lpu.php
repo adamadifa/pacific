@@ -236,9 +236,9 @@ function uang($nilai)
                     LEFT JOIN (SELECT id_giro FROM historibayar GROUP BY id_giro) as hb
 						      	ON giro.id_giro = hb.id_giro
                     WHERE 
-		                giro.id_karyawan = '$s->id_karyawan' AND MONTH(tgl_giro) = '$bulanlast' AND YEAR(tgl_giro) ='$tahunlast'  AND omset_tahun='$tahunskrg' AND omset_bulan='$bulanskrg'
+		                giro.id_karyawan = '$s->id_karyawan' AND MONTH(tgl_giro) = '$bulanlast' AND YEAR(tgl_giro) ='$tahunlast'  AND omset_tahun='$tahunskrg' AND omset_bulan='$bulanskrg' AND penggantian IS NULL
 		                OR 
-		                giro.id_karyawan = '$s->id_karyawan' AND MONTH(tgl_giro) = '$blnlast1' AND YEAR(tgl_giro) ='$thnlast1'  AND omset_tahun='$tahunskrg' AND omset_bulan='$bulanskrg'
+		                giro.id_karyawan = '$s->id_karyawan' AND MONTH(tgl_giro) = '$blnlast1' AND YEAR(tgl_giro) ='$thnlast1'  AND omset_tahun='$tahunskrg' AND omset_bulan='$bulanskrg' AND penggantian IS NULL
 		                GROUP BY id_karyawan";
         $gmlast = $this->db->query($qgmlast)->row_array();
         $totalgmlast = $totalgmlast + $gmlast['jumlah'];
@@ -292,6 +292,11 @@ function uang($nilai)
           giro.id_karyawan = '$s->id_karyawan' AND
           tgl_giro >= '$dari' AND tgl_giro <= '$sampai'
           AND tglbayar >=  '$end'" . $om_bulan . $om_tahun . "
+          OR
+          giro.id_karyawan = '$s->id_karyawan' AND
+          tgl_giro >= '$dari' AND tgl_giro <= '$sampai'
+          AND tglbayar IS NULL " . $om_bulan . $om_tahun . " 
+          AND penggantian = 1
           GROUP BY giro.id_karyawan";
         $gmnow   = $this->db->query($qgmnow)->row_array();
         $totalgmnow = $totalgmnow + $gmnow['jumlah'];
@@ -367,9 +372,9 @@ function uang($nilai)
                     LEFT JOIN (SELECT id_giro FROM historibayar GROUP BY id_giro) as hb
 						      	ON giro.id_giro = hb.id_giro
                     WHERE 
-		                giro.id_karyawan = '$s->id_karyawan' AND MONTH(tgl_giro) = '$bulanlast' AND YEAR(tgl_giro) ='$tahunlast'  AND omset_tahun='$tahunskrg' AND omset_bulan='$bulanskrg'
+		                giro.id_karyawan = '$s->id_karyawan' AND MONTH(tgl_giro) = '$bulanlast' AND YEAR(tgl_giro) ='$tahunlast'  AND omset_tahun='$tahunskrg' AND omset_bulan='$bulanskrg' AND penggantian IS NULL
 		                OR 
-		                giro.id_karyawan = '$s->id_karyawan' AND MONTH(tgl_giro) = '$blnlast1' AND YEAR(tgl_giro) ='$thnlast1'  AND omset_tahun='$tahunskrg' AND omset_bulan='$bulanskrg'
+		                giro.id_karyawan = '$s->id_karyawan' AND MONTH(tgl_giro) = '$blnlast1' AND YEAR(tgl_giro) ='$thnlast1'  AND omset_tahun='$tahunskrg' AND omset_bulan='$bulanskrg' AND penggantian IS NULL
 		                GROUP BY id_karyawan";
         $gmlast = $this->db->query($qgmlast)->row_array();
 
@@ -389,6 +394,11 @@ function uang($nilai)
           giro.id_karyawan = '$s->id_karyawan' AND
           tgl_giro >= '$dari' AND tgl_giro <= '$sampai'
           AND tglbayar >=  '$end' " . $om_bulan . $om_tahun . "
+          OR
+          giro.id_karyawan = '$s->id_karyawan' AND
+          tgl_giro >= '$dari' AND tgl_giro <= '$sampai'
+          AND tglbayar IS NULL " . $om_bulan . $om_tahun . "
+          AND penggantian = 1
           GROUP BY giro.id_karyawan";
         $gmnow = $this->db->query($qgmnow)->row_array();
 
