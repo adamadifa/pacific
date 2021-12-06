@@ -94,7 +94,12 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 			}
 
 			if ($t->selisih != 0) {
-				$jmldusall    = floor($t->selisih / $t->isipcsdus);
+				$cekdus = $t->selisih / $t->isipcsdus;
+				if ($cekdus < 0) {
+					$jmldusall = ceil($t->selisih / $t->isipcsdus);
+				} else {
+					$jmldusall    = floor($t->selisih / $t->isipcsdus);
+				}
 				$sisadus   	  = $t->selisih % $t->isipcsdus;
 				if ($t->isipack == 0) {
 					$jmlpackall    = 0;
@@ -129,6 +134,9 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 				<td style="text-align: center;"><?php echo (!empty($jmldusk) ? number_format($jmldusk, '0', '', '.') : ""); ?></td>
 				<td style="text-align: center;"><?php echo (!empty($jmlpackk) ? number_format($jmlpackk, '0', '', '.') : ""); ?></td>
 				<td style="text-align: center;"><?php echo (!empty($jmlpcsk) ? number_format($jmlpcsk, '0', '', '.') : ""); ?></td>
+
+
+
 				<td style="text-align: center;"><?php echo (!empty($jmldusall) ? number_format($jmldusall, '0', '', '.') : ""); ?></td>
 				<td style="text-align: center;"><?php echo (!empty($jmlpackall) ? number_format($jmlpackall, '0', '', '.') : ""); ?></td>
 				<td style="text-align: center;"><?php echo (!empty($jmlpcsall) ? number_format($jmlpcsall, '0', '', '.') : ""); ?></td>
