@@ -175,11 +175,11 @@ if ($level == "Administrator") {
           <i class="fa fa-file-text mr-2"></i>Input Pengiriman LPC
         </a>
       <?php } ?>
-      <?php if ($id_user != 164 and $id_user != 163 and $id_user != 234) { ?>
-        <a href="<?php echo base_url(); ?>penjualan/suratjalan" class="list-group-item list-group-item-action">
-          <i class="fa fa-truck mr-2"></i>Data Penjualan & Surat Jalan
-        </a>
-      <?php } ?>
+
+      <a href="<?php echo base_url(); ?>penjualan/suratjalan" class="list-group-item list-group-item-action">
+        <i class="fa fa-truck mr-2"></i>Data Penjualan & Surat Jalan
+      </a>
+
 
       <a href="<?php echo base_url(); ?>pembayaran" class="list-group-item list-group-item-action">
         <i class="fa fa-balance-scale mr-2"></i>Histori Penjualan Pelanggan
@@ -324,9 +324,9 @@ if ($level == "Administrator") {
       <a href="<?php echo base_url(); ?>penjualan/jatuhtempo" class="list-group-item list-group-item-action">
         <i class="fa fa-money mr-2"></i>Pengajuan Jatuh Tempo
       </a>
-	   <a href="<?php echo base_url(); ?>pembayaran" class="list-group-item list-group-item-action">
-          <i class="fa fa-balance-scale mr-2"></i>Histori Penjualan Pelanggan
-        </a>
+      <a href="<?php echo base_url(); ?>pembayaran" class="list-group-item list-group-item-action">
+        <i class="fa fa-balance-scale mr-2"></i>Histori Penjualan Pelanggan
+      </a>
     </div>
   </div>
   <div class="card">
