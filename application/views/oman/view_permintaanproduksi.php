@@ -18,7 +18,7 @@
             <h4 class="card-title">Data Permintaan Produksi </h4>
           </div>
           <div class="card-body">
-            <form class="form-horizontal" method="post" action="<?php echo base_url(); ?>oman/permintaan_produksi_acc" autocomplete="off">
+            <form class="form-horizontal" method="post" action="<?php echo base_url(); ?>oman/permintaan_produksi" autocomplete="off">
               <div class="form-group mb-3">
                 <select class="form-select" id="bulan" name="bulan">
                   <option value="">Bulan</option>
@@ -43,6 +43,7 @@
                 <button type="submit" name="submit" class="btn btn-primary btn-block mr-2" value="1"><i class="fa fa-search mr-2"></i>CARI</button>
               </div>
             </form>
+            <a href="<?php echo base_url(); ?>oman/input_permintaan" class="btn btn-primary mb-2">Input Permintaan Produksi</a>
             <div class="table-responsive">
               <table class="table table-bordered table-striped table-hover" id="mytable">
                 <thead class="thead-dark">
