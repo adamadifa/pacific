@@ -90,8 +90,8 @@ $bulan  = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Jul
                       $no = 1;
                       foreach ($produk as $p) {
 
-                        $qtotalmkt  = "SELECT SUM(jumlah) as jumlah FROM detail_oman 
-                                                            WHERE kode_produk ='$p->kode_produk' AND no_order = '$no_order'
+                        $qtotalmkt  = "SELECT SUM(jumlah) as jumlah FROM detail_oman
+                                                            WHERE kode_produk ='$p->kode_produk' AND no_order = '$oman[no_order]'
                                                             GROUP BY kode_produk";
                         $totalmkt   =  $this->db->query($qtotalmkt)->row_array();
 
