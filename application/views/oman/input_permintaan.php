@@ -88,7 +88,10 @@ $bulan  = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Jul
                     <tbody>
                       <?php
                       $no = 1;
-                      $tanggal = $oman['tahun'] . "-" . $oman['bulan'] . "-01";
+                      $bulan = $oman['bulan'] - 1;
+
+                      $tanggal = $oman['tahun'] . "-" . $bulan . "-01";
+                      $akhirbulan = date("Y-m-t", strtotime($tanggal));
                       foreach ($produk as $p) {
 
                         $qtotalmkt  = "SELECT SUM(jumlah) as jumlah FROM detail_oman
@@ -102,7 +105,7 @@ $bulan  = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Jul
                                                             FROM detail_mutasi_gudang d 
                                                             INNER JOIN mutasi_gudang_jadi m 
                                                             ON d.no_mutasi_gudang = m.no_mutasi_gudang
-                                                            WHERE tgl_mutasi_gudang <= '$tanggal'";
+                                                            WHERE tgl_mutasi_gudang <= '$akhirbulan'";
                         $stokgudang = $this->db->query($qstokgudang)->row_array();
                       ?>
                         <tr>
