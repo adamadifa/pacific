@@ -789,7 +789,7 @@ class Model_laporangudangjadi extends CI_Model
 		$tgl1 = $tahun . "-" . $bulan . "-01";
 		$tgl2 = date('Y-m-t', strtotime($tgl1));
 		$query = "SELECT mb.kode_produk,nama_barang,mb.isipcsdus,harga_hpp,
-		sa_tsmd,
+		sa_tsm,
 		mutasi_tsm,
 		sa_bdg,
 		mutasi_bdg,
@@ -904,7 +904,7 @@ class Model_laporangudangjadi extends CI_Model
 		ROUND((((ROUND(IFNULL(sa_bdg,0) / IFNULL(isipcsdus,0),2)) * IFNULL(harga_awal_bdg,0)) 
 		+ ((ROUND(IFNULL(pusat_bdg,0) / IFNULL(isipcsdus,0),2)) * IFNULL((SELECT harga_kirim_cabang),harga_awal_bdg))
 		+ ((ROUND(IFNULL(transit_in_bdg,0) / IFNULL(isipcsdus,0),2)) * IFNULL((SELECT harga_kirim_cabang),harga_awal_bdg))
-		+ ((ROUND(IFNULL(retur_bdg,0) / IFNULL(isipcsdus,0),2)) * IFNULL((SELECT harga_kirim_cabang),harga_awal_bdg0))
+		+ ((ROUND(IFNULL(retur_bdg,0) / IFNULL(isipcsdus,0),2)) * IFNULL((SELECT harga_kirim_cabang),harga_awal_bdg))
 		+ ((ROUND(IFNULL(lainlain_bdg,0) / IFNULL(isipcsdus,0),2)) * IFNULL((SELECT harga_kirim_cabang),harga_awal_bdg))
 		+ ((ROUND(IFNULL(repack_bdg,0) / IFNULL(isipcsdus,0),2)) * IFNULL((SELECT harga_kirim_cabang),harga_awal_bdg))) /
 		(ROUND(IFNULL(sa_bdg,0) / IFNULL(isipcsdus,0),2)
