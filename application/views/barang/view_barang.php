@@ -34,7 +34,9 @@
                 </div>
                 <div class="errorTxt13"></div>
               </div>
-            <?php } ?>
+            <?php } else { ?>
+              <input type="hidden" name="cabang" value="<?php echo $cabang; ?>">
+            <?php  } ?>
             <div class="row mb-3 mt-3">
               <div class="col-md-12">
                 <div class="form-group">

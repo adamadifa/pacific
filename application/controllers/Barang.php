@@ -17,7 +17,13 @@ class Barang extends CI_Controller
 	function view_barang($rowno = 0)
 	{
 		// Search text
-		$cabang    		  = "";
+		$cbg = $this->session->userdata('cabang');
+		if (empty($cbg)) {
+
+			$cabang    		  = "";
+		} else {
+			$cabang = $cbg;
+		}
 		$kategori_harga   = "";
 		if ($this->input->post('submit') != NULL) {
 			$cabang  = $this->input->post('cabang');
