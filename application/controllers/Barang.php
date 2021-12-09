@@ -22,7 +22,11 @@ class Barang extends CI_Controller
 
 			$cabang    		  = "";
 		} else {
-			$cabang = $cbg;
+			if ($cbg == "pusat") {
+				$cabang = "";
+			} else {
+				$cabang = $cbg;
+			}
 		}
 		$kategori_harga   = "";
 		if ($this->input->post('submit') != NULL) {

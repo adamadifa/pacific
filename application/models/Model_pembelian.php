@@ -1783,7 +1783,7 @@ class Model_pembelian extends CI_Model
     }
     $query = "SELECT detail_pembelian.nobukti_pembelian,tgl_pembelian,pembelian.kode_supplier,nama_supplier,
 detail_pembelian.kode_barang,nama_barang,pembelian.kode_dept,nama_dept,detail_pembelian.keterangan,detail_pembelian.ket_penjualan,
-detail_pembelian.kode_akun,nama_akun,ppn,qty,harga,penyesuaian,detail_pembelian.status,detail_pembelian.kode_cabang,
+detail_pembelian.kode_akun,nama_akun,ppn,qty,harga,penyesuaian,detail_pembelian.status,detail_pembelian.kode_cabang,jenistransaksi,
 date_format(pembelian.date_created, '%d %M %Y %H:%i:%s') as date_created,
 date_format(pembelian.date_updated, '%d %M %Y %H:%i:%s') as date_updated,
 date_format(detail_pembelian.date_created, '%d %M %Y %H:%i:%s') as detaildate_created,

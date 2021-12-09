@@ -53,6 +53,7 @@ function angka($nilai)
 			<td>NO</td>
 			<td>TGL</td>
 			<td>NO BUKTI</td>
+			<td>JENIS TRANSAKSI</td>
 			<td>SUPPLIER</td>
 			<td>NAMA BARANG</td>
 			<td>KETERANGAN</td>
@@ -124,14 +125,15 @@ function angka($nilai)
 				<td><?php echo $no; ?></td>
 				<td><?php echo $d->tgl_pembelian; ?></td>
 				<td><?php echo $d->nobukti_pembelian; ?></td>
+				<td><?php echo strtoupper($d->jenistransaksi); ?></td>
 				<td><?php echo $d->nama_supplier; ?></td>
 				<td><?php echo $namabarang; ?></td>
 				<td><?php echo $d->keterangan; ?></td>
 				<td><?php if (substr($d->kode_akun, 0, 1) == "6" and !empty($d->kode_cabang) or substr($d->kode_akun, 0, 1) == "5" and !empty($d->kode_cabang)) {
-							echo  $d->kode_cabang;
-						} else {
-							echo  "";
-						} ?></td>
+						echo  $d->kode_cabang;
+					} else {
+						echo  "";
+					} ?></td>
 				<td align="center" class="str"><?php echo $d->kode_akun; ?></td>
 				<td><?php echo $d->nama_akun; ?></td>
 				<td align="center"><?php echo $cekppn; ?></td>
@@ -150,11 +152,11 @@ function angka($nilai)
 					<td><?php echo $d->detaildate_updated; ?></td>
 				<?php } ?>
 			</tr><?php
-						$subtotal = $subtotal + $grandtotal;
-						if ($nobukti != $d->nobukti_pembelian) {
+					$subtotal = $subtotal + $grandtotal;
+					if ($nobukti != $d->nobukti_pembelian) {
 
 
-							echo '
+						echo '
 					<tr bgcolor="#a7efe4" style="color:black; font-weight:bold">
 						<td></td>
             <td></td>
@@ -177,15 +179,15 @@ function angka($nilai)
 						<td></td>
 
 					</tr>';
-							$subtotal = 0;
-						}
+						$subtotal = 0;
+					}
 
-						?><?php
-							$no++;
-						}
-							?></tbody>
+					?><?php
+						$no++;
+					}
+						?></tbody>
 	<tr>
-		<td colspan="13" align="center"><b>TOTAL</b></td>
+		<td colspan="14" align="center"><b>TOTAL</b></td>
 		<td align="right"><b></b></td>
 		<td align="right"><b><?php echo uang($grandtotall); ?></b></td>
 		<td align="right"><b><?php echo uang($totaldebet); ?></b></td>
