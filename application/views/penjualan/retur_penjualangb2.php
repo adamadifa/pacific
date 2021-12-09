@@ -55,6 +55,7 @@
                         <i class="fa fa-users"></i>
                       </span>
                       <input type="hidden" id="kodesales" name="kodesales" class="form-control" />
+                      <input type="hidden" id="kategori_salesman" name="kategori_salesman" class="form-control" />
                       <input type="text" id="salesman" disabled name="salesman" class="form-control" placeholder="Salesman">
                     </div>
                   </div>
@@ -264,10 +265,10 @@
                     </div>
                   </div>
                   <div class="row mt-3">
-										<div class="form-group">
-											<button type="submit" name="simpan" class="btn btn-primary btn-block"><i class="fa fa-send-o mr-2"></i> SIMPAN</button>
-										</div>
-									</div>
+                    <div class="form-group">
+                      <button type="submit" name="simpan" class="btn btn-primary btn-block"><i class="fa fa-send-o mr-2"></i> SIMPAN</button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -379,7 +380,7 @@
       },
       fields: {
         kodepelanggan: {
-         
+
           validators: {
             notEmpty: {
               message: 'Kode Pelanggan Harus Diisi !'
@@ -481,7 +482,7 @@
           $('#loadfaktur').selectize()[0].selectize.destroy();
           $("#loadfaktur").html(respond);
           $('#loadfaktur').selectize({});
-          
+
           console.log(respond);
         }
       });
@@ -519,6 +520,7 @@
       var kodepelanggan = $("#kodepelanggan").val();
       var kodecabang = $("#kodecabang").val();
       var jenisretur = $("#jenisretur").val();
+      var kategori_salesman = $("#kategori_salesman").val();
       if (kodepelanggan == "" || jenisretur == "") {
         swal("Oops!", "Kode Pelanggan  Harus Diisi Terlebih Dahulu !", "warning");
         $("#kodepelanggan").focus();
@@ -534,7 +536,8 @@
           data: {
             kodepelanggan: kodepelanggan,
             jenisretur: jenisretur,
-            kodecabang: kodecabang
+            kodecabang: kodecabang,
+            kategori_salesman: kategori_salesman
           },
           cache: false,
           success: function(respond) {
@@ -672,6 +675,7 @@
       $("#kodesales").val($(this).attr("data-kodesales"));
       $("#salesman").val($(this).attr("data-namasales"));
       $("#kodecabang").val($(this).attr("data-cabang"));
+      $("#kategori_salesman").val($(this).attr("data-kategorisalesman"));
       loadhistoriPenjualan();
       loadreturTmp();
       loadhistoriretur();

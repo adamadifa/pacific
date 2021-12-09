@@ -1444,10 +1444,17 @@ class Model_penjualan extends CI_Model
     return $this->db->get();
   }
 
-  function view_detailpenjualan2($kodecabang)
+  function view_detailpenjualan2($kodecabang, $kategori_salesman)
   {
+    $this->db->where('kode_cabang', $kodecabang);
+    if (!empty($kategori_salesman)) {
+      $this->db->where('kategori_harga', $kategori_salesman);
+    } else {
+      $this->db->where('kategori_harga', 'NORMAL');
+    }
+    $this->db->from('barang');
     $this->db->order_by('nama_barang');
-    return $this->db->get_where('barang', array('kode_cabang' => $kodecabang));
+    return $this->db->get();
   }
 
   function editfaktur($nofaktur)

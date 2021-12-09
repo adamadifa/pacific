@@ -219,8 +219,9 @@ class Penjualan extends CI_Controller
   function view_barangfaktur()
   {
     $kodecabang             = $this->input->post('kodecabang');
+    $kategori_salesman      = $this->input->post('kategori_salesman');
     $data['jenisretur']     = $this->input->post('jenisretur');
-    $data['barang']         = $this->Model_penjualan->view_detailpenjualan2($kodecabang)->result();
+    $data['barang']         = $this->Model_penjualan->view_detailpenjualan2($kodecabang, $kategori_salesman)->result();
     $this->load->view('penjualan/view_barangfaktur2', $data);
   }
 
