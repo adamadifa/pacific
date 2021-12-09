@@ -3,7 +3,9 @@
     <div class="col-md-12">
       <label class="form-label">Kode Sales</label>
       <div class="form-group">
-        <input type="text" <?php if(!empty($getsales['id_karyawan'])){ echo "readonly"; } ?> value="<?php echo $getsales['id_karyawan']; ?>" id="kodesales" name="kodesales" class="form-control" placeholder="Kode Sales">
+        <input type="text" <?php if (!empty($getsales['id_karyawan'])) {
+                              echo "readonly";
+                            } ?> value="<?php echo $getsales['id_karyawan']; ?>" id="kodesales" name="kodesales" class="form-control" placeholder="Kode Sales">
       </div>
     </div>
   </div>
@@ -38,8 +40,32 @@
         <select id="cabang" name="cabang" class="form-select">
           <option value="">-- Pilih Cabang -- </option>
           <?php foreach ($cabang as $c) { ?>
-            <option <?php if ($getsales['kode_cabang']==$c->kode_cabang){ echo "selected";} ?>  value="<?php echo $c->kode_cabang; ?>"><?php echo strtoupper($c->nama_cabang); ?></option>
+            <option <?php if ($getsales['kode_cabang'] == $c->kode_cabang) {
+                      echo "selected";
+                    } ?> value="<?php echo $c->kode_cabang; ?>"><?php echo strtoupper($c->nama_cabang); ?></option>
           <?php } ?>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-md-12">
+      <label class="form-label">Kategori Salesman</label>
+      <div class="form-group">
+        <select id="kategori_salesman" name="kategori_salesman" class="form-select">
+          <option value="">-- Pilih Kategori Salesman -- </option>
+          <option <?php if ($getsales['kategori_salesman'] == 'RETAIL') {
+                    echo "selected";
+                  } ?> value="RETAIL">RETAIL</option>
+          <option <?php if ($getsales['kategori_salesman'] == 'TO') {
+                    echo "selected";
+                  } ?> value="TO">TO</option>
+          <option <?php if ($getsales['kategori_salesman'] == 'CANVASER') {
+                    echo "selected";
+                  } ?> value="CANVASER">CANVASER</option>
+          <option <?php if ($getsales['kategori_salesman'] == 'MOTORIS') {
+                    echo "selected";
+                  } ?> value="MOTORIS">MOTORIS</option>
         </select>
       </div>
     </div>

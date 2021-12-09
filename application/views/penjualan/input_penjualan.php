@@ -54,6 +54,7 @@
 												<i class="fa fa-users"></i>
 											</span>
 											<input type="hidden" id="kodesales" name="kodesales" class="form-control" />
+											<input type="hidden" id="kategori_salesman" name="kategori_salesman" class="form-control" />
 											<input type="text" id="salesman" disabled name="salesman" class="form-control" placeholder="Salesman">
 										</div>
 									</div>
@@ -717,6 +718,7 @@
 			var sisapiutang = $("#sisapiutang").val();
 			var kodecabang = $("#kodecabang").val();
 			var pelanggan = $("#pelanggan").val();
+			var kategori_salesman = $("#kategori_salesman").val();
 			//alert(limit);
 			if (pelanggan == "") {
 				swal("Oops!", "Nama Pelanggan Harus Diisi Terlebih Dahulu !", "warning");
@@ -727,7 +729,8 @@
 					type: 'POST',
 					url: '<?php echo base_url(); ?>barang/view_barangcab',
 					data: {
-						kodecabang: kodecabang
+						kodecabang: kodecabang,
+						kategori_salesman: kategori_salesman
 					},
 					cache: false,
 					success: function(respond) {
@@ -1065,6 +1068,7 @@
 			$("#salesman").val($(this).attr("data-namasales"));
 			$("#kodecabang").val($(this).attr("data-cabang"));
 			$("#limitpelanggan").val($(this).attr("data-limit"));
+			$("#kategori_salesman").val($(this).attr("data-kategorisalesman"));
 			$("#datapelanggan").modal("hide");
 			loadfoto();
 			loaddatapelanggan();

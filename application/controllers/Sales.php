@@ -50,9 +50,9 @@ class Sales extends CI_Controller
 
 	function inputsales()
 	{
-		$id_karyawan 			= $this->uri->segment(3);
+		$id_karyawan 		= $this->uri->segment(3);
 		$data['getsales']	= $this->Model_sales->get_sales($id_karyawan)->row_array();
 		$data['cabang'] 	= $this->Model_cabang->view_cabang()->result();
-		$this->load->view('sales/inputsales',$data);
+		$this->load->view('sales/inputsales', $data);
 	}
 }

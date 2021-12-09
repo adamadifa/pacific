@@ -114,5 +114,7 @@
     $('#tabelbarang').DataTable({
 
         bLengthChange: false,
+        bAutoWidth: false,
+
     });
 </script>

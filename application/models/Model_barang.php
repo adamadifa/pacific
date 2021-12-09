@@ -18,11 +18,69 @@ class Model_barang extends CI_Model
 		return $this->db->get();
 	}
 
-	function view_barangcab($kodecabang)
-	{
 
+	public function getdataBarang($rowno, $rowperpage, $cabang = "", $kategori_harga = "")
+	{
+		$cbg = $this->session->userdata('cabang');
+		if (!empty($cbg)) {
+			if ($cbg != "pusat") {
+				$this->db->where('barang.kode_cabang', $cbg);
+			}
+		} else {
+			if (!empty($cabang)) {
+				$this->db->where('barang.kode_cabang', $cabang);
+			}
+		}
+		$this->db->select('kode_barang,nama_barang,kategori,satuan,harga_dus,harga_pack,harga_pcs,harga_returdus,harga_returpack,harga_returpcs,stok,isipcsdus,isipack,isipcs,nama_cabang,kategori_harga');
+		$this->db->from('barang');
+		$this->db->join('cabang', 'barang.kode_cabang=cabang.kode_cabang');
+		if ($kategori_harga != '') {
+			$this->db->where('kategori_harga', $kategori_harga);
+		}
+		$this->db->limit($rowperpage, $rowno);
+		$query = $this->db->get();
+		//echo $sampai;
+		return $query->result_array();
+	}
+
+	// Select total records
+	public function getrecordBarang($cabang, $kategori_harga)
+	{
+		$cbg = $this->session->userdata('cabang');
+		if (!empty($cbg)) {
+			if ($cbg != "pusat") {
+				$this->db->where('barang.kode_cabang', $cbg);
+			}
+		} else {
+			if (!empty($cabang)) {
+				$this->db->where('barang.kode_cabang', $cabang);
+			}
+		}
+		$this->db->select('count(kode_barang) as allcount');
+		$this->db->from('barang');
+		$this->db->join('cabang', 'barang.kode_cabang=cabang.kode_cabang');
+
+		$cabang = $this->session->userdata('cabang');
+		if ($kategori_harga != '') {
+			$this->db->where('kategori_harga', $kategori_harga);
+		}
+
+		$query  = $this->db->get();
+		$result = $query->result_array();
+		return $result[0]['allcount'];
+	}
+
+	function view_barangcab($kodecabang, $kategori_salesman)
+	{
+		$this->db->where('kode_cabang', $kodecabang);
+		if (!empty($kategori_salesman)) {
+			$this->db->where('kategori_harga', $kategori_salesman);
+		} else {
+			$this->db->where('kategori_harga', 'NORMAL');
+		}
 		$this->db->order_by('kode_produk', 'ASC');
-		return $this->db->get_where('barang', array('kode_cabang' => $kodecabang));
+		$this->db->from('barang');
+		return $this->db->get();
 	}
 
 

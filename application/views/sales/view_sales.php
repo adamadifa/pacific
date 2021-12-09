@@ -27,6 +27,7 @@
                                     <th>No HP</th>
                                     <th>Cabang</th>
                                     <th>Status</th>
+                                    <th>Kategori</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -45,6 +46,7 @@
                                             <?php } ?>
 
                                         </td>
+                                        <td><?php echo $s->kategori_salesman; ?></td>
                                         <td>
                                             <a href="#" data-id="<?php echo $s->id_karyawan; ?>" class="btn btn-primary btn-sm edit"><i class="fa fa-pencil"></i></a>
                                             <?php if ($this->session->userdata('level_user') == 'Administrator') { ?>

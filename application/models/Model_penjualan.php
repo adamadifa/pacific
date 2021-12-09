@@ -132,11 +132,11 @@ class Model_penjualan extends CI_Model
       $this->datatables->where('pelanggan.kode_cabang', $cabang);
     }
     $this->datatables->where('pelanggan.status_pelanggan', 1);
-    $this->datatables->select('kode_pelanggan,nama_pelanggan,alamat_pelanggan,pelanggan.no_hp,pasar,hari,pelanggan.kode_cabang,nama_cabang,id_sales,nama_karyawan,limitpel');
+    $this->datatables->select('kode_pelanggan,nama_pelanggan,alamat_pelanggan,pelanggan.no_hp,pasar,hari,pelanggan.kode_cabang,nama_cabang,id_sales,nama_karyawan,limitpel,kategori_salesman');
     $this->datatables->from('pelanggan');
     $this->datatables->join('cabang', 'pelanggan.kode_cabang = cabang.kode_cabang');
     $this->datatables->join('karyawan', 'pelanggan.id_sales = karyawan.id_karyawan');
-    $this->datatables->add_column('view', '<a href="#" data-kodepel="$1" data-namapel="$2" data-kodesales="$3" data-namasales="$4" data-cabang="$5" data-limit="$6" class="btn btn-primary btn-sm pilihpel">Pilih</a>', 'kode_pelanggan,nama_pelanggan,id_sales,nama_karyawan,kode_cabang,limitpel');
+    $this->datatables->add_column('view', '<a href="#" data-kodepel="$1" data-namapel="$2" data-kodesales="$3" data-namasales="$4" data-cabang="$5" data-limit="$6" data-kategorisalesman="$7" class="btn btn-primary btn-sm pilihpel">Pilih</a>', 'kode_pelanggan,nama_pelanggan,id_sales,nama_karyawan,kode_cabang,limitpel,kategori_salesman');
     return $this->datatables->generate();
   }
 

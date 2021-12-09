@@ -12,7 +12,7 @@ class Model_sales extends CI_Model
 			$this->db->where('karyawan.kode_cabang', $cabang);
 		}
 		$this->db->where('status_aktif_sales', '1');
-		$this->db->select('id_karyawan,nama_karyawan,alamat_karyawan,no_hp,nama_cabang,status_aktif_sales');
+		$this->db->select('id_karyawan,nama_karyawan,alamat_karyawan,no_hp,nama_cabang,status_aktif_sales,kategori_salesman');
 		$this->db->from('karyawan');
 		$this->db->join('cabang', 'karyawan.kode_cabang = cabang.kode_cabang');
 		$this->db->where('nama_karyawan !=', '-');
@@ -45,6 +45,7 @@ class Model_sales extends CI_Model
 		$alamatsales 	= $this->input->post('alamatsales');
 		$no_hp 			= $this->input->post('no_hp');
 		$cabang 		= $this->input->post('cabang');
+		$kategori_salesman = $this->input->post('kategori_salesman');
 
 
 		$data 			= array(
@@ -54,7 +55,8 @@ class Model_sales extends CI_Model
 			'nama_karyawan'		=> $namasales,
 			'alamat_karyawan'	=> $alamatsales,
 			'no_hp' 			=> $no_hp,
-			'kode_cabang' 		=> $cabang
+			'kode_cabang' 		=> $cabang,
+			'kategori_salesman' => $kategori_salesman
 
 
 
