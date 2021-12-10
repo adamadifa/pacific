@@ -22,7 +22,9 @@ class Model_barang extends CI_Model
 	public function getdataBarang($rowno, $rowperpage, $cabang = "", $kategori_harga = "")
 	{
 		if (!empty($cabang)) {
-			$this->db->where('barang.kode_cabang', $cabang);
+			if ($cabang != "pusat") {
+				$this->db->where('barang.kode_cabang', $cabang);
+			}
 		}
 		$this->db->select('kode_barang,nama_barang,kategori,satuan,harga_dus,harga_pack,harga_pcs,harga_returdus,harga_returpack,harga_returpcs,stok,isipcsdus,isipack,isipcs,nama_cabang,kategori_harga');
 		$this->db->from('barang');
@@ -39,13 +41,8 @@ class Model_barang extends CI_Model
 	// Select total records
 	public function getrecordBarang($cabang, $kategori_harga)
 	{
-		$cbg = $this->session->userdata('cabang');
-		if (!empty($cbg)) {
-			if ($cbg != "pusat") {
-				$this->db->where('barang.kode_cabang', $cbg);
-			}
-		} else {
-			if (!empty($cabang)) {
+		if (!empty($cabang)) {
+			if ($cabang != "pusat") {
 				$this->db->where('barang.kode_cabang', $cabang);
 			}
 		}
