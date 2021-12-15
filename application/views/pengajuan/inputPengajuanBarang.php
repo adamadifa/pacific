@@ -48,11 +48,11 @@
                   </div>
                   <div class="mb-3">
                     <select class="form-control selectoption" id="keterangan" name="keterangan">
-                      <option value="">Jenis Pengajuan</option>
+                      <!-- <option value="">Jenis Pengajuan</option>
                       <option value="Barang">Barang</option>
                       <option value="Jasa">Jasa - Service</option>
+                      <option value="Lainnya">Lainnya</option> -->
                       <option value="ATK">ATK</option>
-                      <option value="Lainnya">Lainnya</option>
                     </select>
                   </div>
                   <div class="form-group mb-3">

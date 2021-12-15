@@ -8,9 +8,11 @@ function uang($nilai)
 <br>
 <b style="font-size:16px; font-family:Calibri">
   PACIFIC<br>
-  REKAP AKUN <?php if (!empty($bank['nama_bank'])) {
-                echo "BANK $bank[nama_bank]";
-              } ?>
+  REKAP AKUN  <?php if ($bank['nama_bank'] != 'KAS BESAR') {
+    echo "BANK $bank[nama_bank]";
+  }else{
+    echo "$bank[nama_bank]";
+   } ?><br>
   PERIODE <?php echo DateToIndo2($dari) . " s/d " . DateToIndo2($sampai); ?><br><br>
 </b>
 <br>

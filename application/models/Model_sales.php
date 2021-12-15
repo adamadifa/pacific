@@ -56,9 +56,8 @@ class Model_sales extends CI_Model
 			'alamat_karyawan'	=> $alamatsales,
 			'no_hp' 			=> $no_hp,
 			'kode_cabang' 		=> $cabang,
+			'status_aktif_sales'=> 1,
 			'kategori_salesman' => $kategori_salesman
-
-
 
 		);
 

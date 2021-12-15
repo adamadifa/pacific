@@ -43,9 +43,19 @@ font-family:Arial;}
 		</table>
 	</td>
 	<td colspan="6" align="left">
-		<b>CV PACIFIC<br>
+		<?php if($faktur['kode_cabang'] == 'TSM'){ ?>
+			<b>CV PACIFIC<br>
 			Jln. Perintis Kemerdekaan No. 160 Tasikmalaya Telp. (0265) 7520864
-		</b>
+			</b>
+		<?php }else if($faktur['kode_cabang'] == 'BGR'){ ?>
+			<b>CV PACIFIC CABANG BOGOR<br>
+			Jln. Raya Pemda Kedunghalang 1 No.49 Bogor  Telp. 0812 1075 4650 - CP 0813 9594 4737
+			</b>
+		<?php }else if($faktur['kode_cabang'] == 'BDG'){ ?>
+			<b>CV PACIFIC CABANG BANDUNG<br>
+			Jln. Perintis Kemerdekaan No. 160 Tasikmalaya Telp. (0265) 7520864
+			</b>
+		<?php } ?>
 		
 	</td>
 </tr>

@@ -33,7 +33,7 @@ $id_user = $this->session->userdata('id_user');
             <div class="col-md-2 col-xs-2">
               <div class="mb-3">
                 <select class="form-control" id="jenis_pengajuan" name="jenis_pengajuan">
-                  <?php if ($id_user == '6') { ?>
+                  <!-- <?php if ($id_user == '6') { ?>
                     <option value="Barang">Barang</option>
                     <option value="Jasa">Jasa - Service</option>
                     <option value="ATK">ATK</option>
@@ -56,10 +56,10 @@ $id_user = $this->session->userdata('id_user');
                     <option value="ATK">ATK</option>
                   <?php }else{ ?>
                     <option value="Barang">Barang</option>
-                    <option value="Jasa">Jasa - Service</option>
-                    <option value="ATK">ATK</option>
-                    <option value="Lainnya">Lainnya</option>
-                  <?php } ?>
+                    <option value="Jasa">Jasa - Service</option> -->
+                    <!-- <option value="Lainnya">Lainnya</option>
+                  <?php } ?> -->
+                  <option value="ATK">ATK</option>
                 </select>
               </div>
             </div>

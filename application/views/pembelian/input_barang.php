@@ -30,6 +30,7 @@
       <option value="BAHAN PEMBANTU">BAHAN PEMBANTU</option>
       <option value="KEMASAN">KEMASAN</option>
       <option value="LAINNYA">LAINNYA</option>
+      <option value="Bahan Tambahan">BAHAN TAMBAHAN</option>
     </select>
   </div>
   <?php if (empty($departemen)) { ?>

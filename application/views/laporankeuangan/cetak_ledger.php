@@ -12,9 +12,11 @@ function uang($nilai)
   <?php if (!empty($akun)) {
     echo $kodeakun . "-" . $akun['nama_akun'];
   } ?>
-  <?php if (!empty($bank['nama_bank'])) {
+  <?php if ($bank['nama_bank'] != 'KAS BESAR') {
     echo "BANK $bank[nama_bank]";
-  } ?><br>
+  }else{
+    echo "$bank[nama_bank]";
+   } ?><br>
   PERIODE <?php echo DateToIndo2($dari) . " s/d " . DateToIndo2($sampai); ?><br><br>
 </b>
 <br>

@@ -41,16 +41,16 @@ class Model_kendaraan extends CI_Model
 		$kir 	          = $this->input->post('kir');
 		$stnk 	        = $this->input->post('stnk');
 		$sipa 	        = $this->input->post('sipa');
-    $pemakai 	      = $this->input->post('pemakai');
-    $jabatan 	      = $this->input->post('jabatan');
-    $keterangan 	  = $this->input->post('pemakai');
-    $kode_cabang 	  = $this->input->post('kode_cabang');
-    $status 	      = $this->input->post('status');
+		$pemakai 	      = $this->input->post('pemakai');
+		$jabatan 	      = $this->input->post('jabatan');
+		$keterangan 	  = $this->input->post('pemakai');
+		$kode_cabang 	  = $this->input->post('kode_cabang');
+		$status 	      = $this->input->post('status');
 
 		$data 			= array(
 
 
-			'no_polisi' 		  => $no_polisi,
+		'no_polisi' 		  => $no_polisi,
       'type' 		        => $type,
       'model' 		      => $model,
       'tahun' 		      => $tahun,
@@ -73,15 +73,13 @@ class Model_kendaraan extends CI_Model
 
 		);
 
-		$cek_data = $this->db->get_where('kendaraan', array('id' => $id));
+		$cek_data = $this->db->get_where('kendaraan', array('no_polisi' => $no_polisi));
 		if ($cek_data->num_rows() != 0) {
-			$this->db->update('kendaraan', $data, array('id' => $id));
+			$this->db->update('kendaraan', $data, array('no_polisi' => $no_polisi));
 		} else {
-
 			$this->db->insert('kendaraan', $data);
 		}
 	}
-
 
 	function hapus($id)
 	{

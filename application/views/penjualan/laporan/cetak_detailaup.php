@@ -16,7 +16,11 @@ error_reporting(0);
 
 	<?php
 	if ($cb['nama_cabang'] != "") {
-		echo "PACIFIC CABANG " . strtoupper($cb['nama_cabang']);
+		if ($cb['nama_cabang'] == "PCF PUSAT") {
+			echo "PACIFIC PUSAT";
+		}else{
+			echo "PACIFIC CABANG " . strtoupper($cb['nama_cabang']);
+		}
 	} else {
 		echo "PACIFIC ALL CABANG";
 	}
