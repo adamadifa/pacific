@@ -329,7 +329,7 @@
               <?php
               $level = $this->session->userdata('level_user');
               $id_user = $this->session->userdata('id_user');
-              if ($level == "kepala admin") {
+              if ($level == "kepala admin" OR $level == "admin gudang pusat") {
               ?>
                   <li class="nav-item">
                     <a class="nav-link" href="<?php echo base_url(); ?>pengajuan/pengajuanBarang">

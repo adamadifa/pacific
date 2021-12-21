@@ -53,10 +53,10 @@ function angka($nilai)
 			<td>NO</td>
 			<td>TGL</td>
 			<td>NO BUKTI</td>
-			<td>JENIS TRANSAKSI</td>
 			<td>SUPPLIER</td>
 			<td>NAMA BARANG</td>
 			<td>KETERANGAN</td>
+			<td>JENIS TRANSAKSI</td>
 			<td>PCF/MP</td>
 			<td>AKUN</td>
 			<td>JURNAL</td>
@@ -125,10 +125,10 @@ function angka($nilai)
 				<td><?php echo $no; ?></td>
 				<td><?php echo $d->tgl_pembelian; ?></td>
 				<td><?php echo $d->nobukti_pembelian; ?></td>
-				<td><?php echo strtoupper($d->jenistransaksi); ?></td>
 				<td><?php echo $d->nama_supplier; ?></td>
 				<td><?php echo $namabarang; ?></td>
 				<td><?php echo $d->keterangan; ?></td>
+				<td><?php echo strtoupper($d->jenistransaksi); ?></td>
 				<td><?php if (substr($d->kode_akun, 0, 1) == "6" and !empty($d->kode_cabang) or substr($d->kode_akun, 0, 1) == "5" and !empty($d->kode_cabang)) {
 						echo  $d->kode_cabang;
 					} else {
@@ -161,9 +161,10 @@ function angka($nilai)
 						<td></td>
             <td></td>
             <td>' . $d->nobukti_pembelian . '</td>
-            <td>' . $d->nama_supplier . '</td>
             <td></td>
             <td></td>
+						<td></td>
+						<td>' . strtoupper($d->jenistransaksi) . '</td>
 						<td></td>
 						<td align=center>' . $akun . '</td>
 						<td>' . $namaakun . '</td>

@@ -182,14 +182,14 @@ if ($level == "Administrator") {
       </a>
       <?php
       if ($this->session->userdata('username') != "nurman") {
-      ?>
+        ?>
+     <?php } ?>
         <a href="<?php echo base_url(); ?>kaskecil" class="list-group-item list-group-item-action">
           <i class="fa fa-book mr-2"></i>Kas Kecil
         </a>
         <a href="<?php echo base_url(); ?>kaskecil/klaim" class="list-group-item list-group-item-action">
           <i class="fa fa-file-archive-o mr-2"></i>Buat Klaim
         </a>
-      <?php } ?>
       <a href="<?php echo base_url(); ?>kaskecil/klaimcabang" class="list-group-item list-group-item-action">
         <i class="fa fa-file-text-o mr-2"></i>Klaim Cabang
       </a>
