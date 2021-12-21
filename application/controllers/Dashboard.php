@@ -335,7 +335,7 @@ class Dashboard extends CI_Controller
     $tahun = $this->input->post('tahun');
     $data['tahunini'] = $tahun;
     $data['tahunlalu'] = $tahun - 1;
-    $data['dppp'] = $this->Model_dashboard->dppp($cabang, $bulan, $tahun)->result();
+    $data['dppp'] = $this->Model_dashboard->dppp_tunaikredit($cabang, $bulan, $tahun)->result();
     $this->load->view('dashboard_v2/load_dppp', $data);
   }
 }

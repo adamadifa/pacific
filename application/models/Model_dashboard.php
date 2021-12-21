@@ -713,6 +713,105 @@ class Model_dashboard extends CI_Model
 		return $this->db->query($query);
 	}
 
+
+	function dppp_tunaikredit($cabang, $bulan, $tahun)
+	{
+		$tahunini = $tahun;
+		$tahunlalu = $tahun - 1;
+
+		$tgllalu1 = $tahunlalu . "-" . $bulan . "-01";
+		$tgllalu2 = date('Y-m-t', strtotime($tgllalu1));
+
+		$tglini1 = $tahunini . "-" . $bulan . "-01";
+		$tglini2 = date('Y-m-t', strtotime($tglini1));
+
+		$tglawaltahunlalu = $tahunlalu . "-01-01";
+		$tglawaltahunini = $tahunini . "-01-01";
+		if (!empty($cabang)) {
+			$cbg = "AND karyawan.kode_cabang = '$cabang'";
+		} else {
+			$cbg = "";
+		}
+
+		$query = "SELECT mb.kode_produk,nama_barang,isipcsdus,
+		realisasi_bulanini_tahunlalu,
+		jmltarget,
+		realisasi_bulanini_tahunini,
+		realisasi_sampaibulanini_tahunlalu,
+		jmltarget_sampaibulanini,
+		realisasi_sampaibulanini_tahunini
+		FROM master_barang mb
+		
+		LEFT JOIN (
+		SELECT kt.kode_produk,SUM(jumlah_target) as jmltarget
+		FROM komisi_target_qty_detail kt 
+		INNER JOIN komisi_target ON kt.kode_target = komisi_target.kode_target
+		INNER JOIN karyawan ON kt.id_karyawan = karyawan.id_karyawan
+		WHERE bulan ='$bulan' AND tahun ='$tahunini'" . $cbg . " 
+		GROUP BY kt.kode_produk
+		) target ON (target.kode_produk = mb.kode_produk)
+		
+		LEFT JOIN (
+		SELECT kt.kode_produk,SUM(jumlah_target) as jmltarget_sampaibulanini
+		FROM komisi_target_qty_detail kt 
+		INNER JOIN komisi_target ON kt.kode_target = komisi_target.kode_target
+		INNER JOIN karyawan ON kt.id_karyawan = karyawan.id_karyawan
+		WHERE bulan BETWEEN '1' AND '$bulan' AND tahun ='$tahunini'" . $cbg . " 
+		GROUP BY kt.kode_produk
+		) target2 ON (target2.kode_produk = mb.kode_produk)
+		
+		
+		
+		LEFT JOIN (
+			SELECT b.kode_produk,SUM(jumlah) as realisasi_bulanini_tahunlalu
+			FROM detailpenjualan dp 
+			INNER JOIN barang b ON dp.kode_barang = b.kode_barang
+			INNER JOIN penjualan p ON dp.no_fak_penj = p.no_fak_penj
+			INNER JOIN karyawan ON p.id_karyawan = karyawan.id_karyawan
+			WHERE tgltransaksi BETWEEN '$tgllalu1' AND '$tgllalu2'" . $cbg . "  
+			GROUP BY b.kode_produk
+			
+		) dpen ON (dpen.kode_produk = mb.kode_produk)
+		
+		LEFT JOIN (
+			SELECT b.kode_produk,SUM(jumlah) as realisasi_bulanini_tahunini
+			FROM detailpenjualan dp 
+			INNER JOIN barang b ON dp.kode_barang = b.kode_barang
+			INNER JOIN penjualan p ON dp.no_fak_penj = p.no_fak_penj
+			INNER JOIN karyawan ON p.id_karyawan = karyawan.id_karyawan
+			
+			WHERE tgltransaksi BETWEEN '$tglini1' AND '$tglini2'" . $cbg . "  
+			GROUP BY b.kode_produk
+			
+		) dpen2 ON (dpen2.kode_produk = mb.kode_produk) 
+		
+		LEFT JOIN (
+			SELECT b.kode_produk,SUM(jumlah) as realisasi_sampaibulanini_tahunlalu
+			FROM detailpenjualan dp 
+			INNER JOIN barang b ON dp.kode_barang = b.kode_barang
+			INNER JOIN penjualan p ON dp.no_fak_penj = p.no_fak_penj
+			INNER JOIN karyawan ON p.id_karyawan = karyawan.id_karyawan
+			WHERE tgltransaksi BETWEEN '$tglawaltahunlalu' AND '$tgllalu2'" . $cbg . "     
+			GROUP BY b.kode_produk
+			
+		) dpen3 ON (dpen3.kode_produk = mb.kode_produk)
+		
+		
+		LEFT JOIN (
+			SELECT b.kode_produk,SUM(jumlah) as realisasi_sampaibulanini_tahunini
+			FROM detailpenjualan dp 
+			INNER JOIN barang b ON dp.kode_barang = b.kode_barang
+			INNER JOIN penjualan p ON dp.no_fak_penj = p.no_fak_penj
+			INNER JOIN karyawan ON p.id_karyawan = karyawan.id_karyawan
+			WHERE tgltransaksi BETWEEN '$tglawaltahunini' AND '$tglini2'" . $cbg . " 
+			GROUP BY b.kode_produk
+			
+		) dpen4 ON (dpen4.kode_produk = mb.kode_produk)";
+
+		return $this->db->query($query);
+	}
+
+
 	function cek_pengajuan()
 	{
 		$cabang = $this->session->userdata('cabang');
