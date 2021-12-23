@@ -352,6 +352,46 @@ foreach ($barang as $p) {
           $colorsp8 = "bg-green";
         }
 
+        if ($sab < 0) {
+          $sab = 0;
+        }
+
+        if ($sar < 0) {
+          $sar = 0;
+        }
+
+        if ($sas < 0) {
+          $sas = 0;
+        }
+
+        if ($sbb < 0) {
+          $sbb = 0;
+        }
+
+        if ($sdep < 0) {
+          $sdep = 0;
+        }
+
+        if ($sds < 0) {
+          $sds = 0;
+        }
+
+        if ($ssp < 0) {
+          $ssp = 0;
+        }
+
+        if ($sspp < 0) {
+          $sspp = 0;
+        }
+
+        if ($ssc < 0) {
+          $ssc = 0;
+        }
+
+        if ($ssp8 < 0) {
+          $ssp8 = 0;
+        }
+
       ?>
         <tr>
           <td><?php echo strtoupper($d['nama_cabang']); ?></td>

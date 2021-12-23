@@ -296,7 +296,7 @@ class Model_pelanggan extends CI_Model
   }
 
 
-  function ExportPelanggan($cabang = "", $salesman = "", $pelanggan = "", $kodepel = "", $dari = "", $sampai = "")
+  function ExportPelanggan($cabang = "", $salesman = "", $pelanggan = "", $dari = "", $sampai = "")
   {
     if ($cabang != "") {
       $this->db->where('pelanggan.kode_cabang', $cabang);
@@ -310,9 +310,9 @@ class Model_pelanggan extends CI_Model
       $this->db->like('nama_pelanggan', $pelanggan);
     }
 
-    if ($kodepel != "") {
-      $this->db->like('pelanggan.kode_pelanggan', $kodepel);
-    }
+    // if ($kodepel != "") {
+    //   $this->db->like('pelanggan.kode_pelanggan', $kodepel);
+    // }
 
     if ($dari !=  '') {
       $this->db->where('time_stamps >=', $dari);

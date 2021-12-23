@@ -75,6 +75,8 @@ class Pelanggan extends CI_Controller
       // Mendefinisikan nama file ekspor "hasil-export.xls"
       header("Content-Disposition: attachment; filename=Data Pelanggan.xls");
       $data['pelanggan'] = $this->Model_pelanggan->Exportpelanggan($cbg, $salesman, $namapel, $dari, $sampai)->result();
+      // var_dump($data['pelanggan']);
+      // die;
       $this->load->view('pelanggan/pelanggan_export', $data);
     } else {
       // Row per page
