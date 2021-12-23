@@ -27,7 +27,10 @@ if ($level == "Administrator" || $level == "manager accounting" || $level == "sp
         <i class="fa  fa-file-text mr-2"></i>Input Saldo Awal Harga
       </a>
       <a href="<?php echo base_url(); ?>laporangudangjadi/rekaphpp" class="list-group-item list-group-item-action">
-        <i class="fa  fa-file-text mr-2"></i>Rekap Persediaan Barang Jadi
+        <i class="fa  fa-file-text mr-2"></i>Rekap BJ <span class="badge bg-green">v1</span>
+      </a>
+      <a href="<?php echo base_url(); ?>laporangudangjadi/rekaphppv2" class="list-group-item list-group-item-action">
+        <i class="fa  fa-file-text mr-2"></i>Rekap BJ <span class="badge bg-green">v2</span>
       </a>
     </div>
   </div>

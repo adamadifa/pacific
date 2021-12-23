@@ -408,6 +408,11 @@ class Laporangudangjadi extends CI_Controller
 		$this->template->load('template/template', 'Laporangudangjadi/rekaphpp');
 	}
 
+	function rekaphppv2()
+	{
+		$this->template->load('template/template', 'Laporangudangjadi/rekaphppv2');
+	}
+
 	function cetak_rekaphpp()
 	{
 		$data['bulan']  = $this->input->post('bulan');
@@ -421,6 +426,21 @@ class Laporangudangjadi extends CI_Controller
 		}
 
 		$this->load->view('Laporangudangjadi/cetak_rekaphpp', $data);
+	}
+
+	function cetak_rekaphppv2()
+	{
+		$data['bulan']  = $this->input->post('bulan');
+		$data['tahun']  = $this->input->post('tahun');
+		$data['rekaphpp'] = $this->Model_laporangudangjadi->rekaphppv2($data['bulan'], $data['tahun'])->result();
+		if (isset($_POST['export'])) {
+			// Fungsi header dengan mengirimkan raw data excel
+			header("Content-type: application/vnd-ms-excel");
+			// Mendefinisikan nama file ekspor "hasil-export.xls"
+			header("Content-Disposition: attachment; filename=Rekap Konsolidasi BJ.xls");
+		}
+
+		$this->load->view('Laporangudangjadi/cetak_rekaphppv2', $data);
 	}
 
 	function cetak_konsolidasibj()

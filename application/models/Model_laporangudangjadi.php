@@ -546,6 +546,8 @@ class Model_laporangudangjadi extends CI_Model
 			SUM(IF(jenis_mutasi = 'RETUR' AND mc.kode_cabang='$cabang'
 			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai',jumlah,0))
 			as retur,
+
+
 			SUM(IF(jenis_mutasi = 'HUTANG KIRIM' AND mc.kode_cabang='$cabang'
 			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai'
 			AND inout_good='IN' OR jenis_mutasi = 'PL TTR' AND mc.kode_cabang='$cabang'
@@ -554,10 +556,15 @@ class Model_laporangudangjadi extends CI_Model
 			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai'
 			AND inout_good='IN',jumlah,0))
 			as lainlain_in,
+
+
 			SUM(IF(jenis_mutasi = 'PENYESUAIAN' AND mc.kode_cabang='$cabang'
 			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai'
 			AND inout_good='IN',jumlah,0))
 			as penyesuaian_in,
+
+
+
 			SUM(IF(jenis_mutasi = 'PENYESUAIAN BAD' AND mc.kode_cabang='$cabang'
 			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai'
 			AND inout_bad='IN',jumlah,0))
@@ -1226,6 +1233,109 @@ class Model_laporangudangjadi extends CI_Model
 		ORDER BY urutan ASC 
 		) harga ON (harga.kode_produk = mb.kode_produk) ORDER BY urutan ASC
 		";
+
+		return $this->db->query($query);
+	}
+
+
+	function rekaphppv2($bulan, $tahun)
+	{
+		$tanggal1 = $tahun . "-" . $bulan . "-01";
+		$tanggal2 = date("Y-m-t", strtotime($tanggal1));
+		$query = "SELECT 
+		mb.kode_produk,
+		nama_barang,
+		round(harga_awal) as harga_awal,
+		round(harga_hpp) as harga_hpp,
+		IFNULL(IFNULL(ROUND(harga_hpp),ROUND(harga_awal)),0) as harga_penerimaan,
+		isipcsdus,
+		round(saldoawal_cabang/isipcsdus,2) + saldo_gudang as saldoawal,
+		produksi,
+		repack_gudang + round(repackcabang/isipcsdus,2) as repack,
+		lainlain_in + round(lainlaincabang_in/isipcsdus,2) as lainlain_in,
+		kirimcabang,
+		reject_gudang + round(reject_gudang_cabang/isipcsdus,2) as reject,
+		lainlain_out + round(lainlaincabang_out/isipcsdus,2) as lainlain_out ,
+		round(pusat/isipcsdus,2) as pusat,
+		round(transit_in/isipcsdus,2) as transit_in,
+		round(retur/isipcsdus,2) as retur,
+		round(penyesuaian_in/isipcsdus,2) as penyesuaian_in,
+		round(penjualan/isipcsdus,2) as penjualan,
+		round(promosi/isipcsdus,2) as promosi,
+		round(reject_pasar/isipcsdus,2) as reject_pasar,
+		round(reject_mobil/isipcsdus,2) as reject_mobil,
+		round(transit_out/isipcsdus,2) as transit_out,
+		round(penyesuaian_out/isipcsdus,2) as penyesuaian_out,
+		(saldo_gudang + (produksi + repack_gudang + lainlain_in) - (kirimcabang + reject_gudang + lainlain_out)) +
+(ROUND(((saldoawal_cabang + pusat + transit_in  + retur + lainlaincabang_in + repackcabang + penyesuaian_in) 
+- (penjualan + promosi + reject_pasar + reject_mobil + reject_gudang_cabang + transit_out + lainlaincabang_out + penyesuaian_out)) / isipcsdus,2)) as saldoakhir
+		
+		FROM master_barang mb
+		LEFT JOIN (
+			SELECT kode_produk,harga_awal
+			FROM harga_awal
+			WHERE lokasi = 'MST' AND bulan ='$bulan' AND tahun ='$tahun'
+		) harga_awal ON (mb.kode_produk = harga_awal.kode_produk)
+		
+		LEFT JOIN (
+			SELECT kode_produk,harga_hpp
+			FROM harga_hpp
+			WHERE bulan = '$bulan' AND tahun ='$tahun'
+		) hpp ON (mb.kode_produk = hpp.kode_produk)
+		LEFT JOIN (
+			SELECT
+				d.kode_produk,
+				IFNULL(SUM( IF ( `inout` = 'IN', jumlah, 0 ) ) - SUM( IF ( `inout` = 'OUT', jumlah, 0 ) ),0) as saldo_gudang
+			FROM
+				detail_mutasi_gudang d
+			INNER JOIN mutasi_gudang_jadi ON d.no_mutasi_gudang = mutasi_gudang_jadi.no_mutasi_gudang
+			WHERE tgl_mutasi_gudang < '$tanggal1'
+			GROUP BY d.kode_produk
+		) sa_gudang ON (mb.kode_produk = sa_gudang.kode_produk)
+		LEFT JOIN (
+			SELECT dsabj.kode_produk,SUM(jumlah) as saldoawal_cabang
+			FROM saldoawal_bj_detail dsabj 
+			INNER JOIN saldoawal_bj ON dsabj.kode_saldoawal = saldoawal_bj.kode_saldoawal
+			WHERE bulan = '$bulan' AND tahun ='$tahun'  AND status='GS'
+			GROUP BY dsabj.kode_produk
+		) sa_cabang ON (mb.kode_produk = sa_cabang.kode_produk) 
+		
+		LEFT JOIN (
+			SELECT kode_produk,
+			SUM(IF(jenis_mutasi ='FSTHP',jumlah,0)) as produksi,
+			SUM(IF(jenis_mutasi ='REPACK',jumlah,0)) as repack_gudang,
+			SUM(IF(jenis_mutasi ='LAINLAIN' AND `inout`='IN',jumlah,0)) as lainlain_in,
+			SUM(IF(jenis_mutasi ='SURAT JALAN',jumlah,0)) as kirimcabang,
+			SUM(IF(jenis_mutasi ='REJECT',jumlah,0)) as reject_gudang,
+			SUM(IF(jenis_mutasi ='LAINLAIN' AND `inout`='OUT',jumlah,0)) as lainlain_out
+		
+			FROM detail_mutasi_gudang dmg
+			INNER JOIN mutasi_gudang_jadi mgj ON dmg.no_mutasi_gudang = mgj.no_mutasi_gudang
+			WHERE tgl_mutasi_gudang BETWEEN '$tanggal1' AND '$tanggal2'
+			GROUP BY kode_produk
+		) mutasi_gudang ON (mb.kode_produk = mutasi_gudang.kode_produk) 
+		
+		LEFT JOIN (
+			SELECT kode_produk,
+			SUM(IF(jenis_mutasi ='SURAT JALAN',jumlah,0)) as pusat,
+			SUM(IF(jenis_mutasi ='TRANSIT IN',jumlah,0)) as transit_in,
+			SUM(IF(jenis_mutasi ='RETUR',jumlah,0)) as retur,
+			SUM(IF(jenis_mutasi ='PENYESUAIAN' AND inout_good='IN',jumlah,0)) as penyesuaian_in,
+			SUM(IF(jenis_mutasi ='HUTANG KIRIM' AND inout_good='IN' OR jenis_mutasi ='PL TTR' AND inout_good='IN' OR jenis_mutasi ='PENYESUAIAN BAD' AND inout_good='IN',jumlah,0)) as lainlaincabang_in,
+			SUM(IF(jenis_mutasi ='REPACK',jumlah,0)) as repackcabang,
+			SUM(IF(jenis_mutasi ='PENJUALAN',jumlah,0)) as penjualan,
+			SUM(IF(jenis_mutasi ='PROMOSI',jumlah,0)) as promosi,
+			SUM(IF(jenis_mutasi ='REJECT PASAR',jumlah,0)) as reject_pasar,
+			SUM(IF(jenis_mutasi ='REJECT MOBIL',jumlah,0)) as reject_mobil,
+			SUM(IF(jenis_mutasi ='REJECT GUDANG',jumlah,0)) as reject_gudang_cabang,
+			SUM(IF(jenis_mutasi ='TRANSIT OUT',jumlah,0)) as transit_out,
+			SUM(IF(jenis_mutasi ='PL HUTANG KIRIM' AND inout_good='OUT' OR jenis_mutasi ='TTR' AND inout_good='OUT' OR jenis_mutasi ='GANTI BARANG' AND inout_good='OUT',jumlah,0)) as lainlaincabang_out,
+			SUM(IF(jenis_mutasi ='PENYESUAIAN' AND inout_good='OUT',jumlah,0)) as penyesuaian_out
+			FROM detail_mutasi_gudang_cabang dmgc
+			INNER JOIN mutasi_gudang_cabang mgc ON dmgc.no_mutasi_gudang_cabang = mgc.no_mutasi_gudang_cabang
+			WHERE tgl_mutasi_gudang_cabang BETWEEN '$tanggal1' AND '$tanggal2'
+			GROUP BY kode_produk
+		) mutasi_gudang_cabang ON (mb.kode_produk = mutasi_gudang_cabang.kode_produk)";
 
 		return $this->db->query($query);
 	}
