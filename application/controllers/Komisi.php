@@ -399,7 +399,12 @@ class Komisi extends CI_Controller
     $data['cabang'] = $this->Model_cabang->view_cabang()->result();
     $data['bln'] = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
     $data['komisicabang'] = $this->Model_komisi->komisicabang($tahun, $bulan)->result();
-    $this->template->load('template/template', 'komisi/approve_targetkomisi', $data);
+    $cbg = $this->session->userdata('cabang');
+    if ($cbg != 'pusat') {
+      $this->template->load('template/template', 'komisi/approve_targetkomisi', $data);
+    } else {
+      $this->template->load('template/template', 'komisi/approve_targetkomisi_pusat', $data);
+    }
   }
 
   function approvetarget()
@@ -419,6 +424,33 @@ class Komisi extends CI_Controller
       redirect('komisi/approvetargetkomisi');
     } else {
       echo "Gagal";
+    }
+  }
+
+  function approvetargetpusat()
+  {
+    $kode_target = $this->uri->segment(3);
+    $update = $this->Model_komisi->approvetargetpusat($kode_target);
+    if ($update == 1) {
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-green text-white alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil di Approve !
+        </div>'
+      );
+
+      redirect('komisi/approvetargetkomisi');
+    } else {
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-danger text-white alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Gagal di Approve !, Ada Target Cabang Yang Belum Diinput
+        </div>'
+      );
+
+      redirect('komisi/approvetargetkomisi');
     }
   }
 
@@ -442,14 +474,32 @@ class Komisi extends CI_Controller
     }
   }
 
+  function canceltargetpusat()
+  {
+    $kode_target = $this->uri->segment(3);
+    $kode_cabang = $this->uri->segment(4);
+    $update = $this->Model_komisi->canceltargetpusat($kode_target);
+    if ($update) {
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-green text-white alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Berhasil di Batalkan !
+        </div>'
+      );
+
+      redirect('komisi/approvetargetkomisi');
+    } else {
+      echo "Gagal";
+    }
+  }
+
   function detailtarget()
   {
     $kodetarget = $this->input->post('kodetarget');
     $cabang = $this->input->post('cabang');
     $data['kodetarget'] = $kodetarget;
-    $data['jmlproduk']  = $this->Model_barang->getMasterproduk()->num_rows();
-    $data['produk']  = $this->Model_barang->getMasterproduk()->result();
-    $data['salesman'] = $this->Model_laporanpenjualan->get_salesman($cabang)->result();
+    $data['target'] = $this->Model_komisi->gettargetkomisi($kodetarget)->result();
     $this->load->view('komisi/komisi_detailtarget', $data);
   }
 
@@ -619,5 +669,41 @@ class Komisi extends CI_Controller
     $tahun = $this->input->post('tahun');
     $data['piutang'] = $this->Model_komisi->loadsaldoawalpiutang($cabang, $bulan, $tahun)->result();
     $this->load->view('komisi/loadsaldoawalpiutang', $data);
+  }
+
+  function getfrmkoreksitarget()
+  {
+    $kodetarget = $this->input->post('kodetarget');
+    $kodeproduk = $this->input->post('kodeproduk');
+    $id_karyawan = $this->input->post('id_karyawan');
+    $data['kodetarget'] = $kodetarget;
+    $data['kodeproduk'] = $kodeproduk;
+    $data['id_karyawan'] = $id_karyawan;
+    $data['targetproduk'] = $this->Model_komisi->gettargetproduk($kodetarget, $kodeproduk, $id_karyawan)->row_array();
+    $this->load->view('komisi/frmkoreksitargetproduk', $data);
+  }
+
+  function updatetarget()
+  {
+    $kodetarget = $this->input->post('kodetarget');
+    $kodeproduk = $this->input->post('kodeproduk');
+    $id_karyawan = $this->input->post('id_karyawan');
+    $jmltarget = $this->input->post('jmltarget');
+    $cek = $this->Model_komisi->cekTargetproduct($kodetarget, $kodeproduk, $id_karyawan)->num_rows();
+    $this->db->trans_begin();
+
+    if (!empty($cek)) {
+      $this->Model_komisi->updatetarget($kodetarget, $kodeproduk, $id_karyawan, $jmltarget);
+    } else {
+      $this->Model_komisi->inserttarget($kodetarget, $kodeproduk, $id_karyawan, $jmltarget);
+    }
+    $this->Model_komisi->updatetargetcashin($kodetarget, $kodeproduk, $id_karyawan);
+    if ($this->db->trans_status() === FALSE) {
+      $this->db->trans_rollback();
+      echo "0";
+    } else {
+      $this->db->trans_commit();
+      echo "1";
+    }
   }
 }

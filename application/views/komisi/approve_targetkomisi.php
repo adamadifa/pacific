@@ -177,7 +177,7 @@
     </div>
   </div>
 </div>
-<div class="modal modal-blur fade" id="modalsettargetcashin" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- <div class="modal modal-blur fade" id="modalsettargetcashin" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg  modal-dialog-centered" role="document">
     <div class="modal-content ">
       <div class="modal-header">
@@ -206,7 +206,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <div class="modal modal-blur fade" id="modaldetailtarget" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-xl  modal-dialog-centered" role="document">
@@ -227,14 +227,12 @@
   $(function() {
     $(".detail").click(function(e) {
       var kodetarget = $(this).attr("data-kodetarget");
-      var cabang = $(this).attr("data-cabang");
       e.preventDefault();
       $.ajax({
         type: 'POST',
         url: '<?php echo base_url(); ?>komisi/detailtarget',
         data: {
-          kodetarget: kodetarget,
-          cabang: cabang
+          kodetarget: kodetarget
         },
         cache: false,
         success: function(respond) {

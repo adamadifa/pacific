@@ -812,13 +812,23 @@ class Model_komisi extends CI_Model
 
     if ($cabang != 'pusat') {
       $cbg .= " AND k.kode_cabang = '$cabang'";
+      $query = "SELECT targetqty.kode_target, k.kode_cabang,bulan,tahun,kp,mm,em,direktur
+      FROM komisi_target_qty_detail targetqty 
+      INNER JOIN karyawan k ON targetqty.id_karyawan = k.id_karyawan
+      INNER JOIN komisi_target target ON target.kode_target = targetqty.kode_target
+      WHERE tahun ='$tahun'" . $cbg . "
+      GROUP BY targetqty.kode_target,k.kode_cabang,bulan,tahun,kp,mm,em,direktur
+      ORDER BY bulan ASC";
+    } else {
+
+      $query = "SELECT targetqty.kode_target,bulan,tahun,kp,mm,em,direktur
+      FROM komisi_target_qty_detail targetqty 
+      INNER JOIN karyawan k ON targetqty.id_karyawan = k.id_karyawan
+      INNER JOIN komisi_target target ON target.kode_target = targetqty.kode_target
+      WHERE tahun ='$tahun' AND kp ='1'
+      GROUP BY targetqty.kode_target,bulan,tahun,kp,mm,em,direktur ORDER BY bulan ASC";
     }
-    $query = "SELECT targetqty.kode_target, k.kode_cabang,bulan,tahun,kp,mm,em,direktur
-    FROM komisi_target_qty_detail targetqty 
-    INNER JOIN karyawan k ON targetqty.id_karyawan = k.id_karyawan
-    INNER JOIN komisi_target target ON target.kode_target = targetqty.kode_target
-    WHERE tahun ='$tahun' AND bulan ='$bulan'" . $cbg . "
-    GROUP BY targetqty.kode_target,k.kode_cabang,bulan,tahun,kp,mm,em,direktur";
+
     return $this->db->query($query);
   }
 
@@ -847,6 +857,51 @@ class Model_komisi extends CI_Model
     return $this->db->query($query);
   }
 
+  function approvetargetpusat($kode_target)
+  {
+    $time = date("Y-m-d H:i:s");
+    $level_user = $this->session->userdata('level_user');
+    if ($level_user == "kepala cabang") {
+      $field1 = "kp";
+      $field2 = "time_kp";
+    } else if ($level_user == "manager marketing") {
+      $field1 = "mm";
+      $field2 = "time_mm";
+    } else if ($level_user == "general manager") {
+      $field1 = "em";
+      $field2 = "time_mm";
+    } else if ($level_user == "Administrator") {
+      $field1 = "direktur";
+      $field2 = "time_direktur";
+    }
+
+    $qcekcabang = "SELECT cabang.kode_cabang,cekcabang FROM cabang
+    LEFT JOIN (
+      SELECT kode_cabang as cekcabang
+      FROM komisi_target_qty_detail detail 
+      INNER JOIN karyawan ON detail.id_karyawan = karyawan.id_karyawan
+      WHERE kode_target ='$kode_target' AND kp='1'
+      GROUP BY kode_cabang
+    ) target ON (cabang.kode_cabang = target.cekcabang)
+    WHERE kode_cabang != 'GRT' AND cekcabang IS NULL";
+    $cekcabang = $this->db->query($qcekcabang)->num_rows();
+    if (empty($cekcabang)) {
+      $query = "UPDATE komisi_target_qty_detail 
+      INNER JOIN karyawan k ON komisi_target_qty_detail.id_karyawan = k.id_karyawan
+      INNER JOIN komisi_target target ON target.kode_target = komisi_target_qty_detail.kode_target
+      SET $field1 = '1', $field2 = '$time'
+      WHERE komisi_target_qty_detail.kode_target='$kode_target'";
+      $update = $this->db->query($query);
+      if ($update) {
+        return 1;
+      } else {
+        return 0;
+      }
+    } else {
+      return 0;
+    }
+  }
+
   function canceltarget($kode_target, $kode_cabang)
   {
     $time = date("Y-m-d H:i:s");
@@ -872,22 +927,64 @@ class Model_komisi extends CI_Model
     return $this->db->query($query);
   }
 
+
+  function canceltargetpusat($kode_target)
+  {
+    $time = date("Y-m-d H:i:s");
+    $level_user = $this->session->userdata('level_user');
+    if ($level_user == "kepala cabang") {
+      $field1 = "kp";
+      $field2 = "time_kp";
+    } else if ($level_user == "manager marketing") {
+      $field1 = "mm";
+      $field2 = "time_mm";
+    } else if ($level_user == "general manager") {
+      $field1 = "em";
+      $field2 = "time_mm";
+    } else if ($level_user == "Administrator") {
+      $field1 = "direktur";
+      $field2 = "time_direktur";
+    }
+    $query = "UPDATE komisi_target_qty_detail 
+    INNER JOIN karyawan k ON komisi_target_qty_detail.id_karyawan = k.id_karyawan
+    INNER JOIN komisi_target target ON target.kode_target = komisi_target_qty_detail.kode_target
+    SET $field1 = NULL, $field2 = '$time'
+    WHERE komisi_target_qty_detail.kode_target='$kode_target'";
+    return $this->db->query($query);
+  }
+
+
   function generatetargetcashin($kode_target)
   {
-    $query = "SELECT targetdetail.kode_target,targetdetail.id_karyawan,ROUND(SUM((jumlah_target*harga_dus) - ((jumlah_target*harga_dus) * 0.025))) as targetcashin
-    FROM komisi_target_qty_detail targetdetail
-    INNER JOIN karyawan k ON targetdetail.id_karyawan = k.id_karyawan
-    INNER JOIN barang ON targetdetail.kode_produk = barang.kode_produk AND k.kode_cabang = barang.kode_cabang
-    WHERE targetdetail.kode_target ='$kode_target'
-    GROUP  BY targetdetail.id_karyawan
-    
+    if (date("Y-m-d") > '2021-12-31') {
+      $query = "SELECT targetdetail.kode_target,targetdetail.id_karyawan,ROUND(SUM((jumlah_target*harga_dus) - ((jumlah_target*harga_dus) * 0.025))) as targetcashin
+      FROM komisi_target_qty_detail targetdetail
+      INNER JOIN karyawan k ON targetdetail.id_karyawan = k.id_karyawan
+      INNER JOIN barang ON targetdetail.kode_produk = barang.kode_produk AND k.kode_cabang = barang.kode_cabang  AND  k.kategori_salesman = barang.kategori_harga
+      WHERE targetdetail.kode_target ='$kode_target'
+      GROUP  BY targetdetail.id_karyawan
+      ";
+    } else {
+      $query = "SELECT targetdetail.kode_target,targetdetail.id_karyawan,ROUND(SUM((jumlah_target*harga_dus) - ((jumlah_target*harga_dus) * 0.025))) as targetcashin
+      FROM komisi_target_qty_detail targetdetail
+      INNER JOIN karyawan k ON targetdetail.id_karyawan = k.id_karyawan
+      INNER JOIN barang ON targetdetail.kode_produk = barang.kode_produk AND k.kode_cabang = barang.kode_cabang 
+      WHERE targetdetail.kode_target ='$kode_target' AND kategori_harga = 'NORMAL'
+      GROUP  BY targetdetail.id_karyawan
     ";
+    }
+
     return $this->db->query($query);
   }
 
   function cekTarget($kode, $id_karyawan)
   {
     return $this->db->get_where('komisi_target_cashin_detail', array('kode_target' => $kode, 'id_karyawan' => $id_karyawan));
+  }
+
+  function cekTargetproduct($kodetarget, $kodeproduk, $id_karyawan)
+  {
+    return $this->db->get_where('komisi_target_qty_detail', array('kode_target' => $kodetarget, 'kode_produk' => $kodeproduk, 'id_karyawan' => $id_karyawan));
   }
 
   function generatesaldopiutang($cabang, $bulan, $tahun)
@@ -1117,5 +1214,100 @@ class Model_komisi extends CI_Model
     ) penj ON (cabang.kode_cabang = penj.cabangbarunew)
     WHERE cabang.kode_cabang !='GRT'" . $c;
     return $this->db->query($query);
+  }
+
+  function gettargetkomisi($kodetarget)
+  {
+    $cbg = $this->session->userdata('cabang');
+    if ($cbg != 'pusat') {
+      $cabang = "AND karyawan.kode_cabang ='$cbg'";
+    } else {
+      $cabang = "";
+    }
+    $query = "SELECT detail.id_karyawan,nama_karyawan,kode_cabang,jumlah_target_cashin,
+    SUM(IF(kode_produk ='AB',jumlah_target,0)) as 'AB',
+    SUM(IF(kode_produk ='AR',jumlah_target,0)) as 'AR',
+    SUM(IF(kode_produk ='AS',jumlah_target,0)) as 'AS',
+    SUM(IF(kode_produk ='BB',jumlah_target,0)) as 'BB',
+    SUM(IF(kode_produk ='CG',jumlah_target,0)) as 'CG',
+    SUM(IF(kode_produk ='CG5',jumlah_target,0)) as 'CG5',
+    SUM(IF(kode_produk ='DEP',jumlah_target,0)) as 'DEP',
+    SUM(IF(kode_produk ='DK',jumlah_target,0)) as 'DK',
+    SUM(IF(kode_produk ='DS',jumlah_target,0)) as 'DS',
+    SUM(IF(kode_produk ='SP',jumlah_target,0)) as 'SP',
+    SUM(IF(kode_produk ='SC',jumlah_target,0)) as 'SC',
+    SUM(IF(kode_produk ='SP8',jumlah_target,0)) as 'SP8'
+    FROM 
+      komisi_target_qty_detail detail
+    INNER JOIN komisi_target target ON detail.kode_target = target.kode_target
+    INNER JOIN karyawan ON detail.id_karyawan = karyawan.id_karyawan
+    LEFT JOIN komisi_target_cashin_detail detailcashin ON detailcashin.kode_target = detail.kode_target AND detail.id_karyawan = detailcashin.id_karyawan
+    WHERE detail.kode_target = '$kodetarget'" . $cabang . "
+    GROUP BY detail.id_karyawan,nama_karyawan,kode_cabang
+    ORDER BY karyawan.kode_cabang,nama_karyawan ASC";
+
+    return $this->db->query($query);
+  }
+
+  function gettargetproduk($kodetarget, $kodeproduk, $id_karyawan)
+  {
+    $this->db->join('karyawan', 'detail.id_karyawan = karyawan.id_karyawan');
+    return $this->db->get_where('komisi_target_qty_detail detail', array('kode_target' => $kodetarget, 'kode_produk' => $kodeproduk, 'detail.id_karyawan' => $id_karyawan));
+  }
+
+  function updatetarget($kodetarget, $kodeproduk, $id_karyawan, $jmltarget)
+  {
+
+    $data = [
+      'jumlah_target' => $jmltarget,
+      'id_user' => $this->session->userdata('id_user')
+    ];
+    return $this->db->update('komisi_target_qty_detail detail', $data, array('kode_target' => $kodetarget, 'kode_produk' => $kodeproduk, 'detail.id_karyawan' => $id_karyawan));
+  }
+
+  function inserttarget($kodetarget, $kodeproduk, $id_karyawan, $jmltarget)
+  {
+    $cekapprove = $this->db->query("SELECT * FROM komisi_target_qty_detail WHERE kode_target='$kodetarget' AND id_karyawan='$id_karyawan' LIMIT 1")->row_array();
+    $data = [
+      'kode_target' => $kodetarget,
+      'id_karyawan' => $id_karyawan,
+      'kode_produk' => $kodeproduk,
+      'jumlah_target' => $jmltarget,
+      'kp' => $cekapprove['kp'],
+      'mm' => $cekapprove['mm'],
+      'em' => $cekapprove['em'],
+      'direktur' => $cekapprove['direktur'],
+      'id_user' => $this->session->userdata('id_user')
+    ];
+    return $this->db->insert('komisi_target_qty_detail', $data);
+  }
+
+  function updatetargetcashin($kodetarget, $kodeproduk, $id_karyawan)
+  {
+    if (date("Y-m-d") > '2021-12-31') {
+      $query = "SELECT targetdetail.kode_target,targetdetail.id_karyawan,ROUND(SUM((jumlah_target*harga_dus) - ((jumlah_target*harga_dus) * 0.025))) as targetcashin
+      FROM komisi_target_qty_detail targetdetail
+      INNER JOIN karyawan k ON targetdetail.id_karyawan = k.id_karyawan
+      INNER JOIN barang ON targetdetail.kode_produk = barang.kode_produk AND k.kode_cabang = barang.kode_cabang  AND  k.kategori_salesman = barang.kategori_harga
+      WHERE targetdetail.kode_target ='$kodetarget'  AND targetdetail.id_karyawan ='$id_karyawan'
+      GROUP  BY targetdetail.id_karyawan
+      ";
+    } else {
+      $query = "SELECT targetdetail.kode_target,targetdetail.id_karyawan,ROUND(SUM((jumlah_target*harga_dus) - ((jumlah_target*harga_dus) * 0.025))) as targetcashin
+      FROM komisi_target_qty_detail targetdetail
+      INNER JOIN karyawan k ON targetdetail.id_karyawan = k.id_karyawan
+      INNER JOIN barang ON targetdetail.kode_produk = barang.kode_produk AND k.kode_cabang = barang.kode_cabang 
+      WHERE targetdetail.kode_target ='$kodetarget' AND kategori_harga = 'NORMAL'  AND targetdetail.id_karyawan ='$id_karyawan'
+      GROUP  BY targetdetail.id_karyawan
+    ";
+    }
+
+    $cashin = $this->db->query($query)->row_array();
+    $jml_cashin = $cashin['targetcashin'];
+    $data = [
+      'jumlah_target_cashin' => $jml_cashin
+    ];
+
+    return $this->db->update('komisi_target_cashin_detail', $data, array('kode_target' => $kodetarget, 'id_karyawan' => $id_karyawan));
   }
 }
