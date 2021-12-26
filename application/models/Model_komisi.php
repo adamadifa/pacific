@@ -1243,7 +1243,7 @@ class Model_komisi extends CI_Model
     INNER JOIN karyawan ON detail.id_karyawan = karyawan.id_karyawan
     LEFT JOIN komisi_target_cashin_detail detailcashin ON detailcashin.kode_target = detail.kode_target AND detail.id_karyawan = detailcashin.id_karyawan
     WHERE detail.kode_target = '$kodetarget'" . $cabang . "
-    GROUP BY detail.id_karyawan,nama_karyawan,kode_cabang
+    GROUP BY detail.id_karyawan,nama_karyawan,kode_cabang,jumlah_target_cashin
     ORDER BY karyawan.kode_cabang,nama_karyawan ASC";
 
     return $this->db->query($query);
