@@ -393,7 +393,7 @@ $level = $this->session->userdata('level_user');
                         if ($cek == 0) {
                       ?>
                           <a href="<?php echo base_url(); ?>penjualan/approvelimitproses3/<?php echo $d['no_pengajuan']; ?>" class="btn btn-green btn-sm"><i class="fa fa-check"></i></a>
-                          <a href="<?php echo base_url(); ?>penjualan/declinelimitproses2/<?php echo $d['no_pengajuan']; ?>" class="btn btn-red btn-sm"><i class="fa fa-close"></i></a>
+                          <a href="<?php echo base_url(); ?>penjualan/declinelimitproses3/<?php echo $d['no_pengajuan']; ?>" class="btn btn-red btn-sm"><i class="fa fa-close"></i></a>
 
                         <?php }
                       } else if (
@@ -404,7 +404,7 @@ $level = $this->session->userdata('level_user');
                         if ($cek == 0) {
                         ?>
                           <a href="<?php echo base_url(); ?>penjualan/approvelimitproses3/<?php echo $d['no_pengajuan']; ?>" class="btn btn-green btn-sm"><i class="fa fa-check"></i></a>
-                          <a href="<?php echo base_url(); ?>penjualan/declinelimitproses2/<?php echo $d['no_pengajuan']; ?>" class="btn btn-red btn-sm"><i class="fa fa-close"></i></a>
+                          <a href="<?php echo base_url(); ?>penjualan/declinelimitproses3/<?php echo $d['no_pengajuan']; ?>" class="btn btn-red btn-sm"><i class="fa fa-close"></i></a>
 
                         <?php }
                       } else if (
@@ -417,14 +417,14 @@ $level = $this->session->userdata('level_user');
                           //echo $cek;
                         ?>
                           <a href="<?php echo base_url(); ?>penjualan/approvelimitproses3/<?php echo $d['no_pengajuan']; ?>" class="btn btn-green btn-sm"><i class="fa fa-check"></i></a>
-                          <a href="<?php echo base_url(); ?>penjualan/declinelimitproses2/<?php echo $d['no_pengajuan']; ?>" class="btn btn-red btn-sm"><i class="fa fa-close"></i></a>
+                          <a href="<?php echo base_url(); ?>penjualan/declinelimitproses3/<?php echo $d['no_pengajuan']; ?>" class="btn btn-red btn-sm"><i class="fa fa-close"></i></a>
 
                         <?php }
                       } else if ($level == 'kepala cabang'  and empty($d['kacab']) and empty($d['mm']) and $d['status'] == 0 or $level == 'kepala cabang' and !empty($d['kacab']) and empty($d['mm'])  and $d['status'] == 2 or $level == 'kepala cabang' and !empty($d['kacab']) and empty($d['mm'])  and $d['status'] == 0) {
                         if ($cek == 0) {
                         ?>
                           <a href="<?php echo base_url(); ?>penjualan/approvelimitproses3/<?php echo $d['no_pengajuan']; ?>" class="btn btn-green btn-sm"><i class="fa fa-check"></i></a>
-                          <a href="<?php echo base_url(); ?>penjualan/declinelimitproses2/<?php echo $d['no_pengajuan']; ?>" class="btn btn-red btn-sm"><i class="fa fa-close"></i></a>
+                          <a href="<?php echo base_url(); ?>penjualan/declinelimitproses3/<?php echo $d['no_pengajuan']; ?>" class="btn btn-red btn-sm"><i class="fa fa-close"></i></a>
                       <?php }
                       }
                       ?>

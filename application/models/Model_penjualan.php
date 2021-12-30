@@ -5613,6 +5613,90 @@ class Model_penjualan extends CI_Model
     }
   }
 
+
+  function declinelimitproses3($id)
+  {
+    $pengajuan = $this->db->get_where('pengajuan_limitkredit_v3', array('no_pengajuan' => $id))->row_array();
+    $kode_pelanggan = $pengajuan['kode_pelanggan'];
+    $tgl_pengajuan = $pengajuan['tgl_pengajuan'];
+    $id_admin = $this->session->userdata('id_user');
+    $level = $this->session->userdata('level_user');
+
+    $cek_pengajuan = $this->db->query("SELECT * FROM pengajuan_limitkredit_v3 WHERE kode_pelanggan = '$kode_pelanggan' AND tgl_pengajuan < '$tgl_pengajuan' AND status='1' ORDER BY tgl_pengajuan DESC LIMIT 1");
+    $cekpj = $cek_pengajuan->row_array();
+
+    $cek_pengajuanold = $this->db->query("SELECT * FROM pengajuan_limitkredit WHERE kode_pelanggan = '$kode_pelanggan' AND tgl_pengajuan < '$tgl_pengajuan' AND status='1' ORDER BY tgl_pengajuan DESC LIMIT 1");
+    $cekpjold = $cek_pengajuanold->row_array();
+
+    if ($cek_pengajuan->num_rows() != 0) {
+      $jumlah = $cekpj['jumlah'];
+      $jatuhtempo = $cekpj['jatuhtempo'];
+    } else {
+      if ($cek_pengajuanold->num_rows() != 0) {
+        $jumlah = $cekpjold['jumlah'];
+        $jatuhtempo = $cekpjold['jatuhtempo'];
+      } else {
+        $jumlah = 0;
+        $jatuhtempo = 0;
+      }
+    }
+    if (!empty($cekpj['jatuhtempo'])) {
+      $data = [
+        'limitpel' => $jumlah,
+        'jatuhtempo' => $jatuhtempo
+      ];
+    } else {
+      $data = [
+        'limitpel' => $jumlah
+      ];
+    }
+
+    var_dump($data);
+
+    if ($level == 'kepala cabang') {
+      $lv = 'kacab';
+    } else if ($level == 'manager marketing') {
+      $lv = 'mm';
+    } else if ($level == 'general manager') {
+      $lv = 'gm';
+    } else if ($level == 'Administrator') {
+      $lv = 'dirut';
+    }
+    // die;
+    //echo $jumlah;
+    //$updatelimit = $this->db->update('pelanggan',$data,array('kode_pelanggan'=>$kode_pelanggan));
+
+    $datastatus = [
+      'status' => 2,
+      $lv => $id_admin
+    ];
+    $updatestatus = $this->db->update('pengajuan_limitkredit_v3', $datastatus, array('no_pengajuan' => $id));
+    if ($level == "Administrator" && $updatestatus) {
+      $this->db->update('pelanggan', $data, array('kode_pelanggan' => $kode_pelanggan));
+    }
+    echo "statusupdate";
+    if ($updatestatus) {
+      echo "update";
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-green text-white alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Pengajuan Ditolak !
+					</div>'
+      );
+      redirect('penjualan/approvallimitv3');
+    } else {
+      $this->session->set_flashdata(
+        'msg',
+        '<div class="alert bg-red text-white alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<i class="fa fa-check" style="float:left; margin-right:10px"></i> Data Pengajuan Gagal Ditolak !
+					</div>'
+      );
+      redirect('penjualan/approvallimitv3');
+    }
+  }
+
   function getPengajuanLimitkredit($id)
   {
     return $this->db->get_where('pengajuan_limitkredit', array('no_pengajuan' => $id));

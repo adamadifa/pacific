@@ -44,8 +44,12 @@
 
                   <option value="">-- Pilih Tahun -- </option>
                   <?php
+                  if (date("m") == 12) {
+                    $tahunsekarang     = date("Y") + 1;
+                  } else {
+                    $tahunsekarang     = date("Y");
+                  }
                   $tahunmulai        = 2018;
-                  $tahunsekarang     = date("Y");
 
                   for ($tahun = $tahunmulai; $tahun <= $tahunsekarang; $tahun++) {
                   ?>

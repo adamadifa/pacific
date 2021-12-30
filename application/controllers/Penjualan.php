@@ -2634,6 +2634,12 @@ class Penjualan extends CI_Controller
     $id = $this->uri->segment(3);
     $this->Model_penjualan->declinelimitproses2($id);
   }
+
+  function declinelimitproses3()
+  {
+    $id = $this->uri->segment(3);
+    $this->Model_penjualan->declinelimitproses3($id);
+  }
   function penjualanpend($rowno = 0)
   {
     // Search text

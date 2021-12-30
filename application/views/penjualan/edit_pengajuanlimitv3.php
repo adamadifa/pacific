@@ -1,4 +1,3 @@
-V2
 <form autocomplete="off" class="formValidate" id="formValidate" method="POST" action="<?php echo base_url(); ?>penjualan/updatepengajuanlimitv3">
     <input type="hidden" value="<?php echo $pengajuan['no_pengajuan']; ?>" name="nopengajuan">
     <input type="hidden" value="<?php echo $pengajuan['status']; ?>" name="status">

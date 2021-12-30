@@ -18,7 +18,7 @@
     </div>
   </div>
 
-  <div class="form-group">
+  <div class="form-group mb-2">
     <select class="form-select show-tick bank" id="bank2" name="bank2" data-error=".errorTxt1">
       <option value="">BANK</option>
       <?php $no = 1;
@@ -28,7 +28,7 @@
       } ?>
     </select>
   </div>
-  <div class="form-group">
+  <div class="form-group mb-2">
     <select class="form-select bulan" id="bulan2" name="bulan">
       <option value="">Bulan</option>
       <?php for ($a = 1; $a <= 12; $a++) { ?>
@@ -36,10 +36,10 @@
       <?php } ?>
     </select>
   </div>
-  <div class="form-group">
+  <div class="form-group mb-2">
     <select class="form-select tahun" id="tahun2" name="tahun">
       <option value="">Tahun</option>
-      <?php for ($t = 2019; $t <= $tahun; $t++) { ?>
+      <?php for ($t = 2019; $t <= $tahun + 1; $t++) { ?>
         <option value="<?php echo $t;  ?>"><?php echo $t; ?></option>
       <?php } ?>
     </select>
