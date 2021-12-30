@@ -287,6 +287,12 @@
                       <?php } ?>
                     </select>
                   </div>
+                  <div class="row sm mb-3">
+                    <select class="form-select" name="statusdppp" id="statusdppp">
+                      <option value="2">Berdasarkan Tunai Kredit / Omset</option>
+                      <option value="1">Berdasarkan Selling Out</option>
+                    </select>
+                  </div>
                   <div class="row">
                     <div class="col-md-12">
                       <a href="#" id="tampilkandppp" class="btn btn-primary"><i class="fa fa-eye"></i></a>
@@ -340,6 +346,9 @@
 <script>
   $(function() {
     var loading = $('#modal-large').modal("hide");
+
+
+
     $(document)
       .ajaxStart(function() {
         loading.modal("show");
@@ -408,6 +417,8 @@
       var cabang = $("#cabangdppp").val();
       var bulan = $("#bulandppp").val();
       var tahun = $("#tahundppp").val();
+      var status = $("#statusdppp").val();
+      //alert(status);
 
       $.ajax({
         type: 'POST',
@@ -415,7 +426,8 @@
         data: {
           bulan: bulan,
           tahun: tahun,
-          cabang: cabang
+          cabang: cabang,
+          status: status
         },
         cache: false,
         success: function(respond) {
