@@ -83,12 +83,12 @@
 		<td><?php echo $faktur['nama_pelanggan']; ?></td>
 	</tr>
 	<tr>
-		<td></td>
-		<td></td>
-		<td></td>
+		<td>Jenis Transaksi</td>
+		<td>:</td>
+		<td><?php echo strtoupper($faktur['jenistransaksi']); ?></td>
 		<td>Alamat</td>
 		<td>:</td>
-		<td><?php echo $faktur['alamat_pelanggan']; ?></td>
+		<td><?php echo $faktur['alamat_toko']; ?></td>
 	</tr>
 
 	<tr>

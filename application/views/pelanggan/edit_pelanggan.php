@@ -19,7 +19,7 @@
         </div>
         <div class="card-body">
           <form autocomplete="off" class="pelangganForm" method="POST" enctype="multipart/form-data" action="<?php echo base_url(); ?>pelanggan/edit_pelanggan">
-            <div class="row">
+            <div class="row mb-2">
               <div class="col-md-12">
                 <label class="form-label">Kode Pelanggan</label>
                 <div class="form-group">
@@ -28,21 +28,21 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row mb-2">
               <div class="col-md-6">
                 <div class="form-group">
                   <label class="form-label">NIK</label>
                   <input type="text" id="nik" value="<?php echo $pel['nik']; ?>" name="nik" class="form-control" placeholder="NIK">
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-6 ">
                 <label class="form-label">NO Kartu Keluarga</label>
                 <div class="form-group">
                   <input type="text" id="nokk" value="<?php echo $pel['no_kk']; ?>" name="nokk" class="form-control" placeholder="NO Kartu Keluarga">
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row mb-2">
               <div class="col-md-12">
                 <label class="form-label">Nama Pelanggan</label>
                 <div class="form-group">
@@ -50,7 +50,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row mb-2">
               <div class="col-md-12">
                 <label class="form-label">Tanggal Lahir</label>
                 <div class="input-icon">
@@ -68,7 +68,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row mb-2">
               <div class="col-md-12">
                 <label class="form-label">Alamat</label>
                 <div class="form-group">
@@ -76,7 +76,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row mb-2">
               <div class="col-md-6">
                 <label class="form-label">Kelurahan</label>
                 <div class="form-group">
@@ -90,7 +90,15 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row mb-2">
+              <div class="col-md-12">
+                <label class="form-label">Alamat Toko / Pengiriman</label>
+                <div class="form-group">
+                  <input type="text" value="<?php echo $pel['alamat_toko']; ?>" id="alamat_toko" name="alamat_toko" class="form-control" placeholder="Alamat Toko">
+                </div>
+              </div>
+            </div>
+            <div class="row mb-2">
               <div class="col-md-12">
                 <label class="form-label">No HP</label>
                 <div class="form-group">
@@ -98,14 +106,14 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row mb-2">
               <div class="col-md-6">
                 <label class="form-label">Pasar</label>
                 <div class="form-group">
                   <input type="text" value="<?php echo $pel['pasar']; ?>" id="pasar" name="pasar" class="form-control" placeholder="Pasar">
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-6 mb-2">
                 <label class="form-label">Hari</label>
                 <div class="form-group">
                   <select id="hari" name="hari" class="form-select">
@@ -135,7 +143,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row mb-2">
               <div class="col-md-12">
                 <label class="form-label">Cabang</label>
                 <div class="form-group">
@@ -150,7 +158,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row mb-2">
               <div class="col-md-12">
                 <label class="form-label">Salesman</label>
                 <div class="form-group">
@@ -165,7 +173,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row mb-2">
               <div class="col-md-12">
                 <label class="form-label">Status Kepemilikan</label>
                 <div class="form-group">
@@ -181,7 +189,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row mb-2">
               <div class="col-md-12">
                 <label class="form-label">Lama Berjualan</label>
                 <div class="form-group">
@@ -200,7 +208,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row mb-2">
               <div class="col-md-12">
                 <label class="form-label">Limit Pelanggan</label>
                 <div class="form-group">
@@ -208,20 +216,26 @@
                 </div>
               </div>
             </div>
-			<div class="row">
+            <div class="row mb-2">
               <div class="col-md-12">
                 <label class="form-label">Jatuh Tempo</label>
                 <div class="form-group">
                   <select name="jatuhtempo" class="form-select">
-				  <option value="">Jatuh  Tempo</option>
-				  <option value="14" <?php if($pel['jatuhtempo']==14){echo "selected";} ?>>14</option>
-				  <option value="30" <?php if($pel['jatuhtempo']==30){echo "selected";} ?>>30</option>
-				  <option value="45" <?php if($pel['jatuhtempo']==45){echo "selected";} ?>>45</option>
-				  </select>
+                    <option value="">Jatuh Tempo</option>
+                    <option value="14" <?php if ($pel['jatuhtempo'] == 14) {
+                                          echo "selected";
+                                        } ?>>14</option>
+                    <option value="30" <?php if ($pel['jatuhtempo'] == 30) {
+                                          echo "selected";
+                                        } ?>>30</option>
+                    <option value="45" <?php if ($pel['jatuhtempo'] == 45) {
+                                          echo "selected";
+                                        } ?>>45</option>
+                  </select>
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row mb-2">
               <div class="col-md-6">
                 <label class="form-label">Latitude</label>
                 <div class="form-group">
@@ -248,7 +262,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row mb-2">
               <div class="col-md-12">
                 <label class="form-label">Status</label>
                 <div class="form-group">

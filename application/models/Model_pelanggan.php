@@ -200,6 +200,7 @@ class Model_pelanggan extends CI_Model
     $nama_pelanggan = $this->input->post('nama_pelanggan');
     $tgllahir       = $this->input->post('tgllahir');
     $alamat         = $this->input->post('alamat');
+    $alamat_toko         = $this->input->post('alamat_toko');
     $nohp           = $this->input->post('nohp');
     $pasar           = $this->input->post('pasar');
     $hari           = $this->input->post('hari');
@@ -236,7 +237,8 @@ class Model_pelanggan extends CI_Model
       'longitude'          => $longitude,
       'foto'              => $foto,
       'status_pelanggan' => $status_pelanggan,
-      'jatuhtempo' => $jatuhtempo
+      'jatuhtempo' => $jatuhtempo,
+      'alamat_toko' => $alamat_toko
     );
     $this->db->update('pelanggan', $data, array('kode_pelanggan' => $kode_pelanggan));
   }

@@ -2029,6 +2029,8 @@ GROUP BY
 					SUM( IF ( kode_produk = 'SP',detailretur.subtotal, NULL ) ) AS SP,
 					SUM( IF ( kode_produk = 'SPP',detailretur.jumlah/isipcsdus, NULL ) ) AS JML_SPP,
 					SUM( IF ( kode_produk = 'SPP',detailretur.subtotal, NULL ) ) AS SPP,
+					SUM( IF ( kode_produk = 'SP8',detailretur.jumlah/isipcsdus, NULL ) ) AS JML_SP8,
+					SUM( IF ( kode_produk = 'SP8',detailretur.subtotal, NULL ) ) AS SP8,
 					SUM(detailretur.subtotal) as totalretur,
 					total_gb
 					FROM detailretur
