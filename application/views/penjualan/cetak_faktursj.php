@@ -55,14 +55,15 @@
 			</table>
 		</td>
 		<td colspan="6" align="left">
-			<b>CV PACIFIC</b><br>
+
 			<b>
 
 				<?php
 				$query = "SELECT * FROM cabang WHERE kode_cabang ='$faktur[kode_cabang]'";
 				$cabang = $this->db->query($query)->row_array();
-				echo $cabang['alamat_cabang'];
 				?>
+				<b>CV PACIFIC CABANG <?php echo strtoupper($cabang['nama_cabang']); ?></b><br>
+				<b><?php echo $cabang['alamat_cabang']; ?></b>
 			</b>
 
 		</td>
