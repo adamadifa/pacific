@@ -956,7 +956,9 @@ class Model_komisi extends CI_Model
 
   function generatetargetcashin($kode_target)
   {
-    if (date("Y-m-d") > '2021-12-31') {
+    $cektarget = $this->db->query("SELECT * FROM komisi_target WHERE kode_target ='$kode_target'")->row_array();
+    $tanggal = $cektarget['tahun'] . "-" . $cektarget['bulan'] . "-01";
+    if ($tanggal > '2021-12-31') {
       $query = "SELECT targetdetail.kode_target,targetdetail.id_karyawan,ROUND(SUM((jumlah_target*harga_dus) - ((jumlah_target*harga_dus) * 0.025))) as targetcashin
       FROM komisi_target_qty_detail targetdetail
       INNER JOIN karyawan k ON targetdetail.id_karyawan = k.id_karyawan
