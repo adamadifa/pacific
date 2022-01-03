@@ -701,6 +701,7 @@ class Kaskecil extends CI_Controller
 
   function terimakaskecil()
   {
+
     $cabang         = $this->session->userdata('cabang');
     if ($cabang  == "pusat") {
       $cabang   = 'PST';
@@ -745,6 +746,7 @@ class Kaskecil extends CI_Controller
         'order'           => 1
       );
       $cek = $this->db->get_where('kaskecil_detail', array('nobukti' => $no_bukti))->num_rows();
+      var_dump($cek);
       if (empty($cek)) {
         $simpan = $this->db->insert('kaskecil_detail', $data);
         if ($simpan) {
