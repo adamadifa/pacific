@@ -177,4 +177,28 @@ class Barang extends CI_Controller
 		$data['barang'] = $this->Model_barang->view_barangcab($kodecabang)->result();
 		$this->load->view('repackreject/view_barangcab_gj', $data);
 	}
+
+	function updatebarang()
+	{
+		$simpan = $this->Model_barang->update_barang();
+		if ($simpan) {
+			$this->session->set_flashdata(
+				'msg',
+				'<div class="alert bg-green alert-dismissible" role="alert">
+	              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                 <i class="material-icons" style="float:left; margin-right:10px">check</i> Data Berhasil Di Simpan !
+	          </div>'
+			);
+			redirect('barang/view_barang');
+		} else {
+			$this->session->set_flashdata(
+				'msg',
+				'<div class="alert bg-red alert-dismissible" role="alert">
+	              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                 <i class="material-icons" style="float:left; margin-right:10px">check</i> Data Gagal Di Simpan !
+	          </div>'
+			);
+			redirect('barang/view_barang');
+		}
+	}
 }

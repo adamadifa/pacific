@@ -24,7 +24,6 @@
                 <div class="form-line">
                   <select class="form-control" id="cabang" name="cabang" data-error=".errorTxt13">
                     <option value="">-- Pilih Cabang -- </option>
-
                     <?php foreach ($cab as $c) { ?>
                       <option <?php if ($cabang == $c->kode_cabang) {
                                 echo "selected";
@@ -77,10 +76,11 @@
                   <th>Harga/Dus</th>
                   <th>Harga/Pack</th>
                   <th>Harga/Pcs</th>
+                  <th>Retur/Dus</th>
+                  <th>Retur/Pack</th>
+                  <th>Retur/Pcs</th>
                   <th>Kategori Harga</th>
-                  <?php if ($leveluser == "Administrator") { ?>
-                    <th>Aksi</th>
-                  <?php } ?>
+                  <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
@@ -97,11 +97,18 @@
                     <td align="right"><?php echo number_format($d['harga_dus'], '0', '', '.'); ?></td>
                     <td align="right"><?php echo number_format($d['harga_pack'], '0', '', '.'); ?></td>
                     <td align="right"><?php echo number_format($d['harga_pcs'], '0', '', '.'); ?></td>
+                    <td align="right"><?php echo number_format($d['harga_returdus'], '0', '', '.'); ?></td>
+                    <td align="right"><?php echo number_format($d['harga_returpack'], '0', '', '.'); ?></td>
+                    <td align="right"><?php echo number_format($d['harga_returpcs'], '0', '', '.'); ?></td>
                     <td align="right"><?php echo $d['kategori_harga']; ?></td>
                     <?php if ($leveluser == "Administrator") { ?>
                       <td>
                         <a href="#" data-id="<?php echo $d['kode_barang']; ?>" class="btn btn-warning  btn-sm waves-effect edit">Edit</a>
                         <a href="#" class="btn btn-danger btn-sm waves-effect" data-target="#konfirmasi_hapus" data-toggle="modal" data-href="<?php echo base_url("barang/hapus/" . $d['kode_barang']); ?>">Hapus</a>
+                      </td>
+                    <?php } else { ?>
+                      <td>
+                        <a href="#" data-id="<?php echo $d['kode_barang']; ?>" class="btn btn-warning  btn-sm waves-effect edit">Edit</a>
                       </td>
                     <?php } ?>
                   </tr>
@@ -125,7 +132,7 @@
         <h5 class="modal-title">Detail</h5>
       </div>
       <div class="modal-body">
-        <div class="modal-content"></div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-white mr-auto" data-dismiss="modal">Close</button>
@@ -160,7 +167,7 @@
     $(".edit").click(function() {
       $id = $(this).attr('data-id');
       $("#inputbarang").modal("show");
-      $(".modal-content").load("<?php echo base_url(); ?>barang/edit_barang/" + $id);
+      $(".modal-body").load("<?php echo base_url(); ?>barang/edit_barang/" + $id);
     });
 
     $(".detailbrg").click(function() {

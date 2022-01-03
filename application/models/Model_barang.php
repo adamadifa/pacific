@@ -137,6 +137,33 @@ class Model_barang extends CI_Model
 	}
 
 
+	function update_barang()
+	{
+
+		$kodebarang 	= $this->input->post('kodebarang');
+		$namabarang 	= $this->input->post('namabarang');
+		$hargadus 		= $this->input->post('hargadus');
+		$hargapack 		= $this->input->post('hargapack');
+		$hargapcs 		= $this->input->post('hargapcs');
+		$hargareturdus 	= $this->input->post('hargareturdus');
+		$hargareturpack = $this->input->post('hargareturpack');
+		$hargareturpcs  = $this->input->post('hargareturpcs');
+
+
+		$data 			= array(
+			'harga_dus'   		=> $hargadus,
+			'harga_pack'  		=> $hargapack,
+			'harga_pcs'  		=> $hargapcs,
+			'harga_returdus'	=> $hargareturdus,
+			'harga_returpack' 	=> $hargareturpack,
+			'harga_returpcs' 	=> $hargareturpcs
+		);
+
+		return $this->db->update('barang', $data, array('kode_barang' => $kodebarang));
+	}
+
+
+
 	function hapus($id)
 	{
 		$this->db->delete('barang', array('kode_barang' => $id));
