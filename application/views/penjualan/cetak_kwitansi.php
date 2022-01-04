@@ -87,7 +87,12 @@
 		<td><?php echo strtoupper($faktur['jenistransaksi']); ?></td>
 		<td>Alamat</td>
 		<td>:</td>
-		<td><?php echo $faktur['alamat_toko']; ?></td>
+		<td>
+			<?php if (!empty($faktur['alamat_toko'])) {
+				echo $faktur['alamat_toko'];
+			} else {
+				echo $faktur['alamat_pelanggan'];
+			} ?></td>
 	</tr>
 
 	<tr>
@@ -226,7 +231,12 @@
 			<td><?php echo strtoupper($faktur['jenistransaksi']); ?></td>
 			<td>Alamat</td>
 			<td>:</td>
-			<td><?php echo $faktur['alamat_toko']; ?></td>
+			<td>
+				<?php if (!empty($faktur['alamat_toko'])) {
+					echo $faktur['alamat_toko'];
+				} else {
+					echo $faktur['alamat_pelanggan'];
+				} ?></td>
 		</tr>
 
 		<tr>
