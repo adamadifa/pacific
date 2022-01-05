@@ -650,7 +650,7 @@ class Model_pembayaran extends CI_Model
     $no_bukti       = buatkode($nobuktilast, 'LR' . $cabang . $tahun, 4);
 
     if ($bln < 10) {
-      $bln = "0" . $bln;
+      $bln = $bln;
     } else {
       $bln = $bln;
     }
@@ -658,6 +658,8 @@ class Model_pembayaran extends CI_Model
     $qbukubesar     = "SELECT no_bukti FROM buku_besar WHERE LEFT(no_bukti,6) = 'GJ$bln$tahun' ORDER BY no_bukti DESC LIMIT 1 ";
     $ceknolast      = $this->db->query($qbukubesar)->row_array();
     $nobuktilast    = $ceknolast['no_bukti'];
+
+
     $no_bukubesar   = buatkode($nobuktilast, 'GJ' . $bln . $tahun, 4);
 
     //getGiro
@@ -923,11 +925,7 @@ class Model_pembayaran extends CI_Model
     $nobuktilast    = $ceknolast['no_bukti'];
     $no_bukti       = buatkode($nobuktilast, 'LR' . $cabang . $tahun, 4);
 
-    if ($bln < 10) {
-      $bln = "0" . $bln;
-    } else {
-      $bln = $bln;
-    }
+
 
     $qbukubesar     = "SELECT no_bukti FROM buku_besar WHERE LEFT(no_bukti,6) = 'GJ$bln$tahun' ORDER BY no_bukti DESC LIMIT 1 ";
     $ceknolast      = $this->db->query($qbukubesar)->row_array();

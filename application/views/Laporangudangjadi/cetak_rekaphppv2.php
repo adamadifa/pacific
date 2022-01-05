@@ -152,7 +152,25 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
             <tbody style="font-size:12px;">
                 <?php
                 $no = 1;
+                $totalsaldoawal = 0;
+                $totalproduksi = 0;
+                $totalpusat = 0;
+                $totalrepack = 0;
+                $totaltransit_in = 0;
+                $totalretur = 0;
+                $totalpenyesuaian_in = 0;
+                $totallainlain_in = 0;
+                $totalkirimcabang = 0;
+                $totalpenjualan = 0;
+                $totalpromosi = 0;
+                $totalrejectpasar = 0;
+                $totalrejectmobil = 0;
+                $totalrejectgudang = 0;
+                $totaltransit_out = 0;
+                $totalpenyesuaian_out = 0;
+                $totallainlain_out = 0;
                 $totalsaldoakhir = 0;
+
                 foreach ($rekaphpp as $d) {
 
                 ?>
@@ -514,13 +532,132 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
                         </td>
                     </tr>
                 <?php
+                    $totalsaldoawal += $jmlsaldoawal;
+                    $totalproduksi += $jmlproduksi;
+                    $totalpusat += $jmlpusat;
+                    $totalrepack += $jmlrepack;
+                    $totaltransit_in += $jmltransit_in;
+                    $totalretur += $jmlretur;
+                    $totalpenyesuaian_in += $jmlpenyesuaian_in;
+                    $totallainlain_in += $jmllainlain_in;
+                    $totalkirimcabang += $jmlkirimcabang;
+                    $totalpenjualan += $jmlpenjualan;
+                    $totalpromosi += $jmlpromosi;
+                    $totalrejectpasar += $jmlrejectpasar;
+                    $totalrejectmobil += $jmlrejectmobil;
+                    $totalrejectgudang += $jmlreject;
+                    $totaltransit_out += $jmltransit_out;
+                    $totalpenyesuaian_out = $jmlpenyesuaian_out;
+                    $totallainlain_out += $jmllainlain_out;
                     $totalsaldoakhir += $jmlsaldokahir;
                     $no++;
                 }
                 ?>
                 <tr>
                     <td class="fixed-side">TOTAL</td>
-                    <td colspan="54"></td>
+                    <td colspan="3"></td>
+                    <td align="right" style="font-weight: bold;">
+                        <?php
+                        echo number_format($totalsaldoawal, '2', ',', '.');
+                        ?>
+                    </td>
+                    <td colspan="2"></td>
+                    <td align="right" style="font-weight: bold;">
+                        <?php
+                        echo number_format($totalproduksi, '2', ',', '.');
+                        ?>
+                    </td>
+                    <td colspan="2"></td>
+                    <td align="right" style="font-weight: bold;">
+                        <?php
+                        echo number_format($totalpusat, '2', ',', '.');
+                        ?>
+                    </td>
+                    <td colspan="2"></td>
+                    <td align="right" style="font-weight: bold;">
+                        <?php
+                        echo number_format($totalrepack, '2', ',', '.');
+                        ?>
+                    </td>
+                    <td colspan="2"></td>
+                    <td align="right" style="font-weight: bold;">
+                        <?php
+                        echo number_format($totaltransit_in, '2', ',', '.');
+                        ?>
+                    </td>
+                    <td colspan="2"></td>
+                    <td align="right" style="font-weight: bold;">
+                        <?php
+                        echo number_format($totalretur, '2', ',', '.');
+                        ?>
+                    </td>
+                    <td colspan="2"></td>
+                    <td align="right" style="font-weight: bold;">
+                        <?php
+                        echo number_format($totalpenyesuaian_in, '2', ',', '.');
+                        ?>
+                    </td>
+                    <td colspan="2"></td>
+                    <td align="right" style="font-weight: bold;">
+                        <?php
+                        echo number_format($totallainlain_in, '2', ',', '.');
+                        ?>
+                    </td>
+                    <td colspan="2"></td>
+                    <td align="right" style="font-weight: bold;">
+                        <?php
+                        echo number_format($totalkirimcabang, '2', ',', '.');
+                        ?>
+                    </td>
+                    <td colspan="2"></td>
+                    <td align="right" style="font-weight: bold;">
+                        <?php
+                        echo number_format($totalpenjualan, '2', ',', '.');
+                        ?>
+                    </td>
+                    <td colspan="2"></td>
+                    <td align="right" style="font-weight: bold;">
+                        <?php
+                        echo number_format($totalpromosi, '2', ',', '.');
+                        ?>
+                    </td>
+                    <td colspan="2"></td>
+                    <td align="right" style="font-weight: bold;">
+                        <?php
+                        echo number_format($totalrejectpasar, '2', ',', '.');
+                        ?>
+                    </td>
+                    <td colspan="2"></td>
+                    <td align="right" style="font-weight: bold;">
+                        <?php
+                        echo number_format($totalrejectmobil, '2', ',', '.');
+                        ?>
+                    </td>
+                    <td colspan="2"></td>
+                    <td align="right" style="font-weight: bold;">
+                        <?php
+                        echo number_format($totalrejectgudang, '2', ',', '.');
+                        ?>
+                    </td>
+                    <td colspan="2"></td>
+                    <td align="right" style="font-weight: bold;">
+                        <?php
+                        echo number_format($totaltransit_out, '2', ',', '.');
+                        ?>
+                    </td>
+                    <td colspan="2"></td>
+                    <td align="right" style="font-weight: bold;">
+                        <?php
+                        echo number_format($totalpenyesuaian_out, '2', ',', '.');
+                        ?>
+                    </td>
+                    <td colspan="2"></td>
+                    <td align="right" style="font-weight: bold;">
+                        <?php
+                        echo number_format($totallainlain_out, '2', ',', '.');
+                        ?>
+                    </td>
+                    <td colspan="2"></td>
                     <td align="right" style="font-weight: bold;">
                         <?php
                         echo number_format($totalsaldoakhir, '2', ',', '.');

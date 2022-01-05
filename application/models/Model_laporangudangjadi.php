@@ -1249,26 +1249,26 @@ class Model_laporangudangjadi extends CI_Model
 		round(harga_hpp) as harga_hpp,
 		IFNULL(IFNULL(ROUND(harga_hpp),ROUND(harga_awal)),0) as harga_penerimaan,
 		isipcsdus,
-		round(saldoawal_cabang/isipcsdus,2) + saldo_gudang as saldoawal,
+		IFNULL(round(saldoawal_cabang/isipcsdus,2),0) + IFNULL(saldo_gudang,0) as saldoawal,
 		produksi,
-		repack_gudang + round(repackcabang/isipcsdus,2) as repack,
-		lainlain_in + round(lainlaincabang_in/isipcsdus,2) as lainlain_in,
-		kirimcabang,
-		reject_gudang + round(reject_gudang_cabang/isipcsdus,2) as reject,
-		lainlain_out + round(lainlaincabang_out/isipcsdus,2) as lainlain_out ,
-		round(pusat/isipcsdus,2) as pusat,
-		round(transit_in/isipcsdus,2) as transit_in,
-		round(retur/isipcsdus,2) as retur,
-		round(penyesuaian_in/isipcsdus,2) as penyesuaian_in,
-		round(penjualan/isipcsdus,2) as penjualan,
-		round(promosi/isipcsdus,2) as promosi,
-		round(reject_pasar/isipcsdus,2) as reject_pasar,
-		round(reject_mobil/isipcsdus,2) as reject_mobil,
-		round(transit_out/isipcsdus,2) as transit_out,
-		round(penyesuaian_out/isipcsdus,2) as penyesuaian_out,
-		(saldo_gudang + (produksi + repack_gudang + lainlain_in) - (kirimcabang + reject_gudang + lainlain_out)) +
-(ROUND(((saldoawal_cabang + pusat + transit_in  + retur + lainlaincabang_in + repackcabang + penyesuaian_in) 
-- (penjualan + promosi + reject_pasar + reject_mobil + reject_gudang_cabang + transit_out + lainlaincabang_out + penyesuaian_out)) / isipcsdus,2)) as saldoakhir
+		IFNULL(repack_gudang,0) + IFNULL(round(repackcabang/isipcsdus,2),0) as repack,
+		IFNULL(lainlain_in,0) + IFNULL(round(lainlaincabang_in/isipcsdus,2),0) as lainlain_in,
+		IFNULL(kirimcabang,0) as kirimcabang,
+		IFNULL(reject_gudang,0) + IFNULL(round(reject_gudang_cabang/isipcsdus,2),0) as reject,
+		IFNULL(lainlain_out,0) + IFNULL(round(lainlaincabang_out/isipcsdus,2),0) as lainlain_out ,
+		IFNULL(round(pusat/isipcsdus,2),0) as pusat,
+		IFNULL(round(transit_in/isipcsdus,2),0) as transit_in,
+		IFNULL(round(retur/isipcsdus,2),0) as retur,
+		IFNULL(round(penyesuaian_in/isipcsdus,2),0) as penyesuaian_in,
+		IFNULL(round(penjualan/isipcsdus,2),0) as penjualan,
+		IFNULL(round(promosi/isipcsdus,2),0) as promosi,
+		IFNULL(round(reject_pasar/isipcsdus,2),0) as reject_pasar,
+		IFNULL(round(reject_mobil/isipcsdus,2),0) as reject_mobil,
+		IFNULL(round(transit_out/isipcsdus,2),0) as transit_out,
+		IFNULL(round(penyesuaian_out/isipcsdus,2),0) as penyesuaian_out,
+		(IFNULL(saldo_gudang,0) + (IFNULL(produksi,0) + IFNULL(repack_gudang,0) + IFNULL(lainlain_in,0)) - (IFNULL(kirimcabang,0) + IFNULL(reject_gudang,0) + IFNULL(lainlain_out,0))) +
+(ROUND(((IFNULL(saldoawal_cabang,0) + IFNULL(pusat,0) + IFNULL(transit_in,0)  + IFNULL(retur,0) + IFNULL(lainlaincabang_in,0) + IFNULL(repackcabang,0) + IFNULL(penyesuaian_in,0)) 
+- (IFNULL(penjualan,0) + IFNULL(promosi,0) + IFNULL(reject_pasar,0) + IFNULL(reject_mobil,0) + IFNULL(reject_gudang_cabang,0) + IFNULL(transit_out,0) + IFNULL(lainlaincabang_out,0) + IFNULL(penyesuaian_out,0))) / isipcsdus,2)) as saldoakhir
 		
 		FROM master_barang mb
 		LEFT JOIN (

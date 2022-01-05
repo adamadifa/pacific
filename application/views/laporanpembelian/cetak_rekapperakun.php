@@ -88,7 +88,7 @@ function angka($nilai)
     $no            = 1;
     foreach ($data as $key => $s) {
 
-      if($s->kode_akun != '1-1503' AND $s->kode_akun != '5-1102' AND substr($dari,5,2) == '11' AND substr($dari,0,4) == '2021'){
+      
         if ($s->status == 'PNJ') {
           $debets      = $s->pmb - $s->pnj + $s->jurnaldebet;
           $kredits     = $s->jurnalkredit;
@@ -98,7 +98,7 @@ function angka($nilai)
         }
         $totaldebets += $debets;
         $totalkredits += $kredits;
-      }
+      
      
     ?>
       <tr style="background-color:<?php echo $bgcolor; ?>">
