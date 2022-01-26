@@ -169,7 +169,8 @@ class Model_keuangan extends CI_Model
         $thn = substr($tahun, 2, 2);
         $awal = $tahun . "-" . $bulan . "-01";
         $akhir = $tahun . "-" . $bulan . "-31";
-        $qcr = "SELECT kode_cr FROM costratio_biaya WHERE tgl_transaksi BETWEEN '$awal' AND '$akhir' ORDER BY kode_cr DESC LIMIT 1 ";
+        $kode = "CR" . $bulan . $thn;
+        $qcr = "SELECT kode_cr FROM costratio_biaya WHERE LEFT(kode_cr,6) ='$kode' ORDER BY kode_cr DESC LIMIT 1 ";
         $ceknolast = $this->db->query($qcr)->row_array();
         $nobuktilast = $ceknolast['kode_cr'];
         $kodecr = buatkode($nobuktilast, "CR" . $bulan . $thn, 4);
@@ -619,8 +620,9 @@ class Model_keuangan extends CI_Model
     $tanggal    = explode("-", $tgl);
     $tahun      = substr($tanggal[0], 2, 2);
     $bulan      = $tanggal[1];
+
     if ($bulan < 10) {
-      $bulan = "0" . $bulan;
+      $bulan = $bulan;
     } else {
       $bulan = $bulan;
     }
@@ -749,7 +751,7 @@ class Model_keuangan extends CI_Model
         $tahun      = substr($tanggal[0], 2, 2);
         $bulan      = $tanggal[1];
         if ($bulan < 10) {
-          $bulan = "0" . $bulan;
+          $bulan = $bulan;
         } else {
           $bulan = $bulan;
         }

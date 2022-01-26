@@ -131,9 +131,9 @@ $level = $this->session->userdata('level_user');
                   <th>Ket</th>
                   <!-- <th>Status</th>
                       <th>Ket</th> -->
-                  <th>Kacab</th>
-                  <th>MM</th>
-                  <th>EM</th>
+                  <th>KP</th>
+                  <th>RSM</th>
+                  <th>GM</th>
                   <th>Dirut</th>
                   <th>Aksi</th>
                 </tr>

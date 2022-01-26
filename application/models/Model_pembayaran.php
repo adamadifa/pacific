@@ -1614,7 +1614,7 @@ class Model_pembayaran extends CI_Model
     cabangbarunew as kode_cabang,
     salesbarunew,
 	status_lunas,
-    nama_sales as nama_karyawan,
+    karyawan.nama_karyawan as nama_karyawan,
     ifnull( penjualan.total, 0 ) AS total
   FROM
     penjualan
@@ -1633,6 +1633,8 @@ class Model_pembayaran extends CI_Model
           ) move_fak ON (pj.no_fak_penj = move_fak.no_fak_penj)
           
       ) pjmove ON (penjualan.no_fak_penj = pjmove.no_fak_penj)
+
+    LEFT JOIN karyawan  ON pjmove.salesbarunew = karyawan.id_karyawan
       
    
   WHERE

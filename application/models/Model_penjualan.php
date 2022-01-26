@@ -2993,7 +2993,7 @@ class Model_penjualan extends CI_Model
     $tahun      = substr($tanggal[0], 2, 2);
     $bulan      = $tanggal[1];
     if ($bulan < 10) {
-      $bulan = "0" . $bulan;
+      $bulan = $bulan;
     } else {
       $bulan = $bulan;
     }

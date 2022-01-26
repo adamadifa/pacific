@@ -37,7 +37,7 @@
                                         <?php } ?>
                                     </select>
                                 </div>
-                                <!-- <div class="form-group mb-3">
+                                <div class="form-group mb-3">
                                     <select class="form-select" id="lokasi" name="lokasi">
                                         <option value="">Pilih Lokasi</option>
                                         <option value="PRD">Produksi</option>
@@ -47,8 +47,8 @@
                                         <?php } ?>
 
                                     </select>
-                                </div> -->
-                                <input type="hidden" name="lokasi" id="lokasi" value="MST">
+                                </div>
+                                <!-- <input type="hidden" name="lokasi" id="lokasi" value="MST"> -->
                             </form>
 
                             <div class="table-responsive mt-3">

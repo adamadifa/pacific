@@ -82,7 +82,7 @@ function uang($nilai)
                   <th>Kode Cabang</th>
                   <th>Jenis Transaksi</th>
                   <th>Total</th>
-                 
+
                   <th>Ket</th>
                   <th>Aksi</th>
                 </tr>
@@ -120,7 +120,7 @@ function uang($nilai)
                       <td><?php echo $d['kode_cabang']; ?></td>
                       <td><?php echo strtoupper($d['jenistransaksi']); ?></td>
                       <td align="right"><?php echo uang($d['total']); ?></td>
-                      
+
                       <td>
                         <span class="badge <?php echo $color ?>"><?php echo $ket; ?></span></>
                       </td>

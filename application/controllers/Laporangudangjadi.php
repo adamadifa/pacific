@@ -468,4 +468,12 @@ class Laporangudangjadi extends CI_Controller
 		}
 		$this->load->view('Laporangudangjadi/cetak_konsolidasibj', $data);
 	}
+
+
+	function cekdpb()
+	{
+		$hariini = date("Y-m-d");
+		$query = $this->db->query("SELECT kode_cabang FROM cabang WHERE kode_cabang NOT IN (SELECT kode_cabang FROM dpb WHERE tgl_pengambilan ='$hariini')")->result();
+		echo json_encode($query);
+	}
 }

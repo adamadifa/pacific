@@ -33,7 +33,7 @@
         <td><?php echo $d->kode_barang; ?></td>
         <td><?php echo $d->nama_barang; ?></td>
         <td><?php echo $d->keterangan; ?></td>
-        <td><?php echo number_format($d->qty_unit); ?></td>
+        <td><?php echo number_format($d->qty_unit, 2); ?></td>
         <td><?php echo number_format($d->qty_berat, 2); ?></td>
         <td><?php echo number_format($d->qty_lebih, 2); ?></td>
       </tr>

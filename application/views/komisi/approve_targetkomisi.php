@@ -65,8 +65,8 @@
                         <th>Bulan</th>
                         <th>Tahun</th>
                         <th>KP</th>
-                        <th>MM</th>
-                        <th>EM</th>
+                        <th>RSM</th>
+                        <th>GM</th>
                         <th>Direktur</th>
                         <th>Aksi</th>
                       </tr>
