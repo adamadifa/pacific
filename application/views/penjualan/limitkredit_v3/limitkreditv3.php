@@ -112,8 +112,8 @@
                   <!-- <th>Status</th>
                     <th>Ket</th> -->
                   <th>KP</th>
-                  <th>MM</th>
-                  <th>EM</th>
+                  <th>RSM</th>
+                  <th>GM</th>
                   <th>Dirut</th>
                   <th>Aksi</th>
                 </tr>

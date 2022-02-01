@@ -14,6 +14,8 @@ if ($bln == 9 and $tahun = "2021") {
   $persentaseljt = 65;
 } else if ($bln >= 12 and $tahun = "2021") {
   $persentaseljt = 70;
+} else if ($bln >= 1 and $tahun = "2022") {
+  $persentaseljt = 75;
 } else if ($bln <= 8 and $tahun = "2021") {
   $persentaseljt = 50;
 }

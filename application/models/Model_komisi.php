@@ -521,7 +521,7 @@ class Model_komisi extends CI_Model
               LEFT JOIN ( SELECT id_giro FROM historibayar GROUP BY id_giro ) AS hb ON giro.id_giro = hb.id_giro 
             WHERE
               MONTH ( tgl_giro ) = '$bulanlast' 
-              AND YEAR ( tgl_giro ) = '$tahun' 
+              AND YEAR ( tgl_giro ) = '$tahunlast' 
               AND omset_tahun = '$tahun' 
               AND omset_bulan = '$bulan' 
               OR  MONTH ( tgl_giro ) = '$blnlast1' 
@@ -1122,7 +1122,7 @@ class Model_komisi extends CI_Model
       LEFT JOIN ( SELECT id_giro FROM historibayar GROUP BY id_giro ) AS hb ON giro.id_giro = hb.id_giro
       WHERE
       MONTH ( tgl_giro ) = '$bulanlast'
-      AND YEAR ( tgl_giro ) = '$tahun'
+      AND YEAR ( tgl_giro ) = '$tahunlast'
       AND omset_tahun = '$tahun'
       AND omset_bulan = '$bulan'
       OR MONTH ( tgl_giro ) = '$blnlast1'
