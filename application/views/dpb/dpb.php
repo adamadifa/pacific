@@ -27,7 +27,7 @@
                   <input type="text" value="<?php echo $tgl_pengambilan; ?>" id="tgl_pengambilan" name="tgl_pengambilan" class="datepicker form-control date" placeholder="Tanggal" data-error=".errorTxt19" />
                 </div>
               </div>
-              <?php if ($cb == 'pusat') { ?>
+              <?php if ($cb == 'pusat' or $cb == 'TSM') { ?>
                 <div class="form-group mb-3">
                   <select class="form-select" id="cabang" name="cabang">
                     <option value="">Pilih Cabang</option>

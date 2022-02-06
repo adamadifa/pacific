@@ -21,7 +21,7 @@
               </div>
               <div class="card-body">
                 <form class="formValidate FormBJ" id="formValidate" method="POST" action="<?php echo base_url(); ?>laporangudangjadi/cetak_rekapbjcabang" target="_blank">
-                  <?php if ($cb == 'pusat') { ?>
+                  <?php if ($cb == 'pusat' or $cb == 'TSM') { ?>
                     <div class="form-group mb-3">
                       <select name="cabang" id="cabang" class="form-select">
                         <option value="">-- Pilih Cabang --</option>
@@ -46,7 +46,8 @@
                               <line x1="8" y1="3" x2="8" y2="7" />
                               <line x1="4" y1="11" x2="20" y2="11" />
                               <line x1="11" y1="15" x2="12" y2="15" />
-                              <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                              <line x1="12" y1="15" x2="12" y2="18" />
+                            </svg>
                           </span>
                         </div>
                       </div>
@@ -61,7 +62,8 @@
                               <line x1="8" y1="3" x2="8" y2="7" />
                               <line x1="4" y1="11" x2="20" y2="11" />
                               <line x1="11" y1="15" x2="12" y2="15" />
-                              <line x1="12" y1="15" x2="12" y2="18" /></svg>
+                              <line x1="12" y1="15" x2="12" y2="18" />
+                            </svg>
                           </span>
                         </div>
                       </div>

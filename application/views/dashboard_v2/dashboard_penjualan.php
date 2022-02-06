@@ -217,7 +217,7 @@
           <h4 class="card-title">DATA PERSEDIAAN GOOD STOK GUDANG CABANG</h4>
         </div>
         <div class="card-body">
-          <?php if ($cb == 'pusat') { ?>
+          <?php if ($cb == 'pusat' or $cb = 'TSM') { ?>
             <div class="form-group mb-3">
               <select class="form-select" id="cabang" name="cabang">
                 <?php foreach ($cabang as $c) { ?>
@@ -241,7 +241,7 @@
           <h4 class="card-title">DATA PERSEDIAAN BAD STOK GUDANG CABANG</h4>
         </div>
         <div class="card-body">
-          <?php if ($cb == 'pusat') { ?>
+          <?php if ($cb == 'pusat' or $cb = 'TSM') { ?>
             <div class="form-group mb-3">
               <select class="form-select" id="cabangs" name="cabang">
                 <?php foreach ($cabang as $c) { ?>
@@ -261,21 +261,21 @@
     </div>
   </div>
 </div>
-<div class="modal modal-blur fade" id="modal-large" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- <div class="modal modal-blur fade" id="modal-large" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog text-center  modal-dialog-centered" role="document">
     <img src="<?php echo base_url(); ?>assets/images/loadingcabe.gif" / width="200px" height="150px">
   </div>
-</div>
+</div> -->
 <script type="text/javascript">
   $(function() {
-    var loading = $('#modal-large').modal("hide");
-    $(document)
-      .ajaxStart(function() {
-        loading.modal("show");
-      })
-      .ajaxStop(function() {
-        loading.modal("hide");
-      });
+    // var loading = $('#modal-large').modal("hide");
+    // $(document)
+    //   .ajaxStart(function() {
+    //     loading.modal("show");
+    //   })
+    //   .ajaxStop(function() {
+    //     loading.modal("hide");
+    //   });
 
     function loadsaldo() {
       var kodecabang = $("#cabang").val();

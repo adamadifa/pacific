@@ -9,8 +9,12 @@ class Model_cabang extends CI_Model
 		$cabang = $this->session->userdata('cabang');
 
 		if ($cabang != "pusat") {
-
-			$this->db->where('kode_cabang', $cabang);
+			if ($cabang == "TSM") {
+				$this->db->where('kode_cabang', $cabang);
+				$this->db->or_where('kode_cabang', 'GRT');
+			} else {
+				$this->db->where('kode_cabang', $cabang);
+			}
 		}
 
 		return $this->db->get('cabang');

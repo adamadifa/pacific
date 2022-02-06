@@ -21,7 +21,7 @@
               </div>
               <div class="card-body">
                 <form class="formValidate" id="formValidate" method="POST" action="<?php echo base_url(); ?>laporangudangjadi/cetakmutasidpb" target="_blank">
-                  <?php if ($cb == 'pusat') { ?>
+                  <?php if ($cb == 'pusat' or $cb == 'TSM') { ?>
                     <div class="form-group mb-3">
                       <select name="cabang" id="cabang" class="form-select">
                         <option value="">-- Pilih Cabang --</option>

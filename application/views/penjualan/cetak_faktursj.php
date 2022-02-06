@@ -136,7 +136,7 @@
 
 
 					?>
-						<tr style="padding: : 10px">
+						<tr style="padding:  10px">
 							<td align="center"><?php echo $no; ?></td>
 							<td><?php echo $b->kode_barang; ?></td>
 							<td><?php echo $b->nama_barang; ?></td>
