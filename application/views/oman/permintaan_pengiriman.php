@@ -44,6 +44,14 @@
                     <?php } ?>
                   </select>
                 </div>
+                <div class="form-group mb-3" id="salesman">
+                  <select class="form-select" id="id_karyawan" name="id_karyawan">
+                    <option value="">Pilih Salesman</option>
+                    <?php foreach ($salesman as $d) { ?>
+                      <option value="<?php echo $d->id_karyawan; ?>"><?php echo strtoupper($d->nama_karyawan); ?></option>
+                    <?php } ?>
+                  </select>
+                </div>
                 <div class="form-group mb-3">
                   <div class="input-icon">
                     <span class="input-icon-addon">
@@ -251,6 +259,18 @@
       }, function() {
         window.location.href = getLink
       });
+    });
+
+
+
+    $("#salesman").hide();
+    $("#cabang").change(function() {
+      var cabang = $(this).val();
+      if (cabang == "TSM") {
+        $("#salesman").show();
+      } else {
+        $("#salesman").hide();
+      }
     });
 
     function cek_detailpermintaanpengiriman() {

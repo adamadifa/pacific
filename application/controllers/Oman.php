@@ -404,6 +404,7 @@ class Oman extends CI_Controller
     $data['tgl_permintaan']      = $tgl_permintaan;
     // Load view
     $data['cabang'] = $this->Model_cabang->view_cabang()->result();
+    $data['salesman'] = $this->db->get_where('karyawan', array('kode_cabang' => 'TSM'))->result();
     $this->template->load('template/template', 'oman/permintaan_pengiriman', $data);
   }
 

@@ -115,6 +115,7 @@ class Laporanpenjualan extends CI_Controller
   function get_kendaraan()
   {
     $cabang = $this->input->post('cabang');
+
     $kendaraaan   = $this->Model_laporanpenjualan->get_kendaraan($cabang)->result();
     echo "<option value='' selected>Semua Kendaraan</option>";
     foreach ($kendaraaan as $s) {
@@ -1397,7 +1398,7 @@ class Laporanpenjualan extends CI_Controller
     $cabang = $this->input->post('cabang');
     $bulan = $this->input->post('bulan');
     $tahun = $this->input->post('tahun');
-	$status = $this->input->post('status');
+    $status = $this->input->post('status');
 
     $data['bulan']  = $bulan;
     $data['tahun'] = $tahun;
@@ -1413,18 +1414,18 @@ class Laporanpenjualan extends CI_Controller
       header("Content-Disposition: attachment; filename=DPPP.xls");
     }
     if (!empty($cabang)) {
-		if($status=="1"){
-			$data['dppp']  = $this->Model_laporanpenjualan->dppp_v2_sales($cabang, $tahun, $bulan)->result();
-		}else{
-			$data['dppp']  = $this->Model_laporanpenjualan->dppp_v2_sales_tunaikredit($cabang, $tahun, $bulan)->result();
-		}
+      if ($status == "1") {
+        $data['dppp']  = $this->Model_laporanpenjualan->dppp_v2_sales($cabang, $tahun, $bulan)->result();
+      } else {
+        $data['dppp']  = $this->Model_laporanpenjualan->dppp_v2_sales_tunaikredit($cabang, $tahun, $bulan)->result();
+      }
       $this->load->view('penjualan/laporan/cetak_dppp_v2_sales', $data);
     } else {
-		if($status=="1"){
-			$data['dppp']  = $this->Model_laporanpenjualan->dppp_v2($cabang, $tahun, $bulan)->result();
-		}else{
-			$data['dppp']  = $this->Model_laporanpenjualan->dppp_v2_tunaikredit($cabang, $tahun, $bulan)->result();
-		}
+      if ($status == "1") {
+        $data['dppp']  = $this->Model_laporanpenjualan->dppp_v2($cabang, $tahun, $bulan)->result();
+      } else {
+        $data['dppp']  = $this->Model_laporanpenjualan->dppp_v2_tunaikredit($cabang, $tahun, $bulan)->result();
+      }
       $this->load->view('penjualan/laporan/cetak_dppp_v2', $data);
     }
   }

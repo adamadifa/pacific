@@ -76,10 +76,10 @@ tr:nth-child(even) {
         <td><?php echo $d->tujuan; ?></td>
         <td><?php echo $d->no_surat_jalan; ?></td>
         <td><?php echo $d->keterangan; ?></td>
-        <td align="right"><?php echo number_format($d->tarif); ?></td>
-        <td align="right"><?php echo number_format($d->tepung); ?></td>
-        <td align="right"><?php echo number_format($d->bs); ?></td>
-        <td align="right"><?php echo number_format($d->bs+$d->tepung+$d->tarif); ?></td>
+        <td align="right"><?php echo uang($d->tarif); ?></td>
+        <td align="right"><?php echo uang($d->tepung); ?></td>
+        <td align="right"><?php echo uang($d->bs); ?></td>
+        <td align="right"><?php echo uang($d->bs+$d->tepung+$d->tarif); ?></td>
         <td><?php if($d->tgl_kontrabon != "") {  echo DateToIndo2($d->tgl_kontrabon); }else{ echo ""; } ?></td>
         <td bgcolor="<?php echo $bgcolor;?>"><?php if($d->tgl_bayar != "") {  echo DateToIndo2($d->tgl_bayar); }else{ echo ""; } ?></td>
       </tr>

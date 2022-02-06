@@ -38,6 +38,9 @@ class Model_laporanpenjualan extends CI_Model
 	function get_kendaraan($cabang)
 	{
 		$this->db->where('kode_cabang', $cabang);
+		if ($cabang == "GRT") {
+			$this->db->or_where('kode_cabang', 'TSM');
+		}
 		//$this->db->where('nama_karyawan !=','-');
 		return $this->db->get('kendaraan');
 	}

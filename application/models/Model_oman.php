@@ -507,6 +507,7 @@ class Model_oman extends CI_Model
 		$tgl_permintaan = $this->input->post('tgl_permintaan');
 		$cabang 				= $this->input->post('cabang');
 		$ket 						= $this->input->post('keterangan');
+		$id_karyawan = $this->input->post('id_karyawan');
 		$id_admin 			= $this->session->userdata('id_user');
 		$data = array(
 			'no_permintaan_pengiriman' 	=> $no_permintaan,
@@ -514,7 +515,8 @@ class Model_oman extends CI_Model
 			'kode_cabang'								=> $cabang,
 			'keterangan'								=> $ket,
 			'status'										=> '0',
-			'id_admin'									=> $id_admin
+			'id_admin'									=> $id_admin,
+			'id_karyawan' => $id_karyawan
 		);
 		$pp = $this->db->insert('permintaan_pengiriman', $data);
 		if ($pp) {
@@ -717,7 +719,7 @@ class Model_oman extends CI_Model
 		);
 
 		$sj 							= $this->db->insert('mutasi_gudang_jadi', $data_sj);
-		
+
 
 		if ($sj) {
 			foreach ($detail as $d) {
@@ -741,7 +743,7 @@ class Model_oman extends CI_Model
 				'tepung'          => $tepung,
 				'keterangan'      => $keterangan,
 			);
-			$this->db->insert('angkutan',$data);
+			$this->db->insert('angkutan', $data);
 			$this->session->set_flashdata(
 				'msg',
 				'<div class="alert bg-green text-white alert-dismissible" role="alert">
