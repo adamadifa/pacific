@@ -1346,6 +1346,28 @@ class Model_laporangudangjadi extends CI_Model
 		$bulan 	 = $tanggal[1];
 		$tahun 	 = $tanggal[0];
 		$mulai   = $tahun . "-" . $bulan . "-" . "01";
+
+		if ($cabang == 'TSM') {
+			$wherenotsalesgarut = "AND penjualan.id_karyawan NOT IN ('STSM05','STSM09')";
+		} else {
+			$wherenotsalesgarut = "";
+		}
+
+		if ($cabang == 'GRT') {
+			$wheresalesgarut = "AND penjualan.id_karyawan IN ('STSM05','STSM09')";
+		} else {
+			$wheresalesgarut = "";
+		}
+
+		$cabang2 = $cabang;
+		if ($cabang == 'GRT') {
+			$cabang = 'TSM';
+		}
+
+
+		//echo $cabang2;
+
+
 		$query = "SELECT master_barang.kode_produk,nama_barang,isipcsdus,satuan,isipack,isipcs,
 		totalpenjualan,totalpersediaan, IFNULL(totalpenjualan,0) - IFNULL(totalpersediaan,0) as selisih
 		FROM master_barang
@@ -1355,7 +1377,7 @@ class Model_laporangudangjadi extends CI_Model
 			INNER JOIN barang ON detailpenjualan.kode_barang = barang.kode_barang
 			INNER JOIN penjualan ON detailpenjualan.no_fak_penj = penjualan.no_fak_penj
 			INNER JOIN karyawan ON penjualan.id_karyawan = karyawan.id_karyawan
-			WHERE tgltransaksi BETWEEN '$dari' AND '$sampai' AND karyawan.kode_cabang ='$cabang' AND promo !=1
+			WHERE tgltransaksi BETWEEN '$dari' AND '$sampai' AND karyawan.kode_cabang ='$cabang' AND promo !=1 " . $wherenotsalesgarut . $wheresalesgarut . " 
 			GROUP BY kode_produk
 		) dp ON (master_barang.kode_produk = dp.kode_produk)
 
@@ -1366,7 +1388,7 @@ class Model_laporangudangjadi extends CI_Model
 			ON detail_mutasi_gudang_cabang.no_mutasi_gudang_cabang = mutasi_gudang_cabang.no_mutasi_gudang_cabang
 			WHERE jenis_mutasi = 'PENJUALAN'  
 			AND tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai'
-			AND kode_cabang ='$cabang'
+			AND kode_cabang ='$cabang2'
 			GROUP BY kode_produk
 		) persediaan ON (master_barang.kode_produk = persediaan.kode_produk)";
 		return $this->db->query($query);
@@ -1378,6 +1400,23 @@ class Model_laporangudangjadi extends CI_Model
 		$bulan 	 = $tanggal[1];
 		$tahun 	 = $tanggal[0];
 		$mulai   = $tahun . "-" . $bulan . "-" . "01";
+
+		if ($cabang == 'TSM') {
+			$wherenotsalesgarut = "AND penjualan.id_karyawan NOT IN ('STSM05','STSM09')";
+		} else {
+			$wherenotsalesgarut = "";
+		}
+
+		if ($cabang == 'GRT') {
+			$wheresalesgarut = "AND penjualan.id_karyawan IN ('STSM05','STSM09')";
+		} else {
+			$wheresalesgarut = "";
+		}
+
+		$cabang2 = $cabang;
+		if ($cabang == 'GRT') {
+			$cabang = 'TSM';
+		}
 		$query = "SELECT master_barang.kode_produk,nama_barang,isipcsdus,satuan,isipack,isipcs,
 		totalpenjualan,totalpersediaan, IFNULL(totalpenjualan,0) - IFNULL(totalpersediaan,0) as selisih
 		FROM master_barang
@@ -1388,7 +1427,7 @@ class Model_laporangudangjadi extends CI_Model
 			INNER JOIN retur ON detailretur.no_retur_penj = retur.no_retur_penj
 			INNER JOIN penjualan ON retur.no_fak_penj = penjualan.no_fak_penj
 			INNER JOIN karyawan ON penjualan.id_karyawan = karyawan.id_karyawan
-			WHERE tglretur BETWEEN '$dari' AND '$sampai' AND karyawan.kode_cabang ='$cabang' 
+			WHERE tglretur BETWEEN '$dari' AND '$sampai' AND karyawan.kode_cabang ='$cabang' " . $wherenotsalesgarut . $wheresalesgarut . " 
 			GROUP BY kode_produk
 		) dp ON (master_barang.kode_produk = dp.kode_produk)
 
@@ -1399,7 +1438,7 @@ class Model_laporangudangjadi extends CI_Model
 			ON detail_mutasi_gudang_cabang.no_mutasi_gudang_cabang = mutasi_gudang_cabang.no_mutasi_gudang_cabang
 			WHERE jenis_mutasi = 'RETUR'  
 			AND tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai'
-			AND kode_cabang ='$cabang'
+			AND kode_cabang ='$cabang2'
 			GROUP BY kode_produk
 		) persediaan ON (master_barang.kode_produk = persediaan.kode_produk)";
 		return $this->db->query($query);

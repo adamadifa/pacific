@@ -76,28 +76,54 @@ if ($bln == 9 and $tahun = "2021") {
         </td>
         <td align="right">
           <?php
-          if ($ratiokategori2 >= 0 and $ratiokategori2 <= 2) {
-            $rewardkategori2 = 350000;
-          } else  if ($ratiokategori2 > 2 and $ratiokategori2 <= 4) {
-            $rewardkategori2 = 315000;
-          } else  if ($ratiokategori2 > 4 and $ratiokategori2 <= 6) {
-            $rewardkategori2 = 280000;
-          } else  if ($ratiokategori2 > 6 and $ratiokategori2 <= 8) {
-            $rewardkategori2 = 245000;
-          } else  if ($ratiokategori2 > 8 and $ratiokategori2 <= 10) {
-            $rewardkategori2 = 210000;
-          } else  if ($ratiokategori2 > 10 and $ratiokategori2 <= 12) {
-            $rewardkategori2 = 175000;
-          } else  if ($ratiokategori2 > 12 and $ratiokategori2 <= 14) {
-            $rewardkategori2 = 140000;
-          } else  if ($ratiokategori2 > 14 and $ratiokategori2 <= 16) {
-            $rewardkategori2 = 105000;
-          } else  if ($ratiokategori2 > 16 and $ratiokategori2 <= 18) {
-            $rewardkategori2 = 70000;
-          } else  if ($ratiokategori2 > 18 and $ratiokategori2 <= 20) {
-            $rewardkategori2 = 35000;
+          if ($bln >= 12 and $tahun >= 2021) {
+            if ($ratiokategori2 >= 0 and $ratiokategori2 <= 2) {
+              $rewardkategori2 = 350000;
+            } else  if ($ratiokategori2 > 2 and $ratiokategori2 <= 4) {
+              $rewardkategori2 = 315000;
+            } else  if ($ratiokategori2 > 4 and $ratiokategori2 <= 6) {
+              $rewardkategori2 = 280000;
+            } else  if ($ratiokategori2 > 6 and $ratiokategori2 <= 8) {
+              $rewardkategori2 = 245000;
+            } else  if ($ratiokategori2 > 8 and $ratiokategori2 <= 10) {
+              $rewardkategori2 = 210000;
+            } else  if ($ratiokategori2 > 10 and $ratiokategori2 <= 12) {
+              $rewardkategori2 = 175000;
+            } else  if ($ratiokategori2 > 12 and $ratiokategori2 <= 14) {
+              $rewardkategori2 = 140000;
+            } else  if ($ratiokategori2 > 14 and $ratiokategori2 <= 16) {
+              $rewardkategori2 = 105000;
+            } else  if ($ratiokategori2 > 16 and $ratiokategori2 <= 18) {
+              $rewardkategori2 = 70000;
+            } else  if ($ratiokategori2 > 18 and $ratiokategori2 <= 20) {
+              $rewardkategori2 = 35000;
+            } else {
+              $rewardkategori2 = 0;
+            }
           } else {
-            $rewardkategori2 = 0;
+            if ($ratiokategori2 >= 0 and $ratiokategori2 <= 2) {
+              $rewardkategori2 = 350000;
+            } else  if ($ratiokategori2 > 2 and $ratiokategori2 <= 4) {
+              $rewardkategori2 = 315000;
+            } else  if ($ratiokategori2 > 4 and $ratiokategori2 <= 6) {
+              $rewardkategori2 = 280000;
+            } else  if ($ratiokategori2 > 6 and $ratiokategori2 <= 8) {
+              $rewardkategori2 = 245000;
+            } else  if ($ratiokategori2 > 8 and $ratiokategori2 <= 10) {
+              $rewardkategori2 = 210000;
+            } else  if ($ratiokategori2 > 10 and $ratiokategori2 <= 12) {
+              $rewardkategori2 = 175000;
+            } else  if ($ratiokategori2 > 12 and $ratiokategori2 <= 14) {
+              $rewardkategori2 = 140000;
+            } else  if ($ratiokategori2 > 14 and $ratiokategori2 <= 16) {
+              $rewardkategori2 = 105000;
+            } else  if ($ratiokategori2 > 16 and $ratiokategori2 <= 18) {
+              $rewardkategori2 = 70000;
+            } else  if ($ratiokategori2 > 18 and $ratiokategori2 <= 20) {
+              $rewardkategori2 = 35000;
+            } else {
+              $rewardkategori2 = 0;
+            }
           }
           echo  number_format($rewardkategori2, '0', '', '.');
           ?>

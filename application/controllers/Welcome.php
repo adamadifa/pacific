@@ -22,7 +22,7 @@ class Welcome extends CI_Controller
 	function cekdpb()
 	{
 		$hariini = date("Y-m-d");
-		$query = $this->db->query("SELECT kode_cabang FROM cabang WHERE kode_cabang NOT IN (SELECT kode_cabang FROM dpb WHERE tgl_pengambilan ='$hariini') AND kode_cabang !='GRT'")->result();
+		$query = $this->db->query("SELECT kode_cabang FROM cabang WHERE kode_cabang NOT IN (SELECT kode_cabang FROM dpb WHERE tgl_pengambilan ='$hariini')")->result();
 		echo json_encode($query);
 	}
 
@@ -46,7 +46,7 @@ class Welcome extends CI_Controller
 		} else {
 			$tgl_kemarin    = date('Y-m-d', strtotime("-1 day", strtotime(date("Y-m-d"))));
 		}
-		$query = $this->db->query("SELECT kode_cabang FROM cabang WHERE kode_cabang NOT IN (SELECT kode_cabang FROM penjualan INNER JOIN karyawan ON penjualan.id_karyawan = karyawan.id_karyawan WHERE tgltransaksi ='$tgl_kemarin') AND kode_cabang !='GRT'")->result();
+		$query = $this->db->query("SELECT kode_cabang FROM cabang WHERE kode_cabang NOT IN (SELECT kode_cabang FROM penjualan INNER JOIN karyawan ON penjualan.id_karyawan = karyawan.id_karyawan WHERE tgltransaksi ='$tgl_kemarin') ")->result();
 
 
 		echo json_encode($query);

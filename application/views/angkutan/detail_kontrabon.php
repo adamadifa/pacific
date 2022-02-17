@@ -181,7 +181,7 @@
                       <span class="input-icon-addon">
                         <i class="fa fa-calendar-o"></i>
                       </span>
-                      <input type="text" id="tgl_ledger" name="tgl_ledger" class="form-control datepicker date" placeholder="Tanggal" data-error=".errorTxt19" />
+                      <input type="text" required id="tgl_ledger" name="tgl_ledger" class="form-control datepicker date" placeholder="Tanggal" data-error=".errorTxt19" />
                     </div>
                   </div>
                   <div class="form-group mb-3">
@@ -189,7 +189,7 @@
                       <span class="input-icon-addon">
                         <i class="fa fa-book"></i>
                       </span>
-                      <input type="text" id="no_ref" name="no_ref" class="form-control" placeholder="No Ref" data-error=".errorTxt19" />
+                      <input type="text" required id="no_ref" name="no_ref" class="form-control" placeholder="No Ref" data-error=".errorTxt19" />
                     </div>
                   </div>
                   <div class="form-group mb-3">
@@ -197,12 +197,12 @@
                       <span class="input-icon-addon">
                         <i class="fa fa-user"></i>
                       </span>
-                      <input type="text" id="pelanggan" name="pelanggan" class="form-control" placeholder="Pelanggan" data-error=".errorTxt19" />
+                      <input type="text" required id="pelanggan" name="pelanggan" class="form-control" placeholder="Pelanggan" data-error=".errorTxt19" />
                     </div>
                   </div>
                   <div class="form-group mb-3">
                     <div class="input-icon">
-                      <select class="form-select" id="via" name="via" data-error=".errorTxt1">
+                      <select class="form-select" required id="via" name="via" data-error=".errorTxt1">
                         <option value="">--VIA--</option>
                         <?php foreach ($bank as $d) { ?>
                           <option value="<?php echo $d->kode_bank; ?>"><?php echo $d->nama_bank; ?></option>
@@ -216,7 +216,7 @@
                       <span class="input-icon-addon">
                         <i class="fa fa-book"></i>
                       </span>
-                      <input type="text" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan Legder" data-error=".errorTxt19" />
+                      <input type="text" required id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan Legder" data-error=".errorTxt19" />
                     </div>
                   </div>
                   <div class="mt-3 d-flex justify-content-end">
@@ -226,7 +226,6 @@
               </div>
             </div>
             <div class="col-md-7 col-xs-12">
-             
             </div>
           </div>
         <?php } ?>

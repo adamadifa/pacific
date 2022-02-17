@@ -258,7 +258,8 @@ class Model_kaskecil extends CI_Model
       'TGL' => '1-1115',
       'SBY' => '1-1116',
       'SMR' => '1-1117',
-      'KLT' => '1-1118'
+      'KLT' => '1-1118',
+      'GRT' => '1-1119'
     ];
     $status_dk = $this->input->post('inout');
     // if($cabang == 'PST'){
@@ -637,7 +638,8 @@ class Model_kaskecil extends CI_Model
       'TGL' => '1-1115',
       'SBY' => '1-1116',
       'SMR' => '1-1117',
-      'KLT' => '1-1118'
+      'KLT' => '1-1118',
+      'GRT' => '1-1119'
     ];
     $status_dk = $this->input->post('inout');
     // if($cabang == 'PST'){

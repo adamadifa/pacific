@@ -97,7 +97,7 @@
                                                 } ?>"><?php echo $d['status']; ?></span></td>
                         <td>
                           <a href="#" class="btn btn-sm btn-info detail" data-kodesaldoawal="<?php echo $d['kode_saldoawal']; ?>">Detail</a>
-                          <a data-href="<?php echo base_url(); ?>dpb/hapussaldoawal/<?php echo $d['kode_saldoawal']; ?>/<?php echo $d['status']; ?>" class="btn btn-sm text-white btn-danger hapus">Hapus</a>
+                          <!-- <a data-href="<?php echo base_url(); ?>dpb/hapussaldoawal/<?php echo $d['kode_saldoawal']; ?>/<?php echo $d['status']; ?>" class="btn btn-sm text-white btn-danger hapus">Hapus</a> -->
                         </td>
                       </tr>
                     <?php

@@ -300,6 +300,7 @@ class Model_target extends CI_Model{
 		$this->db->select('id_targetbulan,tahun,bulan,target_bulancabang.kode_barang,kode_produk,nama_barang,target_bulan,kode_cabang');
 		$this->db->from('target_bulancabang');
 		$this->db->join('barang','target_bulancabang.kode_barang = barang.kode_barang');
+		$this->db->order_by('target_bulancabang.kode_produk','ASC');
 		return $this->db->get();
 	}
 

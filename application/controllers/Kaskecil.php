@@ -713,11 +713,11 @@ class Kaskecil extends CI_Controller
     $getkodeakun = $this->Model_kaskecil->getAkun($cabang)->row_array();
     $tgl_ledger  = $getledger['tgl_ledger'];
     $keterangan  = "Penerimaan Kas Kecil";
-	if($cabang == "PST" || $cabang =="TSM"){
-		$kode_akun = "1-1104";
-	}else{
-		$kode_akun   = $getkodeakun['kode_akun'];
-	}
+    if ($cabang == "PST" || $cabang == "TSM") {
+      $kode_akun = "1-1104";
+    } else {
+      $kode_akun   = $getkodeakun['kode_akun'];
+    }
     $jumlah      = $getledger['jumlah'];
     $tgl = explode("-", $tgl_ledger);
     $tahun = $tgl[0];
@@ -750,7 +750,8 @@ class Kaskecil extends CI_Controller
         'order'           => 1
       );
       $cek = $this->db->get_where('kaskecil_detail', array('nobukti' => $no_bukti))->num_rows();
-      var_dump($cek);
+
+      var_dump($no_bukti);
       if (empty($cek)) {
         $simpan = $this->db->insert('kaskecil_detail', $data);
         if ($simpan) {
