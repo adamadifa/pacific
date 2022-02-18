@@ -29,8 +29,8 @@ date_default_timezone_set('Asia/Jakarta');
 //Setingan Database
 $config['database_host']  = 'localhost';
 $config['database_user']  = 'root';
-$config['database_pass']   = '';
-$config['database_name']  = 'pacific2';
+$config['database_pass']   = 'swanpacific160';
+$config['database_name']  = 'pacific';
 
 
 //Setingan Base URL
