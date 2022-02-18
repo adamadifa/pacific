@@ -35,6 +35,24 @@ class Model_laporanpenjualan extends CI_Model
 		//$this->db->where('nama_karyawan !=','-');
 		return $this->db->get('karyawan');
 	}
+
+	function get_driver($cabang)
+	{
+		$this->db->order_by('id_driver_helper,nama_driver_helper', 'asc');
+		$this->db->where('kategori', 'DRIVER');
+		$this->db->where('kode_cabang', $cabang);
+		//$this->db->where('nama_karyawan !=','-');
+		return $this->db->get('driver_helper');
+	}
+
+	function get_helper($cabang)
+	{
+		$this->db->order_by('id_driver_helper,nama_driver_helper', 'asc');
+		$this->db->where('kategori', 'HELPER');
+		$this->db->where('kode_cabang', $cabang);
+		//$this->db->where('nama_karyawan !=','-');
+		return $this->db->get('driver_helper');
+	}
 	function get_kendaraan($cabang)
 	{
 		$this->db->where('kode_cabang', $cabang);
