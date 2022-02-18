@@ -100,6 +100,9 @@ class Laporanpenjualan extends CI_Controller
     $cabang = $this->input->post('cabang');
     $sales   = $this->Model_laporanpenjualan->get_salesman($cabang)->result();
     $idsales = $this->session->userdata('salesman');
+    if (empty($idsales)) {
+      $idsales = $this->input->post('id_sales');
+    }
     echo "<option value='' selected>Semua Salesman</option>";
     foreach ($sales as $s) {
       if ($idsales == $s->id_karyawan && !empty($idsales)) {
@@ -111,6 +114,47 @@ class Laporanpenjualan extends CI_Controller
       echo "<option $select  value='$s->id_karyawan'>$s->nama_karyawan</option>";
     }
   }
+
+  function get_driver()
+  {
+    $cabang = $this->input->post('cabang');
+    $driver   = $this->Model_laporanpenjualan->get_driver($cabang)->result();
+    if (isset($_POST['id_driver'])) {
+      $id_driver = $this->input->post('id_driver');
+    } else {
+      $id_driver = "";
+    }
+    echo "<option value='' selected>Pilih Driver</option>";
+    foreach ($driver as $d) {
+      if ($id_driver == $d->id_driver_helper && !empty($id_driver)) {
+        $select = "selected";
+      } else {
+        $select = "";
+      }
+      echo "<option $select  value='$d->id_driver_helper'>$d->nama_driver_helper</option>";
+    }
+  }
+
+  function get_helper()
+  {
+    $cabang = $this->input->post('cabang');
+    $helper   = $this->Model_laporanpenjualan->get_helper($cabang)->result();
+    if (isset($_POST['id_helper'])) {
+      $id_helper = $this->input->post('id_helper');
+    } else {
+      $id_helper = "";
+    }
+    echo "<option value='' selected>Pilih Helper</option>";
+    foreach ($helper as $d) {
+      if ($id_helper == $d->id_driver_helper && !empty($id_helper)) {
+        $select = "selected";
+      } else {
+        $select = "";
+      }
+      echo "<option $select  value='$d->id_driver_helper'>$d->nama_driver_helper</option>";
+    }
+  }
+
 
   function get_kendaraan()
   {

@@ -64,6 +64,8 @@
                     <th>Nama Cabang</th>
                     <th>Tujuan</th>
                     <th>No Kendaraan</th>
+                    <th>Driver</th>
+                    <th>Helper</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -85,6 +87,8 @@
                       <td><?php echo $d['kode_cabang']; ?></td>
                       <td><?php echo $d['tujuan']; ?></td>
                       <td><?php echo $d['no_kendaraan']; ?></td>
+                      <td><?php echo $d['nama_driver']; ?></td>
+                      <td><?php echo $d['nama_helper']; ?></td>
                       <td>
                         <a href="#" class="btn btn-sm btn-info detail" data-nodpb="<?php echo $d['no_dpb']; ?>">Detail</a>
                         <a href="<?php echo base_url(); ?>dpb/updatedpb/<?php echo $d['no_dpb']; ?>" class="btn btn-sm btn-<?php echo $bg; ?>">Update DPB</a>

@@ -51,6 +51,16 @@
                   </select>
                 </div>
                 <div class="form-group mb-3">
+                  <select class="form-select show-tick" id="driver" name="driver" data-error=".errorTxt1">
+                    <option value="">Driver</option>
+                  </select>
+                </div>
+                <div class="form-group mb-3">
+                  <select class="form-select show-tick" id="helper" name="helper" data-error=".errorTxt1">
+                    <option value="">Helper</option>
+                  </select>
+                </div>
+                <div class="form-group mb-3">
                   <div class="input-icon">
                     <span class="input-icon-addon">
                       <i class="fa fa-map"></i>
@@ -168,6 +178,8 @@
       var tujuan = $("#tujuan").val();
       var nokendaraan = $("#nokendaraan").val();
       var tglambil = $("#tglambil").val();
+      var driver = $("#driver").val();
+      var helper = $("#helper").val();
       if (nodpb == "") {
         swal("Oops!", "No DPB Harus Diisi!", "warning");
         return false;
@@ -185,6 +197,12 @@
         return false;
       } else if (tglambil == "") {
         swal("Oops!", "Tanggal Pengambilan Harus Diisi!", "warning");
+        return false;
+      } else if (driver == "") {
+        swal("Oops!", "Driver Harus Diisi!", "warning");
+        return false;
+      } else if (helper == "") {
+        swal("Oops!", "Helper Harus Diisi!", "warning");
         return false;
       }
     });
@@ -204,7 +222,43 @@
         }
       });
     }
+
+    function loaddriver() {
+      var cabang = $("#cabang").val();
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>laporanpenjualan/get_driver',
+        data: {
+          cabang: cabang
+        },
+        cache: false,
+        success: function(respond) {
+          $("#driver").html(respond);
+          //$("#salesman").selectpicker("refresh");
+        }
+      });
+    }
+
+    function loadhelper() {
+      var cabang = $("#cabang").val();
+
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>laporanpenjualan/get_helper',
+        data: {
+          cabang: cabang
+        },
+        cache: false,
+        success: function(respond) {
+          $("#helper").html(respond);
+          //$("#salesman").selectpicker("refresh");
+        }
+      });
+    }
+
+    loaddriver();
     loadsalesman();
+    loadhelper();
 
 
     function loadkendaraan() {
@@ -227,6 +281,8 @@
     $("#cabang").change(function(e) {
       e.preventDefault();
       var cabang = $("#cabang").val();
+      loaddriver();
+      loadhelper();
       $.ajax({
         type: 'POST',
         url: '<?php echo base_url(); ?>laporanpenjualan/get_salesman',

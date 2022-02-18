@@ -6,6 +6,11 @@ function formatnumber($nilai)
   return number_format($nilai, '2', ',', '.');
 }
 
+function formatnumber2($nilai)
+{
+
+  return number_format($nilai, '0', ',', '.');
+}
 ?>
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/table.css">
 <br>
@@ -15,7 +20,7 @@ function formatnumber($nilai)
   CABANG <?= $cabang; ?>
 </b>
 
-<table class="datatable3">
+<table class="datatable3" style="width:120%">
   <thead>
     <tr>
       <th rowspan="3">NO</th>
@@ -65,7 +70,7 @@ function formatnumber($nilai)
       <th style="background-color: #e43a90;">REWARD</th>
     </tr>
   </thead>
-  <tbody style="font-size:14px !important">
+  <tbody style="font-size:12px !important">
     <?php
 
     foreach ($barang as $b) {
@@ -339,6 +344,54 @@ function formatnumber($nilai)
       </tr>
     <?php
       $no++;
+    }
+    ?>
+    <tr>
+      <th>NO</th>
+      <th>ID KARYAWAN</th>
+      <th>NAMA KARYAWAN</th>
+      <th colspan="21"></th>
+      <th>QTY</th>
+      <th>RATIO</th>
+      <th>REWARD</th>
+    </tr>
+    <?php
+    $nextno = $no;
+    foreach ($driverhelper as $d) {
+    ?>
+      <tr>
+        <td><?php echo $nextno; ?></td>
+        <td><?php echo $d->nama_driver_helper; ?></td>
+        <td><?php echo $d->kategori; ?></td>
+        <td colspan="21"></td>
+        <td align="center">
+          <?php
+          if ($d->kategori == 'DRIVER') {
+            $jmlqty = $d->jml_driver;
+            if (!empty($d->jml_driver)) {
+              echo formatnumber($d->jml_driver);
+            };
+          } else if ($d->kategori == 'HELPER') {
+            $jmlqty = $d->jml_helper;
+            if (!empty($d->jml_helper)) {
+              echo formatnumber($d->jml_helper);
+            };
+          }
+          ?>
+
+        </td>
+        <td align="center"><?php echo $d->ratio; ?></td>
+        <td align="right">
+          <?php
+          $rewarddriverhelper = $jmlqty * $d->ratio;
+          if (!empty($rewarddriverhelper)) {
+            echo formatnumber2($rewarddriverhelper);
+          };
+          ?>
+        </td>
+      </tr>
+    <?php
+      $nextno++;
     }
     ?>
   </tbody>

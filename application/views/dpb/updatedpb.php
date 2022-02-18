@@ -66,6 +66,16 @@
                     <input type="text" value="<?php echo $dpb['no_kendaraan'] ?>" id="nokendaraan" name="nokendaraan" class="form-control" placeholder="No Kendaraan" data-error=".errorTxt19" />
                   </div>
                 </div>
+                <div class="form-group mb-3">
+                  <select class="form-select show-tick" id="driver" name="driver" data-error=".errorTxt1">
+                    <option value="">Driver</option>
+                  </select>
+                </div>
+                <div class="form-group mb-3">
+                  <select class="form-select show-tick" id="helper" name="helper" data-error=".errorTxt1">
+                    <option value="">Helper</option>
+                  </select>
+                </div>
                 <table class="table table-bordered table-striped">
                   <thead class="thead-dark">
                     <tr>
@@ -351,10 +361,68 @@
         cache: false,
         success: function(respond) {
           $("#salesman").html(respond);
-          $("#salesman").selectpicker("refresh");
         }
       });
     });
+
+
+    function loaddriver(id_driver) {
+
+      var cabang = $("#cabang").val();
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>laporanpenjualan/get_driver',
+        data: {
+          cabang: cabang,
+          id_driver: id_driver
+        },
+        cache: false,
+        success: function(respond) {
+          $("#driver").html(respond);
+          //$("#salesman").selectpicker("refresh");
+        }
+      });
+    }
+
+    function loadhelper(id_helper) {
+      var cabang = $("#cabang").val();
+
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>laporanpenjualan/get_helper',
+        data: {
+          cabang: cabang,
+          id_helper: id_helper
+        },
+        cache: false,
+        success: function(respond) {
+          $("#helper").html(respond);
+          //$("#salesman").selectpicker("refresh");
+        }
+      });
+    }
+
+    function loadsalesman(id_salesman) {
+      var cabang = $("#cabang").val();
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>laporanpenjualan/get_salesman',
+        data: {
+          cabang: cabang,
+          id_sales: id_salesman
+        },
+        cache: false,
+        success: function(respond) {
+          $("#salesman").html(respond);
+          //$("#salesman").selectpicker("refresh");
+        }
+      });
+    }
+
+    loadsalesman("<?php echo $dpb['id_karyawan']; ?>");
+    loaddriver("<?php echo $dpb['id_driver']; ?>");
+    loadhelper("<?php echo $dpb['id_helper']; ?>");
+
 
 
 

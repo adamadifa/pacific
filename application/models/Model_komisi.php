@@ -1314,4 +1314,27 @@ class Model_komisi extends CI_Model
 
     return $this->db->update('komisi_target_cashin_detail', $data, array('kode_target' => $kodetarget, 'id_karyawan' => $id_karyawan));
   }
+
+  public function driverhelper($cabang, $bulan, $tahun)
+  {
+    $dari = $tahun . "-" . $bulan . "-01";
+    $sampai = date('Y-m-t', strtotime($dari));
+    $query = "SELECT driver_helper.id_driver_helper,nama_driver_helper,kategori,jml_driver,jml_helper,ratio
+    FROM driver_helper
+    LEFT JOIN (
+      SELECT id_driver,ROUND(SUM(jml_penjualan),2) as jml_driver 
+      FROM detail_dpb
+      INNER JOIN dpb ON detail_dpb.no_dpb = dpb.no_dpb
+      WHERE tgl_pengambilan BETWEEN '$dari' AND '$sampai' GROUP BY id_driver
+    )driver ON (driver.id_driver = driver_helper.id_driver_helper)
+    LEFT JOIN (
+      SELECT id_helper,ROUND(SUM(jml_penjualan),2) as jml_helper 
+      FROM detail_dpb
+      INNER JOIN dpb ON detail_dpb.no_dpb = dpb.no_dpb
+      WHERE tgl_pengambilan BETWEEN '$dari' AND '$sampai' GROUP BY id_helper
+    )helper ON (helper.id_helper = driver_helper.id_driver_helper)
+    WHERE kode_cabang = '$cabang' AND kategori='DRIVER' OR kode_cabang='$cabang' AND  kategori='HELPER'
+    ORDER BY kategori,nama_driver_helper";
+    return $this->db->query($query);
+  }
 }
