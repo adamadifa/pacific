@@ -61,6 +61,16 @@
                   </select>
                 </div>
                 <div class="form-group mb-3">
+                  <select class="form-select show-tick" id="helper2" name="helper2" data-error=".errorTxt1">
+                    <option value="">Helper</option>
+                  </select>
+                </div>
+                <div class="form-group mb-3">
+                  <select class="form-select show-tick" id="helper3" name="helper3" data-error=".errorTxt1">
+                    <option value="">Helper</option>
+                  </select>
+                </div>
+                <div class="form-group mb-3">
                   <div class="input-icon">
                     <span class="input-icon-addon">
                       <i class="fa fa-map"></i>
@@ -251,6 +261,8 @@
         cache: false,
         success: function(respond) {
           $("#helper").html(respond);
+          $("#helper2").html(respond);
+          $("#helper3").html(respond);
           //$("#salesman").selectpicker("refresh");
         }
       });

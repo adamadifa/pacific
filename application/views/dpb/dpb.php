@@ -66,6 +66,8 @@
                     <th>No Kendaraan</th>
                     <th>Driver</th>
                     <th>Helper</th>
+                    <th>Helper 2</th>
+                    <th>Helper 3</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -89,6 +91,8 @@
                       <td><?php echo $d['no_kendaraan']; ?></td>
                       <td><?php echo $d['nama_driver']; ?></td>
                       <td><?php echo $d['nama_helper']; ?></td>
+                      <td><?php echo $d['nama_helper_2']; ?></td>
+                      <td><?php echo $d['nama_helper_3']; ?></td>
                       <td>
                         <a href="#" class="btn btn-sm btn-info detail" data-nodpb="<?php echo $d['no_dpb']; ?>">Detail</a>
                         <a href="<?php echo base_url(); ?>dpb/updatedpb/<?php echo $d['no_dpb']; ?>" class="btn btn-sm btn-<?php echo $bg; ?>">Update DPB</a>

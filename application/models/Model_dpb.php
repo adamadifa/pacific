@@ -14,6 +14,8 @@ class Model_dpb extends CI_Model
     $jumproduk        = $this->input->post('jumproduk');
     $driver           = $this->input->post('driver');
     $helper           = $this->input->post('helper');
+    $helper2           = $this->input->post('helper2');
+    $helper3           = $this->input->post('helper3');
     $data = array(
       'no_dpb'             => $nodpb,
       'kode_cabang'        => $kode_cabang,
@@ -22,7 +24,9 @@ class Model_dpb extends CI_Model
       'no_kendaraan'       => $nokendaraan,
       'tgl_pengambilan'    => $tgl_pengambilan,
       'id_driver'          => $driver,
-      'id_helper'          => $helper
+      'id_helper'          => $helper,
+      'id_helper_2'          => $helper2,
+      'id_helper_3'          => $helper3,
     );
     $simpandbp        = $this->db->insert('dpb', $data);
     if ($simpandbp) {
@@ -75,6 +79,8 @@ class Model_dpb extends CI_Model
     $jumproduk        = $this->input->post('jumproduk');
     $driver           = $this->input->post('driver');
     $helper           = $this->input->post('helper');
+    $helper2           = $this->input->post('helper2');
+    $helper3           = $this->input->post('helper3');
     if (empty($tgl_pengembalian)) {
       $data = array(
         'kode_cabang'        => $kode_cabang,
@@ -83,6 +89,8 @@ class Model_dpb extends CI_Model
         'no_kendaraan'       => $nokendaraan,
         'id_driver'          => $driver,
         'id_helper'          => $helper,
+        'id_helper_2'        => $helper2,
+        'id_helper_3'        => $helper3,
         'tgl_pengambilan'    => $tgl_pengambilan,
       );
     } else {
@@ -93,6 +101,8 @@ class Model_dpb extends CI_Model
         'no_kendaraan'       => $nokendaraan,
         'id_driver'          => $driver,
         'id_helper'          => $helper,
+        'id_helper_2'        => $helper2,
+        'id_helper_3'        => $helper3,
         'tgl_pengambilan'    => $tgl_pengambilan,
         'tgl_pengembalian'   => $tgl_pengembalian
       );
@@ -311,11 +321,14 @@ class Model_dpb extends CI_Model
   }
   public function getDataDpb($rowno, $rowperpage, $no_dpb = "", $tgl_pengambilan = "", $cabang = "", $salesman = "")
   {
-    $this->db->select('no_dpb,dpb.kode_cabang,dpb.id_karyawan,nama_karyawan,tujuan,no_kendaraan,tgl_pengambilan,driver.nama_driver_helper as nama_driver,helper.nama_driver_helper as nama_helper');
+    $this->db->select('no_dpb,dpb.kode_cabang,dpb.id_karyawan,nama_karyawan,tujuan,no_kendaraan,tgl_pengambilan,driver.nama_driver_helper as nama_driver,helper.nama_driver_helper as nama_helper
+    ,helper2.nama_driver_helper as nama_helper_2,helper3.nama_driver_helper as nama_helper_3');
     $this->db->from('dpb');
     $this->db->join('karyawan', 'dpb.id_karyawan = karyawan.id_karyawan');
     $this->db->join('driver_helper driver', 'dpb.id_driver = driver.id_driver_helper', 'left');
     $this->db->join('driver_helper helper', 'dpb.id_helper = helper.id_driver_helper', 'left');
+    $this->db->join('driver_helper helper2', 'dpb.id_helper_2 = helper2.id_driver_helper', 'left');
+    $this->db->join('driver_helper helper3', 'dpb.id_helper_3 = helper3.id_driver_helper', 'left');
     $this->db->order_by('tgl_pengambilan', 'desc');
     if ($no_dpb != '') {
       $this->db->where('no_dpb', $no_dpb);
