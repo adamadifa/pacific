@@ -76,6 +76,16 @@
                     <option value="">Helper</option>
                   </select>
                 </div>
+                <div class="form-group mb-3">
+                  <select class="form-select show-tick" id="helper2" name="helper2" data-error=".errorTxt1">
+                    <option value="">Helper</option>
+                  </select>
+                </div>
+                <div class="form-group mb-3">
+                  <select class="form-select show-tick" id="helper3" name="helper3" data-error=".errorTxt1">
+                    <option value="">Helper</option>
+                  </select>
+                </div>
                 <table class="table table-bordered table-striped">
                   <thead class="thead-dark">
                     <tr>
@@ -402,6 +412,42 @@
       });
     }
 
+    function loadhelper2(id_helper) {
+      var cabang = $("#cabang").val();
+
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>laporanpenjualan/get_helper',
+        data: {
+          cabang: cabang,
+          id_helper: id_helper
+        },
+        cache: false,
+        success: function(respond) {
+          $("#helper2").html(respond);
+          //$("#salesman").selectpicker("refresh");
+        }
+      });
+    }
+
+    function loadhelper3(id_helper) {
+      var cabang = $("#cabang").val();
+
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo base_url(); ?>laporanpenjualan/get_helper',
+        data: {
+          cabang: cabang,
+          id_helper: id_helper
+        },
+        cache: false,
+        success: function(respond) {
+          $("#helper3").html(respond);
+          //$("#salesman").selectpicker("refresh");
+        }
+      });
+    }
+
     function loadsalesman(id_salesman) {
       var cabang = $("#cabang").val();
       $.ajax({
@@ -422,6 +468,8 @@
     loadsalesman("<?php echo $dpb['id_karyawan']; ?>");
     loaddriver("<?php echo $dpb['id_driver']; ?>");
     loadhelper("<?php echo $dpb['id_helper']; ?>");
+    loadhelper2("<?php echo $dpb['id_helper_2']; ?>");
+    loadhelper3("<?php echo $dpb['id_helper_3']; ?>");
 
 
 
