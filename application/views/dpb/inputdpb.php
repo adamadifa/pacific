@@ -198,12 +198,6 @@
       } else if (tglambil == "") {
         swal("Oops!", "Tanggal Pengambilan Harus Diisi!", "warning");
         return false;
-      } else if (driver == "") {
-        swal("Oops!", "Driver Harus Diisi!", "warning");
-        return false;
-      } else if (helper == "") {
-        swal("Oops!", "Helper Harus Diisi!", "warning");
-        return false;
       }
     });
 
