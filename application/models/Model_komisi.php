@@ -1319,7 +1319,7 @@ class Model_komisi extends CI_Model
   {
     $dari = $tahun . "-" . $bulan . "-01";
     $sampai = date('Y-m-t', strtotime($dari));
-    $query = "SELECT driver_helper.id_driver_helper,nama_driver_helper,kategori,jml_driver,jml_helper,ratio
+    $query = "SELECT driver_helper.id_driver_helper,nama_driver_helper,kategori,IFNULL(jml_helper,0) + IFNULL(jml_helper_2,0) + IFNULL(jml_helper_3,0) as jml_helper,ratio
     FROM driver_helper
     LEFT JOIN (
       SELECT id_driver,ROUND(SUM(jml_penjualan),2) as jml_driver 
@@ -1333,6 +1333,20 @@ class Model_komisi extends CI_Model
       INNER JOIN dpb ON detail_dpb.no_dpb = dpb.no_dpb
       WHERE tgl_pengambilan BETWEEN '$dari' AND '$sampai' GROUP BY id_helper
     )helper ON (helper.id_helper = driver_helper.id_driver_helper)
+
+    LEFT JOIN (
+      SELECT id_helper_2,ROUND(SUM(jml_penjualan),2) as jml_helper_2 
+      FROM detail_dpb
+      INNER JOIN dpb ON detail_dpb.no_dpb = dpb.no_dpb
+      WHERE tgl_pengambilan BETWEEN '$dari' AND '$sampai' GROUP BY id_helper_2
+    )helper2 ON (helper2.id_helper_2 = driver_helper.id_driver_helper)
+    
+    LEFT JOIN (
+      SELECT id_helper_3,ROUND(SUM(jml_penjualan),2) as jml_helper_3 
+      FROM detail_dpb
+      INNER JOIN dpb ON detail_dpb.no_dpb = dpb.no_dpb
+      WHERE tgl_pengambilan BETWEEN '$dari' AND '$sampai' GROUP BY id_helper_3
+    )helper3 ON (helper3.id_helper_3 = driver_helper.id_driver_helper)
     WHERE kode_cabang = '$cabang' AND kategori='DRIVER' OR kode_cabang='$cabang' AND  kategori='HELPER'
     ORDER BY kategori,nama_driver_helper";
     return $this->db->query($query);
