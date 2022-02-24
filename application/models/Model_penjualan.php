@@ -1275,6 +1275,7 @@ class Model_penjualan extends CI_Model
     $this->db->from('detailpenjualan');
     $this->db->join('barang', 'detailpenjualan.kode_barang = barang.kode_barang');
     $this->db->where('no_fak_penj', $nofaktur);
+    $this->db->order_by('kode_barang', 'asc');
     return $this->db->get();
   }
 
