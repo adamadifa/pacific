@@ -696,3 +696,46 @@ function formatnumber2($nilai)
     </tr>
   </tbody>
 </table>
+<br>
+<br>
+<br>
+<table style="width:100%">
+  <tr>
+    <td align="center">
+      Tasikmalaya, <?php echo DateToIndo2(date("Y-m-d")); ?>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <b>Herdy Budiawan</b><br>
+      GM Marketing
+    </td>
+    <td align="center">
+      Diperiksa Oleh
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <b>Ridwan Nugraha</b><br>
+      GM Administration
+    </td>
+    <td align="center">
+      Disetujui Oleh,
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <b>Jemmy Feldiana</b><br>
+      Direktur
+    </td>
+  </tr>
+</table>
