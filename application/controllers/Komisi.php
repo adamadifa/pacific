@@ -328,7 +328,9 @@ class Komisi extends CI_Controller
       $data['komisi'] = $this->Model_komisi->cetak_komisi_2($cabang, $bulan, $tahun, $end)->result();
       $this->load->view('komisi/laporan/cetak_komisi_2', $data);
     } else if ($aturankomisi == 3) {
-      $data['driverhelper'] = $this->Model_komisi->driver($cabang, $bulan, $tahun)->result();
+      $data['driver'] = $this->Model_komisi->driver($cabang, $bulan, $tahun)->result();
+      $data['helper'] = $this->Model_komisi->helper($cabang, $bulan, $tahun)->result();
+      $data['tunaikredit'] = $this->Model_komisi->tunaikredit($cabang, $bulan, $tahun)->row_array();
       $data['komisi'] = $this->Model_komisi->cetak_komisi_3($cabang, $bulan, $tahun, $end)->result();
       $this->load->view('komisi/laporan/cetak_komisi_2', $data);
     }
