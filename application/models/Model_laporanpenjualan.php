@@ -54,9 +54,13 @@ class Model_laporanpenjualan extends CI_Model
 		$this->db->order_by('id_driver_helper,nama_driver_helper', 'asc');
 		$this->db->where('kategori', 'HELPER');
 		$this->db->where('kode_cabang', $cabang);
+		$this->db->or_where('kategori', 'DRIVER');
+		$this->db->where('kode_cabang', $cabang);
 		if ($cabang == "GRT") {
 			$this->db->or_where('kode_cabang', 'TSM');
 			$this->db->where('kategori', 'HELPER');
+			$this->db->or_where('kode_cabang', 'TSM');
+			$this->db->where('kategori', 'DRIVER');
 		}
 		//$this->db->where('nama_karyawan !=','-');
 		return $this->db->get('driver_helper');

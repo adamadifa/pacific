@@ -244,7 +244,16 @@ function formatnumber2($nilai)
       }
 
       $totalpoin = $hasilpoinBBDP + $hasilpoinDS + $hasilpoinAR + $hasilpoinSP + $hasilpoinAB_AS_CG5;
-      $rewardcashin = $d->realisasi_cashin * (0.10 / 100);
+
+      if ($cabang == "KLT") {
+        if ($bulan >= 2 and $tahun >= 2022) {
+          $rewardcashin = $d->realisasi_cashin * (0.3 / 100);
+        } else {
+          $rewardcashin = $d->realisasi_cashin * (0.10 / 100);
+        }
+      } else {
+        $rewardcashin = $d->realisasi_cashin * (0.10 / 100);
+      }
 
       if ($cabang == "BDG") {
         $kebijakan = 25;
@@ -257,6 +266,8 @@ function formatnumber2($nilai)
       } else if ($cabang == "TGL") {
         $kebijakan = 50;
       } else if ($cabang == "TSM") {
+        $kebijakan = 100;
+      } else if ($cabang == "KLT") {
         $kebijakan = 100;
       }
 
@@ -372,7 +383,23 @@ function formatnumber2($nilai)
         <td align="right" style="background-color: #ff570d;"><?php echo formatnumber($totalpoin); ?></td>
         <td align="right" style="background-color: #ff570d;"><?php echo formatnumber($rewardpoin); ?></td>
         <td align="right" style="background-color: #9e9895;"><?php echo formatnumber($d->realisasi_cashin); ?></td>
-        <td align="center" style="background-color: #9e9895;">0.10%</td>
+        <?php
+        if ($cabang == "KLT") {
+          if ($bulan >= 2 and $tahun >= 2022) {
+        ?>
+            <td align="center" style="background-color: #9e9895;">0.3%</td>
+          <?php
+          } else {
+          ?>
+            <td align="center" style="background-color: #9e9895;">0.10%</td>
+          <?php }
+        } else {
+          ?>
+          <td align="center" style="background-color: #9e9895;">0.10%</td>
+        <?php
+        }
+        ?>
+
         <td align="right" style="background-color: #9e9895;"><?php echo formatnumber($rewardcashin); ?></td>
         <td align="right" style="background-color: #e43a90;"><?php echo formatnumber($d->sisapiutang); ?></td>
         <td align="center" style="background-color: #e43a90;"><?php echo round($ratioljt, 2); ?></td>
@@ -382,7 +409,7 @@ function formatnumber2($nilai)
         <td></td>
 
       </tr>
-    <?php
+      <?php
       $no++;
 
       if (empty($totaltargetBBDP)) {
@@ -494,38 +521,42 @@ function formatnumber2($nilai)
 
       $totalrewardkp = $rewardallpoin + $rewardcashinkp + $rewardljtkp;
     }
-    ?>
-    <tr>
-      <td><?php echo $no; ?></td>
-      <td colspan="2">KEPALA PENJUALAN</td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totaltargetBBDP); ?></td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrealisasiBBDP); ?></td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalhasilpoinBBDP); ?></td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totaltargetDS); ?></td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrealisasiDS); ?></td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalhasilpoinDS); ?></td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totaltargetSP); ?></td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrealisasiSP); ?></td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalhasilpoinSP); ?></td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totaltargetAR); ?></td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrealisasiAR); ?></td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalhasilpoinAR); ?></td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totaltargetABASCG5); ?></td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrealisasiABASCG5); ?></td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalhasilpoinABASCG5); ?></td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalallpoin); ?></td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($rewardallpoin); ?></td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalcashin); ?></td>
-      <td align="center" style="background-color: #35ce35;">0.05%</td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($rewardcashinkp); ?></td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalsisapiutang); ?></td>
-      <td align="right" style="background-color: #35ce35;"><?php echo ROUND($ratioljtkp, 2); ?></td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($rewardljtkp); ?></td>
-      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrewardkp); ?></td>
-      <td></td>
-      <td></td>
+    if ($this->session->userdata('level_user') == "manager accounting") {
+      ?>
+      <tr>
+        <td><?php echo $no; ?></td>
+        <td colspan="2">KEPALA PENJUALAN</td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totaltargetBBDP); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrealisasiBBDP); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalhasilpoinBBDP); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totaltargetDS); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrealisasiDS); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalhasilpoinDS); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totaltargetSP); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrealisasiSP); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalhasilpoinSP); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totaltargetAR); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrealisasiAR); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalhasilpoinAR); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totaltargetABASCG5); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrealisasiABASCG5); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalhasilpoinABASCG5); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalallpoin); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($rewardallpoin); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalcashin); ?></td>
+        <td align="center" style="background-color: #35ce35;">0.05%</td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($rewardcashinkp); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalsisapiutang); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo ROUND($ratioljtkp, 2); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($rewardljtkp); ?></td>
+        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrewardkp); ?></td>
+        <td></td>
+        <td></td>
 
-    </tr>
+      </tr>
+    <?php
+    }
+    ?>
     <tr>
       <th>NO</th>
       <th>ID KARYAWAN</th>

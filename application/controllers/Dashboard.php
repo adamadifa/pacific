@@ -81,7 +81,9 @@ class Dashboard extends CI_Controller
       $this->template->load('template/template', 'dashboard/dashboard_adminproduksi.php', $data);
     } elseif ($level_user == "keuangan") {
       $this->template->load('template/template', 'dashboard/dashboard_kasir');
-    } elseif ($level_user == "manager marketing") {
+    } elseif ($level_user == "crm") {
+      $this->template->load('template/template', 'dashboard/dashboard_kasir');
+    }elseif ($level_user == "manager marketing") {
       // $data['jmlPelanggan']    = $this->Model_dashboard->jumlahPelanggan()->row_array();
       // $data['jmlSales']        = $this->Model_dashboard->jumlahSales()->row_array();
       // $data['jmlBrg']          = $this->Model_dashboard->jumlahBarang()->row_array();

@@ -1183,7 +1183,11 @@ class Model_kaskecil extends CI_Model
     $ceknolast      = $this->db->query($qledger)->row_array();
     $nobuktilast    = $ceknolast['no_bukti'];
     $no_bukti       = buatkode($nobuktilast, 'LR' . $cabang . $tahun, 4);
-    $akun = "1-1104";
+    if($cabang != 'GRT'){
+      $akun = "1-1104";
+    }else{
+      $akun = "1-1119";
+    }
     $data = array(
       'no_bukti'        => $no_bukti,
       'tgl_ledger'      => $tgl,
