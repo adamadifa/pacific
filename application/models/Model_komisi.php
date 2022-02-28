@@ -1315,18 +1315,30 @@ class Model_komisi extends CI_Model
     return $this->db->update('komisi_target_cashin_detail', $data, array('kode_target' => $kodetarget, 'id_karyawan' => $id_karyawan));
   }
 
-  public function driverhelper($cabang, $bulan, $tahun)
+  public function driver($cabang, $bulan, $tahun)
   {
     $dari = $tahun . "-" . $bulan . "-01";
     $sampai = date('Y-m-t', strtotime($dari));
-    $query = "SELECT driver_helper.id_driver_helper,nama_driver_helper,kategori,IFNULL(jml_helper,0) + IFNULL(jml_helper_2,0) + IFNULL(jml_helper_3,0) as jml_helper,ratio
+    $query = "SELECT driver_helper.id_driver_helper,nama_driver_helper,kategori,IFNULL(jml_driver,0) as jml_driver,ratio
     FROM driver_helper
-    LEFT JOIN (
+    INNER JOIN (
       SELECT id_driver,ROUND(SUM(jml_penjualan),2) as jml_driver 
       FROM detail_dpb
       INNER JOIN dpb ON detail_dpb.no_dpb = dpb.no_dpb
       WHERE tgl_pengambilan BETWEEN '$dari' AND '$sampai' GROUP BY id_driver
     )driver ON (driver.id_driver = driver_helper.id_driver_helper)
+    
+    WHERE kode_cabang = '$cabang'
+    ORDER BY kategori,nama_driver_helper";
+    return $this->db->query($query);
+  }
+
+  public function helper($cabang, $bulan, $tahun)
+  {
+    $dari = $tahun . "-" . $bulan . "-01";
+    $sampai = date('Y-m-t', strtotime($dari));
+    $query = "SELECT driver_helper.id_driver_helper,nama_driver_helper,kategori,IFNULL(jml_helper,0) + IFNULL(jml_helper_2,0) + IFNULL(jml_helper_3,0) as jml_helper,ratio
+    FROM driver_helper
     LEFT JOIN (
       SELECT id_helper,ROUND(SUM(jml_penjualan),2) as jml_helper 
       FROM detail_dpb
@@ -1347,8 +1359,43 @@ class Model_komisi extends CI_Model
       INNER JOIN dpb ON detail_dpb.no_dpb = dpb.no_dpb
       WHERE tgl_pengambilan BETWEEN '$dari' AND '$sampai' GROUP BY id_helper_3
     )helper3 ON (helper3.id_helper_3 = driver_helper.id_driver_helper)
-    WHERE kode_cabang = '$cabang' AND kategori='DRIVER' OR kode_cabang='$cabang' AND  kategori='HELPER'
+    
+    WHERE kode_cabang = '$cabang' AND (IFNULL(jml_helper,0) + IFNULL(jml_helper_2,0) + IFNULL(jml_helper_3,0)) != 0.00
     ORDER BY kategori,nama_driver_helper";
+    return $this->db->query($query);
+  }
+
+  public function gudang($cabang)
+  {
+    return $this->db->get_where('driver_helper', array('kategori' => 'GUDANG', 'kode_cabang' => $cabang));
+  }
+
+  public function tunaikredit($cabang, $bulan, $tahun)
+  {
+    $dari = $tahun . "-" . $bulan . "-01";
+    $sampai = date('Y-m-t', strtotime($dari));
+    $query = "SELECT 
+    IFNULL(FLOOR(SUM( IF ( kode_produk = 'AB', detailpenjualan.jumlah/isipcsdus, NULL ) )),0) + 
+    IFNULL(FLOOR(SUM( IF ( kode_produk = 'AR', detailpenjualan.jumlah/isipcsdus, NULL ) )),0) +
+    IFNULL(FLOOR(SUM( IF ( kode_produk = 'AS', detailpenjualan.jumlah/isipcsdus, NULL ) )),0) +
+    IFNULL(FLOOR(SUM( IF ( kode_produk = 'BB', detailpenjualan.jumlah/isipcsdus, NULL ) )),0) +
+    IFNULL(FLOOR(SUM( IF ( kode_produk = 'CG', detailpenjualan.jumlah/isipcsdus, NULL ) )),0) +
+    IFNULL(FLOOR(SUM( IF ( kode_produk = 'CGG', detailpenjualan.jumlah/isipcsdus, NULL ) )),0) +
+    IFNULL(FLOOR(SUM( IF ( kode_produk = 'DB', detailpenjualan.jumlah/isipcsdus, NULL ) )),0) +
+    IFNULL(FLOOR(SUM( IF ( kode_produk = 'DEP', detailpenjualan.jumlah/isipcsdus,NULL ) )),0) +
+    IFNULL(FLOOR(SUM( IF ( kode_produk = 'DK', detailpenjualan.jumlah/isipcsdus, NULL ) )),0) +
+    IFNULL(FLOOR(SUM( IF ( kode_produk = 'DS', detailpenjualan.jumlah/isipcsdus, NULL ) )),0) +
+    IFNULL(FLOOR(SUM( IF ( kode_produk = 'SP', detailpenjualan.jumlah/isipcsdus, NULL ) )),0) +
+    IFNULL(FLOOR(SUM( IF ( kode_produk = 'BBP', detailpenjualan.jumlah/isipcsdus, NULL ) )),0) +
+    IFNULL(FLOOR(SUM( IF ( kode_produk = 'SPP', detailpenjualan.jumlah/isipcsdus, NULL ) )),0) +
+    IFNULL(FLOOR(SUM( IF ( kode_produk = 'CG5', detailpenjualan.jumlah/isipcsdus, NULL ) )),0) +
+    IFNULL(FLOOR(SUM( IF ( kode_produk = 'SC', detailpenjualan.jumlah/isipcsdus, NULL ) )),0) +
+    IFNULL(FLOOR(SUM( IF ( kode_produk = 'SP8', detailpenjualan.jumlah/isipcsdus, NULL ) )),0) AS total
+    FROM detailpenjualan
+    INNER JOIN barang ON detailpenjualan.kode_barang = barang.kode_barang
+    INNER JOIN penjualan ON detailpenjualan.no_fak_penj =  penjualan.no_fak_penj
+    INNER JOIN karyawan ON penjualan.id_karyawan = karyawan.id_karyawan
+    WHERE  tgltransaksi BETWEEN '$dari' AND '$sampai' AND karyawan.kode_cabang='$cabang' AND promo != 1 ";
     return $this->db->query($query);
   }
 }

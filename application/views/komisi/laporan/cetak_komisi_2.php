@@ -156,6 +156,11 @@ function formatnumber2($nilai)
 
     $totalcashin = 0;
     $totalsisapiutang = 0;
+
+    $grandtotalrewardsales = 0;
+    $grandtotalrewarddriver = 0;
+    $grandtotalrewardhelper = 0;
+    $grandtotalrewardgudang = 0;
     $no = 1;
     foreach ($komisi as $d) {
       $poinBBDP = 40;
@@ -342,7 +347,7 @@ function formatnumber2($nilai)
       }
 
       $totalreward = $rewardcashin + $rewardljt + $rewardpoin;
-
+      $grandtotalrewardsales += $totalreward;
       $totaltargetBBDP += $d->target_BB_DP;
       $totalrealisasiBBDP += $realisasi_BB_DEP;
 
@@ -409,7 +414,7 @@ function formatnumber2($nilai)
         <td></td>
 
       </tr>
-      <?php
+    <?php
       $no++;
 
       if (empty($totaltargetBBDP)) {
@@ -521,41 +526,41 @@ function formatnumber2($nilai)
 
       $totalrewardkp = $rewardallpoin + $rewardcashinkp + $rewardljtkp;
     }
-    if ($this->session->userdata('level_user') == "manager accounting") {
-      ?>
-      <tr>
-        <td><?php echo $no; ?></td>
-        <td colspan="2">KEPALA PENJUALAN</td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totaltargetBBDP); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrealisasiBBDP); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalhasilpoinBBDP); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totaltargetDS); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrealisasiDS); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalhasilpoinDS); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totaltargetSP); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrealisasiSP); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalhasilpoinSP); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totaltargetAR); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrealisasiAR); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalhasilpoinAR); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totaltargetABASCG5); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrealisasiABASCG5); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalhasilpoinABASCG5); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalallpoin); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($rewardallpoin); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalcashin); ?></td>
-        <td align="center" style="background-color: #35ce35;">0.05%</td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($rewardcashinkp); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalsisapiutang); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo ROUND($ratioljtkp, 2); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($rewardljtkp); ?></td>
-        <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrewardkp); ?></td>
-        <td></td>
-        <td></td>
 
-      </tr>
+    ?>
+    <tr>
+      <td><?php echo $no; ?></td>
+      <td colspan="2">KEPALA PENJUALAN</td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totaltargetBBDP); ?></td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrealisasiBBDP); ?></td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalhasilpoinBBDP); ?></td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totaltargetDS); ?></td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrealisasiDS); ?></td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalhasilpoinDS); ?></td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totaltargetSP); ?></td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrealisasiSP); ?></td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalhasilpoinSP); ?></td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totaltargetAR); ?></td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrealisasiAR); ?></td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalhasilpoinAR); ?></td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totaltargetABASCG5); ?></td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrealisasiABASCG5); ?></td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalhasilpoinABASCG5); ?></td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalallpoin); ?></td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($rewardallpoin); ?></td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalcashin); ?></td>
+      <td align="center" style="background-color: #35ce35;">0.05%</td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($rewardcashinkp); ?></td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalsisapiutang); ?></td>
+      <td align="right" style="background-color: #35ce35;"><?php echo ROUND($ratioljtkp, 2); ?></td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($rewardljtkp); ?></td>
+      <td align="right" style="background-color: #35ce35;"><?php echo formatnumber($totalrewardkp); ?></td>
+      <td></td>
+      <td></td>
+
+    </tr>
     <?php
-    }
+
     ?>
     <tr>
       <th>NO</th>
@@ -570,7 +575,10 @@ function formatnumber2($nilai)
     </tr>
     <?php
     $nextno = $no + 1;
-    foreach ($driverhelper as $d) {
+    foreach ($driver as $d) {
+      $jmlqty = $d->jml_driver;
+      $rewarddriver = $jmlqty * $d->ratio;
+      $grandtotalrewarddriver += $rewarddriver;
     ?>
       <tr>
         <td><?php echo $nextno; ?></td>
@@ -579,26 +587,19 @@ function formatnumber2($nilai)
         <td colspan="21"></td>
         <td align="center">
           <?php
-          if ($d->kategori == 'DRIVER') {
-            $jmlqty = $d->jml_driver;
-            if (!empty($d->jml_driver)) {
-              echo formatnumber($d->jml_driver);
-            };
-          } else if ($d->kategori == 'HELPER') {
-            $jmlqty = $d->jml_helper;
-            if (!empty($d->jml_helper) && $d->jml_helper > 0.00) {
-              echo formatnumber($d->jml_helper);
-            };
-          }
+
+          if (!empty($d->jml_driver) && $d->jml_driver > 0.00) {
+            echo formatnumber($d->jml_driver);
+          };
           ?>
 
         </td>
         <td align="center"><?php echo $d->ratio; ?></td>
         <td align="right">
           <?php
-          $rewarddriverhelper = $jmlqty * $d->ratio;
-          if (!empty($rewarddriverhelper)) {
-            echo formatnumber2($rewarddriverhelper);
+
+          if (!empty($rewarddriver)) {
+            echo formatnumber2($rewarddriver);
           };
           ?>
         </td>
@@ -609,5 +610,89 @@ function formatnumber2($nilai)
       $nextno++;
     }
     ?>
+
+    <?php
+    $nextno = $no + 1;
+    foreach ($helper as $d) {
+      $jmlqty = $d->jml_helper;
+      $rewardhelper = $jmlqty * $d->ratio;
+      $grandtotalrewardhelper += $rewardhelper;
+    ?>
+      <tr>
+        <td><?php echo $nextno; ?></td>
+        <td><?php echo $d->nama_driver_helper; ?></td>
+        <td>HELPER</td>
+        <td colspan="21"></td>
+        <td align="center">
+          <?php
+
+          if (!empty($d->jml_helper) && $d->jml_helper > 0.00) {
+            echo formatnumber($d->jml_helper);
+          };
+          ?>
+
+        </td>
+        <td align="center"><?php echo $d->ratio; ?></td>
+        <td align="right">
+          <?php
+
+          if (!empty($rewardhelper)) {
+            echo formatnumber2($rewardhelper);
+          };
+          ?>
+        </td>
+        <td></td>
+        <td></td>
+      </tr>
+    <?php
+      $nextno++;
+    }
+    ?>
+    <?php
+    $nextno = $no + 1;
+    foreach ($gudang as $d) {
+      $jmlqty = $tunaikredit['total'];
+      $rewardgudang = $jmlqty * $d->ratio;
+      $grandtotalrewardgudang += $rewardgudang;
+    ?>
+      <tr>
+        <td><?php echo $nextno; ?></td>
+        <td><?php echo $d->nama_driver_helper; ?></td>
+        <td>GUDANG</td>
+        <td colspan="21"></td>
+        <td align="center">
+          <?php
+
+          if (!empty($jmlqty)) {
+            echo formatnumber($jmlqty);
+          };
+          ?>
+
+        </td>
+        <td align="center"><?php echo $d->ratio; ?></td>
+        <td align="right">
+          <?php
+
+          if (!empty($rewardgudang)) {
+            echo formatnumber2($rewardgudang);
+          };
+          ?>
+        </td>
+        <td></td>
+        <td></td>
+      </tr>
+    <?php
+      $nextno++;
+    }
+    $grandtotalreward = $grandtotalrewardsales + $totalrewardkp + $grandtotalrewarddriver + $grandtotalrewardhelper + $grandtotalrewardgudang;
+    ?>
+    <tr>
+    <tr>
+      <td colspan="24" style="font-size:24px; font-weight:bold" align="center">TOTAL</td>
+      <td></td>
+      <td></td>
+      <td style="font-size:24px; font-weight:bold" align="right"><?php echo formatnumber2($grandtotalreward); ?></td>
+    </tr>
+    </tr>
   </tbody>
 </table>
