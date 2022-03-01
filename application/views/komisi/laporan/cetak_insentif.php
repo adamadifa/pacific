@@ -133,7 +133,7 @@ if ($bln == 9 and $tahun = "2021") {
         <td align="center"><?php echo $d->lamalpc; ?></td>
         <td align="right">
           <?php
-          if ($d->lamalpc == 1) {
+          if ($d->lamalpc === "0" || $d->lamalpc == 1) {
             $rewardkategori3 = 350000;
           } else if ($d->lamalpc == 2) {
             $rewardkategori3 = 280000;
