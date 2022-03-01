@@ -323,7 +323,7 @@ class Komisi extends CI_Controller
       $data['driver'] = $this->Model_komisi->driver($cabang, $bulan, $tahun)->result();
       $data['helper'] = $this->Model_komisi->helper($cabang, $bulan, $tahun)->result();
       $data['tunaikredit'] = $this->Model_komisi->tunaikredit($cabang, $bulan, $tahun)->row_array();
-      $data['gudang'] = $this->Model_komisi->gudang($cabang)->result();
+      $data['gudang'] = $this->Model_komisi->gudang($cabang, $bulan, $tahun)->result();
 
       $data['komisi'] = $this->Model_komisi->cetak_komisi_2($cabang, $bulan, $tahun, $end)->result();
       $this->load->view('komisi/laporan/cetak_komisi_2', $data);
@@ -331,7 +331,7 @@ class Komisi extends CI_Controller
       $data['driver'] = $this->Model_komisi->driver($cabang, $bulan, $tahun)->result();
       $data['helper'] = $this->Model_komisi->helper($cabang, $bulan, $tahun)->result();
       $data['tunaikredit'] = $this->Model_komisi->tunaikredit($cabang, $bulan, $tahun)->row_array();
-      $data['gudang'] = $this->Model_komisi->gudang($cabang)->result();
+      $data['gudang'] = $this->Model_komisi->gudang($cabang, $bulan, $tahun)->result();
       $data['komisi'] = $this->Model_komisi->cetak_komisi_3($cabang, $bulan, $tahun, $end)->result();
       $this->load->view('komisi/laporan/cetak_komisi_2', $data);
     }
@@ -714,5 +714,25 @@ class Komisi extends CI_Controller
       $this->db->trans_commit();
       echo "1";
     }
+  }
+
+  function set_ratio_komisi()
+  {
+    $data['cabang'] = $this->Model_cabang->view_cabang()->result();
+    $this->template->load('template/template', 'komisi/set_ratio_komisi', $data);
+  }
+
+  function loadratiokomisi()
+  {
+    $cabang = $this->input->post('cabang');
+    $bulan = $this->input->post('bulan');
+    $tahun = $this->input->post('tahun');
+    $data['ratiokomisi'] = $this->Model_komisi->loadratiokomisi($cabang, $bulan, $tahun)->result();
+    $this->load->view('komisi/loadratiokomisi', $data);
+  }
+
+  function insert_setratio_komisi()
+  {
+    $this->Model_komisi->insert_setratio_komisi();
   }
 }

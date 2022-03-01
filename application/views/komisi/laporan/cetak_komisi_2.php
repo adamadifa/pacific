@@ -260,20 +260,24 @@ function formatnumber2($nilai)
         $rewardcashin = $d->realisasi_cashin * (0.10 / 100);
       }
 
-      if ($cabang == "BDG") {
-        $kebijakan = 25;
-      } else if ($cabang == "PWT") {
+      if ($bulan >= 2 and $tahun >= 2022) {
         $kebijakan = 100;
-      } else if ($cabang == "SKB") {
-        $kebijakan = 100;
-      } else if ($cabang == "BGR") {
-        $kebijakan = 100;
-      } else if ($cabang == "TGL") {
-        $kebijakan = 50;
-      } else if ($cabang == "TSM") {
-        $kebijakan = 100;
-      } else if ($cabang == "KLT") {
-        $kebijakan = 100;
+      } else {
+        if ($cabang == "BDG") {
+          $kebijakan = 25;
+        } else if ($cabang == "PWT") {
+          $kebijakan = 100;
+        } else if ($cabang == "SKB") {
+          $kebijakan = 100;
+        } else if ($cabang == "BGR") {
+          $kebijakan = 100;
+        } else if ($cabang == "TGL") {
+          $kebijakan = 50;
+        } else if ($cabang == "TSM") {
+          $kebijakan = 100;
+        } else if ($cabang == "KLT") {
+          $kebijakan = 100;
+        }
       }
 
       $ratioljt = ($d->sisapiutang / $d->realisasi_cashin * 100) * ($kebijakan / 100);
@@ -577,7 +581,16 @@ function formatnumber2($nilai)
     $nextno = $no + 1;
     foreach ($driver as $d) {
       $jmlqty = $d->jml_driver;
-      $rewarddriver = $jmlqty * $d->ratio;
+      if (empty($d->ratioaktif)) {
+        if (empty($d->ratioterakhir)) {
+          $ratio = $d->ratiodefault;
+        } else {
+          $ratio = $d->ratioterakhir;
+        }
+      } else {
+        $ratio = $d->ratioaktif;
+      }
+      $rewarddriver = $jmlqty * $ratio;
       $grandtotalrewarddriver += $rewarddriver;
     ?>
       <tr>
@@ -594,7 +607,7 @@ function formatnumber2($nilai)
           ?>
 
         </td>
-        <td align="center"><?php echo $d->ratio; ?></td>
+        <td align="center"><?php echo $ratio; ?></td>
         <td align="right">
           <?php
 
@@ -615,7 +628,16 @@ function formatnumber2($nilai)
     $nextno = $no + 1;
     foreach ($helper as $d) {
       $jmlqty = $d->jml_helper;
-      $rewardhelper = $jmlqty * $d->ratio;
+      if (empty($d->ratioaktif)) {
+        if (empty($d->ratioterakhir)) {
+          $ratio = $d->ratiodefault;
+        } else {
+          $ratio = $d->ratioterakhir;
+        }
+      } else {
+        $ratio = $d->ratioaktif;
+      }
+      $rewardhelper = $jmlqty * $ratio;
       $grandtotalrewardhelper += $rewardhelper;
     ?>
       <tr>
@@ -632,7 +654,7 @@ function formatnumber2($nilai)
           ?>
 
         </td>
-        <td align="center"><?php echo $d->ratio; ?></td>
+        <td align="center"><?php echo $ratio; ?></td>
         <td align="right">
           <?php
 
@@ -652,7 +674,16 @@ function formatnumber2($nilai)
     $nextno = $no + 1;
     foreach ($gudang as $d) {
       $jmlqty = $tunaikredit['total'];
-      $rewardgudang = $jmlqty * $d->ratio;
+      if (empty($d->ratioaktif)) {
+        if (empty($d->ratioterakhir)) {
+          $ratio = $d->ratiodefault;
+        } else {
+          $ratio = $d->ratioterakhir;
+        }
+      } else {
+        $ratio = $d->ratioaktif;
+      }
+      $rewardgudang = $jmlqty * $ratio;
       $grandtotalrewardgudang += $rewardgudang;
     ?>
       <tr>
@@ -669,7 +700,7 @@ function formatnumber2($nilai)
           ?>
 
         </td>
-        <td align="center"><?php echo $d->ratio; ?></td>
+        <td align="center"><?php echo $ratio; ?></td>
         <td align="right">
           <?php
 
