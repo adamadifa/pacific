@@ -34,13 +34,14 @@ if ($level == "Administrator") {
       <a href="#" class="list-group-item list-group-item-action active">
         Data Komisi
       </a>
-
-      <a href="<?php echo base_url(); ?>komisi/approvle_targetkomisi" class="list-group-item list-group-item-action">
-        <i class="fa  fa-file-text mr-2"></i>Input Target Komisi
-      </a>
-      <a href="<?php echo base_url(); ?>komisi/approvetargetkomisi" class="list-group-item list-group-item-action">
-        <i class="fa  fa-file-text mr-2"></i>Approve Target Komisi
-      </a>
+      <a href="<?php echo base_url(); ?>komisi/set_ratio_komisi" class="list-group-item list-group-item-action">
+        <i class="fa  fa-file-text mr-2"></i>Set Ratio Komisi
+        <a href="<?php echo base_url(); ?>komisi/approvle_targetkomisi" class="list-group-item list-group-item-action">
+          <i class="fa  fa-file-text mr-2"></i>Input Target Komisi
+        </a>
+        <a href="<?php echo base_url(); ?>komisi/approvetargetkomisi" class="list-group-item list-group-item-action">
+          <i class="fa  fa-file-text mr-2"></i>Approve Target Komisi
+        </a>
     </div>
   </div>
   <div class="card">
