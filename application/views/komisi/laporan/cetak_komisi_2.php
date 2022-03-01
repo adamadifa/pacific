@@ -250,15 +250,17 @@ function formatnumber2($nilai)
 
       $totalpoin = $hasilpoinBBDP + $hasilpoinDS + $hasilpoinAR + $hasilpoinSP + $hasilpoinAB_AS_CG5;
 
-      if ($cabang == "KLT") {
-        if ($bulan >= 2 and $tahun >= 2022) {
-          $rewardcashin = $d->realisasi_cashin * (0.3 / 100);
+      if ($bulan >= 2 and $tahun >= 2022) {
+        if ($d->id_karyawan == "STGL03" || $cabang == "KLT") {
+          $ratiocashin = 0.30;
         } else {
-          $rewardcashin = $d->realisasi_cashin * (0.10 / 100);
+          $ratiocashin = 0.10;
         }
       } else {
-        $rewardcashin = $d->realisasi_cashin * (0.10 / 100);
+        $ratiocashin = 0.10;
       }
+
+      $rewardcashin = $d->realisasi_cashin * ($ratiocashin / 100);
 
       if ($bulan >= 2 and $tahun >= 2022) {
         $kebijakan = 100;
@@ -392,22 +394,7 @@ function formatnumber2($nilai)
         <td align="right" style="background-color: #ff570d;"><?php echo formatnumber($totalpoin); ?></td>
         <td align="right" style="background-color: #ff570d;"><?php echo formatnumber($rewardpoin); ?></td>
         <td align="right" style="background-color: #9e9895;"><?php echo formatnumber($d->realisasi_cashin); ?></td>
-        <?php
-        if ($cabang == "KLT") {
-          if ($bulan >= 2 and $tahun >= 2022) {
-        ?>
-            <td align="center" style="background-color: #9e9895;">0.3%</td>
-          <?php
-          } else {
-          ?>
-            <td align="center" style="background-color: #9e9895;">0.10%</td>
-          <?php }
-        } else {
-          ?>
-          <td align="center" style="background-color: #9e9895;">0.10%</td>
-        <?php
-        }
-        ?>
+        <td align="center" style="background-color: #9e9895;"><?php echo $ratiocashin; ?>%</td>
 
         <td align="right" style="background-color: #9e9895;"><?php echo formatnumber($rewardcashin); ?></td>
         <td align="right" style="background-color: #e43a90;"><?php echo formatnumber($d->sisapiutang); ?></td>
