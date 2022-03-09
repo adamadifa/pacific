@@ -199,9 +199,9 @@ $ratiopeny = $penyharga / $totalqty;
     <td align="right"><?php echo number_format(($harganet['bruto_CG5'] - (($harganet['qty_CG5'] / $isipcs_cg5) / $ratiopeny) - $harganet['diskon_CG5']) / ($harganet['qty_CG5'] / $isipcs_ab), '0', '', '.'); ?></td>
     <td align="right"><?php echo number_format(($harganet['bruto_DEP'] - (($harganet['qty_DEP'] / $isipcs_dep) / $ratiopeny) - $harganet['diskon_DEP']) / ($harganet['qty_DEP'] / $isipcs_ab), '0', '', '.'); ?></td>
     <td align="right"><?php echo number_format(($harganet['bruto_DS'] - (($harganet['qty_DS'] / $isipcs_ds) / $ratiopeny) - $harganet['diskon_DS']) / ($harganet['qty_DS'] / $isipcs_ab), '0', '', '.'); ?></td>
-    <td align="right"><?php echo number_format(($harganet['bruto_SP'] - (($harganet['qty_SP'] / $isipcs_ab) / $ratiopeny) - $harganet['diskon_SP']) / ($harganet['qty_SP'] / $isipcs_sp), '0', '', '.'); ?></td>
-    <td align="right"><?php echo number_format(($harganet['bruto_SC'] - (($harganet['qty_SC'] / $isipcs_ab) / $ratiopeny) - $harganet['diskon_SC']) / ($harganet['qty_SC'] / $isipcs_sc), '0', '', '.'); ?></td>
-    <td align="right"><?php echo number_format(($harganet['bruto_SP8'] - (($harganet['qty_SP8'] / $isipcs_ab) / $ratiopeny) - $harganet['diskon_SP8']) / ($harganet['qty_SP8'] / $isipcs_sp8), '0', '', '.'); ?></td>
+    <td align="right"><?php echo number_format(($harganet['bruto_SP'] - (($harganet['qty_SP'] / $isipcs_sp) / $ratiopeny) - $harganet['diskon_SP']) / ($harganet['qty_SP'] / $isipcs_sp), '0', '', '.'); ?></td>
+    <td align="right"><?php echo number_format(($harganet['bruto_SC'] - (($harganet['qty_SC'] / $isipcs_sp) / $ratiopeny) - $harganet['diskon_SC']) / ($harganet['qty_SC'] / $isipcs_sc), '0', '', '.'); ?></td>
+    <td align="right"><?php echo number_format(($harganet['bruto_SP8'] - (($harganet['qty_SP8'] / $isipcs_sp) / $ratiopeny) - $harganet['diskon_SP8']) / ($harganet['qty_SP8'] / $isipcs_sp8), '0', '', '.'); ?></td>
 
   </tr>
   <tr style="font-size:14px;">

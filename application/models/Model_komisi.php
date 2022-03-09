@@ -425,7 +425,7 @@ class Model_komisi extends CI_Model
       $blnlast1 = $bulanlast - 1;
       $thnlast1 = $tahun;
     }
-    $query = "SELECT karyawan.id_karyawan,nama_karyawan,
+    $query = "SELECT karyawan.id_karyawan,nama_karyawan,kategori_salesman,
     target_BB_DP,
     BB,
     DEP,

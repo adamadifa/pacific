@@ -137,12 +137,19 @@ class Model_laporangudangjadi extends CI_Model
 		$this->db->where('mutasi_gudang_cabang.kode_cabang', $cabang);
 		$this->db->where('jenis_mutasi !=', 'KIRIM PUSAT');
 		$this->db->where('inout_good !=', '');
-		$this->db->or_where('jenis_mutasi', 'PENYESUAIAN BAD');
-		$this->db->where('tgl_mutasi_gudang_cabang >=', $dari);
-		$this->db->where('tgl_mutasi_gudang_cabang <=', $sampai);
-		$this->db->where('detail_mutasi_gudang_cabang.kode_produk', $produk);
-		$this->db->where('mutasi_gudang_cabang.kode_cabang', $cabang);
-		$this->db->where('inout_good !=', '');
+		if ($dari < "2022-03-01") {
+
+			$this->db->or_where('jenis_mutasi', 'PENYESUAIAN BAD');
+			$this->db->where('tgl_mutasi_gudang_cabang >=', $dari);
+			$this->db->where('tgl_mutasi_gudang_cabang <=', $sampai);
+			$this->db->where('detail_mutasi_gudang_cabang.kode_produk', $produk);
+			$this->db->where('mutasi_gudang_cabang.kode_cabang', $cabang);
+			$this->db->where('inout_good !=', '');
+		} else {
+			$this->db->where('jenis_mutasi !=', 'PENYESUAIAN BAD');
+		}
+
+
 		$this->db->join('mutasi_gudang_cabang', 'detail_mutasi_gudang_cabang.no_mutasi_gudang_cabang=mutasi_gudang_cabang.no_mutasi_gudang_cabang');
 		$this->db->join('master_barang', 'detail_mutasi_gudang_cabang.kode_produk=master_barang.kode_produk');
 		$this->db->join('dpb', 'mutasi_gudang_cabang.no_dpb = dpb.no_dpb', 'LEFT');
@@ -529,7 +536,118 @@ class Model_laporangudangjadi extends CI_Model
 		$bulan 	 = $tanggal[1];
 		$tahun 	 = $tanggal[0];
 		$mulai   = $tahun . "-" . $bulan . "-" . "01";
-		$query = "SELECT
+		if ($dari >= "2022-03-01") {
+			$query = "SELECT
+			m.kode_produk,
+			nama_barang,
+			isipcsdus,
+			isipack,
+			isipcs,
+			satuan,
+			saldoawalgs,saldoawalbs,
+			SUM(IF(jenis_mutasi = 'SURAT JALAN' AND mc.kode_cabang='$cabang'
+			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai',jumlah,0))
+			as pusat,
+			SUM(IF(jenis_mutasi = 'TRANSIT IN' AND mc.kode_cabang='$cabang'
+			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai',jumlah,0))
+			as transit_in,
+			SUM(IF(jenis_mutasi = 'RETUR' AND mc.kode_cabang='$cabang'
+			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai',jumlah,0))
+			as retur,
+
+
+			SUM(IF(jenis_mutasi = 'HUTANG KIRIM' AND mc.kode_cabang='$cabang'
+			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai'
+			AND inout_good='IN' OR jenis_mutasi = 'PL TTR' AND mc.kode_cabang='$cabang'
+			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai'
+			AND inout_good='IN',jumlah,0))
+			as lainlain_in,
+
+
+			SUM(IF(jenis_mutasi = 'PENYESUAIAN' AND mc.kode_cabang='$cabang'
+			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai'
+			AND inout_good='IN',jumlah,0))
+			as penyesuaian_in,
+
+
+
+			SUM(IF(jenis_mutasi = 'PENYESUAIAN BAD' AND mc.kode_cabang='$cabang'
+			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai'
+			AND inout_bad='IN',jumlah,0))
+			as penyesuaianbad_in,
+			SUM(IF(jenis_mutasi = 'REPACK' AND mc.kode_cabang='$cabang'
+			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai',jumlah,0))
+			as repack,
+			SUM(IF(jenis_mutasi = 'PENJUALAN' AND mc.kode_cabang='$cabang'
+			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai',jumlah,0))
+			as penjualan,
+			SUM(IF(jenis_mutasi = 'PROMOSI'  AND mc.kode_cabang='$cabang'
+			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai',jumlah,0))
+			as promosi,
+			SUM(IF(jenis_mutasi = 'REJECT PASAR' AND mc.kode_cabang='$cabang'
+			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai',jumlah,0))
+			as reject_pasar,
+			SUM(IF(jenis_mutasi = 'REJECT MOBIL' AND mc.kode_cabang='$cabang'
+			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai',jumlah,0))
+			as reject_mobil,
+			SUM(IF(jenis_mutasi = 'REJECT GUDANG' AND mc.kode_cabang='$cabang'
+			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai',jumlah,0))
+			as reject_gudang,
+			SUM(IF(jenis_mutasi = 'TRANSIT OUT' AND mc.kode_cabang='$cabang'
+			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai',jumlah,0))
+			as transit_out,
+			SUM(IF(jenis_mutasi = 'PL HUTANG KIRIM' AND mc.kode_cabang='$cabang'
+			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai'
+			AND inout_good='OUT' OR jenis_mutasi = 'TTR' AND mc.kode_cabang='$cabang'
+			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai'
+			AND inout_good='OUT' OR jenis_mutasi = 'GANTI BARANG' AND mc.kode_cabang='$cabang'
+			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai' AND inout_good='OUT'
+			,jumlah,0))
+			as lainlain_out,
+			SUM(IF(jenis_mutasi = 'PENYESUAIAN' AND mc.kode_cabang='$cabang'
+			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai'
+			AND inout_good='OUT',jumlah,0))
+			as penyesuaian_out,
+			SUM(IF(jenis_mutasi = 'PENYESUAIAN BAD' AND mc.kode_cabang='$cabang'
+			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai'
+			AND inout_bad='OUT',jumlah,0))
+			as penyesuaianbad_out,
+		  SUM(IF(jenis_mutasi = 'KIRIM PUSAT' AND mc.kode_cabang='$cabang'
+			AND mc.tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai',jumlah,0))
+			as kirimpusat,
+
+			SUM(IF(mc.tgl_mutasi_gudang_cabang >= '$mulai' AND mc.tgl_mutasi_gudang_cabang < '$dari' AND mc.kode_cabang='$cabang'
+				AND jenis_mutasi !='KIRIM PUSAT' AND inout_good='IN'
+			,jumlah,0)) - SUM(IF(mc.tgl_mutasi_gudang_cabang >= '$mulai' AND mc.tgl_mutasi_gudang_cabang < '$dari' AND mc.kode_cabang='$cabang'
+				AND jenis_mutasi !='KIRIM PUSAT' AND inout_good='OUT'
+			,jumlah,0)) as sisamutasi,
+
+			SUM(IF(mc.tgl_mutasi_gudang_cabang >= '$mulai' AND mc.tgl_mutasi_gudang_cabang < '$dari' AND mc.kode_cabang='$cabang'
+				AND kondisi ='BAD' AND inout_bad='IN'
+			,jumlah,0)) - SUM(IF(mc.tgl_mutasi_gudang_cabang >= '$mulai' AND mc.tgl_mutasi_gudang_cabang < '$dari' AND mc.kode_cabang='$cabang'
+				AND kondisi ='BAD' AND inout_bad='OUT'
+			,jumlah,0)) as sisamutasibad
+		FROM master_barang m
+		LEFT JOIN
+		(SELECT kode_produk,jumlah as saldoawalgs FROM saldoawal_bj_detail
+		 INNER JOIN saldoawal_bj ON saldoawal_bj_detail.kode_saldoawal = saldoawal_bj.kode_saldoawal
+		 WHERE MONTH(tanggal) = '$bulan' AND YEAR(tanggal)='$tahun' AND kode_cabang='$cabang' AND status='GS'
+	  ) sags ON (m.kode_produk = sags.kode_produk)
+		LEFT JOIN
+		(SELECT kode_produk,jumlah as saldoawalbs FROM saldoawal_bj_detail
+		 INNER JOIN saldoawal_bj ON saldoawal_bj_detail.kode_saldoawal = saldoawal_bj.kode_saldoawal
+		 WHERE MONTH(tanggal) = '$bulan' AND YEAR(tanggal)='$tahun' AND kode_cabang='$cabang' AND status='BS'
+	 ) sabs ON (m.kode_produk = sabs.kode_produk)
+		LEFT JOIN detail_mutasi_gudang_cabang d
+		ON m.kode_produk = d.kode_produk
+		LEFT JOIN mutasi_gudang_cabang mc
+		ON d.no_mutasi_gudang_cabang = mc.no_mutasi_gudang_cabang
+		GROUP BY m.kode_produk,nama_barang,
+		isipcsdus,
+		isipack,
+		isipcs,saldoawalgs,saldoawalbs";
+		} else {
+			$query = "SELECT
 			m.kode_produk,
 			nama_barang,
 			isipcsdus,
@@ -640,6 +758,8 @@ class Model_laporangudangjadi extends CI_Model
 		isipcsdus,
 		isipack,
 		isipcs,saldoawalgs,saldoawalbs";
+		}
+
 		return $this->db->query($query);
 	}
 
@@ -814,6 +934,8 @@ class Model_laporangudangjadi extends CI_Model
 		mutasi_smr,
 		sa_klt,
 		mutasi_klt,
+		sa_grt,
+		mutasi_grt,
 		sa_pst,
 		mutasi_pst,
 		harga_tsm,
@@ -826,6 +948,7 @@ class Model_laporangudangjadi extends CI_Model
 		harga_sby,
 		harga_smr,
 		harga_klt,
+		harga_grt,
 		saldoawal_gd,
 		jmlfsthp_gd,
 		jmllainlain_in_gd,
@@ -848,6 +971,7 @@ class Model_laporangudangjadi extends CI_Model
 			SUM(IF(sa_bj.kode_cabang ='SBY',jumlah,0)) as sa_sby,
 			SUM(IF(sa_bj.kode_cabang ='SMR',jumlah,0)) as sa_smr,
 			SUM(IF(sa_bj.kode_cabang ='KLT',jumlah,0)) as sa_klt,
+			SUM(IF(sa_bj.kode_cabang ='GRT',jumlah,0)) as sa_grt,
 			SUM(IF(sa_bj.kode_cabang ='PST',jumlah,0)) as sa_pst
 			FROM saldoawal_bj_detail sa_bj_detail
 			INNER JOIN saldoawal_bj sa_bj ON sa_bj_detail.kode_saldoawal = sa_bj.kode_saldoawal
@@ -866,6 +990,7 @@ class Model_laporangudangjadi extends CI_Model
 			(SUM(IF(mgc.kode_cabang='SBY' AND inout_good = 'IN',jumlah,0)) - SUM(IF(mgc.kode_cabang='SBY' AND inout_good = 'OUT',jumlah,0))) as mutasi_sby,
 			(SUM(IF(mgc.kode_cabang='SMR' AND inout_good = 'IN',jumlah,0)) - SUM(IF(mgc.kode_cabang='SMR' AND inout_good = 'OUT',jumlah,0))) as mutasi_smr,
 			(SUM(IF(mgc.kode_cabang='KLT' AND inout_good = 'IN',jumlah,0)) - SUM(IF(mgc.kode_cabang='KLT' AND inout_good = 'OUT',jumlah,0))) as mutasi_klt,
+			(SUM(IF(mgc.kode_cabang='GRT' AND inout_good = 'IN',jumlah,0)) - SUM(IF(mgc.kode_cabang='GRT' AND inout_good = 'OUT',jumlah,0))) as mutasi_grt,
 			(SUM(IF(mgc.kode_cabang='PST' AND inout_good = 'IN',jumlah,0)) - SUM(IF(mgc.kode_cabang='PST' AND inout_good = 'OUT',jumlah,0))) as mutasi_pst
 			FROM detail_mutasi_gudang_cabang dm
 			INNER JOIN mutasi_gudang_cabang mgc ON dm.no_mutasi_gudang_cabang = mgc.no_mutasi_gudang_cabang
@@ -1033,6 +1158,21 @@ class Model_laporangudangjadi extends CI_Model
 		+ ROUND(IFNULL(lainlain_klt,0) / IFNULL(isipcsdus,0),2) 	
 		+ ROUND(IFNULL(repack_klt,0) / IFNULL(isipcsdus,0),2) 	
 		),9) as harga_klt,
+
+		ROUND((((ROUND(IFNULL(sa_grt,0) / IFNULL(isipcsdus,0),2)) * IFNULL(harga_awal_grt,0)) 
+		+ ((ROUND(IFNULL(pusat_grt,0) / IFNULL(isipcsdus,0),2)) * IFNULL((SELECT harga_kirim_cabang),harga_awal_grt))
+		+ ((ROUND(IFNULL(transit_in_grt,0) / IFNULL(isipcsdus,0),2)) * IFNULL((SELECT harga_kirim_cabang),harga_awal_grt))
+		+ ((ROUND(IFNULL(retur_grt,0) / IFNULL(isipcsdus,0),2)) * IFNULL((SELECT harga_kirim_cabang),harga_awal_grt))
+		+ ((ROUND(IFNULL(lainlain_grt,0) / IFNULL(isipcsdus,0),2)) * IFNULL((SELECT harga_kirim_cabang),harga_awal_grt))
+		+ ((ROUND(IFNULL(repack_grt,0) / IFNULL(isipcsdus,0),2)) * IFNULL((SELECT harga_kirim_cabang),harga_awal_grt))) /
+		(ROUND(IFNULL(sa_grt,0) / IFNULL(isipcsdus,0),2)
+		+ ROUND(IFNULL(pusat_grt,0) / IFNULL(isipcsdus,0),2) 	
+		+ ROUND(IFNULL(transit_in_grt,0) / IFNULL(isipcsdus,0),2) 	
+		+ ROUND(IFNULL(retur_grt,0) / IFNULL(isipcsdus,0),2) 	
+		+ ROUND(IFNULL(lainlain_grt,0) / IFNULL(isipcsdus,0),2) 	
+		+ ROUND(IFNULL(repack_grt,0) / IFNULL(isipcsdus,0),2) 	
+		),9) as harga_grt,
+
 		saldoawal_gd,
 		jmlfsthp_gd,
 		jmllainlain_in_gd,
@@ -1089,7 +1229,8 @@ class Model_laporangudangjadi extends CI_Model
 			SUM(IF(lokasi='PST',harga_awal,0)) as harga_awal_pst,
 			SUM(IF(lokasi='SBY',harga_awal,0)) as harga_awal_sby,
 			SUM(IF(lokasi='SMR',harga_awal,0)) as harga_awal_smr,
-			SUM(IF(lokasi='KLT',harga_awal,0)) as harga_awal_klt
+			SUM(IF(lokasi='KLT',harga_awal,0)) as harga_awal_klt,
+			SUM(IF(lokasi='GRT',harga_awal,0)) as harga_awal_grt
 			FROM harga_awal
 			WHERE bulan='$bulan' AND tahun='$tahun'
 			GROUP BY kode_produk
@@ -1136,7 +1277,8 @@ class Model_laporangudangjadi extends CI_Model
 			SUM(IF(kode_cabang='PST',jumlah,0)) as sa_pst,
 			SUM(IF(kode_cabang='SBY',jumlah,0)) as sa_sby,
 			SUM(IF(kode_cabang='SMR',jumlah,0)) as sa_smr,
-			SUM(IF(kode_cabang='KLT',jumlah,0)) as sa_klt
+			SUM(IF(kode_cabang='KLT',jumlah,0)) as sa_klt,
+			SUM(IF(kode_cabang='GRT',jumlah,0)) as sa_grt
 			FROM saldoawal_bj_detail s_detail
 			INNER JOIN saldoawal_bj s ON s_detail.kode_saldoawal = s.kode_saldoawal 
 			WHERE bulan ='$bulan' AND tahun ='$tahun' AND status='GS'
@@ -1223,8 +1365,16 @@ class Model_laporangudangjadi extends CI_Model
 				SUM(IF(jenis_mutasi = 'PENYESUAIAN' AND mc.kode_cabang='KLT' AND inout_good ='IN' 
 				OR jenis_mutasi = 'HUTANG KIRIM' AND mc.kode_cabang='KLT' AND inout_good ='IN'
 				OR jenis_mutasi = 'PL TTR' AND mc.kode_cabang='KLT' AND inout_good ='IN',jumlah,0)) as lainlain_klt,
-				SUM(IF(jenis_mutasi = 'REPACK' AND mc.kode_cabang='KLT' ,jumlah,0)) as repack_klt
+				SUM(IF(jenis_mutasi = 'REPACK' AND mc.kode_cabang='KLT' ,jumlah,0)) as repack_klt,
 				
+				SUM(IF(jenis_mutasi = 'SURAT JALAN' AND mc.kode_cabang='GRT' ,jumlah,0)) as pusat_grt,
+				SUM(IF(jenis_mutasi = 'TRANSIT IN' AND mc.kode_cabang='GRT' ,jumlah,0)) as transit_in_grt,
+				SUM(IF(jenis_mutasi = 'RETUR' AND mc.kode_cabang='GRT' ,jumlah,0)) as retur_grt,
+				SUM(IF(jenis_mutasi = 'PENYESUAIAN' AND mc.kode_cabang='GRT' AND inout_good ='IN' 
+				OR jenis_mutasi = 'HUTANG KIRIM' AND mc.kode_cabang='GRT' AND inout_good ='IN'
+				OR jenis_mutasi = 'PL TTR' AND mc.kode_cabang='GRT' AND inout_good ='IN',jumlah,0)) as lainlain_grt,
+				SUM(IF(jenis_mutasi = 'REPACK' AND mc.kode_cabang='GRT' ,jumlah,0)) as repack_grt
+
 			FROM detail_mutasi_gudang_cabang dmc
 			INNER JOIN mutasi_gudang_cabang mc ON dmc.no_mutasi_gudang_cabang = mc.no_mutasi_gudang_cabang
 			WHERE tgl_mutasi_gudang_cabang BETWEEN '$tgl1' AND '$tgl2'
@@ -1335,7 +1485,9 @@ class Model_laporangudangjadi extends CI_Model
 			INNER JOIN mutasi_gudang_cabang mgc ON dmgc.no_mutasi_gudang_cabang = mgc.no_mutasi_gudang_cabang
 			WHERE tgl_mutasi_gudang_cabang BETWEEN '$tanggal1' AND '$tanggal2'
 			GROUP BY kode_produk
-		) mutasi_gudang_cabang ON (mb.kode_produk = mutasi_gudang_cabang.kode_produk)";
+		) mutasi_gudang_cabang ON (mb.kode_produk = mutasi_gudang_cabang.kode_produk) 
+		
+		ORDER BY mb.kode_produk";
 
 		return $this->db->query($query);
 	}
@@ -1348,13 +1500,13 @@ class Model_laporangudangjadi extends CI_Model
 		$mulai   = $tahun . "-" . $bulan . "-" . "01";
 
 		if ($cabang == 'TSM') {
-			$wherenotsalesgarut = "AND penjualan.id_karyawan NOT IN ('STSM05','STSM09')";
+			$wherenotsalesgarut = "AND penjualan.id_karyawan NOT IN ('STSM05','STSM09','STSM11')";
 		} else {
 			$wherenotsalesgarut = "";
 		}
 
 		if ($cabang == 'GRT') {
-			$wheresalesgarut = "AND penjualan.id_karyawan IN ('STSM05','STSM09')";
+			$wheresalesgarut = "AND penjualan.id_karyawan IN ('STSM05','STSM09','STSM11')";
 		} else {
 			$wheresalesgarut = "";
 		}
@@ -1402,13 +1554,13 @@ class Model_laporangudangjadi extends CI_Model
 		$mulai   = $tahun . "-" . $bulan . "-" . "01";
 
 		if ($cabang == 'TSM') {
-			$wherenotsalesgarut = "AND penjualan.id_karyawan NOT IN ('STSM05','STSM09')";
+			$wherenotsalesgarut = "AND penjualan.id_karyawan NOT IN ('STSM05','STSM09','STSM11')";
 		} else {
 			$wherenotsalesgarut = "";
 		}
 
 		if ($cabang == 'GRT') {
-			$wheresalesgarut = "AND penjualan.id_karyawan IN ('STSM05','STSM09')";
+			$wheresalesgarut = "AND penjualan.id_karyawan IN ('STSM05','STSM09','STSM11')";
 		} else {
 			$wheresalesgarut = "";
 		}

@@ -251,7 +251,7 @@ function formatnumber2($nilai)
       $totalpoin = $hasilpoinBBDP + $hasilpoinDS + $hasilpoinAR + $hasilpoinSP + $hasilpoinAB_AS_CG5;
 
       if ($bulan >= 2 and $tahun >= 2022) {
-        if ($d->id_karyawan == "STGL03" || $cabang == "KLT") {
+        if ($d->kategori_salesman == "CANVASER") {
           $ratiocashin = 0.30;
         } else {
           $ratiocashin = 0.10;

@@ -96,6 +96,7 @@ $namabulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "
 				$jml_kirimpusat = "";
 				$jmlrj_mobil    = $m->jumlah / $m->isipcsdus;
 				$jml_repack     = "";
+				$jmlrj_pasar 	= "";
 				$ket 		   		  = "REJECT MOBIL";
 				$jml_penybad	  = "";
 				$jml_penybad_in = "";

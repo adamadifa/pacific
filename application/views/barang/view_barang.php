@@ -19,7 +19,7 @@
         </div>
         <div class="card-body">
           <form class="form-horizontal" method="post" action="<?php echo base_url(); ?>barang/view_barang" autocomplete="off">
-            <?php if ($leveluser == "Administrator") { ?>
+            <?php if ($leveluser == "Administrator" || $leveluser == "crm") { ?>
               <div class="form-group">
                 <div class="form-line">
                   <select class="form-control" id="cabang" name="cabang" data-error=".errorTxt13">
@@ -158,7 +158,9 @@
 </div>
 <script>
   $(function() {
-
+    $('#mytable').DataTable({
+            responsive: true
+        });
     $("#tambahbarang").click(function() {
       $("#inputbarang").modal("show");
       $(".modal-content").load("<?php echo base_url(); ?>barang/input_barang");
