@@ -329,20 +329,30 @@
               <?php
               $level = $this->session->userdata('level_user');
               $id_user = $this->session->userdata('id_user');
-              if ($level == "kepala admin" OR $level == "admin gudang pusat") {
+              if ($level == "kepala admin" or $level == "admin gudang pusat") {
               ?>
-                  <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url(); ?>pengajuan/pengajuanBarang">
-                      <span class="nav-link-icon d-md-none d-lg-inline-block mr-3">
-                        <i class="fa fa-gears icon"></i>
-                      </span>
-                      <span class="nav-link-title">
-                        Pengajuan ATK
-                      </span>
-                    </a>
-                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="<?php echo base_url(); ?>pengajuan/pengajuanBarang">
+                    <span class="nav-link-icon d-md-none d-lg-inline-block mr-3">
+                      <i class="fa fa-gears icon"></i>
+                    </span>
+                    <span class="nav-link-title">
+                      Pengajuan ATK
+                    </span>
+                  </a>
+                </li>
               <?php
               } ?>
+              <li class="nav-item">
+                <a class="nav-link" href="<?php echo base_url(); ?>memo">
+                  <span class="nav-link-icon d-md-none d-lg-inline-block mr-3">
+                    <i class="fa fa-book icon"></i>
+                  </span>
+                  <span class="nav-link-title">
+                    E-Memo
+                  </span>
+                </a>
+              </li>
             </ul>
 
           </div>
