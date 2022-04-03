@@ -14,7 +14,7 @@
         <div class="col-md-6 col-xs-6">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Input E-Memo</h4>
+                    <h4 class="card-title">Input E Manual Regulation Center</h4>
                 </div>
                 <div class="card-body">
                     <form name="autoSumForm" autocomplete="off" class="formValidate" id="formValidate" method="POST" action="<?php echo base_url(); ?>memo/insert">
@@ -44,6 +44,21 @@
                         </div>
                         <div class="mb-3">
                             <div class="form-group">
+                                <select name="kategori" id="kategori" class="form-select" required>
+                                    <option value="">Kategori</option>
+                                    <option value="SOP">SOP</option>
+                                    <option value="SK">SK</option>
+                                    <option value="BERITA ACARA">BERITA ACARA</option>
+                                    <option value="IM">IM</option>
+                                    <option value="JOB DESK">JOB DESK</option>
+                                    <option value="WORK INSTRUCTION">WORK INSTRUCTION</option>
+                                    <option value="LAINNYA">LAINNYA</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-group">
                                 <select name="kode_dept" id="kode_dept" class="form-select">
                                     <option value="ALL">All Departemen</option>
                                     <option value="MKT">Marketing</option>
@@ -54,6 +69,9 @@
                                     <option value="PRD">Produksi</option>
                                     <option value="GDG">Gudang</option>
                                     <option value="MTC">Maintenance</option>
+                                    <option value="HRD">HRD</option>
+                                    <option value="AUDIT">AUDIT</option>
+                                    <option value="PDQC">PDQC</option>
                                 </select>
                             </div>
                         </div>

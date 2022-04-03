@@ -116,6 +116,7 @@
                   <th>Salesman</th>
                   <th>Foto</th>
                   <th>Koordinat</th>
+                  <th>Limit</th>
                   <th>Tanggal Input</th>
                   <th>Status</th>
                   <th>Aksi</th>
@@ -169,6 +170,7 @@
                       <img src="<?php echo base_url(); ?>upload/toko/<?php echo $foto; ?>" width="50px" height="50px" alt="">
                     </td>
                     <td><?php echo $d['longitude']; ?></td>
+                    <td><?php echo number_format($d['limitpel'], 0, ",", ".");  ?></td>
                     <td><?php echo $d['time_stamps']; ?></td>
                     <td>
                       <?php

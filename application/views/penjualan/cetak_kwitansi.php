@@ -54,17 +54,23 @@
 				</tr>
 			</table>
 		</td>
+		
 		<td colspan="6" align="left">
-			<b>
+		<b>
 
-				<?php
-				$query = "SELECT * FROM cabang WHERE kode_cabang ='$faktur[kode_cabang]'";
-				$cabang = $this->db->query($query)->row_array();
-				?>
-				<b>CV PACIFIC CABANG <?php echo strtoupper($cabang['nama_cabang']); ?></b><br>
+		<?php
+		$query = "SELECT * FROM cabang WHERE kode_cabang ='$faktur[kode_cabang]'";
+		$cabang = $this->db->query($query)->row_array();
+		?>
+		<b>
+			<?php
+			$query = "SELECT * FROM cabang WHERE kode_cabang ='$faktur[kode_cabang]'";
+			$cabang = $this->db->query($query)->row_array();
+			?>
+			<?php if ($faktur['kode_pelanggan'] == 'TSM-00466' || $faktur['kode_pelanggan'] == 'TSM-02234' || $faktur['kode_pelanggan'] == 'TSM-01117' || $faktur['kode_pelanggan'] == 'TSM-00493' || $faktur['kode_pelanggan'] == 'TSM-00548' || $faktur['kode_pelanggan'] == 'TSM-00494') { ?> <b>CV MAKMUR PERMATA <br> Jl. Perintis Kemerdekaan </b><br> <?php } else { ?> <b>CV PACIFIC CABANG <?php echo strtoupper($cabang['nama_cabang']); ?></b><br>
 				<b><?php echo $cabang['alamat_cabang']; ?></b>
-			</b>
-
+			<?php } ?>
+		</b>
 		</td>
 	</tr>
 	<tr>
@@ -203,9 +209,10 @@
 				</table>
 			</td>
 			<td colspan="6" align="left">
-				<b>CV PACIFIC<br>
-					Jln. Perintis Kemerdekaan No. 160 Tasikmalaya Telp. (0265) 7520864
-				</b>
+			
+			<?php if ($faktur['kode_pelanggan'] == 'TSM-00466' || $faktur['kode_pelanggan'] == 'TSM-02234' || $faktur['kode_pelanggan'] == 'TSM-01117' || $faktur['kode_pelanggan'] == 'TSM-00493' || $faktur['kode_pelanggan'] == 'TSM-00548' || $faktur['kode_pelanggan'] == 'TSM-00494') { ?> <b>CV MAKMUR PERMATA <br> Jl. Perintis Kemerdekaan </b><br> <?php } else { ?> <b>CV PACIFIC CABANG <?php echo strtoupper($cabang['nama_cabang']); ?></b><br>
+						<b><?php echo $cabang['alamat_cabang']; ?></b>
+					<?php } ?>
 
 			</td>
 		</tr>

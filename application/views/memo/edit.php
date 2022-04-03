@@ -45,6 +45,21 @@
                         </div>
                         <div class="mb-3">
                             <div class="form-group">
+                                <select name="kategori" id="kategori" class="form-select" required>
+                                    <option value="">Kategori</option>
+                                    <option value="SOP">SOP</option>
+                                    <option value="SK">SK</option>
+                                    <option value="BERITA ACARA">BERITA ACARA</option>
+                                    <option value="IM">IM</option>
+                                    <option value="JOB DESK">JOB DESK</option>
+                                    <option value="WORK INSTRUCTION">WORK INSTRUCTION</option>
+                                    <option value="LAINNYA">LAINNYA</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-group">
                                 <select name="kode_dept" id="kode_dept" class="form-select">
                                     <option <?php if ($memo['kode_dept'] == "ALL") {
                                                 echo "selected";
@@ -73,9 +88,19 @@
                                     <option <?php if ($memo['kode_dept'] == "MTC") {
                                                 echo "selected";
                                             } ?> value="MTC">Maintenance</option>
+                                    <option <?php if ($memo['kode_dept'] == "HRD") {
+                                                echo "selected";
+                                            } ?> value="HRD">HRD</option>
+                                    <option <?php if ($memo['kode_dept'] == "AUDIT") {
+                                                echo "selected";
+                                            } ?> value="AUDIT">AUDIT</option>
+                                    <option <?php if ($memo['kode_dept'] == "PDQC") {
+                                                echo "selected";
+                                            } ?> value="PDQC">PDQC</option>
                                 </select>
                             </div>
                         </div>
+
                         <div class="mb-3">
                             <div class="input-icon">
                                 <span class="input-icon-addon">

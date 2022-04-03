@@ -225,6 +225,8 @@
               </a>
             </div>
           <?php } ?>
+
+
           <div class="nav-item dropdown">
             <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-toggle="dropdown">
               <span class="avatar" style="background-image: url(<?php echo base_url(); ?>assets/images/user.png)"></span>
@@ -349,7 +351,35 @@
                     <i class="fa fa-book icon"></i>
                   </span>
                   <span class="nav-link-title">
-                    E-Memo
+                    <?php
+                    $level = $this->session->userdata('level_user');
+
+                    if ($level == "Administrator") {
+                      $id_user = $this->session->userdata('id_user');
+                      $query = "
+                      SELECT memo.id,tanggal,no_memo,judul_memo,kode_dept,kategori,nama_lengkap,link,totaldownload,access.id as cekuser,memo.id_user,cekread.id_user as status_read
+                      FROM memo
+                      LEFT JOIN (SELECT id,id_user FROM memo_access WHERE id_user ='$id_user') access ON (memo.id = access.id)
+                      INNER JOIN users ON memo.id_user = users.id_user
+                      LEFT JOIN (SELECT id,COUNT(id_user) as totaldownload FROM memo_download GROUP BY id) download ON (memo.id = download.id)
+                      LEFT JOIN (SELECT id,id_user FROM memo_download WHERE id_user='$id_user') cekread ON (memo.id = cekread.id)
+                      WHERE cekread.id_user IS NULL
+                      ORDER BY tanggal,memo.id DESC";
+                    } else {
+                      $id_user = $this->session->userdata('id_user');
+                      $query = "
+                      SELECT memo.id,tanggal,no_memo,judul_memo,kode_dept,kategori,nama_lengkap,link,totaldownload,access.id as cekuser,memo.id_user,cekread.id_user as status_read
+            FROM memo
+            LEFT JOIN (SELECT id,id_user FROM memo_access WHERE id_user ='$id_user') access ON (memo.id = access.id)
+            INNER JOIN users ON memo.id_user = users.id_user
+            LEFT JOIN (SELECT id,COUNT(id_user) as totaldownload FROM memo_download GROUP BY id) download ON (memo.id = download.id)
+            LEFT JOIN (SELECT id,id_user FROM memo_download WHERE id_user='$id_user') cekread ON (memo.id = cekread.id)
+            WHERE access.id_user = '$id_user' AND cekread.id_user IS NULL OR kode_dept ='ALL' AND cekread.id_user IS NULL ORDER BY tanggal,memo.id DESC";
+                    }
+                    $unread = $this->db->query($query)->num_rows();
+
+                    ?>
+                    E Manual Regulation Center <span class="badge bg-red"><?php echo $unread; ?> </span>
                   </span>
                 </a>
               </li>

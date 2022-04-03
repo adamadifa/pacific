@@ -6,16 +6,27 @@ class Model_memo extends CI_Model
         $level = $this->session->userdata('level_user');
 
         if ($level == "Administrator") {
-            $this->db->order_by('tanggal,id', 'desc');
-            $this->db->join('users', 'memo.id_user = users.id_user');
-            return $this->db->get('memo');
+            $id_user = $this->session->userdata('id_user');
+            $query = "
+            SELECT memo.id,tanggal,no_memo,judul_memo,kode_dept,kategori,nama_lengkap,link,totaldownload,access.id as cekuser,memo.id_user,cekread.id_user as status_read
+            FROM memo
+            LEFT JOIN (SELECT id,id_user FROM memo_access WHERE id_user ='$id_user') access ON (memo.id = access.id)
+            INNER JOIN users ON memo.id_user = users.id_user
+            LEFT JOIN (SELECT id,COUNT(id_user) as totaldownload FROM memo_download GROUP BY id) download ON (memo.id = download.id)
+            LEFT JOIN (SELECT id,id_user FROM memo_download WHERE id_user='$id_user') cekread ON (memo.id = cekread.id)
+            ORDER BY tanggal,memo.id DESC";
+            return $this->db->query($query);
         } else {
             $id_user = $this->session->userdata('id_user');
-            $this->db->where('memo_access.id_user', $id_user);
-            $this->db->order_by('tanggal,memo_access.id', 'desc');
-            $this->db->join('memo', 'memo_access.id = memo.id');
-            $this->db->join('users', 'memo.id_user = users.id_user');
-            return $this->db->get('memo_access');
+            $query = "
+            SELECT memo.id,tanggal,no_memo,judul_memo,kode_dept,kategori,nama_lengkap,link,totaldownload,access.id as cekuser,memo.id_user,cekread.id_user as status_read
+            FROM memo
+            LEFT JOIN (SELECT id,id_user FROM memo_access WHERE id_user ='$id_user') access ON (memo.id = access.id)
+            INNER JOIN users ON memo.id_user = users.id_user
+            LEFT JOIN (SELECT id,COUNT(id_user) as totaldownload FROM memo_download GROUP BY id) download ON (memo.id = download.id)
+            LEFT JOIN (SELECT id,id_user FROM memo_download WHERE id_user='$id_user') cekread ON (memo.id = cekread.id)
+            WHERE access.id_user = '$id_user' OR kode_dept ='ALL' ORDER BY tanggal,memo.id DESC";
+            return $this->db->query($query);
         }
     }
 
@@ -26,12 +37,14 @@ class Model_memo extends CI_Model
         $tanggal = $this->input->post('tanggal');
         $judul_memo = $this->input->post('judul_memo');
         $kode_dept = $this->input->post('kode_dept');
+        $kategori = $this->input->post('kategori');
         $link = $this->input->post('link');
         $data = [
             'no_memo' => $no_memo,
             'tanggal' => $tanggal,
             'judul_memo' => $judul_memo,
             'kode_dept' => $kode_dept,
+            'kategori' => $kategori,
             'link' => $link,
             'id_user' => $id_user
         ];

@@ -12,9 +12,13 @@ class Memo extends CI_Controller
     {
 
         $level = $this->session->userdata('level_user');
-        $roleadd = ['Administrator', 'manager marketing', 'manager accounting', 'manager keuangan', 'manager pembelian', 'manager ga', 'admin produksi', 'admin gudang pusat', 'manager mtc'];
+        $id_user = $this->session->userdata('id_user');
+        $roleadd = ['Administrator', 'manager marketing', 'manager accounting', 'manager keuangan', 'manager pembelian', 'manager ga', 'admin produksi', 'admin gudang pusat', 'manager mtc', 'crm', 'audit'];
+        $roleuser = ['28', '12', '140', '12071', '12068', '12067', '61', '82', '81', '85', '12072'];
         $data['roleadd'] = $roleadd;
+        $data['roleuser'] = $roleuser;
         $data['level'] = $level;
+        $data['id_user'] = $id_user;
         $data['result'] = $this->Model_memo->getDataMemo()->result();
         $this->template->load('template/template', 'memo/index', $data);
     }
@@ -60,5 +64,28 @@ class Memo extends CI_Controller
         $id = $this->input->post('id');
         $iduser = $this->input->post('iduser');
         echo $this->Model_memo->updateaccess($id, $iduser);
+    }
+
+    public function downloadcount()
+    {
+        $id = $this->input->post('id');
+        $id_user = $this->session->userdata('id_user');
+        $cek = $this->db->query("SELECT * FROM memo_download WHERE id='$id' AND id_user='$id_user'")->num_rows();
+        if (empty($cek)) {
+            $data = [
+                'id' => $id,
+                'id_user' => $id_user
+            ];
+
+            $this->db->insert('memo_download', $data);
+        }
+    }
+
+    public function listdownload()
+    {
+        $id = $this->input->post('id');
+        $this->db->join('users', 'memo_download.id_user = users.id_user');
+        $data['download'] = $this->db->get_where('memo_download', array('id' => $id))->result();
+        $this->load->view('memo/listdownload', $data);
     }
 }
