@@ -250,8 +250,14 @@ function formatnumber2($nilai)
 
       $totalpoin = $hasilpoinBBDP + $hasilpoinDS + $hasilpoinAR + $hasilpoinSP + $hasilpoinAB_AS_CG5;
 
-      if ($bulan >= 2 and $tahun >= 2022) {
+      if ($bulan == 2 and $tahun == 2022) {
         if ($d->kategori_salesman == "CANVASER") {
+          $ratiocashin = 0.30;
+        } else {
+          $ratiocashin = 0.10;
+        }
+      } else if ($bulan >= 3 and $tahun >= 2022) {
+        if ($d->kategori_salesman == "CANVASER" || $d->kategori_salesman == "RETAIL") {
           $ratiocashin = 0.30;
         } else {
           $ratiocashin = 0.10;
@@ -615,14 +621,28 @@ function formatnumber2($nilai)
     $nextno = $no + 1;
     foreach ($helper as $d) {
       $jmlqty = $d->jml_helper;
-      if (empty($d->ratioaktif)) {
-        if (empty($d->ratioterakhir)) {
-          $ratio = $d->ratiodefault;
+      // if (empty($d->ratioaktif)) {
+      //   if (empty($d->ratioterakhir)) {
+      //     $ratio = $d->ratiodefault;
+      //   } else {
+      //     $ratio = $d->ratioterakhir;
+      //   }
+      // } else {
+      //   $ratio = $d->ratioaktif;
+      // }
+
+      if (empty($d->ratiohelperaktif) || $d->ratiohelperaktif == 0.00) {
+        if (empty($d->ratiohelperterakhir) || $d->ratiohelperterakhir == 0.00) {
+          if (empty($d->ratiohelperdefault) || $d->ratiohelperdefault == 0.00) {
+            $ratio = $d->ratiodefault;
+          } else {
+            $ratio = $d->ratiohelperdefault;
+          }
         } else {
-          $ratio = $d->ratioterakhir;
+          $ratio = $d->ratiohelperterakhir;
         }
       } else {
-        $ratio = $d->ratioaktif;
+        $ratio = $d->ratiohelperaktif;
       }
       $rewardhelper = $jmlqty * $ratio;
       $grandtotalrewardhelper += $rewardhelper;

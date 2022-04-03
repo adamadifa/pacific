@@ -1320,7 +1320,8 @@ class Model_komisi extends CI_Model
     $dari = $tahun . "-" . $bulan . "-01";
     $sampai = date('Y-m-t', strtotime($dari));
     $query = "SELECT driver_helper.id_driver_helper,nama_driver_helper,kategori,IFNULL(jml_driver,0) as jml_driver,driver_helper.ratio as ratiodefault,
-    ratioaktif,ratioterakhir
+    driver_helper.ratio_helper as ratiohelperdefault,
+    ratioaktif,ratiohelperaktif,ratioterakhir,ratiohelperterakhir
     FROM driver_helper
     INNER JOIN (
       SELECT id_driver,ROUND(SUM(jml_penjualan),2) as jml_driver 
@@ -1328,15 +1329,17 @@ class Model_komisi extends CI_Model
       INNER JOIN dpb ON detail_dpb.no_dpb = dpb.no_dpb
       WHERE tgl_pengambilan BETWEEN '$dari' AND '$sampai' GROUP BY id_driver
     )driver ON (driver.id_driver = driver_helper.id_driver_helper)
+
+
     LEFT JOIN(
-      SELECT id,set_ratio_komisi.ratio as ratioaktif
+      SELECT id,set_ratio_komisi.ratio as ratioaktif,set_ratio_komisi.ratio_helper as ratiohelperaktif
       FROM set_ratio_komisi
       INNER JOIN driver_helper ON set_ratio_komisi.id = driver_helper.id_driver_helper
       WHERE bulan = '$bulan' AND tahun = '$tahun' AND kode_cabang='$cabang'
     ) ratio ON (driver_helper.id_driver_helper = ratio.id)
 
     LEFT JOIN (
-      SELECT id,set_ratio_komisi.ratio as ratioterakhir
+      SELECT id,set_ratio_komisi.ratio as ratioterakhir,set_ratio_komisi.ratio_helper as ratiohelperterakhir
       FROM set_ratio_komisi
       INNER JOIN driver_helper ON set_ratio_komisi.id = driver_helper.id_driver_helper
       WHERE kode_cabang ='$cabang' AND tgl_berlaku IN (SELECT max(tgl_berlaku) FROM set_ratio_komisi)
@@ -1351,7 +1354,8 @@ class Model_komisi extends CI_Model
     $dari = $tahun . "-" . $bulan . "-01";
     $sampai = date('Y-m-t', strtotime($dari));
     $query = "SELECT driver_helper.id_driver_helper,nama_driver_helper,kategori,IFNULL(jml_helper,0) + IFNULL(jml_helper_2,0) + IFNULL(jml_helper_3,0) as jml_helper,driver_helper.ratio as ratiodefault,
-    ratioaktif,ratioterakhir
+    driver_helper.ratio_helper as ratiohelperdefault,
+    ratioaktif,ratiohelperaktif,ratioterakhir,ratiohelperterakhir
     FROM driver_helper
     LEFT JOIN (
       SELECT id_helper,ROUND(SUM(jml_penjualan),2) as jml_helper 
@@ -1375,14 +1379,14 @@ class Model_komisi extends CI_Model
     )helper3 ON (helper3.id_helper_3 = driver_helper.id_driver_helper)
     
     LEFT JOIN(
-      SELECT id,set_ratio_komisi.ratio as ratioaktif
+      SELECT id,set_ratio_komisi.ratio as ratioaktif,set_ratio_komisi.ratio_helper as ratiohelperaktif
       FROM set_ratio_komisi
       INNER JOIN driver_helper ON set_ratio_komisi.id = driver_helper.id_driver_helper
       WHERE bulan = '$bulan' AND tahun = '$tahun' AND kode_cabang='$cabang'
     ) ratio ON (driver_helper.id_driver_helper = ratio.id)
 
     LEFT JOIN (
-      SELECT id,set_ratio_komisi.ratio as ratioterakhir
+      SELECT id,set_ratio_komisi.ratio as ratioterakhir,set_ratio_komisi.ratio_helper as ratiohelperterakhir
       FROM set_ratio_komisi
       INNER JOIN driver_helper ON set_ratio_komisi.id = driver_helper.id_driver_helper
       WHERE kode_cabang ='$cabang' AND tgl_berlaku IN (SELECT max(tgl_berlaku) FROM set_ratio_komisi)
@@ -1448,17 +1452,21 @@ class Model_komisi extends CI_Model
 
   function loadratiokomisi($cabang, $bulan, $tahun)
   {
-    $query = "SELECT id_driver_helper,nama_driver_helper,kategori,driver_helper.ratio as ratio_default,ratioaktif,ratioterakhir
+    $query = "SELECT id_driver_helper,nama_driver_helper,kategori,driver_helper.ratio as ratio_default, driver_helper.ratio_helper as ratiohelper_default,
+    ratioaktif,
+    ratiohelperaktif,
+    ratioterakhir,
+    ratiohelperterakhir
     FROM driver_helper
     LEFT JOIN(
-      SELECT id,set_ratio_komisi.ratio as ratioaktif
+      SELECT id,set_ratio_komisi.ratio as ratioaktif, set_ratio_komisi.ratio_helper as ratiohelperaktif
       FROM set_ratio_komisi
       INNER JOIN driver_helper ON set_ratio_komisi.id = driver_helper.id_driver_helper
       WHERE bulan = '$bulan' AND tahun = '$tahun' AND kode_cabang='$cabang'
     ) ratio ON (driver_helper.id_driver_helper = ratio.id)
 
     LEFT JOIN (
-      SELECT id,set_ratio_komisi.ratio as ratioterakhir
+      SELECT id,set_ratio_komisi.ratio as ratioterakhir, set_ratio_komisi.ratio_helper as ratiohelperterakhir
       FROM set_ratio_komisi
       INNER JOIN driver_helper ON set_ratio_komisi.id = driver_helper.id_driver_helper
       WHERE kode_cabang ='$cabang' AND tgl_berlaku IN (SELECT max(tgl_berlaku) FROM set_ratio_komisi)
@@ -1474,16 +1482,27 @@ class Model_komisi extends CI_Model
     $id = $this->input->post('id');
     $tgl_berlaku = $this->input->post('tgl_berlaku');
     $ratio = $this->input->post('ratio');
+    $ratiohelper = $this->input->post('ratiohelper');
     $bulan = $this->input->post('bulan');
     $tahun = $this->input->post('tahun');
 
-    $data = [
-      'id' => $id,
-      'tgl_berlaku' => $tgl_berlaku,
-      'bulan' => $bulan,
-      'tahun' => $tahun,
-      'ratio' => $ratio
-    ];
+    if ($ratio != 'false') {
+      $data = [
+        'id' => $id,
+        'tgl_berlaku' => $tgl_berlaku,
+        'bulan' => $bulan,
+        'tahun' => $tahun,
+        'ratio' => $ratio
+      ];
+    } else {
+      $data = [
+        'id' => $id,
+        'tgl_berlaku' => $tgl_berlaku,
+        'bulan' => $bulan,
+        'tahun' => $tahun,
+        'ratio_helper' => $ratiohelper
+      ];
+    }
 
     $dataupdate = [
       'ratio' => $ratio
