@@ -159,20 +159,21 @@
 <script>
   $(function() {
     $('#mytable').DataTable({
-            responsive: true
-        });
+      responsive: true
+    });
     $("#tambahbarang").click(function() {
       $("#inputbarang").modal("show");
       $(".modal-content").load("<?php echo base_url(); ?>barang/input_barang");
     });
 
-    $(".edit").click(function() {
+    $('#mytable').on('click', '.edit', function() {
       $id = $(this).attr('data-id');
       $("#inputbarang").modal("show");
       $(".modal-body").load("<?php echo base_url(); ?>barang/edit_barang/" + $id);
     });
 
-    $(".detailbrg").click(function() {
+
+    $('#mytable').on('click', '.detailbrg', function() {
       $id = $(this).attr('data-kode');
       $("#inputbarang").modal("show");
       $(".modal-content").load("<?php echo base_url(); ?>barang/detail_barang/" + $id);
