@@ -735,4 +735,61 @@ class Komisi extends CI_Controller
   {
     $this->Model_komisi->insert_setratio_komisi();
   }
+
+  function detaildriver()
+  {
+    $id_driver_helper = $this->uri->segment(3);
+    $bulan = $this->uri->segment(4);
+    $tahun = $this->uri->segment(5);
+    $dari = $tahun . "-" . $bulan . "-01";
+    $sampai = date("Y-m-t", strtotime($dari));
+
+    $query = "SELECT detail_dpb.no_dpb,tgl_pengambilan,no_kendaraan,tujuan,dpb.id_karyawan,nama_karyawan,dpb.id_driver,nama_driver_helper,SUM(jml_penjualan) as jml_penjualan 
+    FROM detail_dpb
+    INNER JOIN dpb ON detail_dpb.no_dpb = dpb.no_dpb
+    INNER JOIN driver_helper ON dpb.id_driver = driver_helper.id_driver_helper
+    INNER JOIN karyawan ON dpb.id_karyawan = karyawan.id_karyawan
+    WHERE 
+    tgl_pengambilan BETWEEN '$dari' AND '$sampai' AND id_driver='$id_driver_helper'
+    GROUP BY detail_dpb.no_dpb,tgl_pengambilan,no_kendaraan,tujuan,dpb.id_karyawan,nama_karyawan,dpb.id_driver,nama_driver_helper
+    ORDER BY tgl_pengambilan,no_dpb ASC 
+    ";
+
+    $qdriverhelper = "SELECT * FROM driver_helper WHERE id_driver_helper ='$id_driver_helper'";
+    $data['driverhelper'] = $this->db->query($qdriverhelper)->row_array();
+    $data['bln'] = $bulan;
+    $data['tahun'] = $tahun;
+    $data['bulan'] = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+    $data['detail'] =  $this->db->query($query)->result();
+    $this->load->view('komisi/laporan/cetak_detaildriverhelper', $data);
+  }
+
+  function detailhelper()
+  {
+    $id_driver_helper = $this->uri->segment(3);
+    $bulan = $this->uri->segment(4);
+    $tahun = $this->uri->segment(5);
+    $dari = $tahun . "-" . $bulan . "-01";
+    $sampai = date("Y-m-t", strtotime($dari));
+
+    $query = "SELECT detail_dpb.no_dpb,tgl_pengambilan,no_kendaraan,tujuan,dpb.id_karyawan,nama_karyawan,SUM(jml_penjualan) as jml_penjualan 
+    FROM detail_dpb
+    INNER JOIN dpb ON detail_dpb.no_dpb = dpb.no_dpb
+    INNER JOIN karyawan ON dpb.id_karyawan = karyawan.id_karyawan
+    WHERE 
+    tgl_pengambilan BETWEEN '$dari' AND '$sampai' AND id_helper='$id_driver_helper'
+    OR tgl_pengambilan BETWEEN '$dari' AND '$sampai' AND id_helper_2='$id_driver_helper'
+    OR tgl_pengambilan BETWEEN '$dari' AND '$sampai' AND id_helper_3='$id_driver_helper'
+    GROUP BY detail_dpb.no_dpb,tgl_pengambilan,no_kendaraan,tujuan,dpb.id_karyawan,nama_karyawan
+    ORDER BY tgl_pengambilan,no_dpb ASC 
+    ";
+
+    $qdriverhelper = "SELECT * FROM driver_helper WHERE id_driver_helper ='$id_driver_helper'";
+    $data['driverhelper'] = $this->db->query($qdriverhelper)->row_array();
+    $data['bln'] = $bulan;
+    $data['tahun'] = $tahun;
+    $data['bulan'] = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+    $data['detail'] =  $this->db->query($query)->result();
+    $this->load->view('komisi/laporan/cetak_detaildriverhelper', $data);
+  }
 }

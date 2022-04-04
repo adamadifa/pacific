@@ -13,6 +13,11 @@ function formatnumber2($nilai)
 }
 ?>
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/table.css">
+<style>
+  a {
+    color: black;
+  }
+</style>
 <br>
 <b style="font-size:16px; font-family:Calibri">
   LAPORAN KOMISI<br>
@@ -592,13 +597,13 @@ function formatnumber2($nilai)
         <td><?php echo $d->kategori; ?></td>
         <td colspan="21"></td>
         <td align="center">
-          <?php
-
-          if (!empty($d->jml_driver) && $d->jml_driver > 0.00) {
-            echo formatnumber($d->jml_driver);
-          };
-          ?>
-
+          <a href="<?php echo base_url(); ?>komisi/detaildriver/<?php echo $d->id_driver_helper; ?>/<?php echo $bln; ?>/<?php echo $tahun; ?>" target="_blank">
+            <?php
+            if (!empty($d->jml_driver) && $d->jml_driver > 0.00) {
+              echo formatnumber($d->jml_driver);
+            };
+            ?>
+          </a>
         </td>
         <td align="center"><?php echo $ratio; ?></td>
         <td align="right">
@@ -653,12 +658,14 @@ function formatnumber2($nilai)
         <td>HELPER</td>
         <td colspan="21"></td>
         <td align="center">
-          <?php
+          <a href="<?php echo base_url(); ?>komisi/detailhelper/<?php echo $d->id_driver_helper; ?>/<?php echo $bln; ?>/<?php echo $tahun; ?>" target="_blank">
+            <?php
 
-          if (!empty($d->jml_helper) && $d->jml_helper > 0.00) {
-            echo formatnumber($d->jml_helper);
-          };
-          ?>
+            if (!empty($d->jml_helper) && $d->jml_helper > 0.00) {
+              echo formatnumber($d->jml_helper);
+            };
+            ?>
+          </a>
 
         </td>
         <td align="center"><?php echo $ratio; ?></td>
