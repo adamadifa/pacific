@@ -2788,6 +2788,7 @@ WHERE tgl_pembelian BETWEEN '$dari' AND '$sampai'"
     $harga          = str_replace(".", "", $this->input->post('harga'));
     $harga          = str_replace(",", ".", $harga);
     $penyharga      = str_replace(".", "", $this->input->post('penyharga'));
+    $konversi       = str_replace(".", "", $this->input->post('konversi'));
     $penyharga      = str_replace(",", ".", $penyharga);
     $keterangan     = $this->input->post('keterangan');
     $keteranganold  = $this->input->post('keteranganold');
@@ -2879,7 +2880,7 @@ WHERE tgl_pembelian BETWEEN '$dari' AND '$sampai'"
       $datadetail = [
         'kode_cr' => $kodecrnew
       ];
-      $updatedetail = $update = $this->db->update('detail_pembelian', $datadetail, array('nobukti_pembelian' => $nobukti, 'kode_barang' => $kodebarang, 'keterangan' => $keteranganold, 'no_urut' => $no_urut));
+      $updatedetail = $update = $this->db->update('detail_pembelian', $datadetail, array('nobukti_pembelian' => $nobukti, 'kode_barang' => $kodebarang, 'konversi' => $konversi, 'keterangan' => $keteranganold, 'no_urut' => $no_urut));
     }
 
 

@@ -54,6 +54,14 @@
     </div>
   </div>
   <div class="form-group mb-3">
+    <div class="input-icon">
+      <span class="input-icon-addon">
+        <i class="fa fa-money"></i>
+      </span>
+      <input type="text" style="text-align:right" value="<?php echo number_format($brg['konversi'], '2', ',', '.'); ?>" id="konversi" name="konversi" class="form-control" placeholder="Konversi" data-error=".errorTxt19" />
+    </div>
+  </div>
+  <div class="form-group mb-3">
     <select class="form-select selectoption" id="coa" name="kodeakun" data-error=".errorTxt1">
       <?php foreach ($coa as $r) { ?>
         <option <?php if ($brg['kode_akun'] == $r->kode_akun) {
@@ -93,6 +101,12 @@
   var h = document.getElementById('hargaedit');
   h.addEventListener('keyup', function(e) {
     h.value = formatRupiah(this.value, '');
+    //alert(b);
+  });
+
+  var b = document.getElementById('konversi');
+  b.addEventListener('keyup', function(e) {
+    b.value = formatRupiah(this.value, '');
     //alert(b);
   });
 
