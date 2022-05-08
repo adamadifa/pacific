@@ -24,7 +24,7 @@
                   <?php if ($cb == 'pusat' or $cb == 'TSM') { ?>
                     <div class="form-group mb-3">
                       <select name="cabang" id="cabang" class="form-select">
-                        <option value="">-- Pilih Cabang --</option>
+                        <option value="">-- Semua Cabang --</option>
                         <?php foreach ($cabang as $c) { ?>
                           <option value="<?php echo $c->kode_cabang; ?>"><?php echo strtoupper($c->nama_cabang); ?></option>
                         <?php } ?>
@@ -115,13 +115,6 @@
       },
 
       fields: {
-        cabang: {
-          validators: {
-            notEmpty: {
-              message: 'Cabang Harus Diisi !'
-            }
-          }
-        },
         dari: {
           validators: {
             notEmpty: {

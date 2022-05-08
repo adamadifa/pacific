@@ -1595,4 +1595,48 @@ class Model_laporangudangjadi extends CI_Model
 		) persediaan ON (master_barang.kode_produk = persediaan.kode_produk)";
 		return $this->db->query($query);
 	}
+
+	function rekapbjcabangall($dari, $sampai)
+	{
+		$tanggal = explode("-", $dari);
+		$bulan = $tanggal[1];
+		$tahun = $tanggal[0];
+		$query = "SELECT 
+		detail_mutasi_gudang_cabang.kode_produk,mutasi_gudang_cabang.kode_cabang,nama_barang,isipcsdus,
+		saldo_awal,
+		SUM(IF(jenis_mutasi = 'SURAT JALAN',jumlah,0)) as pusat,
+		SUM(IF(jenis_mutasi = 'TRANSIT IN',jumlah,0)) as transit_in,
+		SUM(IF(jenis_mutasi = 'RETUR',jumlah,0)) as retur,
+		SUM(IF(jenis_mutasi = 'HUTANG KIRIM' AND inout_good='IN' OR jenis_mutasi='PL TTR' AND inout_good='IN',jumlah,0)) as lainlain_in,
+		SUM(IF(jenis_mutasi = 'PENYESUAIAN' AND inout_good='IN',jumlah,0)) as penyesuaian_in,
+		SUM(IF(jenis_mutasi = 'PENYESUAIAN BAD' AND inout_good='IN',jumlah,0)) as penyesuaianbad_in,
+		SUM(IF(jenis_mutasi = 'REPACK',jumlah,0)) as repack,
+		
+		SUM(IF(jenis_mutasi = 'PENJUALAN',jumlah,0)) as penjualan,
+		SUM(IF(jenis_mutasi = 'PROMOSI',jumlah,0)) as promosi,
+		SUM(IF(jenis_mutasi = 'REJECT PASAR',jumlah,0)) as reject_pasar,
+		SUM(IF(jenis_mutasi = 'REJECT MOBIL',jumlah,0)) as reject_mobil,
+		SUM(IF(jenis_mutasi = 'REJECT GUDANG',jumlah,0)) as reject_gudang,
+		SUM(IF(jenis_mutasi = 'TRANSIT OUT',jumlah,0)) as transit_out,
+		SUM(IF(jenis_mutasi = 'PL HUTANG KIRIM' AND inout_good='OUT' 
+		OR jenis_mutasi='TTR' AND inout_good='OUT'  
+		OR jenis_mutasi='GANTI BARANG' AND inout_good='OUT',jumlah,0)) as lainlain_out,
+		SUM(IF(jenis_mutasi = 'PENYESUAIAN' AND inout_good='OUT',jumlah,0)) as penyesuaian_out,
+		SUM(IF(jenis_mutasi = 'PENYESUAIAN BAD' AND inout_good='OUT',jumlah,0)) as penyesuaianbad_out,
+		SUM(IF(jenis_mutasi = 'KIRIM PUSAT',jumlah,0)) as kirim_pusat
+		FROM detail_mutasi_gudang_cabang
+		INNER JOIN mutasi_gudang_cabang ON detail_mutasi_gudang_cabang.no_mutasi_gudang_cabang = mutasi_gudang_cabang.no_mutasi_gudang_cabang
+		INNER JOIN master_barang ON detail_mutasi_gudang_cabang.kode_produk = master_barang.kode_produk
+		LEFT JOIN (
+			SELECT kode_produk,kode_cabang,jumlah as saldo_awal
+			FROM saldoawal_bj_detail
+			INNER JOIN saldoawal_bj ON saldoawal_bj_detail.kode_saldoawal = saldoawal_bj.kode_saldoawal
+			WHERE status ='GS' AND bulan ='$bulan' AND tahun='$tahun'
+		) saldo_gs ON (detail_mutasi_gudang_cabang.kode_produk = saldo_gs.kode_produk AND mutasi_gudang_cabang.kode_cabang = saldo_gs.kode_cabang)
+		WHERE tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai' 
+		GROUP BY mutasi_gudang_cabang.kode_cabang,detail_mutasi_gudang_cabang.kode_produk
+		ORDER BY mutasi_gudang_cabang.kode_cabang,detail_mutasi_gudang_cabang.kode_produk";
+
+		return $this->db->query($query);
+	}
 }

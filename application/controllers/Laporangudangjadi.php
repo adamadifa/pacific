@@ -292,7 +292,7 @@ class Laporangudangjadi extends CI_Controller
 		$data['dari']			= $dari;
 		$data['sampai']		= $sampai;
 		$data['cb']	    	= $this->Model_cabang->get_cabang($cabang)->row_array();
-		$data['rekap']  	= $this->Model_laporangudangjadi->rekapbjcabang($cabang, $data['dari'], $data['sampai'])->result();
+
 
 		if (isset($_POST['export'])) {
 			// Fungsi header dengan mengirimkan raw data excel
@@ -300,7 +300,13 @@ class Laporangudangjadi extends CI_Controller
 			// Mendefinisikan nama file ekspor "hasil-export.xls"
 			header("Content-Disposition: attachment; filename=Rekap BJ Cabang.xls");
 		}
-		$this->load->view('Laporangudangjadi/cetak_rekapbjcabang', $data);
+		if (!empty($cabang)) {
+			$data['rekap'] = $this->Model_laporangudangjadi->rekapbjcabang($cabang, $data['dari'], $data['sampai'])->result();
+			$this->load->view('Laporangudangjadi/cetak_rekapbjcabang', $data);
+		} else {
+			$data['rekap'] = $this->Model_laporangudangjadi->rekapbjcabangall($data['dari'], $data['sampai'])->result();
+			$this->load->view('Laporangudangjadi/cetak_rekapbjcabangall', $data);
+		}
 	}
 
 	function mutasidpb()
