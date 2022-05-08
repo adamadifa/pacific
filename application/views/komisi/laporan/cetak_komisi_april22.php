@@ -47,11 +47,11 @@ function formatnumber2($nilai)
     </tr>
     <tr style="text-align: center;">
       <th colspan="3" style="background-color: #35ce35;">40</th>
-      <th colspan="3" style="background-color: #ffcb00;">10</th>
-      <th colspan="3" style="background-color: #058cbe;">15</th>
-      <th colspan="3" style="background-color: #ce3ae4;">12.5</th>
+      <th colspan="3" style="background-color: #ffcb00;">7.5</th>
+      <th colspan="3" style="background-color: #058cbe;">10</th>
+      <th colspan="3" style="background-color: #ce3ae4;">17.5</th>
+      <th colspan="3" style="background-color: #ff9b0d;">15</th>
       <th colspan="3" style="background-color: #ff9b0d;">10</th>
-      <th colspan="3" style="background-color: #ff9b0d;">12.5</th>
 
     </tr>
     <tr>
@@ -178,11 +178,11 @@ function formatnumber2($nilai)
     $no = 1;
     foreach ($komisi as $d) {
       $poinBBDP = 40;
-      $poinDS = 10;
-      $poinSP = 15;
-      $poinAR = 12.5;
-      $poinASABCG5 = 10;
-      $poinSC = 12.5;
+      $poinDS = 7.5;
+      $poinSP = 10;
+      $poinAR = 17.5;
+      $poinASABCG5 = 15;
+      $poinSC = 10;
 
       $BB = $d->BB / $isipcsdusBB;
       $DEP = $d->DEP / $isipcsdusDEP;

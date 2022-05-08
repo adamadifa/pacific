@@ -35,7 +35,7 @@
     <td style="width:100px">
       <div class="input-group demo-masked-input" style="margin-bottom:0px; !important" >
         <div class="form-line">
-          <input type="text" style="text-align:right" value="<?php if(!empty($jmldus)){ echo $jmldus; } ?>" id="jmldus" name="jmldus<?php echo $no; ?>" class="form-control"  data-error=".errorTxt19" />
+          <input readonly type="text" style="text-align:right" value="<?php if(!empty($jmldus)){ echo $jmldus; } ?>" id="jmldus" name="jmldus<?php echo $no; ?>" class="form-control"  data-error=".errorTxt19" />
         </div>
       </div>
     </td>
@@ -44,7 +44,7 @@
       <?php if(!empty($b->isipack)){ ?>
         <div class="input-group demo-masked-input" style="margin-bottom:0px; !important" >
           <div class="form-line">
-            <input type="text" style="text-align:right" value="<?php if(!empty($jmlpack)){ echo $jmlpack; } ?>" id="jmlpack" name="jmlpack<?php echo $no; ?>" class="form-control"  data-error=".errorTxt19" />
+            <input readonly  type="text" style="text-align:right" value="<?php if(!empty($jmlpack)){ echo $jmlpack; } ?>" id="jmlpack" name="jmlpack<?php echo $no; ?>" class="form-control"  data-error=".errorTxt19" />
           </div>
         </div>
       <?php } ?>
@@ -53,7 +53,7 @@
     <td style="width:100px">
       <div class="input-group demo-masked-input" style="margin-bottom:0px; !important" >
         <div class="form-line">
-          <input type="text" style="text-align:right" value="<?php if(!empty($jmlpcs)){ echo $jmlpcs; } ?>" id="jmlpcs" name="jmlpcs<?php echo $no; ?>" class="form-control"  data-error=".errorTxt19" />
+          <input readonly  type="text" style="text-align:right" value="<?php if(!empty($jmlpcs)){ echo $jmlpcs; } ?>" id="jmlpcs" name="jmlpcs<?php echo $no; ?>" class="form-control"  data-error=".errorTxt19" />
         </div>
       </div>
     </td>

@@ -53,7 +53,7 @@ class Model_gudangbahan extends CI_Model
   function cekKode($nobukti)
   {
 
-     $this->db->query("SELECT COUNT(nobukti_pemasukan) AS cekdata FROM pemasukan_gb WHERE nobukti_pemasukan = '$nobukti' ");
+    $this->db->query("SELECT COUNT(nobukti_pemasukan) AS cekdata FROM pemasukan_gb WHERE nobukti_pemasukan = '$nobukti' ");
   }
 
   function ceksaldo($bulan, $tahun)
@@ -597,6 +597,7 @@ class Model_gudangbahan extends CI_Model
 
     $kode_saldoawal_gb            = $this->input->post('kode_saldoawal_gb');
     $this->db->join('master_barang_pembelian', 'saldoawal_gb_detail.kode_barang = master_barang_pembelian.kode_barang');
+    $this->db->order_by('nama_barang', 'asc');
     return $this->db->get_where('saldoawal_gb_detail', array('saldoawal_gb_detail.kode_saldoawal_gb' => $kode_saldoawal_gb));
   }
 
