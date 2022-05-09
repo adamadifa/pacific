@@ -116,7 +116,6 @@ function uang($nilai)
         <?php
         $totalsetoran = 0;
         $tglskrg = $tahunskrg . "-" . $bulanskrg . "-01";
-
         foreach ($salesman as $s) {
           $sampaibulanskrg =  date('Y-m-t', strtotime($tglskrg));
           if (strtotime($dari) <= strtotime($sampaibulanskrg)) {
