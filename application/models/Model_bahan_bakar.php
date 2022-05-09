@@ -315,7 +315,7 @@ class Model_bahan_bakar extends CI_Model
 
     $this->db->order_by('tgl_pengeluaran', 'desc');
     $this->db->limit(1);
-    return $this->db->get_where('pengeluaran_gb', array(
+    return $this->db->get_where('pengeluaran_bb', array(
       'MONTH(tgl_pengeluaran)' => $bulan,
       'YEAR(tgl_pengeluaran)' => $tahun
     ));

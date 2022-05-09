@@ -89,7 +89,6 @@ tr:nth-child(even) {
       $masuk            = $this->db->query($qmasuk)->row_array();
 
       $qkeluar           = "SELECT  
-      
       tgl_pengeluaran,
       SUM( IF( pengeluaran_bb.status = '1' , qty ,0 )) AS qtypemakaian,
       SUM( IF( pengeluaran_bb.status = '2' , qty ,0 )) AS qtykeluarlainnya
@@ -101,11 +100,11 @@ tr:nth-child(even) {
       $keluar            = $this->db->query($qkeluar)->row_array();
 
 
-      $qtypembelian = $masuk['qtypemb'];
-      $qtymasuklainnya   = $masuk['qtymasuklainya'];
-      $hargamasuk   = $masuk['harga'];
-      $jmlpembelian = $hargamasuk * $qtypembelian;
-      $jmllainnya   = $hargamasuk * $qtymasuklainnya;
+      $qtypembelian       = $masuk['qtypemb'];
+      $qtymasuklainnya    = $masuk['qtymasuklainya'];
+      $hargamasuk         = $masuk['harga'];
+      $jmlpembelian       = $hargamasuk * $qtypembelian;
+      $jmllainnya       = $hargamasuk * $qtymasuklainnya;
       
       
       if(substr($dari,8,2) == '01'){
@@ -179,7 +178,7 @@ tr:nth-child(even) {
         </td>
       </tr>
     <?php
-      $dari = date("Y-m-d", strtotime("+1 day", strtotime($dari))); //looping tambah 1 date
+      $dari = date("Y-m-d", strtotime("+1 day", strtotime($dari)));
     } ?>
   </tbody>
   <tfoot>

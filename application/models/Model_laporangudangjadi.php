@@ -1634,7 +1634,7 @@ class Model_laporangudangjadi extends CI_Model
 			WHERE status ='GS' AND bulan ='$bulan' AND tahun='$tahun'
 		) saldo_gs ON (detail_mutasi_gudang_cabang.kode_produk = saldo_gs.kode_produk AND mutasi_gudang_cabang.kode_cabang = saldo_gs.kode_cabang)
 		WHERE tgl_mutasi_gudang_cabang BETWEEN '$dari' AND '$sampai' 
-		GROUP BY mutasi_gudang_cabang.kode_cabang,detail_mutasi_gudang_cabang.kode_produk
+		GROUP BY mutasi_gudang_cabang.kode_cabang,detail_mutasi_gudang_cabang.kode_produk,saldo_awal
 		ORDER BY mutasi_gudang_cabang.kode_cabang,detail_mutasi_gudang_cabang.kode_produk";
 
 		return $this->db->query($query);

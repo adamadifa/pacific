@@ -319,6 +319,11 @@ function formatnumber2($nilai)
       }
 
       $ratioljt = ($d->sisapiutang / $d->realisasi_cashin * 100) * ($kebijakan / 100);
+      if ($ratioljt > 0) {
+        $ratioljt = $ratioljt;
+      } else {
+        $ratioljt = 0;
+      }
       if ($bln == 12 && $tahun == 2021 || $bln >= 1 && $tahun >= 2022) {
         if ($ratioljt >= 0 and $ratioljt <= 0.50) {
           $rewardljt = 1250000;
@@ -439,7 +444,11 @@ function formatnumber2($nilai)
         <td align="center" style="background-color: #9e9895;"><?php echo $ratiocashin; ?>%</td>
 
         <td align="right" style="background-color: #9e9895;"><?php echo formatnumber($rewardcashin); ?></td>
-        <td align="right" style="background-color: #e43a90;"><?php echo formatnumber($d->sisapiutang); ?></td>
+        <td align="right" style="background-color: #e43a90;"><?php if ($d->sisapiutang > 0) {
+                                                                echo formatnumber($d->sisapiutang);
+                                                              } else {
+                                                                echo 0;
+                                                              } ?></td>
         <td align="center" style="background-color: #e43a90;"><?php echo round($ratioljt, 2); ?></td>
         <td align="right" style="background-color: #e43a90;"><?php echo formatnumber($rewardljt); ?></td>
         <td align="right" style="background-color: #ff570d;"><?php echo formatnumber($totalreward); ?></td>
