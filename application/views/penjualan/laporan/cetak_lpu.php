@@ -11,15 +11,15 @@ function uang($nilai)
   LAPORAN PENERIMAAN UANG
   <br>
   <?php
-	if ($cb['nama_cabang'] != "") {
-		if ($cb['nama_cabang'] == "PCF PUSAT") {
-			echo "PACIFIC PUSAT";
-		}else{
-			echo "PACIFIC CABANG " . strtoupper($cb['nama_cabang']);
-		}
-	} else {
-		echo "PACIFIC ALL CABANG";
-	}
+  if ($cb['nama_cabang'] != "") {
+    if ($cb['nama_cabang'] == "PCF PUSAT") {
+      echo "PACIFIC PUSAT";
+    } else {
+      echo "PACIFIC CABANG " . strtoupper($cb['nama_cabang']);
+    }
+  } else {
+    echo "PACIFIC ALL CABANG";
+  }
   $from = $dari;
   $end = $sampai;
   ?>
@@ -116,7 +116,6 @@ function uang($nilai)
         <?php
         $totalsetoran = 0;
         $tglskrg = $tahunskrg . "-" . $bulanskrg . "-01";
-
         foreach ($salesman as $s) {
           $sampaibulanskrg =  date('Y-m-t', strtotime($tglskrg));
           if (strtotime($dari) <= strtotime($sampaibulanskrg)) {
