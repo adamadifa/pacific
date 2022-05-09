@@ -242,7 +242,7 @@ function uang($nilai)
                 $qgmlast = "SELECT giro.id_karyawan, SUM(jumlah) as jumlah
                     FROM giro
                     INNER JOIN penjualan ON giro.no_fak_penj = penjualan.no_fak_penj
-                    LEFT JOIN (SELECT id_giro,tglbayar FROM historibayar GROUP BY id_giro) as hb ON giro.id_giro = hb.id_giro
+                    LEFT JOIN (SELECT id_giro,tglbayar FROM historibayar GROUP BY id_giro,tglbayar) as hb ON giro.id_giro = hb.id_giro
                     WHERE 
                     giro.id_karyawan = '$s->id_karyawan' 
                         AND MONTH(tgl_giro) <= '$bulanlast' AND YEAR(tgl_giro) <='$tahunlast'  
@@ -285,7 +285,7 @@ function uang($nilai)
                 $qgmlast = "SELECT giro.id_karyawan, SUM(jumlah) as jumlah
                     FROM giro
                     INNER JOIN penjualan ON giro.no_fak_penj = penjualan.no_fak_penj
-                    LEFT JOIN (SELECT id_giro,tglbayar FROM historibayar GROUP BY id_giro) as hb
+                    LEFT JOIN (SELECT id_giro,tglbayar FROM historibayar GROUP BY id_giro,tglbayar) as hb
 						      	ON giro.id_giro = hb.id_giro
                     WHERE 
 		                giro.id_karyawan = '$s->id_karyawan' 
@@ -525,7 +525,7 @@ function uang($nilai)
                 $allsetoran  = $this->db->query($qallsetoran)->row_array();
                 $qgmlast = "SELECT giro.id_karyawan, SUM(jumlah) as jumlah
                 FROM giro
-                LEFT JOIN (SELECT id_giro,tglbayar FROM historibayar GROUP BY id_giro) as hb
+                LEFT JOIN (SELECT id_giro,tglbayar FROM historibayar GROUP BY id_giro,tglbayar) as hb
 						   ON giro.id_giro = hb.id_giro
                             WHERE 
                             giro.id_karyawan = '$s->id_karyawan' 
