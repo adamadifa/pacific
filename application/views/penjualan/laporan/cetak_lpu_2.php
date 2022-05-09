@@ -619,7 +619,7 @@ function uang($nilai)
                 $qgmlast = "SELECT giro.id_karyawan, SUM(jumlah) as jumlah
                 FROM giro
                 
-                LEFT JOIN (SELECT id_giro,tglbayar FROM historibayar GROUP BY id_giro) as hb
+                LEFT JOIN (SELECT id_giro,tglbayar FROM historibayar GROUP BY id_giro,tglbayar) as hb
 						   ON giro.id_giro = hb.id_giro
                             WHERE 
                             giro.id_karyawan = '$s->id_karyawan' 
