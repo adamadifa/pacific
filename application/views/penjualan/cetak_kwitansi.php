@@ -463,7 +463,7 @@
 		</table>
 		<br>
 		Untuk Pembayaran Bisa Melalui <br>
-		<b>Rekening BCA CV Makmur Permata No. 0543772221</b><br>
+		<b>Rekening BCA CV Makmur Permata No. 0543772221 | </b>
 		<b>Rekening BNI CV Makmur Permata No. 0773092265</b><br>
 		<div style="page-break-before:always;">
 			<table border="0" width="100%">
@@ -595,5 +595,5 @@
 			</table>
 			<br>
 			Untuk Pembayaran Bisa Melalui <br>
-			<b>Rekening BCA CV Makmur Permata No. 0543772221</b><br>
+			<b>Rekening BCA CV Makmur Permata No. 0543772221 | </b>
 			<b>Rekening BNI CV Makmur Permata No. 0773092265</b><br>

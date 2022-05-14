@@ -357,5 +357,5 @@
 
 	<p style="font-weight: bold; font-size: 18px"><i>Catatan : Mohon tidak untuk menulis Retur / Bs di surat Jalan !</i></p>
 	Untuk Pembayaran Bisa Melalui <br>
-	<b>Rekening BCA CV Makmur Permata No. 0543772221</b><br>
+	<b>Rekening BCA CV Makmur Permata No. 0543772221  | </b>
 	<b>Rekening BNI CV Makmur Permata No. 0773092265</b><br>

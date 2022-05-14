@@ -24,7 +24,23 @@ function formatnumber2($nilai)
   PERIODE BULAN <?= $bulan[$bln]; ?> TAHUN <?= $tahun; ?><br>
   CABANG <?= $cabang; ?>
 </b>
-
+<?php
+if ($bln >= 5 && $tahun >= 2022) {
+  $poinBBDP = 40;
+  $poinDS = 10;
+  $poinSP = 15;
+  $poinAR = 12.5;
+  $poinASABCG5 = 10;
+  $poinSC = 12.5;
+} else {
+  $poinBBDP = 40;
+  $poinDS = 7.5;
+  $poinSP = 10;
+  $poinAR = 17.5;
+  $poinASABCG5 = 15;
+  $poinSC = 10;
+}
+?>
 <table class="datatable3" style="width:120%">
   <thead>
     <tr>
@@ -46,12 +62,12 @@ function formatnumber2($nilai)
 
     </tr>
     <tr style="text-align: center;">
-      <th colspan="3" style="background-color: #35ce35;">40</th>
-      <th colspan="3" style="background-color: #ffcb00;">7.5</th>
-      <th colspan="3" style="background-color: #058cbe;">10</th>
-      <th colspan="3" style="background-color: #ce3ae4;">17.5</th>
-      <th colspan="3" style="background-color: #ff9b0d;">15</th>
-      <th colspan="3" style="background-color: #ff9b0d;">10</th>
+      <th colspan="3" style="background-color: #35ce35;"><?php echo $poinBBDP; ?></th>
+      <th colspan="3" style="background-color: #ffcb00;"><?php echo $poinDS; ?></th>
+      <th colspan="3" style="background-color: #058cbe;"><?php echo $poinSP; ?></th>
+      <th colspan="3" style="background-color: #ce3ae4;"><?php echo $poinAR; ?></th>
+      <th colspan="3" style="background-color: #ff9b0d;" <?php echo $poinASABCG5; ?></th>
+      <th colspan="3" style="background-color: #ff9b0d;"><?php echo $poinSC; ?></th>
 
     </tr>
     <tr>
@@ -176,13 +192,9 @@ function formatnumber2($nilai)
     $grandtotalrewardhelper = 0;
     $grandtotalrewardgudang = 0;
     $no = 1;
+
     foreach ($komisi as $d) {
-      $poinBBDP = 40;
-      $poinDS = 7.5;
-      $poinSP = 10;
-      $poinAR = 17.5;
-      $poinASABCG5 = 15;
-      $poinSC = 10;
+
 
       $BB = $d->BB / $isipcsdusBB;
       $DEP = $d->DEP / $isipcsdusDEP;

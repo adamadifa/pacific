@@ -19,6 +19,14 @@
           </div>
           <div class="card-body">
             <form class="form-horizontal" method="post" action="<?php echo base_url(); ?>dpb" autocomplete="off">
+            <div class="form-group mb-3">
+                <div class="input-icon">
+                  <span class="input-icon-addon">
+                    <i class="fa fa-calendar-o"></i>
+                  </span>
+                  <input type="text" value="<?php echo $no_dpb; ?>" id="no_dpb" name="no_dpb" class="form-control" placeholder="No DPB" data-error=".errorTxt19" />
+                </div>
+              </div>
               <div class="form-group mb-3">
                 <div class="input-icon">
                   <span class="input-icon-addon">

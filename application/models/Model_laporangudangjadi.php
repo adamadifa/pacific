@@ -1627,7 +1627,7 @@ class Model_laporangudangjadi extends CI_Model
 		FROM detail_mutasi_gudang_cabang
 		INNER JOIN mutasi_gudang_cabang ON detail_mutasi_gudang_cabang.no_mutasi_gudang_cabang = mutasi_gudang_cabang.no_mutasi_gudang_cabang
 		INNER JOIN master_barang ON detail_mutasi_gudang_cabang.kode_produk = master_barang.kode_produk
-		LEFT JOIN (
+		RIGHT JOIN (
 			SELECT kode_produk,kode_cabang,jumlah as saldo_awal
 			FROM saldoawal_bj_detail
 			INNER JOIN saldoawal_bj ON saldoawal_bj_detail.kode_saldoawal = saldoawal_bj.kode_saldoawal

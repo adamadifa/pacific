@@ -896,7 +896,8 @@ GROUP BY
 			. $pelanggan
 			. $ljt
 			. "
-			AND (ifnull(penjualan.total,0) - (ifnull(totalpf_last,0)-ifnull(totalgb_last,0))) != IFNULL(bayarsebelumbulanini,0)
+			AND (ifnull(penjualan.total,0) - (ifnull(totalpf_last,0)-ifnull(totalgb_last,0))) - IFNULL(bayarsebelumbulanini,0) >0
+			
 			OR penjualan.jenistransaksi != 'tunai'
 			AND tgltransaksi <= '$sampai'"
 			. $cabang
