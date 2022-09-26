@@ -36,7 +36,7 @@ class Auth extends CI_Controller
         $this->session->set_userdata($data_session);
         $id_user = $data_user['id_user'];
         $waktu = date('Y-m-d h:i:s');
-        $this->db->query("UPDATE users SET terakhir_login = '$waktu', aktif = '1'  WHERE id_user = '$id_user' ");
+        $this->db->query("UPDATE users2 SET terakhir_login = '$waktu', aktif = '1'  WHERE id_user = '$id_user' ");
         redirect('dashboard');
       } else {
         $this->session->set_flashdata(
@@ -58,7 +58,7 @@ class Auth extends CI_Controller
   {
 
     $id_user = $this->session->userdata('id_user');
-    $this->db->query("UPDATE users SET aktif = '0' WHERE id_user = '$id_user' ");
+    $this->db->query("UPDATE users2 SET aktif = '0' WHERE id_user = '$id_user' ");
     $this->session->sess_destroy();
     redirect('auth/login');
   }

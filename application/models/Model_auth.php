@@ -7,20 +7,20 @@ class Model_auth extends CI_Model
 	{
 
 		$this->db->where(array('username' => $username, 'password' => $password));
-		return $this->db->get('users');
+		return $this->db->get('users2');
 	}
 	function update_password($id_user)
 	{
 		$password_lama = $this->input->post('old_password');
 		$password_baru = $this->input->post('new_password');
-		$cek = $this->db->get_where('users', array('id_user' => $id_user, 'password' => md5($password_lama)))->num_rows();
+		$cek = $this->db->get_where('users2', array('id_user' => $id_user, 'password' => md5($password_lama)))->num_rows();
 		echo $cek;
 		if ($cek != 0) {
 
 			$data = array(
 				'password' => md5($password_baru)
 			);
-			$this->db->update('users', $data, array('id_user' => $id_user));
+			$this->db->update('users2', $data, array('id_user' => $id_user));
 			$this->session->set_flashdata(
 				'msg',
 
